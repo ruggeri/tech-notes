@@ -173,3 +173,29 @@
       different vote. In that case, communication complexity is
       `O(2n**2)`. That works for certain binary decision rules, like
       commit/abort.
+* There's a concept of an *exponentional information gathering* tree.
+    * Basically, this tracks the path of information through the
+      system.
+    * Root is your input value. Branching factor is `n` (number of
+      processes). A path `x_1,...,x_k` to a node means: `x_k` told me
+      that `x_{k-1}` told me that ... `x_1`'s value is `val(x)`.
+    * Each round you fill out the tree more, you broadcast to everyone
+      the fringe.
+    * After `f+1` rounds (you've filled layer `f+1`), everyone has the
+      same tree.
+    * You can make a consistent decision now.
+* This is not an improvement over FloodSet; same number of rounds and
+  messages, but exponentional number of bits sent.
+* Helps with a version of Byzantine failures with *signatures*. No one
+  can forge a message.
+    * What you do is you require each machine signs each message it
+      sends. You drop messages that aren't correctly signed.
+    * In fact, you'll use a chain of signatures. This way, a faulty
+      process can lie about its own value, but cannot lie about what
+      one process told another.
+    * For instance, if `f=1`, you'll need two rounds. One where faulty
+      processes can lie to others, and a second where everyone agrees
+      on what they were told, and no lies can be told.
+    * Faulty processors can try to break coordination by sending some
+      machines a message but not others, but this is fine, since we
+      only need one true processor to recover what Pi told Pj.
