@@ -25,7 +25,6 @@ big prizes are.
 
 * Higher Kinded Types?
 * Understand Flux/Redux/React router.
-* What is Relay/GraphQL?
 * Learn about lex/yacc some day.
 
 **Algos/DataStructures**
