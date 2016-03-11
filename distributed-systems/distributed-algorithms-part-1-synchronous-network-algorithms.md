@@ -142,3 +142,34 @@
 * This is basically the best you can do!
 
 ## Distributed Consensus with Process Failures
+
+* Here, we will assume messages cannot be lost.
+* But failures can be stopping failures or Byzantine.
+* For stop failure, we'll allow a stop to happen in the middle of a
+  round; some messages are sent, but not at all.
+* Again, we need that if all processes start with the same value, we
+  need everyone to agree to that value. Else, they can agree to
+  anything.
+    * All nonfaulty processes must agree to the same value.
+    * That's *different* than the communication failure mode!
+    * It's kinda easier, since we don't need that process to agree.
+* FloodSet for stop failures in complete graphs:
+    * Broadcast initial value.
+    * Collect all seen values in a set.
+    * After `f+1` steps, choose the unique value, or, if the set has
+      multiple values, a default value.
+        * Clearly works easily for commit/abort.
+    * Why `f+1`? Because we want to allow `f` failures; if we only
+      went one round, a process could send some messages but not others.
+    * By the `f+1` round we know that everyone has failed, so that we
+      are free and clear to collect all values.
+    * Else what could happen: P1 only manages to send its value to P2,
+      but no one else. Next round, P2 tries to send P1's value to
+      everyone, but it only gets to P3...
+    * Probably could use any decision rule, by collecting set of
+      `(Proc ID, Vote)`.
+    * Alternatively, we could reduce communication complexity by just
+      sending our first message, and whether we saw a second,
+      different vote. In that case, communication complexity is
+      `O(2n**2)`. That works for certain binary decision rules, like
+      commit/abort.
