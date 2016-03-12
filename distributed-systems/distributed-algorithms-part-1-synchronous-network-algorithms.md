@@ -274,7 +274,8 @@
   node, and something else to another!
     * Liars won't be able to stop a unanimous decision (if there are
       <50% liars).
-    * Their goal is to, in smaller numbers, disrupt a split decision.
+    * Their goal is less grand: with just a few liars, disrupt a split
+      decision.
     * The goal of liars is to make some people think that a majority
       thinks ABORT, while making others think a majority favors
       COMMIT.
@@ -313,9 +314,13 @@
       others.
     * Even though the liar can participate in the 2nd vote, they can't
       swing the election, which will always be 2-1.
+    * Notice right here: this didn't reduce to `n=3`, `f=1` when we
+      checked the work of an an honest node! That's because in the
+      second row, all honest nodes are in unanimous agreement. It
+      makes it harder for a liar to confound this result!
 * The bigger `n` is, the better!
 
-**Starting to Induct**
+**Starting to Induct: Intuition**
 
 * Let's think for `f=2`, `n<7`:
     * If `n=4`, the faithful generals aren't even in the majority. The
@@ -325,8 +330,8 @@
       faithful generals are not in the majority.
 * Consider `n=6`:
     * If we used majority rule, then an honest general's vote cannot
-       be subverted (since honest checkers are sure to be in the
-       majority). That's because `f=2`, but `n-1=5`.
+      be subverted (since honest checkers are sure to be in the
+      majority). That's because `f=2`, but `n-1=5`.
     * The problem is checking the work of a liar!
     * We can't use majority, since a liar can tell two honest
       generals COMMIT, and another two ABORT. The last liar can
@@ -337,46 +342,55 @@
     * So we could try to use our `f=1`, `n=5` algorithm all the
       time. This would be able to catch someone who lied at the top
       level.
-    * But an honest node's message could be confounded, because when
-      we recursively try to solve `n=5`, `f=2`, even when our three
-      honest nodes all agree, we're left with two liars who can
+    * But an honest node N1's message could be confounded, because
+      when we recursively try to solve `n=5`, `f=2`, even when our
+      three honest nodes all agree, we're left with two liars who can
       confound our second round checks!
+        * They can do this because when we want to check what an
+          honest node N2 says N1 said, there are 2 honest nodes, and 2
+          liars, so the honest people don't have a majority.
 * Last, let's consider `n=7`
     * Each of the nodes will submit their vote to the others.
-    * We'll check each vote using the old algorithm:
+    * We'll check the vote from each node (I'll call it N1) using the
+      old algorithm:
         * The six other nodes will try to get consensus on what was
-          said.
+          said by N1.
         * They'll do this by telling each of the others what they
-          heard.
+          heard from N1.
         * We'll then check each of these messages, using majority
           voting.
-    * If the original node was dishonest, the old algorithm applies.
-        * There are six honest nodes, with different values, and one
-          liar.
-        * If the next node was dishonest, five honest nodes reconcile
-          their lies to get an answer.
-        * If the next node was honest, it's four honest nodes versus
-          one. The liar can't change the vote now.
-    * If the original node was honest, the old algorithm technically
-      doens't apply.
-        * If the next node is honest, then we have three honest nodes
-          and two liars. But the three honest nodes all agree, and the
-          liars can't change anything.
-        * If the next node is a liar, then the three honest nodes can
-          disagree. The last liar can trick some of them into thinking
-          COMMIT, and others ABORT.
-        * But that doesn't matter. Because the honest nodes will still
-          be in the majority, because they are decided correctly.
-* I would say that, if the margin of victory amongst honest nodes is
-  greater than `f`, then normal voting reaches the majority decision.
-    * When we recursively run the algorithm, checking a dishonest
-      node, we may have a low margin of victory, but we got rid of a
-      liar that can't continue to confuse us in future rounds.
-    * When we run the algorithm recursively, checking an honest node,
-      we have a very high margin of victory. We may not be able to
-      detect the lies of the remaining liars, but if our margin is
-      high enough, it doesn't matter.
-* Last, we know that we need `n>3f`, else we could solve for `n=3`,
+    * If N1 was dishonest, the old algorithm applies.
+        * N2,...N7 all vote what they hard N1 say (what they hard from
+          N1). They want to come to consensus on what N1 said.
+        * This is five honest nodes, and one liar. So the `f=1`
+          algorithm applies.
+    * If N1 was honest, the old algorithm technically *doesn't* apply.
+        * Because N2,...,N7 contains four honest nodes with two liars.
+        * But because all honest nodes should be unanimous, I argue we
+          can still run the algorithm.
+        * Say N2 is honest; it sends N3,...,N7 what it heard from N1.
+            * N3,...,N7 are going to take a majority vote on what they
+              heard.
+            * N3,N4,N5 (the honest nodes) will all be voting the same.
+            * N6 and N7 (the liars) cannot swing the election, since
+              the margin of victory is so high.
+        * I'm going to stop here. I argue that it doesn't matter what
+          we think a liar node says N1 says, since all honest nodes
+          will be in agreement! The marging of victory is so high!
+        * Say N2 is dishonest; it sends N3,...,N7 lies about what N1
+          says.
+            * In particular, N3,N4,N5,N6 (honest nodes) could have
+              heard *different* things from N2. N3,N4 may have been
+              told by N2 that N1 said ABORT, while N5,N6 heard COMMIT.
+            * So we're split two-two, which means we're ripe for N7 to
+              come in and lie, telling two nodes that it heard COMMIT
+              and the others ABORT.
+            * As I said though, it doesn't matter, because the margin
+              of victory is too high!
+* I guess a lemma would be that you can run the consensus algorithm
+  even with `f<n/2` failures *if* all functional nodes are in
+  consensus.
+* BTW, we know that we need `n>3f`, else we could solve for `n=3`,
   `f=1` by simulation.
 
 ## Formal Algorithm
