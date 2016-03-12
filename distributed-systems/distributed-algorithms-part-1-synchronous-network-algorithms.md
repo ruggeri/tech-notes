@@ -21,7 +21,7 @@
   leader. Because they're identical! So we break the symmetry by
   introducing a UID.
     * Note that this could be added if we have access to an RNG.
-* One appraoch is to pass around the largest identifier. If you get
+* One approach is to pass around the largest identifier. If you get
   your own UID back, you have the largest UID, and can be elected
   leader.
     * They do this in `n` rounds, with `n**2` messages, by having
@@ -132,6 +132,11 @@
       `(1..r)`. We'll only commit if our information level exceeds
       this.
     * BTW, process one is going to pick the level for global use.
+        * I think, if you want all the processes to be symmetric, you
+          can have them radnomly generate IDs to see who will get to
+          be process 1.
+        * But I think maybe that doesn't matter, since we're assuming
+          the size of the network is known.
 * I claim this has an error rate of `1/r` for any adversarial strategy
   of disrupting messages. (Adversary can't read messages).
     * Basically, each message the adversary kills reduces the max
@@ -141,7 +146,7 @@
       afterward.
 * This is basically the best you can do!
 
-## Distributed Consensus with Process Failures
+## Ch6: Distributed Consensus with Process Failures
 
 **Model**
 
@@ -156,10 +161,20 @@
     * That's *different* than the communication failure mode, where
       once we detected link failure we could agree to an arbitrary
       value.
+* She notes that algorithms typically are specified to work for a
+  maximum number of errors. But she notes that this is unfortunate,
+  and that a probabilistic algorithm that gives some probability of
+  correctness as a function of an underlying error rate might have
+  been more realistic.
+    * She says this because specifying an upper bound on failures
+      implies that incremental failures are *negatively correlated*.
+    * Each failure makes it less likely that a second failure will
+      occur, else the threshold could be breeched.
+    * That, of course, is unlikely.
 
 **FloodSet: Solving for Stop Failures**
 
-* Broadcast initial value.
+* Broadcast all seen values each step.
 * Collect all seen values in a set.
 * After `f+1` steps, choose the unique value, or, if the set has
   multiple values, a default value.
@@ -188,6 +203,8 @@
       n),...,(n,n)`.
         * At node `(i, j)` we store the value that Pj told me that Pi
           told him.
+        * We do not bother to store `i=j`. In fact, in deeper trees,
+          each coordinate should be unique.
         * Et cetera.
 * At each stage, every node communicates the entire fringe.
     * That's an exponential communication complexity; still `n**2`
@@ -212,14 +229,27 @@
 * In fact, you'll use a chain of signatures. This way, a faulty
   process can lie about its own value, but cannot lie about what
   one process told another.
-* For instance, if `f=1`, you'll need two rounds. One where faulty
-  processes can lie to others, and a second where everyone agrees
-  on what they were told, and no lies can be told.
-* Faulty processors can try to break coordination by sending some
-  machines a message but not others, but this is fine, since we
-  only need one true processor to recover what Pi told Pj.
-* Note that we still need `f+1` rounds, since Byzantine machines can
-  always mimic stop failures.
+* For instance, if `f=1`, you'll need two rounds. In the first,
+  everyone signs their vote and sends it to everyone else.
+    * In the second round, everyone signs and sends what they heard
+      the first round.
+    * No one can forge what they heard from someone else.
+* A faulty processor can try to break coordination by sending some
+  machines a message but not others (simulate a stop failure).
+    * If `f=1`, it doesn't matter if the faulty processor simulates a
+      stop failure in the second round.
+    * That's because if it lied in the first round, the other machines
+      will catch it.
+* Consider `f=2`.
+    * One machine signs two messages to another, handing it a lie.
+        * Basically, traitors can share private keys, or just be one
+          party.
+    * In round one, the traitors tell no lies.
+    * In round two, T1 lies about what T2 told him. This should get T2
+      invalidated.
+    * The trick is, T1 is going to tell *some* of the honest machines,
+      but not others!
+    * That's why we need to run `f+1` rounds!
 
 **Byzantine Failure With Three Nodes**
 
