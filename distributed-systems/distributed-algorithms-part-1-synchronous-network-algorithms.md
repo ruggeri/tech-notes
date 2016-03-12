@@ -403,19 +403,63 @@
       the a leaf subtree. These are everyone's votes about what
       someone said.
     * Run this for `f+1` rounds.
-* Consider when we do this at the fringe:
-    * All messages from honest nodes recorded in the fringe should be
-      the same everywhere. Fringe messages from dishonest nodes could
-      be different in different nodes.
-    * Let's induct one level up. When we assign a value to the honest
-      node one level up, we look at its children.
-    * How many of its children are honest? Hopeful a majority! The
-      last node represents what a process heard via a chain of `f`
-      processes. That means there are `n-f` votes here. Since `n>3f`,
-      this number is greater than `2f`, so even `f` liars here cannot
-      subvert this vote.
-    * This is enough to establish that, given everyone wanted the same
-      value to begin with, we'll end up with that value decided
-      collectively at the end.
-* But what about *split decisions*?! Will we reach agreement there, or
-  will be be confounded by traitors?
+* Some numbers:
+    * After the first round, there are `n` paths (what you heard from
+      each node), then `n-1` paths (what everyone thought they heard
+      from N1), etc.
+    * That means, at the fringe (layer `f+1`), there are `n-f` nodes
+      voting on what they heard.
+    * Think about this for `n=4`,`f=1`; it makes sense, there are 3
+      nodes voting on what the fourth said.
+    * Note that, at the fringe, honest nodes are sure to have a
+      majority over traitors: `n-f>2f`.
+* Lemma: All honest fringe nodes are the same:
+    * Say we have an information path ending with an honest node
+      (i.e., "an honest node Ni told me that ...").
+    * Ni tells everyone the same thing. So everyone gets the same
+      data.
+* Lemma: Everyone computes the same, correct value for an honest
+  interior node:
+    * We'll do induction. Take a node right above the fringe. Call it
+      the path `n\bar = n_{i1},...,n_{ik}`.
+    * We know that `n_{ik}` honestly communicates its value to
+      everyone.
+    * So every process has the same value stored at `n\bar`.
+    * Let's extend this path by one, to get to the fringe. This
+      represents what we heard from `n_{ik'}` about what they heard
+      from `n_{ik}`.
+    * As before, all truthful `n_{ik'}` will tell everyone the same
+      thing, so we'll all have the same value here.
+    * And this will be the *correct* value, since we have a majority
+      of honest nodes here!
+    * We can induct. Given a path `n\bar`, we know it will communicate
+      its value down to all child nodes. We know that the children
+      will all resolve to this value. And we know there are enough
+      honest children to be an outright majority.
+* Okay, we've shown we'll reach consensus on what an honest node says,
+  but what about a *dishonest* node?
+    * We know that they can't subvert what honest nodes say, from the
+      above lemma.
+    * But here's the rub. A dishonest node tells half the honest
+      people one thing, while telling the other half another.
+    * And the kicker is that a second dishonest node lies to push
+      these people in different directions!
+* But we'll prove that can't happen. Consider any path of `f` liars.
+    * At the end, there are only honest nodes, so we'll reach
+      consensus on a majority value for the last liar.
+    * But then that bubbles up. We'll reach consensus on the next
+      liar, etc.
+* This finally proves that, at the top level, we get the right value
+  for every honest node, and a consensus value for every liar.
+* That means the liars can't stop consensus on a final value, and
+  we'll do the right thing in with unanimous honest voters.
+* Why `f+1` rounds?
+    * After `f+1` rounds, we know either:
+        1. There was an honest node somewhere on the path, OR
+        2. Only honest nodes are left at the end.
+    * We couldn't have less than `f+1` rounds, because then we could
+      be deceived by a liar (tells half the people one thing, another
+      half another, and a liar to swing).
+    * We couldn't have *more* than `f+1` rounds, because then, for a
+      string of truth tellers, the liars would be in the majority and
+      could make us think the last truth teller was lying.
