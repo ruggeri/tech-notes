@@ -463,3 +463,46 @@
     * We couldn't have *more* than `f+1` rounds, because then, for a
       string of truth tellers, the liars would be in the majority and
       could make us think the last truth teller was lying.
+
+**TurpinCoan**
+
+* An optimization for when we're deciding a non-binary value. It will
+  add a couple of rounds, and then run the standard Byzantine
+  algorithm, but with a binary decision.
+    * Can reduce the message requirements if the size of the value
+      agreed is large.
+* Round 1: Broadcast your vote. If you receive more than `>=n-f` votes
+  for a value, choose that as your candidate, else choose null as your
+  candidate.
+* Round 2: Broadcast your candidate. If a candidate receive more than
+  `>=n-f`, set `vote=1`, else set `vote=0`. Also, we set candidate to
+  the candidate with the most votes (maybe just a plurality).
+* Basically, we're going to now run Byzantine consensus to see if we
+  might have a unanimous decision. If we do, then we'll use the
+  majority winner, else we'll use a default value.
+* Therefore, we have two rounds at the start:
+    * In round 1, we broadcast our vote. Collecting these votes, we
+      set as our candidate a value with `>=n-f` votes, else null.
+        * Lemma: There can be at most one such value `v` selected (not
+          including null).
+        * If a process gets `n-f` votes for `v`, at most `f` of these
+          can be lies. So there are at least `n-2f` honest votes for
+          `v`.
+        * Since `n>3f`, that means that at least `f+1` honest votes
+          for `v` will arrive at any other process, and that is enough
+          to stop any other `v'` from being selected as a candidate.
+    * To make sure everyone learns this value (some don't have a
+      candidate), we do a second round of voting, using the
+      candidates. We select the value with the plurality of the votes
+      as our candidate.
+        * Could we stop here? No. Because if there is not consensus at
+          the start, some of the honest nodes may want to vote null,
+          while some of the honest nodes want to vote `v`.
+        * If it were 50/50, then the traitors could make some people
+          think that `v` is the best, while others think `null` is the
+          majority winner.
+        * Of it's not 50/50, then the traitors can't block `null` or
+          `v`.
+    * So we do one more thing. If we get `>=n-f` votes in the second
+      round for a candidate, we decide that we'll vote for `v`. Else
+      we'll vote for `v_0`, the default value.
