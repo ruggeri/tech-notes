@@ -13,28 +13,15 @@ big prizes are.
 
 **Overall**
 
-* I wouldn't mind a little more on memory fencing level concurrency
-  stuff.
-* Timers and capacitors?
 * Finish distributed systems readup. Bought a book *focused* on
   distributed DBs.
 * Try to figure out distributed transactions.
 * Startup AI/ML again.
 
-**Programming/Frameworks**
-
-* Higher Kinded Types?
-* Understand Flux/Redux/React router.
-* Learn about lex/yacc some day.
-
 **Algos/DataStructures**
 
 * *Finish distributed systems chapters. Craft narative. Lynch*
 * How can you do distributed ACID transactions?
-* Quantum Computing
-    * Keep reading Aaronson.
-    * http://en.wikipedia.org/wiki/Unconventional_computing
-    * http://www.scottaaronson.com/papers/npcomplete.pdf
 
 **Math/ML**
 
@@ -53,6 +40,19 @@ big prizes are.
   gradient descent. WTF does a symmetric matrix mean? Subgradient
   descent?
 * WTF are variational methods?
+
+**Randos**
+
+* I wouldn't mind a little more on memory fencing level concurrency
+  stuff.
+* Timers and capacitors?
+* Higher Kinded Types?
+* Understand Flux/Redux/React router.
+* Learn about lex/yacc some day.
+* Quantum Computing
+    * Keep reading Aaronson.
+    * http://en.wikipedia.org/wiki/Unconventional_computing
+    * http://www.scottaaronson.com/papers/npcomplete.pdf
 
 ## Projects
 
