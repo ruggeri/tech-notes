@@ -9,8 +9,9 @@
       interesting from a general learning standpoint.
     * No priority.
 * Art of Electronics
-    * TODO: REVIEW ME!
-    * *High Priority*
+    * I just don't understand electronics that well. This book is too
+      hard, and it's not really in the wheelhouse of my interest area.
+    * No priority.
 * Art of Multiprocessor Programming
     * Loaned to Haseeb.
     * Lots of useful details, but I know most of this stuff now.
