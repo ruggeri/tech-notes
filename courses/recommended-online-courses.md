@@ -1,5 +1,6 @@
 * HN Suggestions:
     * https://news.ycombinator.com/item?id=10644518
+* Google Deep Learning Course.
 
 ## AI/ML
 
