@@ -1,12 +1,64 @@
-The purpose of the Fourier transform is clear to me. Give a function
-defined in the time domain, we want to rewrite it as a weighted
-infinite sum of sinusoidal functions.
+## The Linear Algebra Picture
 
-Say the period of the function is 2pi seconds. Then:
+From linear algebra, I know that given an inner product and an
+orthonormal basis, you can decompose a vector into components by
+projecting onto each of the basis vectors. This is proven like so:
 
-    f(t) = a_0 \int a_i sin(nx) + \int b_i cos(nx)
+**Projection on Orthonormal Basis**
 
-The trick is finding the appropriate `a_i` and `b_i`.
+Given a basis for the vector space `{e_i}`, we want to write a vector
+`v` in terms of the `{e_i}`: `v = sum c_i e_i`, for `c_i \in \R`.
+
+To find the `c_i`, we need an **inner product**. Assume the standard
+inner product. We can further assume that that the `e_i` are
+orthonormal, since we can always orthonormalize (Graham-Schmidt).
+
+Then `c_i` must equal `v \cdot e_i`, since:
+
+    v \cdot e_i = (sum (c_i e_j)) \cdot e_i = sum (c_i (e_j \cdot e_i)) = c_i
+
+QED!
+
+As before (and in my linear algebra notes), I can explain why the
+standard inner product makes sense. Basically, the standard inner
+product is exactly what you get if you want `<te1+(1-t)e_2, e_2>=t`
+and `<te1+(1-t)e_2, e_2>=1-t`. Any choice of independent basis implies
+a topology/inner product in the natural way by writing everything as
+coordinates in this basis and use the standard inner product.
+
+## The Sinusoidal Basis and Inner Product
+
+Let's take the sinusoidal functions as a basis. The first question is
+whether these are independent. Let's assume so.
+
+The second question is how to do an inner product in this space. We
+propose `\int_{-\pi}^{\pi} f(x)g(x)`. How do we verify this is an
+inner product?
+
+Let's think first of projecting `sin(x)` onto itself. This is
+`\pi`. This is likewise true for `cos(x)` projected onto itself. This
+is true for any period sinusoidal. So I should scale by `1/pi`.
+
+So the basis is given unit length. Next, we consider sums of basis
+vectors. The next critical point we need is that:
+
+    \int sin(mx)cos(nx) = 0 = \int sin(mx)sin(n) = \int cos(mx)cos(nx)
+
+When `m!=n`. This proves that basis vectors are mapped to be
+orthogonal.
+
+Now, by linearity of integration, we are done. This holds because any
+the inner product of a linear combination of the sinuosidal basis can
+be projected onto a basis vector to recover the amplitude of that
+basis vector.
+
+This is effectively what the Fourier transform is going to do.
+
+TODO! Details I need to fill out:
+
+* Explain why sinusoidal basis is independent.
+* Explain why it makes sense that this inner product should respect
+  the basis and have the correct products of zero.
 
 ## Complex Numbers
 
@@ -47,42 +99,3 @@ I don't know this yet:
 
     e^ix = cos(x) + sin(x)i
 
-## The Big Picture
-
-From linear algebra, I know that given an inner product and an
-orthonormal basis, you can decompose a vector into components by
-projecting onto each of the basis vectors. This is proven like so:
-
-**Projection on Orthonormal Basis**
-
-Given a basis for the vector space `{e_i}`, we want to write a vector
-`v` in terms of the `{e_i}`: `v = sum c_i e_i`, for `c_i \in \R`.
-
-To find the `c_i`, we need an **inner product**. Assume one. We can
-further assume that that the `e_i` are orthonormal, since we can always
-orthonormalize (Graham-Schmidt).
-
-Then `c_i` must equal `v \cdot e_i`, since:
-
-    v \cdot e_i = (sum (c_i e_j)) \cdot e_i = sum (c_i (e_j \cdot e_i)) = c_i
-
-QED
-
-Okay. So the inner product we use in function space is:
-
-    \int f(x)g(x) dx
-
-This is a clear generalization of the `R^n` inner product. It is no
-less intuitive than the standard inner product. **TODO2: Which is a
-complete fucking mystery to me**.
-
-This sinusoidal functions are an orthonormal basis. **TODO2: What is
-the intuition behind that?**
-
-## Insight
-
-I think the standard inner product makes more sense now. Basically,
-what is an orthonormal basis? Well, you pick a basis, and you declare
-it orthonormal; your basis gives you the geometry of angles. Angles
-come from saying that as you vary `t`, then the angle formed by
-`te_i + (1-t)e_j` to `e_i` sweeps from zero to one.
