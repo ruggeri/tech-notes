@@ -474,35 +474,48 @@
 * Round 1: Broadcast your vote. If you receive more than `>=n-f` votes
   for a value, choose that as your candidate, else choose null as your
   candidate.
+    * Lemma: Only one such candidate can be chosen, at most.
+    * For some people to think that `candidate=c_0` while others think
+      `candidate=c_1`, we must have `>=(n-f)-f` *honest* votes for `c_0`
+      and `c_1`, while the liars come in and lie with their `f` votes
+      for `c_0` with some and `c_1` with others.
+    * But there are only `n-f` honest votes to give overall. And `f`
+      is less than half of `n-f` (by assumption `n>3f`). So some
+      honest voter would have to vote twice, which is not possible.
+    * So some honest nodes might think `candidate=c_0` and others
+      `candidate=null`, worst case.
 * Round 2: Broadcast your candidate. If a candidate receive more than
   `>=n-f`, set `vote=1`, else set `vote=0`. Also, we set candidate to
   the candidate with the most votes (maybe just a plurality).
-* Basically, we're going to now run Byzantine consensus to see if we
-  might have a unanimous decision. If we do, then we'll use the
-  majority winner, else we'll use a default value.
-* Therefore, we have two rounds at the start:
-    * In round 1, we broadcast our vote. Collecting these votes, we
-      set as our candidate a value with `>=n-f` votes, else null.
-        * Lemma: There can be at most one such value `v` selected (not
-          including null).
-        * If a process gets `n-f` votes for `v`, at most `f` of these
-          can be lies. So there are at least `n-2f` honest votes for
-          `v`.
-        * Since `n>3f`, that means that at least `f+1` honest votes
-          for `v` will arrive at any other process, and that is enough
-          to stop any other `v'` from being selected as a candidate.
-    * To make sure everyone learns this value (some don't have a
-      candidate), we do a second round of voting, using the
-      candidates. We select the value with the plurality of the votes
-      as our candidate.
-        * Could we stop here? No. Because if there is not consensus at
-          the start, some of the honest nodes may want to vote null,
-          while some of the honest nodes want to vote `v`.
-        * If it were 50/50, then the traitors could make some people
-          think that `v` is the best, while others think `null` is the
-          majority winner.
-        * Of it's not 50/50, then the traitors can't block `null` or
-          `v`.
-    * So we do one more thing. If we get `>=n-f` votes in the second
-      round for a candidate, we decide that we'll vote for `v`. Else
-      we'll vote for `v_0`, the default value.
+    * Important note. Votes for `null` are disregarded. So `null` can
+      never win the election, even if it gets the majority of the
+      votes.
+    * Lemma: It is clear that if all honest nodes agree on `v`, this
+      will be the final candidate. They will vote for consensus and
+      get it, establishing the *validity* property.
+* We now Byzantine consensus to see if we might have a unanimous
+  decision. If we do, then we'll use the majority winner, else we'll
+  use a default value.
+* To prove correctness, we need to show that we always reach a
+  unanimous result. If the Byzantine consensus rounds fail, we'll pick
+  a default, so we really just need to show that: if Byzantine
+  consensus succeeds, everyone picked the same candidate.
+    * If consensus succeeds, someone got `>=n-f` votes for `v`.
+    * Since `>=n-2f` of those votes are honest, any other honest
+      processor got `>=n-2f` votes for this.
+    * We know that all other honest votes were for null and are
+      disregarded. So we just need to show that the `>=n-2f` honest
+      votes we get for `v` will be greater than the `f` lying votes we
+      get for another challenger.
+    * But we have that because `n>3f`.
+    * So even though an honest processor might not also vote to choose
+      this value, he at least understands what value we're talking
+      about.
+* I would say the idea here is that you want to say that you'll only
+  vote to commit if there is such a supermajority that you know that
+  there is no way this choice could not be the majority value.
+    * Normally you can't know that, because even if `n-f` nodes are
+      voting for your value, when you subtract out liars, you don't
+      know if other people are seeing `2f` votes versus `n-2f` votes.
+    * So the way you do this is you don't allow the liars to misuse
+      the honest minority.
