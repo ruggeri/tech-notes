@@ -133,6 +133,12 @@ Here is what we are accomplishing: we can either *hold*, *set*, or
 *reset* the `Q` output. In this way, we are starting to get a notion
 of time. This is called an **SR latch**.
 
+When you do a set/reset operation, you might change the state
+inside. There is a feedback cycle, so you might be worried about
+this. However, the state settles into a consistent `Q` and
+`Q\bar`. When the set/reset operation is ended, the equilbrium
+continues.
+
 We can consider a **D latch** (the D is for "data"). The idea here is
 that you will store the input `D` if the input `E=HIGH`. We'll reuse
 the SR latch. We wire `R=AND(NOT(D), E)` and `S=AND(D, E)`. So, if
@@ -142,10 +148,15 @@ the SR latch. We wire `R=AND(NOT(D), E)` and `S=AND(D, E)`. So, if
 OTOH, if `D=HIGH`, then `R=LOW` and `S=HIGH`, storing a one.
 
 Let's build a circuit which will take in its own output
-sequentially. Hook the circuit up so its output goes into a D
-latch. Save the output in the D latch. Next, have this feed into a
-*second* D latch. In the next step, save this into the second D latch,
-which will then be wired into the input.
+sequentially. Without latches, we have that the output depends on the
+input, and there may be no equilibrium input/output pair. We could try
+to fix this using a latch, but when the latch is being set, we'd still
+open the loop.
+
+Hook the circuit up so its output goes into a D latch. Save the output
+in the D latch. Next, have this feed into a *second* D latch. In the
+next step, save this into the second D latch, which will then be wired
+into the input.
 
 Put another way. Your circuit has some output. You SAVE this in the
 first latch. You then start HOLDing the first latch; the value stored
@@ -156,7 +167,8 @@ start HOLDing the second latch. Now you can start SAVEing the second
 value into the first latch, without changing the output of the second
 latch.
 
-Now you've got sequential logic!
+Now you've got sequential logic! Basically, you can hook this up to a
+CPU clock, and this operation will be performed over and over.
 
 Incidentally, I think this is how RAM works. Basically, it can either
 maintain its current state or set it to something else. Other
