@@ -34,6 +34,9 @@ further, I think it would be a matter of getting a job in that.
 * Introduction to AI (Norvig/Thrun; prolly book is better?)
 * Deep Learning (From Google)
 * Artificial Intelligence for Robotics (Thrun, Georgia Tech)
+* Machine Learning (Georgia Tech)
+* Machine Learning: Unsupervised Learning (Georgia Tech)
+* Machine Learning: Reinforcement Learning (Georgia Tech)
 
 ## Other
 
