@@ -13,6 +13,8 @@ big prizes are.
 
 **Overall**
 
+* Bitonic sorting network.
+* Euler's identity.
 * Finish distributed systems readup. Bought a book *focused* on
   distributed DBs.
 * Try to figure out distributed transactions.
