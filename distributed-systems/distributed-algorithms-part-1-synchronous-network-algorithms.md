@@ -566,3 +566,25 @@
       everyone in the network must have received `>=f+1` ACKs. Thus
       they will all in turn ACK, meaning everyone will have `>=n-f`
       ACKs by the end of next round.
+* NB: there is a weakness to this scheme. Even though everyone accepts
+  a message within one round of each other, this may occur at some
+  arbitrary time after the start of the broadcast (only when a traitor
+  initiates the broadcast).
+    * For that reason, if you try to set an arbitrary upper bound on
+      when a broadcast should "timeout", you'll introduce a situation
+      where some honest nodes could deliver the message, but not
+      others.
+
+**PolyByz**
+
+* This will be built on top of ConsistentBroadcast.
+* A simple approach would be for everyone to broadcast their vote. The
+  majority winner would be selected by all processes.
+* You might think this single broadcast would take a couple rounds:
+  first you broadcast, then they echo, then the messages are
+  delivered, and then we can count votes.
+* However, that won't work. A malicious process can cause a vote to be
+  delivered in the second round, in which case we have to wait for a
+  third round so that the message can be delivered to others. But then
+  a malicious process could cause a message to be delivered in *that*
+  round, requiring that we wait for a fourth round...
