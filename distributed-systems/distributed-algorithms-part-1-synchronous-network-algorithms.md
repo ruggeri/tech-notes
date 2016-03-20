@@ -519,3 +519,50 @@
       know if other people are seeing `2f` votes versus `n-2f` votes.
     * So the way you do this is you don't allow the liars to misuse
       the honest minority.
+
+**ConsistentBroadcast**
+
+* Let's think of a broadcast algorithm resilient to Byzantine failure
+  (not necessarily lost messages).
+* Typically you'd just have the sender send the message to everyone,
+  and they deliver the message.
+    * But then a traitor could send some people the message, but not
+      others.
+* Therefore, to show that everyone has actually received the message,
+  we could say that on receipt of the initial message, we send an ACK
+  out to everyone. We wait until we have `n` ACKs before we deliver
+  the message.
+    * This is a typical strategy for broadcast when losing messages.
+    * The problem is that a traitor could ACK to some people but
+      withhold it for others others!
+* For that reason, we lower the requirement to `n-f` ACKs.
+    * Now when an honest process broadcasts, we know that its message
+      will get through to everyone.
+* But this opens up a potential hole for a dishonest process to again
+  send a message to some processes but not others.
+    * It could send the message to `n-2f` honest processes. This means
+      that `n-2f` ACKs will be sent out to everyone.
+    * Then the `f` traitors can ACK a subset of the honest processes,
+      pushing them over the limit, but not others.
+* A way to fix this would be to have honest processes ACK not only on
+  initial send, but also send an ACK in response to an ACK, if they
+  haven't sent one already.
+    * Then, if a process accepts a message, it will have forwarded
+      this on to everyone else, and they will all ACK too, so they
+      will also collect `n-f` ACKs eventually.
+* I think the problem here is that if you send a response ACK as soon
+  as you get a ACK, this allows forgery.
+    * Traitors can send an ACK out of a message a process didn't send.
+    * Then an honest process ACKs it, and everyone eventually accepts
+      this.
+    * If instead, you set a floor of `f+1` ACKs before you ACK a
+      process, then at least one honest process needs to ACK
+      first. This means this honest process must have received the
+      message in an initial broadcast.
+* If a message is accepted by an honest process, it will be accepted
+  by everyone promptly (within one more round).
+    * To accept a message, we have received ACKs from `n-f` processes,
+      of which at least `n-2f` are honest. This is `>=f+1`, so
+      everyone in the network must have received `>=f+1` ACKs. Thus
+      they will all in turn ACK, meaning everyone will have `>=n-f`
+      ACKs by the end of next round.
