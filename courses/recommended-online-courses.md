@@ -17,8 +17,6 @@ further, I think it would be a matter of getting a job in that.
 
 ## Coursera
 
-* Intro to Databases (Stanford)
-* Computer Architecture (Princeton)
 * Compilers (Stanford)
 * Robotics Courses (UPenn; this is not free)
 * Digital Signal Processing (EPFL)
@@ -27,6 +25,9 @@ further, I think it would be a matter of getting a job in that.
 * Neural Networks for ML (Toronto)
 * Mining Massive Datasets (Stanford)
 * Discrete Optimization (Melbourne)
+* Not worth covering:
+    * Intro to Databases (Stanford)
+    * Computer Architecture (Princeton)
 
 ## Udacity
 
