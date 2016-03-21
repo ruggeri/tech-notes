@@ -253,3 +253,32 @@
     * If something in the negative border is frequent, you need to
       repeat with a lower threshold on the sample data. Else you know
       you are good.
+* What about with a stream of baskets coming in?
+    * We could run this in an "offline" mode; collect data for a day,
+      then run a job to find frequent items for this day. Next day
+      repeat with the new data.
+    * Another way is to start with an offline calculated frequent item
+      sets, and track statistics for these. Delete them if they become
+      too infrequent. Keep track of the negative border and add these
+      if they become common enough.
+    * That sounds kinda tricky, but it doesn't matter because decaying
+      windows is probably better anyway.
+* We've seen using decaying windows for event frequency. How to adjust
+  this for itemsets?
+    * The stream provides baskets; we can take each subset and add a
+      count of one for this itemset.
+    * But that doesn't really work, since a basket of 20 items can
+      have >1MM subsets! So maybe just track singletons.
+    * A trick then is to never add a subset until all its own subsets
+      are being counted. This means there could be a little lag, but
+      eventually we'll consider adding pairs of items if the singleton
+      itemsets are common, and triples when we have both pairs...
+    * We'll flush out anyone where the decayed count falls too low.
+* The only difficulty is that we might have sorta high memory usage,
+  because we need to keep all items with decayed counts `>0.5`.
+    * I could see ways to deal with this, where you actually jack the
+      threshold up the longer its been in memory.
+    * That allows you to get new stuff in the system, but once you
+      have good estimates of their counts, to flush them out, too.
+
+## Ch7: Clustering
