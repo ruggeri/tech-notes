@@ -182,4 +182,43 @@
 * Note that finding association rules is pretty easy once we identify
   frequent itemsets. Low frequency itemsets aren't going to have a
   good enough estimate of the conditional probability.
-* The A-Priori Algorithm...
+    * But we might be missing out on the relationships between similar
+      items, and pooling information...
+    * This isn't a very principled approach.
+    * It makes more sense for "brick-and-mortar" stores, where they
+      can only run so many deals, and can only go for big wins. By not
+      looking deeper, could be missing out on micro-optimizations.
+* Naive approach:
+    * Iterate through baskets.
+    * Generate pairs of items in a basket.
+    * Keep, in memory, a count for each pair itemset.
+    * This won't work if you can't keep all pairs in memory.
+        * Note, not *all* the pairs will need to be stored in memory
+          (if they don't reach the threshold), but many will...
+* The Apriori Algorithm
+    * Make a pass, recording every frequent item in a hash set.
+    * Make a second pass; count all pairs of frequent items. You are
+      eliminating any pairs with *non-frequent* items, which is a huge
+      win.
+    * You can repeat this in subsequent passes, where you only
+      consider itemsets which consists of combinations of things that
+      were frequent in the previous pass. This should winnow down the
+      number of combinations very quickly.
+* This may not cut down enough candidate combinations, if all the
+  singletons meet the support requirement, all pairs will be
+  counted. Not all of these will meet the support threshold, but
+  they couldn't be eliminated a priori.
+    * What you can do is, when counting singletons, also count hashes
+      of pairs, modulo some number.
+    * Now, when considering a candidate, in addition to checking
+      whether there is enough support for the two elements, you can
+      check the hash.
+    * The hash would be modulo some number, so it's a false-positive,
+      no-false-negative structure.
+    * Doesn't add a second pass pass; can be done along with the
+      singleton counts.
+* We can *refine* this approach, with multiple passes, if
+  necessary. We do that by, after the first hash table is produced,
+  creating a smaller summary of those buckets with sufficient support.
+    * Then we repeat, with a more specific hash function.
+    * We can repeat this, to get several filters.
