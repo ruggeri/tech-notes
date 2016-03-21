@@ -336,3 +336,38 @@
       care.
 * All of this discussion of clustering is extremely hacky and
   unprincipled.
+
+## Ch8: Advertising on the Web
+
+* Adwords:
+    * Want to show ads that have good `clickthrough*bid`.
+    * Also, there's a certain budget per month.
+* Simple model: clickthrough rate is all the same, all advertisers
+  have the same budget, and bids are all the same.
+    * Then one approach is to assign the ad to the bidder with the
+      greatest budget left.
+* In a model with different bid amounts, they suggest valuing bids at
+  `b(1-e**-f)`, where `f` is the proportion of the budget remaining.
+* This problem is also uninteresting!
+* How to lookup matches of bids to keywords?
+    * The advertiser specifies the set of keywords, we only activate
+      their bid if there is an unordered match of keywords searched
+      and keywords listed in the bid.
+    * Notably, we do not generate all subsets of the keyphrase.
+    * But what about bidding on emails? These have many possible
+      phrases. How will we match?
+* First, sort bids by rarest word first.
+* Then, when matching, keep a hash table of bids keyed by first word.
+    * For each word in the document, lookup the key, and move
+      everything in this bucket to other buckets, based on the *next*
+      word.
+    * When you get to the end, you can activate the bid.
+* Generally this is pretty scalable: you can run many machines
+  independently, each handling some of the documents to match, and for
+  different subsets of ads.
+* To reduce memory, I think you could use a DAWG, and for each
+  document keep a hash map of pointers in the DAWG, representing your
+  progress through the DAWG.
+* Now *that's* an interesting problem!
+    * It's kinda like a "reverse" version of a search engine, where
+      you have documents, but want to lookup a short query.
