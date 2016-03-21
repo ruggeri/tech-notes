@@ -282,3 +282,57 @@
       have good estimates of their counts, to flush them out, too.
 
 ## Ch7: Clustering
+
+* We want to discover clusters. This can be done in Euclidean spaces,
+  but we may have other spaces:
+    * Documents with Jacard similarity metric.
+    * Cosine distance.
+        * Helpful if repeats of a word should be taken into account.
+    * Hamming distance.
+        * If you just have a binary value for present/not present.
+        * Probably Jaccard is better in a lot of cases, since it's
+          sensitive to the number of *present* terms; terms that
+          aren't present are considered meaningless.
+* Hierarchical clustering starts with everyone in their own cluster,
+  then merges.
+    * This implicitly builds a tree, by the way.
+    * Typical approach starts with `n` clusters, so `n**2` merged
+      clusters to consider. You keep repeating this, so overall this
+      is `O(n**3)` time. Not very efficient!
+    * BTW: my thought is that you could do `k`-means repeatedly, each
+      time with `k/2` clusters.
+    * Indeed, I think you want to merge clusters by proximity of their
+      centroid. Quality of a cluster is distance from centroid.
+    * But to stop from over-merging, you might try to use a measure of
+      density in the cluster.
+    * This feels *really* hacky.
+* Interesting problem: when you aren't using Euclidean distance,
+  finding a point that is at the "center" of a cluster can be hard.
+    * I do feel like the average still works for cosine distance?
+    * But for string edit or Hamming distance this would probably be
+      really difficult.
+    * It sounds like they take the datapoint which has minimum
+      distance from the others in the cluster.
+    * For merging clusters, you can average distance of all points of
+      one cluster to another, to see which one is closer. That sounds
+      expensive!
+* They discuss several clustering algorithms. Some approaches:
+    * BFR: a variant of mixture of gaussians but where covariance is
+      assumed to be zero. There's some optimized way to calculate
+      this. Presumably you do PCA first...
+    * CURE: clusters have representatives, you presumably calculate
+      distance to the closest representative when assigning to a
+      cluster.
+    * GRGPF: for non-Euclidean clustering. Creates tree.
+* Clustering streaming data
+    * You could have "buckets" of points, and clusters in each bucket.
+    * When you merge two buckets, if you're doing k-means, you can
+      find the two clusters with the closest centroids, and merge
+      those.
+        * I think that's the best centroid if we put all those points
+          together, but it might not be the best merge of two clusters.
+        * Still, it sounds okay.
+    * Actually this part of the book is very unclear. But I don't
+      care.
+* All of this discussion of clustering is extremely hacky and
+  unprincipled.
