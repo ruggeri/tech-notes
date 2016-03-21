@@ -110,3 +110,49 @@
     * This cutoff implies a maximum count that you will have in
       memory, since not everyone can be above this threshold at the
       same time.
+
+## Ch5: Link Analysis
+
+* Early search engines were just inverted indexes. People term spammed
+  to make their pages seem relevant to queries where they were not in
+  fact relevant.
+* PageRank gives more weight to those pages where, by randomly
+  clicking around, they are likely to end up.
+    * That's pretty similar to a MCMC idea.
+    * PageRank also started using terms that appeared in and near
+      links to the document. Spammers had less control over these.
+    * Basically, the weight of a document is proportional to the
+      weight of documents that refer to it. And the weight given to a
+      term is proportional to the document it appears in.
+* You can calculate PageRank by defining a transition matrix, where
+  the probability of moving from one document to the next is inversely
+  proportional to the number of links.
+    * Then you start with an equal probability distribution, and just
+      apply this matrix repeatedly.
+    * You are effectively finding an eigenvalue of this matrix.
+* To avoid dead-ends and "spider-traps" (strongly connected components
+  with no out edges) getting all the PageRank, we introduce
+  "taxation", which is a probability that the user gives up and jumps
+  to some other page.
+* PageRank is used secondary to the inverted index to order the
+  results.
+* To compute PageRank, note the transition matrix is sparse. But even
+  then it is probably too big to hold in memory.
+    * We break the transition matrix into 16ths and the vector into
+      4ths.
+    * Each mapper is only responsible for apply a 16th of the matrix
+      to 1/4 of the vector. This means there are 4 mappers per quarter
+      of the vector, for 16 mappers overall.
+* We can make PageRank topic-sensitive by biasing the teleportation
+  toward a subset of pages that are known to match a topic.
+    * Now, when we search, we can try to infer the topic from the
+      query, and use the appropriate topic-sensitive PageRank.
+* They don't talk too much about how to infer a topic from a
+  query. They suggest we can pick out important words from a subject
+  by computing the tf-idf. Then we can do a Jacard similarity.
+* They talk about how to fight link spam, by changing the teleport set
+  to just *trusted* pages, where users can't create links themselves.
+    * I think it would be easier just to detect UGC and eliminate
+      those links.
+* They spend some additional time talking about hubs and authorities,
+  but it's boring.
