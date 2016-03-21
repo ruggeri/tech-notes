@@ -28,6 +28,9 @@ further, I think it would be a matter of getting a job in that.
 * Not worth covering:
     * Intro to Databases (Stanford)
     * Computer Architecture (Princeton)
+* Already Complete:
+    * Machine Learning
+    * PGM
 
 ## Udacity
 
