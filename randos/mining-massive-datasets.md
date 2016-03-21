@@ -156,3 +156,30 @@
       those links.
 * They spend some additional time talking about hubs and authorities,
   but it's boring.
+
+## Ch6: Frequent Itemsets
+
+* Say you want to find those items which tend to be correlated.
+* To do this, you might have documents (which are sometimes called
+  *baskets*) consisting of words (sometimes called *items*). You want
+  to find *itemsets*, which are things that are very likely to co-occur.
+* I believe this came from market research, where we wanted to find
+  what items were purchased together.
+* The number of baskets in which an itemset occurs is called its
+  *support*. A typical problem is to find all itemsets with a
+  threshold support.
+* Goal could be to find related concepts.
+* We can also try to find *association rules*, where the presence of
+  an itemset makes the presence of yet another item unusually likely.
+    * *Confidence* in a proposed rule is the ratio of the support of
+      the itemset with the other item appended, to just the itemset's
+      support.
+    * *Interest* of a rule is the difference between the confidence
+      and the base rate of the item.
+    * Note, confidence is really misnamed. It is estimating the
+      conditional probability. The "confidence" should really be a
+      measure of the variance in this estimate...
+* Note that finding association rules is pretty easy once we identify
+  frequent itemsets. Low frequency itemsets aren't going to have a
+  good enough estimate of the conditional probability.
+* The A-Priori Algorithm...
