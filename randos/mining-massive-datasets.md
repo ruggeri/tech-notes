@@ -222,3 +222,34 @@
   creating a smaller summary of those buckets with sufficient support.
     * Then we repeat, with a more specific hash function.
     * We can repeat this, to get several filters.
+* They talk about how you could take a random sample, and do one of
+  these algorithms on the sample. If you take a 1% sample, you might
+  use `0.1s` as your support.
+    * This leads to false positives and false negatives.
+    * You could use your sample to make a pass through the full data,
+      counting only those things flagged as candidates with enough
+      support. In this way you can eliminate false positives.
+    * You can reduce false negatives by further reducing required
+      support to `0.9ps`, in which case you get more false positives,
+      but then those get filtered out by your second pass...
+* A less random approach kinda like polyphase merge sort:
+    * Break file into chunks.
+    * Run any of the in-memory algorithms on it. Lower the threshold
+      to `s/#chunks`.
+    * Take union of all candidates identified in the chunks.
+    * Then make a second pass to do the counts.
+    * This has no false negatives, since if the count is less than
+      `s/#chunks` for every chunk, it can't possibly have sufficient
+      support.
+* They present this zany algorithm which looks at a sample, computes
+  frequent itemsets, and also the "negative border", which is
+  basically a list of potential false negatives.
+    * The negative border is sets where, deleting one item, you get a
+      frequent itemset.
+    * If the sample produces any false negatives, then something in
+      the negative border is a false negative.
+    * This is a Las Vegas algorithm; you run a pass on the whole data,
+      keeping counts of the frequent itemsets and negative border.
+    * If something in the negative border is frequent, you need to
+      repeat with a lower threshold on the sample data. Else you know
+      you are good.
