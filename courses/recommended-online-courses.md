@@ -1,8 +1,8 @@
 ## Notes
 
-I went through all Coursera, Udacity courses on 2016-03-17. OCW
-doesn't have problem sets like these do, and I don't think Edx does
-either.
+I went through all Coursera, Udacity courses on 2016-03-17. I double
+checked on 2016-03-21; I added a few more. OCW doesn't have problem
+sets like these do, and I don't think Edx does either.
 
 The plan I set out below should cover enough AI stuff; if I want to go
 further, I think it would be a matter of getting a job in that.
@@ -21,6 +21,8 @@ further, I think it would be a matter of getting a job in that.
 * Robotics Courses (UPenn; this is not free)
 * Digital Signal Processing (EPFL)
 * Cluster Analysis in Data Mining (UIUC)
+* Fundamentals of Electrical Engineering (Rice)
+* Heterogeneous Parallel Programming (UIUC)
 * Text Retrieval and Search Engines (UIUC)
 * Neural Networks for ML (Toronto)
 * Mining Massive Datasets (Stanford)
