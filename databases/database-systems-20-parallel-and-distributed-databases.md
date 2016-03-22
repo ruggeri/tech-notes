@@ -86,7 +86,7 @@
     * If both the coordinator and a site fails, no one can commit or
       rollback until the coordinator tells us how to proceed.
 
-## 3PL Addendum
+## Three Phase Commit Addendum
 
 * Here, after the coordinator gets messages from every node saying
   that they can commit, it sends a first message: "everyone agreed
