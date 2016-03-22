@@ -33,8 +33,8 @@
       already wrote up all that stuff.
     * No priority.
 * Database Systems (Garcia-Molina)
-    * Ch22+23: Data mining/internet stuff. Not vital, though.
-    * *Low priority*.
+    * Read everything in this book. Good stuff on implementation of
+      DBs.
 * Distributed Algorithms (Lynch)
     * Looks like it has a wealth of useful information.
     * *High Priority*
