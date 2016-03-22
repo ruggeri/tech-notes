@@ -4,7 +4,6 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
-* Review data mining stuff in Databases book?
 * Distributed Systems:
     * Distributed Algorithms (Lynch, other Distributed Systems book)
     * Distributed databases (I have a book for this too)
