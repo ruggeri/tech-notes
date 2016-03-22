@@ -1,5 +1,6 @@
-* Distributed Algorithms
-* Distributed Systems
+* Current Priorities:
+    * Distributed Algorithms
+    * Distributed Systems
 
 * Algorithm Design (Tardos)
     * Could have a useful chapter on local search.
@@ -13,7 +14,6 @@
       hard, and it's not really in the wheelhouse of my interest area.
     * No priority.
 * Art of Multiprocessor Programming
-    * Loaned to Haseeb.
     * Lots of useful details, but I know most of this stuff now.
     * Has interesting stuff on hardware and cache-consistency.
     * No priority.
@@ -46,6 +46,7 @@
 * Div Grad Curl And All That
     * No priority. I can review this if I really need it...
 * Elements of Computing Systems
+    * Loaned to Stefano.
     * Great book. Most of it I already know, but stuff about boolean
       circuits, and also memory (implemented as delay) was fascinating.
 * Elements of Statistical Learning
