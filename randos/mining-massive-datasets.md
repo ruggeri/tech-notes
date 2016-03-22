@@ -371,3 +371,41 @@
 * Now *that's* an interesting problem!
     * It's kinda like a "reverse" version of a search engine, where
       you have documents, but want to lookup a short query.
+
+## Ch9: Recommendation Systems
+
+* Two kinds:
+    * Content-based: try to categorize the documents, and offer more
+      documents that are similar to what the user has read.
+    * Collaborative filtering: use associations between what users
+      have seen to form categories, and also to guess at preference of
+      the user for each category.
+* Could fill in either by a rating (which can be trouble because of
+  bias), or based on what a user has viewed/purchased/looked at.
+* Content-Based data:
+    * For a movie, could be actors, director, year of release, genre.
+    * Could have metadata, like reviews for books, synopsis.
+    * For documents, we could pick top words by tf-idf.
+    * We could then use minhashing to identify similar documents.
+    * We want to recommend to the user, so we might compute a user's
+      "ideal" document, which is maybe the average of documents they
+      viewed.
+    * We can lookup this ideal document in the LSH.
+* This feels kind of ad hoc: maybe we should just use machine learning
+  to try to predict what things a user would like.
+    * But are we going to do that *per user*? That sounds like it
+      could take a while?
+    * The benefit of the "ideal document" approach is that it is so
+      dead simple, and needs one pass through the user data.
+* Next idea is to use collaborative, which will help us because
+  similar users will tend to like similar things.
+    * They then talk about the EM approach to solving collaborative
+      filtering.
+* I wonder if there is a way to combine both kinds of information.
+    * Maybe you could project documents into some topic space, then do
+      collaborative filtering on this projection of the data.
+    * That seems kinda sub optimal, since you might want to use the
+      collaborative data to help with the topic formation.
+    * But just as you can do EM alternating between adjusting two
+      sides, maybe you can do the same by cycling through three
+      variables.
