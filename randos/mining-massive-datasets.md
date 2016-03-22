@@ -409,3 +409,50 @@
     * But just as you can do EM alternating between adjusting two
       sides, maybe you can do the same by cycling through three
       variables.
+
+## Ch10: Mining Social-Network Graphs
+
+* Social graphs don't have a good definition of distance. What's the
+  distance between two nodes if there is no connection between them?
+    * That actually seems natural: the length of the shortest path
+      between them...
+    * Seems like that defines a true distance metric...
+    * However, maybe we should consider people "closer" if they are
+      both part of a highly connected subnetwork.
+    * The book makes a lot of hay about how having all edges represent
+      the same distance is unworkable.
+        * For instance, any two clusters that are adjacent appear to
+          be at the same distance from each other.
+        * But that doesn't seem fair! You could talk about the average
+          distance between members of one cluster and the second!
+* *Betweenness* is how many shortest paths run through an edge. The
+  idea is that, if an edge is inside a cluster, there should be many
+  ways to get between nodes in the cluster, meaning the betweenness
+  should be low.
+    * To calculate, do a BFS from a starting node X. Edges between
+      "levels" are part of the shortest path from X to a node. Edges
+      inside a level are not part of a shortest path from X.
+    * View the BFS as a polytree: we're organizing nodes in levels,
+      but a vertex can have multiple parents if it has multiple edges
+      from previous level.
+    * Let's label nodes with the number of shortest paths they have
+      from X. Start with 1 at the root. Let each node be labeled with
+      the sum of its parents' labels. This is the number of shortest
+      paths from X.
+    * Now, to give credit to edges, start by giving leaves a credit of
+      one. Split this credit amongst the edges into the leaf
+      equally. Then move up a level, giving the next node a credit of
+      one plus the sum of the credits on the outgoing edges. Continue
+      bubbling. Finito!
+    * Repeat with each vertex as the root!
+    * That sounds bullshit. We ought be able to do this faster. I
+      believe this approach is `O(VE)`, which sucks.
+* Affiliation Model:
+    * Every vertex is part of some groups. Has a certain prob of being
+      in a group.
+    * If two vertexs are in the same group, they have a probability
+      `P_g` of sharing an edge. If they are in multiple groups,
+      probability of an edge is `1-\Prod 1-P_{g_i}`. And if not in any
+      shared groups: a base probability.
+    * Prolly should just make all people in the same group with low
+      connectivity for consistency...
