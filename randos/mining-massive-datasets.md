@@ -453,6 +453,37 @@
   connected components to be in a cluster.
     * One problem: people can't be part of multiple clusters.
     * Also, no generative justification.
+* Another idea: given a bipartite graph, you can find complete
+  bipartite subgraphs.
+    * There's an algorithm to do this.
+    * This is a very strong degree of connection.
+    * You can use this as a "nucleus" of a group, assigning more
+      vertices that are connected to many of the nucleus nodes.
+    * Idea is to randomly partition a graph, and then find these
+      nuclei.
+        * You, for now, ignore edges on the same of the partition.
+        * Those will only be used for expanding the nucleus.
+    * This idea seems entirely unprincipled to me.
+    * I think one thing they like is that finding these complete
+      bipartite subgraphs is the same as frequent itemset matching:
+      you have "items" on the left, and "baskets" on the right. If a
+      vertex on the right is connected to many vertices on the left,
+      they are all in the same "basket".
+* Graph cut model
+    * Want to cut the graph into parts, partitioning it.
+    * We count the number of edges stradling a cut, and normalize it
+      by dividing by the number of edges with at least one edge in the
+      partition (volume). There are two sides of a cut, so we do this
+      twice.
+    * Define the Laplacian to be the difference between `D`, the
+      degree matrix (diagonal matrix with each entry the degree of a
+      vertex), and `A`, the adjacent matrix (each entry 1 iff an edge
+      between the vertices).
+    * They say that finding the eigenvector for the smallest non-zero
+      eigenvalue is the next bet cut.
+    * TODO: What is the math behind this?? Something something
+      spectral theorem?
+    * Again, only partitions.
 * Affiliation Model:
     * Every vertex is part of some groups. Has a certain prob of being
       in a group.
