@@ -447,6 +447,12 @@
     * Repeat with each vertex as the root!
     * That sounds bullshit. We ought be able to do this faster. I
       believe this approach is `O(VE)`, which sucks.
+    * One recommendation is to choose a random subset as starting
+      points. This gives a fairly good estimate of betweenness.
+* Suggestion is: set a ceiling on betweenness, and consider all
+  connected components to be in a cluster.
+    * One problem: people can't be part of multiple clusters.
+    * Also, no generative justification.
 * Affiliation Model:
     * Every vertex is part of some groups. Has a certain prob of being
       in a group.
@@ -456,3 +462,33 @@
       shared groups: a base probability.
     * Prolly should just make all people in the same group with low
       connectivity for consistency...
+* You can have a more general model (called BigCLAM), where vertices
+  have a strength of membership. Then probability of an edge from
+  group A `P_A(u,v) = 1-exp(-F_uA*F_uB)`. Here `F_uA` is the strength
+  of vertex `u`'s membership of group `A`.
+    * Now we don't have a parameter for probability of groups
+      connectivity.
+    * You combine these probabilities the same way.
+* But now you have a matrix problem!
+    * Rows are the membership strengths for a vertex.
+    * To find overall probability, you can take product of `FF\trans`
+      to calculate the relationship strength between every two nodes. Then
+      you do `1-exp(FF\trans)`.
+    * You can verify this is the same as if we calculated `1-\Prod
+      1-P_i(u, v)`!
+* To solve this, you want to find the matrix `F` that maximizes the
+  likelihood of the graph. In particular you want to maximize:
+
+    \Sum (u,v)\in E log(1-exp(-F_uF_v\trans))-\Sum (u,v)\not\in E F_uF_v\trans
+
+* Can solve this using gradient descent.
+* One optimization. This requires considering all pairs of vertices
+  (edge or not edge). We want to only consider those edges that
+  *do* exist.
+    * So we sum up the total weight in every group (these are colsums).
+    * Then we subtract out the vector representing a node.
+    * We then subtract out its neighbors.
+    * This is the total weight in each group of its non-neighbors,
+      needed for gradient descent.
+* So we expect this to be linear in the number of edges, I
+  believe. That is a great speedup for sparse graphs!
