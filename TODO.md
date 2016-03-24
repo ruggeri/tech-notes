@@ -30,6 +30,7 @@ where the most influential breakthroughs are.
   gradient descent. WTF does a symmetric matrix mean? Subgradient
   descent?
 * WTF are variational methods?
+* Spectral graph theory is another thing I don't understand.
 
 **Randos**
 
