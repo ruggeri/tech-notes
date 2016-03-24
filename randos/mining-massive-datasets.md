@@ -484,6 +484,31 @@
     * TODO: What is the math behind this?? Something something
       spectral theorem?
     * Again, only partitions.
+    * I think this is called "spectral clustering". Spectral
+      clustering uses
+    * He suggests that the eigenvectors of `A` are a labeling which is
+      consistent with the labeling of neighbor nodes.
+    * He mentions a graph where every vertex has degree `d`. If there
+      are two components of the graph, then an eigenvector is to
+      assign all the vertices in one a value, and all the vertices in
+      the other another value.
+    * He notes that this shouldn't change very much if these two
+      components happened to be connected by a few edges.
+    * Seems like it should still be possible to assign them all the
+      same cluster...
+    * I think `L=D-A` is sort of normalizing for the number of
+      edges. Basically, if our `N(u)` neighbors all vote `x`, and we
+      are labeled `x`, then there is zero error at this vertex.
+    * Wow, I think there's actually a lot to spectral theory...
+* I'm pretty unimpressed by this model. I can't really justify this
+  metric. I get that it wants to penalize low internal connectivity
+  and high external connectivity. But it just seems so totally
+  unprincipled.
+    * I guess, after some experience, I don't like these problems
+      where you try to define a solution by characteristics of what
+      you're trying to model.
+    * I think it's better to *propose* a model, even a simple one, and
+      then learn that.
 * Affiliation Model:
     * Every vertex is part of some groups. Has a certain prob of being
       in a group.
@@ -523,3 +548,17 @@
       needed for gradient descent.
 * So we expect this to be linear in the number of edges, I
   believe. That is a great speedup for sparse graphs!
+* There's also an idea, called "simrank". We have a random walker
+  start from a vertex. A neighbor is chosen equiprobably. We also
+  relocate the walker back to the start vertex with some probability.
+* The probability we observe them in any given location represents the
+  similarity with the start node.
+* They discuss an algorithm for finding clusters of triangles, which
+  again could be considered nucleii of clusters. They give a MapReduce
+  implementation for this. However, I am uninterested.
+* They give an example of finding clusters of search queries:
+    * Advertisers bid on search queries
+    * You add an edge between the advertiser and these search queries.
+    * After clustering, you have the ability to "broaden" search
+      queries with other related queries, by virtue of the graphical
+      connection with the advertisers.
