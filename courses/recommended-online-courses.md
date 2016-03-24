@@ -17,7 +17,6 @@ further, I think it would be a matter of getting a job in that.
 
 ## Coursera
 
-* Compilers (Stanford)
 * Robotics Courses (UPenn; this is not free)
 * Digital Signal Processing (EPFL)
 * Cluster Analysis in Data Mining (UIUC)
@@ -30,6 +29,7 @@ further, I think it would be a matter of getting a job in that.
 * Not worth covering:
     * Intro to Databases (Stanford)
     * Computer Architecture (Princeton)
+    * Compilers (Stanford)
 * Already Complete:
     * Machine Learning
     * PGM
