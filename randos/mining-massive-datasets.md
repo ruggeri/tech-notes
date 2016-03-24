@@ -562,3 +562,45 @@
     * After clustering, you have the ability to "broaden" search
       queries with other related queries, by virtue of the graphical
       connection with the advertisers.
+
+## Ch11: Dimensionality Reduction
+
+* We already kinda did this by trying to factor a matrix of movie
+  scores by users, adding in a lower dimensional set of movie
+  categories.
+* We showed how we might calculate an eigenvector by power iteration.
+* Of course, eigenpairs can be calculated exactly, by solving
+  `(M-\lambdaI)v=0`.
+    * From the polynomial equation for the determinant, we can
+      calculate the `\lambda`, the eigenvalues.
+    * Given `\lambda`, we can calculate its eigenspace through regular
+      matrix inversion.
+* Another approach: use power iteration to approximate the principal
+  eigenvector.
+    * Then "remove" this from the matrix, subtract this out of each
+      column of the matrix. This increases the nullspace, of course.
+    * Repeat the process!
+* Note, all eigenvectors are orthogonal. A matrix of eigenvectors is
+  orthogonal.
+* PCA is going to find orthogonal axes along which data varies the
+  most. If you project this data onto a subset of these axes, then the
+  distance from the actual point should be minimized.
+    * Normally we try to approximate a solution to `AX=Y`.
+    * Here, I want to use a new representation of the data to predict
+      *the data*.
+    * Note this silly equation. Say I have an orthonormal basis for
+      the space. Then project `X` onto the basis, `Q\transX`. We can
+      then map back to `X` via `Q(Q\transX)`.
+    * But here's the trick: pick `Q` to be a rectangular matrix, with
+      lower dimensionality than the sample space.
+    * When you do this, you will no longer be able to recover `X`
+      completely.
+    * How to pick the best `Q`? You want to choose axes on which `X`
+      has the most variation.
+* Note that this SVD technique is essentially what collaborative
+  filtering is doing.
+* One thing to watch out for is that when doing this decomposition, we
+  often start with a *sparse* matrix. We do not want to create any
+  *dense* matrices. So we use CUR matrix approximation
+    * I'm not very sure how this works. I think I really need to
+      understand SVD first.
