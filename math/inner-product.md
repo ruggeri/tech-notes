@@ -66,4 +66,5 @@ know that `v` can be written in terms of `{e'_i}` by calculating
 same inner product. But if they are, this is simple to do in the basis
 `{e_i}`, and gives the same calculation, by the above.
 
-So now I must truly ask: what bases share the same inner product?
+So now I must truly ask: what bases share the same inner product? Why
+have we chosen to extend the inner product this way?
