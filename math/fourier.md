@@ -1,64 +1,33 @@
-## The Linear Algebra Picture
+## Sinusoidal Basis
 
 From linear algebra, I know that given an inner product and an
 orthonormal basis, you can decompose a vector into components by
-projecting onto each of the basis vectors. This is proven like so:
+projecting onto each of the basis vectors. You can see the inner
+product notes for that.
 
-**Projection on Orthonormal Basis**
-
-Given a basis for the vector space `{e_i}`, we want to write a vector
-`v` in terms of the `{e_i}`: `v = sum c_i e_i`, for `c_i \in \R`.
-
-To find the `c_i`, we need an **inner product**. Assume the standard
-inner product. We can further assume that that the `e_i` are
-orthonormal, since we can always orthonormalize (Graham-Schmidt).
-
-Then `c_i` must equal `v \cdot e_i`, since:
-
-    v \cdot e_i = (sum (c_i e_j)) \cdot e_i = sum (c_i (e_j \cdot e_i)) = c_i
-
-QED!
-
-As before (and in my linear algebra notes), I can explain why the
-standard inner product makes sense. Basically, the standard inner
-product is exactly what you get if you want `<te1+(1-t)e_2, e_2>=t`
-and `<te1+(1-t)e_2, e_2>=1-t`. Any choice of independent basis implies
-a topology/inner product in the natural way by writing everything as
-coordinates in this basis and use the standard inner product.
-
-## The Sinusoidal Basis and Inner Product
-
-Let's take the sinusoidal functions as a basis. The first question is
-whether these are independent. Let's assume so.
+Let's take the sin/cosine functions with period dividing `2\pi` as a
+basis. Is there a notion of an "infinite sum" of this basis? Yes, you
+integrate over the basis, weighting by amplitude. Are these linearly
+independent? I guess the answer is yes! Given those answers, we have
+an infinite dimensional vector space.
 
 The second question is how to do an inner product in this space. We
-propose `\int_{-\pi}^{\pi} f(x)g(x)`. How do we verify this is an
-inner product?
+propose `\int_{-\pi}^{\pi} f(x)g(x)`. Note that this does the right
+thing for projection onto the basis: the basis vectors are
+orthonormal. One hint to prove this: the product of two periodic
+functions is itself periodic, of course.
 
-Let's think first of projecting `sin(x)` onto itself. This is
-`\pi`. This is likewise true for `cos(x)` projected onto itself. This
-is true for any period sinusoidal. So I should scale by `1/pi`.
+So the basis is orthonormal. And, also, the proposed product respects
+scaling. In this way, I claim that this product "plucks out the
+coordinates", where the coordinates are the sinusoidal basis.
 
-So the basis is given unit length. Next, we consider sums of basis
-vectors. The next critical point we need is that:
+Just like the dot product, this inner product is the only way to
+extend the concept of "plucking out the coordinates" to an inner
+product.
 
-    \int sin(mx)cos(nx) = 0 = \int sin(mx)sin(n) = \int cos(mx)cos(nx)
-
-When `m!=n`. This proves that basis vectors are mapped to be
-orthogonal.
-
-Now, by linearity of integration, we are done. This holds because any
-the inner product of a linear combination of the sinuosidal basis can
-be projected onto a basis vector to recover the amplitude of that
-basis vector.
-
-This is effectively what the Fourier transform is going to do.
-
-TODO! Details I need to fill out:
-
-* Explain why sinusoidal basis is independent.
-* Explain why it makes sense that this inner product should respect
-  the basis and have the correct products of zero.
+I think what we need is a better explanation for why this operation is
+like "plucking out the coordinates" for a finite dimensional vector
+space. Then everything should make more sense!
 
 ## Complex Numbers
 
