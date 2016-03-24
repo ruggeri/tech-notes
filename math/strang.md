@@ -113,6 +113,8 @@ the vector.
 
 ## Orthogonality
 
+**I think some of this is wrong and superseded by inner-product.md**
+
 I have this concept of independence: a vector is a linear combination
 of vectors, or it is not. This is a binary notion. Wrt one vector, a
 second vector is either a scalar multiple or it is not. What if I want
@@ -180,9 +182,13 @@ vectors, we can project `y` onto each of the columns of `A` to get
 `y\hat`: `y\hat := (A\trans)y`. But if the columns of `A` are not
 orthonormal, we can still solve `(A\trans)A(x\hat)=(A\trans)y`.
 
+Note a special case if `A` is orthogonal, but not of full column
+rank. Then, `A\transA=I` (rectangular version), and we can write
+`x\hat=(A\trans)y`.
+
 This basically says that we project `y` into the columnspace, but we
-realize this did some stretching of `y`, so compensate by doing
-similar stretching of `A(x\hat)`.
+realize this did some stretching of `y` (since `A` may not be
+orthogonal), so compensate by doing similar stretching of `A(x\hat)`.
 
 Equivalently, you can say: `x\hat=(((A\trans)A)\inv)(A\trans)y`. Note
 that `(A\trans)A` is an `n`-by-`n` matrix; it has full rank and is
@@ -205,6 +211,12 @@ I already know Graham-Schmidt. You decompose `A=QR`, by iterating
 through the columns, each time subtracting out the projection of the
 previous columns. This gives you an orthogonal component `Q`, and a
 matrix `R` which reflects the changes you made.
+
+My understanding is that `LU` is preferred to `QR` for inversion,
+since `QR` takes about twice as many operations. But I think `QR` is
+found useful when you don't have a square matrix (which happens for
+instance when you want to do an SVD), which `LU` decomposition
+requires. I also read that QR is more numerically stable.
 
 ## Determinant formula
 
