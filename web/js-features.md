@@ -163,6 +163,17 @@
 ## Next EcmaScript Revision
 
 * Async, await is the only major feature being talked about right now.
+* Presumably an `async` function returns a promise. Only `async`
+  functions would be able to use the keyword `await` to wait on any
+  function (`async` or otherwise) that returns a promise.
+* And any function can call an `async` function (that's how you get
+  into async code in the first place); they'll get a promise.
+* The transformation is quite simple in Babel. In an async function
+  definition, you apply a transformation. You turn the function into a
+  generator fn by adding an `*`, you turn every `await` into a
+  `yield`, and you then take the generator function and pass it to a
+  regular function, which I've effectively written elsewhere.
+    * This is a simple syntactic manipulation!
 
 ## Source
 
