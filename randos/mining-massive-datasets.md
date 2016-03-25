@@ -604,3 +604,23 @@
   *dense* matrices. So we use CUR matrix approximation
     * I'm not very sure how this works. I think I really need to
       understand SVD first.
+
+## Ch12: Large-Scale Machine Learning
+
+* Methods they call out:
+    * Decision Trees
+    * Perceptron
+    * Neural Nets
+    * Instance-based learning (k-nearest neighbors, basically)
+    * SVM
+* To parallelize perceptron learning, they suggest rounds, each of
+  which uses the same weight vector. Records are produced for
+  misclassified results, keyed by feature index. These can be summed,
+  and the weight vector adjusted appropriately. Then we can run more
+  rounds.
+* They're going to do SGD in map reduce for SVM. That would apply to
+  other algorithmsm too.
+* Nearest Neighbors: they don't talk how to do this.
+* They talk about ensembles of trees as a good way to use trees.
+    * That's because as you get deeper in any tree, there is little
+      data, and it's hard to generalize.
