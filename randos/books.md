@@ -1,6 +1,8 @@
 * Current Priorities:
     * Distributed Algorithms
     * Distributed Systems
+    * Artificial Intelligence: A Modern Approach
+    * Intro to linear algebra
 
 * Algorithm Design (Tardos)
     * Could have a useful chapter on local search.
@@ -18,7 +20,7 @@
     * Has interesting stuff on hardware and cache-consistency.
     * No priority.
 * Artificial Intelligence: A Modern Approach
-    * TODO AT WORK (AI)
+    * *High priority*
 * Big Data: Principles and Best Practices of Scalable Real-time Data Systems
     * TODO: REVIEW ME!
     * *High Priority*
@@ -50,12 +52,13 @@
     * Great book. Most of it I already know, but stuff about boolean
       circuits, and also memory (implemented as delay) was fascinating.
 * Elements of Statistical Learning
-    * TODO AT WORK (AI)
+    * Really hard, should do Strang and Norvig AI first.
+    * *Low priority*
 * Intro to Algorithms (CLRS)
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra
-    * No priority. I'll review this as necessary. Probably will need
-      to review eventually for PCA.
+    * Need to learn SVD, I think...
+    * *High priority*
 * Machine Learning (Mitchell)
     * TODO AT HOME (AI)
 * Machine Learning (Murphy)
