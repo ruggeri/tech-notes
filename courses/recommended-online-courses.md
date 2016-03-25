@@ -10,7 +10,6 @@ further, I think it would be a matter of getting a job in that.
 ## Plan
 
 * Finish Neural Nets.
-* Mining Massive Datasets.
 * Finish Norvig book.
 * AI for Robotics.
 * Deep Learning.
@@ -24,7 +23,6 @@ further, I think it would be a matter of getting a job in that.
 * Heterogeneous Parallel Programming (UIUC)
 * Text Retrieval and Search Engines (UIUC)
 * Neural Networks for ML (Toronto)
-* Mining Massive Datasets (Stanford)
 * Discrete Optimization (Melbourne)
 * Not worth covering:
     * Intro to Databases (Stanford)
@@ -33,6 +31,7 @@ further, I think it would be a matter of getting a job in that.
 * Already Complete:
     * Machine Learning
     * PGM
+    * Mining Massive Datasets (Stanford)
 
 ## Udacity
 
