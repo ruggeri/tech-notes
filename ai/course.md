@@ -85,6 +85,22 @@ There's a lot on PGM, but I'm not sure how vital this stuff is...
 * Fast matching of standing subset queries to documents.
 * Mining Social-Networks, affiliation model
 
+## Potential Projects
+
+* Semantic document retrieval
+* Speech recognition
+* Optical character recognition
+* Image segmentation, tracking
+* Game playing
+* Image classification
+* Face detection, recognition
+* Spam detection
+* Recommendation
+* Robotic navigation, drones. Robotic control. Mapping.
+* Theorem proving
+* Chat bot
+* Machine translation
+
 ## TODO
 
   -rw-r--r--   1 ruggeri  staff   2348 Mar 10 21:47 TODO.md
