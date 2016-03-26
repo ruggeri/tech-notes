@@ -9,8 +9,9 @@ where the most influential breakthroughs are.
     * Distributed databases (I have a book for this too)
     * Especially distributed transactions.
 * Euler's identity. Fourier transform.
-* Maybe a little more about text search?
 * Startup AI/ML again.
+* How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
+  Are distributed transactions that important?
 
 **Math/ML**
 
