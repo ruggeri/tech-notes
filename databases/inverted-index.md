@@ -82,3 +82,4 @@
     * Then it completes it with the trie.
 
 Source: http://nlp.stanford.edu/IR-book/html/htmledition/irbook.html
+Source: http://books.ithunder.org/Inverted.pdf (Inverted files for text search engines, Zobel, Moffat)
