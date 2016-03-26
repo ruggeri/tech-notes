@@ -1,4 +1,13 @@
-* So you have words that point to buckets of document ids.
+* So you have words that point to list of document ids.
+    * Typically sorted ascending. Allows good compression by
+      difference encoding.
+    * Typically just do an intersection.
+    * For a conjunctive query, you might start with the least common
+      term.
+    * This might actually be fast if you combined unrolled linked list
+      with a skip list.
+    * In fact, I think Postgres GIN index uses a "postings tree",
+      which is just a b-tree. This probably improves intersection.
 * Typically we want to ignore stop words and do stemming.
 * To rank, you may take the greatest number of matches.
     * A common measure is *tf-idf*: *term-frequency inverse-document
@@ -83,3 +92,5 @@
 
 Source: http://nlp.stanford.edu/IR-book/html/htmledition/irbook.html
 Source: http://books.ithunder.org/Inverted.pdf (Inverted files for text search engines, Zobel, Moffat)
+Source: http://www.milkdom.com/uni/Sem05/a4md/docs/Managing%20Gigabytes%3B%20Witten,%20Noffat,%20Bell.pdf
+Source: http://www.postgresql.org/docs/9.3/static/gin-implementation.html
