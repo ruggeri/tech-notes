@@ -1,3 +1,21 @@
+## Most Popular
+
+By StackOverflow job count.
+
+* MongoDB (197)
+* Redis (161)
+* ElasticSearch (113)
+* Cassandra (102)
+    * Based on a DHT
+    * No transactions
+    * Always writable, even in partition. Clearly not consistent.
+    * Conflict resolution happens at readtime.
+* Memcached (45)
+* Hbase (43)
+    * Based on BigTable, which is basically just a sharded DB on GFS.
+    * Uses Chubby to elect a master. Master presumably 
+* Solr (38)
+
 ## Data Stores
 
 * Google

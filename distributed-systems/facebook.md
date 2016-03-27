@@ -45,6 +45,8 @@ transactions. Since it shards out the data, it can handle very heavy
 write load. When reading/writing, there is no coordination at
 different sites (well, except replicas...).
 
+It looks like Cassandra is now the most popular wide column store.
+
 So my question then is: how far can you get without transactions.
 
 ## Features
@@ -97,3 +99,5 @@ So my question then is: how far can you get without transactions.
       necessary actions.
     * There should be a brief time that something is not visible
       through a linkage, but that should be fine.
+
+Source: http://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed
