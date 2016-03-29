@@ -80,6 +80,22 @@ too. That's another source of delay.
     * RAID6 can tolerate multiple failures. This means you'll need at
       least two parity blocks. You can do this using Reed-Solomon
       coding, for instance.
+        * RAID6 is basically RAID5 with a little more checking.
+        * Apparently people are worried about RAID5 now?
+    * There are "nested" RAID levels, of which RAID10 is most important.
+        * This basically is a RAID0 array consisting of RAID1 arrays.
+        * If you organize `k_1` drives into RAID1 arrays, then combine
+          `k_0` of these into a single RAID0 array, you get the
+          following perf.
+        * `k_0/n` space efficiency. Basically, your space efficiency
+          is inversely proportional to the number of drives in RAID1.
+        * `n`x read performance. That's because data is distributed
+          across RAID1 arrays, where it's replicated for more read
+          copies.
+        * `n/k_1`x write performance. You have to write a copy to each
+          drive in the RAID1 array.
+        * You can tolerate up to `k_1-1` failures in each of the RAID1
+          arrays.
 
 # Record Representation
 
