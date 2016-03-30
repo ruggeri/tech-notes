@@ -101,3 +101,35 @@ So my question then is: how far can you get without transactions.
       through a linkage, but that should be fine.
 
 Source: http://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed
+Source: http://www.ebaytechblog.com/2012/07/16/cassandra-data-modeling-best-practices-part-1/
+Source: http://www.datastax.com/dev/blog/basic-rules-of-cassandra-data-modeling
+
+## Thoughts
+
+* I see a lot of support for my (not new) idea of idempotent messages
+  in a queue.
+* I see that Cassandra is the most popular option for a distributed
+  datastore.
+    * Not really sure why preferred over HBase, actually.
+* Denormalization is definitely necessary, no secondary indexes.
+* Looks like a preferred approach is to have tables that serve as
+  secondary indexes.
+    * For instance, a table keyed on user id, where columns are ids of
+      items they liked. Values of the columns will be attributes of
+      the items that are likely to be wanted when we look up a user.
+    * This is good, because there could be a lot of items liked by the
+      user, and we don't want to have to search for all of them.
+* The worries I have are:
+    * Lack of transactionality. You can create an item, but what about
+      when you've added it to some indexes but not others? It may not
+      be entirely reachable from everywhere.
+    * That's probably okay. I can't think of a lot of scenarios where
+      this would be a major issue.
+    * On creation of an object, is there a way to trigger that it get
+      added to a bunch of indices?
+    * Otherwise, doesn't every object need to know about *every*
+      index??
+
+Source: http://www.datastax.com/dev/blog/new-in-cassandra-3-0-materialized-views
+Source: https://news.ycombinator.com/item?id=9835503
+Source: https://aphyr.com/posts/294-call-me-maybe-cassandra
