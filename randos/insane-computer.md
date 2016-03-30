@@ -10,3 +10,8 @@
     * 6.4TB, with 2x redundancy
 
 Total cost: ~$20k
+
+Source: https://news.ycombinator.com/item?id=11381499
+
+* Looks like they use some kind of Dell server with 4 CPU sockets.
+* Entire SO database is 1.5TB. They keep it all in RAM.
