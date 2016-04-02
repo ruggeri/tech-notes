@@ -91,6 +91,21 @@ swap(T& a, T& b) {
 This here avoids the use of any assignment constructors, using only
 move constructors.
 
+## auto_ptr vs unique_ptr
+
+* `unique_ptr` has a move constructor, but not a copy constructor. It
+  has an assignment constructor, but it only takes an rvalue
+  reference.
+    * This prevents accidental use of a unique ptr after it has been
+      transfered.
+* `auto_ptr` existed before move constructors, so it used copy
+  construction to transfer ownership.
+    * The original `auto_ptr` was resest to NULL, but this allowed for
+      possible null pointer problems.
+* Indeed, I think that `unique_ptr` was invented entirely to prevent
+  this silent stealing of a ptr from you, leaving you a null
+  unexpectedly.
+
 ## Extern Templates
 
 There's a mechanism now by which you can tell the compiler that a
@@ -302,8 +317,3 @@ struct Counter {
 * Static assertions so you can assert properties at compile-time. For
   instance, maybe that a template type argument must not have too big
   a size.
-
-## More TODO
-
-* https://en.wikipedia.org/wiki/Auto_ptr and unique_ptr
-* https://en.wikipedia.org/wiki/Variadic_template
