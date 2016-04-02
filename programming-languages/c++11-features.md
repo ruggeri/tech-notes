@@ -116,11 +116,19 @@ Object[] many = {{4.3, 2}, {-1.1, 5}};
 But this only worked on POD in C++03. Now there's a
 `std::initializer_list<>` class which can be used to do this anywhere.
 
+They also introduce *uniform initialization*: `MyClass mc{arg1,
+arg2}`, which is an alternative to `MyClass mc(arg1, arg2)`. This
+makes it more even more like C, where structs can be initialized this
+way. This is called *uniform*, since you can initialize a struct and
+class the same way.
+
 ## Auto keyword
 
-This will infer the type of the variable. A `decltype(x)` keyword is
-also added, so we can compile-time recover the type of an `auto`
-declared object.
+This will infer the type of the variable; it just looks at what the
+variable is initialized with, so it's not that sophisticated. A
+`decltype(x)` keyword is also added, so we can compile-time recover
+the type of an expression. I see this as being useful in template
+code, prolly.
 
 I think the goal was this transformation:
 
@@ -184,7 +192,9 @@ match default closure rule and closure rule for specific variables.
 In C++03, when you write a constructor, if you want to use another
 constructor for this class (maybe with some default values) you're
 shit out of luck. In C++11, you can put that constructor on the
-initialization list.
+initialization list. You can also "import" base class constructors to
+a subclass, if your subclass just wants to construct itself in the
+default way of the base class.
 
 It's easy to try to override a method, but actually introduce a new
 method because your signature is a little off:
@@ -206,15 +216,94 @@ overriding the method.
 
 They also added a `final` keyword to prevent overrides.
 
+You can also now explicitly tell C++ to not generate certain
+constructors (assignment, copy) with the `delete` keyword. You can
+tell C++ to generate the default constructor even if you add other
+constructors with the `default` keyword.
+
+They've had an `explicit` keyword since C++98 to prevent improper
+conversions. For instance, you may not want `myClass == 1` to compile,
+but if `MyClass` has a constructor with a single int, this will! You
+can mark that as `explicit`. C++11 takes this up a notch, so that you
+can mark *conversion functions* as explicit: for instance, `explicit
+operator bool()`. Then you can say `if (myClass)` without worrying
+about `if (myClass == myClass2)` converting both sides of `==` to bool
+and then comparing them true. This is a minor change, but I put it
+here because C++ is so fucked.
+
 ## Enums can now have types
 
 They're not just all integers. For instance: `enum class X {
 ... }`. This is good at preventing mixing up enums.
 
+## Polymorphic Function Wrappers
+
+Used to be a major PITA to try to assign a `bool function(long, long)`
+to a `bool function(int, int)`. If you try to do this with function
+pointers, you'll still get yelled at. But if you use `std::function`,
+it will be okay when the parameters/return type are convertable.
+
+## Tuple Types
+
+In the old days you had `Pair<X, Y>` and `std::make_pair`. Now they
+let you do:
+
+```
+auto record = std::make_tuple("Ned", "Ruggeri", 29, true);
+// Still have kinda bullshit record access...
+cout << std::get<0>(record) << "\n";
+```
+
+Still, this could be pretty convenient at times!
+
 ## Multithreading
 
-TODO!
+* Had to define a memory model.
+* Can define thread local storage via `thread_local`.
+* Added `std::thread(fn_obj, ...args)`. Added `#join` method.
+* Added `std::mutex` and `std::condition_variable`.
+    * `std::mutex` can be simple: you use `#lock` and `#unlock`.
+    * This can make exception safety difficult, so you can use a
+      `std::lock_guard`.
 
-## TODO
+```
+struct Counter {
+  std::mutex mutex;
+  int i;
 
-There are a shit-load of features and I am tired.
+  void increment() {
+    // lock_guard releases mutex on destruction
+    std::lock_guard<std::mutex> guard(mutex);
+    i += 1;
+    // Any other code that might throw an exception...
+  }
+}
+```
+
+* There's a recursive mutex if you need a function to be re-entrant.
+* To use a condition variable (for instance, you want to remove an
+  item from a queue, but need to wait until there is one to remove).
+    * I have an example of that in another file.
+* There are futures and promises.
+    * `std::future` is returned by an async operation to the caller.
+    * `std::promise` is used by the worker thread to set the value.
+    * Since `std::promise` has a `get_future` method, I think the
+      intent is to create a promise, and then pass this to a user.
+    * I believe that `std::async` basically does this for you.
+* Last are atomics, so that you don't have to do locking. But I'm lazy
+  and won't review this right now.
+
+## Randoms
+
+* Regex added to language.
+* unordered_set added to language.
+* `MyClass<MyClass<int>>` finally doesn't try to use the shift
+  operator.
+* Static assertions so you can assert properties at compile-time. For
+  instance, maybe that a template type argument must not have too big
+  a size.
+
+## More TODO
+
+* https://en.wikipedia.org/wiki/Auto_ptr and unique_ptr
+* https://en.wikipedia.org/wiki/Variadic_template
