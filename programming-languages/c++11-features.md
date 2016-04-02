@@ -75,6 +75,22 @@ This gives you power that a copy-constructor `X(X&)` could not have,
 since that would need to maintain the validity of the reference you
 are constructing from.
 
+Here's an example of using `std::move`, which is a cast that takes a
+reference and makes it an rvalue reference, so that you can call a
+move constructor.
+
+```
+template <class T>
+swap(T& a, T& b) {
+    T tmp(std::move(a));
+    a = std::move(b);
+    b = std::move(tmp);
+}
+```
+
+This here avoids the use of any assignment constructors, using only
+move constructors.
+
 ## Extern Templates
 
 There's a mechanism now by which you can tell the compiler that a
