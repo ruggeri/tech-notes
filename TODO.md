@@ -45,39 +45,6 @@ where the most influential breakthroughs are.
     * http://en.wikipedia.org/wiki/Unconventional_computing
     * http://www.scottaaronson.com/papers/npcomplete.pdf
 
-## Projects
-
-* Building adding lightbulbs!
-* Sudoku solving. Chess. Alpha-Beta.
-* Parallel sorting. Concurrent Datastructures (LL, Queue,
-  HM). Persistent datastructures. Mutexes.
-* Click's HM. Probably learn a lot about memory model...
-* Databases
-    * Keep reading the book!
-    * Write a database.
-    * How are distributed transactions done?
-    * Add 2PL and MVCC concurrency support!
-    * Deadlock detection. Serializability for MVCC.
-    * Indexes
-* Programming Languages
-    * https://github.com/kanaka/mal
-    * Write a compiler. Interface dispatch, virtual machine. Pointer
-      tagging.
-    * <del>Write an allocator/garbage collector.</del>
-    * Write tail-call optimization.
-    * Write coroutines/continuations in C.
-    * Write an object system.
-    * Write a JIT.
-* Distributed Systems, Networking
-    * Write a TCP implementation in UDP.
-        * Write flow control, congestion control.
-    * Write a Raft implementation.
-    * Write a BitTorrent implementation, DHT.
-* Probabilistic Algorithms
-    * Write a TSP solver.
-* Write rsync.
-* Write our own autocomplete!
-
 ## TODO
 
 **Do not review all files!** It is only these files that contain
