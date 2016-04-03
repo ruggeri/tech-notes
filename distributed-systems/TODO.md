@@ -54,7 +54,7 @@
 * <del>Replication</del>
     * http://en.wikipedia.org/wiki/Replication_(computing)
 * Replicated File System
-* Samaza
+* Samza
 * <del>Smart Contracts, Ethereum</del>
 * Spanner
 * Stabilization
@@ -64,9 +64,9 @@
 * <del>Termination Detection</del>
 * <del>Three Phase Commit</del>
 * Transactions
-* Two Generals' Problem
+* <del>Two Generals' Problem</del>
 * <del>Two Phase Commit</del>
-* Vector Clocks
+* <del>Vector Clocks</del>
 * Viewstamped Replication
 * Virtual Synchrony
     * http://en.wikipedia.org/wiki/Virtual_synchrony
