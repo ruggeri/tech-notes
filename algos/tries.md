@@ -47,3 +47,10 @@ Another common approach is a *ternary search tree*. Here, you have
 left and right to search for a different letter at this position, and
 middle path for extending the word. This stores fewer pointers when
 the extensions are sparse.
+
+## Radix Tree
+
+* This is a space-compressed version where the edges are strings,
+  representing the letters that strings have in common.
+* This is sometimes also called a PATRICIA tree when the radix is 2,
+  meaning that you compare by bit.

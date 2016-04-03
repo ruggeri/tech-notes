@@ -98,7 +98,9 @@ http://hypirion.com/musings/persistent-vector-performance-summarised
 
 ## Hash Trees
 
+Called a "tree" but really a trie.
+
 Basically, a trie where the "strings" are the hashes of the keys, and
 of course you can have some value associated. This is typically
 implemented using a AMT, which is a micro-optimized specification of
-the idea of a trie.
+the idea of a trie. I believe this is what PersistentHashMap uses.
