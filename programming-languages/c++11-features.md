@@ -276,6 +276,11 @@ Still, this could be pretty convenient at times!
 * Had to define a memory model.
 * Can define thread local storage via `thread_local`.
 * Added `std::thread(fn_obj, ...args)`. Added `#join` method.
+    * I think `thread` is considered very low level for common use.
+    * One problem is exception safety; an exception thrown in another
+      thread will kill the whole program.
+    * If you don't call `join` you have to call `detach` to release
+      the resource? Why isn't that just done in the destructor??
 * Added `std::mutex` and `std::condition_variable`.
     * `std::mutex` can be simple: you use `#lock` and `#unlock`.
     * This can make exception safety difficult, so you can use a
@@ -305,6 +310,11 @@ struct Counter {
     * Since `std::promise` has a `get_future` method, I think the
       intent is to create a promise, and then pass this to a user.
     * I believe that `std::async` basically does this for you.
+    * Finally there is `packaged_task`, which packages up a functor;
+      you can get the future from the task; and give another thread
+      the task, which they can start executing at their leisure.
+    * I.e., unlike `std::async`, `packaged_task` does not begin
+      execution immediately.
 * Last are atomics, so that you don't have to do locking. But I'm lazy
   and won't review this right now.
 
