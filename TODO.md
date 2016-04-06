@@ -12,6 +12,7 @@ where the most influential breakthroughs are.
 * Startup AI/ML again.
 * How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
   Are distributed transactions that important?
+    * May want to study up on Spanner et al.
 
 **Math/ML**
 
