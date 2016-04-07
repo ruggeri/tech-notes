@@ -31,8 +31,15 @@ A write miss invalidates anyone else's copy. Now that CPU has it
 exclusively. In this way, future writes won't have to broadcast and
 just hit cache.
 
-This has poor scalability, since we have to lock the bus to
-communicate any of these situations.
+If two processors share a seldom written item, they can both use it
+without coordination. If data is written by one thread when someone is
+no longer using it, there is no coordination. The only problem is when
+one thread wants to read and another write.
+
+I think this scales poorly because every read miss or write to gain
+exclusive access needs to broadcast. That scales poorly, as the bus is
+more and more saturated by these messages, many of which are entirely
+irrelevant.
 
 ## NUMA
 
@@ -73,20 +80,47 @@ works.
 
 ## Volatile, Memory Ordering
 
-With NUMA, you're always going to have a cache consistent view of the
-data. When memory isn't shared in two caches, then updates don't
-require communication.
+So you're always going to have a cache consistent view of the
+data. Programming without cache coherency just doesn't happen; no one
+tries to do this (though I guess theoretically you could).
 
-We do know that your program may not check the cache: it might use a
-register. To make sure it hits the cache, you have to use the
-`volatile` keyword. Basically, the language is made aware that the
+But any multithreaded program (even one running on a single core) can
+have unexpected problems due to instruction re-ordering.
+
+For instance, a value may be loaded into a register, and future reads
+of the value just use the register, without checking the
+cache/memory. To make sure it hits the cache/memory, you have to use
+the `volatile` keyword. Basically, the language is made aware that the
 variable could be shared across threads. It won't make assumptions
 that it has sole ownership of this variable. It won't use registers,
-and it won't re-order.
+and it won't re-order. Example of what can happen: you have a `while
+(!x);` in one thread and an `x=true` in another, but the first thread
+never sees this.
 
-But the hardware still can! That's why you need memory barriers. Any
-read/write operation from before the barrier is guaranteed to not be
-moved across the barrier, and vice versa!
+So that's *volatile* which happens at the compiler level. Then there's
+actual re-ordering. An example:
+
+```
+while (!x);
+println("%d", y);
+
+---
+y = 42;
+x = true;
+```
+
+Obviously you expect to see `42` printed, but this won't necessarily
+happen. The hardware can execute the loads and stores out of
+order. For this you need a memory barrier. To force this to be the
+case, you want to issue a memory barrier, which will tell the
+processor that it cannot reorder instructions across the barrier.
+
+This can waste ~100 cycles on the processor, probably because it fucks
+up the pipelining it had been performing. I don't think it should have
+to do anything on the bus, though.
+
+The compiler also needs to be aware of memory fencing, so it doesn't
+reorder instructions in a way you don't want.
 
 Java sort of wraps these up together: if you declare a variable
 `volatile`, then it also ensures that there is a "happens before"
