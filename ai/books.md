@@ -56,6 +56,8 @@
     * Columbia NLP course. Seems pretty serious.
 * https://www.udacity.com/course/intro-to-machine-learning--ud120
     * Looks kind of weak. Is taught by Thrun...
+* http://cs231n.stanford.edu/
+    * Convolutional NN for Visual Recognition.
 
 ## Books
 
