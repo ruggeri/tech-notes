@@ -10,28 +10,72 @@ keep extending.
 
 ## Copy-On-Write Trees
 
-Write to an append log your changes, in memory reflect the updates in
-your b-tree blocks. This allows your random writes. Also gives good
-failure modes for a file-system (journaling). Very similar to DB stuff.
+So a copy-on-write approach is going to rewrite a path in the
+tree. What you do is just append this path into the log. You don't
+need to touch the preceeding blocks and rewrite them.
 
-This avoids random IO and does more sequentially. The log presumably
-gets compacted from time-to-time.
+This is going to require some kind of garbage collection process
+eventually; you're creating a bunch of garbage by doing this. Total IO
+will be greater: you have to write the whole path, instead of just one
+block. It's not about modifying in place vs copying the leaf node,
+since you have to write the leaf node regardless. It's about writing
+the whole path.
 
-I'm not sure if I'm missing something here...
+You're also going to cause space blowup, since you're creating a bunch
+of versions. That might be desirable for a versioned file system
+(typical use case, historically), but could be annoying if you don't
+care about versioning.
+
+But one advantage is that CoW b-trees avoid overwriting. For SSDs,
+which have trouble overwriting, this could be a win.
+
+Source: http://www.bzero.se/ldapd/btree.html
+Source: https://pdfs.semanticscholar.org/76f6/e56bbb2b860cdc75bbcb5510b1d811c9a768.pdf
 
 ## Log-Structured Merge Trees
 
-You have a tree in memory. Writes hit memory, and are written in a
-log. The log is, from time-to-time, compacted and a new tree structure
-is written on disk.
+Multiple trees. In simple case of two trees: one on disk (C1) and one
+in memory (C0). Also, hot nodes of C1 can be buffered in memory.
 
-I believe that the disk tree is much more compact, for one. That's
-because it's not experiencing a high load of inserts.
+As writes come in, you log it to an on-disk sequential log. You insert
+the write into C0.
 
-Also, the disk tree is updated in a smart way. You pick a big chunk of
-the memory tree, and merge this out into the disk tree. That is much
-more efficient than random insertions.
+As C0 fills up, we need to migrate data to C1. This happens via a
+"rolling-merge" process. Contiguous sets of keys will be written out.
+
+They want C1 to be a B-tree, but optimized for sequential
+access. Blocks are 100% full, and optimized in a way that keeps leaf
+nodes in sequential order on order (for faster range queries). This is
+a nice optimization: basically, your B-trees will not be fragmented.
+
+What they do is, take a subtree of C1, and take the corresponding
+subtree of C0. Merge the two in memory, and then write out to
+disk. You can now drop the in memory version.
+
+Basically, we're using the in memory B-tree to buffer and pre-sort
+things. Then we write it out in time, in a way that doesn't require
+random IO. **This is huge**: sequential insertion is awesome, because
+all the inserts hit the same block.
+
+Note that C0 can be organized in whatever way is easiest for the
+in-memory operation. You don't need to do things B-tree style.
+
+The bigger C0 is, the more batching is happening. But the bigger C1 is
+relative to C0, the worse for batching. That's because for each
+segment of C1 we bring into memory (which is fixed in size, because
+memory is limited), there will be less we can merge from C0.
+
+This motivates *multiple* levels of on-disk trees. That way you always
+merge things that are roughly the same size, which is more efficient.
+
+But that tends to slow down querying, since you have to look at each
+tree. To minimize this cost, you can use bloom filters.
+
+BigTable has does a similar merging thing, but I think sstables just
+use sorted files, without any tree structure. LevelDB is an LSM
+database, and RocksDB is a fork of LevelDB optimized for SSD.
 
 ## Sources
 
-* http://paperhub.s3.amazonaws.com/18e91eb4db2114a06ea614f0384f2784.pdf
+* http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&rep=rep1&type=pdf
+* https://www.percona.com/blog/2011/10/04/write-optimization-myths-comparison-clarifications-part-2/

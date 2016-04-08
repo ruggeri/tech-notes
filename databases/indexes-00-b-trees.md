@@ -135,12 +135,46 @@ mostly for databases.
 
 B+ tree is a tree where the data records are stored in the leaf nodes,
 not interior nodes, which just store keys. This means that you can fit
-more children per node. Also, the leaf nodes typically maintain a
-linked-list, so that it's easy to do range scans. Otherwise range
-scans involve moving up and down the tree.
+more children per node (if clustering, I guess). Also, the leaf nodes
+maintain a linked-list, so that it's easy to do range scans. Otherwise
+range scans involve moving up and down the tree. Not sure how much of
+a savings that really is. They do say that a key advantage of B+ trees
+is reducing cache misses.
 
 OTOH, B trees allow the possibility for faster access to values closer
 to the top.
+
+Source: http://stackoverflow.com/questions/870218/b-trees-b-trees-difference
+
+## Other B-Tree Optimizations
+
+* Insert sequentially
+    * All writes will hit the same node.
+    * Cost is `O(1/B)`. The larger the block size, the better.
+    * Typically can't do this, though...
+* Buffer writes
+    * Helps when multiple writes are destined for the same node.
+    * But not an amazing optimization.
+
+## Fragmentation
+
+Clearly, non-clustered indexes mean that range scans will have a bunch
+of random reads. Clustered-indexes means that range scans work well,
+but insertion will slow down because you have to store the record in
+the tree.
+
+Regardless, if you do random inserts, you're going to cause
+fragmentation. FB says ~30% of space will be unused.
+
+And of course consecutive blocks of rows may not be placed in
+sequential pages on disk, which can be a pain for table scans with
+rotational media.
+
+Source:
+
+* https://www.percona.com/blog/2011/09/22/write-optimization-myths-comparison-clarifications/
+* https://www.percona.com/blog/2010/11/17/avoiding-fragmentation-with-fractal-trees/
+* https://www.facebook.com/notes/mysql-at-facebook/dealing-with-innodb-fragmentation/10150397873640933/
 
 ## TODO
 
