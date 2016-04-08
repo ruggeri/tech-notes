@@ -162,7 +162,16 @@ data on different cachelines, so that attempts to get the lock won't
 invalidate the data (and changes to the data don't signal that the
 lock might be free).
 
+Actually, it looks like maybe CAS isn't ridiculously expensive; just a
+couple cache misses. First you normally have to read the original
+value; that could be a cache miss. Then you have to "lock" the
+value. To do this, in MESI cache coherency, you tell people that
+you're taking this, and they have to invalidate. That is a 2nd cache
+miss (unless you already had exclusive access!). Now you have
+exclusive access and can modify this in your cache.
+
 Source: Art of Multiprocessor Programming
+Source: http://stackoverflow.com/questions/2538070/atomic-operation-cost
 
 ## Memory Consistency
 
