@@ -1,5 +1,17 @@
 **Possible Independent Study Projects**
 
+* Projects
+    * Build a database.
+    * Find shortest routes in a map.
+    * Autocompletion, spell correction.
+    * Build a programming language.
+    * Build a distributed FS or database.
+    * Play chess, play sudoku.
+    * Image classification.
+    * Robotic navigation.
+    * Voice recognition.
+    * Recommendation.
+    * Search engine.
 * Data Structures
     * DynArray in C
     * BloomFilter
