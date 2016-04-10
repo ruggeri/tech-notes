@@ -50,8 +50,24 @@ Wikipedia claims that LSM has same write throughput, but worse read
 search, you're looking at `O(log(N)**2)`. Which is asymptoticaly
 slower.
 
+## Upshot
+
+They claim that with fractal tree index you can have an index where
+the working set of the insertions cannot fit in memory. That is: most
+insertions will not require a random IO, so you can have much higher
+throughput.
+
+However, every read will still need an IO. But maybe there's an active
+read set that is much smaller than the insert set?
+
 ## Implementation
 
 * Used by Tokutek.
 * I don't see that they are used elsewhere. Maybe because the paper
   just came out in 2007?
+* Source: https://www.percona.com/blog/2013/07/02/tokumx-fractal-treer-indexes-what-are-they/
+    * Here they explicitly say that "Fractal Tree" is not an idealized
+      datastructure, it is defined by the implementation by Tokutek.
+    * They also say that this is basically a variation on the idea of
+      a buffer tree.
+* Real name in literature is Streaming (cache oblivious) B-Tree.
