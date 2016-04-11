@@ -53,6 +53,7 @@
       circuits, and also memory (implemented as delay) was fascinating.
 * Elements of Statistical Learning
     * Really hard, should do Strang and Norvig AI first.
+    * Also: has a bunch of stuff on trees.
     * *Low priority*
 * Intro to Algorithms (CLRS)
     * Great resource, but I already know everything I need from here.
@@ -62,6 +63,10 @@
 * Machine Learning (Mitchell)
     * TODO AT HOME (AI)
 * Machine Learning (Murphy)
+    * Looks like a great book. Very comprehensive; covers
+      *everything*.
+        * Except cheaps out on NNs.
+    * Would make this one of the first AI books I read after Norvig.
     * TODO AT HOME (AI)
 * Mastering Web Application Development with AngularJS
     * This was a shit book, and I moved on to React.
@@ -72,6 +77,7 @@
     * TODO: REVIEW ME!
     * *High Priority*
 * Probabilistic Graphical Models
+    * Already learned most of this through the PGM course.
     * TODO AT WORK (AI)
 * Probabilistic Robotics
     * TODO AT WORK (AI)
