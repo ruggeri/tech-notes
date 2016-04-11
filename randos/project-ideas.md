@@ -2,13 +2,23 @@
 
 ## AI/ML
 
+* Book Study
+    * Norvig and Russel. CS188 (EdX Berkeley). CS271 (Udacity;
+      Norvig+Thrun).
+    * Andrew Ng.
+    * Hinton.
+    * Strang?
 * Projects
     * Play chess, play sudoku. Eight queens.
-    * Image classification.
+    * Image classification. 3D reconstruction.
     * Robotic navigation.
     * Voice recognition.
     * Recommendation.
     * Search engine.
+    * Theorem proving.
+    * Kalman filter.
+    * Machine translation.
+    * LDA. Clustering.
 * Game-playing
     * IDDFS
     * A-star
@@ -28,7 +38,9 @@
     * Feed-forward networks
     * SVM
     * Collaborative filtering
-    * Hidden Markov Models
+    * Hidden Markov Models, EM.
+    * Graphical models in general.
+    * Reinforcement learning.
 
 ## Other
 
