@@ -1,17 +1,43 @@
 **Possible Independent Study Projects**
 
+## AI/ML
+
+* Projects
+    * Play chess, play sudoku. Eight queens.
+    * Image classification.
+    * Robotic navigation.
+    * Voice recognition.
+    * Recommendation.
+    * Search engine.
+* Game-playing
+    * IDDFS
+    * A-star
+    * Minimax, alpha-beta.
+    * Killer moves.
+    * Heuristic evaluation.
+    * Rollout, Monte Carlo tree search
+* Constraint Satisfaction Solving
+    * Backtracking search
+    * Sudoku solving
+* TSP Solving
+    * Tabu search
+    * Eight Queens with random restarts
+* Machine Learning
+    * Gradient descent
+    * Linear, logistic regression
+    * Feed-forward networks
+    * SVM
+    * Collaborative filtering
+    * Hidden Markov Models
+
+## Other
+
 * Projects
     * Build a database.
     * Find shortest routes in a map.
     * Autocompletion, spell correction.
     * Build a programming language.
     * Build a distributed FS or database.
-    * Play chess, play sudoku.
-    * Image classification.
-    * Robotic navigation.
-    * Voice recognition.
-    * Recommendation.
-    * Search engine.
 * Data Structures
     * DynArray in C
     * BloomFilter
@@ -62,25 +88,11 @@
     * BigTable
     * Read slaves/sharding
     * Raft
-* AI: Game-playing
-    * IDDFS
-    * A-star
-    * Minimax, alpha-beta.
-    * Killer moves.
-    * Heuristic evaluation.
-    * Rollout, Monte Carlo tree search
 * Databases
     * MVCC
     * Two-phase locking
     * Join algorithms, indexing.
     * Recovery/Logging
-* Machine Learning
-    * Gradient descent
-    * Linear, logistic regression
-    * Feed-forward networks
-    * SVM
-    * Collaborative filtering
-    * Hidden Markov Models
 * Information Retrieval
     * Inverted index
     * Autocompletion
@@ -88,9 +100,3 @@
     * Levenshtein distance
     * MinHashing
     * tf-idf
-* Constraint Satisfaction Solving
-    * Backtracking search
-    * Sudoku solving
-* TSP Solving
-    * Tabu search
-    * Eight Queens with random restarts
