@@ -3,8 +3,8 @@
 ## AI/ML
 
 * Book Study
-    * Norvig and Russel. CS188 (EdX Berkeley). CS271 (Udacity;
-      Norvig+Thrun).
+    * Norvig and Russel. CS188 (EdX Berkeley). <<<
+        * Seems like a good place to start.
     * Andrew Ng.
     * Hinton.
     * Strang?
