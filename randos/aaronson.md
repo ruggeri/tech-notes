@@ -206,6 +206,19 @@ those problems have a solution, then it should be possible for a
 computer to solve it in polytime. Though I'm not sure what that means,
 since these problems aren't asymptotic in size.
 
+I think he means this: proofs can be checked by a computer program; in
+fact, it can be done in polytime. If `P=NP`, then it is possible to
+produce proofs in polytime. What's the input size? I guess it's the
+description of the problem. The decision problem is whether a proof
+exists with under `n` symbols.
+
+I guess that means, provided that there exists a relatively short
+proof, we can "prove" this by running the decision machine if
+`P=NP`. Of course, we have no idea of the constant factors. BTW: the
+machine itself, and the history of its internal states, represents a
+proof of the statement. And the length of such a proof is polynomial
+in the input.
+
 It's easy to construct an NP-Complete problem; take a polynomial-time
 TM description; we want to know whether there is any input of length
 `n` that causes the machine to accept. This is clearly NP, as we can
@@ -663,3 +676,9 @@ This is a pair of *entangled* qubits. We might say that there state is
 not independent.
 
 TODO1: I'm not sure I really understand mixed state.
+
+## More
+
+* An interview here:
+
+http://blogs.scientificamerican.com/cross-check/scott-aaronson-answers-every-ridiculously-big-question-i-throw-at-him/
