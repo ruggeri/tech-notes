@@ -59,6 +59,7 @@
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra
     * Need to learn SVD, I think...
+    * Believe I lent this to Anthony.
     * *High priority*
 * Machine Learning (Mitchell)
     * TODO AT HOME (AI)
