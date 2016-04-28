@@ -18,24 +18,34 @@ Source: https://news.ycombinator.com/item?id=11381499
 
 ## More Reasonable
 
-* CPU: i7-6700 ~$310 (High end, but not unreasonable; could save up to
-  $100 if go down to i5)
-* Motherboard: ASUS Z170-A $135 (this is like what a motherboard
-  costs; highly reviewed; actually on the low cost side)
-* RAM: F4-3400C16D-16GTZ $110 (One of the cheaper 16GB options; good
-  price for this much ram; could save ~$10-20 if slower RAM)
-* Power supply: RAIDMAX HYBRID 2 RX-530SS 530W ATX12V $40 (very
-  reasonable, very highly reviewed; modular; cheap as can be expected)
-* Graphics card: GIGABYTE GeForce GTX 970 4GB G1 GAMING OC EDITION $339
-    * Can save at most $40 for very low reviewed item. Has lots of
-      reviews.
-* Hard drive: SAMSUNG 850 EVO 2.5" 500GB $150 (very highly considered;
-  other top reviewed items around the same price)
+* Gfx Card: EVGA GeForce GTX 980 Ti 06G-P4-4995-KR $629
+    * Most reviewed 980 Ti.
+    * People love EVGA.
+    * Everyone says focus on gfx card for VR.
+* Motherboard: ASUS Z170-A $135
+    * Most reviewed sub $200 motherboard
+    * Actually a pretty reasonable price for a motherboard.
+* RAM: GSkill F4-3200C16D-16GTZB $80
+    * $80; pretty competitive price for 16GB.
+    * Faster RAM seems bogus.
+* PSU: SeaSonic X Series X650 Gold $110
+    * People say enough for my purposes.
+    * Fully modular.
+* CPU: Intel Core i5-6600 $230
+    * Lowest-end for Rift/Vive.
+    * K just lets you overclock; otherwise operates at same turbo
+      speeds. Also I'd have to get my own heatsink which I don't feel
+      like.
+    * $85 more for 6700, $120 more for 6700K. These have HT and
+      operate at higher clockrate, but not needed for VR.
+* SSD: SAMSUNG 850 EVO 2.5" 500GB MZ-75E500B/AM $150
+    * Most reviewed 500GB drive. Can't have less than 500GB.
+    * Cool that PCIe drives exist, but super expensive.
 * Case: Corsair Obsidian Series 450D ~$125
-    * Not hyper popular, but I think this is what I want.
+    * Personal preference.
 * Fans: 2x Cooler Master Sleeve Bearing 140mm Silent Fan for Computer
-  Cases and Radiators $20
-* Total cost (with tax and 3 business day shipping)
-    * $1,362.55
+  Cases and Radiators $11/ea
+    * Most popular, quietest fan.
+* Wifi card <<<
 * Microsoft Windows 10 Home - 64-bit - OEM ($100)
     * I think you can download this; you can install off USB.
