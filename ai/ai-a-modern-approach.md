@@ -253,10 +253,16 @@
       sides.
 * Stoachstic games
     * Use minimax, plus try to maximize expected value.
+    * This is harder because you can't do pruning.
     * Note that if using a heuristic must be linear in outcome value
       for expectation to still make sense.
+        * Otherwise you'll distort the expectations.
+        * Your heuristic, e.g., ought not be `value**2`.
+        * This is a tougher requirement than for minimax.
     * Typically don't look deep because any individual future is
       unlikely anyway.
+        * One good thing is it means that limited depth may not be
+          that bad?
     * Can also do a *rollout*. You play a simple strategy against
       itself. You see what next move appears to win the most
       games. This requires you to play to completion, but the win
@@ -417,6 +423,10 @@
       be in subproblem (along with the constraint).
     * If a variable is in two subproblems, than it must appear in
       every subproblem on the path between these two subproblems.
+        * Basically, there needs to be a path between them for the
+          information to be passed between the subproblems.
+        * "Running-intersection" is basically just a restatement of
+          that property.
     * Constraints between subproblems are "equality" constraints; that
       variables involved in both subproblems take on the same values.
     * If we decompose into trees of subproblems size at most `w`, then
