@@ -1,80 +1,45 @@
-* npm-exec trick (prefix `node_modules/.bin` to PATH).
-    * forever and nodemon for reloading.
-* Express, EJS
-    * Use EJS for views (in `views` directory).
-        * Express looks for a layout file.
-        * TODO: not sure how to do partials. Or helpers.
-    * Middleware:
-        * `body-parser`. `method-override` for non-POST requests.
-        * `csurf`.
-            * TODO: set this up!
-        * `cookie-session`. Can sign cookies.
-            * TODO: how to set keys properly?
-* Sequelize:
-    * Use an `index.js` in `./models`. Exports all models.
-    * Each model file exports a function taking `(sequelize,
-      DataTypes, models)`.
-        * The last argument helps for non-association code that wants
-          to reference other model types.
-    * You typically have an `associate` class method to hook up
-      associations after all models defined.
-        * TODO: I need more practice
-    * In other code you load the `./models` `index.js` file. To get
-      all the models.
-    * `sequelize-cli` does migrations okay!
-    * Use a `config/config.json` to setup DB. I guess `sequelize-cli`
-      expects this name? Postgres gave me no trouble.
-    * Validations (including async!) seem fine.
-        * I believe this is required for uniqueness validations.
-* Routes:
-    * Put them in the `routes` directory. Like controllers.
-* Auth
-    * Can have virtual attributes in Sequelize. Can put a validation
-      on `password` attribute to verify length.
-    * Can add a `beforeValidate` hook to use bcrypt to salt/hash the
-      password.
-    * Can add a `findByCredentials` class method, and a
-      `verifyPassword` instance method.
-    * I wrote a middleware to find and get the user.
-* Async style:
-    * I try to return promises as much as possible.
-    * I use `Promise.coroutine` from Bluebird a lot. This lets me
-      write more synchronous-looking code.
-    * I'm not 100% there in terms of not having to think about
-      async...
-    * I wrote a little helper to convert a coroutine to a route
-      handler. Used this a lot (especially in routes).
-* Forms:
-    * The old-style way. Write the HTML form by hand.
-    * TODO: an easier way to display validation errors?
-    * TODO: Flash?
-    * TODO: mass-assignment problems?
-* TODO:
-    * Asset pipeline? Webpack.
-    * Caching?
-    * Emails
-    * How to use websockets too.
-    * How to share route handlers for JSON/HTML.
+**Initial Setup:**
 
-## More
-
+* `alias npm-exec='PATH=$(npm bin):$PATH'`
 * `express my-repo-name --ejs`
-* `npm install --save sequelize sequelize-cli sqlite3`
+
+**Server Setup:**
+
+* `npm install --save forever nodemon`
+
+```
+// package.json
+{
+  "scripts": {
+    "start": "forever -c nodemon ./bin/www"
+  },
+}
+```
+
+**Sequelize Setup:**
+
+* `npm install --save sequelize`
+* `npm install --save-dev sequelize-cli`
 * `npm-exec sequelize init`
 
 ```
+// config/config.json
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "./db/development.db"
+    "host": "localhost",
+    "port": 5432,
+    "database": "my_facebook_dev",
+    "dialect": "postgres"
   }
 }
 ```
 
-* Leave structure as default. Add `db/.gitkeep` though.
 * `npm-exec sequelize migration:create`
 
 ```
+// In the migration file. Notice that I am careful
+// to return the result of queryInterface#createTable,
+// which is a promise.
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(
@@ -105,31 +70,26 @@ module.exports = {
 };
 ```
 
+* `npm-exec sequelize db:migrate`
+
 ```
+// models/user.js
 modules.export = (sequelize, DataTypes) => {
-  var User = sequelize.define("User", {
+  var User = sequelize.define('User', {
     username: DataTypes.STRING
+  }, {
+    tableName: 'users'
   });
 
   return User;
 };
 ```
 
-* `npm-exec sequelize db:migrate`
-* I'm using Node 6, btw.
-    * A problem with sqlite3. May need:
-    * https://www.bountysource.com/issues/33361413-deprecation-warnings-when-used-with-node-v6-0-0
-* `npm install --save forever nodemon`
-    * `npm-exec forever ./node_modules/nodemon/bin/nodemon.js ./bin/www`
-* Use `app.use(bodyParser.urlencoded({ extended: true }));`
-    * That lets you parse nested input names.
-* Use `router.param('id', (req, res, next, id) => { ... })`
-    * This is like a before filter, but you do your matching here.
-    * Also params can be found in `req.params.id`.
-* Validations:
+**Model Validations:**
 
 ```
-// Model
+// models/user.js
+// A simple validation.
 module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define("User", {
     username: {
@@ -144,20 +104,10 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
-
-// router
-    .catch(err => {
-      res.render('users/new', { errors: err.errors });
-
-// View
-  <% errors.forEach(err => { %>
-  <%= err.message %>
-  <% }); %>
 ```
 
-* Uniqueness:
-
 ```
+// A more complex, asynchronous validation.
   function isUnique (value, next) {
     User.findOne({ where: { username: value } })
       .then(user => {
@@ -183,23 +133,58 @@ module.exports = (sequelize, DataTypes) => {
   });
 ```
 
-* Make sure to return promises from Sequelize, and to
-  chain. DB modifications are async.
+**Displaying Validation Errors:**
 
 ```
-{
-  "development": {
-    "host": "localhost",
-    "port": 5432,
-    "database": "my_facebook_dev",
-    "dialect": "postgres"
-  }
-}
+// router
+    .catch(err => {
+      if (!(err instanceof sequelize.ValidationError)) {
+        return next(err);
+      } else {
+        res.render('users/new', { errors: err.errors });
+      }
+    });
+
+// View
+  <% errors.forEach(err => { %>
+    <%= err.message %>
+  <% }); %>
 ```
+
+**Hashing Passwords:**
 
 * `npm install --save bcrypt`
+* Add a `passwordDigest` column.
 
 ```
+// Validate a password digest is present:
+    passwordDigest: {
+      type: DataTypes.STRING,
+
+      defaultValue: '',
+      validate: {
+        notEmpty: {
+          msg: "Password must not be empty"
+        },
+      },
+    },
+
+// Virtual; attribute for verification of a password.
+    password: {
+      type: DataTypes.VIRTUAL,
+
+      validate: {
+        isLongEnough: (value) => {
+          if (value.length > 7) {
+            return;
+          } else {
+            throw "Password must be at least 8 characters long"
+          }
+        }
+      }
+    },
+
+// Add a hook to hash the password. Notice the hook is async.
   function setHashHook (user, options, next) {
     let password = user.getDataValue('password');
 
@@ -218,35 +203,10 @@ module.exports = (sequelize, DataTypes) => {
     });
   }
 
-    passwordDigest: {
-      type: DataTypes.STRING,
-
-      defaultValue: '',
-      validate: {
-        notEmpty: {
-          msg: "Password must not be empty"
-        },
-      },
-    },
-
-    password: {
-      type: DataTypes.VIRTUAL,
-
-      validate: {
-        isLongEnough: (value) => {
-          if (value.length > 7) {
-            return;
-          } else {
-            throw "Password must be at least 8 characters long"
-          }
-        }
-      }
-    },
-
   User.beforeValidate(setHashHook);
 ```
 
-* Fetching users:
+**Fetch Users by Credentials:**
 
 ```
     classMethods: {
@@ -283,17 +243,24 @@ module.exports = (sequelize, DataTypes) => {
     }
 ```
 
-* Storing session:
+**Logging in a User:**
+
+* Use `app.use(bodyParser.urlencoded({ extended: true }));`
+    * That lets you parse nested input names like `user[username]` and
+      `user[password]`.
+* `npm install --save cookie-session`
 
 ```
-npm install --save cookie-session
-
+// app.js
 +app.set('cookieSecret', process.env.COOKIE_SECRET || 'DEV_SECRET');
  app.use(cookieParser());
 +app.use(cookieSession({
 +  keys: [app.get('cookieSecret')]
 +}));
+```
 
+```
+// Changes to session router to log someone in.
 @@ -12,8 +12,23 @@ router.post('/', (req, res, next) => {
      req.body.user.username,
      req.body.user.password
@@ -316,3 +283,122 @@ npm install --save cookie-session
 +    }).catch(next);
 +};
 ```
+
+**Use Babel to Enable Async/Await:**
+
+* `npm install --save-dev babel-core`
+* `npm install --save-dev babel-cli`
+* `npm install --save-dev babel-plugin-transform-async-to-generator`
+
+```
+// .babelrc
+{ "presets": "es2015",
+  "plugins": ["transform-async-to-generator"] }
+```
+
+* `package.json`: `"start": "forever -c nodemon bin/www --exec babel-node"`
+
+```
+// lib/wrap.js
+export default function (promiseFn) {
+  return (...args) => {
+    let next = args[2];
+    promiseFn(...args).catch(next);
+  };
+}
+```
+
+* `npm install es6-promisify`
+    * This helps you convert async functions requiring callbacks to
+      async functions returning promises.
+* With `async`/`await` and `es6-promisify`, you can eliminate all
+  `then` chaining and callbacks. Great simplification!
+    * Sequelize is actually really promise friendly!
+* TODO: can't use `babel-node` in production...
+
+**Structuring For Clientside Code:**
+
+* Make a `server/` directory and move most stuff into it:
+    * `app.js bin config lib migrations models public routes views`
+* Make a `client/` directory with `images`, `javascript/`,
+  `stylesheets/`,.
+* In `client/javascript`, further make `src/` and `vendor/` folders.
+* `npm install --save-dev bower`.
+
+```
+// .bowerrc
+{
+  "directory": "client/javascript/vendor"
+}
+```
+
+* `echo client/javascript/vendor >> .gitignore`
+* Can now `bower install jquery` and the like.
+* Move existing `./server/public/*` to `./client/`.
+
+**Webpack**
+
+* `npm install --save-dev less`
+    * We'll use less for CSS language.
+* `npm install --save-dev webpack babel-loader css-loader less-loader style-loader`
+
+```
+// webpack.config.js
+// I'm going to name my JS files es6. This helps webpack avoid running
+// vendor files through babel.
+// I'm going to output to 'server/public/dist'
+
+module.exports = {
+  entry: ['./client/javascript/src/app.es6'],
+  output: {
+    path: 'server/public/dist',
+    filename: '[name].bundle.js'
+  },
+
+  module: {
+    loaders: [
+      { test: /\.es6$/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015'],
+        }
+      },
+
+      { test: /\.less$/,
+        loader: 'style!css!less' }
+    ],
+  },
+};
+```
+
+* `echo client/javascript/vendor >> .gitignore`
+* Add a `require('../../stylesheets/style.less');` in your es6 file to
+  pull in styles.
+    * TODO: we need to figure out later how to avoid inlining all the
+      styles.
+    * TODO: Will need to figure out how to fingerprint.
+* Will need to include `<script src='/dist/main.bundle.js'></script>`.
+
+* Run: `./node_modules/.bin/webpack --watch`
+
+## TODO:
+
+* Next steps:
+    * Start building the application!
+    * Associations!
+    * Frontend!
+* Very Important:
+    * Deployment; turn off babel-node.
+* Medium Important:
+    * Fingerprinting and long-lived assets.
+        * I think `asset-rack` might be part of the solution?
+    * `method-override` for non-GET, non-POST requests.
+        * If requests made by `jQuery.ajax`, I think it can issue the
+          proper requests.
+* Not Important:
+    * Layouts? Partials? Helpers?
+        * Prolly less necessary given Angular/React.
+    * Mass assignment
+    * `csurf` middleware?
+    * Flash
+    * Emails
