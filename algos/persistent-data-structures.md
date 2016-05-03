@@ -90,6 +90,18 @@ using a base of 32.
 
 I believe there are a couple tweaks, but this is the general idea.
 
+I think the tweaks are:
+
+* Store the tail stuff at the root so you don't need to chase down the
+  tree and rewrite the path.
+* Presumably this can be done with the head as well.
+* There's also this thing called a "transient", which is mutable, but
+  then gets "frozen" into a persistent structure.
+    * Can do this by actually mutating the tail.
+    * Okay, that's not actually what transients are, not even close.
+    * But the general idea is that you know it's safe to mutate for a
+      little while.
+
 Note: updates on random elements appears to be approximately 10x
 slower than `ArrayList`. So this isn't crazy fast. But neither is it
 insanely slow. (Access at ends is much better, BTW)
