@@ -6,7 +6,7 @@ where the most influential breakthroughs are.
 
 * Distributed Systems:
     * Distributed Algorithms (Lynch, other Distributed Systems book)
-    * Distributed databases (I have a book for this too)
+    * Distributed and Parallel databases (I have a book for this too)
     * Especially distributed transactions.
 * Euler's identity. Fourier transform.
 * Startup AI/ML again.
@@ -25,14 +25,14 @@ where the most influential breakthroughs are.
       added in observed variable.
     * That means noise is overwhelmed by signal as output value is
       increased.
-* KKT and multiple equality constraints.
-* Finish Strang!
+* Lagrange, KKT and multiple equality constraints.
+* Finish Strang! Particularly: SVD.
 * Would be nice to have a sumary of Kolmogorov complexity again.
 * Quasi-Newton Methods for hill climbing. Line search, conjugate
   gradient descent. WTF does a symmetric matrix mean? Subgradient
   descent?
 * WTF are variational methods?
-* Spectral graph theory is another thing I don't understand.
+* All this spectral graph theory I don't understand.
 
 **Randos**
 
