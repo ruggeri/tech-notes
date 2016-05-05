@@ -1,76 +1,10 @@
-## Best Courses
-
-* Distributed Systems Stanford
-    * http://www.scs.stanford.edu/14au-cs244b/
-    * Looks very strong.
-* Distributed Systems
-    * http://css.csail.mit.edu/6.824/2014/schedule.html
-    * Looks very strong.
-* Distributed Systems
-    * http://courses.cs.washington.edu/courses/csep552/13sp/
-    * http://courses.cs.washington.edu/courses/csep552/12sp/
-    * UWashington
-    * Looks very strong.
-* Distributed Systems UWashington
-    * http://courses.cs.washington.edu/courses/cse552/07sp/
-    * Looks very storng.
-* Princeton Advanced Operating Systems
-    * http://www.cs.princeton.edu/courses/archive/fall07/cos518/syllabus.html
-    * Looks very strong.
-* Distributed Systems (Illinois)
-    * https://courses.engr.illinois.edu/CS425/lectures.html
-    * Looks very strong.
-
-## Topics
-
-* Anycast
-* <del>Atomic Broadcast</del>
-* <del>Bitcoin</del>
-* <del>Byzantine Fault Tolerance</del>
-    * Practical Byzantine Fault Tolerance by Castro + Liskov
-* CAP Theorem
-* <del>Clock Sync</del>
-* Conflict Free Replicated Data Type
-    * http://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
-* Consistency (Eventually, Relaxed, Sequential)
-* <del>Deadlock Detection</del>
-* <del>DHT (Chord)</del>
-* Dynamo
-* <del>Failure Detection</del>
-* <del>Fault Tolerance</del>
-* FLP
-* Gbcast
-* GFS
+* CockroachDB
+* Conflict-Free Replicated Data Type
 * Kafka
-* <del>Linearizability</del>
-* Message Queues: exactly once delivery?
-* <del>Multicast</del>
-* <del>Mutual Exclusion</del>
 * Operational Transform
-* <del>Optimistic Concurrency Control</del>
-    * <del>Serializable Snapshot Isolation</del>
-* <del>Paxos</del>
-* <del>Raft</del>
-* <del>Replication</del>
-    * http://en.wikipedia.org/wiki/Replication_(computing)
-* Replicated File System
-* Samza
-* <del>Smart Contracts, Ethereum</del>
 * Spanner
-* Stabilization
-    * BGP and TCP? What does this mean?
-* Sybil Atttacks
-* Tao
-* <del>Termination Detection</del>
-* <del>Three Phase Commit</del>
-* Transactions
-* <del>Two Generals' Problem</del>
-* <del>Two Phase Commit</del>
-* <del>Vector Clocks</del>
 * Viewstamped Replication
 * Virtual Synchrony
-    * http://en.wikipedia.org/wiki/Virtual_synchrony
-* Zookeeper
 
 ## Random Links
 
