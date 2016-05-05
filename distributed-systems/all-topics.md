@@ -34,7 +34,8 @@
 * Spanner
 * Stabilization
     * BGP and TCP? What does this mean?
-* Sybil Atttacks
+* <del>Sybil Atttacks</del>
+    * This is when you used forged identities to make up more votes.
 * Tao
 * <del>Termination Detection</del>
 * <del>Three Phase Commit</del>
