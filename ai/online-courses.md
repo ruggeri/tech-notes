@@ -1,4 +1,7 @@
-## Online Courses
+This is a list of AI related online courses. However, I think
+`TODO/recommended-online-courses.md` has a better plan of what courses
+to take next. When I exhaust those, maybe it makes sense to return to
+these.
 
 * Might be nice to take an optimization course: L-BFGS, conjugate
   gradient descent.
@@ -58,13 +61,3 @@
     * Looks kind of weak. Is taught by Thrun...
 * http://cs231n.stanford.edu/
     * Convolutional NN for Visual Recognition.
-
-## Books
-
-* Introduction to Linear Algebra (Strang)
-* AI: A Modern Approach (Norvig)
-* Elements of Statistical Learning (Hastie, Friedman, Tibrishani)
-* Pattern Recognition (Bishop)
-* Probabilistic Graphical Models (Koller)
-* Machine Learning (Mitchell)
-* Machine Learning: a Probabilistic Perspective (Murphy)
