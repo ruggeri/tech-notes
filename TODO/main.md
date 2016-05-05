@@ -4,15 +4,16 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
+* Startup AI/ML again.
+    * CS188 and Hinton courses.
+* How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
+* Euler's identity. Fourier transform.
+  Are distributed transactions that important?
+    * May want to study up on Spanner et al.
 * Distributed Systems:
     * Distributed Algorithms (Lynch, other Distributed Systems book)
     * Distributed and Parallel databases (I have a book for this too)
     * Especially distributed transactions.
-* Euler's identity. Fourier transform.
-* Startup AI/ML again.
-* How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
-  Are distributed transactions that important?
-    * May want to study up on Spanner et al.
 
 **Math/ML**
 
@@ -48,32 +49,4 @@ where the most influential breakthroughs are.
 
 ## TODO
 
-**Do not review all files!** It is only these files that contain
-future areas to focus on. Anything else important has been listed
-above!
-
-ai/ai-a-modern-approach.md
-ai/books.md
-ai/machine-learning.md
-ai/mixture-of-gaussians.md
-ai/naive-bayes-vs-logistic-regression.md
-ai/neural-nets.md
-ai/probablistic-graphical-models.md
-ai/TODO.md
-courses/recommended-online-courses.md
-distributed-systems/big-table.md
-distributed-systems/byzantine-fault-tolerance.md
-distributed-systems/cockroach.md
-distributed-systems/datastores.md
-distributed-systems/distributed-algorithms-part-1-synchronous-network-algorithms.md
-distributed-systems/distributed-consensus.md
-distributed-systems/distributed-file-system.md
-distributed-systems/distributed-systems-03-networking.md
-distributed-systems/distributed-systems-14-time-and-global-states.md
-distributed-systems/distributed-systems-15-coordination-and-agreement.md
-distributed-systems/locking.md
-distributed-systems/map-reduce.md
-distributed-systems/mutex.md
-distributed-systems/time-clocks-ordering.md
-distributed-systems/TODO.md
-randoms/books.md
+**Do not review all files!** The TODO files contain everything I need.
