@@ -4,8 +4,8 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
-* Startup AI/ML again.
-    * CS188 and Hinton courses.
+* Continue AI/ML courses again. CS188 and Hinton.
+* TensorFlow. GPU programming?
 * How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
 * Euler's identity. Fourier transform.
   Are distributed transactions that important?
@@ -17,6 +17,7 @@ where the most influential breakthroughs are.
 
 **Math/ML**
 
+* TensorFlow. GPU programming?
 * Euler's identity.
 * Can I finish nailing down Fourier Transform. Fast fourier transform?
 * OLS vs GLS, and what is the maximum likelihood estimate in each
@@ -40,7 +41,6 @@ where the most influential breakthroughs are.
 * Parallel Programming: Memory fencing details.
 * Electronics: Timers and capacitors
 * Programming Languages: Higher Kinded Types?
-* Web Programming: Understand Flux/Redux/React router.
 * Programming Languages: Learn about lex/yacc some day.
 * Quantum Computing:
     * Keep reading Aaronson.
