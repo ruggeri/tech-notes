@@ -4,7 +4,8 @@
 * Review graphical model inference and learning.
 * Learn decision trees, random forests, boosting, bagging.
 * Continue Neural nets course. Deep learning.
-* Reinforcement learning
+* Finish CS188.
+* Reinforcement learning.
 * Learn to train SVM via SMO.
-* Conjugate gradient descent
-* Control theory.
+* Conjugate gradient descent.
+* Control theory?

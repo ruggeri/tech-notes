@@ -11,6 +11,7 @@ further, I think it would be a matter of getting a job in that.
 
 * Finish Neural Nets.
 * Finish Norvig book.
+* Finish CS188.
 * AI for Robotics.
 * Deep Learning.
 
