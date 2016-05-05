@@ -3,6 +3,7 @@
     * Distributed Systems
     * Artificial Intelligence: A Modern Approach
     * Intro to linear algebra
+    * Machine Learning (Murphy)
 
 * Algorithm Design (Tardos)
     * Could have a useful chapter on local search.
@@ -23,12 +24,13 @@
     * *High priority*
 * Big Data: Principles and Best Practices of Scalable Real-time Data Systems
     * TODO: REVIEW ME!
-    * *High Priority*
+    * Low priority.
 * Bitcoin for the Befuddled
     * Read whole thing. No interesting material left to read.
     * No priority.
 * Causality
-    * TODO AT ANTHONY (AI)
+    * Got back from Anthony. At work. (AI)
+    * Low priority.
 * C++: Concurrency in Action
     * I think I actually know all the stuff in this. Has some good C++
       implementation stuff about concurrent datastructures, but I
@@ -39,7 +41,7 @@
       DBs.
 * Distributed Algorithms (Lynch)
     * Looks like it has a wealth of useful information.
-    * *High Priority*
+    * *High priority*
 * Distributed Systems (Coulouris)
     * Ch10 P2P. Ch12 Distributed FS. Ch14-18 is clocks (read),
       coordination, concurrency control, distributed transactions, and
@@ -54,7 +56,7 @@
 * Elements of Statistical Learning
     * Really hard, should do Strang and Norvig AI first.
     * Also: has a bunch of stuff on trees.
-    * *Low priority*
+    * Low priority.
 * Intro to Algorithms (CLRS)
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra
@@ -68,15 +70,15 @@
       *everything*.
         * Except cheaps out on NNs.
     * Would make this one of the first AI books I read after Norvig.
-    * TODO AT HOME (AI)
+    * *Medium priority* (AI)
 * Mastering Web Application Development with AngularJS
     * This was a shit book, and I moved on to React.
     * No priority.
 * Pattern Recognition and Machine Learning (Bishop)
     * TODO AT HOME (AI)
 * Principles of Distributed Database Systems
-    * TODO: REVIEW ME!
-    * *High Priority*
+    * TODO: REVIEW ME! Looks very technical and dry, though.
+    * *High priority*
 * Probabilistic Graphical Models (Koller)
     * Already learned most of this through the PGM course.
     * TODO AT WORK (AI)
