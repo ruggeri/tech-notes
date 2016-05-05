@@ -9,11 +9,10 @@ further, I think it would be a matter of getting a job in that.
 
 ## Plan
 
-* Finish Neural Nets.
-* Finish Norvig book.
-* Finish CS188.
-* AI for Robotics.
-* Deep Learning.
+* Finish Coursera Neural Nets.
+* Finish EdX CS188.
+* Deep Learning on Udacity.
+* AI for Robotics on Udacity.
 
 ## Coursera
 
