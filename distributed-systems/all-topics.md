@@ -18,6 +18,16 @@
 * GFS
 * Kafka
 * <del>Linearizability</del>
+    * Versus *serializable*.
+    * Linearizable says that writes to a row should be read by
+      subsequent reads (wrt to wall clock time).
+    * That's not entirely true with serializable systems. Here,
+      transactions need to be processed as if they had been done in
+      some possible ordering, even if that isn't compatible with
+      wall-clock ordering.
+    * There's even a notion of *strict serializability*.
+    * Fuck it. Here's a link, but I don't care.
+    * http://www.bailis.org/blog/linearizability-versus-serializability/
 * Message Queues: exactly once delivery?
 * <del>Multicast</del>
 * <del>Mutual Exclusion</del>
