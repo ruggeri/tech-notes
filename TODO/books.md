@@ -19,7 +19,7 @@
     * Lots of useful details, but I know most of this stuff now.
     * Has interesting stuff on hardware and cache-consistency.
     * No priority.
-* Artificial Intelligence: A Modern Approach
+* Artificial Intelligence: A Modern Approach (Norvig, Russell)
     * *High priority*
 * Big Data: Principles and Best Practices of Scalable Real-time Data Systems
     * TODO: REVIEW ME!
@@ -77,7 +77,7 @@
 * Principles of Distributed Database Systems
     * TODO: REVIEW ME!
     * *High Priority*
-* Probabilistic Graphical Models
+* Probabilistic Graphical Models (Koller)
     * Already learned most of this through the PGM course.
     * TODO AT WORK (AI)
 * Probabilistic Robotics
