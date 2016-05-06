@@ -4,9 +4,11 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
+* Peak at Storm book?
 * Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
-* How to design Facebook? BigTable+IdempotentMessages+MessageQueue?
+* How to design Facebook?
+  BigTable/Cassandara+IdempotentMessages+MessageQueue?
 * Euler's identity. Fourier transform.
   Are distributed transactions that important?
     * May want to study up on Spanner et al.

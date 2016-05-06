@@ -19,21 +19,28 @@ By StackOverflow job count.
 ## Data Stores
 
 * Google
-    * Google File System
     * BigTable (== HBase)
-    * Colossus
-    * Megastore
-    * Spanner
-    * F1
-* Dynamo
+    * Chubby (== Zookeeper)
+    * GFS/Colossus/Megastore (== HDFS)
+    * MapReduce (== Hadoop)
+    * Spanner (semi-relational)/F1 (SQL on Spanner?)
+* Amazon Dynamo
     * == Riak
     * == Cassandra
+* Facebok TAO (some graph thing)
 * MongoDB
 * Datomic
-* CouchDB
+* CouchDB (looks like a MongoDB competitor?)
     * http://guide.couchdb.org/draft/consistency.html
 * Neo4j
-* Voldemort
+* LinkedIn Voldemort (sounds like I don't care, it's an
+  HBase/Cassandra competitor)
+
+Other:
+
+* Google LevelDB (open source), RocksDB (based on LevelDB)
+    * I think this is just LSM stuff?
+    * RocksDB is maybe just for SSD?
 
 ## Processing Frameworks
 
@@ -50,3 +57,10 @@ By StackOverflow job count.
 ## Other
 
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
+* RethinkDB (document db that can do joins and group by)
+* MemSQL (in memory and plays nice with flash maybe?)
+* FoundationDB (An F1 clone? Acquired by Apple.)
+* ElasticSearch
+* Spark/Storm/Cascalog/Scalding
+* This page had useful fast summaries of the various tech:
+    * https://github.com/onurakpolat/awesome-bigdata

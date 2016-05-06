@@ -2,6 +2,6 @@
 * Kafka
 * Operational Transform
 * Samza
-* Spanner
+* Spanner/F1
 * Viewstamped Replication
 * Virtual Synchrony
