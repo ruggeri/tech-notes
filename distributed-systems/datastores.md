@@ -4,8 +4,11 @@ By StackOverflow job count.
 
 * MongoDB (197)
 * Redis (161)
+    * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
 * ElasticSearch (113)
+    * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
 * Cassandra (102)
+    * http://www.amazon.com/Learning-Apache-Cassandra-Tolerant-Real-Time/dp/1783989203
     * Based on a DHT
     * No transactions
     * Always writable, even in partition. Clearly not consistent.
