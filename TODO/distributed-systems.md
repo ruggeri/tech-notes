@@ -1,4 +1,3 @@
-* CockroachDB
 * Conflict-Free Replicated Data Type
 * Kafka
 * Operational Transform
