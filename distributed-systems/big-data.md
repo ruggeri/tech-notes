@@ -1,6 +1,6 @@
 These are notes from the Nathan Marz book.
 
-## Ch1
+## Ch1: Introduction
 
 Say you want to keep track of pageviews per URL. You can do this with
 a SQL db. But then as write load increases, you might start to timeout
@@ -101,7 +101,7 @@ counts.
 
 He calls this the *Lambda Architecture*.
 
-## Ch2-Ch4: Batch Layer
+## Part 1: Batch Layer
 
 Says store rawest data you can, often unstructured. Don't try to
 normalize or extract information at this level. Basically log
@@ -181,3 +181,8 @@ Okay, so let's talk about an example:
       number of leading zeros.
     * Then, to combine hours, you just take the max of the two. This
       is exactly the same as if you did HyperLogLog on the two hours.
+
+**Thought**: this all works very nicely for a system where there is
+one kind of event. What about more complicated systems with many kinds
+of events? I'm not as sure; I'd like to see this extended beyond
+counts of URLs.
