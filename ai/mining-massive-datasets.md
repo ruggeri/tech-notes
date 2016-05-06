@@ -72,6 +72,8 @@
     * One solution is to group estimates into small groups, taking the
       average of each. Then you can find the median, to eliminate
       outlier groups.
+    * I think this is kinda like what HyperLogLog does, but with a
+      better way of combining estimates.
 * *Moments* of a distribution are `Sum C_i**k`, where `C_i` is the
   count of item `i`, and `k` is for the `k`th-moment.
     * Moment zero is just the number of distinct items.
