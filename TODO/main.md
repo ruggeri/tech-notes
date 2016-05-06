@@ -4,12 +4,12 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
-* Peak at Storm book?
 * Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
-* How to design Facebook?
-  BigTable/Cassandara+IdempotentMessages+MessageQueue?
-* Euler's identity. Fourier transform.
+* Peak at Storm book?
+* How to design Facebook?  BigTable/Cassandra, IdempotentMessages,
+  MessageQueue?
+* Euler's identity. Fourier transform. FFT.
   Are distributed transactions that important?
     * May want to study up on Spanner et al.
 * Distributed Systems:
@@ -19,9 +19,6 @@ where the most influential breakthroughs are.
 
 **Math/ML**
 
-* TensorFlow. GPU programming?
-* Euler's identity.
-* Can I finish nailing down Fourier Transform. Fast fourier transform?
 * OLS vs GLS, and what is the maximum likelihood estimate in each
   case? Heteroscedascity?
     * Another question: Errors-in-Variables models.

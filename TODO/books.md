@@ -24,7 +24,7 @@
     * *High priority*
 * Big Data: Principles and Best Practices of Scalable Real-time Data Systems
     * TODO: REVIEW ME!
-    * Low priority.
+    * *High priority*
 * Bitcoin for the Befuddled
     * Read whole thing. No interesting material left to read.
     * No priority.
