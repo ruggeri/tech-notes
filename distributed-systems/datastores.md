@@ -6,13 +6,15 @@
 * ElasticSearch (106)
     * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
 * Kafka (82), or maybe RabbitMQ (66)
-* MongoDB (199)
+* MongoDB (200)
     * Very popular, believe it or not...
 * Neo4j (13)
 * Redis (144)
     * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
 * Spanner/F1
 * Spark (119)
+* Storm (46)
+    * Currently reading the Marz book.
 
 ## Google Tech
 
@@ -69,12 +71,12 @@
 * Neo4j (13)
     * Graph database.
     * I guess Facebook TAO would be an alternative?
+* RabbitMQ (66)
+    * TODO
 * Redis (144)
     * In memory key-value store (with some durability).
     * Mainly used as a cache, but has provides datastructures and
       primitives, which are a little different.
-* Samza (3)
-    * TODO
 * Spark (119)
     * Provides "resilient distributed datasets"; basically
       distributed, in-memory tables.
@@ -88,29 +90,40 @@
 None of these seem hyper-popular. Not very knowledgable about any, and
 kinda don't care.
 
-* Aerospike
-* C-Store
-* CitusDB
-* CouchDB
-* FoundationDB (An F1 clone? Acquired by Apple.)
-* Greenplum
-* InfiniDB
-* InfiniSQL
-* InfluxDB
-* LevelDB
+* Aerospike (2)
+* C-Store (1)
+* CitusDB (0)
+* CouchDB (10)
+* FoundationDB (0) (An F1 clone? Acquired by Apple.)
+* Greenplum (5)
+* InfiniDB (0)
+* InfiniSQL (0)
+* InfluxDB (1)
+* LevelDB (0)
     * Google project. An LSM implementation.
-* MemSQL (in memory DB, plays nice with flash)
-* Redshift
-* RethinkDB (document store with joins and group by)
-* RocksDB
+* MemSQL (1) (in memory DB, plays nice with flash)
+* Redshift (33)
+* RethinkDB (4) (document store with joins and group by)
+* RocksDB (0)
     * A fork of LevelDB optimized for SSD I think.
-* TokuDB
-* Vertica
-* Voldemort
-* VoltDB
+* Samza (3)
+* TokuDB (0)
+* Vertica (11)
+* Voldemort (0)
+* VoltDB (0)
 
 There are also a bunch of AWS services that I ignored.
 
 ## Resources
 
 * https://github.com/onurakpolat/awesome-bigdata
+
+## Other Randoms
+
+Don't know that I care about these, but they were correlated with data
+science jobs.
+
+* Docker (135)
+* Ansible (88)
+* Mesos (35)
+* Tableau (25)
