@@ -1,69 +1,116 @@
-## Most Popular
+## Summary of Tech to Study
 
-By StackOverflow job count.
-
-* MongoDB (197)
-* Redis (161)
-    * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
-* ElasticSearch (113)
-    * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
-* Cassandra (102)
+* Cassandra (89)
+    * Prolly can ignore HBase then.
     * http://www.amazon.com/Learning-Apache-Cassandra-Tolerant-Real-Time/dp/1783989203
-    * Based on a DHT
-    * No transactions
-    * Always writable, even in partition. Clearly not consistent.
-    * Conflict resolution happens at readtime.
-* Memcached (45)
-* Hbase (43)
-    * Based on BigTable, which is basically just a sharded DB on GFS.
-    * Uses Chubby to elect a master. Master presumably 
-* Solr (38)
+* ElasticSearch (106)
+    * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
+* Kafka (82), or maybe RabbitMQ (66)
+* MongoDB (199)
+    * Very popular, believe it or not...
+* Neo4j (13)
+* Redis (144)
+    * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
+* Spanner/F1
+* Spark (119)
 
-## Data Stores
+## Google Tech
 
-* Google
-    * BigTable (== HBase)
-    * Chubby (== Zookeeper)
-    * GFS/Colossus/Megastore (== HDFS)
-    * MapReduce (== Hadoop)
-    * Spanner (semi-relational)/F1 (SQL on Spanner?)
-* Amazon Dynamo
-    * == Riak
-    * == Cassandra
-* Facebok TAO (some graph thing)
-* MongoDB
-* Datomic
-* CouchDB (looks like a MongoDB competitor?)
-    * http://guide.couchdb.org/draft/consistency.html
-* Neo4j
-* LinkedIn Voldemort (sounds like I don't care, it's an
-  HBase/Cassandra competitor)
-
-Other:
-
-* Google LevelDB (open source), RocksDB (based on LevelDB)
-    * I think this is just LSM stuff?
-    * RocksDB is maybe just for SSD?
-
-## Processing Frameworks
-
-* Google
-    * MapReduce
-    * Pregel (graph processing)
-    * FlumeJava (just a framework to wire up
-    * Dremel
-    * Sawzall (== Pig)
-    * Hive
-* Other
-    * Storm
+* BigTable (== HBase (57))
+    * Uses LSM trees to build a distributed DB on top of GFS.
+    * No transactionality outside the row level.
+* Borg (== YARN (14))
+    * Cluster management system.
+* Caffeine/Percolator: continuous indexing system.
+* Chubby (~= Zookeeper (32))
+    * Basically their Paxos implementation. Used for locks.
+* Dremel (== Apache Drill (5), Cloudera Impala (11))
+    * Interactive querying of huge datasets.
+* F1
+    * Distributed SQL database on top of Spanner.
+* FlumeJava (~= Cascading (7), Cascalog (0), Scalding (1))
+    * Makes it easier to build MR workflows.
+    * Cascalog and Scalding are built on top of Cascading.
+    * Cascalog is for Clojure, Scalding for Scala.
+* GFS/Colossus/Megastore (== HDFS (17))
+    * GFS is the distributed FS, has a master, uses multiple replicas.
+    * Optimizes for append-only behavior.
+    * TODO: Not sure how Colossus/Megastore improve on GFS.
+* MapReduce (== Hadoop (175))
+    * Simple distributed batch computation.
+* Pregel
+    * Graph processing framework. Not a lot of interest in this.
+* Sawzall (~= Pig (35), Hive (55))
+    * Simpler query language.
+* Spanner (semi-relational)
+    * I think that the big idea is global distributed transactions.
+    * I believe that CockroachDB is a copy of this?
 
 ## Other
 
-* Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
-* RethinkDB (document db that can do joins and group by)
-* MemSQL (in memory and plays nice with flash maybe?)
+* Amazon Dynamo (== Cassandra (89); Riak (7))
+    * DHT basically. Basically an implementation of Chord.
+    * No transactions; always available. Eventually consistent in face
+      of partition.
+    * Riak appears more true to Dynamo, while Cassandra hybridizes
+      ideas from BigTable.
+* Datomic (0)
+    * Not widely used, but a DB which is "fact"-based. Immutable rows;
+      records all history.
+* ElasticSearch (106) (Solr (41)/Lucene (20))
+    * Basically a search index. Distributed. Incremental indexing.
+* Kafka (82)
+    * TODO
+* Memcached (42)
+    * In-memory key-value store. Distributed.
+* MongoDB (200)
+    * This is a distributed document store. I'm not sure why people
+      really like this one so much.
+* Neo4j (13)
+    * Graph database.
+    * I guess Facebook TAO would be an alternative?
+* Redis (144)
+    * In memory key-value store (with some durability).
+    * Mainly used as a cache, but has provides datastructures and
+      primitives, which are a little different.
+* Samza (3)
+    * TODO
+* Spark (119)
+    * Provides "resilient distributed datasets"; basically
+      distributed, in-memory tables.
+    * Allows faster ad-hoc or iterative queries. Particularly helpful
+      for ML, which is where Spark comes from.
+* Storm (46)
+    * TODO
+
+## Randos
+
+None of these seem hyper-popular. Not very knowledgable about any, and
+kinda don't care.
+
+* Aerospike
+* C-Store
+* CitusDB
+* CouchDB
 * FoundationDB (An F1 clone? Acquired by Apple.)
-* ElasticSearch
-* Spark/Storm/Cascalog/Scalding
-* This page had useful fast summaries of the various tech:
-    * https://github.com/onurakpolat/awesome-bigdata
+* Greenplum
+* InfiniDB
+* InfiniSQL
+* InfluxDB
+* LevelDB
+    * Google project. An LSM implementation.
+* MemSQL (in memory DB, plays nice with flash)
+* Redshift
+* RethinkDB (document store with joins and group by)
+* RocksDB
+    * A fork of LevelDB optimized for SSD I think.
+* TokuDB
+* Vertica
+* Voldemort
+* VoltDB
+
+There are also a bunch of AWS services that I ignored.
+
+## Resources
+
+* https://github.com/onurakpolat/awesome-bigdata
