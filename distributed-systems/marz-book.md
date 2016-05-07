@@ -186,3 +186,56 @@ Okay, so let's talk about an example:
 one kind of event. What about more complicated systems with many kinds
 of events? I'm not as sure; I'd like to see this extended beyond
 counts of URLs.
+
+## Serving Layer
+
+Because the views are just computed from the underlying data, you can
+denormalize to your heart's content, and precompute as much as you
+want.
+
+Rather than just a key-value store, they want to do a BigTable type
+thing and have a key map to a sorted map. This means that you don't
+need to go to many servers, or even do many disk seeks, to get a bunch
+of related information about a key. That can be a huge win.
+
+Note: when you need to request from a bunch of servers in parallel,
+you're going to tend to make the worst case the common case.
+
+They also mention it's nice if you can have keys structured in a way
+where the first part of the key decides the partition, and the second
+part is indexed at the server for that partition. They give the
+example of `(url, granularity, start-time)`: you want to partition by
+URL, then you can find the appropriate level of granularity at that
+server, and then you can do a read of the appropriate range.
+
+Serving layer doesn't need random writes, so it's much simpler. In
+particular, never need to do any kind of GC, which is going to
+increase reliability of performance. Everything's easier by not
+allowing incremental updates here, because you don't have to
+recalculate computed results from an update, which might actually
+affect a *lot* of computed results.
+
+They give an example of unique pageviews, *with* stapled ids. When a
+stapling event happens, how can you possibly recompute? Any summary of
+the pageviews that doesn't keep the isn't going to be possible to
+update. (NB: not sure how the "speed layer" is going to help here...).
+
+Another thought: feels like you're making ad-hoc querying a lot
+harder. It might be desirable to do that while developing or
+investigating. But you still have a distributed dataset that you can
+run Hadoop jobs on, so it's not all bad. It's not like this thing is a
+distributed RDBMS like Postgres; maybe you could throw on a tool like
+Dremel to help with that. And you're not going to be doing ad-hoc
+queries in production.
+
+They try to suggest a solution to the stappling/equiv problem. They
+say store the ids for every user who visited a URL aech hour. To get
+the number of unique users in a time range, take the union of these
+sets. Then, transalate all user ids to "person" ids, which is unique
+across stapling events (what, are you going to query each person; that
+sounds terribly slow??). Then count these. This is an approximation,
+and will probably suck for low volume pages.
+
+Okay, so this definitely sucks. But we haven't seen how the Lambda
+architecture is going to help; we've just deferred this discussion
+until we look at the speed layer.
