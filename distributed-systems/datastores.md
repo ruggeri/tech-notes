@@ -6,13 +6,17 @@
 * ElasticSearch (106)
     * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
 * Kafka (82), or maybe RabbitMQ (66)
+    * http://www.amazon.com/RabbitMQ-Action-Distributed-Messaging-Everyone/dp/1935182978
 * MongoDB (200)
     * Very popular, believe it or not...
+    * http://www.amazon.com/MongoDB-Definitive-Guide-Kristina-Chodorow/dp/1449344682
 * Neo4j (13)
+    * http://www.amazon.com/Neo4j-Action-Aleksa-Vukotic/dp/1617290769/
 * Redis (144)
     * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
 * Spanner/F1
 * Spark (119)
+    * http://www.amazon.com/Learning-Spark-Lightning-Fast-Data-Analysis/dp/1449358624
 * Storm (46)
     * Currently reading the Marz book.
 
