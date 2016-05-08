@@ -239,3 +239,79 @@ and will probably suck for low volume pages.
 Okay, so this definitely sucks. But we haven't seen how the Lambda
 architecture is going to help; we've just deferred this discussion
 until we look at the speed layer.
+
+He shows how to use ElephantDB for the server layer, but this seems to
+be abandonware. Not sure what a better choice would be today.
+
+ElephantDB runs on top of HDFS. You run a MR job where the input is
+key/value, and this builds the shards, which are served by the
+ElephantDB process. Shards are replicated, so you've got fault
+tolerance of the serving layer.
+
+This whole thing sounds like a reinvention of HBase, really. It's less
+complicated because it doesn't need writes like HBase, but then again
+it's unmaintained...
+
+## Part 3: Speed Layer
+
+You're going to handle updates online by building an incrementally
+maintaing a view of the recent data.
+
+You'll still need random reads, but now you also need random
+writes. And of course scalability and fault tolerance are
+important. The good news is that because the speed layer is only
+recent data, it is much smaller.
+
+Sometimes updates are hard to incorporate incrementally. For instance,
+when a new stapling event comes in. You can use approximate algorithms
+in your speed layer, knowing you'll eventually get the exact answer
+later in the batch mode.
+
+Mention CAP theorem: first note is that CAP is about what happens
+under partition, so really it's saying your choice is consistency or
+availability. When you choose consistency, that means sometimes a
+request will return with an error. If you choose availability, then
+you'll get either stale data, which basically means that updates are
+not linearizable. BTW: availability is defined that all requests to a
+non-failing node must be processed; if you're partitioned away from
+all replicas, then it is not "unavailable", because you can't even
+send a request. So be careful with the language!
+
+Explains that you can lessen availability problem by adding
+replicas. But the problem comes down to writes; what do you do when
+the partition heals? Some systems even have a "sloppy quorum" feature,
+where if all replicas are unavailable, you can create a new
+"temporary" replica for updates that will eventually be merged in.
+
+It sounds like he's going to advocate availability in the speed layer;
+by picking Cassandra. To handle healing, he suggests CRDTs. CRDTs say:
+given a set of updates, applied in any order, you'll get the same
+result. This means when you heal, you can merge the updates, and come
+to an answer that, in a sense, doesn't roll back any updates. OTOH,
+your observations on both sides of the partition before the healing
+may not be compatible with any one linear order.
+
+Basically, CRDT lets you get "back on track" in a way that doesn't
+"undo" any previous update. Simplest example is a counter.
+
+In general, it is common to do a *read repair* when you next read a
+value after a heal. But this logic can be very difficult to get right.
+
+One question is whether to do synchronous or asynchronous updates. A
+synchronous update does the update to the DB before acknowledging to
+the client. an async update puts the client's message onto a queue,
+which will later be processed; that might take a little bit. One
+advantage is that async updates can be batched to acheive higher
+throughput. Also the queue can even out traffic spikes.
+
+Of course, the update is not immediately reflected if you enqueue
+it. So you might prefer sync for a system where updates need to be
+immediately viewable to the user. OTOH, Marz recommends a default of
+async, for better throughput.
+
+How to expire data from the speed layer when the batch layer completes
+its work? Marz recommends to realtime views; the current one, and the
+one which starts at the beginning of the most recent batch layer
+build. When the batch layer finishes, expire the previous, and create
+a new one, starting now (since we immediately start the next batch
+layer construction).
