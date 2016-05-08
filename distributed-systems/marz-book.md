@@ -403,3 +403,33 @@ It's hard to know what a great solution to the equiv problem is
 without storing every hit to every page.
 
 Marz notes that inserts into a HyperLogLog are idempotent, btw.
+
+Marz talks about micro-batching. Here, a small set of tuples are
+processed at once. The key is that batches are processed always in the
+same order; if any update fails, then the batch is repeated. With
+this, you can give each batch an ID. Then you can check the ID before
+doing the update, to see if you've already applied this
+operation. Note that this doesn't work without ordering.
+
+BTW, a log-like queue such as Kafka is what you want here, so you can
+repeat batches. To get parallelism, note that you can partition the
+keys in a batch to spread out the work.
+
+One thing that's weird to me. Marz says when you make an update, store
+the batch id number alognside. Then if you must repeat, you see the
+batch id number. But what if you make several updates to the same key
+in that batch? I guess you must not do that...
+
+I really feel like this guy is overselling what is possible/easy with
+Storm.
+
+He says it would be scalable to do this on a per-tuple basis. That's
+probably correct, because you couldn't do any processing until the
+current tuple was done being processed.
+
+BTW: you can do your own batching, collecting up a number of tuples at
+a bolt, then doing a batch update. To make sure the tuples don't
+timeout and are retried, you should use a timer to collect for at most
+1sec or so.
+
+Obviously adds latency, but can also increase throughput.
