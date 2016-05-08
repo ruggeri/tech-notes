@@ -315,3 +315,91 @@ one which starts at the beginning of the most recent batch layer
 build. When the batch layer finishes, expire the previous, and create
 a new one, starting now (since we immediately start the next batch
 layer construction).
+
+Cassandra is suggested for the speed layer datastore. Cassandra is key
+to sorted map (like BigTable). It distributes easily, has fault
+tolerance. One note: there isn't any discussion of transactionality in
+the sense that a single update may need to touch multiple rows. This
+is definitely going to present the possibility of straight-up
+inconsistency, not just eventual consistency.
+
+He then starts talking about queuing. One queue methodology is to pull
+events off a queue, and then either report success or failure; failure
+to ack promptly is a failure; I assume you have heartbeats. Of course,
+your messages need to be idempotent, as you could update the DB, but
+die before sending the ack to the queue.
+
+There may be multiple consumers of the same straem: maybe one team
+wants to do X with the stream, while another team wants to do Y. With
+a single-consumer queue, all applications must be deployed together;
+each time an event is pulled from the queue, it's given to every
+consumer application, all wrapped in a single JAR. Also, it's not
+clear what to do if one client succeeds to process a message, but
+another fails!
+
+To avoid these problems, you could have multiple queues, one per
+client consumer: every message should be placed on every queue. But
+that is useless duplication and load.
+
+I believe RabbitMQ is an example of a single-consumer queue; it
+basically just load balances for you (and presumably persists
+messages).
+
+Another approach is a multi-consumer queue. The idea here is that the
+queue is a log, and that the queue buffers a bunch of events. The
+queue will keep, e.g., 50GB of events. Clients are responsible for
+knowing where they are in the stream. No ack/fail is required. And you
+can always replay through the events in order. This is what Kafka does
+(I think it also distributes the queue and makes it
+redundant. Basically, Kafka is like a transaction log that any
+application can play through. Marz seems no downside to Kafka versus
+RabbitMQ.
+
+So let's talk about stream processing. You can do one-at-a-time, or
+micro-batched. The contrast is latency versus throughput. We'll focus
+on one-at-a-time first.
+
+First, you might have a pipeline of workers, each worker should have a
+queue in front of it. Multiple workers might share a queue, if they
+are consuming the same stream. One potential problem is that, if you
+divide up work amongst multiple workers, the workers might try to make
+conflicting updates. E.g., if you're doing a counter, and you don't
+have an atomic increment, i.e., you read and add and set, then only
+one worker should be updating one URL. But that is troublesome if the
+load isn't truly even.
+
+One problem with having a queue in front of every worker is that this
+creates additional load from just copying things around queues.
+
+Also, I must again stress that you have no transactionality across
+rows, which I think should be very limiting.
+
+He starts talking about the *Storm model*. Here you have an event
+stream (for instance, from Kafka). The origin of the stream is the
+*spout*. A *bolt* consumes some input streams, outputing a stream. You
+then connect these up in a topology. When a stream is split, it can be
+split randomly or by hash of some keys (to make sure all the data for
+one key travels the same path).
+
+Storm has a feature where ther are no intermediate queues; if there is
+a failure a tuple is started again from the spout. There is some
+algorithm to do this, but it is not described here. Note that this
+means you may process a message multiple times, which is not
+idempotent. That's no different than before. He also mentions that you
+might not care about a little temporary inaccuracy if it's rare.
+
+He claims there is a way to do this *exactly once* if you sacrifice
+some latency. I believe that is discussed later.
+
+He starts talking about the equiv problem in the speed layer. One
+approach is to ignore new equivalencies in the speed layer, and just
+use the batch equivalences for counting purposes. This is inaccurate,
+but temporarily. Note that not only the speed layer information is
+inaccurate for the moment; we're also failing to collapse the users in
+the batch layer. In general, though, any inaccuracy is only in the
+speed layer, and that's temporary.
+
+It's hard to know what a great solution to the equiv problem is
+without storing every hit to every page.
+
+Marz notes that inserts into a HyperLogLog are idempotent, btw.
