@@ -23,18 +23,19 @@
 * Artificial Intelligence: A Modern Approach (Norvig, Russell)
     * *High priority*
 * Big Data: Principles and Best Practices of Scalable Real-time Data
-  Systems
+  Systems (Marz)
     * It's okay. I think he makes it sound like Lambda Architecture
       solves everything, but actually it sounds like lack of
       transactionality continues to suck and add ridiculous
       complexity.
     * Did have useful stuff on message queues, and how they play a
       role. Gives a sense of how Storm and Cassandra might be used.
+    * Lent to Mihir.
     * No priority.
 * Bitcoin for the Befuddled
     * Read whole thing. No interesting material left to read.
     * No priority.
-* Causality
+* Causality (Pearl)
     * Got back from Anthony. At work. (AI)
     * Low priority.
 * C++: Concurrency in Action
@@ -59,13 +60,13 @@
     * Loaned to Stefano.
     * Great book. Most of it I already know, but stuff about boolean
       circuits, and also memory (implemented as delay) was fascinating.
-* Elements of Statistical Learning
+* Elements of Statistical Learning (Friedman, Hastie, Tibrishani)
     * Really hard, should do Strang and Norvig AI first.
     * Also: has a bunch of stuff on trees.
     * Low priority.
 * Intro to Algorithms (CLRS)
     * Great resource, but I already know everything I need from here.
-* Intro To Linear Algebra
+* Intro To Linear Algebra (Strang)
     * Need to learn SVD, I think...
     * Believe I lent this to Anthony.
     * *High priority*
@@ -98,7 +99,7 @@
     * No priority.
 * Quantum Computation and Quantum Information (Nielsen and Chaung)
     * No priority. Too hard for me to understand right now.
-* Quantum Computing Since Democritus
+* Quantum Computing Since Democritus (Aaronson)
     * Great book, but pretty stuck on this.
     * *Low Priority*
 * Randomized Algorithms (Motwani and Raghavan)
