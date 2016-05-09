@@ -1,7 +1,7 @@
-* Cassandra book
-* Conflict-Free Replicated Data Type
+* Cassandra book.
+* Conflict-Free Replicated Data Type.
+* Docker book.
 * ElasticSearch book
-* Kafka book
 * MongoDB book.
 * Operational Transform
 * Redis book.
