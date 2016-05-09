@@ -22,9 +22,15 @@
     * No priority.
 * Artificial Intelligence: A Modern Approach (Norvig, Russell)
     * *High priority*
-* Big Data: Principles and Best Practices of Scalable Real-time Data Systems
-    * TODO: REVIEW ME!
-    * *High priority*
+* Big Data: Principles and Best Practices of Scalable Real-time Data
+  Systems
+    * It's okay. I think he makes it sound like Lambda Architecture
+      solves everything, but actually it sounds like lack of
+      transactionality continues to suck and add ridiculous
+      complexity.
+    * Did have useful stuff on message queues, and how they play a
+      role. Gives a sense of how Storm and Cassandra might be used.
+    * No priority.
 * Bitcoin for the Befuddled
     * Read whole thing. No interesting material left to read.
     * No priority.
