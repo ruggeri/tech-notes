@@ -433,3 +433,44 @@ timeout and are retried, you should use a timer to collect for at most
 1sec or so.
 
 Obviously adds latency, but can also increase throughput.
+
+Gives an example of how you can do batch processing in the speed layer
+for bounce rate calculation, which necessarily has a 30min latency
+(since you can't detect a bounce until 30min of inactivity). Not that
+interesting...
+
+Trident is a Storm API for micro-batching. Specially handles Kafka and
+Cassandra.
+
+He mentions one problem: what if a worker has cross-microbatch state
+and fails? Then you can retry the microbatch, but you're not going to
+get that state back. You could have basically a commit log on that
+state. So that you don't need to recover from the beginning, you could
+checkpoint. You could then rollback and replay batches from the last
+checkpoint.
+
+Apparently Spark Streaming does this.
+
+Note once again that things aren't as easy as he says.
+
+## Wrapup
+
+Can do a partial recompute when you do need to look at old data. This
+can help if you don't have to do a sort of the whole data, and can do
+a map-only job. When filtering the data you could use a bloom filter
+for this. You then have to rebuild the view; taking the old view and
+the recomputed portion. That sounds like another MR job. Of course,
+the bigger the view, the more just copying around you have to do.
+
+One possibility is to have tiers of batch views. The base tier is
+recomputed every once in a while, while more frequently a faster tier
+is partially recomputed more frequently.
+
+A thought on scalability: say you decrease cluster size by 10%. Will
+the batch layer be recalculated 10% more slowly? Actually more, since
+in the time it is calculating, you'll have more data collecting for
+the *next* recalculation. If you decrease the cluster size too much,
+you won't keep up with new data, and you'll start falling behind.
+
+OTOH, an increase of 10% resources to the cluster can have a greater
+than 10% improvement, by the same logic.
