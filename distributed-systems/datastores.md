@@ -2,15 +2,18 @@
 
 * AWS (389)
     * http://www.amazon.com/Amazon-Services-Action-Andreas-Wittig/dp/1617292885/
+    * Bought.
 * MongoDB (200)
     * Very popular, believe it or not...
     * http://www.amazon.com/MongoDB-Definitive-Guide-Kristina-Chodorow/dp/1449344682
 * Redis (144)
     * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
+    * Bought.
 * Docker (135)
     * http://www.amazon.com/Docker-Up-Running-Karl-Matthias/dp/1491917571/
 * Spark (119)
     * http://www.amazon.com/Learning-Spark-Lightning-Fast-Data-Analysis/dp/1449358624
+    * Bought.
     * People also like http://www.amazon.com/Advanced-Analytics-Spark-Patterns-Learning/dp/1491912766/
 * ElasticSearch (106)
     * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
