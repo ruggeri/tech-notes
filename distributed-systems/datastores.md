@@ -1,24 +1,27 @@
 ## Summary of Tech to Study
 
-* Cassandra (89)
-    * Prolly can ignore HBase then.
-    * http://www.amazon.com/Learning-Apache-Cassandra-Tolerant-Real-Time/dp/1783989203
-* ElasticSearch (106)
-    * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
-* Kafka (82), or maybe RabbitMQ (66)
-    * http://www.amazon.com/RabbitMQ-Action-Distributed-Messaging-Everyone/dp/1935182978
 * MongoDB (200)
     * Very popular, believe it or not...
     * http://www.amazon.com/MongoDB-Definitive-Guide-Kristina-Chodorow/dp/1449344682
-* Neo4j (13)
-    * http://www.amazon.com/Neo4j-Action-Aleksa-Vukotic/dp/1617290769/
 * Redis (144)
     * http://www.amazon.com/Redis-Action-Josiah-L-Carlson/dp/1617290858
-* Spanner/F1
+* Docker (135)
+    * http://www.amazon.com/Docker-Up-Running-Karl-Matthias/dp/1491917571/
 * Spark (119)
     * http://www.amazon.com/Learning-Spark-Lightning-Fast-Data-Analysis/dp/1449358624
-* Storm (46)
-    * Currently reading the Marz book.
+    * People also like http://www.amazon.com/Advanced-Analytics-Spark-Patterns-Learning/dp/1491912766/
+* ElasticSearch (106)
+    * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
+    * People also like: http://www.amazon.com/Elasticsearch-Definitive-Guide-Clinton-Gormley/dp/1449358543/
+* Cassandra (89)
+    * Prolly can ignore HBase then.
+    * http://www.amazon.com/Learning-Apache-Cassandra-Tolerant-Real-Time/dp/1783989203
+* Kafka (82), or maybe RabbitMQ (66)
+    * http://www.amazon.com/RabbitMQ-Action-Distributed-Messaging-Everyone/dp/1935182978
+    * No respected Kafka books...
+* Neo4j (13)
+    * http://www.amazon.com/Neo4j-Action-Aleksa-Vukotic/dp/1617290769/
+* Spanner/F1
 
 ## Google Tech
 
@@ -63,10 +66,14 @@
 * Datomic (0)
     * Not widely used, but a DB which is "fact"-based. Immutable rows;
       records all history.
+* Docker (135)
+    * TODO
 * ElasticSearch (106) (Solr (41)/Lucene (20))
     * Basically a search index. Distributed. Incremental indexing.
 * Kafka (82)
-    * TODO
+    * This is basically a distributed message queue. But it also keeps
+      a log of all messages (subject to limited retention), so clients
+      can play back from any point.
 * Memcached (42)
     * In-memory key-value store. Distributed.
 * MongoDB (200)
@@ -87,7 +94,9 @@
     * Allows faster ad-hoc or iterative queries. Particularly helpful
       for ML, which is where Spark comes from.
 * Storm (46)
-    * TODO
+    * An event processing framework. Events filter through a topology;
+      at the end, results are typically written to a DB like
+      Cassandra.
 
 ## Randos
 
@@ -127,7 +136,6 @@ There are also a bunch of AWS services that I ignored.
 Don't know that I care about these, but they were correlated with data
 science jobs.
 
-* Docker (135)
 * Ansible (88)
 * Mesos (35)
 * Tableau (25)
