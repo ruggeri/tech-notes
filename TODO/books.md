@@ -113,3 +113,20 @@
     * Just wasn't that interesting. Probably came too late to
       influence my thinking.
     * No priority.
+
+## To Buy
+
+* Compilers (Aho)
+* Effective Modern C++
+    * I think I already covered this in my notes on C++11, so not
+      vitally important.
+    * Likewise, I don't think Effective C++ (Meyers) or Modern C++
+      (Alexandrescu) is that necessary, since I know C++ pretty okay
+      and don't use it professionally.
+    * If I were to start doing C++ profesionally, these might be worth
+      picking up. Maybe just Modern C++, the others are really just
+      summaries of C++ it lookslike...
+* Java Concurrency in Practice
+    * Used to own this. Already familiar with these concepts; would
+      only be worth it if I started doing concurrent Java programming.
+    * I hope that doesn't happen.

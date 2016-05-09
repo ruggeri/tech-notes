@@ -1,5 +1,7 @@
 ## Summary of Tech to Study
 
+* AWS (389)
+    * http://www.amazon.com/Amazon-Services-Action-Andreas-Wittig/dp/1617292885/
 * MongoDB (200)
     * Very popular, believe it or not...
     * http://www.amazon.com/MongoDB-Definitive-Guide-Kristina-Chodorow/dp/1449344682
