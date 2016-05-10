@@ -111,6 +111,7 @@ kinda don't care.
 * Aerospike (2)
 * C-Store (1)
 * CitusDB (0)
+    * TODO
 * CouchDB (10)
 * FoundationDB (0) (An F1 clone? Acquired by Apple.)
 * Greenplum (5)
@@ -125,9 +126,14 @@ kinda don't care.
 * RocksDB (0)
     * A fork of LevelDB optimized for SSD I think.
 * Samza (3)
+    * TODO
 * TokuDB (0)
+    * I believe this is just a fork of MySQL with the fractal tree
+      trick.
 * Vertica (11)
 * Voldemort (0)
+    * This competes with HBase/Cassandra, but is not widely used and
+      not that interesting to me.
 * VoltDB (0)
 
 There are also a bunch of AWS services that I ignored.
