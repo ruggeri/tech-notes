@@ -126,7 +126,11 @@ kinda don't care.
 * RocksDB (0)
     * A fork of LevelDB optimized for SSD I think.
 * Samza (3)
-    * TODO
+    * A competitor to Storm. Basically a one-to-one competitor;
+      differences appear minor.
+    * Most significant difference may be it tries to preserve
+      processor state, so that if a stream processor fails, its local
+      state can be recovered.
 * TokuDB (0)
     * I believe this is just a fork of MySQL with the fractal tree
       trick.
