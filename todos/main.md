@@ -4,6 +4,7 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
+* Maybe look at Elm/FRP.
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
 * Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
