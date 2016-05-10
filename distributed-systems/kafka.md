@@ -123,3 +123,6 @@ Takewaways:
     * Similar to LinkedIn article.
     * HN response: https://news.ycombinator.com/item?id=9145197
     * Actually not much insightful there.
+* http://www.confluent.io/blog/apache-kafka-samza-and-the-unix-philosophy-of-distributed-data
+    * Not highly enlightening. Just talks about Unix streams.
+    * It's more complicated than that...
