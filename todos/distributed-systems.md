@@ -1,11 +1,10 @@
 * Cassandra book.
-* Conflict-Free Replicated Data Type.
 * Docker book.
-* ElasticSearch book
+* **ElasticSearch book**
+* GFS: review that I know exactly how this provides consistency.
 * MongoDB book.
-* Operational Transform
-* Redis book.
+* **Redis book.**
 * Spanner/F1
-* Spark book.
+* **Spark book.**
 * Viewstamped Replication
 * Virtual Synchrony
