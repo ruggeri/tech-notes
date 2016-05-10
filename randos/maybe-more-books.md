@@ -25,7 +25,14 @@ Arduino Project Handbook
 Arduino Workshop
 Snip, Burn, Solder, Shred
 
+## O'Reilly
+
+Too many to keep track of.
+
+* Designing Data-Intensive Applications
+    * By the guy who wrote that big long Samza thing. Could be
+      interesting.
+
 # Other
 
 * Apress (I find they mostly suck)
-* O'Reilly (Too many and not that interested)
