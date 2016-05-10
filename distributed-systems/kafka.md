@@ -74,7 +74,52 @@ Kafka can retain records for a fixed duration, or up to a certain
 size. You can also do *log compaction* instead; here you need tuples
 with keys, and only the latest tuple for that key is retained.
 
+## Samza
+
+Things a DB does/we want it to do:
+
+* Can replicate using leader-follow log shipping.
+    * Whether binary or logical.
+* Maintains secondary indices.
+* Query Caching
+    * That actually doesn't typically happen in the DB.
+    * Hard to do this. Invalidation, race conditions.
+    * He notes that why is this so hard when indexing is so easy.
+* Materialized Views
+    * This is basically the cache we want.
+    * But it's hard to do business logic here. But I guess you can use
+      stored procedures.
+    * But maintenance of materialized views is kinda scary.
+
+He summarizes:
+
+* Replication story is good.
+* Indexing story is good.
+* Caching story sucks.
+* Materialized views are meh.
+
+What's he's going to recommend is sending all writes to the event
+stream/transaction log, then streaming these to nodes that keep a
+materialized view. In many ways this is inherently more reliable than
+application caches.
+
+I say: it's not that easy, because multi-row transactions.
+
+Takewaways:
+
+* Encourages better data practice. Log all events; don't try to
+  prematurely project down to a mutable representation of what
+  information you think is relevant.
+* Eliminates difficulty caching.
+* Likes the idea that clients can stream updates from the materialized
+  views that are maintained. This is like the idea of Meteor.
+
 ## Source
 
-https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying
-https://aphyr.com/posts/293-jepsen-kafka
+* https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying
+    * Think piece on why transaction logs.
+* https://aphyr.com/posts/293-jepsen-kafka
+* http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/
+    * Similar to LinkedIn article.
+    * HN response: https://news.ycombinator.com/item?id=9145197
+    * Actually not much insightful there.
