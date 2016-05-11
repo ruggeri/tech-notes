@@ -238,3 +238,86 @@ function that references it; it will be sent only once.
 
 Obviously changes to this data structure are local only. It's not a
 means by which workers can communicate with each other.
+
+**Task Setup Work**
+
+There's a means by which to do setup work at the beginning of a
+task. Basically you're passed in an iterator of the records in this
+partition; you need to return an iterator. But you can do any needed
+setup work before.
+
+**Pipes**
+
+You can pipe data into a program; I believe its results are dumped to
+a text file.
+
+## Spark Cluster
+
+Again; there's a driver program; the main. It builds a logical series
+of steps. Spark does some basic optimization (pipelining maps). It
+converts the topology to a series of jobs. These are scheduled on
+executors.
+
+When a job is submitted via `spark-submit`, we'll ask for resources
+from YARN or Mesos to do the work.
+
+When submitting, you can choose some options:
+
+* Class with the main you want to run: the job.
+* A job name for UI.
+* Jars you want to be shipped to workers; files you want shipped to
+  workers local directory.
+    * Typically you build an uber JAR to ship.
+* Memory needed for the executor.
+* You can also choose whether you want the driver to be run locally or
+  on a cluster node.
+    * Obviously submitted to the cluster means you can close your
+      laptop and go home.
+    * But you'll have to find another way to watch the logs. Sounds
+      like this is available through the web UI.
+* You can also set `--total-executor-cores`
+    * Default is unlimited, so you probably want to set this...
+    * It will try to spread the executors across as many nodes in the
+      cluster as possible.
+
+To setup the Spark Standalone cluster, you install Spark on each
+machine, and you write on the leader a `conf/slaves` file with a list
+of the hostnames of followers. You then run `start-all` on the leader;
+it will start up the followers.
+
+To submit jobs, you just `spark-submit --master
+spark://master-hostname:7077 TheApplicationClass`.
+
+**YARN**
+
+You submit jobs like `export HADOOP_CONF_DIR=... spark-submit --master
+yarn TheApplicationClass`. I think the main advantages is that YARN
+can manage more types of jobs than just Spark.
+
+YARN has a concept of queues, like at QC.
+
+YARN is pre-installed by Hadoop, so it's probably easy to get going
+with.
+
+**Mesos**
+
+You can use "coarse-grained" mode, where you pick how many CPUs you
+want; these are yours from start to finish of the job.
+
+Alternatively, you can use "fine-grained" mode to scale up/down the
+number of cores throughout the job. This is probably useful for jobs
+where the volume of data being operated on changes through the
+pipeline. Alternatively, perhaps some resources can be given to other
+executors if some tasks finish early.
+
+My understanding is this is particularly useful for a Spark Streaming
+job where the job is never done, and load may vary over time.
+
+**ZooKeeper**
+
+Looks like you can use ZooKeeper with YARN/Mesos to increase
+availability of the leader node.
+
+**EC2**
+
+Spark comes with scripts to make this as easy as possible.
