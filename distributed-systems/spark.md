@@ -150,7 +150,7 @@ reduce to (destination, sum score /len(destinations)) (combine + shuffle)
 
 Now we're ready to do the next iteration. So one shuffle is needed per
 iteration, which I wouldn't see how to avoid anyway.
- ```
+```
 
 Of course, merge joins do not require mapping the entire dataset into
 memory.
@@ -168,3 +168,73 @@ minimizes data movement, maybe.
 * `countByKey`
 * `collectAsMap` (pulls down as a HashMap)
 * `lookup(key)` (queries the values for a key).
+
+## Loading/Saving Data
+
+Common formats are:
+
+* Text
+* CSV
+* JSON
+    * You have to parse yourself.
+    * Can directly hydrate a classes' properties from JSON.
+    * Obviously no compression, other weaknesses of JSON.
+* SequenceFiles
+    * Primitive types plus arrays and maps.
+    * Still bullshit.
+* ObjectFiles
+    * Uses Java's serialization.
+    * Serialization can be slow.
+    * Java serialization/deserialization can be a pain with that
+      serialization field thing.
+* Can use compression of course.
+
+Can use local filesystem, HDFS, or even S3. S3 can be fast if you're
+running in EC2.
+
+You can use a database as a source; you specify a query, and it will
+create a RDD out of the results. Ideally you'll find a way so that
+multiple Spark nodes can simultaneously extract different ranges of
+data, so that you parallelize your extraction from the DB.
+
+Likewise you can pull data out of Cassandra and HBase. You can also
+pull data out from ElasticSearch; not sure what that would mean,
+actually.
+
+## Advanced Spark Programming
+
+**Accumulator**
+
+Accumulators are event counters. Just like at QC, the updates are
+batched and sent in a different thread.
+
+They mention that Spark restarts tasks, and even launches speculative
+workers if it notices someone is taking a long time. You may even have
+to rebuild results if they are cached in memory, but get evicted.
+
+This can possibly cause problems with accumulators, since they'll get
+incremented again. To avoid this, it's only safe to increment
+accumulators in an action like forEach, which is guaranteed to be run
+only once.
+
+Actually, it seems like in a forEach I might process the same row
+twice if a task fails. But this is an example of a side-effect which
+presumably can be buffered and sent at the end of the task.
+
+I don't know, you do want the accumulator inside a transformation
+prolly. They say this inaccuracy prolly doesn't matter since you're
+using accumulators for debugging really.
+
+You can even make custom accumulators like `max`. Preferably the
+accumulator action is commutative, associative, and ideally
+idempotent (like max).
+
+**Broadcast Variables**
+
+This is the way you send out a bunch of parameters to every worker. It
+won't be serialized in your mapper/reducer code that's sent. It's
+distsributed more efficiently. Also, it won't be serialized in each
+function that references it; it will be sent only once.
+
+Obviously changes to this data structure are local only. It's not a
+means by which workers can communicate with each other.
