@@ -8,7 +8,6 @@ where the most influential breakthroughs are.
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
 * Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
-* Peak at Storm book?
 * How to design Facebook?  BigTable/Cassandra, IdempotentMessages,
   MessageQueue?
 * Euler's identity. Fourier transform. FFT.
