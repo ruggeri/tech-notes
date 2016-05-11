@@ -33,8 +33,9 @@
 * BigTable (== HBase (57))
     * Uses LSM trees to build a distributed DB on top of GFS.
     * No transactionality outside the row level.
-* Borg (== YARN (14))
+* Borg (== YARN (14), Mesos (35))
     * Cluster management system.
+    * TODO: what's the difference between YARN and Mesos.
 * Caffeine/Percolator: continuous indexing system.
 * Chubby (~= Zookeeper (32))
     * Basically their Paxos implementation. Used for locks.
@@ -152,5 +153,5 @@ Don't know that I care about these, but they were correlated with data
 science jobs.
 
 * Ansible (88)
-* Mesos (35)
 * Tableau (25)
+* Kubernetes (18)
