@@ -113,7 +113,7 @@ to break ties. This does present the possibility of some text
 appearing inside some other text, I think. But not in the long term,
 since your cursors will end up in different places.
 
-This is called LSEQ.
+This is called LSEQ. It competes with Operational Transforms.
 
 ## Sources
 
