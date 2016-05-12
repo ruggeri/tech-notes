@@ -2,6 +2,7 @@
     * Artificial Intelligence: A Modern Approach (Norvig, Russell)
     * Intro To Linear Algebra (Strang)
     * Machine Learning (Murphy)
+    * Redis in Action
 
 * Algorithm Design (Tardos)
     * Did read. Could have a useful chapter on local search which I
