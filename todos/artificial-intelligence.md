@@ -1,10 +1,15 @@
-## TODO
+## Priority Plan
 
-* Learn PCA, SVD.
+* Finish CS188.
+* Finish NN course.
+* Read Norvig.
+* Read Murphy.
+* Read Strang for PCA/SVD.
+
+## Others
+
 * Review graphical model inference and learning.
 * Learn decision trees, random forests, boosting, bagging.
-* Continue Neural nets course. Deep learning.
-* Finish CS188.
 * Reinforcement learning.
 * Learn to train SVM via SMO.
 * Conjugate gradient descent.
