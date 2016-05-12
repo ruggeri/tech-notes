@@ -3,12 +3,8 @@ This is a list of AI related online courses. However, I think
 to take next. When I exhaust those, maybe it makes sense to return to
 these.
 
-* Might be nice to take an optimization course: L-BFGS, conjugate
-  gradient descent.
-    * CVX101 seems to be a good archived course!
-    * Actually that doesn't cover conjugate-gradient descent? Or
-      quasi-newton methods?
-    * Also there's an MIT course.
+## Courses I've Taken/Am Taking
+
 * http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/
     * Strang
     * Pretty good. Goes through all the major things I think you're
@@ -35,6 +31,15 @@ these.
     * No names to me.
     * Looks clearly based on the Norvig AI book. Looks like it has
       some reinforcement learning stuff. Seems pretty OK.
+
+## Other
+
+* Might be nice to take an optimization course: L-BFGS, conjugate
+  gradient descent.
+    * CVX101 seems to be a good archived course!
+    * Actually that doesn't cover conjugate-gradient descent? Or
+      quasi-newton methods?
+    * Also there's an MIT course.
 * https://www.udacity.com/course/intro-to-artificial-intelligence--cs271
     * Peter Norvig Sebastian Thrun
     * Doesn't look super serious.
