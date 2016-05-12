@@ -155,6 +155,7 @@
 * RxJS in Action
     * Don't know very much about reactive programming. Kind of a weak
       spot.
+    * But it's not done yet!
 * Taming Text
     * Looks like it might have some interesting stuff related to text
       search that I think I know, but might want to check on.

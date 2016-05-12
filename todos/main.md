@@ -4,12 +4,28 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
-* Compilers: book or coursera class?
-* Maybe look at Elm/FRP. RxJS?
+* AI
+    * CS188 and Neural Nets ourses.
+* Books
+    * Norvig, Murphy books.
+    * Taming Text.
+* Distributed
+    * Redis book.
+    * Viewstamped Replciation/Virtual Synchrony.
+* Math
+    * PCA/SVD.
+    * Quasi-Newton methods.
+* Online Courses
+    * Maybe Compilers course.
+    * Fundamentals of EE course.
+
+**Randoms**
+
+* Maybe look at Elm/FRP. RxJS? Find a good book for this?
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
-* Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
 
-## TODO
+## Statement
 
-**Do not review all files!** The TODO files contain everything I need.
+**Do not review all files!** The TODO directory files contain
+everything I need to make priorities.

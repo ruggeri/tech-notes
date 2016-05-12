@@ -1,3 +1,6 @@
+These just aren't that important. I don't think it makes sense to look
+into them, but they're here anyway.
+
 * Parallel Programming: Memory fencing details.
 * Electronics: Timers and capacitors
 * Programming Languages: Higher Kinded Types?

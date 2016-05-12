@@ -1,9 +1,5 @@
 ## Priority Plan
 
-Mainly need to finish some basic coursework. Then I'll have been
-exposed to a little of everything. At that point I could look at a
-little math to learn a few things deeper.
-
 * Finish CS188.
 * Finish NN course.
 * Read Norvig.
@@ -21,3 +17,10 @@ little math to learn a few things deeper.
 * Control theory?
 * Deep Learning course by Google later.
 * TensorFlow.
+
+## Statement
+
+There's so much I could study in this area. But I think it would be
+sufficient to just finish the basic coursework and nail down
+PCA/SVD. With that, I'll have experience with all major areas of
+AI/ML. I could re-evaluate then.
