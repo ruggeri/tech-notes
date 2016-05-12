@@ -87,6 +87,8 @@ of modes:
 * MEMORY_ONLY
 * MEMORY_ONLY_SER (serializes to try to save space, presumably through
   compression; costs more CPU).
+    * Also may reduce GC time because many objects serialized into one
+      buffer object.
 * MEMORY_AND_DISK (spills to disk as needed)
 * MEMORY_AND_DISK_SER
 * DISK_ONLY
@@ -321,3 +323,70 @@ availability of the leader node.
 **EC2**
 
 Spark comes with scripts to make this as easy as possible.
+
+**Performance**
+
+Variables they highlight:
+
+* Partitioning
+* Serialization; default serializer is slow.
+* Amount of memory used for caching vs shuffle buffers vs application
+* Obviously more cores and more memory is good.
+* One thought: you might want more executors using less memory. That
+  would tend to reduce GC pauses.
+
+I dunno, not a ton of insights here.
+
+## Spark SQL
+
+You write SQL to query structured data. Can be JSON, Hive Tables,
+Parquet (columnar storage format). The idea of a DataFrame extends an
+RDD; a DataFrame has a known schema.
+
+Some examples:
+
+```
+val input = hiveCtx.jsonFile(inputFile)
+input.registerTempTable("tweets")
+val topTweets = hiveCtx.sql("SELECT text, retweentCount FROM tweets ORDER BY retweenCount DESC")
+```
+
+Having done this, you can then use `#rdd` to get the underlying rows
+so you can use `#map`, `#filter`, whatever:
+
+```
+topTweets.rdd().map(row => row.getString(0))
+```
+
+A row is just a sequence of objects; you have to know what kind.
+
+To "persist" a temp table, you use
+`hiveCtx.cacheTable("tableName")`. This will store it more efficiently
+in a columnar format. It can do this because now it know the schema.
+
+That's one nice thing; you only pay for the columns you use, if things
+are stored columnwise like is done in Parquet (and maybe
+Hive?). Surely Hive and Parquet are self-describing, so schema can be
+easily identified. Likewise, it will autodetect a schema for JSON
+files.
+
+For any old RDD, you do a `hiveCtx.createDataFrame(myRDD,
+MyClass.class)`, and now the schema is known.
+
+Spark can then present, via JDBC, a SQL interface for clients to
+access!
+
+One nice thing: you can export user-defined functions to HiveQL. This
+is as simple as `hiveCtx.registerFunction("FUNC_NAME", theFunction)`.
+
+SparkSQL isn't just for analysts. It's also (1) more convenient for
+many tasks inside a larger pipeline, and (2) allows space savings
+because the schema is known.
+
+It sounds like it is even possible that an index file might exist
+locally in a Hive file, which allows you to even determine what parts
+of the file would need to be read!
+
+Is Spark not aware of the input format otherwise? It looks like only
+SparkSQL introduces the idea that you might be aware of the schema of
+the input file. That definitely seems weird.
