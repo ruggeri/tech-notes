@@ -6,6 +6,8 @@
 * Algorithm Design (Tardos)
     * Did read. Could have a useful chapter on local search which I
       skipped at the time.
+* Amazon Web Services in Action
+    * TODO
 * Approximation Algorithms (Vazirani)
     * Did not read.
     * This collects algorithms to a variety of problems. Not really
@@ -78,6 +80,9 @@
     * I kinda know most of this, but I also need to learn PCA and SVD.
     * I believe lent this to Anthony.
     * **High priority**.
+* Learning Spark
+    * Did read. Quick 1-day read describing Spark.
+    * Generally pretty good. Not earth shattering.
 * Machine Learning (Mitchell)
     * This looks like the least interesting of the ML books I own. I
       don't hear a lot of great things about it.
@@ -129,6 +134,8 @@
       worth it. Ch24 and 28 and are about parallel programming and
       STM.
     * But honestly I don't care, and I doubt this would help.
+* Redis in Action
+    * TODO
 * Structure and Interpreation of Computer Programs
     * Just wasn't that interesting. Probably came too late to
       influence my thinking.
