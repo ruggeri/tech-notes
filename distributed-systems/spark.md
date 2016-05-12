@@ -459,7 +459,8 @@ Doing things this way allows Spark to checkpoint the state, allowing
 reliable recovery consistent with exactly once messaging.
 
 They do say that, in terms of writing data out of the system (done in
-`#forEach`), you're on your own.
+`#forEach`), you're on your own. They suggest trying to make sure your
+writes are idempotent. That doesn't seem super easy to me.
 
 Some more discussion here:
 
@@ -472,3 +473,42 @@ The book really cheaped out in this chapter! Bad!
 They mention that 500ms is a reasonable lower-bound on how frequently
 you can update. They also mention the jitter that GC might cause; they
 suggest maybe using concurrent mark-and-sweep.
+
+## MLLib
+
+It will do:
+
+* TF-IDF
+    * Trivial to parallelize.
+* Normalization
+    * Trivial to parallelize.
+* Word2Vec
+* Linear Regression (SGD)
+    * A common approach is *downpour SGD*, where we occasionally,
+      asynchronously, ship updates to the shared parameters, or pull
+      them down.
+        * I think they suggest blind writes; their belief is that
+          because updates are sparse, you won't have coordination
+          problems, actually!
+    * Not coordinated, no justification, but seems to work okay.
+    * BTW, if there are a lot of features, we can also parallelize
+      along this dimension too. We can have the gradient for example i
+      broken into parts and calculated on several machines.
+* LogisticRegression (SGD or LBFGS)
+    * More SGD.
+* SVM
+    * This seems to use SGD.
+    * But isn't the idea to use the kernel function, and don't you
+      need to use that SMO algorithm instead?
+    * I feel like you have to because after throwing data through the
+      kernel isn't it now dense?
+* Naive Bayes
+    * Trivial to parallelize.
+* Decision Trees, Random Forests
+* K-means
+* Alternating Least Squares
+    * A collaborative filtering technique I don't know.
+* PCA, SVD
+
+Okay, they just give you a laundry list of algorithms. Interesting to
+see what they offer, though.
