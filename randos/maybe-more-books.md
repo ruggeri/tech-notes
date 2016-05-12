@@ -16,7 +16,7 @@ Unity in Action
 
 # Pragmatic
 
-None really...
+None are interesting. What a bunch of trash.
 
 # No Starch Press
 
@@ -32,6 +32,7 @@ Too many to keep track of.
 * Designing Data-Intensive Applications
     * By the guy who wrote that big long Samza thing. Could be
       interesting.
+    * Not done yet!
 
 # Other
 
