@@ -1,119 +1,137 @@
 * Current Priorities:
-    * Distributed Algorithms
-    * Distributed Systems
-    * Artificial Intelligence: A Modern Approach
-    * Intro to linear algebra
+    * Artificial Intelligence: A Modern Approach (Norvig, Russell)
+    * Intro To Linear Algebra (Strang)
     * Machine Learning (Murphy)
 
 * Algorithm Design (Tardos)
-    * Could have a useful chapter on local search.
-    * No priority.
+    * Did read. Could have a useful chapter on local search which I
+      skipped at the time.
 * Approximation Algorithms (Vazirani)
+    * Did not read.
     * This collects algorithms to a variety of problems. Not really
       interesting from a general learning standpoint.
-    * No priority.
 * Art of Electronics
+    * Did not read.
     * I just don't understand electronics that well. This book is too
       hard, and it's not really in the wheelhouse of my interest area.
-    * No priority.
+    * *Low Priority*.
 * Art of Multiprocessor Programming
-    * Lots of useful details, but I know most of this stuff now.
+    * Did skim. Lots of useful details, but I know most of this stuff
+      now.
     * Has interesting stuff on hardware and cache-consistency.
-    * No priority.
 * Artificial Intelligence: A Modern Approach (Norvig, Russell)
-    * *High priority*
+    * Not very hard, but covers a bunch of intro stuff. Broad, not
+      deep.
+    * **High priority**.
 * Big Data: Principles and Best Practices of Scalable Real-time Data
   Systems (Marz)
-    * It's okay. I think he makes it sound like Lambda Architecture
-      solves everything, but actually it sounds like lack of
-      transactionality continues to suck and add ridiculous
+    * Did read. It's okay. I think he makes it sound like Lambda
+      Architecture solves everything, but actually it sounds like lack
+      of transactionality continues to suck and add ridiculous
       complexity.
     * Did have useful stuff on message queues, and how they play a
       role. Gives a sense of how Storm and Cassandra might be used.
     * Lent to Mihir.
-    * No priority.
 * Bitcoin for the Befuddled
-    * Read whole thing. No interesting material left to read.
-    * No priority.
+    * Read whole thing. Good introduction; fun!
 * Causality (Pearl)
-    * Got back from Anthony. At work. (AI)
-    * Low priority.
+    * Started. Very hard and not directly related to standard AI/ML
+      techniques.
+    * At work.
+    * *Very low priority*.
 * C++: Concurrency in Action
-    * I think I actually know all the stuff in this. Has some good C++
-      implementation stuff about concurrent datastructures, but I
-      already wrote up all that stuff.
-    * No priority.
+    * Did skim. I think I actually know all the stuff in this. Has
+      some good C++ implementation stuff about concurrent
+      datastructures, but I already wrote up all that stuff.
 * Database Systems (Garcia-Molina)
-    * Read everything in this book. Good stuff on implementation of
-      DBs.
+    * Did read. Good stuff on implementation of DBs.
+    * Also had good stuff about theory of relational data; I had read
+      that years ago.
 * Distributed Algorithms (Lynch)
-    * Looks like it has a wealth of useful information.
-    * *High priority*
+    * Started. The style here is pretty brutal. Totally comprehensive.
+    * I feel like I'm not super-interested in the theory of
+      distributed algorithms, so maybe I'm okay letting this go.
+    * *Low priority*.
 * Distributed Systems (Coulouris)
-    * Ch10 P2P. Ch12 Distributed FS. Ch14-18 is clocks (read),
+    * Ch10 P2P. Ch12 Distributed FS. Read Ch14-18: clocks
       coordination, concurrency control, distributed transactions, and
       replication.
-    * *High priority*.
+    * Started this. Poorly written, sort of a litany of algorithms.
+    * *Low priority*.
 * Div Grad Curl And All That
-    * No priority. I can review this if I really need it...
+    * Didn't read. I can review this if I really need it...
 * Elements of Computing Systems
     * Loaned to Stefano.
-    * Great book. Most of it I already know, but stuff about boolean
-      circuits, and also memory (implemented as delay) was fascinating.
+    * Did read; great book. Most of it I already know, but stuff about
+      boolean circuits, and also memory (implemented as delay) was
+      fascinating.
 * Elements of Statistical Learning (Friedman, Hastie, Tibrishani)
+    * Did not read (started first couple chapters).
     * Really hard, should do Strang and Norvig AI first.
     * Also: has a bunch of stuff on trees.
-    * Low priority.
+    * Probably would prefer Murphy.
+    * *Very low priority*.
 * Intro to Algorithms (CLRS)
+    * Did skim; reading some parts.
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra (Strang)
-    * Need to learn SVD, I think...
-    * Believe I lent this to Anthony.
-    * *High priority*
+    * I kinda know most of this, but I also need to learn PCA and SVD.
+    * I believe lent this to Anthony.
+    * **High priority**.
 * Machine Learning (Mitchell)
-    * TODO AT HOME (AI)
+    * This looks like the least interesting of the ML books I own. I
+      don't hear a lot of great things about it.
+    * *Low priority*.
 * Machine Learning (Murphy)
     * Looks like a great book. Very comprehensive; covers
       *everything*.
-        * Except cheaps out on NNs.
-    * Would make this one of the first AI books I read after Norvig.
-    * *Medium priority* (AI)
+    * Except it cheaps out on NNs. Meh.
+    * After Norvig, this should come next.
+    * **High priority**.
 * Mastering Web Application Development with AngularJS
     * This was a shit book, and I moved on to React.
-    * No priority.
 * Pattern Recognition and Machine Learning (Bishop)
-    * TODO AT HOME (AI)
+    * Did not read.
+    * Definitely a widely used book, but Murphy seems more friendly to
+      me.
+    * *Low priority*.
 * Principles of Distributed Database Systems
     * TODO: REVIEW ME! Looks very technical and dry, though.
-    * *High priority*
 * Probabilistic Graphical Models (Koller)
-    * Already learned most of this through the PGM course.
-    * TODO AT WORK (AI)
+    * Skimmed most of this book. The PGM course covered most of this.
+    * Wouldn't hurt to re-skim through it to make sure I didn't miss
+      anything.
+    * *Medium priority*.
 * Probabilistic Robotics
-    * TODO AT WORK (AI)
+    * Haven't looked through this!
+    * *TODO priority*.
 * Programming Collective Intelligence (Segaran)
-    * TODO AT HOME (AI)
+    * Haven't looked through this!
+    * *TODO priority*.
 * Purely Functional Datastructures
     * Exhausted this book mostly. Prolly have done enough persistent
       algorithms for a lifetime.
-    * No priority.
+    * Maybe it's because I don't know ML, but I didn't find this book
+      amazingly useful.
 * Quantum Computation and Quantum Information (Nielsen and Chaung)
-    * No priority. Too hard for me to understand right now.
+    * Too hard for me to understand this very well right now.
+    * Honestly, I probably don't need to know this.
+    * *Very low priority*.
 * Quantum Computing Since Democritus (Aaronson)
-    * Great book, but pretty stuck on this.
-    * *Low Priority*
+    * Very enjoyable. Learned a lot of random stuff.
+    * Am pretty stuck on the quantum stuff. Nielsen/Chaung might have
+      helped; could try to get unstuck.
+    * *Low Priority*.
 * Randomized Algorithms (Motwani and Raghavan)
     * Looks to be more technical and detailed than I care about.
-    * No priority.
 * Real World Haskell
     * Pretty shit book. Ch14,15,18 are all about monads, might be
       worth it. Ch24 and 28 and are about parallel programming and
       STM.
-    * No priority.
+    * But honestly I don't care, and I doubt this would help.
 * Structure and Interpreation of Computer Programs
     * Just wasn't that interesting. Probably came too late to
       influence my thinking.
-    * No priority.
 
 ## To Buy
 
