@@ -1,8 +1,11 @@
-* Current Priorities:
-    * Artificial Intelligence: A Modern Approach (Norvig, Russell)
-    * Intro To Linear Algebra (Strang)
-    * Machine Learning (Murphy)
-    * Redis in Action
+## Priority
+
+* Artificial Intelligence: A Modern Approach (Norvig, Russell)
+* Intro To Linear Algebra (Strang)
+* Machine Learning (Murphy)
+* Redis in Action
+
+## All Books
 
 * Algorithm Design (Tardos)
     * Did read. Could have a useful chapter on local search which I
@@ -141,10 +144,24 @@
     * Just wasn't that interesting. Probably came too late to
       influence my thinking.
 
-## To Buy
+## Books To Maybe Buy
+
+**Interesting**
 
 * Compilers (Aho)
     * I might actually like this.
+    * TODO
+* OpenCL in Action
+    * It seems like maybe people like CUDA better?
+* RxJS in Action
+    * Don't know very much about reactive programming. Kind of a weak
+      spot.
+* Taming Text
+    * Looks like it might have some interesting stuff related to text
+      search that I think I know, but might want to check on.
+
+**Uninteresting**
+
 * Effective Modern C++
     * I think I already covered this in my notes on C++11, so not
       vitally important.
