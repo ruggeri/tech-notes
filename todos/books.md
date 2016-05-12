@@ -150,7 +150,6 @@
 
 * Compilers (Aho)
     * I might actually like this.
-    * TODO
 * OpenCL in Action
     * It seems like maybe people like CUDA better?
 * RxJS in Action
