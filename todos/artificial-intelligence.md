@@ -20,3 +20,4 @@ little math to learn a few things deeper.
 * Conjugate gradient descent.
 * Control theory?
 * Deep Learning course by Google later.
+* TensorFlow.
