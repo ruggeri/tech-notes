@@ -5,6 +5,7 @@
 * Read Norvig.
 * Read Murphy.
 * Read Strang for PCA/SVD.
+* Only afterward the above: robotics.
 
 ## Others
 
