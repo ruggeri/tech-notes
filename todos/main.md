@@ -4,7 +4,8 @@ I should focus primarily on artificial intelligence work. There's lots
 of interesting stuff throughout Computer Science, but AI is probably
 where the most influential breakthroughs are.
 
-* Maybe look at Elm/FRP.
+* Compilers: book or coursera class?
+* Maybe look at Elm/FRP. RxJS?
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
 * Continue AI/ML courses again. CS188 and Hinton.
 * TensorFlow. GPU programming?
@@ -28,7 +29,7 @@ where the most influential breakthroughs are.
     * That means noise is overwhelmed by signal as output value is
       increased.
 * Lagrange, KKT and multiple equality constraints.
-* Finish Strang! Particularly: SVD.
+* Finish Strang! Particularly: SVD, PCA.
 * Would be nice to have a sumary of Kolmogorov complexity again.
 * Quasi-Newton Methods for hill climbing. Line search, conjugate
   gradient descent. WTF does a symmetric matrix mean? Subgradient
