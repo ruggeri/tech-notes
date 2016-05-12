@@ -390,3 +390,85 @@ of the file would need to be read!
 Is Spark not aware of the input format otherwise? It looks like only
 SparkSQL introduces the idea that you might be aware of the schema of
 the input file. That definitely seems weird.
+
+## Spark Streaming
+
+Competitor to Storm, I presume. The abstraction here is a DStream, a
+discretized stream. DStreams can come from Kafka, HDFS, or even just a
+socket. Streams can go through transformations which extend the
+stream.
+
+You build up a topology of stream transformers. You then start it, and
+then the driver program just waits for the stream to terminate (which
+will happen never, probably).
+
+Looks like the default is to use minibatches. Minibatches are created
+every `m` milliseconds; typically 500-2000. So it's not really used
+for realtime computation like Storm.
+
+Sources are handled by *receivers*. These receive input data and store
+it as an RDD, replicating it for fault tolerance. It can log to HDFS
+if you want.
+
+So long as the input data is retained, we can recalculate the results
+of the streams. I think one potential problem is that you might have
+cross-batch state at a transformer, in which case you would have to
+replay the entire history. For that reason, I think it is important to
+checkpoint the history of the transformations.
+
+You have your same-old typical stateless transformations. You even
+have stuff like reduceByKey and groupByKey, which of course only work
+within one batch.
+
+One common form are windowed transformation. We can configure these to
+say (1) how much data should be retained in the window, and (2) how
+often should the result be updated. An example:
+
+```
+// Window 30sec of data, updating every 10sec. The count of how many
+// records in the last 30sec will be updated every 10sec.
+logsStream.window(Seconds(30), Seconds(10)).count()
+```
+
+We're also given `reduceByWindow` and `reduceByKeyAndWindow` as
+conveniences. There's even a special form that allows us to fix up the
+result using only the data removed and added to the window. For
+instance, if we want to do a sum of numbers in a window, we'd use `+`
+for numbers added to the window, and `-` for numbers dropped from the
+window. That's an optimization.
+
+Output operations include writing to HDFS, or using a `forEachRDD`
+function that could, for instance, write to Cassandra, or just about
+anything else.
+
+**Exactly Once Delivery**
+
+You need to turn checkpointing on. This means that if the driver
+crashes, it knows where to restart from in the stream. Workers are
+fault tolerant, because we can push the data through again from the
+source. If you're using HDFS or Kafka, then you're good here.
+
+To maintain state, we use `updateStateByKey`. Here's how it works: you
+provide a function `(KeyType, Seq(EventType)) ->
+Option[ValueType]`. This is called for every key you are tracking,
+even if `events == []`. You output either the value to set for next
+time, or `None` to signal that this key should have its value
+deleted. Presumably `(key, value)` is passed downstream.
+
+Doing things this way allows Spark to checkpoint the state, allowing
+reliable recovery consistent with exactly once messaging.
+
+They do say that, in terms of writing data out of the system (done in
+`#forEach`), you're on your own.
+
+Some more discussion here:
+
+http://blog.cloudera.com/blog/2015/03/exactly-once-spark-streaming-from-apache-kafka/
+
+The book really cheaped out in this chapter! Bad!
+
+**Performance**
+
+They mention that 500ms is a reasonable lower-bound on how frequently
+you can update. They also mention the jitter that GC might cause; they
+suggest maybe using concurrent mark-and-sweep.
