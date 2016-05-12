@@ -19,3 +19,4 @@ little math to learn a few things deeper.
 * Learn to train SVM via SMO.
 * Conjugate gradient descent.
 * Control theory?
+* Deep Learning course by Google later.
