@@ -11,10 +11,6 @@
     * Bought.
 * Docker (135)
     * http://www.amazon.com/Docker-Up-Running-Karl-Matthias/dp/1491917571/
-* Spark (119)
-    * http://www.amazon.com/Learning-Spark-Lightning-Fast-Data-Analysis/dp/1449358624
-    * Bought.
-    * People also like http://www.amazon.com/Advanced-Analytics-Spark-Patterns-Learning/dp/1491912766/
 * ElasticSearch (106)
     * http://www.amazon.com/Elasticsearch-Action-Radu-Gheorghe/dp/1617291625
     * People also like: http://www.amazon.com/Elasticsearch-Definitive-Guide-Clinton-Gormley/dp/1449358543/
@@ -95,10 +91,13 @@
     * Mainly used as a cache, but has provides datastructures and
       primitives, which are a little different.
 * Spark (119)
-    * Provides "resilient distributed datasets"; basically
-      distributed, in-memory tables.
-    * Allows faster ad-hoc or iterative queries. Particularly helpful
-      for ML, which is where Spark comes from.
+    * Basically just a new version of Hadoop with more features.
+    * Much easier to build networks of jobs.
+    * Integrates HiveQL as SparkSQL.
+    * Tries to be in-memory, so faster for iterative algorithms,
+      ad-hoc queries.
+    * Builds in a streaming ability to compete with Storm.
+    * Focused on ML, in particular, by giving you in-memory datasets.
 * Storm (46)
     * An event processing framework. Events filter through a topology;
       at the end, results are typically written to a DB like

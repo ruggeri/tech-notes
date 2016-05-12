@@ -118,6 +118,7 @@
 ## To Buy
 
 * Compilers (Aho)
+    * I might actually like this.
 * Effective Modern C++
     * I think I already covered this in my notes on C++11, so not
       vitally important.
