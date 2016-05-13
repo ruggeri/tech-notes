@@ -330,3 +330,78 @@ this reduces the back-and-forth communication with the server
 * EXPIREAT/PEXPIREAT (specify a time at which to expire)
 
 The "P" versions use millisecond granularity.
+
+## Persistence
+
+Redis does snapshotting, or logging to an append-only-file. Redis will
+try to take a snapshot before quitting, but obviously you can't ensure
+that you won't lose data if Redis fails. Snapshots typically occur in
+the background. You can configure Redis to take a snapshot every N
+seconds. He talks about how a foreground save can be much
+faster. Regardless, with just snapshoting you could suffer significant
+data loss (especially because Redis snapshots do not include any data
+that is inserted between the start of the snapshot and its
+completion).
+
+AOF gives you different sync options: on every write, every second, or
+just whenever the OS feels like it. As I recall, a lot of people got
+upset about not understanding this feature. They mention that always
+writing is going to significantly degrade performance; they suggest
+hundreds of IOPS on rotational disk, and tens of thousands for
+SSD. But they also mention that on SSD you'll have a lot of write
+amplification problems.
+
+You can compact the AOF. A typical choice is to do this whenever it
+has grown by 100% of the size after the last compaction.
+
+**Replication**
+
+Acheives redundancy, also allows read load to be distributed. As an
+example, it takes Redis about 10ms to do a union of two 10k element
+sets. Therefore it can only do at most 100 of these per
+second. Hopefully that gives some intuition.
+
+You initially startup a follower with a snapshot, and then writes are
+streamed from leader. You can actually have a chain of
+leaders/followers; this means that the leader can stream updates to a
+few followers, who then can use more bandwidth in streaming updates
+to still more machines.
+
+With the typical leader/follower setup, you're responsible for manual
+failover. Also: I bet bad things happen if the master appears to fail,
+but people keep writing to it anyway. You'd be chosing availability
+here...
+
+Apparently Redis Sentinel does some kind of automatic failover; they
+talk about it in a later chapter.
+
+**Transactions**
+
+We mentioned MULTI/EXEC. We talked about how it can be hard to use
+because nothing gets executed until EXEC, so you can't really have any
+logic in the middle of your transaction using intermediate results. We
+did talk about how this "pipelining" improved performance by giving
+Redis all the commands in one go, thus reducing network round-trips.
+
+Recall that transactionality of MULTI/EXEC is acheived because no-one
+else can do anything simultaneously. I think Redis is single-threaded,
+so that makes sense.
+
+It looks like WATCH is used like this. You can start WATCHing a
+key. You probably fetch this key, and do some logic. Then you start a
+transaction with MULTI. When the EXEC hits, Redis will see if any
+WATCHed keys were modified since the start; if so, then it will fail
+the transaction. Otherwise it finishes it.
+
+You can UNWATCH if you realize you won't do a MULTI/EXEC at
+all. That's kinda like a ROLLBACK in SQL.
+
+This is basically a form of optimistic concurrency control.
+
+BTW: you can still do pipelining without using transactions. Again,
+this matters when commands are issued from a machine which has high
+latency to the Redis server.
+
+## TODO
+
+* Redis Cluster came in 3.0. Won't be covered in this book...
