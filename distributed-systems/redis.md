@@ -194,3 +194,139 @@ remain cached. On every pageview, we increment a counter of number of
 times viewed; we keep a zset. Before caching a page, we check if this
 is amongst the top N thousand pages; else we won't cache it. This is
 what the ZRANK command does.
+
+## More Commands
+
+**Strings**
+
+For numbers:
+
+* INCR/INCRBY/INCRBYFLOAT
+* DECR/DECRBY
+
+If the key doesn't exist, Redis treats this like zero. If it does but
+can be interpreted as an integer/float, it treats it like
+that. Otherwise, if it's a string that clearly isn't a number, it
+gives an error. Great.
+
+For strings:
+
+Really just byte arrays.
+
+* APPEND
+* GETRANGE/SETRANGE
+* GETBIT/SETBIT
+* BITCOUNT (counts number of ones)
+* BITOP AND, BITOP OR, BITOP XOR, BITOP NOT
+
+**Lists**
+
+* RPUSH/LPUSH
+* RPOP/LPOP
+* LINDEX
+* LRANGE
+* LTRIM (== splice)
+
+Some weird ones:
+
+* BLPOP/BRPOP
+    * You give a list of keys; this blocks until it can pop an item
+      from at least one of them.
+    * You specify a timeout too.
+* RPOPLPUSH
+    * Pops from one list, pushes to another list. Does it atomically I
+      assume.
+* BRPOPLPUSH
+    * Similar: blocks.
+
+They say these are commonly used operations for doing a message or
+task queue type thing inside Redis.
+
+**Sets**
+
+* SADD/SREM
+* SISMEMBER
+* SCARD (element count)
+* SMEMBERS
+* SRANDMEMBER
+* SPOP (removes random item from set)
+* SMOVE (atomically moves a specified item from one set to another).
+
+* SDIFF/SDIFFSTORE
+* SINTER/SINTERSTORE
+* SUNION/SUNIONSTORE
+
+The store versions store the result at a key.
+
+**Hashes**
+
+* HMGET/HMSET/HDEL
+* HLEN
+* HEXISTS (tests whether a key exists)
+* HKEYS/HVALS
+* HGETALL (dumps the whole thing)
+* HINCRBY/HINCRBYFLOAT (accesses inside a HM)
+
+Note: you can't nest anyway inside a HM; so it's not like there's much
+you can do in-place to elements.
+
+**Zset**
+
+* ZADD/ZREM/ZCARD
+* ZINCRBY (increments the score)
+* ZCOUNT (gets number of elements with score between min and max)
+* ZRANK/ZREVRANK (gives position of member)
+* ZSCORE (gives score of member)
+* ZRANGE/ZREVRANGE (gets a range by ranks; add WITHSCORES to get scores too)
+
+But you also have:
+
+* ZRANGEBYSCORE/ZREVRANGEBYSCORE (gets a range of scores)
+* ZREMRANGEBYRANK/ZREMRANGEBYSCORE (removes a range of elements)
+* ZINTERSTORE/ZUNIONSTORE
+    * Options `AGGREGATE SUM`, `MIN`, `MAX` are needed in case the
+      same key is in both sets.
+
+**Publish/Subscribe**
+
+* SUBSCRIBE/UNSUBSCRIBE (by channel name)
+* PUBLISH channel message
+* PSUBSCRIBE/PUNSUBSCRIBE (by a channel name *pattern*)
+
+In client code, you would allocate an object that would be managing
+the subscription. You would start listening to that object; maybe a
+thread would do a blocking listen, or you would check in on it every
+once in a while. But these operations stream updates down to your
+client.
+
+This is not the most widely used feature of Redis:
+
+* Redis used to queue the messages serverside if the client wasn't
+  reading, which meant that Redis could easily run out of memory.
+    * Probably a great attack vector...
+* Also, Redis doesn't care if you lose a message; if the connection is
+  broken for some reason, you won't get that message when you
+  resubscribe.
+
+**Sort**
+
+`SORT` has a bunch of options. Too many to list here. You can sort
+into a source destination.
+
+**Transactions**
+
+`MULTI` starts a transaction, `EXEC` ends it. No ability to
+rollback. I think that you basically stop Redis from processing anyone
+else's transactions simultaneously? This isn't a huge problem, since
+it executes nothing until you `EXEC`. It sounds like `MULTI`/`EXEC` is
+relatively efficient, because of the buffering of your commands. Also,
+this reduces the back-and-forth communication with the server
+
+**Key Expiration**
+
+* PERSIST (removes any expiration)
+* EXPIRE/PEXPIRE (expire in a given number of secs)
+* TTL (how long until expiration)
+* EXPIREAT/PEXPIREAT (specify a time at which to expire)
+
+The "P" versions use millisecond granularity.
