@@ -45,6 +45,8 @@
       techniques.
     * At work.
     * *Very low priority*.
+* Computer Systems: A Programmer's Perspective
+    * Don't own this anymore. Really enjoyed back in college.
 * C++: Concurrency in Action
     * Did skim. I think I actually know all the stuff in this. Has
       some good C++ implementation stuff about concurrent
