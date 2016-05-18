@@ -68,3 +68,49 @@ We need to prove this system sound and complete. **TODO**
 ## Sources
 
 * Enderton Elements of Set Theory was the book I used, I think.
+
+## Kolmogorov Complexity
+
+Idea is that the *information content* of a string is the length of
+the shortest program that produces that string. Obviously that is
+relative to a description language. We typically require the language
+to be Turing complete.
+
+How can we compare the K-complexity of a string in a language L1 vs
+another language L2? Well, L1 can simulate L2; a TM in L1 describes
+how to run a program described in L2. So, at a maximum, the
+K-complexity in L1 is the description length in L2, plus a constant:
+the length of the shortest program to interpret L2. This is called the
+*invariance theorem*.
+
+Kolmogorov was interested in declaring strings *random*; which means
+that the K-complexity is greater than the length of the string in an
+Turing complete language. But that doesn't really make sense to me,
+there is always a TM of length 1 which outputs a given finite string:
+have the first bit be 1 to output the given string, and then suffix a
+regular language's encoding of a normal program.
+
+I think the trick is this: finite strings are never considered
+random. An infinite sequence of characters can be considered
+random. If we map each finite prefix `S_i` to it's K-complexity
+`k(S_i)`, then we say the sequence is random if this is unbounded. In
+that case, no finite algorithm could be producing this data.
+
+You might try to strengthen this. Imagine I took a random sequence,
+and then transformed it like this: repeat the first random character
+once, the second two times, the third four timex, the fourth eight
+times... I'm sort of spreading the entropy out. You might say that
+this is "less random". I think to be truly random, you're supposed to
+say that the k-Complexity grows linearly.
+
+Ray Solomonof was trying to find a universal prior for Bayesian
+inference. We know that, to do statistical reasoning, we need to
+either (1) impose arbitrary rules in advance (e.g., that the
+relationship between variables is linear), or (2) start with a prior
+distribution and work forward.
+
+Of course, the prior distribution is just as arbitrary a rule.
+
+Solomonof wanted to address that. He suggested something like this (I
+think). Consider all universal TMs. Give all these machines equal
+probability. Something something something...
