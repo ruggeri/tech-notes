@@ -141,7 +141,8 @@
       STM.
     * But honestly I don't care, and I doubt this would help.
 * Redis in Action
-    * TODO
+    * Have started reading this. Pretty shitty, actually. Using Redis
+      just feels really ugly and hacky. Do not like.
 * Structure and Interpreation of Computer Programs
     * Just wasn't that interesting. Probably came too late to
       influence my thinking.
