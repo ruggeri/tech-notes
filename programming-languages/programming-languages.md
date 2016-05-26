@@ -53,6 +53,7 @@ anyone. *I didn't*.
 * <del>D (7k)</del> (Poor uptake)
 * <del>Julia (6k, <42 jobs)</del> (Poor uptake)
 * <del>F# (6k, 18 jobs)</del> (Poor uptake)
+* Elm
 
 ## Basic Values
 
