@@ -28,8 +28,6 @@ where the most influential breakthroughs are.
     * https://github.com/jtoy/awesome-tensorflow/
     * Has a bunch of resources; including some good blog posts, and
       Google papers.
-* Python Decorators
-    * There seems to be a lot more power than I know here...
 
 ## Statement
 
