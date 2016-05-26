@@ -15,7 +15,7 @@ off my list forever before I get all applied again.
 
 * Docker book.
 * **AWS Book.**
-* MongoDB book.
+* **MongoDB** book.
 
 ## Statement
 

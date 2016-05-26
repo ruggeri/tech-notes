@@ -11,6 +11,7 @@ where the most influential breakthroughs are.
     * Taming Text.
 * Distributed
     * Redis book.
+    * MongoDB, ElasticSearch.
     * Viewstamped Replciation/Virtual Synchrony.
 * Math
     * PCA/SVD.
