@@ -10,6 +10,8 @@
 * Lambda. `(x:Int) => x + 1`. You can also construct a `new function`
   with a `def apply` method. Can also write `def lambda(x:Int) = x +
   1`.
+    * You don't need to specify argument types if that is clear from
+      context.
 * Lambas can close over state.
 * I think you can also write `{_ + 1}` to make that lambda.
 * Lists are cons cells, I think. Immutable. `Nil` is the empty
@@ -102,6 +104,74 @@
   function, not all cases may be handled. You can then combine partial
   functions using their `orElse` method. This means you could
   mix-and-match partial functions defined by case statements.
+* Implicit functions do conversions from one type to another. I recall
+  this being a very disreputable feature of C++.
+    * You can do this by `implicit class StringUtils(s: String)`.
+    * You used to do it by `implicit def toStringUtils(s: String) :
+      StringUtils`.
+    * They make you scope a class like this, presumably so you can opt
+      in by writing `import com.selfloop.ruggeri.StringUtils._`.
+* Implicit madness
+    * It goes further. You can declare a parameter list of implicit
+      args. Then, the user needs to provide implicit values for those.
+    * The resolution process is not simply by name, I think. Not clear
+      exactly how that works.
+    * Anyway, it's fucking scary. But maybe it's an important part of
+      DSLs?
+    * This is buy far the most wack feature I've seen so far.
+* You can have multiple parameter lists to a function. Basically,
+  you're writing a curried function. This sometimes presents a nicer
+  API, and also sometimes is useful for inference since types of the
+  first list can imply types in the next list.
+* Traits: some methods are abstract, some are not. You write `class
+  Cat extends Animal with FurryTrait`.
+    * Traits can extend other traits, but they're only instantiated
+      once. So there is no diamond formed.
+* Can have `for (x <- xs)`.
+    * Looks like `for { x <- xs, y <- ys } yield (x, y)` creates a
+      generator which outputs pairs.
+    * You can even toss in a condition.
+    * This is sort of like list comprehensions I guess.
+* Any method of a single parameter can be written infix.
+    * Can write methods with no arguments as postfix
+    * Can write prefix methods as `unary_+` and whatnot.
+    * There is an idea of infix *types*. WTF? If you have
+      `Pair[Person, Person]`, you can write this `Person Pair
+      Person`. **WHY WOULD THAT BE A GOOD IDEA?**.
+* There's a mutable map
+    * You can use `+=`/`-=`. I guess this must literally be another
+      operator? That's kinda obnoxious.
+    * It looks like these operators work for vals, which makes sense,
+      but is kinda awkward.
+    * It's just weird because it's obviously different for numerical
+      `var`s.
+    * And actually any `var`, including maps.
+    * I guess it's not really weirder than Ruby.
+* String interpolation: `s"Hello $name"` does what you think. Can also
+  do `s"Hello ${obj.name}"` to run arbitrary code.
+* In definitions of functions, curly braces not needed for one-liners.
+* `Array(1, 2, 3)` creates a normal Java array.
+* BTW: it's easy to create anonymous subclasses: `new Cat("Gizmo") {
+  override def meow = "GROWL" }`.
+* If you declare constructor arguments `var` or `val`, the appropriate
+  getter/setter methods will exist. You can also declare any
+  `var`/`val` right in the body of the class. Last you can mark any of
+  these with the `private` keyword if you wish.
+    * NB: it looks like a constructor argument will not be retained in
+      an ivar unless you explicitly say so, or if you use it in a
+      method.
+* An `Iterable` can be converted to a `Sequence` via `#toSeq`. Any
+  `Sequence` can be converted to a list via `#toList`.
+* A for comprehension with a `yield` creates a `Sequence`.
+    * Presumably sequences are lazily evaluated? I wonder if they
+      cache their value? Prolly not, as that could use unbounded
+      memory.
+    * Not 100% sure why `List(1, 2, 3)` might be preferred to `Seq(1,
+      2, 3)`. Actually, this is a special case where `Seq(1, 2, 3)`
+      creates a `List`, which isn't inappropriate since `List`
+      implements the `Seq` trait. What I find weird is that I didn't
+      know that traits could have constructors.
+        * Well, maybe `Seq` is an abstract base class. Not clear.
 
 ## Resources
 
@@ -109,11 +179,10 @@ I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything. I have also read all of the Lightbend website.
 
-* http://scala-exercises.47deg.com/koans#implicits
+* http://scala-exercises.47deg.com/koans#iterables
 * http://twitter.github.io/scala_school/
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
-* http://scalatutorials.com/tour/
 * http://www.amazon.com/Programming-Scala-Updated-2-12/dp/0981531687
     * Other books are out-of-date.
 * http://www.scala-lang.org/api/current/#package
