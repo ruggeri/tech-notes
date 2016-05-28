@@ -29,6 +29,38 @@
 * Weird. Map keys can be of mixed type! So can values. But I think the
   values are cast down to `Any`.
 * Maps are unordered.
+* Sets likewise can contain any type. `apply` returns true or false
+  for Sets.
+* Looks like there's a `for (x <- xs)` syntax.
+* `String#format` takes a format string; you can use `%s` and
+  presuambly `toString` is called. `%c` is for char, and `%d` for
+  number.
+* You can do `val match { ... }`. Most useful for case classes. Can
+  have `_` as a wildcard. Can do destructuring in a pattern; can match
+  part, destructure the rest. You may have to use backticks in a
+  destructuring to use a variable's value, and not introduce a
+  shadowing variable.
+* There's some zany way to even destructure using a regular expression
+  and captures.
+* Of course you can destructure lists with conses. But that's just a
+  special case of typical case class destructuring.
+* Case classes work like you think. You can have a single case, or you
+  can have multiple cases if you use `abstract class X` and then `case
+  class SubX extends X`.
+* You can mutate case class objects, but prolly better is to use the
+  `x.copy(propName = newVal)` syntax. That's a wild syntax...
+* Case classes can have default parameters.
+* Looks like Scala has named arguments?
+* There's apparently a way to turn a case object back into a
+  tuple. `Person.unapply(person).get`. Not sure why `get` is needed.
+* Why not always use case classes? It's typicaly just to use them when
+  no private or mutable state.
+    * Sounds like you can even subclass case classes. But apparently
+      the subclass can't also be a case class.
+    * Not sure if that's really important?
+    * It sounds like it's mostly about intent/meaning.
+* You can have `range(0, 10)` or `0.until(10)`. Or `0 until 10` for
+  that matter.
 
 ## Resources
 
@@ -36,7 +68,7 @@ I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything.
 
-* http://scala-exercises.47deg.com/koans#maps
+* http://scala-exercises.47deg.com/koans#caseclasses
 * http://twitter.github.io/scala_school/
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
