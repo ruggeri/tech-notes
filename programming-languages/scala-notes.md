@@ -61,6 +61,40 @@
     * It sounds like it's mostly about intent/meaning.
 * You can have `range(0, 10)` or `0.until(10)`. Or `0 until 10` for
   that matter.
+* When you define a method `def f = 42`, then you don't need the
+  parens when saying `obj.f`. If you say `def f() { side-effect-code
+  }`, then you will need the parens when calling. This is just to
+  highlight this to the user.
+* Thunk arguments are passed like this `doTimes(3) { ... }`. The thunk
+  can be run repeatedly. This helps you write DSLs.
+* Traits:
+    * Traits are like mixins. They're like in Ruby.
+    * You can also mixin to classes after the fact. It's like creating
+      a subclass but also doing the mixin. This is helpful, since it
+      allows easy *decoration*.
+    * For instance `smilingAnimal = new Animal with SmilingDecoration`.
+        * Presumably creates an anonymous `Animal + SmilingDecoration`
+          class and instantiates it.
+* Type enrichment
+    * Basically: you provide an implicit conversion to a class of your
+      choice, and you add methods to this wrapper class.
+    * This allows you to add methods like ActiveSupport, but in a
+      safer way. It only happens in the file you do the import of that
+      enrinchment library, and doesn't change underlying classes.
+* Akka is also distributed by Typesafe, though not technically part of
+  Scala.
+    * Actor model. Can be distributed, or local with STM.
+* Example software:
+    * *Akka*
+    * Finagle
+    * Kafka
+    * Lift
+    * *Play* (this is blessed by Typesafe/Lightbend)
+    * Samza
+    * *SBT*
+    * Scalding (Scala Cascading API)
+    * *Spark*
+    * Basically everything Twitter. LinkedIn is probably #2 user.
 
 ## Resources
 
@@ -81,3 +115,20 @@ I read everything.
 * http://docs.scala-lang.org/style/
 * http://docs.scala-lang.org/glossary/
 * http://docs.scala-lang.org/cheatsheets/
+
+## Typesafe/Lightbend Ecosystem
+
+* Scala
+* Akka
+* Play
+* sbt (also activator)
+
+They also have their own IDE (based on Eclipse), and a DB query/access
+library called slick. They own all the most important parts of Scala.
+
+## TODO
+
+* Akka
+* Play
+* sbt
+* Lightbend website
