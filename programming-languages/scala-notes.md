@@ -95,14 +95,21 @@
     * Scalding (Scala Cascading API)
     * *Spark*
     * Basically everything Twitter. LinkedIn is probably #2 user.
+* Can partially apply functions. There's a `#curried` method on
+  functions. It looks like you can even define functions curry style:
+  `def f(x: Int)(y: Int)`?
+* Weird partial function idea. A `case` statement defines a partial
+  function, not all cases may be handled. You can then combine partial
+  functions using their `orElse` method. This means you could
+  mix-and-match partial functions defined by case statements.
 
 ## Resources
 
 I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
-I read everything.
+I read everything. I have also read all of the Lightbend website.
 
-* http://scala-exercises.47deg.com/koans#caseclasses
+* http://scala-exercises.47deg.com/koans#implicits
 * http://twitter.github.io/scala_school/
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
@@ -131,4 +138,3 @@ library called slick. They own all the most important parts of Scala.
 * Akka
 * Play
 * sbt
-* Lightbend website
