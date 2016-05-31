@@ -97,9 +97,9 @@
     * Scalding (Scala Cascading API)
     * *Spark*
     * Basically everything Twitter. LinkedIn is probably #2 user.
-* Can partially apply functions. There's a `#curried` method on
-  functions. It looks like you can even define functions curry style:
-  `def f(x: Int)(y: Int)`?
+* Can partially apply functions: `add(3, _:Int)`. There's a `#curried`
+  method on functions. It looks like you can even define functions
+  curry style: `def f(x: Int)(y: Int)`?
 * Weird partial function idea. A `case` statement defines a partial
   function, not all cases may be handled. You can then combine partial
   functions using their `orElse` method. This means you could
@@ -283,6 +283,113 @@
 * TODO: clear up the purposes of these markings.
 * Auxurily constructors can be defined by `def this(...)`. But they
   have to call prior aux constructors or the primary constructor.
+* Traits vs abstract classes. When you have something interfacy:
+    * Favor traits.
+    * You can pass arguments to a constructor function in an abstract
+      class. But why would you care? Shouldn't you just expose any
+      necessary variables as methods?
+    * It sounds like for Java interop, or efficiency, you might prefer
+      abstract class.
+    * When uncertain, 99% of the time you want Trait.
+* `x()` is just calling a method named `apply`.
+* Practical contravariance: `trait Function1
+  [-InputType, +OutputType]`.
+    * That means: if you function has a more specific output type, it
+      can still be used here.
+    * It also means that if your function has a less specific input
+      type, it can still be used here.
+* Type bounds: you can write `def quack[T <: Duck](ducks: Seq[T]) =
+  ...`. I believe you can also write `>:`.
+* Looks like you can destructure a list like: `List(x, y, z, rest @ _*)`
+
+## Stack Example
+
+```
+class Stack[+A] {
+  def push[B >: A](elem: B): Stack[B] = new Stack[B] {
+    override def top: B = elem
+    override def pop: Stack[B] = Stack.this
+    override def toString() = elem.toString() + " " +
+                              Stack.this.toString()
+  }
+  def top: A = sys.error("no element on stack")
+  def pop: Stack[A] = sys.error("no element on stack")
+  override def toString() = ""
+}
+
+class Animal
+class Cat extends Animal
+class Tiger extends Cat
+
+val catStack: Stack[Cat] = new Stack()
+val animalStack = catStack.push(new Animal)
+val tigerStack = catStack.push(new Tiger)
+```
+
+* Note that if we have a `Stack[Cat]`, we can push an `Animal` because
+  this will create a `Stack[Animal]`.
+* I believe that we can push a `Tiger`, because the `Tiger` is of
+  class `Cat`, so it will set `B=Cat`, which is appropriate, and
+  leaves the type unchanged.
+* Note that I think we'll typically only use `>:` in those situations
+  where we create a new container with a higher level of granularity.
+    * We would not want to mutate the actual object, since it is
+      referred to by people just thinking `Cat`s are contained, not
+      arbitrary animals.
+    * So `>:` is most useful in a persistent context, I think.
+    * Where we can easily create copies.
+* OTOH, we would more likely use `<:` when we want to mutate; then
+  it's important that this still be of the appropriate type.
+    * In that case, the type of the container is not changing.
+    * TODO: could be interesting to implement a bunch of containers.
+    * Or at least read through the docs.
+* I guess these relations are likely to flip in the contravariant
+  case?
+
+## Abstract types
+
+This is an alternative to a parameter type:
+
+```
+trait Container[T] {
+  def toSeq: Seq[T]
+}
+
+trait Container2 {
+  type T
+  def toSeq: Seq[T]
+```
+
+I don't know what the difference is. Most people don't seem to be able
+to articulate why to use abstract types. It looks like it's best to
+ignore this feature for now.
+
+Actually, see: http://docs.scala-lang.org/tutorials/tour/explicitly-typed-self-references
+
+This gives an example of a Graph, which recalls to mind abstract types
+in Rust. Which I recall was a PITA.
+
+That link is even more fucked by brining in more machinery. Fuck you!
+
+## Call By Name
+
+```
+object TargetTest1 extends App {
+  def whileLoop(cond: => Boolean)(body: => Unit): Unit =
+    if (cond) {
+      body
+      whileLoop(cond)(body)
+    }
+  var i = 10
+  whileLoop (i > 0) {
+    println(i)
+    i -= 1
+  }
+}
+```
+
+That is just fucking wrong. That is so warped. Maybe it's okay if you
+respect only using this in language structure like stuff.
 
 ## Resources
 
@@ -290,14 +397,15 @@ I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything. I have also read all of the Lightbend website.
 
-* http://twitter.github.io/scala_school/
+* http://twitter.github.io/scala_school/advanced-types.html
+    * This was the only chapter that looked interesting.
+* http://docs.scala-lang.org/tutorials/tour/implicit-parameters
+* http://docs.scala-lang.org/tutorials/tour/implicit-conversions
+* http://docs.scala-lang.org/tutorials/FAQ/context-and-view-bounds
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
-* http://www.amazon.com/Programming-Scala-Updated-2-12/dp/0981531687
-    * Other books are out-of-date.
 * http://www.scala-lang.org/api/current/#package
 * http://docs.scala-lang.org/overviews/
-* http://docs.scala-lang.org/tutorials/
 * http://docs.scala-lang.org/style/
 * http://docs.scala-lang.org/glossary/
 * http://docs.scala-lang.org/cheatsheets/
