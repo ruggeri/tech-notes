@@ -160,9 +160,9 @@
     * NB: it looks like a constructor argument will not be retained in
       an ivar unless you explicitly say so, or if you use it in a
       method.
-* An `Iterable` can be converted to a `Sequence` via `#toSeq`. Any
-  `Sequence` can be converted to a list via `#toList`.
-* A for comprehension with a `yield` creates a `Sequence`.
+* An `Iterable` can be converted to a `Seq` via `#toSeq`. Any `Seq`
+  can be converted to a list via `#toList`.
+* A for comprehension with a `yield` creates a `Seq`.
     * Presumably sequences are lazily evaluated? I wonder if they
       cache their value? Prolly not, as that could use unbounded
       memory.
@@ -172,6 +172,117 @@
       implements the `Seq` trait. What I find weird is that I didn't
       know that traits could have constructors.
         * Well, maybe `Seq` is an abstract base class. Not clear.
+* `Iterable` is a trait for classes with an `#iterator` method.
+    * Iterable is more general than Seq, as Seq has a defined order.
+    * Only sequences have a definition of index/position.
+    * More generally, a `Traversable` has a `foreach` method.
+    * I suppose `Traversable` is more general than `Iterable`, in the
+      sense that with an iterator, the user can decide to pause at any
+      point, resume, etc.
+    * Not entirely true; even with `Traversable` you can throw a
+      `BreakControl` exception to stop iteration. But you won't be
+      able to resume, I guess.
+    * Iterators have convenient methods like `grouped` and `sliding`,
+      btw.
+    * When concatenating traversables, the result is of the left
+      type. How obnoxious.
+    * Many methods are on traversable rather than iterable. Almost
+      all.
+* Nice things: `flatMap` can deal with `Option[T]`, while `collect`
+  can deal with partial functions involving cases (it just drops those
+  inputs that don't have a match).
+* But it looks like there is a `Traversable#toIterable` method. WTF,
+  why are these different? Fuck you.
+    * Maybe this allocates to have a defined order?
+    * There's also a `#toIndexedSeq` method; an `IndexedSeq` just
+      promises constant-time indexing, without actually changing the
+      signature of the methods. Thanks.
+    * `toStream` converts to a `Stream`, which is lazy. Not really
+      sure that this is always possible...
+* Can turn collections of pairs into a map with `#toMap`.
+* It is expected that `Traversable` can have infinite
+  length. Therefore there is a `#hasDefiniteSize` method; this will
+  inform you whether it is possible for the object to be of infinite
+  legnth (though it still may have finite length).
+* `Traversable#groupBy` is useful with partial functions.
+* `Traversable#view` let's you combine work so that you don't produce
+  intermediate results. You then `#force` the view.
+* Can call methods with named args. If some of the args have defaults,
+  you can leave those out. Can of course have functions as defaults.
+* TODO: Look into this whole "manifest" business. It looks like a
+  means to pass information about classes, which are of course erased
+  at compiletime.
+* Extractors are defined by an `unapply` method; they let you do
+  matching and extract information. This is automatically done for you
+  with case classes.
+    * It can be a little more complex than that. Any object can
+      provide an extractor via an `unapply` method, which can take any
+      kind of input.
+    * So the same class can be extracted multiple ways.
+    * But I think the most sensible version would be in the companion
+      object.
+    * In fact, the same extractor object can have many unapplys, so
+      long as the signatures are different!
+* "By-Name" parameters:
+    * You can have an argument `f(x: => X)`. This means that the
+      passed function is invoked wherever you reference `x`.
+    * In particular, you don't need to say `x()`.
+    * In particular, you can write `ternary(condition,
+      println("True"), println("False))`. You just mark the second two
+      arguments as `: => T`.
+    * Basically when you mark an argument as "by-name", you're
+      basically saying, capture the argument as a `def`, rather than a
+      `val`.
+* You can mark varargs with `sum(xs: Int*)`. You can splat via
+  `sum(List(1, 2, 3):_*)`.
+* When subclassing, you need to specify how to call the constructor
+  function. If you share parameters, you will want to use `override`
+  in some of the arguments to the type.
+* Empty types:
+    * `null` can happen to any non-value type. `Null` is a trait, of
+      which `null` is the only instance. `Null` inherits from every
+      reference type.
+    * `Nothing` also inherits from every type, but it has no
+      instances. This is used as a return type of, for instance, a
+      function that always throws an exception.
+    * `Unit` is equivalent to void.
+    * `Nil` is an empty list. It is actually a value. It it an
+      instance of `List[Nothing]`. See what I did there?
+    * Of course, `None` is preferred to `null`. But you can still have
+      `null` be set to any reference value (including case classes, I
+      think?).
+* You get the class object by `classOf[String]` or `"abc".getClass`.
+    * Use `#asInstanceOf` to perform a downcast.
+* With the `"""` multiline string, you can use the `|` and the
+  `#stripMargin` method to remove all starting text up to and
+  including the pipe.
+* Enums work all nice-like. They get an `#id` and `#toString` method.
+    * To do it, you write `Object Directions extends Enumeration { val
+      North = Value; val South = Value }`.
+    * `Value` presumably just creates a unique value. But I guess it
+      must be syntactically special to increment the ids...
+    * One trick is to `class DirValue extends Value { ... }`.
+    * Then you can take in arguments, have methods, etc.
+* You have a Java likes Generic system.
+    * But you also have that secret manifest argument which I guess is
+      deprecated.
+    * Type arguments aren't erased if you use that manifest.
+* Say that `T'` is a subclass of `T`. Say you are defining a class
+  `Outer[T]`.
+    * `Outer[T]` and `Outer[T']` are unrelated.
+    * If you define `class Outer[+T]`, then `Outer[T']` is a subclass
+      of `Outer[T]`. This is covariance.
+    * If you define `class Outer[-T]`, then `Outer[T]` is a subclass
+      of `Outer[T']` This is contravariance.
+* When you use `Outer[+T]`, you aren't allowed to assign any `T` var,
+  since you don't know whether will be safe. For instance `val o:
+  Outer[Fruit] = Outer[Banana](banana); o.value = apple` would not be
+  safe.
+* `Outer[-T]` does let you do the set. But in that case you can't use
+  the getter.
+* TODO: clear up the purposes of these markings.
+* Auxurily constructors can be defined by `def this(...)`. But they
+  have to call prior aux constructors or the primary constructor.
 
 ## Resources
 
@@ -179,7 +290,6 @@ I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything. I have also read all of the Lightbend website.
 
-* http://scala-exercises.47deg.com/koans#iterables
 * http://twitter.github.io/scala_school/
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
