@@ -197,8 +197,12 @@
     * There's also a `#toIndexedSeq` method; an `IndexedSeq` just
       promises constant-time indexing, without actually changing the
       signature of the methods. Thanks.
-    * `toStream` converts to a `Stream`, which is lazy. Not really
-      sure that this is always possible...
+    * `toStream` converts to a `Stream`, which is a lazy list. Not
+      really sure that this is always possible...
+* They also have a `Vector` class which is like from Clojure.
+    * They also have a `Queue`, but it's not a banker's queue, just a
+      typical 2-list queue.
+    * HashMap is stored as a HashTrie.
 * Can turn collections of pairs into a map with `#toMap`.
 * It is expected that `Traversable` can have infinite
   length. Therefore there is a `#hasDefiniteSize` method; this will
@@ -301,6 +305,67 @@
 * Type bounds: you can write `def quack[T <: Duck](ducks: Seq[T]) =
   ...`. I believe you can also write `>:`.
 * Looks like you can destructure a list like: `List(x, y, z, rest @ _*)`
+* View bounds: allows you to use a type if there exists a
+  conversion. This is useful when you don't literally need something
+  to be of type X, so long as you can use it as X as needed.
+* Generic Arrays:
+    * Main problem is when you want to create an `Array[T]` in a
+      generic method. Remember that `T` is lost at runtime, but you
+      need this to allocate a `T[]` in Java.
+    * Similar to allocating a primitive array in a Java generic
+      method.
+    * Answer is to use a manifest (in Java you would pass in the
+      class).
+* Structured typing `def f(x: { def get: Int }) = x.get`
+    * Uses reflection, so poor perf.
+
+## Futures
+
+* For futures you run `Future { ... }`.
+    * You can use `onComplete` to register a callback. It will be
+      passed a `Try[T]`, which is either the value or a throwable.
+    * So you pass partial functions to `onComplete`.
+    * `onComplete` doesn't return another promise, it returns unit.
+    * To chain (a la Promises), you use `map`.
+* Now you can do for comprehension
+
+```
+val purchase = for {
+  usdQuote <- getUSDQuote
+  chfQuote <- getCHFQuote
+  if isProfitable(usdQuote, chfQuote)
+} yield makeTrade(usdQuote, chfQuote)
+
+purchase onSuccess { case () => println("Purchase completed!") }
+```
+
+Monads coming back at you! Remember that the `for` construct just
+calls map on the `getUSDQuote`, and then the result is captured as
+`usdQuote`, and then we continue. One problem, I think this will not
+do the quotes in parallel. You cn fix that like so:
+
+```
+val usdQuoteF = getUSDQuote
+val chfQuoteF = getCHFQuote
+
+val purchase = for {
+  usdQuote <- usdQuoteF
+  chfQuote <- chfQuoteF
+  if isProfitable(usdQuote, chfQuote)
+} yield makeTrade(usdQuote, chfQuote)
+
+purchase onSuccess { case () => println("Purchase completed!") }
+```
+
+Now you've at least started both. I believe this is Scala's answer to
+async/await, btw. They recommend never explicitly blocking.
+
+As in CPP, creating a promise object is a way to create a future. This
+may be useful since a future will fork its own thread, whereas the
+promise can be resolved either on the main thread, or really by
+whoever you hand the promise object to.
+
+This is described at: http://docs.scala-lang.org/overviews/core/futures.html
 
 ## Stack Example
 
@@ -391,24 +456,37 @@ object TargetTest1 extends App {
 That is just fucking wrong. That is so warped. Maybe it's okay if you
 respect only using this in language structure like stuff.
 
+BTW, can even implement break!
+
+## Value Class
+
+Main use is enrichment; say you have an implicit class. You don't
+actually want to construct that object. So you extend the implicit
+class from `AnyVal`. Scala will be smart enough to realize to call the
+method as a regular function with an argument.
+
+Another use is for typesafety without the overhead. I think units is a
+good example.
+
+There's a lot of restrictions on what you can do in a value class,
+naturally, since there won't be a class at runtime.
+
 ## Resources
 
 I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything. I have also read all of the Lightbend website.
 
-* http://twitter.github.io/scala_school/advanced-types.html
-    * This was the only chapter that looked interesting.
+* http://docs.scala-lang.org/overviews/core/architecture-of-scala-collections.html
 * http://docs.scala-lang.org/tutorials/tour/implicit-parameters
 * http://docs.scala-lang.org/tutorials/tour/implicit-conversions
-* http://docs.scala-lang.org/tutorials/FAQ/context-and-view-bounds
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
 * http://www.scala-lang.org/api/current/#package
-* http://docs.scala-lang.org/overviews/
 * http://docs.scala-lang.org/style/
-* http://docs.scala-lang.org/glossary/
-* http://docs.scala-lang.org/cheatsheets/
+* http://aperiodic.net/phil/scala/s-99/
+* Hacker Rank
+* Coursera course (just for the exercises)
 
 ## Typesafe/Lightbend Ecosystem
 
@@ -425,3 +503,4 @@ library called slick. They own all the most important parts of Scala.
 * Akka
 * Play
 * sbt
+* Slick (for DB access; very popular; also typesafe)
