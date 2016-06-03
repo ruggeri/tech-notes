@@ -471,6 +471,68 @@ good example.
 There's a lot of restrictions on what you can do in a value class,
 naturally, since there won't be a class at runtime.
 
+## Style Suggestions
+
+```
+// Setter method
+class Cat {
+  def size_=(sz: Int) {
+    //...
+  }
+}
+```
+
+* Don't add parens to no-arg accessor methods; only use for methods
+  with side effects.
+* Mostly reasonable. Annotate return types of methods
+  (documentation). Try to have one line functions, even if it has to
+  be on a second line of the definition.
+* Write parens lisp style (closing paren right after last arg)
+* If you can't fit all parameters, put each arg on its own line and
+  indent two spaces.
+* If a method is basically just a match, just say `def last(s:
+  List[Int]) = s match {\n...`.
+* Recommends against multi-parameter list functions; only for new
+  control structures or implicits.
+* They suggest the following forms for lambdas:
+    * `((a: Int, b: Int) => a + b)`: very explicit, wrap lambda in
+      parens.
+    * `(_ + _)`; the short way.
+    * For multi-line lambdas, use the braces:
+
+```
+zippedEs.foreach { (e1: Element, e2: Element) =>
+  println(e1)
+  println(e2)
+}
+```
+
+* In comprehensions, they recommend:
+
+```
+for {
+  e1 <- els1
+  e2 <- els2
+} yield (e1, e2)
+```
+
+* If for is just used as a loop, do:
+
+```
+for (e1 <- els1; e2 <- els2) {
+  println((e1, e2))
+}
+```
+
+* Don't use arity-0 suffix notation: `seq toList`.  They do encourage
+  arity-1 infix notation, but only if the method is functional: `names
+  map (_.toUpperCase)`.
+
+* Prefer one class per file, as in Java. When you do have very closely
+  associated classes to put in one file (for instance, sealed
+  implementations), then name the file with a lower case letter
+  leading as if a package.
+
 ## Resources
 
 I am in the midst of reviewing these. This is the entire rip of
@@ -478,14 +540,10 @@ I am in the midst of reviewing these. This is the entire rip of
 I read everything. I have also read all of the Lightbend website.
 
 * http://docs.scala-lang.org/overviews/core/architecture-of-scala-collections.html
-* http://docs.scala-lang.org/tutorials/tour/implicit-parameters
-* http://docs.scala-lang.org/tutorials/tour/implicit-conversions
 * http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
 * http://www.scala-lang.org/api/current/#package
-* http://docs.scala-lang.org/style/
 * http://aperiodic.net/phil/scala/s-99/
-* Hacker Rank
 * Coursera course (just for the exercises)
 
 ## Typesafe/Lightbend Ecosystem
