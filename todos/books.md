@@ -68,6 +68,8 @@
     * *Low priority*.
 * Div Grad Curl And All That
     * Didn't read. I can review this if I really need it...
+* ElasticSearch in Action
+    * TODO
 * Elements of Computing Systems
     * Loaned to Stefano.
     * Did read; great book. Most of it I already know, but stuff about
@@ -101,6 +103,8 @@
     * **High priority**.
 * Mastering Web Application Development with AngularJS
     * This was a shit book, and I moved on to React.
+* MongoDB in Action
+    * TODO
 * Pattern Recognition and Machine Learning (Bishop)
     * Did not read.
     * Definitely a widely used book, but Murphy seems more friendly to
@@ -119,6 +123,10 @@
 * Programming Collective Intelligence (Segaran)
     * Haven't looked through this!
     * *TODO priority*.
+* Programming in Scala
+    * Owned this book once before. So far has nothing that wasn't
+      covered in online documentation. Uninsightful; prolly waste of
+      money.
 * Purely Functional Datastructures
     * Exhausted this book mostly. Prolly have done enough persistent
       algorithms for a lifetime.
