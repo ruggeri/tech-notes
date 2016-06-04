@@ -284,7 +284,6 @@
   safe.
 * `Outer[-T]` does let you do the set. But in that case you can't use
   the getter.
-* TODO: clear up the purposes of these markings.
 * Auxurily constructors can be defined by `def this(...)`. But they
   have to call prior aux constructors or the primary constructor.
 * Traits vs abstract classes. When you have something interfacy:
@@ -302,8 +301,24 @@
       can still be used here.
     * It also means that if your function has a less specific input
       type, it can still be used here.
+* Odersky points out that covariance means you can't have a method
+  which takes in a type of that object.
+    * Which rules out setter methods.
+    * Reason is that then your `Class[SubClass]` can be cast to a
+      `Class[SuperClass]`, and then you can run
+      `method(superClassInstance)`, even though it wasn't expected.
+    * The way to do this for non-modifying "extensions" (like push on
+      a list) is to make the push itself generic in the argument,
+      returning a new list of that type.
+    * Here you would use a lower bound.
 * Type bounds: you can write `def quack[T <: Duck](ducks: Seq[T]) =
   ...`. I believe you can also write `>:`.
+    * If you can do this, why mark anything covariant at all? Why not
+      just have the user always write in the appropriate type bounds?
+    * The reason is that it makes the user do more work to use your
+      class.
+    * If you take responsibility for marking your class' variance
+      properly, then the user doesn't need to deal with this anymore.
 * Looks like you can destructure a list like: `List(x, y, z, rest @ _*)`
 * View bounds: allows you to use a type if there exists a
   conversion. This is useful when you don't literally need something
@@ -318,6 +333,8 @@
       class).
 * Structured typing `def f(x: { def get: Int }) = x.get`
     * Uses reflection, so poor perf.
+* Macros aren't part of the language yet; though they seem to be
+  edging toward inclusion. They're behind an experimental flag.
 
 ## Futures
 
@@ -555,7 +572,16 @@ library called slick. They own all the most important parts of Scala.
 
 ## TODO
 
+* There don't appear to be real Play/Slick books out there right
+  now. There appears to be more on Akka, but I think that's less vital
+  to me at the moment. Reactive Web Applications or Play In Action
+  might be okay when they come out.
 * Akka
 * Play
 * sbt
 * Slick (for DB access; very popular; also typesafe)
+* Annotations
+* Delimited Continuation
+* Type classes; do I really understand them?
+* Manifest vs tag?
+* Concurrent library; parallel collections
