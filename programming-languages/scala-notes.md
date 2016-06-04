@@ -539,10 +539,7 @@ I am in the midst of reviewing these. This is the entire rip of
 `scala-lang.org` and `docs.scala-lang.org`. After this plus the book,
 I read everything. I have also read all of the Lightbend website.
 
-* http://docs.scala-lang.org/overviews/core/architecture-of-scala-collections.html
-* http://twitter.github.io/effectivescala/
 * http://scalapuzzlers.com/
-* http://www.scala-lang.org/api/current/#package
 * http://aperiodic.net/phil/scala/s-99/
 * Coursera course (just for the exercises)
 
