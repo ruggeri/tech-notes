@@ -565,10 +565,8 @@ I read everything. I have also read all of the Lightbend website.
 * Scala
 * Akka
 * Play
+* Slick
 * sbt (also activator)
-
-They also have their own IDE (based on Eclipse), and a DB query/access
-library called slick. They own all the most important parts of Scala.
 
 ## TODO
 
@@ -577,9 +575,7 @@ library called slick. They own all the most important parts of Scala.
   to me at the moment. Reactive Web Applications or Play In Action
   might be okay when they come out.
 * Akka
-* Play
 * sbt
-* Slick (for DB access; very popular; also typesafe)
 * Annotations
 * Delimited Continuation
 * Type classes; do I really understand them?
