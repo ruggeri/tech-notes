@@ -7,3 +7,4 @@
 3. Have to compile assets for production.
     * Also need to install `rails_serve_static_assets`, unless you want
       to configure nginx for this...
+4. May have to use `crontab -e` to setup recurring Rake tasks.
