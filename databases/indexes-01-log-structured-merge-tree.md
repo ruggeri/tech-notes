@@ -69,7 +69,10 @@ This motivates *multiple* levels of on-disk trees. That way you always
 merge things that are roughly the same size, which is more efficient.
 
 But that tends to slow down querying, since you have to look at each
-tree. To minimize this cost, you can use bloom filters.
+tree. To minimize this cost, you can use bloom filters. Note: this
+can't help with range queries, so that is a potential downside: it's
+hard to mitigate the cost of multiple levels when dealing with
+multiple levels.
 
 BigTable has does a similar merging thing, but I think sstables just
 use sorted files, without any tree structure. LevelDB is an LSM
@@ -80,3 +83,4 @@ database, and RocksDB is a fork of LevelDB optimized for SSD.
 * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&rep=rep1&type=pdf
 * https://www.percona.com/blog/2011/10/04/write-optimization-myths-comparison-clarifications-part-2/
 * http://www.benstopford.com/2015/02/14/log-structured-merge-trees/
+* http://smalldatum.blogspot.com/2016/01/summary-of-advantages-of-lsm-vs-b-tree.html
