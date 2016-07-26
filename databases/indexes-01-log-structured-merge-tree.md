@@ -79,3 +79,4 @@ database, and RocksDB is a fork of LevelDB optimized for SSD.
 
 * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&rep=rep1&type=pdf
 * https://www.percona.com/blog/2011/10/04/write-optimization-myths-comparison-clarifications-part-2/
+* http://www.benstopford.com/2015/02/14/log-structured-merge-trees/
