@@ -50,3 +50,6 @@ Sources:
 * https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf
 * http://gist.cs.berkeley.edu/gist1.html
 * https://www.postgresql.org/docs/9.1/static/textsearch-indexes.html
+* https://github.com/postgres/postgres/tree/master/src/backend/access
+    * Each index type has a README which explains how it works!
+    * I haven't reviewed this yet, but it seems super useful!
