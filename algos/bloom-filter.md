@@ -77,6 +77,10 @@ the false positive rate, you double the number of buckets (thus
 space), but then you probably want to increase the number of hash
 functions by one.
 
+NOTE: Everything here sounds a lot like lossy compression, and the
+theory around that. It sounds like bloom filters et cetera are just
+trying to get closer to some kind of optimal.
+
 ## Bloom Filter
 
 A Bloom filter is used to prevent searching for misses in a more
