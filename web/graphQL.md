@@ -125,6 +125,59 @@ is to avoid unnecessary string-building on the client, I guess.
 
 ## Relay
 
+You create a React Component, but then you wrap it with
+`Relay.createContainer`. Normally you specify a `fragment`, which is
+the properties of the given object you need.
+
+A parent component/container will specify another fragment, embedding
+nested fragments as needed by nested components. Instead of using
+`state`, you use `this.props.relay.setVariables`. You can use
+`$variableName` in your fragment to interpolate these variable
+settings. As you change variables in the component, the query should
+be re-run on the server.
+
+Relay has a `Relay.Route` class where you specify a top-level GraphQL
+query. It has nothing to do with URL routing. It just is the top-level
+relay container that actually does the querying. Well, sort of...
+
+The `graphql-relay-js` library has a `mutationWithClientMutationId`
+method. Here you specify how to perform the mutation
+(`mutateAndGetPayload`), followed by what data to return
+(`outputFields`). That's the server side, I think.
+
+On the client side, you run `Relay.Store.update(...)`, passing a
+`Relay.Mutation` subclass. Here you specify the mutation through the
+`getMutation` method (this is just the mutation name), the arguments
+via `getVariables` (returns a JS object which is the args).
+
+It looks like Relay is going to maintain a cache of all requested
+objects. It stores each object one time with a unique ID. It is doing
+normalization here.
+
+Relay keeps track of what components reference what records, and will
+re-render these when the underlying data changes.
+
+Mutations contain information about what the mutation may
+change. Therefore Relay can know what information it should refetch.
+
+`Relay.Renderer` is a component that will perform a query, and when
+the data is received, will render the contents. Relay will look in the
+cache first, and then think about what additional information is
+needed from the server.
+
+The `Relay.Route` class describes how to actually do the query. Then
+we put it and the container displaying that data in a
+`Relay.RootContainer`. It is here that the root container can decide
+whether to force a refresh from the server.
+
+TODO:
+
+* https://facebook.github.io/relay/docs/guides-mutations.html#content
+* https://facebook.github.io/relay/docs/guides-network-layer.html#content
+
+Okay, I got tired and stopped reading for a while. But the idea is
+that Relay is going to manage your store for you.
+
 * Relay allows you to declare data dependencies for your UI.
 * It will translate these to GraphQL and query the server.
 * Basically, Relay is moving you toward more declarative programming,
