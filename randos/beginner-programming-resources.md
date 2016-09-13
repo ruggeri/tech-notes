@@ -1,3 +1,12 @@
+http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html
+http://www.rubykoans.com/
+https://pine.fm/LearnToProgram/
+http://prepwork.appacademy.io/pre-course/readings/
+http://prepwork.appacademy.io/coding-test-1/
+http://prepwork.appacademy.io/coding-test-2/practice-problems/
+http://prepwork.appacademy.io/mini-curriculum/
+https://github.com/appacademy/appacademy-prep
+
 **Ideas For Projects**
 
 * https://github.com/karan/Projects/blob/master/README.md
