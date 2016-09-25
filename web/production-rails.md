@@ -4,6 +4,8 @@
     * `/etc/nginx/sites-enabled/default`
     * https://www.nginx.com/resources/wiki/start/topics/examples/loadbalanceexample/
     * service nginx reload
+    * BTW: HAProxy is a lot like Nginx. Difference is that Nginx
+      understands HTTP, while HAProxy just proxies TCP.
 3. Have to compile assets for production.
     * Also need to install `rails_serve_static_assets`, unless you want
       to configure nginx for this...
