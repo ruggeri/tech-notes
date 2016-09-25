@@ -14,6 +14,10 @@ committed writes if the master goes down. But note that there's only
 one serializable transaction order, so even with async log shipping,
 there's no possibility of inconsistency.
 
+Be careful with promotion, by the way. Even if a write is confirmed on
+a quorum of other machines, it can be lost if the new master doesn't
+get this write.
+
 For a read-heavy workload, this increases your read IO, but doesn't
 increase write IO (if anything it slows it down). It doesn't increase
 your disk capacity.
