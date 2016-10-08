@@ -78,11 +78,11 @@
       abort.
     * We have to block until at least the coordinator or the site come
       back up.
-    * In this way, 2PL is *blocking*.
+    * In this way, 2PC is *blocking*.
 * NB: When a site is down, isn't the service unavailable?
     * Not necessarily *all* of the service. Maybe we can work around
       the temporary unavailability of that node.
-* We say that 2PL is *blocking*.
+* We say that 2PC is *blocking*.
     * If both the coordinator and a site fails, no one can commit or
       rollback until the coordinator tells us how to proceed.
 
@@ -102,7 +102,7 @@
 * You have to be careful of partition though. For instance, if
   someone didn't receive a prepare commit, but is partitioned
   away, they may think it is okay to abort the transaction!
-* 3PL is meant for stop failures.
+* 3PC is meant for stop failures.
 
 ## Distributed Locking
 
