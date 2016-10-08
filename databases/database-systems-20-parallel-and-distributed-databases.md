@@ -102,6 +102,9 @@
 * You have to be careful of partition though. For instance, if
   someone didn't receive a prepare commit, but is partitioned
   away, they may think it is okay to abort the transaction!
+    * This seems silly. It says 3PC only works for no partition
+      scenarios.
+    * But partitions can happen. So what use is 3PC?
 * 3PC is meant for stop failures.
 
 ## Distributed Locking
