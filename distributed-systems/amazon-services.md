@@ -2,6 +2,7 @@
 
 * EC2
     * You get virtualized machines that you run an OS on.
+    * ECS lets you just deploy a Docker image.
 * Elastic Beanstalk
     * This is a layer of abstraction above EC2.
     * You deploy an application, and it runs it on your EC2 instance
@@ -41,6 +42,7 @@
       need.
     * (You could do this with EBS, btw).
     * Not infinitely scalable; max size is 6GB.
+    * They also offer Aurora, which is their fork of MySQL.
 * DynamoDB
     * NoSQL DB. Scalable. Not relational.
     * Looks like there is a library for transactions. Not sure how
@@ -70,6 +72,7 @@
     * Runs Elasticsearch for you.
     * Elasticsearch appears to be just about rebuilding indices for
       you.
+    * You can also use CloudSearch, which is a more managed product.
 
 **Other**
 
