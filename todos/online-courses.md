@@ -104,6 +104,9 @@ above. It just wouldn't feel that necessary.
     * Looks clearly based on the Norvig AI book. Looks like it has
       some reinforcement learning stuff.
     * Is pretty okay; nothing amazingly awesome, but fine.
+* **Wasserman Statistical Machine Learning**
+    * http://www.stat.cmu.edu/~larry/=sml/
+    * CMU grad course.
 
 **Kinda Interesting**
 
