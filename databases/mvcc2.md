@@ -1,158 +1,161 @@
-Garcia-Molina suggests a different version of MVCC than I have
-recorded. His version has *two* timestamps on every record: a read and
-a write timestamp.
+## Timestamp Concurrency Control
 
-Here's how the basic form works:
+Here's how the basic form of timestamping works, with no versions:
 
 * When you start a transaction, you get a transaction ID.
-* Before reading a row, check the `WriteTimestamp`; if the write
-  timestamp comes after your TXID, then abort.
-    * Else, update the read timestamp (if our TID is later) and a
-      "commit" bit to false.
-* When you write, check both `ReadTimestamp` and `WriteTimestamp`; if
-  you're greater than both, do your write and update the
-  `WriteTimestamp`.
-    * Again, set the commit bit to false.
-* If TXID<RT, but WT>TXIDnot:
-    * If a later write has been written there, we can ignore this
-      write, since its already been replaced. And no one has tried to
-      read us here, so who cares.
-    * If that write hasn't committed, we need to wait. That's because
-      if the other writer is rolled back, we need to put *our* value
-      in.
-* If TXID<RT, then you have to abort.
+* Before reading a row, check that WT<TXID.
+    * If not, then must abort the transaction.
+    * If so, but commit bit is false, you need to wait. You don't know
+      whether this row will be written.
+    * If so, update the read timestamp (if our TID is later).
+* When you write, check that RT<TXID and WT<TXID.
+    * Then you can do the write.
+    * Again, set the commit bit to false until you commit.
+* If writing but RT<TXID and TXID<WT:
+    * That means your write is going is supposed to be forgotten.
+    * If the commit bit is set, then you can just continue.
+    * Otherwise, you have to wait. You don't know whether the write
+      already in place will actually be committed.
+* If writing and TXID<RT, then you have to abort.
 
-This is concurrency control with timestamps, but no multiple
-versions. Note; I think you need to *re-issue* a TXID write before
-commit, and double check this work one last time. Otherwise, there's
-no way to check for concurrent modifications?
+Right now this is basically no better than locking, really. You have
+readers blocking to wait for concurrent writers. In fact, you can have
+readers *abort* because of concurrent writes. Also, writers now don't
+wait for readers; they must abort.
 
-Sometimes it is okay to read older versions. Let's consider what would
-we could do if we created a new version on every write:
+There is a slight optimiztation, where T1 can read, and T2 can write
+(assuming TXID1<TXID2) before T1 finishes. T1 encounters no problem if
+it doesn't try to re-read the row. That is, there is a slight
+advantage maybe over 2PL.
 
-* Write times never change. Writes can't go through if they have a
-  TXID less than the previous read.
-* Reads look for the latest version before the TXID.
+## MVCC Part I
 
-So let's say you start a read only transaction. You will try with the
-current TXID. You read all the relevant data. You go to complete the
-transaction. Everything you read is *still valid* for that TXID. You
-complete without blocking.
+In our version of timestamping thus far, reading transactions must
+abort if a write has already happend with a later TXID. We could avoid
+doing that if we kept older versions of records.
 
-Let's say you have a transaction which reads some data and writes some
-data. You get a preliminary TXID. You read the data appropriate for
-that TXID, and you want to make some writes. You go to finalize the
-TX, you issue the TXID it *will* commit with. You check: was any of
-the data you read modified by a transaction in between?
+So instead of overwriting any records, create copies. The read
+timestamps will monotonically increase, but the write timestamp never
+changes.
 
-Effectively, this is my materializing the conflict suggestion. It
-seems like with this suggestion transactions should only abort if they
-actually really do overlap. It doesn't reduce reader throughput at
-all.
+Now, a read can use the latest version that was valid at its TXID. As
+before, a later read must wait on an uncommited write. Likewise, a
+write must still be aborted if a read already happened on the most
+recent version.
 
-Garcia-Molina goes so far as to say that some DBs use a hybrid where
-read-only transactions use MVCC, while others fall back to two phase
-locking. This can have better throughput, because aborted transactions
-are painful. But then I guess you do have the possibility of
-deadlock...
+This is an improvement. We now never need to abort a reading
+transaction. However, a reading transaction may still have to *wait*
+on a concurrent writing transaction to commit. More, writers must
+still abort if interfered with by a concurrent reader.
 
-I think that the old way I describe MVCC acheives *snapshot
-isolation*, which *is not* serializability. The way I've described
-*does*. I think it aborts basically the minimum number of
-transactions.
+## MVCC Part II: Validation
 
-I think that Postgresql doesn't really use this method, though. I
-think it uses serializable snapshot isolation; using the same kinds of
-timestamps and rules, but just additionally runs a cyclic dependency
-checker. I think the advantage to this would be no deadlock...
+To avoid needlessly delaying readers for pending writes, or for
+aborting writers because of read-only transactions, let's make sure
+that all concurrent read-only transactions are ordered before a
+concurrent writing transaction.
 
-## TXID?
+To do this, we will only issue new, incrementing TXIDs to writers. A
+reader gets a TXID of one before the earliest concurrent writer.
 
-I think if you use a timestamp instead of TXID things are maybe
-clearer. You just need monotonic time.
+All transactions start out as readers. Even writing transactions just
+prepare their writes "on the side."
 
-Again, read only queries can operate with last committed
-timestamp. They don't have to block anyone.
+By nature of the way that TXID is handed out, readers don't need to
+worry about anyone trying to insert a new record before their
+read. They are never delayed. (Technically, readers don't even need to
+check or update timestamps! They will never experience conflicts, or
+cause them).
 
-When you write, you get a timestamp. As you read records, you update
-read timestamps. Read the most up-to-date version of what exists at
-the time of your timestamp. It's okay, you can allow later writers to
-write over stuff that you read.
+When writers are done preparing their changes, they then need to
+validate before writing. First, they request a new TXID. Then they go
+through the rows they read/wrote. They will lock each of these
+briefly.
 
-The only thing you can't do is write something that they haven't
-read. So if you want to write something, and you see that a committed
-transaction with a higher TXID has already read the old version of
-this data, you have to die. You no longer could have taken place
-before the other TX.
+If they are reading the record, they should update the read
+timestamp. If a concurrent write wrote the record prior to the read,
+we should abort, which means going back through the rows, reversing
+our changes, and releasing the locks.
 
-If the TX is in progress, you have a choice: you can die, or they
-can. Maybe they should die; that seems fair because they have the
-higher TXID, and livelock is more likely if you kill them. OTOH, it
-could be hard to stop them if they're in the midst of committing. For
-today's purpose, I don't care.
+If we wrote the record, but see a later read of the prior record, we
+should again abort.
 
-Let's consider from the other side: what if you see a write from
-before you TXID? As ever, if it's committted, just go ahead and read
-it (marking, obviously). If it's not committted, you need to wait,
-because who knows if that's going to actually be the real record.
+Otherwise, we can release the locks iteratively to complete our
+changes.
 
-Note that this waiting *cannot cause deadlock*, because you only wait
-on older concurrent transactions.
+What we have done is make sure that all concurrent read-only
+transactions are ordered before all concurrent writing
+transactions. This means writers never have to abort for read-only
+transactions, and read-only transactions are never delayed by writers.
 
-(I believe this is what Garcia-Molina really says!).
+Writers can continue to kill each other. In fact, we've made it more
+costly when conflicts do happen, because every transaction runs to
+completion on a snapshot, but the result may be thrown away. There is
+no early termination.
 
-The good news about this strategy is that it should avoid deadlock,
-but also be serializable. It shouldn't kill any transactions, except
-ones which *truly are unsafe*: where you're trying to do a write
-before a committed transaction that already read that data and
-returned. So only conflicting transactions get delayed.
+## MVCC Part III: Optimizations, Snapshot Isolation
 
-The rules can be enforced without a "final check" at the end. You
-check along the way, kind of like locking. That's reassuring.
+First, if a transaction knows that it will be a writer, it can kill
+itself immediately if it wants to read a record, but sees a concurrent
+writer has committed a new version. Carrying on would be useless
+work. We don't want read-only transactions to do this, obviously, so
+we should default optimize for read-only transactions, but then give
+the user a way to hint us.
 
-I think I also learned how predicate locks work. Basically, if your
-predicate is an index, you just touch the readstamp of the index. That
-stops someone from inserting records at the values you are protecting.
+This is better, but it doesn't prevent all late detection of
+conflicts, because one transaction needs to commit before the other is
+aware of any potential problem. Also, this won't always work (if we
+read first, and then an intervening transaction writes before we go to
+commit). There is no cureall!
 
-## So Why SSI?
+Another optimization is to loosen serializability to *snapshot
+isolation*. In this model, we stop using read timestamps; we won't
+care if T1 is supposed to come after T2 according txid, but T1 read
+data that T2 wrote. We'll only try abort on write-write conflicts; a
+transaction will abort only if it is assigned a lower txid but tries
+to write a record that was updated by a higher txid.
 
-The system I described aborts some transactions that could be
-processed simultaneously. Let's say T1 gets a lower TXID than T2, and
-tries to write a row that T2 reads.
+## Write Skew
 
-If T1 commits before T2, then everything is fine.
+What can now happen is *write skew*. T1 reads A and B and writes B. T2
+reads A and B and writes A. They can both operate with the same
+versions of A and B, even though this is not serializable behavior.
 
-If T2 commits and then T1 tries to write the record T2 read, then T1
-needs to abort (under the scheme I've described); T2 couldn't have
-happened at the later timestamp if T1 is supposed to happen at the
-earlier timestamp.
+In our old version where we tracked read timestamps, this is not
+possible. Assume, WLOG, that T1 is assigned a TXID < T2. If T1 is
+committed, it has updated the write timestamp of B, so that T2
+realizes it cannot have read B properly. Likewise, if T2 is committed,
+it updates the read timestamp of B, so that T1 realizes it cannot
+write B.
 
-But what if we could have reorderd T1, on the fly, so that it got a
-higher timestamp than T2? It's possible that T1 isn't going to try to
-read anything that T2 wrote, so it could run concurrently to T2, and
-not worry whether its write got committed before T1's read or came
-after.
+Not everything aborted by MVCC with timestamps is write skew, of
+course. Consider if T1 reads A (and writes something else, like Z) and
+T2 writes A. If T1 is assigned an earlier txid than T2, we are
+fine. But if T1 is assigned a txid after T2, one of these is going to
+have to abort. Under SI we won't abort.
 
-Likewise, if T2 sees an uncommitted write from T1, what should it do?
-It can wait for T1, but that could take forever. If T1 just hangs,
-then T2 could be wedged. T2 could try to kill T1, but that could lose
-resources. Again, if T2 isn't going to write anything that T1 sees, it
-could just go ahead and read the old record, and doesn't need to
-coordinate with T1; T1's write could happen later.
+## Promotion
 
-Basically: if write skew doesn't happen, then we could have let these
-transactions run concurrently without killing or waiting. Basically,
-we would be letting T2 get "reordered" before T1. NB: if T1 actually
-commits before T1, we could temporarily observe an anomoly, but
-eventually that would heal itself.
+So we can achieve serializability using MVCC. Or we can loosen
+isolation and allow in write skew.
 
-So we see that we could get more throughput, but at the cost of
-serializability.
+Note: the serializable MVCC is basically just the snapshot isolation
+approach where we promote all reads to writes. So instead of talking
+about "serializable MVCC", I'll just say "SI with promotion." Because
+there's another way to achieve serializability with MVCC.
 
-I believe this is what SSI is trying to do. It's trying to allow these
-kinds of transactions to run concurrently, but *without* the danger
-posed by write skew. It does this by maintaining a graph and
-eliminating transactions that get dangerous.
+That's not actually true, really! If an earlier transaction reads
+something, it shouldn't conflict with a later transaction reading. But
+if we treat all reads as writes, then yes this will pose a problem!
 
-It's more optimistic. If the danger never occurs, then no one needs to
-rollback. But it's a more complex scheme, of course.
+## Serializable Snapshot Isolation
+
+We showed that SI with promotion will kill some perfectly okay
+transactions, just because we assigned some txids in an unfortunate
+order.
+
+Serializable Snapshot Isolation tries to avoid the write skew
+transactions, but not unnecessarily kill overlapping transactions. It
+does this by maintaining a graph of dependencies and eliminating
+transactions that get dangerous. SSI is described elsewhere in my
+notes.
