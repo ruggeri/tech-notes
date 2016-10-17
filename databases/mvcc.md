@@ -1,157 +1,25 @@
-## MVCC
+## MVCC/SI Tradeoffs
 
-**Multi-version concurrency control** increases concurrency by not
-blocking reads with writes. Here is a common implementation:
+So we know that MVCC can cause transactions to be aborted
+unnecessarily. In particular, a transaction can do a lot of work, but
+because it doesn't lock anything, a short transaction can swoop down
+and change one piece of underlying data, and cause the longer
+transaction to abort.
 
-* Every transaction has a snapshot id indicating the most recent
-  committed transaction at transaction start.
-* Each record has two timestamps: xmin and xmax.
-    * xmin is the transaction id that created the record.
-    * xmax is the transaction id that obsolesced the record.
-    * xmax of course can be NULL.
-* Updates don't mutate records; they set xmax on the old record and
-  create a new record with the appropriate xmin (DELETE doesn't create
-  a record of course).
-* Look only at the last record where `xmin <= snapshot_id && xmax IS
-  NULL || snapshot_id < xmax`.
-* When committing, issue a new transaction id, use this when setting
-  xmin/xmax.
+To avoid that, we can use SI to reduce aborts, but that has the
+downside that it lets write-skew anomolies.
 
-This means you always operate with a consistent view of the database
-at some point in time. Mutations due to concurrent transactions cannot
-leak into our view of the DB.
+I believe Garcia-Molina suggests a potential approach which is a
+hybrid of locking and MVCC, where read-only transactions can read old
+versions, but writers user locking. They suggest this is used in some
+commercial systems.
 
-However, anomolies can exist. Imagine two transactions want to run
-simultaneously, incrementing a user's account balance by $100. How do
-we prevent one from clobbering the other? Put another way: if they
-were serialized, they couldn't *both* see the same value of the
-account balance; whichever transaction is "second" should see the
-updates from the "first" transaction.
-
-Note that this can't happen with locking. That's because locking
-enforces that data used in a transaction T1 cannot be modified by any
-other transaction until T1 commits. Locking is forcing people who want
-to mutate data used by T1 to serialize after T1. The only concurrency
-is between two transactions with no overlapping access, or between two
-transactions that only have overlapping reads. Otherwise one is
-blocked until the other commits. The authors of the SQL standard
-didn't forsee anomolies like write-skew, because they thought in terms
-of lock-based systems where it wasn't possible.
-
-If I think about it, there are a couple restrictions to ordering:
-
-* If T2 reads a record that T1 writes, then it needs to see
-  *everything* that T1 wrote. This is enforced by MVCC because T2 only
-  reads T1's writes if it operates at a higher snapshot id, which
-  means it sees everything done by T1.
-* If T2 reads a record that T1 writes, then T1 must *see nothing* that
-  T2 writes. Snapshot isolation ensures this because T2 can't see any
-  of T1's writes until T1 has committed, which is after T1 would have
-  queried all of its data.
-* The same arguments go for if T2 overwrites a record that T1 wrote.
-* If T1 reads a record and *does not* see an update that T2 writes,
-  then it needs to see *nothing* that T2 writes. Again, this is
-  acheived by snapshot isolation, because T1 only ignores T2's writes
-  if it operates at a lower snapshot id.
-* If T1 reads a record and *does not* see an update that T2 writes,
-  then T2 needs to see *all of* the updates from T1.
-    * This *is not* ensured by snapshot isolation. Two concurrent
-      transactions won't see each others' updates. This is the write
-      skew problem.
-    * NB: Even if T2 does not look at any records T1 wrote, this
-      transitively applies to any transaction T3 that sees any writes
-      from T2.
-
-## Aborting MVCC Transactions
-
-Under MVCC, we see that write skew anomolies can happen. In a case
-where T1 reads an old record and doesn't see a write that T2 makes,
-MVCC admits the possibility that T2 won't see the writes that T1
-made. If T2 has committed, then ideally T1 would be aborted if it
-tries to write something that T2 would have read.
-
-This is not what MVCC does. In MVCC, T1 will be aborted only if it
-tries to *write* a record that T2 *wrote*. The isolation provided by
-MVCC -- every transaction runs against a consistent view of the DB,
-write-write conflicts cause a transaction to abort -- is called
-*snapshot isolation*.
-
-Aborting these write-write conflicts seems silly, because blind-writes
-don't impose any happens-before requirement on the ordering of the
-transactions. Aborting transactions like this (1) aborts some
-transactions that could have been safely commited in a serializable
-way AND (2) commits some transactions in a non-serializable way.
-
-However, I might defend SI's choice to abort for the following
-reasons:
-
-* Most write-write conflicts probably do reflect potential write-skew
-  problems. If T2 tries to overwrite a record that T1 wrote, then it
-  seems highly likely that T2 might also be writing that T1
-  considered. Note that this is trivially the case if the writes are
-  not blind. So a very high percentage of write-write conflicts are
-  likely to be dangerous.
-* It is easy to detect write-write conflicts; at transaction commit
-  time, you're going to write a record, so it's simple to look to see
-  if the current version of that record changed.
-* Avoiding write skew feels hard unless readers block writers.
-
-## Materializing the Conflict
-
-There are a couple solutions to the write skew anomaly. One hack is to
-write read records with the same data so as to confirm that their
-value did not change over the course of the transaction.
-
-That doesn't seem entirely hacky, actually. Say that writers always
-re-wrote all the rows they read. This doesn't block any readers, since
-writers don't block readers.
-
-It would cause the transaction to fail if someone in the meantime
-committed a write to one of the rows they read. That seems *entirely
-appropriate*; in that case, the database already exists in a new
-state. Someone could be querying *right now* for data in this new
-state. You are about to make a commit based on the *old state*. This
-sounds entirely bogus, non-linearizable, and completely observable.
-
-Note that, if the rows you read *are the exact same* as the rows when
-you go to commit, then you don't need to rollback the transaction. So
-you don't have to rollback when you're doing a write to the same value
-you observed in the first place (note this is a little complicated if
-you read a row at an old value, and are writing it at a new value that
-happens to be the same as the concurrently updated value).
-
-I guess the major problem I see is with phantom inserts. How are these
-handled? It seems like you could just buffer these; if any writes
-commit that match your criteria after the transaction, then kill the
-transaction. That doesn't really seem that hard. But it is, because
-it's prolly really hard to see if you would change the result of a
-query by the addition of a row. I think the typical thing to do here
-is a table lock.
-
-I mean, think of how hard a predicate lock would be to implement. Say
-you're joining tables `X` and `Y`. If you add a row to `X`, are you
-going to search through `Y` to see if someone matches? Or should you
-keep all the joined keys of `Y` in memory for the lock? Or will you
-just have locked the entire X table, which is really the only feasable
-thing to do...
-
-Given that, are you going to kill a transaction doing a table read of
-`X` just because one row got added? At least with locking you could
-pause that insert; with MVCC like I've said, you'd throw away all the
-work. That's why I *don't* think the default should be to try to
-serialize with MVCC.
-
-I think you can do index locking though, which means you don't have to
-do a full predicate lock. So that might kind of save things.
-
-The problem I see is that now the MVCC regimen is so strict that you
-might have trouble committing transactions; you might go through
-multiple failures, which would not have resulted if you did
-locking. Basically, you could do a lot of work, just to see it
-killed by a trivial task that could have waited a moment.
-
-I think that a smart scheduler could see that and make an intelligent
-choice of who to kill.
+Another approach is to try to recognize transactions that are true
+write-skew, rather than ones that overlap in a trivial way (as
+above). This involves monitoring a dependency graph for conflicts. In
+particular, Cahill et al show how to detect the potential start of a
+write-skew. This has false positives, but is generally accurate, and
+easy to test for.
 
 ## Serializable Snapshot Isolation
 
