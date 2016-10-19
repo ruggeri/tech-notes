@@ -90,3 +90,34 @@
           application wants to choose what guarantees it needs.
     * Then IP layer.
     * Then whatever is needed for the physical network.
+
+## Ch3: Distributed Database Design
+
+* Fragmentation:
+    * Pro: increases intraquery concurrency.
+    * Con: if data is needed together (like for a join), requires
+      communication from distant sites.
+    * Con: Enforcement of constraints across sites is harder.
+* Allocation of fragments
+    * Where to place them.
+    * Are there replicas?
+    * Is there a primary site?
+* Extremes:
+    * Partitioned DB has no replication but is fragmented.
+    * A fully replicated DB has no fragmentation and is replicated at
+      multiple sites.
+    * Partially replicated DB is where fragments are replicated, but
+      not to everywhere.
+* Horizontal Fragmentation:
+    * They talk about primary vs derived horizontal fragmentation.
+    * Primary is where you look at a row and where to place it depends
+      on data in that row (e.g., hash of row id).
+    * Derived is when you place a row based on where you placed a
+      *parent* row.
+        * For instance, maybe you place a Factory row based on
+          location.
+        * Then Worker rows might be placed according to where the
+          factory is located.
+* Vertical Fragmentation: breaks up tables.
+* This chapter felt dumb. I think we often just break up our DB by
+  picking a datacenter closest to a client.
