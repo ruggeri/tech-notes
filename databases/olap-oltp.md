@@ -21,6 +21,8 @@ OLAP systems will typically sacrifice throughput if it can process
 fewer queries faster. If aggregate throughput is essential, a system
 like Hadoop may be more efficient.
 
+OLAP is sometimes synonymous with DWH, or Data WareHouse.
+
 ## SMP vs MPP
 
 SMP means means *symmetric multiprocessing*. This means that all
@@ -52,6 +54,11 @@ another OLAP column store.
 Examples of MPP OLTP are VoltDB and MemSQL. These are in-memory
 databases. Clustrix is an example of an MPP database for OLTP. CitusDB
 claims to be good at both OLAP and OLTP.
+
+## Why So Few MPP OLTP Systems?
+
+* Sounds like mixed workloads are hard.
+* TODO: WHY? Maybe Ozsu will explain!
 
 ## Parallel Vs Distributed
 
