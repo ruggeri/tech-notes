@@ -9,18 +9,46 @@
     * Infiniband has >97Gbit throughput??
     * SSD has ~6Gbit?? Whoa!
 * When receiving data, it might be necessary to write it out to
-  disk. But even then, this is all being done in paralle.
+  disk. But even then, this is all being done in parallel.
     * Also: if you can do an in memory join that won't be needed.
+* You may have more total IO required on a parallel system, but this
+  is done in parallel, so throughput can be higher.
+    * You can also get super-linear scaleup if the amount of work done
+      at each partition allows for an in-memory algorithm rather than
+      an external algorithm.
 
 ## Distributed Database
 
 * Here, machines may be farther apart, and communication cost may be
   non-negliable.
+    * This is what distinguishes a shared-nothing parallel DB and a
+      distributed DB.
+    * It's just an assumption on the geographic location of the
+      machines, and the communication cost.
+    * A few thoughts:
+        * Bandwidth may be very expensive between datacenters.
+        * Latency may be high. E.g., 75ms from NY to SF.
+        * Bandwidth between datacenters may be ~40Gb over fiber.
+        * But you can always pay for more. But it sounds very
+          expensive.
 * But can probably be a lot bigger. Can have higher survivability. Can
   store data closer to where it is needed.
 * Mention horizontal and vertical sharding.
 * Mentions that we might want to have replicas for higher read
   throughput. But then how do we keep those in sync?
+
+## Parallel vs Distributed
+
+* Parallel DB can have high performance and support all normal SQL
+  operations.
+    * Actually I'm kinda skeptical that your bandwidth can increase
+      linearly like your machines.
+    * I guess if you have point-to-point connections, but that's
+      `n**2`.
+* Distributed DB is mostly about addressing latency problems when
+  reading sites are distributed over the planet, and about ability to
+  not make the service unavailable to Dallas customers when Detroit is
+  down.
 
 ## Distributed Joins
 
@@ -85,6 +113,12 @@
 * We say that 2PC is *blocking*.
     * If both the coordinator and a site fails, no one can commit or
       rollback until the coordinator tells us how to proceed.
+* When people say a failure of just the TM causes the algorithm to
+  block, they implicitly assume that the TM is also a commit site,
+  which has a vote, or that the TM can decide to abort for some
+  alternative reason.
+    * So don't be confused if they say failure of TM causes blocking,
+      or need failure of TM plus a site.
 
 ## Three Phase Commit Addendum
 
@@ -106,6 +140,10 @@
       scenarios.
     * But partitions can happen. So what use is 3PC?
 * 3PC is meant for stop failures.
+* NB: I think that 3PC is a better version of "replication", where the
+  TM has a slave replica. The only thing important that the slave
+  could know is whether the TM decided to commit. And 3PC has the TM
+  send that.
 
 ## Distributed Locking
 
@@ -114,20 +152,88 @@
 * A central locking system won't do, since it becomes a point of
   contention, and also because it can fail, at which point no locks
   can be acquired until it comes back up.
+    * Also contention.
 * Assuming no replication, we only need to lock at the site of the
   modification.
+    * But you need to have a *coordinator* lock each of these first,
+      and wait for a reply. Last, it must release the lock.
+    * So there are 3 messages per lock site.
 * When you have local locks, but also replication, how can you get a
   "global" lock on all the replicas?
     * Can have a primary copy.
-    * Another possibility is to say that you can write when you have
-      `x>n/2` exclusive locks, and `s` local shared locks for a global
-      shared lock (where `s+x>n`).
-    * A typical approach: only need one shared lock, but all the
-      exclusive locks.
-    * You might also like to use `x=s=(n+1)/2` locks so that you can
-      broadcast and mask latency.
-* The whole thing seems silly since why don't you need a lock on all
-  the replicas to write? Won't they get out of whack?
+    * This can be efficient if the transaction doing the locking is
+      most likely to be at the site of the primary copy.
+    * E.g., if you have an inventory database and many stores, you
+      could put the primary copy of items at the store where they are
+      at.
+    * You have replication for durability, but writes are likely to
+      come from the store the product is at.
+    * Failover for primary copy probably involves taking a lock from
+      Chubby, which will ensure only one person gets it.
+    * Old primary can learn they are no longer primary because they
+      don't have the lock anymore.
+    * Presumably primary must keep renewing a global Chubby entry.
+        * Indeed, we must be careful about clock sync.
+        * The Chubby paper says that we must be able to make
+          conservative assumptions about differences in clock speeds!
+        * I AM NOT CRAZY! Yes!
+* No Primary
+    * Require `x` local exclusive locks for a global exclusive lock.
+    * Require `s` local exclusive locks for a global shared lock.
+    * Need `s+x>n`: so that if you have a shared lock, you don't allow
+      an exclusive lock (and vice versa).
+    * Need `2x>n` so that you can't have two exclusive locks
+      simultaneously.
+    * One way to do this is set `s=x=(n+1)/2`.
+    * Alternatively, if you want to optimize for read throughput, you
+      might set `s=1` and `x=n`.
+* May want to set `s=x=(n+1)/2` to ensure that if there is a
+  partition, at least one side will be able to process transactions.
+* I am unclear why you don't need to lock all sites for a write?
+  Everyone needs all the writes eventually. Maybe at the time of a
+  write, the nodes involved should sync their history? Because it
+  sounds like otherwise exactly one node might have a linear history,
+  but the others will not contain the full record of all the
+  transactions...
+    * Maybe you require that a read combine information from all
+      locked read sites.
+    * Note that *no* replica is guaranteed to have the entire
+      transaction history! But any majority will!
+    * One way to do this: keep version numbers with a record. Always
+      read the highest version numbered copy locked. When writing,
+      always write with a higher version number than the current
+      highest.
+* Primary Copy
+    * It's just like leader-follower replication.
+    * You could do it sync, I guess.
+    * Or it could be done async. In that case, maybe some replicas
+      will be a little stale.
+* It feels like these locks should not be allowed to
+  timeout. Otherwise, a change may be accepted at some sites but not
+  all.
+
+## 2PC vs Distributed Locking
+
+* 2PC is just about commit/abort. It's not about locking.
+* Say the operation was "append this line". Say we want to make sure
+  the line is appended both places.
+* We can use 2PC to ensure that the line is either appended to both
+  files, or none.
+* We do not need to exclusively lock the file to do this, if ordering
+  does not matter.
+    * But then I'm not sure what we're really commiting to.
+    * Maybe there's limited file space, so the site reserves some
+      space.
+* But if we do want to ensure the files have lines appended in the
+  same order, we do need to do locking.
+* The resources to be locked may be replicated. They may especially be
+  replicated across datacenters.
+    * Therefore, maybe a read lock on just one version is fine, but
+      need all versions for writing.
+    * That would bias us toward good throughput on reads.
+    * It would make it hard to write, if any copy is down.
+* If we want true ACID, we should not release *any* locks until we are
+  confirmed that the write went at all logical sites.
 
 ## Chord
 
