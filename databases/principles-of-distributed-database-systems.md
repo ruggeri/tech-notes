@@ -121,3 +121,83 @@
 * Vertical Fragmentation: breaks up tables.
 * This chapter felt dumb. I think we often just break up our DB by
   picking a datacenter closest to a client.
+
+## Ch4: Database Integration
+
+* This is about how to integrate disparate databases that weren't
+  originally designed to work together.
+* Most of it is about using heuristics to try to find matchings of
+  columns in different schemas.
+* Sounds ridiculous.
+* Useless chapter.
+
+## Ch5: Data and Access Control
+
+* View management
+    * Could be expensive to query virtual views.
+    * Talk about materialized views.
+    * Could be expensive to maintain. Immediate or deferred
+      maintenance.
+    * If deferred, could either do it lazily (at read time), or
+      periodically (at predefined intervals).
+    * Lazy means you always read correct data, but is more
+      work. Periodically introduces stale views.
+    * Also mentions incremental update of views. This is a major
+      performance win.
+    * If your view doesn't do anything too crazy, you can often update
+      it with just the old version of the view and the "difference
+      set"; rows that were added/removed/updated.
+    * If your view is more complicated, you may also need to use
+      unchanged data in the base views. I expect that's the case for
+      joins.
+    * If you need to requery the base relation across sites, that's
+      going to be expensive. So different kinds of views may be more
+      easily distributed.
+* Data Security
+    * Don't care about this.
+* Semantic Integrity Control
+    * Constraints are either checked after modification but before
+      commit, or *pretested*, if it is possible to prove whether a
+      constraint will be violated.
+    * Basically nothing of interest was said. Just that you probably
+      need to do joins to test constraints.
+
+## Ch6: Query Processing
+
+* To pick a plan, we want to optimize either total cost, or response
+  time. It might not be the same if more work can be even more
+  parallelized, resulting in lower respose time for a query, but
+  greater work.
+* Traditionally CPU and IO cost were considered, but we must add
+  communication now.
+    * Traditionally we assume slow network, and ignore CPU and IO
+      cost.
+    * But if network bandwidth is approximately equal to disk
+      bandwidth, then we should weight all three factors.
+    * Even with high network bandwidth, transmission involves wrapping
+      in a bunch of protocols which can be slow.
+    * IB, which can allow remote direct memory access (DMA), will
+      further change planning.
+* Complexity:
+    * Typically, one relation operations can be done in `O(n)` time
+      since it's a table scan.
+    * Two relation operations that require pairing by equality of some
+      attributes (e.g., join, deduplication) is typical `O(n log n)`
+      if you use a merge sorting approach.
+        * If you have enough memory, you can do it in `O(n)` with hash
+          approach.
+* Lot of ways to plan a query, but an exhaustive search of (almost)
+  all plans is typical because planning is low cost next to execution.
+    * Other approaches are randomized, such as iterative improvement.
+* Plans can be made statically (at query compilation time, using
+  estimates from the DB), or dynamically.
+    * Dynamic planning means you could even optimize as you execute
+      the query.
+    * But probably easiest just to do at start.
+* Planning can be decentralized. That might make sense if doing things
+  dynamically, so that the site involved with an operation can decide
+  how best to run it.
+* In wide area networks, can just consider communication cost.
+    * So you pick a strategy overall that minimizes communication.
+    * Then you let each site do whatever is most efficient using
+      typical centralized algorithms.
