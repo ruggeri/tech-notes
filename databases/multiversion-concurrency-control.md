@@ -8,7 +8,7 @@ Here's how the basic form of timestamping works, with no versions:
     * If so, but commit bit is false, you need to wait. You don't know
       whether this row will be written.
     * If so, update the read timestamp (if our TID is later).
-* When you write, check that RT<TXID and WT<TXID.
+* When you write, check if RT<TXID and WT<TXID.
     * Then you can do the write.
     * Again, set the commit bit to false until you commit.
 * If writing but RT<TXID and TXID<WT:
@@ -16,6 +16,8 @@ Here's how the basic form of timestamping works, with no versions:
     * If the commit bit is set, then you can just continue.
     * Otherwise, you have to wait. You don't know whether the write
       already in place will actually be committed.
+        * If the in-place write gets aborted, your write should be
+          here!
 * If writing and TXID<RT, then you have to abort.
 
 Right now this is basically no better than locking, really. You have
@@ -39,9 +41,13 @@ timestamps will monotonically increase, but the write timestamp never
 changes.
 
 Now, a read can use the latest version that was valid at its TXID. As
-before, a later read must wait on an uncommited write. Likewise, a
-write must still be aborted if a read already happened on the most
-recent version.
+before, a later read must wait on an uncommited write. So writers do
+still block approximately half the readers (depends on who got the
+lower TXID).
+
+A write must abort if a later read happened on the most recent
+version. But it now doesn't need to wait on an uncommited later write;
+it can just put the record in place!
 
 This is an improvement. We now never need to abort a reading
 transaction. However, a reading transaction may still have to *wait*
