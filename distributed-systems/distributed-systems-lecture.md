@@ -15,6 +15,10 @@
 * Sharding breaks ACID
 * Two Phase Locking
 * **Isolation Levels**
+    * Read Uncommited: dirty read
+    * Read Committed: non-repeatable read
+    * Repeatable Read: Phantoms
+        * B-trees?
 * **MVCC**
 * Two Phase Commit
 * Latency across datacenters.
