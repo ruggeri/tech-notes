@@ -201,3 +201,24 @@
     * So you pick a strategy overall that minimizes communication.
     * Then you let each site do whatever is most efficient using
       typical centralized algorithms.
+* Suggests a series of transformations:
+    * Query is decomposed into operations on global relations.
+    * But then we pull in what fragments this will involve.
+    * Then we try to optimize this to do the least communication.
+    * Then this can be executed.
+
+## Ch7: Query Decomposition and Data Localization
+
+* This is going to go more in depth about query processing.
+* Query decomposition is just whatever techniques are typical for
+  centralized DBMS.
+* "Localization" just means translating from global relations involved
+  to fragments of relations. This is the first actual plan.
+    * In particular, if records share sharding key, not every fragment
+      needs to send data to every other fragment.
+    * Or if fragment contradicts a selection, then we can just drop
+      this one.
+* They just talk about a number of simple rules and heuristics for
+  transforming the global query to a query on fragments.
+* The goal is to produce a decent query, but one which will still
+  needs guidance from statistics, which have not yet been used.
