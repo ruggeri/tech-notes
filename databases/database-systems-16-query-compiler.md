@@ -147,6 +147,40 @@
       you're fucked...
     * Pipelining is typically implemented as a network of iterators.
 
+# More thoughts
+
+* It sounds like a simple way of doing the System R approach is to
+  just sum the sizes of intermediate relations. I'm not really sure
+  why that is considered a good choice at all. The work spent
+  producing an intermediate relationship has no real relationship to
+  the size of the intermediate relationship.
+    * For instance, consider a nested join of two huge tables, but the
+      result is a single row...
+    * So you *do* use time spent producing a relationship.
+* But let's say you can *only* do nested loop joins. That sort order
+  doesn't matter.
+* Let's talk about greedy approaches:
+    * Do easiest joins first (least work).
+        * A=5 rows, B=5 rows, C=10 rows.
+        * Join A and B. Then join result to C.
+        * But if Join(A,B) has 25 rows, then last step takes 250 time.
+        * Imagine if Join(B, C) had 1 row in the result. Then last step
+          takes 5 time.
+        * So easiest join first is not necessarily optimal.
+    * Do joins by smallest *result* size first.
+        * A=10 rows, B=10 rows, C=5 rows.
+        * Say Join(A, B)=1, while Join(B, C)=2.
+        * But then Join(Join(A, B), C) takes 100+5 time.
+        * Alternative Join(Join(B, C), A) takes 50 + 20 time.
+    * Do joins by highest *selectivity* first.
+        * Say A=10, B=5, C=1.
+        * Say Join(A, B) => 25 records (selectivity 50%) while Join(B,
+          C) => 5 records (selectivity 100%).
+        * But Join(Join(A, B), C) costs 50+25=75.
+        * While Join(Join(B, C), A) costs 5+50=55.
+* My point is: the three most obvious greedy algorithms aren't a real
+  solution, so the problem really does seem hard.
+
 Sources:
 
 https://people.eecs.berkeley.edu/~brewer/cs262/queryopt.html
