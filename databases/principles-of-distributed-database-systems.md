@@ -222,3 +222,49 @@
   transforming the global query to a query on fragments.
 * The goal is to produce a decent query, but one which will still
   needs guidance from statistics, which have not yet been used.
+* Basically we're just eliminating redundant or unnecessary parts of
+  the query based on algebraic laws. We're not really developing a
+  "plan" for it.
+
+## Ch8: Optimization of Distributed Queries
+
+* Greedy: try to step-by-step build up the best plan.
+* Dynamic programming: tries to break down planning into smaller
+  subproblems it solves.
+* But dynamic approaches run into trouble as number of relations in
+  the query grows. So randomized strategies are often used.
+    * It sounds like simulated annealing is actually used! Start with
+      a random query plan, then make iterative improvements. Restart
+      several times.
+* In 1980, cost of one page worth of network communication to disk IO
+  was ~20:1 in a WAN. For early ethernet (10Mbps), this was 1:1.6. So
+  this is saying that for geo distributed applications, just think of
+  communication, but inside a datacenter you need to balance. Of
+  course, it's harder to balance IO and CPU too.
+    * If we want to measure response time, rather than total load, we
+      need to factor in parllelization too.
+* Most of what we do is figuring out the size of intermediate joins.
+* Select:
+    * To figure the cardinality of a select, try to estimate %age of
+      rows kept.
+    * For an equality `A=value`, you can say it's `1/card(A)`, where
+      `card(A)` is the number of values for that attribute.
+    * For a `A < value`, you can use
+      `(value-min(A))/(max(A)-min(A))`. Likewise for `A > value`.
+    * Obviously these assumptions assume uniform distribution, but
+      what else could you do...
+* Joins: Look at DB Systems chapter 16 notes.
+* Union and difference are hard to estimate, because it's hard to know
+  how many duplicates will be encountered.
+* Instead of assuming uniformity of values, we can use
+  histograms. That could be useful for things like equality or range
+  predicates.
+* Typical approaches are greedy (INGRES) and dynamic programming
+  (System R). See Chapter 16 notes of DB Systems book.
+* Bushy trees vs linear trees
+    * Most of the time
+* For distributed queries, they recommend sending the smaller join
+  operand.
+    * Or the *semijoin* way is to send the keys of operand R, compute
+      what is kept of operand S, and send that part of S to R. This
+      works well especially if there is a high selection factor.
