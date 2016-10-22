@@ -342,3 +342,50 @@
 * You could try to prevent deadlocks from happening in the first
   place. But that won't be possible unless transactions predeclare all
   variables they'll use, which is not feasible.
+* Ways to avoid deadlocks:
+    * Always lock things in the same order. But that isn't so easy!
+    * Also you can give TXs timestamps. Wait-Die says that older
+      transactions wait for younger transactions to finish, but
+      younger transactions just die and try again.
+    * Wound-Wait says that older transactions wound younger ones,
+      while younger ones have to wait.
+    * Either scheme ensures that deadlocks cannot occur.
+* But cycle detection in the GWFG (global wait-for graph) is most
+  common.
+    * If a cycle detected, who to abort? To find the minimum cost to
+      break a cycle is NP complete.
+    * Quantities that matter: how much invested, how much left to go.
+* One simple approach would be to have the sites transmit their LWFG
+  to a central deadlock detector. But this could have high
+  communication cost, and of course has a SPOF.
+    * But then you just do a simple algo in the GWFG.
+    * Would set an interval for updating the GWFG. Don't have to do
+      this so very often, because deadlock is fairly rare.
+    * This has been proposed for distributed INGRES, so it's not
+      totally naive.
+* Edge chasing says that if you notice you're waiting on an external
+  resource and you see it's taking a while, send a message to that
+  site. The message sent from S1 to S2 consists of `(S1, S2)`.
+    * If they aren't waiting on anyone else, then just chill.
+    * Otherwise, if they wait on some other site, append that to the
+      list of sites.
+    * Repeat. Eventually, your messages stop getting pushed forward or
+      they come back to you, and you can see the cycle.
+    * Okay. But then you have a problem where the cycle is potentially
+      found by many people! The solution is to give the transactions a
+      timestamp and only the youngest transaction participating in the
+      deadlock.
+    * This is from Chandy-Misra-Haas. This is from wikipedia, not the
+      book.
+    * Not sure I've described this really correctly, but it's the
+      gist. I could look it up in my distributed algos book.
+* The book describes a slightly different algorithm by Obermack. But
+  they explain it poorly.
+* Relaxing Concurrency Control
+    * Garcia-Molina suggests classes of transactions that are
+      compatible and can interleave however they like.
+    * Lynch suggests certain "breakpoints" in a transaction where
+      other transactions are allowed to interleave.
+    * Agrawal formalized these approaches under *semantic relative
+      atomicity*.
+* They talk about nested transactions, but I don't care.
