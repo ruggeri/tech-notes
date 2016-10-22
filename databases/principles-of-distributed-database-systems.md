@@ -497,6 +497,9 @@
       similar to Paxos. This was published 1988, and Paxos was first
       submitted in 1989.
     * Apparently gbcast by Ken Birman is also equivalent to Paxos.
+* **NB**: Note that if you're doing distributed commit across
+  datacenters, you're talking about maybe 100ms ping between
+  centers. So three phases is really actually quite a lot!
 
 **Sources**
 
@@ -519,3 +522,84 @@
       and then sites reconnected.
     * I think their's is the *real* extension to 3PC.
     * http://webee.technion.ac.il/~idish/Abstracts/jcss.html
+
+## Ch13: Data Replication
+
+* If all replicas are brought to consistency by end of transaction, we
+  say that *strong consistency* is enforced. Other more relaxed
+  approaches are called *weak consistency*.
+* Updates can either be performed at a *primary copy*, or updates are
+  *distributed* if they initiate at other copies.
+* Update propogation from a site at which an update starts can be
+  either *eager* or *lazy*. Eager seems to imply strong
+  consistency. Lazy allows batching.
+* Strong consistency can be enforced by 2PC. *Eventual consistency*,
+  where replicas converge if given time, is another approach.
+* *Epsilon serializability* allows transactions to read stale data
+  from replicas where an update hasn't been replicated to yet. But
+  epsilon serializability would not allow reversal of transactions.
+* Eager updates will result in mutual consistency. This requires
+  writing to all replicas, but you can read from any one replica and
+  get the result.
+* This means you can never read stale data!
+* The main problem is you'll have to use 2PC, which is slow, and you
+  won't have availability in the face of a failure of a site.
+* Lazy update propogation means that writes are faster and more
+  available, but that you don't have mutual consistency of the
+  replicas.
+* Primary site can be good because at least one node will be
+  up-to-date.
+* If a write can happen at any replica, then this is good for latency
+  and availability, but now you have a potential of concurrent writes
+  to replicas, which will need to be merged.
+* They do discuss primary copy eager replication. They suggest 2PL to
+  ensure serializability.
+    * They mention you can also do distributed eager replication.
+    * Write can come into any replica, but needs to propagated within
+      transactional bounds.
+    * This can be done by, for instance, TO within the replica.
+    * However, do note that you'll need to order these two conflicting
+      transactions the same way for every other row they try to
+      concurrently update.
+    * Then you'll have achieved global serializability.
+* They mention centralized lazy replication.
+    * This is just master-slave replication.
+    * You will be able to read stale data.
+    * Primary-copy lazy replication works the same way. Just need to
+      be careful that globally writes are applied in the same order.
+    * But that will naturally happen if you use distributed 2PL to
+      write to each of the primaries, and they propagate their changes
+      in order.
+    * One problem! If you write at X and read at Y, and I write at Y
+      and read at X, who's going to make sure we are executed in a
+      serializable order! Writes have to go to the primary, but I can
+      read a stale record from the secondary.
+    * But isn't that obvious? If I want to ensure serializability I
+      should direct my reads to the primary copies of anything I read,
+      and I should use a concurrency control mechanism like 2PC to
+      update these together.
+        * I think the difference is that if my read/write TX goes to a
+          single master site, I only send it to one site that can do
+          all the locking locally.
+        * But if I send my transaction to a bunch of sites, because
+          the primaries are distributed geographically, I'm going to
+          have to do 2PC across geographic locations.
+        * So distribution of primary copies is making it harder to do
+          writes that span sites.
+        * I think that's the point?
+* Lazy replication with a single master and full transparency
+    * Transactions can be sent to any machine. Reads will be done
+      locally but writes forwarded.
+    * But that's going to have the same serializability problem as
+      before, where I can read an old value from a slave, and then use
+      that to write an out-of-date value to the master.
+    * They mention also a situation where I don't see my own write:
+      write to the master, then read from the slave before
+      replication (staleness).
+    * I think what they mean is that under "full transparency" your
+      reads are done at one site, but the writes are done at another.
+* Of course, lazy distributed protocols are the hardest.
+    * Writes can come in anywhere.
+    * The problem of course is reconciliation.
+    * Last writer wins is common. But if clocks aren't well
+      synchronized, then this can give arbitrary bias.
