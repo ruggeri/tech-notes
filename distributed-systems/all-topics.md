@@ -1,7 +1,7 @@
 ## TODO
 
 * Anycast
-* Consistency (Eventually, Relaxed, Sequential)
+* Consistency (Eventually, Relaxed, Sequential, Strong, Strong Eventual)
 * FLP
 * Gbcast
     * Apparently almost equivalent to Paxos.
