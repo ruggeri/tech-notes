@@ -37,7 +37,6 @@
       complexity.
     * Did have useful stuff on message queues, and how they play a
       role. Gives a sense of how Storm and Cassandra might be used.
-    * Lent to Mihir.
 * Bitcoin for the Befuddled
     * Read whole thing. Good introduction; fun!
 * Causality (Pearl)
