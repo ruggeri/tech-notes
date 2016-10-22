@@ -254,17 +254,91 @@
     * Obviously these assumptions assume uniform distribution, but
       what else could you do...
 * Joins: Look at DB Systems chapter 16 notes.
-* Union and difference are hard to estimate, because it's hard to know
-  how many duplicates will be encountered.
 * Instead of assuming uniformity of values, we can use
   histograms. That could be useful for things like equality or range
   predicates.
 * Typical approaches are greedy (INGRES) and dynamic programming
   (System R). See Chapter 16 notes of DB Systems book.
-* Bushy trees vs linear trees
-    * Most of the time
 * For distributed queries, they recommend sending the smaller join
   operand.
     * Or the *semijoin* way is to send the keys of operand R, compute
       what is kept of operand S, and send that part of S to R. This
       works well especially if there is a high selection factor.
+    * But semijoin is less useful if the network is fast, because of
+      increased processing time.
+* Bushy trees vs linear trees
+    * We argued that bushy trees were not that useful for centralized
+      query planning.
+    * But they express parallelism for distributed queries.
+* Their presentation of the query decomposition algorithms was really
+  confusing to me. I think that the approaches they presented will
+  still only consider left-deep trees even in a distributed system.
+    * That doesn't use ability to do joins in parallel.
+    * OTOH, if every fragment is involved in performing a join, then
+      all the machines are already busy, so parallelization isn't that
+      useful.
+* I don't know. I'm pretty disatistfied with this section...
+
+## Ch9: Multidatabase Query Processing
+
+* Skipped this. Looks uninteresting.
+
+## Ch10: Intro to TX Management.
+
+* By *DB consistency* they mean no constraints are violated. By *TX
+  consistency* they mean isolation.
+    * *One-copy equivalence* means that all replicas have the same
+      value when a TX ends.
+* This had basically no information for me. All basic stuff.
+
+## Ch11: Distributed Concurrency Control
+
+* Pessimistic vs Optimistic. Early or late synchronization.
+* There are pessimistic versions of locking and ordering algorithms,
+  which are most common.
+* Locking can be centralized (one site), primary copy, or distributed.
+* TO can be basic, multiversion, or conservative (I don't know that
+  last one...).
+* They make a note about 2PL vs strict 2PL. Strictness is where you
+  release all locks only after commit/abort. 2PL allows you to release
+  locks one-by-one slowly.
+    * However, if you do that, you may be allowing some people to read
+      data before it's been committed.
+    * If you really never lock anything again, that should be okay.
+    * Except if you abort the transaction! Then you'd have to do a
+      cascading abort of anyone who read any read uncommited data.
+    * Also, how can you be sure you won't modify that data again? I
+      guess you could be optimistic and abort if you did return to
+      it...
+* As said, you can do this centralized, or distributed, where the
+  locking is managed by the site. We're not talking about replication
+  in this chapter, so we're keeping things simple :-)
+* For distributed TO, to generate timestamps, we can use a global
+  counter, but that'll be hard to maintain.
+    * Well, it would specify that there is one transaction managing
+      site.
+* Instead, just use a counter at each site, and append the site's ID
+  to resolve conflicts.
+    * A lot of restarts can occur if one site doesn't get many
+      queries, so its counter falls way behind those of other sites.
+    * So transactions that initiate at this site would be too old to
+      successfully get any reads/writes done.
+    * In that case, maybe a true clock timestamp would be better. I
+      don't see why timestamp,counter,site would be a bad choice.
+    * Well, I guess if clocks drift. So maybe every once in a while
+      everyone exchanges current times, and they set their clock to
+      one after this. This keeps everyone from drifting too far, I
+      suppose.
+* *Conservative* TO tries to have each site execute operations in
+  increasing timestamp ordering to prevent restarts. They mention some
+  ways to do this, but they sound dumb.
+* They talk about *optimistic* concurrency control, which just checks
+  timestamps at the end of the transaction.
+    * They note that you don't have to actually record timestamps if
+      you keep read and write sets for recent transactions.
+* Wait-For Graph (WFG) is used locally to detect deadlock. But
+  ensuring no cycles in local graphs isn't enough. You need to check
+  in the *union* of all graphs.
+* You could try to prevent deadlocks from happening in the first
+  place. But that won't be possible unless transactions predeclare all
+  variables they'll use, which is not feasible.
