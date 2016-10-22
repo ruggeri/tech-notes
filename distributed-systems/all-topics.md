@@ -4,10 +4,12 @@
 * Consistency (Eventually, Relaxed, Sequential)
 * FLP
 * Gbcast
+    * Apparently almost equivalent to Paxos.
 * Spanner
 * Stabilization
     * BGP and TCP? What does this mean?
 * Viewstamped Replication
+    * Apparently almost equivalent to Paxos.
 * Virtual Synchrony
     * http://en.wikipedia.org/wiki/Virtual_synchrony
 

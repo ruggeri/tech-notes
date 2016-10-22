@@ -492,6 +492,11 @@
   pursued.
 * To deal with cascading failures and tolerate `<n/2` failures, you
   can do E3PC or Paxos.
+    * Can't find any pros/cons except that Paxos dominates mindshare.
+    * Btw, Oki and Liskov's viewstamped replication paper is very
+      similar to Paxos. This was published 1988, and Paxos was first
+      submitted in 1989.
+    * Apparently gbcast by Ken Birman is also equivalent to Paxos.
 
 **Sources**
 
