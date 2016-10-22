@@ -31,12 +31,22 @@
     * Versus *serializable*.
     * Linearizable says that writes to a row should be read by
       subsequent reads (wrt to wall clock time).
-    * That's not entirely true with serializable systems. Here,
-      transactions need to be processed as if they had been done in
-      some possible ordering, even if that isn't compatible with
-      wall-clock ordering.
+    * Serializable doesn't have to do that. It can reorder
+      transactions however they want. All your reads can be from the
+      very beginning of the system. All your writes can be deferred to
+      a much later time.
+    * So then there's *linearizability*. This says that once a write
+      completes, any read that starts afterward should reflect this
+      write.
+        * Linearizability is really about a single item (not
+          transactions).
+        * Memory reads/writes in a multi-core CPU are typically not
+          linearizable.
+        * It sounds like this word comes from parallel programming
+          people (especially Herlihy)
     * There's even a notion of *strict serializability*.
-    * Fuck it. Here's a link, but I don't care.
+        * This is just linearizability but applied to the entire
+          transaction.
     * http://www.bailis.org/blog/linearizability-versus-serializability/
 * <del>Message Queues</del>
     * Also have seen how to do exactly once delivery.
