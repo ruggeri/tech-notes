@@ -389,3 +389,82 @@
     * Agrawal formalized these approaches under *semantic relative
       atomicity*.
 * They talk about nested transactions, but I don't care.
+
+## Ch 12: Distributed DBMS Reliability
+
+* *Failure* of a system is deviation from the specified behavior of
+  that system.
+* They say that failures are the result of *errors*: a component is in
+  error if it is in an erroneous state. The cause of errors is a
+  *fault*.
+* Permanent faults, or *hard faults*, are irreversible changes in a
+  component's behavior. *Soft faults* are either *transient* or
+  *intermittent*.
+* *Reliability* is the probability that the system does not experience
+  any failure during a period of time. *Availability* is the
+  probability that the system is operational at a given point in time.
+    * For instance, a number of failures may have happened in the
+      past, but if the system is currently up then it is *available*.
+* Four types of failures:
+    * Transaction failures (aborts).
+        * They mean deadlocks, basically. User aborts are not
+          considered failures.
+    * Site failures.
+        * Anything in main memory is lost, anything on secondary
+          storage is still there.
+    * Media failures.
+        * Typical solution is to have multiple disks or backups.
+        * Typically treated as a local problem.
+    * Communication line failures.
+        * Errors in messages, improperly ordered, or lost.
+        * We focus on lost messages. The network should handle errors
+          and ordering.
+        * *Network partitioning* is when links fail and two halves of
+          the sites lose connectivity.
+* Ability to operate when sites are down is a potential strength, but
+  adds complexity.
+* They talk (a lot) about redo and undo logging and
+  checkpointing. They have nothing to add over centralized DBs.
+* Mention media failure. Just say to keep backups. Nothing interesting
+  to report here.
+* Start talking about atomic commitment and 2PC.
+    * Reasons a site may abort a transaction include constraint
+      violations, but also a TX can be killed for deadlock.
+* 2PC:
+    * Coordinator sends TX and tells sites to prepare.
+    * Sites log their vote, and respond to the coordinator.
+        * If vote is to abort, can forget the TX. Otherwise need to
+          keep it in case of failure.
+        * Because you're promising to commit even if you fail at this
+          point.
+    * Coordinator collects votes, then tells everyone what to do.
+    * They then COMMIT or ABORT as the coordinator says.
+    * They ack, and the coordinator can consider the TX complete.
+* A variant is distributed 2PC. Here the sites communicate their
+  decision to everyone else. Then there is no need for the coordinator
+  to tell their decision. More messages, but fewer rounds.
+    * Of course, in this case the coordinator has to give a list of
+      all participants to the sites.
+* Presumed abort and presumed commit are uninteresting optimizations.
+* Recovery from failures:
+    * When coordinator timesout waiting for a decision from a site, it
+      can just unilaterally abort.
+    * When the coordinator doesn't receive an ACK of its global commit
+      or abort command, it just continues sending these until it gets
+      acknowledgement.
+        * It can't forget or change its vote at this point.
+    * If a site times out waiting for the coordinator to send it a
+      global commit or abort command, it can't do anything. It voted
+      to commit, so it cannot change its vote now and abort. But it
+      can't commit either.
+    * In this case, it has to wait until it hears from the coordinator
+      or another site.
+* Let's say in 2PC that peers can talk:
+    * If anyone didn't vote yet, they can tell the others they vote to
+      abort.
+    * If anyone was told to abort or to commit, they can tell the
+      others they need to do that.
+    * If everyone has voted to commit we could choose to commit.
+    * Except if a site is also offline! Then we can't do anything!
+* They also talk about what to do when you recover.
+    * Mostly, we just pick up where we left off.
