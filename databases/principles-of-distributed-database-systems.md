@@ -466,5 +466,51 @@
       others they need to do that.
     * If everyone has voted to commit we could choose to commit.
     * Except if a site is also offline! Then we can't do anything!
-* They also talk about what to do when you recover.
-    * Mostly, we just pick up where we left off.
+* 2PC is fails if the coordinator plus one participant fail or are
+  partitioned away.
+* 3PC improves this. If the coordinator and any number of participants
+  fail, we can still decide what to do.
+    * If everyone has a prepare-to-commit message, commit.
+        * The other machines might have!
+    * If no one does, abort. The other machines might have!
+    * If at least one person has a prepare-to-commit, but not
+      everyone, you could do either. Doesn't matter what you default
+      to.
+* But the problem is with partitions, of course. If the coordinator
+  fails and just one node is partitioned away, what do you do?
+    * Everyone on one side can get a prepare-to-commit, but no one on
+      the other. Then they do opposite things.
+* To avoid a situation where both halves of a partition you can try to
+  do a quorum like thing.
+    * Pick `V_A` and `V_C` for abort and commit. Must have
+      `V_A+V_C>V`.
+    * It would be natural to pick `V_A=V_C=(V+1)/2`.
+    * The description of this algorithm in the book is woeful.
+* Of course, in order to handle partitions, it must be possible to
+  block. This is a result of Skeen and Stonebraker.
+* Book mentions possibility of byzantine errors, but these are not
+  pursued.
+* To deal with cascading failures and tolerate `<n/2` failures, you
+  can do E3PC or Paxos.
+
+**Sources**
+
+* Notes on Data Base Operating Systems
+    * By Gray.
+    * Section 5.8.3.3 describes 2PC. Appears to be first cited
+      description of 2PC.
+    * http://research.microsoft.com/en-us/um/people/gray/papers/DBOS.pdf
+* Skeen describes a 3PC protocol in his disertation I think.
+    * Crash Recovery in a Distributed Database Management System.
+* A Quorum-Based Commit Protocol (1982)
+    * Skeen wriets up a quorum version of 3PC.
+    * https://ecommons.cornell.edu/bitstream/handle/1813/6323/82-483.pdf?sequence=1
+* Skeen and Stonebraker formalized results on existence/non-existince
+  of non-blocking protocols in 1983.
+* Increasing the Resilience of Distributed and Replicated Database
+  Systems
+    * Paper introduces E3PC.
+    * They say that Skeen's version had problems if quorum was lost
+      and then sites reconnected.
+    * I think their's is the *real* extension to 3PC.
+    * http://webee.technion.ac.il/~idish/Abstracts/jcss.html
