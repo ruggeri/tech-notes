@@ -552,6 +552,18 @@
 * If a write can happen at any replica, then this is good for latency
   and availability, but now you have a potential of concurrent writes
   to replicas, which will need to be merged.
+* First they mention single-master eager replication.
+    * All transactions that write must go to the master.
+    * The master gets locks.
+    * It forwards the writes to the slaves. They must process these in
+      the same order. But that is trivial. Just timestamp the
+      transactions in the order they start. Slaves apply in this
+      order.
+    * The slaves can allow reads, but they must get read locks from
+      the central site. The central site can either do the read, or it
+      can just grant the lock.
+        * But that's stupid. Just obtain read locks at the slave
+          sites.
 * They do discuss primary copy eager replication. They suggest 2PL to
   ensure serializability.
     * They mention you can also do distributed eager replication.
@@ -603,3 +615,26 @@
     * The problem of course is reconciliation.
     * Last writer wins is common. But if clocks aren't well
       synchronized, then this can give arbitrary bias.
+
+**Notes From Database Replication: A Tutorial**
+
+* Fault-tolerance and high-availability is acheived through
+  replication.
+* But also lower latency (if in datacenter closer to you) and higher
+  throughput (can send queries to more machines).
+* Also, think about mobile clients. They can be thought of as
+  replicas, too. They are frequently disconnected from the network.
+* In particular, consistency is in tension with performance.
+* They only talk about read-one-write-all(-available). They want you
+  to go elsewhere for quorum systems. ROWAA means you read and write
+  at one location, but then send your writes to the appropriate remote
+  location(s), too.
+* They identify two primary dimensions: is there a primary, or can you
+  write anywhere. Is update propagation eager, or is it lazy.
+* They'll assume strict 2PL through most of the lecture. But they
+  mention other techniques are possible.
+
+Sources:
+
+* Database Replication: A Tutorial (Kemme et al, 2010)
+    * https://pdfs.semanticscholar.org/c15c/1921f07cd6647d3db24babcbaff451674e16.pdf
