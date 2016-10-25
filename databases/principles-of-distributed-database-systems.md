@@ -633,8 +633,227 @@
   write anywhere. Is update propagation eager, or is it lazy.
 * They'll assume strict 2PL through most of the lecture. But they
   mention other techniques are possible.
+* Eager with Primary
+    * Write transactions go to primary.
+    * Read transactions go to secondaries.
+    * A read transaction might deadlock with a write transaction at a
+      secondary.
+    * Then the read transaction should be killed.
+    * If write transactions deadlock, the primary can decide what to
+      do.
+    * This gives you global serializability, because all locks are
+      acquired in the same order at all repliacs.
+    * We say this is not "transparent" because the client needs to
+      know who the primary is.
+    * Sometimes secondaries will offer forwarding to a primary, but
+      how are they supposed to know whether a TX is read only or
+      write? They can't know at the beginning of the TX.
+    * It sounds like the real problem is when you don't know whether
+      your TX will be read-only or whether it will update anything...
+    * But generally simple and gives global serializability. Problem
+      is that it's slow.
+* Eager Update Anywhere
+    * With Eager Primary, you don't have problems with global
+      deadlock. Local read transactions can get in the way, but
+      secondaries can just kill these.
+    * You still use distributed 2PL and 2PC.
+    * But now you might kill a remote transaction if a node detects
+      global deadlock.
+    * Distributed deadlock algorithms can be tricky. If you set a
+      timeout on a TX as too low, you kill TXs unnecessarily. Else,
+      you might leave parts of the system unavailable until deadlock
+      is resolved.
+        * Mention that Gray indicated this was one of the reasons for
+          low throughput.
+    * For this scheme, the local site managing the TX waits for each
+      remote lock to be ACKed.
+        * In the primary example, they don't wait for lock ACKs.
+        * They say they could change this, and will explain why later.
+* Lazy Primary Copy
+    * Primary accepts writes. At commit, will then multicast the
+      changes. They assume reliable, ordered multicast.
+    * The secondaries apply the changes in the multicast order.
+        * BUT they'll probably want to apply changes in parallel, so
+          they should multi-thread, but should use locking.
+        * I guess they can write in any order, so long as they lock in
+          the proper order.
+        * They also need to lock so that local read transactions will
+          not see intermediate results. Read transactions can of
+          course deadlock with updates, but then we just kill the
+          local read transactions.
+        * Weird. You obviously need to lock in receiving order (the
+          order primary applied). But if you just run blindly in
+          parallel on each TX sent, a later TX can grab a lock that an
+          earlier TX needs.
+        * So I guess the only thing that can be parallelized is the
+          actualy *writes*.
+        * That probably could be really significant though.
+    * Will still give serializability, but read TXs at secondaries may
+      see "old" data. You won't have *strong serializability* where
+      later TXs see effects of earlier transactions.
+    * A problem can occur if a primary *fails* and someone takes over
+      before the primary informs the others. The new primary won't
+      know about that last commit, so it can accept other conflicting
+      transactions!
+        * If the simplest thing to do is reverse the TX at the old
+          master when it recovers, this sacrificies durability.
+        * Otherwise, not clear how to resolve. Will need some
+          strategy.
+        * Indicates that at failover, need to talk to the secondaries!
+    * Note that this cannot happen in the eager modes!
+    * Hopefully we are going faster because there is eager
+      communication. But the user may still be far away from the
+      primary.
+    * For that reason, we can try to partition the dataset, and make
+      the primary for parts of the dataset close to those who use it.
+    * But it can be challenging to know how to locate this data.
+* Lazy Update Anywhere
+    * Accept writes at any site. These are then lazily propagated to
+      other sites.
+    * Best performance. But now there can be conflicts between
+      transactions! We can't get global serializability.
+        * But we probably at least want *eventual consistency*.
+        * That means that eventually different sites will agree on
+          values.
+        * One way to acheive this is to let writes from TXs with newer
+          timestamps overwrite those with older timestamps, and ignore
+          writes from an older TX if we've already made an update from
+          a TX with a newer timestamp.
+        * This is called the Thomas Write Rule
+* Correctness Criteria
+    * Strong Consistency means all replicas have same value at the end
+      of a commit.
+        * In particular, it means that all conflicting transactions
+          are applied in the same order.
+        * Typically achieved by eager and 2PC.
+        * Also they mention that so long as the master knows that the
+          replicas have the writeset and will all commit it in the
+          same order, we don't need to do 2PC.
+        * With ordered, reliable multicast, just need to broadcast t
+          writeset from the primary.
+        * Ordering ensures writesets can be applied all in the same
+          order. Reliability means everyone gets it.
+        * They mention that reliable ordered multicast may typically
+          have a stop failure model, not crash-recovery.
+        * You need to have some kind of eagerness to achieve strong
+          consistency. Otherwise, no one might have been sent the
+          writeset from the primary!
+    * They talk about "atomicity" by which they mean does a confirmed
+      transaction get lost. I would have called that durability...
+        * They mention that eager schemes provide both atomicity and
+          strong consistency.
+        * They mention that at atomicity and strong consistency go
+          hand-in-hand and they don't know any scheme that achieves
+          one and not the other.
+    * Weak Consistency
+        * Stale data may be observed, or even temporary
+          inconsistencies.
+        * Staleness is characteristic of lazy primary replication.
+    * Eventual Consistency
+        * Typical of lazy update anywhere protocols.
+        * Transactions may conflict, resulting in transactions being
+          aborted after ACKed, or unserializable behavior.
+        * But if all replicas eventually reach the same result, we
+          have eventual consistency.
+    * Serializability
+        * I guess you could have strong consistency but not
+          serializability?
+        * Snapshot isolation is also popular.
+        * 1-copy equivalence means that even though there are multiple
+          copies, they act as if they are one.
+    * Linearizability and sequential consistency.
+        * They don't define these!
+        * But linearizability is often synonymous with strict
+          serializability, which means that transactions that start
+          later see the results of transactions that ended before.
+        * *Linearizability* in concurrent computing means an operation
+          is indivisible and you can't see intermediate results. But
+          also, things should not be reordered in a way not compatible
+          with time.
+    * Session Consistency
+        * This means that within a session, we look like we're going
+          forward. This can be achieved even in lazy primary
+          replication if you have a transaction identifier that is
+          monotonically increasing for the session.
+        * Of course, this is for free with 2PC.
+* Reducing # of Messages
+    * With the eager primary 2PC way, they had us making a request for
+      each lock, one-by-one.
+    * An alternative is to do everything locally, then send the
+      writeset at the end when the user commits. Then do 2PC to verify
+      the replicas did it.
+        * This reduces message rounds, but means the work of forwarded
+          writes is not performed in parallel with the primary's work.
+        * I don't know that a write to the DB is actually that slow,
+          but it does involve at least a disk operation.
+        * IO can be much slower than messaging inside a datacenter.
+        * But on a WAN, we may want to limit message rounds because
+          they're high latency.
+    * A second alternative is to send the writeset only when the user
+      sends commit, and then have the secondaries acquire locks. When
+      all the secondaries ack that they have locks, the primary
+      commits, and then ACKs to the client. No 2PC is needed.
+        * There is only one message round.
+        * The secondaries commit as soon as they acquire the lock.
+        * This is more like the reliable multicast way of doing things.
+* Statement vs Object Replication
+    * You can forward SQL statements, or just the changed rows.
+    * Changed rows are smaller, typically. Faster, because don't need
+      to execute.
+    * Even for very simple SQL queries, you won't have to parse.
+    * Also: SQL can contain non-deterministic user defined functions
+      (like current time). So may be able to achieve determinism
+      easier with object replication.
+* Optimistic Concurrency Control
+    * You do your work in a private workspace, and verify before
+      commiting that you didn't read any data that anyone else wrote
+      in the meantime.
+    * Multiversion allows you to read data other people wrote, so long
+      as you can "slot in" before them.
+    * MVCC typically is used to achieve *snapshot isolation*.
+    * You can use OCC and MVCC with primary replication, and it
+      doesn't change anything, just the concurrency control method
+      used at the primary.
+    * Offers new possibilities for update anywhere.
+* Snapshot Isolation
+    * Begin to apply locally.
+    * Before commit, multicast everyone the write set.
+    * If there are any conflicts, abort. Else commit. We should
+      multicast to everyone, including ourselves. Then everyone gets
+      this in the same order, so we know we'll all either abort or
+      commit the transaction the same.
+    * Note that since reads don't affect SI, we can accept read
+      requests at any of the replicas without any communication with
+      the other nodes.
+    * If we want serializability, then we need to send the *read set*
+      as well. And we would have to do that for *any* transaction, at
+      any site, even if read only.
+* Cluster vs WAN Replication
+    * In a cluster, on a LAN, prefer eager techniques. Messaging is
+      not that costly here.
+    * In a WAN, you're trying to improve response time via global
+      replication. Here is when you may want lazy update anywhere
+      replication.
+    * That can be more palatable if you can partition and put
+      primaries close to writers.
+    * If you can do that, lazy primary replication has staleness but
+      not inconsistency.
+* Degree of Replication
+    * Replicating at every node in a cluster just means you aren't
+      scaling writes out. That helps read throughput, but maybe you
+      should limit the number of replicas.
+        * But then of course now you have problems with cross
+          partition transactionality...
+    * Having a replica of the whole database at every global site
+      imposes big communication delays for updates.
+* In Practice
+    * Primary copy with eager or lazy replication is common.
+    * Lazy replication is common for WAN replication.
+    * Few eager update anywhere protocols in practice.
+
 
 Sources:
 
 * Database Replication: A Tutorial (Kemme et al, 2010)
+    * This was a great resource and much better than this joker's book.
     * https://pdfs.semanticscholar.org/c15c/1921f07cd6647d3db24babcbaff451674e16.pdf
