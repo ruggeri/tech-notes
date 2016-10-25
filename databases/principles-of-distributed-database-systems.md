@@ -883,3 +883,110 @@ Sources:
 * Database Replication: A Tutorial (Kemme et al, 2010)
     * This was a great resource and much better than this joker's book.
     * https://pdfs.semanticscholar.org/c15c/1921f07cd6647d3db24babcbaff451674e16.pdf
+
+**ROWAA: Bernstein**
+
+* Lazy replication operates as normal in face of failures. The updates
+  are propagated through the system over time, but conflicts may
+  arise. But that's always the problem with lazy replication.
+* Eager replication using ROWA cannot provide availability, since if
+  even one site is down, we lose availability.
+* We could try to just write those available sites. This is called
+  ROWAA(vailable).
+    * But obviously you're going to lose 1SR.
+    * Suggests don't let anyone read a site that has failed and then
+      recovered until it gets itself up-to-date with what happened
+      elsewhere.
+    * But he says we'll see that doesn't work. For one, what about
+      network partition?
+* Talks about immediate vs deferred writing
+    * As in, with eager replication should the writes be sent
+      individually as they are performed in the TX, or just as the
+      very end.
+    * Deferred uses fewer messages and can be done as part of the
+      start of 2PC.
+    * But he notes that immediate writing reduces opportunity for
+      parallelization.
+    * Also mentions that conflicts will arise later with deferred
+      writing, after you've done more work.
+    * Mentions that you can avoid this if using a primary copy; then
+      write-write conflicts can be eagerly detected.
+    * But I think you should still be able to have read-write
+      deadlock...
+    * So unless you do all writes *and reads* at the primary, you can
+      have late deadlock. But then you're not distributing work across
+      replicas...
+* He talks a lot about ROWAA
+    * *I don't understand this.*
+* He also discusses quorums
+    * He notes that even to read you need a quorum. You can't just
+      read an available copy.
+    * Because what if it's modified in another partition?
+    * You may say "my read of this copy will be ordered before that
+      write".
+    * But what if, simultaneously, you're writing something that is
+      being read (from one available copy) in the other partition!
+    * So you can't get 1SR without read quorums.
+    * You really need that `V_R+V_W>N`.
+* Quorums will limit availability. Maybe business needs higher
+  availability.
+    * Maybe your system can automatically notice read-write conflicts
+      from different components (he seems to assume that we outlaw
+      write-write conflicts by requiring a write quorum, just not a
+      read quorum).
+    * He suggests then we could rollback the transaction, then redo
+      it. But of course that will result in changes, which may not be
+      acceptable.
+    * He suggests maybe we should run validations on the data, and if
+      there is any constraint violation, ask for human (or rule-based)
+      intervention.
+    * Such intervention could be application specific. Conflicts that
+      don't result in constraint violations would be accepted.
+* He mentions the typical Quorum Consensus approach:
+    * Read the highest numbered version. Write a version one higher
+      than the highest version you see.
+    * He mentions that recovery is easy: you don't have to do
+      anything.
+    * A majority of the nodes will always have the most recent version
+      (since this was written to *more* than a majority!). So when a
+      node misses a write, it doesn't need to do anything when it
+      comes back!
+* But the problem with QC is that it does so much reading. Especially
+  cross-site. In applications which are read heavy, this is a problem.
+* Missing Writes
+    * During normal operation, just you ROWA.
+    * But if there are communication failures, fall back to QC.
+    * If we do this, we only pay for QC when there are communication
+      problems. Which is exactly when we need it, of course.
+    * The idea is to fail transactions and restart in failure mode
+      (using QC) if we realize the transaction is reading data that
+      has been updated elsewhere, but not at the site it wants to
+      read.
+    * A transaction can learn about a missing write as soon as it
+      tries to do ROWA and doesn't get an acknowledgement from a
+      copy.
+    * Now this may be fine. But imagine if `T1` isn't able to write
+      `x_B`, but does write `y_A` and `y_B`. Then if `T2` reads `x_A`
+      and `y_A`, we're going to have a problem.
+        * If `T2` didn't read `y_A`, it could just be ordered before
+          `T1`. But because it did, it needs to come *after* `T1`, and
+          that `T1` made changes (to `x`) that `T2` doesn't see.
+        * Therefore, `T2` needs to run in quorum mode.
+    * To do this, `T1`, when it reads or writes any row, should also
+      record all rows where missing writes may have occured. These are
+      then propagated to anyone who subsequently touches these rows.
+    * Eventually, when partitions heal, we should bring all copies of
+      a record up-to-date. At that point, we should tell everyone that
+      they don't need to do QC for us anymore.
+    * That will involve messaging everyone; because we could fail
+      again in the meantime, our request to turn off QC will have to
+      be versioned.
+    * I think you could also do this "lazily" by just setting a flag
+      at the replicas to tell users they don't need to do QC anymore.
+
+Sources:
+
+* Concurrency Control and Recovery in DB Systems (Bernstein)
+    * https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/ccontrol.zip
+* Are Quorums an Alternative for Database Replication
+    * https://pdfs.semanticscholar.org/bb2a/690fff5db6022057136442af0323215cb8a9.pdf
