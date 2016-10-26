@@ -11,7 +11,7 @@
     * Did read. Could have a useful chapter on local search which I
       skipped at the time.
 * Amazon Web Services in Action
-    * TODO
+    * **TODO**
 * Approximation Algorithms (Vazirani)
     * Did not read.
     * This collects algorithms to a variety of problems. Not really
@@ -43,7 +43,7 @@
     * Started. Very hard and not directly related to standard AI/ML
       techniques.
     * At work.
-    * *Very low priority*.
+    * Very low priority.
 * Computer Systems: A Programmer's Perspective
     * Don't own this anymore. Really enjoyed back in college.
 * C++: Concurrency in Action
@@ -58,7 +58,10 @@
     * Started. The style here is pretty brutal. Totally comprehensive.
     * I feel like I'm not super-interested in the theory of
       distributed algorithms, so maybe I'm okay letting this go.
-    * *Low priority*.
+    * I think between Coulouris and maybe Tanenbaum I'm okay.
+    * Also, I think I'm burning out on distributed DBs. I think
+      whitepapers are more useful to me now.
+    * Low priority.
 * Distributed Systems (Coulouris)
     * Ch10 P2P. Ch12 Distributed FS. Read Ch14-18: clocks
       coordination, concurrency control, distributed transactions, and
@@ -68,7 +71,7 @@
 * Div Grad Curl And All That
     * Didn't read. I can review this if I really need it...
 * ElasticSearch in Action
-    * TODO
+    * **TODO**
 * Elements of Computing Systems
     * Loaned to Stefano.
     * Did read; great book. Most of it I already know, but stuff about
@@ -81,7 +84,7 @@
     * Probably would prefer Murphy.
     * *Very low priority*.
 * Intro to Algorithms (CLRS)
-    * Did skim; reading some parts.
+    * Did skim; read some parts careful for a few things I hadn't seen.
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra (Strang)
     * I kinda know most of this, but I also need to learn PCA and SVD.
@@ -110,12 +113,18 @@
       me.
     * *Low priority*.
 * Principles of Distributed Database Systems
-    * TODO: REVIEW ME! Looks very technical and dry, though.
+    * Pretty poor book that does a bad job of explaining things.
+    * Good citations though, and at least surfaces a lot of things to
+      think about.
+    * Bernstein's (now free) book Concurrency Control and Recovery in
+      DB Systems might have been more interesting to me...
+    * Only read through Ch14 (Parallel DB), as the rest wasn't that
+      interesting to me.
 * Probabilistic Graphical Models (Koller)
     * Skimmed most of this book. The PGM course covered most of this.
     * Wouldn't hurt to re-skim through it to make sure I didn't miss
       anything.
-    * *Medium priority*.
+    * *Low priority*.
 * Probabilistic Robotics
     * Haven't looked through this!
     * *TODO priority*.
@@ -134,12 +143,12 @@
 * Quantum Computation and Quantum Information (Nielsen and Chaung)
     * Too hard for me to understand this very well right now.
     * Honestly, I probably don't need to know this.
-    * *Very low priority*.
+    * Very low priority.
 * Quantum Computing Since Democritus (Aaronson)
     * Very enjoyable. Learned a lot of random stuff.
     * Am pretty stuck on the quantum stuff. Nielsen/Chaung might have
       helped; could try to get unstuck.
-    * *Low Priority*.
+    * Low Priority.
 * Randomized Algorithms (Motwani and Raghavan)
     * Looks to be more technical and detailed than I care about.
 * Real World Haskell
