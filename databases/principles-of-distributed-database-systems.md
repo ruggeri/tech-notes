@@ -917,7 +917,10 @@ Sources:
       have late deadlock. But then you're not distributing work across
       replicas...
 * He talks a lot about ROWAA
-    * *I don't understand this.*
+    * This was first developed for stop-failures with no network
+      problems.
+    * But people say it can be extended for network problems too.
+    * It's not explained great. I don't really understand this.
 * He also discusses quorums
     * He notes that even to read you need a quorum. You can't just
       read an available copy.
@@ -988,5 +991,9 @@ Sources:
 
 * Concurrency Control and Recovery in DB Systems (Bernstein)
     * https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/ccontrol.zip
-* Are Quorums an Alternative for Database Replication
-    * https://pdfs.semanticscholar.org/bb2a/690fff5db6022057136442af0323215cb8a9.pdf
+
+## Ch 14: Parallel Database
+
+* OLTP: high rate of simple transactions. OLAP: complex queries, fewer.
+* Number of nodes may be much higher than in distributed
+  DBMS. Communication is assumed to be very fast.
