@@ -1,6 +1,7 @@
 ## Priority
 
 * Artificial Intelligence: A Modern Approach (Norvig, Russell)
+* ElasticSearch in Action
 * Intro To Linear Algebra (Strang)
 * Machine Learning (Murphy)
 * Redis in Action
@@ -11,6 +12,8 @@
     * Did read. Could have a useful chapter on local search which I
       skipped at the time.
 * Amazon Web Services in Action
+    * **TODO**
+* An Introduction to Statistical Learning
     * **TODO**
 * Approximation Algorithms (Vazirani)
     * Did not read.
@@ -54,6 +57,7 @@
     * Did read. Good stuff on implementation of DBs.
     * Also had good stuff about theory of relational data; I had read
       that years ago.
+    * Even the parallel DB stuff is pretty good.
 * Distributed Algorithms (Lynch)
     * Started. The style here is pretty brutal. Totally comprehensive.
     * I feel like I'm not super-interested in the theory of
@@ -68,10 +72,14 @@
       replication.
     * Started this. Poorly written, sort of a litany of algorithms.
     * *Low priority*.
+* Distributed Systems (Tanenbaum)
+    * I'd like to skim this just to check it out.
+    * **Medium priority**
 * Div Grad Curl And All That
     * Didn't read. I can review this if I really need it...
 * ElasticSearch in Action
-    * **TODO**
+    * Just want to know how this works.
+    * **High priority**
 * Elements of Computing Systems
     * Loaned to Stefano.
     * Did read; great book. Most of it I already know, but stuff about
@@ -83,6 +91,8 @@
     * Also: has a bunch of stuff on trees.
     * Probably would prefer Murphy.
     * *Very low priority*.
+* Exploring Arduino
+    * **TODO**
 * Intro to Algorithms (CLRS)
     * Did skim; read some parts careful for a few things I hadn't seen.
     * Great resource, but I already know everything I need from here.
@@ -103,15 +113,21 @@
     * Except it cheaps out on NNs. Meh.
     * After Norvig, this should come next.
     * **High priority**.
+* Make: Electronics
+    * **TODO**
+* Make: More Electronics
+    * **TODO**
 * Mastering Web Application Development with AngularJS
     * This was a shit book, and I moved on to React.
 * MongoDB in Action
-    * TODO
+    * **TODO**
 * Pattern Recognition and Machine Learning (Bishop)
     * Did not read.
     * Definitely a widely used book, but Murphy seems more friendly to
       me.
     * *Low priority*.
+* Practical Electronics for Inventors
+    * **TODO**
 * Principles of Distributed Database Systems
     * Pretty poor book that does a bad job of explaining things.
     * Good citations though, and at least surfaces a lot of things to
@@ -128,6 +144,10 @@
 * Probabilistic Robotics
     * Haven't looked through this!
     * *TODO priority*.
+* Programing Arduino: Getting Started
+    * **TODO**
+* Programming Arduino: Next Steps
+    * **TODO**
 * Programming Collective Intelligence (Segaran)
     * Haven't looked through this!
     * *TODO priority*.
