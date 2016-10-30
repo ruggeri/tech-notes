@@ -997,3 +997,60 @@ Sources:
 * OLTP: high rate of simple transactions. OLAP: complex queries, fewer.
 * Number of nodes may be much higher than in distributed
   DBMS. Communication is assumed to be very fast.
+* Big increase in disk IO bandwidth.
+* Goals:
+    * Performance
+    * Availability
+    * Extensibility
+        * Scale-up: more queries, more nodes, same performance
+            * Kind of at variance with scaleup/scaleout terminology.
+        * Speedup: more nodes, same number of queries, faster
+          performance.
+* Architectures:
+    * Shared memory
+        * Doesn't scale too great becaues of shared bus (SMP).
+        * Typically tens of processors.
+        * Low complexity; appears to require just small tweaksk to
+          existing DB software.
+        * But NUMA allows ~100 processors.
+            * SMP programming approach, but with greater scalability.
+    * Shared Disk
+        * Everyone has their own memory, but shares a disk.
+        * Oracle does this.
+        * Distributed lock manager to keep database pages consistent.
+        * Scalability to hundreds of processors because no shared
+          memory.
+        * Complexity in maintaining cache coherency of DB
+          pages. Distributed commit algos necessary.
+    * Shared nothing
+        * Often called MPP for massively parallel processor.
+        * Teradata was the first commercial product.
+        * Cost advantage. Excellent extensibility.
+        * Through replication availabilit6y can be increased.
+        * Complex
+* Shared disk tends to be preferred for OLTP (over shared nothing)
+  because it is easier to support ACID transactions and distributed
+  concurrency control.
+    * Why?
+* OLAP prefers shared nothing.
+* Talksa bout how partition rows:
+    * Round-robin
+    * Hashing
+    * Range based
+* Parallel algorithms:
+    * Select applied at each node. Easily parallelizes.
+    * For joins, you might try to have every R partition send all its
+      data to every S partition. This allows you to join on arbitrary
+      criteria.
+    * For equijoin, if S is already partitioned by hash of the key,
+      you can send each row of R just to the partition of S that needs
+      this.
+    * If neither is properly partitioned helfpully, you can just do
+      this on both sides scattering all the data.
+* There's more focus on pipelining, so right deep trees are
+  considered.
+    * This avoids materialization of intermediate results.
+* Bushy trees are also useful to if relations are partitioned onto
+  disjoint sets of nodes.
+* I don't think they have a lot interesting to say about this.
+* A bunch on load balancing that I didn't find interesting.
