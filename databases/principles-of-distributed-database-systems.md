@@ -1032,6 +1032,15 @@ Sources:
   because it is easier to support ACID transactions and distributed
   concurrency control.
     * Why?
+    * Searching around, people do agree that shared disk is typical
+      for OLTP.
+    * They say there's more overhead for concurrency control to
+      maintain ACID with shared nothing.
+    * Not 100% sure how this is avoided with shared disk.
+    * I guess if everyone has shared fast access to the disk, then a
+      node executing an ACID insert to two tables could just load both
+      those pages into memory to perform the insert? No coordination
+      between two nodes?
 * OLAP prefers shared nothing.
 * Talksa bout how partition rows:
     * Round-robin
