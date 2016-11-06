@@ -194,3 +194,40 @@
 * The `/` operator is a "lookahead" operator. It says: "the stuff to
   the left was the token, but it must be followed by the stuff to the
   right, which is not part of the token."
+* Finite Automata:
+    * DFA is pretty easy.
+    * NFA basically allows you to transition to multiple
+      states. You're in the union of the states.
+* Computability sidenote:
+    * NFA can always be simulated by a DFA. Basically, the DFA keeps
+      track of the set of states the NFA could be in.
+    * So NFA does not increase the computability power of DFA.
+    * Let's considered a NTM, a non-deterministic Turing Machine.
+    * It can likewise be simulated by a TM.
+* Complexity Sidenote:
+    * Problems that an NTM can solve in polytime are exactly those
+      that a TM can verify in polytime.
+    * NTM => verifier is easy. Record the sequence of choices the NTM
+      makes as a string. Then have the TM run the NTM program, but
+      always make the specified choice along the way.
+    * Verifier => NTM. This feels cheap. Have the NTM guess each
+      character of the certificate. Then run the verifier.
+* Can represent automata with a transition table of `(state,
+  character) -> states`.
+* We can convert an NFA to a DFA.
+    * Each DFA state represents possibly multiple NFA states.
+    * You start with a DFA state for the start NFA state.
+    * Iterate through the NFA states mapped to the DFA state.
+    * Iterate through the characters transitioning out of the NFA state.
+    * If you haven't seen this char before for this DFA state, create
+      a new DFA state.
+    * Record the NFA states that have to be in this DFA state.
+    * Continue.
+* Alternatively, you can just "simulate" an NFA by doing the DFA
+  translation "on-the-fly".
+    * Basically, you just keep track of all the states you could be
+      in, then update each time you process another character.
+* The conversion will be faster for repeated reuse, but the simulation
+  could be faster for a single use. Another problem: the translation
+  may require a ton of memory, because you may create a ton of new DFA
+  states.
