@@ -227,6 +227,32 @@
   translation "on-the-fly".
     * Basically, you just keep track of all the states you could be
       in, then update each time you process another character.
+    * You just iterate through current states, looking for transitions
+      with the current character. Add this to a set of new states.
+    * To avoid adding the same state multiple times, you can keep a
+      bitstring representing whether a state has been added to the
+      collection of new states.
+    * Before pushing a new state on, make sure to take its epsilon
+      closure (by repeatedly trying to transition from that state with
+      empty string).
+    * Time complexity is given by:
+        * Assume `n` states and `m` transitions.
+        * So there are `n` states max on the stack to iterate through.
+        * Now we have to check the transitions out of these states for
+          each character (plus empty string transitions).
+        * This is of course bounded by `m`, so there is `O(n+m)` work
+          to do for each character.
+        * So `O(k(n+m))` to process `k` characters.
+* Construction of NFA from a regex.
+    * Simple to build a NFA for a single character `l`.
+    * To build one for `s|t`, take the NFA for `s` and one for `t` and
+      join them in parallel from a start using empty string
+      transitions. Joing their accept states to a final accept state
+      with an empty transition.
+    * To build an NFA for `st`, just wire in series.
+    * Last, to build an NFA for `s*`, add a empty string loop from the
+      end to the start. Also need to add an empty transition from
+      start to end.
 * The conversion will be faster for repeated reuse, but the simulation
   could be faster for a single use. Another problem: the translation
   may require a ton of memory, because you may create a ton of new DFA
