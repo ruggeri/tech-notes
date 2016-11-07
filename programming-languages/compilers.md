@@ -253,7 +253,40 @@
     * Last, to build an NFA for `s*`, add a empty string loop from the
       end to the start. Also need to add an empty transition from
       start to end.
+* So NFA construction means that we are joining NFAs together.
+    * Each combination adds at most two new states and up to four
+      transitions.
+    * So the number of states and transitions is `O(r)`, the length of
+      the regex.
+    * Therefore, construction is `O(r)`.
+    * Since NFA simulation is `O(x*(m+n))`, this means `O(x*r)`.
+    * (NB: We have elided *parsing* of the regex, which can be done in
+      linear time, though this will have to be proven later).
+* NFA simulation thus requires ideal setup time, but can be somewhat
+  slow.
+* If the regex will be used repeatedly (as in lexers for compilers),
+  it may justify more initial work to build a DFA, since DFA
+  simulation is linear in the length of the string.
+    * This will not work if there are too many DFA states
 * The conversion will be faster for repeated reuse, but the simulation
-  could be faster for a single use. Another problem: the translation
-  may require a ton of memory, because you may create a ton of new DFA
-  states.
+  could be faster for a single use. Another problem: the transition
+  table of the DFA may require a ton of memory, because you may create
+  a ton of new DFA states.
+    * That will not only result in a lot of initial work, but also
+      will have bad performance per string because the transition
+      table won't fit in cache or maybe even memory.
+* In the worst case, a translation from NFA to DFA may involve `2**n`
+  DFA states: one for each subset of `n` NFA states.
+* Let's envision how we can hit this pathalogical case. Say that the
+  finite automata is `(a|b)*a(a|b)**(n-1)`. The straightforward NFA
+  would have a loop for `a|b` at the beginning, followed by an `a`
+  transition, then `n-1` transitions of `a|b`.
+    * Let's show we need at least `2**n` DFA states.
+    * Keeping track of the values of the last `n` characters would
+      require `2**n` DFA states.
+    * This would be enough to solve.
+    * Let's say we forgot whether any position `k` started with an `a`
+      or a `b`. Then say that subsequently we got the a's and b's we
+      need.
+    * How do we know whether to accept or reject?
+    * Very handwavy, but I think I'm satisfied.
