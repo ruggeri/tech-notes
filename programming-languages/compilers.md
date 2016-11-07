@@ -290,3 +290,13 @@
       need.
     * How do we know whether to accept or reject?
     * Very handwavy, but I think I'm satisfied.
+* So how long to convert from NFA to DFA?
+    * We know the length of the NFA is `O(r)` states. We know the
+      number of transitions is `O(r)`.
+    * We know that each DFA state corresponds to up to `O(r)` NFA
+      states (all of them). We need to consider all possible
+      transitions out (`O(r)`). So this is `O(r**2)` work per DFA
+      state.
+* In a common case, the number of DFA is linear in the regex size. So
+  the compilation of the DFA is `O(r**3)`. But of course it could be
+  as bad as `O(r**2 * 2**r)`.
