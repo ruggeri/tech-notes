@@ -347,3 +347,30 @@
       these.
     * The accepting state is the one that contains the `#` symbol as a
       next position.
+* Note to self: regular expressions, even though very limited in terms
+  of languages they can accept, lead to ambiguous parsing. For
+  instance `aa*`.
+* State minimization can reduce redundant states in a DFA. I will
+  sketch the approach:
+    * Partition DFA states into accepting and not accepting.
+    * Break down each partition by consider where each state can
+      transition to. Even if two states `s1` and `s2` can transition
+      to different new states, keep them together if `s1` and `s2`
+      both transition to new states *in the same partition*.
+    * In that case, `s1` and `s2` are practically indistinguishable
+      for acceptance purposes (so far).
+    * Continue until partitions stabilize. Note that you might not
+      break up a partition in one round, but may in a subsequent
+      round.
+    * When done, you can just pick representatives of each member of
+      the partition.
+* The book mentions (without proof) that a minimal state DFA achieves
+  the minimum number of states possible. That is, we can always reduce
+  any DFA to a "best" DFA. So our state minimization algorithm
+  achieves the best DFA.
+    * The smaller the # of states, the more cache friendly, of course.
+* A little care is needed when acceptance states mean different
+  things. For instance, in a lexer, there's a regex for each token,
+  and different acceptance states means different tokens match.
+    * So our partitions should be non-acceptance states, plus each set
+      of acceptance states for a given set of regexs.
