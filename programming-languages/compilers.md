@@ -300,3 +300,50 @@
 * In a common case, the number of DFA is linear in the regex size. So
   the compilation of the DFA is `O(r**3)`. But of course it could be
   as bad as `O(r**2 * 2**r)`.
+* They give an algorithm for direct DFA construction from a regex.
+    * First you parse the regex.
+    * Each (non empty) operand in the regex is given a position.
+    * Each node in the parse tree gets values for `firstpos(node)` and
+      `lastpos(node)`. These are sets of operand
+      positions. `firstpos(node)` means, for the regex represented by
+      this node, what operands could match the first character of an
+      accepted string. Likewise, `lastpos` means the set of positions
+      where a matched string could end at.
+    * `nullable(node)` is true or false: could the empty string match
+      this regex?
+    * It's easy to recursively build these values. For instance,
+      `firstpos(s|r)` is the union of `firstpos(s)` and `firstpos(r)`.
+    * I won't give the rules for `sr` and `s*`. The basis is
+      `firstpos(\eps)=\nullset` and `firstpos(c_i)=i`.
+* Now we'll start to talk about a property called
+  `followpos(c_i)`. This is the set of possible operands positions
+  that could be the next operand matching after `c_i` in the full
+  regex.
+    * You can build this from the previously calculated quantities.
+    * To calculate for a node, start walking up its ancestors.
+    * If you're on the left of a concatenation operation, add
+      `firstpos(right)` to your followpos set. Stop.
+    * If you encounter a star, add `firstpos` of this node. Keep going
+      up.
+* You could easily create an NFA from this. Create a state per
+  operand. Then create a transition from one operand to the next in
+  `followpos` (one character may exit to multiple operands).
+    * Make all positions in `firstpos` of the root be initial states.
+    * To make a single state mean acceptance, you should just
+      concatenate a special `#` symbol at the end of the regex. This
+      is the only acceptance state.
+* Or you can generate a DFA directly.
+    * The start state is `firstpos(parse tree root)`.
+    * Now start trying to "grow" new states from the start state (call
+      it `S`).
+    * Consider each symbol `a`. Consider each `pos` in `S`
+      where`c_pos=a`. Now let `U` be the union of
+      `followpos(pos)`. These are the potential next letters to match
+      if we see an `a`.
+    * If a state for `U` doesn't exist, add it!
+    * After considering all symbols, we've figured out all transitions
+      from `S` to new sets of states. We can "mark" `S` as done.
+    * But we should continue with created states, further extending
+      these.
+    * The accepting state is the one that contains the `#` symbol as a
+      next position.
