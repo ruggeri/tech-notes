@@ -9,13 +9,15 @@ https://leetcode.com/problems/ugly-number/ <<
 <del>https://leetcode.com/problems/count-and-say</del>
 <del>https://leetcode.com/problems/reverse-vowels-of-a-string/</del>
 <del>https://leetcode.com/problems/zigzag-conversion/</del>
+<del>https://leetcode.com/problems/swap-nodes-in-pairs/</del>
+<del>https://leetcode.com/problems/reverse-string</del>
 
 **Tranche II**
-https://leetcode.com/problems/swap-nodes-in-pairs/ <<EASY
-https://leetcode.com/problems/reverse-string/ <<EASY
+https://leetcode.com/problems/string-to-integer-atoi/ << EASY
 https://leetcode.com/problems/intersection-of-two-arrays/ <<MEDIUM
 https://leetcode.com/problems/first-unique-character-in-a-string/ <<EASY
 https://leetcode.com/problems/merge-sorted-array/ <<MEDIUM
+Convert number to string without `to_s`.
 
 **Tranche III**
 https://leetcode.com/problems/rotate-array <<EASY
@@ -30,17 +32,12 @@ https://leetcode.com/problems/valid-parentheses/ <<
 Make your own split method. <<
 Find a substring in a string. <<
 https://leetcode.com/problems/count-primes/ <<
-
 https://leetcode.com/problems/rotate-array/ <<
-https://leetcode.com/problems/string-to-integer-atoi/ <<
 https://leetcode.com/problems/roman-to-integer/ <<
 https://leetcode.com/problems/longest-common-prefix/ <<
 https://leetcode.com/problems/word-pattern/ <<
 https://leetcode.com/problems/bulls-and-cows/ <<
-Convert number to string without `to_s`.
-
-*One Loop Aggregation to Hash, then loop again*
-https://leetcode.com/problems/single-number/
+https://leetcode.com/problems/single-number/ <<
 
 *Tree*
 https://leetcode.com/problems/maximum-depth-of-binary-tree/
