@@ -4,7 +4,7 @@
 * <del>Codecademy</del>
 * <del>http://www.rubykoans.com/</del>
 
-**Ruby Tutorials (Probably don't need now)**
+**Tutorials (Probably don't need now)**
 http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html
 * Approximately zero exercises.
 https://pine.fm/LearnToProgram/
@@ -14,24 +14,31 @@ https://www.codeschool.com/courses/try-ruby
 * Looks kinda like Codecademy
 http://prepwork.appacademy.io/mini-curriculum/
 * We basically covered this...
+* Free Coder Camp
+    * More a tutorial on JS. Not really problem based.
+http://programmingbydoing.com/
+* This is a tutorial teaching the Java language.
+* Not exercises to learn how to program or think about problem
+  solving.
 
 **Practice Problems**
 
-http://prepwork.appacademy.io/coding-test-1/practice-problems/
-* Pretty good list of 21 problems.
+* <del>http://prepwork.appacademy.io/coding-test-1/practice-problems/</del>
+* Pretty good list of 21 problems. We did them all!
 http://prepwork.appacademy.io/coding-test-2/practice-problems/
-* Nine somewhat harder problems.
+* **Nine somewhat harder problems.**
 http://codingbat.com/python
 * Looks like an okay list of Python problems.
 https://leetcode.com/problemset/algorithms/
 * Many problems of various difficulty, listed by difficulty.
+* The easy ones are really quite good! **Let's do these next!**
 
 **Other**
 
 https://github.com/appacademy/appacademy-prep
 * **Probably should do after a bunch of problems**.
 
-**Meh**
+**Meh Practice Problems**
 
 http://rosettacode.org/wiki/Category:Programming_Tasks
 * This seems kinda mediocre. Only listed alphabetically, not by
@@ -40,18 +47,6 @@ https://github.com/karan/Projects/blob/master/README.md
 * Again, sort of a hodgepodge of easier and more difficult ones.
 http://rubyquiz.com/
 * A lot of these are really hard...
-http://inventwithpython.com/blog/2012/02/20/i-need-practice-programming-49-ideas-for-game-clones-to-code/
-* These are games you can clone. But not appropriate for our level
-  right now.
-http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/
-* Not that useful. Contains a bunch of projects, but not by
-  difficulty, and most are random timesucks.
-https://bento.io/grid
-* This is a random meta-collection of stuff?
-http://programmingbydoing.com/
-* This is a tutorial teaching the Java language.
-* Not exercises to learn how to program or think about problem
-  solving.
 https://www.hackerrank.com/
 * Looks like it's for people looking for jobs? Needs login.
 https://checkio.org/
@@ -59,12 +54,25 @@ https://checkio.org/
 https://www.hackerearth.com/
 * Also looks like for people who want jobs.
 
+**Meh Projects**
+
+http://inventwithpython.com/blog/2012/02/20/i-need-practice-programming-49-ideas-for-game-clones-to-code/
+* These are games you can clone. But not appropriate for our level
+  right now.
+http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/
+* Not that useful. Contains a bunch of projects, but not by
+  difficulty, and most are random timesucks.
+
+**Meh Other**
+
+https://bento.io/grid
+* This is a random meta-collection of stuff?
+
 **Uncategorized**
 
 * http://www.codeabbey.com/
 * https://codecombat.com/
 * Khan Academy
-* Free Coder Camp
 * Code Wars
 * https://coderbyte.com/
 * https://www.reddit.com/r/dailyprogrammer
