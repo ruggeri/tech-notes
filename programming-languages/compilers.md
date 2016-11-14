@@ -374,3 +374,118 @@
   and different acceptance states means different tokens match.
     * So our partitions should be non-acceptance states, plus each set
       of acceptance states for a given set of regexs.
+
+## Ch4: Syntax Analysis
+
+* Transform source code to parse tree.
+* Two major methods are top-down and bottom-up parsing. Another is
+  *universal* parsing, which can parse any context-free grammar, but
+  is slow. Top-down and bottom-up can only parse subsets of CFG.
+* Syntactic errors can be detected by the parser, but semantic and
+  logical errors must be detected later.
+    * Will want to report where the error is.
+    * And also will want to "recover", be able to continue parsing, to
+      generate more error messages.
+    * However, I'm not very interested in this.
+* A CFG has production has productions with a head and tail, and the
+  head is just a non-terminal; it doesn't have multiple symbols.
+* Derivations is a sequence of strings, starting from the start symbol
+  and replacing with tails of productions.
+    * Leftmost derivations replace leftmost nonterminal at each step.
+    * Rightmost derivations replae rightmost nonterminal at each step.
+    * Anysequence of terminals and nonterminals that can be derived
+      from the start symbol is a *sentential form*. If it contains
+      only terminals it is a *sentence*.
+    * Can have many derivations, but still only one parse tree.
+* CFG is is more expressive than regular expressions. You can easily
+  rewrite any regular expression as a context free grammar.
+    * More than this: we can rewrite any NFA as a context free
+      grammar.
+    * There's a non-terminal for each state. There are productions for
+      every transition from one state to the next.
+    * At the same time, no regular expression can match `{a**n b**n |
+      n >= 1}`. This is trivial with CFG.
+* Seperating the lexical makes it easier to write a parser. Also,
+  since lexer is typically a regexp. And then grammar can be of a form
+  to allow a faster parsing strategy.
+* Grammar can be ambiguous. For instance `if E then S` and `if E then
+  S else S`.
+* Left recursion can make parsing hard. You can always *factor*
+  productions to eliminate left recursion.
+* Some language constructs, though logical, can not be expressed with
+  a CFG.
+    * For instance, can't check declaration of identifiers before
+      their use.
+    * Also can't check the number of parameters to a function.
+* Top-down parsing: starts from the start symbol and works down.
+* Recursive descent is a general strategy, but may require
+  backtracking.
+* `first(\alpha)` means the set of terminals that can start
+  `\alpha`. `follow(\alpha)` means the set of terminals that can
+  follow `\alpha`.
+    * We can compute `first(X)` by repeated substitution.
+    * We can compute `follow(X)` by considering `first(Y)` for
+      anything where `A -> ...XY...`.
+    * That's a very loose description of how to calculate, but I'm not
+      trying to get too involved with these definitions.
+* `LL(1)` grammars require one character of lookahead to compute a
+  leftmost derivation without backtracking.
+    * Need `A -> \alpha | \beta`, `first(\alpha) \intersect
+      first(\beta) = \empty`.
+    * Also, if either `\alpha` or `\beta` can be the empty string,
+      need to check that `follow(\alpha)` has no intersection with
+      `first(\beta)`.
+* To produce a *predictive parsing table*, for every production `A ->
+  \alpha`, iterate through `a \in first(\alpha)`, setting `M[A, a]`.
+* You don't need to do recursion to predictive parsing. You can
+  maintain the stack explicitly yourself.
+* According to wikipedia, `LL(k)` is typically not used, because the
+  parse table increases in size exponentially in `k`. There is also a
+  notion of `LL(*)`, where we use a DFA to make parsing decisions, not
+  just look at a symbol table. Note that this may require an unlimited
+  lookahead.
+    * These appear to be speciality subjects, and are not covered in
+      the text.
+* Bottom-up parsing starts from the bottom and works its way
+  up. Basically, we produce a "backward derivation". The steps
+  backward are called *reductions*.
+* Consider a rightmost derivation. Say that `\alphaAw => \alpha\betaw`
+  (`w` are terminals). That is, we use the production `A -> \beta` to
+  replace `A`. Then, given `\alpha\betaw`, the *handle* is defined to
+  be `\beta`.
+* We can obtain a rightmost derivation in reverse by repeatdly *handle
+  pruning*. We identify the handle, and then replcae it with the head
+  of the production.
+* This is the basic idea of *shift-reduce parsing*. Basically, we'll
+  scan left to right through the string. We *shift* characters of
+  input, pushing them on a stack. When we can identify a handle, we'll
+  *reduce* it, by replacing it with the left-hand side of the
+  production.
+* LR Parsers do left-to-right scanning, producing a rightmost
+  derivation in reverse. `LR(0)` and `LR(1)` are the most interesting
+  cases.
+* There are several ways to construct shift reduce parsers. These
+  include simple LR (SLR), canonical LR, and LALR.
+    * These differ in how we produce states and parsing table.
+* LR parsers can handle all languages we care about. It is a superset
+  of LL.
+    * TODO: can I prove that?
+* LR parsers are too much work to construct by hand, so we
+  autogenerate them.
+* So how do LR parsers work? When do we shift and when reduce?
+* The states of an LR parser are sets of *items*, which are
+  productions, and our progress through them. For instance, `A -> XY`
+  yields three *items*: `A -> *XY`, `A -> X*Y`, and `A -> XY*`. It's
+  about how much of the production we've matched.
+* We define `closure(I)`. If `A -> \alpha *B \beta` is in `I`, then we
+  add `B -> * \gamma` to `I`, until this can be done no more.
+    * Assume we have `I=closure(I)`.
+    * The *kernel* of `I` are those items we've matched part of (plus
+      the initial item, which is `S' -> *S`, where `S` is the start
+      symbol and `S'` is a synthetic "top-level" symbol).
+    * The nonkernel items are where the dot is on the left.
+    * Nonkernel items are always derived from kernel items.
+* `goto(I, X)`, where `X` is a symbol, means we consider all elements
+  of `I` where `A -> \alpha * X \beta`. We then set `goto(I,X)` to be
+  the closure of `A -> \alpha X * \beta`.
+* The basic idea is this.
