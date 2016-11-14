@@ -13,10 +13,11 @@ https://leetcode.com/problems/ugly-number/ <<
 <del>https://leetcode.com/problems/reverse-string</del>
 
 **Tranche II**
-https://leetcode.com/problems/string-to-integer-atoi/ << EASY
-https://leetcode.com/problems/intersection-of-two-arrays/ <<MEDIUM
-https://leetcode.com/problems/first-unique-character-in-a-string/ <<EASY
-https://leetcode.com/problems/merge-sorted-array/ <<MEDIUM
+<del>https://leetcode.com/problems/intersection-of-two-arrays/</del>
+* Took about 45min.
+<del>https://leetcode.com/problems/first-unique-character-in-a-string</del>
+<del>https://leetcode.com/problems/merge-sorted-array</del>
+<del>https://leetcode.com/problems/string-to-integer-atoi/</del>
 Convert number to string without `to_s`.
 
 **Tranche III**

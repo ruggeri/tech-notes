@@ -20,6 +20,8 @@ http://programmingbydoing.com/
 * This is a tutorial teaching the Java language.
 * Not exercises to learn how to program or think about problem
   solving.
+* Khan Academy
+    * Not going to be problem based.
 
 **Practice Problems**
 
@@ -72,7 +74,6 @@ https://bento.io/grid
 
 * http://www.codeabbey.com/
 * https://codecombat.com/
-* Khan Academy
 * Code Wars
 * https://coderbyte.com/
 * https://www.reddit.com/r/dailyprogrammer
