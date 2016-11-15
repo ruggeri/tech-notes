@@ -488,4 +488,40 @@
 * `goto(I, X)`, where `X` is a symbol, means we consider all elements
   of `I` where `A -> \alpha * X \beta`. We then set `goto(I,X)` to be
   the closure of `A -> \alpha X * \beta`.
-* The basic idea is this.
+* So the idea is: a closed set `I` is the current state. At the
+  beginning, it's the closure of `S' -> S`. Each character you see,
+  you either *shift*, in which case you use `GOTO(I, a)`, which is a
+  transition in the parse table. You push this state on a stack.
+* Eventually, `GOTO(I, a)` will be empty. That is, the corresponding
+  entry in the parse table is NULL. That means a handle has finished
+  forming (or there's a parse error).
+    * For this current state, there should be exactly one member of
+      `I`, say, `A->XYZ*` which you've finished producing.
+    * Pop the current state. Shift `A` now as if it were a terminal
+      being shifted.
+* Eventually you'll finish reducing. At this point, you can indeed
+  shift the next terminal.
+* How to construct the SLR parsing table:
+    * I don't feel like they tell you how to construct the SLR table.
+    * It sounds like maybe you start with the initial state, then just
+      try each terminal, and calculate `GOTO(I, a)`.
+    * In fact that's exactly what they tell you to do.
+    * Note that `GOTO(I, a)` is as simple as iterating through `I`,
+      provided you have done the closing over `I`.
+* The `LR(0)` automaton has these states and the given transitions.
+* We can construct a table, called the `SLR(1)` table, which has the
+  action to perform for each terminal. It is either a *shift*, to add
+  another state, or a *reduce* to hold onto the terminal a moment, and
+  then produces a new non-terminal.
+* There are unambiguous grammars which cannot be SLR(1). Let's
+  consider a failure.
+    * `S -> L=R | R`
+    * `L -> *R | id`
+    * `R -> L`.
+    * This is unambiguous. However, consider the state where we are in
+      the initial state and see an `L`. Then we must transition to a
+      state with the following items: `S -> L\cdot = R` and `R ->
+      L\cdot`.
+    * Then we see an `=`. Of course, the right thing to do is to shift
+      tp a new state with the kernel `S -> L = \cdot R`.
+    * But the problem is we could also see...
