@@ -18,22 +18,21 @@ https://leetcode.com/problems/ugly-number/ <<
 <del>https://leetcode.com/problems/first-unique-character-in-a-string</del>
 <del>https://leetcode.com/problems/merge-sorted-array</del>
 <del>https://leetcode.com/problems/string-to-integer-atoi/</del>
-Convert number to string without `to_s`.
 
 **Tranche III**
+<del>Convert number to string without `to_s`</del>
+<del>https://leetcode.com/problems/valid-parentheses/</del>
 https://leetcode.com/problems/rotate-array <<EASY
-https://leetcode.com/problems/remove-duplicates-from-sorted-list <<EASY
+<del>https://leetcode.com/problems/remove-duplicates-from-sorted-list</del>
 https://leetcode.com/problems/valid-anagram/ <<MEDIUM
 https://leetcode.com/problems/linked-list-cycle <<HARD
 https://leetcode.com/problems/add-strings/ <<MEDIUM
 
 **Good, but uncategorized**
 https://leetcode.com/problems/guess-number-higher-or-lower/ <<
-https://leetcode.com/problems/valid-parentheses/ <<
 Make your own split method. <<
 Find a substring in a string. <<
 https://leetcode.com/problems/count-primes/ <<
-https://leetcode.com/problems/rotate-array/ <<
 https://leetcode.com/problems/roman-to-integer/ <<
 https://leetcode.com/problems/longest-common-prefix/ <<
 https://leetcode.com/problems/word-pattern/ <<
