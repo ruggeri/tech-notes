@@ -25,19 +25,17 @@ https://leetcode.com/problems/ugly-number/ <<
 <del>https://leetcode.com/problems/rotate-array</del>
 <del>https://leetcode.com/problems/remove-duplicates-from-sorted-list</del>
 <del>https://leetcode.com/problems/bulls-and-cows/</del>
+<del>https://leetcode.com/problems/single-number/</del>
 
-**Good, but uncategorized**
-https://leetcode.com/problems/single-number/ <<
+**Tranche IV**
+<del>Make your own split method.</del>
+<del>Find a substring in a string.</del>
+https://leetcode.com/problems/count-primes/ <<EASY
 https://leetcode.com/problems/valid-anagram/ <<MEDIUM
-https://leetcode.com/problems/linked-list-cycle <<HARD
-https://leetcode.com/problems/add-strings/ <<MEDIUM
-https://leetcode.com/problems/guess-number-higher-or-lower/ <<
-Make your own split method. <<
-Find a substring in a string. <<
-https://leetcode.com/problems/count-primes/ <<
-https://leetcode.com/problems/roman-to-integer/ <<
-https://leetcode.com/problems/longest-common-prefix/ <<
-https://leetcode.com/problems/word-pattern/ <<
+https://leetcode.com/problems/longest-common-prefix/ <<HARD
+https://leetcode.com/problems/add-strings/ <<HAR
+https://leetcode.com/problems/linked-list-cycle <<VHARD
+https://leetcode.com/problems/word-pattern/ <<VHARD
 
 *Tree*
 https://leetcode.com/problems/maximum-depth-of-binary-tree/
