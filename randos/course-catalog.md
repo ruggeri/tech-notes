@@ -12,7 +12,7 @@ MIT/Berkeley/Stanford/CMU. Reviewed MIT and Stanford again 11/2016.
     * Randomized Algorithms
     * Randomness
 * Algorithmic Game Theory
-* Artificial Intelligence
+* *Artificial Intelligence*
     * Cognitive Science, Neocortex, and Biological Models
     * Graphical Models
     * Neural Nets
@@ -26,19 +26,19 @@ MIT/Berkeley/Stanford/CMU. Reviewed MIT and Stanford again 11/2016.
 * Computer Architecture
 * Cryptography and Cryptocurrency
 * Data Mining
-    * Information Retrieval
+    * *Information Retrieval*
     * Social Network Analysis
 * Databases
 * Distributed Systems
     * Cloud Computing
-    * Distributed Algorithms
+    * *Distributed Algorithms*
     * Networks
     * Queues (MIT has a whole class on this??)
 * Embedded Systems
 * Graphics and Digital Image Processing
 * Information Theory and Coding Theory
     * Error Correcting Codes
-* Machine Learning
+* *Machine Learning*
     * Control Theory
     * Digital Signal Processing
     * Optimization: convex, linear, nonlinear
@@ -46,13 +46,13 @@ MIT/Berkeley/Stanford/CMU. Reviewed MIT and Stanford again 11/2016.
 * Operating Systems
 * Parallel Computing
 * Programming Languages
-    * Compilers
+    * *Compilers*
     * Functional Programming
     * Optimizing Compilers
-* Quantum Computing and Complexity Theory
-* Robotics
+* *Quantum Computing and Complexity Theory*
+* *Robotics*
 * Security
-* Theorem Proving, Symbolic Logic
+* *Theorem Proving, Symbolic Logic*
 * User Interfaces and HCI
 * Virtual Reality
 * Web Applications
