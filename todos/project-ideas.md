@@ -1,5 +1,7 @@
 **Possible Independent Study Projects**
 
+**Last Updated**: 2016-09-27
+
 ## AI/ML
 
 * Book Study
@@ -105,6 +107,7 @@
     * Two-phase locking
     * Join algorithms, indexing.
     * Recovery/Logging
+    * LSM tree; Fractal tree
 * Information Retrieval
     * Inverted index
     * Autocompletion
