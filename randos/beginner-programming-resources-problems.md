@@ -14,7 +14,6 @@ https://leetcode.com/problems/ugly-number/ <<
 
 **Tranche II**
 <del>https://leetcode.com/problems/intersection-of-two-arrays/</del>
-* Took about 45min.
 <del>https://leetcode.com/problems/first-unique-character-in-a-string</del>
 <del>https://leetcode.com/problems/merge-sorted-array</del>
 <del>https://leetcode.com/problems/string-to-integer-atoi/</del>
