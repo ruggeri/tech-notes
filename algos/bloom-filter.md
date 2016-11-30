@@ -129,6 +129,10 @@ so lookup is O(1). One advantage is that you will only look in at most
 2 locations for the fingerprint, whereas you need to look in `k`
 locations for a bloom filter.
 
+In a Cuckoo filter, it is common to have a bucket store multiple
+fingerprints.
+
 Sources:
 
 * https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+* https://news.ycombinator.com/item?id=13056726
