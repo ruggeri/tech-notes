@@ -58,13 +58,55 @@ async actions at the moment.
 * redux-actions (2.4k stars): just a little convenience for action
   construction. It looks like `handleActions` will produce a reducer
   for you, which is nice.
-* react-router (18k watchers), react-router-redux (5k watchers)
 
 I haven't used this again yet:
 
-* relay (not sure this is really used; 7.5k watchers)
-* redux-form (4.5k watchers)
-* redux-saga (5.3k watchers) vs redux-thunk (3.7k watchers)
+0. redux-form: I do a lot of form work. Maybe this can help?
+1. redux-saga (5.3k watchers) vs redux-thunk (3.7k watchers)
     * But redux-saga especially crushes in # of contributors, forks,
       and stars.
-* reselect (4.9k watchers)
+2. redux-immutable: Sounds useful since I also like immutable.js.
+    * Should be really fast to review.
+
+* react-router (18k watchers), react-router-redux (5k watchers)
+* relay (not sure this is really used; 7.5k watchers)
+* redux-form (4.5k watchers)
+* reselect (4.9k watchers) (used to memoize computations)
+* They also mention `normalizr` as a way to store data locally. This
+  normalizes responses from the server.
+    * It feels like the Redux people push this *very* hard.
+    * There's also a much less popular redux-orm library.
+    * Maybe that's worth considering since this is a very important
+      subject.
+* They mentioned a middleware for logging dispatched actions, which
+  sounds very useful for debugging.
+* Tools:
+    * A couple of these could be pretty helpful.
+    * redux-devtools, redux-devtools-extension
+    * redux-logger (redux website called this out as useful; logs all
+      actions received)
+* Other:
+    * These are small, not very important.
+    * redux-persist (for persisting/hydrating from localstorage)
+    * redux-auth
+    * redux-undo
+    * redux-search (helps with client side searching)
+
+## TODO
+
+* <del>Read docs for React (again)</del>
+    * Nothing very exciting. Nice to know that immutable is preferred.
+    * Nice to be able to use PureComponent everywhere.
+* <del>Read docs for redux, redux-actions.</del>
+    * Does redux Provider actually pass store down without callbacks?
+    * The docs for redux are written in a pro redux-thunk era.
+    * But I'll save this discussion for when I cover
+      redux-thunk/redux-saga.
+    * They describe lots of ways to split up reducers into parts and
+      to combine these. But I can come back to that another
+      time. Fundamentally, reducers are just pure functions, so you
+      can compose and combine them however makes sense to you.
+    * They also push normalizr, but I feel like I should just read
+      those docs. That sounds like something for a SPA with complex
+      nested state and all.
+* Read docs for react-redux
