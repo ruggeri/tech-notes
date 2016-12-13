@@ -58,26 +58,26 @@ async actions at the moment.
 * redux-actions (2.4k stars): just a little convenience for action
   construction. It looks like `handleActions` will produce a reducer
   for you, which is nice.
+* redux-form (4.6k stars). Pretty nice. Does exactly what I need. Does
+  reduce some boilerplate. Especially good at nested stuff.
 
 I haven't used this again yet:
 
-0. redux-form: I do a lot of form work. Maybe this can help?
 1. redux-saga (5.3k watchers) vs redux-thunk (3.7k watchers)
     * But redux-saga especially crushes in # of contributors, forks,
       and stars.
 2. redux-immutable: Sounds useful since I also like immutable.js.
     * Should be really fast to review.
 
-* react-router (18k watchers), react-router-redux (5k watchers)
-* relay (not sure this is really used; 7.5k watchers)
-* redux-form (4.5k watchers)
-* reselect (4.9k watchers) (used to memoize computations)
 * They also mention `normalizr` as a way to store data locally. This
   normalizes responses from the server.
     * It feels like the Redux people push this *very* hard.
     * There's also a much less popular redux-orm library.
     * Maybe that's worth considering since this is a very important
       subject.
+* react-router (18k watchers), react-router-redux (5k watchers)
+* relay (not sure this is really used; 7.5k watchers)
+* reselect (4.9k watchers) (used to memoize computations)
 * They mentioned a middleware for logging dispatched actions, which
   sounds very useful for debugging.
 * Tools:
@@ -109,4 +109,5 @@ I haven't used this again yet:
     * They also push normalizr, but I feel like I should just read
       those docs. That sounds like something for a SPA with complex
       nested state and all.
-* Read docs for react-redux
+* <del>Read docs for react-redux</del>
+* Read redux-form docs.
