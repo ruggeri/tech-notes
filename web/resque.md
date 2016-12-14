@@ -23,3 +23,8 @@ ExecStop=/bin/bash -c 'kill $MAINPID && wait $MAINPID'
 
 * This is pretty weaksauce probably, but it does what I need.
 * You can start by `sudo systemctl start reminder_resque.service`.
+* To be able to schedule jobs for a future time (instead of just queue
+  them to be done ASAP), you need `resque-scheduler`.
+    * You'll have to make a service for this, too.
+    * You need to add `require 'resque/scheduler/tasks'` to your Rakefile.
+    * To run the scheduler, you want: `bundle exec rake environment resque:scheduler`
