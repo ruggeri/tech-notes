@@ -47,6 +47,8 @@
       techniques.
     * At work.
     * Very low priority.
+* Compilers (Aho)
+    * Very good. Working through this presently.
 * Computer Systems: A Programmer's Perspective
     * Don't own this anymore. Really enjoyed back in college.
 * C++: Concurrency in Action
@@ -187,8 +189,6 @@
 
 **Interesting**
 
-* Compilers (Aho)
-    * I might actually like this.
 * OpenCL in Action
     * It seems like maybe people like CUDA better?
 * RxJS in Action
