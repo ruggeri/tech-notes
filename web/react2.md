@@ -49,7 +49,7 @@ Here are the steps:
 Note this doesn't discuss any routing right now. And I don't have any
 async actions at the moment.
 
-# Libraries
+# Libraries I've Used
 
 * Webpack, Babel.
 * React.
@@ -60,14 +60,26 @@ async actions at the moment.
   for you, which is nice.
 * redux-form (4.6k stars). Pretty nice. Does exactly what I need. Does
   reduce some boilerplate. Especially good at nested stuff.
+* classnames (4.2k stars)
+    * Very simple utility for generating className attribute from an
+      object.
 
-I haven't used this again yet:
+## Priority Libraries
 
+0. react-select
 1. redux-saga (5.3k watchers) vs redux-thunk (3.7k watchers)
     * But redux-saga especially crushes in # of contributors, forks,
       and stars.
 2. redux-immutable: Sounds useful since I also like immutable.js.
     * Should be really fast to review.
+
+## Next Libraries to Review
+
+* https://github.com/Hacker0x01/react-datepicker
+* react-router (18k watchers), react-router-redux (5k watchers)
+* reselect (4.9k watchers) (used to memoize computations)
+
+## Less Important
 
 * They also mention `normalizr` as a way to store data locally. This
   normalizes responses from the server.
@@ -75,22 +87,14 @@ I haven't used this again yet:
     * There's also a much less popular redux-orm library.
     * Maybe that's worth considering since this is a very important
       subject.
-* react-router (18k watchers), react-router-redux (5k watchers)
-* relay (not sure this is really used; 7.5k watchers)
-* reselect (4.9k watchers) (used to memoize computations)
-* They mentioned a middleware for logging dispatched actions, which
-  sounds very useful for debugging.
+
+## Developer Experience
+
 * Tools:
     * A couple of these could be pretty helpful.
-    * redux-devtools, redux-devtools-extension
+    * react-devtools, redux-devtools, redux-devtools-extension
     * redux-logger (redux website called this out as useful; logs all
       actions received)
-* Other:
-    * These are small, not very important.
-    * redux-persist (for persisting/hydrating from localstorage)
-    * redux-auth
-    * redux-undo
-    * redux-search (helps with client side searching)
 
 ## TODO
 
@@ -111,3 +115,32 @@ I haven't used this again yet:
       nested state and all.
 * <del>Read docs for react-redux</del>
 * Read redux-form docs.
+
+## Other, Unimportant Awesome React Libraries
+
+This is a comprehensive list (minus what's covered above). But these
+aren't important to know.
+
+* Forms
+  * https://github.com/text-mask/text-mask
+* charts:
+  * https://github.com/reactjs/react-chartjs
+  * https://github.com/esbullington/react-d3
+* Maps:
+  * https://github.com/tomchentw/react-google-maps
+  * https://github.com/uber/react-map-gl
+  * https://github.com/istarkov/google-map-react
+* File upload: https://github.com/okonet/react-dropzone
+* Tables/Datagrid
+  * https://github.com/glittershark/reactable
+  * https://github.com/adazzle/react-data-grid
+  * https://github.com/GriddleGriddle/Griddle/
+* Dragging: https://github.com/gaearon/react-dnd
+* Elasticsearch: https://github.com/searchkit/searchkit
+* Canvas: https://github.com/Flipboard/react-canvas
+* Other:
+    * These are small, not very important.
+    * redux-persist (for persisting/hydrating from localstorage)
+    * redux-auth
+    * redux-undo
+    * redux-search (helps with client side searching)
