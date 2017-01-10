@@ -59,3 +59,9 @@
   could be unbounded.
 * Also wouldn't be s cache friendly.
 * Whatever, I don't think I care!
+
+## TODO
+
+* Finish perfect hashing.
+* Consistent hashing (minimize rehashing work)
+* Extendible hashing
