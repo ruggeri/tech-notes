@@ -1,4 +1,4 @@
-# Lectures 1-4: Introduction and FF NN
+# Week 1: Basic Concepts/Introduction
 
 * ML is good for tasks where humans don't know how to write a program
   that performs a task (vision). Or maybe it is inherently a
@@ -7,6 +7,13 @@
     * Pattern recognition: object, facial, speech recognition
     * Anomoly detection: fraud
     * Prediction: stock prices, recommendation
+* Kind of a different style of programming. The machine learning
+  approach learns a model we could never learn.
+    * I think this is important to my interest. Note that I'm less
+      interested in learning the parameters of a very structured
+      model. That's because we already know how to write that program,
+      but we are unsure of some details.
+    * Other programs, we have literally no idea how to write.
 * Works well given that if patterns change, we can relearn (e.g.,
   fraudsters get more sophisticated).
 * Digit recognition (MNIST) is a common evaluation problem.
@@ -19,13 +26,23 @@
       parallel computation.
     * Talks about how motivates learning algorithms inspired by brain.
 * Activations functions:
-    * Linear, Rectified linear (linear with a zero threshold).
-    * Sigmoid (most common)
+    * Linear, Binary threshold, Rectified linear (sometimes called
+      "linear threshold").
+    * Sigmoid (most common; derivatives make learning easy.)
     * Stochastic binary: basically one of these activation fns, but
       then uses it as a prob of producing a 1.
+        * Hm. This binarizes the neuron output, and also adds noise,
+          which might be good to avoid overtraining?
+        * Not entirely sure what the benefit is.
 * Showed a simple training of a NN that connected pixels to digit
-  classes. For each example, incremented weight from active pixels to
-  correct answer, and decremented weights to other classes.
+  classes. For each example, if classified incorrectly, incremented
+  weight from active pixels to correct answer, and decremented weights
+  to the network's incorrect guess.
+    * He mentions why this is insufficient. What is learned is
+      templates for the numbers. The winner is the number which has
+      the most overlap with the template.
+    * So, for instance, if you allow random rotations of the numbers,
+      you wouldn't learn anything.
 * Types of learning:
     * Supervised: Learn to predict a given output given an input.
         * Regression vs Classification.
@@ -38,6 +55,10 @@
         * Often used for finding low-dimensional representation. PCA
           is a common technique.
         * Clustering.
+        * One nice thing: you can learn from unlabeled data!
+
+## Week 2: Perceptron Learning
+
 * Feedforward nets: most common.
     * Any net with more than one hidden layer is "deep".
     * Activations need to be nonlinear function, so that we can
@@ -48,37 +69,58 @@
     * They can have complicated dynamics and can be difficult to
       train.
     * They can be used to model temporal data. In a FFNN, you could
-      reproduce an RNN with one hidden layer per time-step. Presumably
-      in an RNN you just hook the hidden layer up to itself.
+      reproduce an RNN with one hidden layer per time-step. Each layer
+      is trained seperately.
+    * Presumably in an RNN you just hook the hidden layer outputs are
+      the inputs for the next step. But this introduces a cycle in
+      training...
     * RNN has the ability to remember recent states in the hidden
       layer, but apparently it's hard to train them to use this
       ability.
     * Symmetric networks have same weight in both direction. Hopfield
-      realized symmetric nets (Hopfield nets) are much easier to
-      train. But they are more limited in what they can do.
+      realized symmetric nets are much easier to train. But they are
+      more limited in what they can do.
+        * I guess at each time you start with an input, go through the
+          layer, and then reset the input for the next time slice.
+        * If there is no hidden layer this is called a Hopfield
+          network. But what, how can you have a hidden layer and be
+          "symmetric". What does that mean?
+        * If there is a hidden layer, this is a Boltzmann machine.
+        * Wait. By "symmetric" they mean a Markov field. That there is
+          an *affinitiy* between neurons, and an overall energy
+          function.
 * Perceptron (Rosenblatt)
     * Basically just learn some weights for each feature, if above a
       threshold, then you predict 1, if not predict 0. Very easy to
-      train.
+      train. You have a dummy input for the bias term.
     * Minsky showed limitations of perceptrons. But many thought this
       applied to all NN.
     * Rosenblatt's learning is to go through data, and for each
       misclassification, add or subtract the input from the weights.
-    * Claim is that if the data is linearly separable, this will
-      terminate with a solution. If not it will never end. And it
-      won't really converge. I think you might be able to do some kind
-      of annealing?
-    * Whatever, this seems like a problem better solved by SGD.
-    * Basically the idea is that updating by adding the input vector
-      moves up the path of steepest ascent *for fixing this
-      problem*. But it ignores the other examples!
-    * It's kinda annoying that we need a concept of a "generously
-      feasible region", since the updates are not scaled proportionate
-      to the error. Basically: we can overstep.
-    * Each update makes progress toward a solution in the generously
-      feasible region, provided one exists. I think you need more math
-      to prove this than Hinton does.
-    * Anyway, fuck this noise. Perceptron learning be dumb.
+    * Proof this works:
+        * For a given training example, consider the weight space.
+        * There is a hyperplane through the origin that results in a
+          perceptron output of exactly zero.
+        * Weights on one side of the hyper plane correctly classify
+          this example, weights on the other incorrectly classify.
+        * Note that this hyperplane is perpindicular to the input
+          vector.
+    * Given that, it is clear that adding or subtracting will move the
+      weight vector toward the good side of the plane. In fact, it
+      will do the best at correcting it given that magnitude of
+      adjustment.
+    * But we need a weight vector that works for *all* examples (we'll
+      assume they are linearly separable). Will this procedure move us
+      close toward those weight vectors?
+    * The answer is yes. Consider a "generously feasible vector,"
+      which is a distance of one step from every example's
+      hyperplane. In particular, we know that this is at least one
+      step from the current' example's hyperplane. So taking a step
+      toward it will in no way overshoot.
+    * Note that if there is any solution, there must be a "generously
+      feasible solution", since we can always scale up the weight
+      vector arbitrarily, move it farther from the edges of the
+      hyperplanes.
 * Perceptrons and Features
     * With enough features, you can linear separate. Same idea behind
       SVM. So you need features. But the difficulty is in finding
@@ -86,20 +128,28 @@
     * Given features perceptrons are limited. Can only linearly
       separate. Given two inputs `X` and `Y`, can't learn `X=Y` (since
       that's not linearly separable).
-    * He shows moreover that you can't discriminate between two
-      patterns with the same number of on pixels. If you need to
-      detect translations and allow wrap-around.
-    * In paricular, the idea is that perceptrons can't really learn
-      paterns, which is the whole point of ML.
-    * Hinton's conclusion: NN will only be powerful if we can learn
-      the feature detection.
+    * Also, you can't discriminate two bitmaps with same number of on
+      pixels if you allow translation with wrap-around.
     * Thus we need multiple layers, and they have to have
       non-linearities in activation, else the system is still linear.
+
+## Week 3: Backprop
+
+* Starts with linear neuron, which is a perceptron but with a linear
+  response. He uses this so that he can talk about the gradient.
+    * For a single neuron, we can solve this analytically, but we want
+      to be able to generalize to non-linear models.
 * Describes gradient descent.
+    * Because you are trying to minimize an error, you may never get
+      it to zero, but you can move closer and closer to the best
+      error.
+    * Note that if two inputs are highly correlated, it may be hard to
+      tease them apart. In particular, your update rule is perfect if
+      the mixed partial is zero.
     * Interesting note about SGD. Basically, you're moving straight
       toward perfect classification of an example. So effectively you
       are zig-zagging toward the answer.
-    * He covers logistic regression.
+    * He covers logistic error.
 * Backpropagation
     * People first tried to perturb weights and see if they improved
       performance. But that meant running forward passes on all your
@@ -123,6 +173,13 @@
 * Mentions overfitting as a problem.
     * You can try to regularize, or you can force connections to share
       weights (fewer params than connections).
+    * There are also Bayesian approaches, and there is also model
+      averaging.
+    * "Generative pre-training"? I'm interested to hear more!
+    * Dropout.
+
+## Week 4: ???
+
 * Shows an example where he has proposition triples about a family
   tree: (`(Bill has-uncle Jim)`). Input is `person1`, `relationship`,
   output is `person2`.
