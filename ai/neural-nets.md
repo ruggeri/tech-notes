@@ -180,15 +180,25 @@
 
 ## Week 4: ???
 
-* Shows an example where he has proposition triples about a family
-  tree: (`(Bill has-uncle Jim)`). Input is `person1`, `relationship`,
-  output is `person2`.
-    * He wants to train it to do inference. If I say `(p1 has-father
-      p2)` and `(p2 has-father p3)` I want the net to learn `(p1
-      has-grandfather p3)`.
-    * BTW, the NN can only talk to you about relationship types you
-      trained it on.
-    * Interesting. Kind of shows a NN doing symbolic reasoning... Hmm.
+* Let's say you have a dataset consisting of triples of the form
+  `(obj1 relationship obj2)`. Some of these are "local"
+  relationships. Some of these are redundant and can be inferred from
+  the local relationships.
+    * For instance, in the dataset, I may have `(ned dad robert)` and
+      `(robert dad mario)` and finally `(ned granddad mario)`.
+    * So there is the possibility to learn that my dad's dad is my
+      granddad. So there is the possibility that if the dataset
+      includes `(x dad y)` and `(y dad z)` BUT NOT `(x granddad z)`, I
+      can still train a learner to know this.
+    * What he does is trains a network where the inputs are `x` and
+      `granddad`, and the output ought to be `z`.
+* This is interesting, because the network would be learning logical
+  rules.
+    * He mentions a use-case is to train this on a dataset, then go
+      back over the same dataset, finding those relationships that
+      feel least likely to the network. Those training examples can be
+      examined, because they may well be incorrectly labeled training
+      data.
 * He makes a note about cognitive science
     * Basically, he says that neurons in a ANN don't represent a
       single concept. Connections don't represent one kind of
