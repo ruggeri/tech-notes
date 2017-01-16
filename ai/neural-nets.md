@@ -178,7 +178,7 @@
     * "Generative pre-training"? I'm interested to hear more!
     * Dropout.
 
-## Week 4: ???
+## Week 4: Distributed Representations
 
 * Let's say you have a dataset consisting of triples of the form
   `(obj1 relationship obj2)`. Some of these are "local"
@@ -200,6 +200,13 @@
       examined, because they may well be incorrectly labeled training
       data.
 * He makes a note about cognitive science
+    * Theories from cognitive science. "feature theory": a concept is
+      described by semantic features. "structuralist theory":
+      structure is defined by relation to other concepts.
+    * Another note: sometimes we do conscious, explicit logical
+      reasoning, but just as often we do commonsense reasoning by just
+      seeing the answer unconsciously. (Not sure how this point is
+      related to the prior ideas).
     * Basically, he says that neurons in a ANN don't represent a
       single concept. Connections don't represent one kind of
       relationship.
@@ -209,8 +216,8 @@
 * He notes that squared loss isn't good for classification.
     * Andrew Ng said becuase the problem won't be convex.
     * Hinton says because derivative when logistic function is close
-      to zero or one is itself very shallow. So it's hard to learn
-      even when the answer is really wrong.
+      to zero or one is itself very shallow.  So it's hard to learn
+      even when the answer is really wrong. Interesting.
     * Derivative of logistic error wrt `z` is linear in magnitude of
       error.
     * By the way, this is called the **cross-entropy cost funciton**.
@@ -221,10 +228,23 @@
     * Has a nice derivative.
     * Talks more about the cross-entropy cost function. It makes sense
       when you're talking about probabilities.
+* Why? Basically, because going from a wrong answer of 0.001 to 0.01
+  represents a 10x increase in the probability the softmax assigns to
+  the correct answer.
 * Talks about speech recognition
     * Speech recognition needs context to disambiguate. Audio signal
       just isn't good enough to clearly identify phonemes.
-    * So we often use trigram models.
+    * So we often use trigram models. We don't actually need the
+      algorithm to have semantic knowledge; just a knowledge of what
+      word is likely given the left and right so that it can improve
+      its guess.
+    * Trigrams are used because to use more there would be so many
+      more possibilities and most counts would be exactly zero because
+      we simply have never seen that before in our training corpus.
+    * Note: a common technique is, for hard individual cases, to "back
+      off" to bigrams if the counts of trigrams are too small to
+      produce a reliable estimate.
+* Improvement with Neural Nets
     * However, he wants us to be able to learn about semantically
       similar sentences from an example. "The cat got squashed in
       garden on Monday" should imply "The dog got flattened in the
@@ -243,37 +263,45 @@
     * We could try to train with huge amounts of data. That's cool,
       but what if we don't have that much?
 * One solution: "serial architecture"
-    * Basically, you put a candidate in as the *third* input.
-    * Then you return just one value: logit score of the word.
-    * That way there isn't possible overfitting.
-    * To do prediction of next word, you have to run through all
-      possibilities. This could be precomputed ahead of time to
-      produce a table.
-    * You can save a lot of time if, instead of considering all
-      possible candidates, there is some simpler method to limit the
-      set of candidates to choose from. E.g., NN could revise
-      predictions of words that trigram model thinks are likely.
+    * You run a net once per each possible word.
+    * You featurize all three words. You connect them in a hiddeb
+      layer.
+    * You do a final neuron to give a score for this word.
+    * When evaluating, you try every possible word, and pick the one
+      with the best score.
+    * You could precompute this to build a table of prior two words =>
+      best choice. Or possibly a couple top choices with their
+      relative probabilities.
+    * Of, instead of considering all possible candidates, there is
+      some simpler method to limit the set of candidates to choose
+      from. E.g., NN could revise predictions of words that trigram
+      model thinks are likely.
+    * *Note*: I'm not clear how exactly to train such a network. A
+      bunch of trigrams never occur in the training set. Do you want
+      to provide *negative* examples of these? You need to train with
+      negatives because otherwise the best thing to do (at training)
+      is to always output 100%. But that is useless.
+    * I think you train in the same serial way. When you have a
+      trigram, that is also a negative example for every other third
+      word to finish the trigram.
 * Another: tree paths
-    * Put words in a binary tree.
-    * Convert context words into distributed representation, then
-      connect this layer of featurized contexts to a *prediciton
-      vector*.
-    * Compare with a learned vector at each node of the tree. The
-      vector decides which path to take.
-    * Take scalar product and run through logistic function to predict
-      probabilities of each branch.
-    * You can train this with a kind of backprop. There's the
-      featurization neurons, but also these other neurons with these
-      activations that are scalar-product like.
-    * Presumably you accumulate products as you go down the tree; you
-      eventually get a bunch of outputs, which you can run a softmax
-      on.
-    * Basically, you're talking about a specialized version of a NN,
-      with a weird activation fn.
-    * I think when you're learning, you only need to do backprop on
-      the path to the correc tanswer? That's because I think you just
-      want to maximize the value of the correct answer?
-    * Is that a general property of the softmax?
+    * Put words in a binary tree. The words are the leaves.
+    * Each node in the tree has a prediction vector `u`. We will train
+      to learn `u`.
+    * The prior two words are converted to a distributed
+      representation `v`.
+    * At each node, you take the logit of `u \cdot v`. This determines
+      whether you go left or right.
+    * By summing these logits down a path, you get a logit for the
+      leaf node.
+    * Upon scoring all leaves, you are done!
+    * They claim this is fast to train, because for each example, all
+      you want to do is boost along the path to the correct word from
+      context. The other nodes don't need to be changed. This means to
+      do an update you only need to do `log(N)` updates (`N` is the
+      number of overall units).
+    * You're allowed to do this maybe because our output probabilities
+      are a softmax of all logits?
 * Context featurization
     * They trained a NN to predict word based on context of
       surrounding words.
@@ -288,6 +316,7 @@
       context. But maybe not so odd; we can easily learn what "She
       scrommed him with a frying pan", we might have an idea of what
       "scrommed" means.
+    * I believe this is how word2vec works.
 
 ## Lecturs 5-8: SGD and RNNs
 
