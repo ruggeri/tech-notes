@@ -317,8 +317,14 @@
       scrommed him with a frying pan", we might have an idea of what
       "scrommed" means.
     * I believe this is how word2vec works.
+* TODO
+    * In the quiz, he has you do the math to show that the softmax is
+      very logical for the multi-class problem with the cross-entropy
+      error. In particular, you want to show this is better than n
+      logistic units with cross entropy error.
+    * Of course, softmax is exactly logistic unit for binary case.
 
-## Lecturs 5-8: SGD and RNNs
+## Week 5: Image Recognition
 
 * Object Recognition is hard
     * Segmentation is hard; finding out what parts of the scene are
@@ -346,8 +352,11 @@
         * In particular, to figure out the box and orrientation, we
           have to have an idea of what the thing is. So that's kind of
           chicken-and-egg.
-    * Convolutional NN
-    * Hierarchy of parts with poses relative to the camera?
+    * Convolutional NN: duplicated features with pooling.
+    * A brute force approach is to do perfect normalization at train
+      time. Then when using the model, you run it on all possible
+      bounding boxes. It helps a lot if your model can handle enough
+      jitter to allow using a coarse grid.
 * Convolutional NN
     * Basically, many identical feature detectors at different
       positions in the image. Basically, they're replicated features.
@@ -365,13 +374,16 @@
     * You can do a limited translation invariance by taking the max of
       several adjacent feature detectors. This helps you pool the
       replicated feature detectors.
-    * But doing this averaging loses position of the items in the scene.
-    * So you can't use this approach for identifying spatial
-      relationships of high-level concepts. For instance, distance
+    * But if you keep doing this for several levels, you lose the
+      position information. Which makes it hard to judge spatial
+      relationships with other features. That is important; distance
       between eyes is important for face recognition.
-    * Yann LeCun: one of the first to identify hand-written nets with
-      FFNN. Had many layers, many replicated units, pooling of nearby
-      replicated units.
+        * Note an extreme is to just take a max over the entire set of
+          pooled detectors. That tells you whether the feature
+          detector fired, but not at all where it is.
+    * Yann LeCun: one of the first to identify hand-written digits
+      with FFNN. Had many layers, many replicated units, pooling of
+      nearby replicated units.
 * General point about prior knowledge
     * How do we inject it?
     * Connectivity/architecture.
@@ -384,10 +396,12 @@
           better than just real data.
 * This approach can be successful
     * LeNet uses careful architecture of network.
+    * And with further sophisticated input tricks, it can do deven
+      better.
     * But using a deep, dumb net with lots of synthetic data, and
-      running on a GPU did much much better!
+      running on a GPU did better!
 * BTW to measure performance, don't just use error ratio.
-    * When comparing to algos, look only at those errors that one
+    * When comparing two algos, look only at those errors that one
       model made, but the other got right. Compare these ratios.
     * Those which they *both* got wrong, those are maybe just hard
       ones.
@@ -415,6 +429,8 @@
       more expressive?
     * Compeitive normalization. That means we supress the hidden
       activities when nearby units have stronger activities.
+        * *Not really sure how this is supposed to help.* Something
+          about variations in intensity?
     * Also used random patches (224x224 of the 256x256) to get more
       data of translations. Used reflections. So lots of synthetic
       data. Did not use up-down reflections, since gravity is very
@@ -429,6 +445,13 @@
     * Used GPUs. ~1k cores, very fast at computation. TODO1: I think I
       need to do GPU programming to get good at this stuff.
     * Training took ~1week.
+    * He mentions: if you ride the wave of increased GPU performance,
+      then these new type systems will get faster for free relative to
+      the old type systems.
+* Took quiz, perfect score!
+
+## Week 6: Gradient Descent Techniques
+
 * Talks about mini-batch SGD
     * Can do more steps faster, but not so inaccurately as online SGD.
     * Mini-batch isn't necessarily that much slower, because with
