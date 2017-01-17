@@ -452,6 +452,25 @@
 
 ## Week 6: Gradient Descent Techniques
 
+* Even for multi-layer non-linear nets, the error surface locally is
+  well approximated by a quadratic bowl.
+* Let's consider a quadratic error surface. If the contour lines are
+  true circles, than gradient points directly to the bottom.
+    * Note that the partial of a quadratic surface is proportional to
+      the distance from the minimum along that component.
+    * So if you are twice as far from the minimum in component one,
+      the gradient will double.
+* But the problem is that this gets screwed up by an elliptical
+  bowl. If the quadratic is twice as steep along one component, then
+  the partial in that component will be twice the magnitude.
+    * The problem then is that you'll double the amount you step in
+      this direction, but you actually aren't farther from the minimum!
+* So GD is going to work worse the more the steepness varies along
+  components.
+* What we would like to do is really include second-order
+  information. If the gradient is not changing much in one direction,
+  we can make a bigger step there. But if the gradient is changing a
+  lot, we want to hedge and take a smaller step.
 * Talks about mini-batch SGD
     * Can do more steps faster, but not so inaccurately as online SGD.
     * Mini-batch isn't necessarily that much slower, because with
@@ -459,75 +478,179 @@
       is still just matrix math, which is hardware accelerated.
     * Mini-batch is good if the dataset is big and highly redundant,
       since a sample of the data is represenative of the whole.
+* He claims that mini-batch SGD is almost always fastest for large
+  neural networks with large and redundant datasets. He says this
+  beats the optimization community's best efforts.
+* He suggests that you can speed up or slow down the learning rate
+  depending on if the error gets worse.
+    * Also suggests an "annealing" style approach where you slow down
+      learning toward the end of the process.
 * SGD Tips-and-Tricks
     * Random initialization.
+    * He mentions fan-in: if a unit has more inputs, then you are
+      making worse the incorrect assumption that simultaneous changing
+      all the incoming weights achieves the theoretical maximum
+      benefit of the sum of those changes. So he recommends
+      normalizing incoming weights to be proportional to sqrt of the
+      fan-in.
     * Suggests mean normalization, so that isoquants of the error
       surface are not as sharp an elipse. Also suggests unit variance.
     * More than that, you can try to decorrelate the inputs. You can
       try to do this by apply PCA, dropping some low-value dimensions
       (achieving a dimensionality reduction) and then normalizing so
       that each dimension has unit mean and variance.
-    * A lot about tuning speed of learning rate.
-    * Trick is to use *momentum*; change velocity of particle, not
-      position by the gradient. That way, you kind of reduce noise.
-    * Use adaptive learning weight for each parameter, slowly
-      adjusting based on consistency of previous gradients *for that
-      param*. That way you can learn some params fast and others slow.
-    * Rmsprop: this is a technique that doesn't use the magnitude of
-      the gradient, just the sign relative to previous updates. It
-      then accelerates or decelerates the momentum
-      appropriately. Based on rprop.
-    * I don't see how rmsprop is helpful, but I'll take it on faith
-      for now.
+        * By decoralating, the mixed partials for the error should be
+          greatly reduced, thus improving GD convergence time.
+    * The next sections are about tuning speed of learning rate.
+        * If we start with too high a learning rate, we'll blow out
+          our activations to be almost zero or one.
+        * Now changes in weights can't change the activation that much
+          anymore. Which means you'll learn really slowly (people
+          mistake this plateau for a minimum).
+        * When doing classification, a simple strategy is to ignore
+          the input, and instead just set your guess to the overall
+          relative probabilities of classes A and B in the training
+          population. The network finds this early, but has a hard
+          time moving away.
 * Momentum method
-    * Also, if you have a sharp elipse, you'll move *across* the major
-      axis quickly, but you'll have some momentum *along* the major
-      axis. As you climb up the other side of the major axis, this
-      will cancel out previous momentum, but you'll still have the
-      momentum along the axis.
-    * You also want to attenuate the previous velcoity vector a bit,
-      so as to allow for some slowing.
+    * You keep a velocity. For each batch you decay the velocity, but
+      also mix in some of the new gradient.
     * Suggests having high attentuation in the beginning, since early
       opinions are changing very rapidly, and then decreasing
       attenuation later to move quickly across plateaux.
-    * A refinement: make the move, then update the gradient based on
-      where you are. Sort of reverse order of the steps.
+    * A refinement/trick.
+        * Typically you take the gradient at this position, and mix it
+          into the accumulated gradient, and then use the accumulated
+          gradient to make the move.
+        * Instead, pretend like you're going to use the old gradient
+          to make the step. Measure the gradient at this new
+          position. Now mix this nerw gradient in with the old
+          accumulated gradient. Finally, use this to make your update.
+        * Basically, gradient in the locality we are stepping to is
+          more indicative of how to improve the gradient than our
+          gradient at this present location.
+        * Makes some sense, but I don't know the math behind
+          this... Apparently it is based on some kind of Nesterov
+          method for convex optimization.
 * Adaptive Learning Rates per Connection
-    * Magnitudes of gradients can be very different in different
-      layers.
-    * Fan-in of a node determines the amount of *overshoot* at that
-      node: simultaneous change to many parameters to correct the same
-      error.
-    * A simple approach is to increase the gain for a weight whenever
-      the gradient here does not change sign. That accelerates.
-    * Additive increase, multiplicative decreases. That's like
-      exponential backoff. That way big gains decay rapidly if
-      oscillation starts.
+    * For each parameter, the delta is chosen proportional to (1) the
+      step size, (2) the partial of the error wrt this param, (3) the
+      "gain".
+    * The gain starts at one. For each iteration, if the partial keeps
+      the same sign, increase the gain by adding a constant.
+    * If the partial flips sign, decrease by a multiplicative
+      constant.
+    * So if this param starts oscilating, we quickly decay it.
+    * He notes that if we add `\delta` but multiply by `1-\delta`,
+      then if the partial is random, the gain will stay around one.
+    * Notice this is different than like momentum, because this is
+      more about detecting oscilations.
     * Reasonable to limit the gain sizes.
     * Also, adaptive rates like this want full batch learning, since
       mini-batch will have variation in partials for connections, just
-      from noise.
-    * This is a method attributed to Robert Jacobs.
-    * Can easily be combined with momentum.
-* Rmsprop
-    * Rprop looks at gradients, and takes a fixed sized step in the
-      right direction. This is better than just turning up learning
-      rate; it can escape plateaux quickly, but it won't oscilate when
-      in a sharp curve.
-    * But rprop is smarter; it is adaptive per weight, since a single
-      global step size seems foolish. And the adaptation of the step
-      size is mostly as above; we multiplicatively increase if
-      gradients agree, and decrease if gradient disagrees.
-    * Note that this is like Jacobs, but only looks at signs.
-    * Can't really do SGD, since too much noise in the gradients.
-    * Rmsprop combines idea of rprop with efficiency of mini-batches.
-    * Hinton keeps a moving-average of the gradient, to dampen out
-      noise. We then divide the gradient at a step by the sqrt of this
-      accumulated gradient.
-        * Basically, this is mini-batch rprop, where we're normalizing
-          the gradient to get just its direction.
-        * But we're normalizing by a smoothly changing vector.
-        * He is also exploring adaptive weights combined with rmsprop.
-* No one technique for SGD; reflects that there are many kinds of NN
-  (deep with bottlenecks, recurrent, shallow and wide). Different
-  techniques are appropriate in different scenario.
+      from noise. So you either want full batch or large mini-batches.
+* Rprop
+    * Rprop is a *full-batch* approach where we *ignore the gradient
+      magnitude entirely*. For each parameter, we maintain a step
+      size. If the error partial stays the same as before, we multiply
+      the step size by e.g. 1.2. Else we decay it by multiply by
+      0.5. We make a step of this size, ignoring the magnitude of the
+      gradient entirely.
+    * Note that this can escape plateau quite quickly!
+    * Rprop doesn't really work for mini-batches. I think the problem
+      is fundamentally noise. Because the partial is going to swing
+      pretty wildly on mini-batches. *Not sure that my intuition is
+      correct here*.
+    * So how to adapt this? He notes that rprop is equivalent to using
+      the gradient but dividing by the size of the gradient.
+* RMSProp.
+    * You keep a running average of the prior gradients for the
+      prior mini-batches.
+    * You could average the last `k`, but it is common to use a
+      "forgetting factor" gamma, where for each batch, you take
+      the prior average, and decay it by multiply by
+      `gamma<1`. Then you add in the new magnitude, scaled by
+      `(1-gamma)`.
+    * They choose to keep a running average of the *square* of
+      each coordinate of the gradient.
+    * Now, when making an update to the weights vector, you take
+      the gradient, and multiply it by the step size `\eta`.
+    * But you also *divide* coordinate-wise by the sqrt of the
+      running average of the prior gradients.
+    * This is I guess the "RMS" part. But what is the motivation
+      behind that? Why not just use absolute values?
+    * In a given coordinate, this expands the step if the
+      improvement made in that coordinate is growing. It shrinks
+      the step in that coordinate if the improvement in that
+      coordinate is shrinking.
+* Overall:
+    * For small datasets, use conjugate gradient descent or LBFGS.
+    * Or maybe use rprop or the adaptive learning weights trick.
+    * For big datasets with lots of redundancy, use
+      mini-batches. Might try momentum or RMSprop.
+* Took the test. Perfect score!
+
+## Week 7: RNN
+
+* Lots of tasks have sequences. For instance, to turn sequence of
+  sound pressures into words.
+* Sometimes we train a model just by trying to guess the next step of
+  the sequence. I guess that fails to use later information, but maybe
+  we have to do this for real-time tasks?
+    * I guess he specifically means that we predict the next step of
+      the input sequence, not a seperate target sequence.
+    * Speech recognition is *not* like that; we don't try to predict
+      the next sound pressure.
+    * Markov text generation could be like that; we are given previous
+      words and we try to predict the next one.
+* He notes that you can treat images (2d) as "sequences", though there
+  isn't really a concept of a "next" pixel. I suppose he'll mention
+  CRFs or somesuch.
+* Trying to predict the next word in a sequence sort of blurs the
+  distinction between supervised and unsupervised learning.
+    * There's a correct "answer" but this comes from the unlabeled
+      training data.
+* Some simple models:
+    * An "autoregressive" model assumes that each new value is linear
+      in the previous `k` values, plus some new noise.
+    * We can extend this by using hidden units. He suggests the
+      possibility of using a NN from the last k words to the next
+      word.
+    * Kind of an HMM where the hidden units have a specific form
+      (logistic).
+    * But what he suggests is *unlike* an HMM because it doesn't use
+      the previous hidden state, but just uses the previous
+      *observations*. That is, in a way, much less sophisticated.
+    * These are called "memoryless" models because only the last
+      several outputs are relevant. Whereas an HMM prediction can
+      actually be affected by something from pretty far back. Even
+      though the conditional distribution of a next HMM state only
+      depends on the prior state, the distribution over the prior HMM
+      state is affected by all the prior states. That is, we know that
+      if you could observe the hidden state, the prior states would be
+      irrelevant. But the point is that you only have guesses to the
+      prior state!
+    * There are two main kinds of the hidden state models. The first
+      is *linear dynamical system*. This has a real valued hidden
+      state. The next state is produced as a linear function of the
+      prior state, with a gaussian noise. Likewise, the output is
+      linear in the hidden state, with gaussian noise.
+        * Apparently there is something called a "driving state" which
+          may also be involved?
+        * I think this is maybe supposed to be the part of the system
+          that you can control?
+        * Like maybe the outputs are thermometer readings, the state
+          is the real temperature, and the driving input is the
+          throttle of the furnace?
+        * Of course, Kalman Filtering is the means to efficiently
+          guess at the hidden state. Doesn't discuss how to do that;
+          I'll have to learn elsewhere.
+    * HMM is a discrete versions. The system evolves with a transition
+      matrix.
+        * As we know, it's quite simple both to learn the model, and
+          to use this for inference.
+        * He suggests a weakness. If the hidden state can take on `N`
+          values, then this is represented by `N` bits. That means
+          that the model stores at most `log(N)` bits of prior state
+          information. So for instance, only the last `log(N)` states
+          could ever matter to the next produced value.
