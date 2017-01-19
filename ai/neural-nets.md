@@ -654,3 +654,158 @@
           that the model stores at most `log(N)` bits of prior state
           information. So for instance, only the last `log(N)` states
           could ever matter to the next produced value.
+    * He talks about what kind of information should be stored in the
+      HMM state:
+        * Syntactical information. We need to know the prior syntax to
+          know how to generate future speech.
+        * Semantic information. What were we talking about previously?
+        * Intonation: how is the sentence being spoken. I guess this
+          is needed for a generative model, but for a discriminative?
+        * Other parts too: accent, rate of speech, volume.
+        * But this could be easily like 100 bits of information. But
+          then you need like 2**100 states, which is not trainable.
+* RNN
+    * Distributed hidden state allows efficient storage of information
+      about the past.
+        * I'm not sure how that's supposed to help. I mean, if there
+          are really 100 bits of relevant information, that's
+          literally how many states you need.
+        * But maybe if some of these aspects are correlated, you can
+          take advantage of that? I don't know that I really
+          understand.
+        * I mean I guess the idea is that we don't need to train all
+          the states independently. That's because we have a model
+          that has assumptions and biases.
+    * They are non-linear. This allows them to break out of the
+      assumption of linear dynamical systems.
+    * Claims that a RNN can compute anything a real computer
+      can. Doesn't explain that. I'm curious what he means...
+* Do generative models have to be stochastic?
+    * He notes that LDS and HMM are both stochastic: transitions are
+      stochastic, produced observations are stochastic. He asks
+      whether a "generative model" needs to be stochastic?
+    * (He doesn't explain what generative means, but I get it).
+    * For what earthly reason would they ever *have* to be stochastic?
+        * He gives no explanation, but I assume else there are only a
+          finite number of sentences that could be produced by an HMM
+          if it had no stochastic element. It would be determined
+          exactly by the start state.
+    * He notes that the posterior distribution over the hidden state
+      is deterministic given the observations. It can be described by
+      a finite set of numbers and is calculated by the inference
+      algorithm.
+        * Sure. How does that relate to the initial question?
+    * He doesn't explain, but RNN is deterministic. You put in numbers
+      and it deterministically gives you numbers out. Every NN works
+      this way.
+        * He says this output is basically like the hidden state from
+          the HMM.
+    * One thing I don't understand; what is the input to the RNN? Is
+      it a state vector (a bunch of numbers) plus a new observation?
+      Does it just compute the next state vector? Does it give us a
+      probability distribution over next word? If it does, we could do
+      EM to learn the RNN, but otherwise I don't know how to train
+      this thing, because I don't understand the inputs + outputs!
+* Backpropagation through Time
+    * Basically, a RNN a multi-layer FF net, with one hidden layer per
+      timestep.
+    * There's a *weight constraint*: each layer is connected to the
+      next with the same weights.
+    * Apparently enforcement of weight constraints in backprop is
+      simple. He says they compute the gradient, and then modify it to
+      satisfy the constraints.
+    * Basically, when you tie two weights, you sum the partials. This
+      is probably not quite accurate, because the effect of the weight
+      at the different layers may not be independent. Maybe you should
+      be *squaring* this. But summing seems not too nuts.
+    * Apparently there's an output unit in addition to the hidden
+      units to be used in the next layer. We need to fix these,
+      obviously. We also need to fix the initial activities of the
+      hidden units at time zero.
+        * These are meaningless, so it's arbitrary.
+        * I assume it's exactly like EM on an HMM.
+        * You have to randomly generate activiations for the beginning.
+        * But a funny thing: you can also update the original
+          *activitations*.
+        * Think of it this way. The first unit is set to 1. This unit
+          is connected to the hidden states of the first layer. You're
+          learning these weights (which is really exactly the
+          activiation, at least for a linear output neuron).
+* He mentions:
+    * To present input, we can fix some of the neurons at each
+      time-step.
+    * To learn, we need to specify error relative to some output. We
+      can set some of the neurons at each time-step to the observation
+      at that time-step.
+    * Another concept is that we may want the RNN to characterize the
+      sequence at the end of the sequence. In this case, we may have
+      inputs, but no outputs. In that case, we may not set any output
+      units. But then at the end we have this set of meaningless
+      neurons.
+        * I assume we hook this up to a single set of output neuron,
+          and try to use the final hidden state to calculate this
+          value.
+        * This is like trying to train the HMM for a discriminative
+          task.
+* He builds an RNN for adding two binary numbers
+    * Interesting. He says a FFNN is unsuitable because the weights to
+      add the low inputs don't generalize to the weights for the upper
+      bits, even though the math is the same.
+    * Funny, because now this can add arbitrary bitlength numbers,
+      which are just longer in the sequence. The FFNN could only do
+      fixed size bitstrings.
+* Let's talk about backpropagation through many layers:
+    * Consider a FFNN with many layers.
+    * If partial is always in the range of `(-1, 1)` (as is the case
+      for hyperbolic tangent), then multiplying many of these partials
+      together (chain rule) is going to result in a smaller and
+      smaller gradient as you go backward in time. This means that
+      early layers update very slowly.
+    * Since RNN is basically a many-layered FFNN, this particularly
+      affets RNNs.
+    * (Note that a similar problem can be the *exploding* gradient
+      problem, which can happen if the partials can take on values
+      of magnitude greater than 1).
+* From Wikipedia on Vanishing Gradient Problem
+    * It sounds like Schmidhuber and Hochreiter were first people to
+      start to investigate this problem.
+    * Schmidhuber suggested maybe pre-training the network in an
+      unsupervised way to compress the data. He did this one layer at
+      a time. The at the end he used the training signal.
+    * It sounds like the Deep Belief Net idea was primarily to address
+      this problem, and is what kicked off interest again in this
+      area.
+    * Hochreiter and Schmidhuber developed Long Short Term Memory
+      (LSTM) in 1997 to address this problem.
+    * Sounds like from 1991 to 2015 hardware to train (especially
+      GPUs) has increased training power by about a million-fold.
+* Ways to avoid this problem:
+    * Long Short Term Memory
+    * Hessian Free Optimization: an optimization technique
+    * Echo State Networks (I don't understand this at all)
+    * "Good initialization with momentum" (what?)
+* Long Short Term Memory
+    * The idea is to allow storage of previous hidden state. But when
+      this is not being set, it is just maintained, so that it can
+      carry onward.
+    * There's a "write" gate; this is a function of the current
+      state. It is a logistic unit. It is used to multiply the current
+      state by the write gate value; this is how much will be written
+      into the memory. So if the write gate is activated near one,
+      then we'll store the current state.
+    * There is also a "keep" gate. This is again logistic, and its
+      input is the current state. It is used to multiply the
+      *previously stored state*. (This may have been originally stored
+      long ago). So if the keep gate is near 0, we will forget almost
+      all of the previous state. If it is near 1, we will keep the old
+      state.
+    * We sum what we've decided to keep of the previous state and what
+      we have decided to store from the current gate. This will be
+      stored in the memory.
+    * Last there is a read gate. This againm multiplies the output of
+      the current gate to determine whether we want to read the
+      currently stored value.
+    * The idea is that everything is differentiable. And now, if at a
+      time of a read, you preferred to have read a greater value,
+      there is a direct path backward to when it was stored, where the
+      keep gate was always set to nearly one.
