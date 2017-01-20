@@ -78,9 +78,17 @@ BigTable has does a similar merging thing, but I think sstables just
 use sorted files, without any tree structure. LevelDB is an LSM
 database, and RocksDB is a fork of LevelDB optimized for SSD.
 
+(According to Wikipedia, BigTable indeed uses LSM tree).
+
+Note that LSM writes are basically appends, but that reads can be
+slower, if only because reads are essential random. For this reason,
+Cassandra suggests that you not read before write, and that you should
+use UPSERT behavior instead.
+
 ## Sources
 
 * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&rep=rep1&type=pdf
 * https://www.percona.com/blog/2011/10/04/write-optimization-myths-comparison-clarifications-part-2/
 * http://www.benstopford.com/2015/02/14/log-structured-merge-trees/
 * http://smalldatum.blogspot.com/2016/01/summary-of-advantages-of-lsm-vs-b-tree.html
+* https://en.wikipedia.org/wiki/Log-structured_merge-tree
