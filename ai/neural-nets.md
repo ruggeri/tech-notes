@@ -97,30 +97,45 @@
       applied to all NN.
     * Rosenblatt's learning is to go through data, and for each
       misclassification, add or subtract the input from the weights.
-    * Proof this works:
-        * For a given training example, consider the weight space.
-        * There is a hyperplane through the origin that results in a
-          perceptron output of exactly zero.
-        * Weights on one side of the hyper plane correctly classify
-          this example, weights on the other incorrectly classify.
-        * Note that this hyperplane is perpindicular to the input
-          vector.
-    * Given that, it is clear that adding or subtracting will move the
-      weight vector toward the good side of the plane. In fact, it
-      will do the best at correcting it given that magnitude of
-      adjustment.
-    * But we need a weight vector that works for *all* examples (we'll
-      assume they are linearly separable). Will this procedure move us
-      close toward those weight vectors?
-    * The answer is yes. Consider a "generously feasible vector,"
-      which is a distance of one step from every example's
-      hyperplane. In particular, we know that this is at least one
-      step from the current' example's hyperplane. So taking a step
-      toward it will in no way overshoot.
-    * Note that if there is any solution, there must be a "generously
-      feasible solution", since we can always scale up the weight
-      vector arbitrarily, move it farther from the edges of the
-      hyperplanes.
+    * Okay. If you have misclassified an example, then you need to
+      move the weight vector so that it has positive dot-product with
+      the example.
+    * A way to see this is to think of a hyperplane perpindicular to
+      the example. On one side are weights which classify this example
+      correctly; on the other are weights which do not.
+    * If the example is misclassified, all the proper solutions are on
+      the other side of the hyperplane.
+    * However, our move may make things worse! It goes without saying
+      that not all vectors on the proper side of this example's
+      hyperplane will correctly classify all the other examples.
+    * Consider the possibility that we are very near the hyperplane,
+      but on the wrong side. We step over. Unfortunately, it is
+      possible that the feasible set is very narrow here, and that we
+      step over the feasible set and misclassify possibly many
+      examples. We may make the error worse!
+    * However, we may still argue that we will eventually
+      converge. Let us consider the "feasible" set of solutions. This
+      is the set of solutions that are at least one step away from
+      each of the hyperplanes.
+        * The definition of a "step" is relative to each
+          hyperplane. The step is exactly the magnitude of the
+          example.
+    * Then, we argue that every iteration takes us closer to every
+      vector in the feasible set.
+    * Why? Because every feasible weight vector lies at least one step
+      past this hyperplane. Thus our step cannot overshoot any feasble
+      vector, and simply closes distance in this direction.
+    * Note: we will stop before getting to a feasible vector, because
+      every correction will never take us as far as 1 step past the
+      hyperplane, but then we'll stop correcting before we get past 1
+      step. Still, every example ends up 1 step past the hyperplane.
+    * This argument only works if a generously feasible weight vector
+      exists. But that must surely be the case if any weight vector
+      satisfies, because then we could scale this as much as desired
+      and gain distance from every hyperplane.
+    * Note: you can also have a learning rate. If `alpha<1.0`, then
+      you can define the generously feasible section in terms of a
+      half a step, but it may take longer to step into this.
 * Perceptrons and Features
     * With enough features, you can linear separate. Same idea behind
       SVM. So you need features. But the difficulty is in finding
