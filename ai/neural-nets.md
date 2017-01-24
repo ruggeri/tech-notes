@@ -824,3 +824,7 @@
       time of a read, you preferred to have read a greater value,
       there is a direct path backward to when it was stored, where the
       keep gate was always set to nearly one.
+* Quiz Notes:
+    * Interesting point that a couple of words we trained on didn't
+      occur very often, so that the the embedding of these words
+      hardly changed from initialization value.
