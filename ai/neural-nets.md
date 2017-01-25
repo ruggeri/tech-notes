@@ -828,3 +828,16 @@
     * Interesting point that a couple of words we trained on didn't
       occur very often, so that the the embedding of these words
       hardly changed from initialization value.
+
+## Week 8: More RNNs
+
+* Hessian Free Optimization
+    * So let's assume that we have a quadratic surface. That means the
+      curvature is the same everywhere.
+    * TODO: there's a bunch of ways that curvature is defined. It
+      looks like there's something interesting about *tangent
+      circles*.
+    * Anyway, we want to know how far we can step before the error
+      starts going back up again.
+    * In particular, if you give me a derivative and a curvature for a
+      parabolic surface, I can tell you exactly how far to step.
