@@ -68,10 +68,10 @@ did not, we can project `\grad f` onto the subspace perpindicular to
 `\grad g` and move a little along the manifold to pick up some
 positive `f` change.
 
-Therefore, we have `\grad f = -\lambda \grad g` (the negative sign is
-by historical convention). The vector `\lambda` is called the
-*Lagrange multiplier*. It is trivial to find `\lambda` for a given
-maximum `x`, but in general we do not know it without knowing `x`.
+Therefore, we have `\grad f = \lambda \grad g`. The constant `\lambda`
+is called the *Lagrange multiplier*. It is trivial to find `\lambda`
+for a given maximum `x`, but in general we do not know it without
+knowing `x`.
 
 Let us use this to reformulate the constrained problem *as an
 unconstrained problem*. We introduce a new function `L` called the

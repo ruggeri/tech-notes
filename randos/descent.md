@@ -51,6 +51,31 @@ plus a part that is perpindicular to the gradient. But note that any
 perpindicular vector cannot move up the plane! I am too lazy to prove
 this right now. So we may disregard this.
 
+## Reparameterization Approach
+
+Here's another approach. You know that `v_1 **2 + v_2 ** 2 = 1`. That
+describes the circle. Therefore, you know that you can continuously
+enumerate this space via `g(\theta) = (cos \theta, sin \theta)` where
+`\theta` is in the range `[0, 2\pi)`.
+
+Now, you can rewrite the problem as unconstrained maximization of
+`f(g(\theta))`. So:
+
+    f(g(\theta)) = p_1 cos\theta + p_2 sin\theta
+
+(where `p_i` is the `i`th partial).
+
+So to maximize, the derivative must be zero:
+
+    -p_1 sin\theta + p_2 cos\theta = 0
+    p_2 cos\theta = p_1 sin\theta
+
+This looks hard to solve for `\theta`, but it's easy to solve in terms
+of `cos\theta` and `sin\theta`. The answer is `(p_1, p_2)`, exactly as
+desired!
+
+## Lagrange Multipliers
+
 TODO: I should show how to prove this using Lagrange multipliers.
 
 TODO: I need to explain why the gradient is a natural step choice. I
