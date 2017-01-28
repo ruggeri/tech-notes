@@ -834,6 +834,8 @@
 * Hessian Free Optimization
     * So let's assume that we have a quadratic surface. That means the
       curvature is the same everywhere.
+        * I would have thought that a circle had that property, not a
+          parabola.
     * TODO: there's a bunch of ways that curvature is defined. It
       looks like there's something interesting about *tangent
       circles*.
