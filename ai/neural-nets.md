@@ -831,15 +831,37 @@
 
 ## Week 8: More RNNs
 
-* Hessian Free Optimization
-    * So let's assume that we have a quadratic surface. That means the
-      curvature is the same everywhere.
-        * I would have thought that a circle had that property, not a
-          parabola.
-    * TODO: there's a bunch of ways that curvature is defined. It
-      looks like there's something interesting about *tangent
-      circles*.
-    * Anyway, we want to know how far we can step before the error
-      starts going back up again.
-    * In particular, if you give me a derivative and a curvature for a
-      parabolic surface, I can tell you exactly how far to step.
+* So let's assume that we have a quadratic surface.
+* That means the curvature is the same everywhere. What he means is
+  the vector of second partials are always the same at every point.
+* As shown in `math/quadratic-optimization.md`, for a quadratic
+  function of a single variable, the distance to travel to minimize is
+  equal to the ratio of the first derivative to the second derivative.
+* Note that even if the derivative is great, you may be quite close to
+  the minimizing point if the second derivative is also great.
+* This shows that the gradient doesn't necessarily point to the
+  minimum.
+    * For error surfaces with circular contours, this *is* true.
+    * That's because (1) the mixed partials are all zero.
+    * And (2) the curvatures (second partials) are all equal. So the
+      vector of distances to move is a scalar multiple of the vector
+      of first partials.
+* For eliptical surfaces, this is not true.
+    * You need to account for the second partials. The gradient will
+      almost certainly not point toward the minimum.
+    * So you can account for the second partials, which means you
+      coordinatewise divide the vector of first partials by the vector
+      of second partials.
+    * This *still* only works if the mixed partials are all zero.
+    * Otherwise, movement along one axis will interfere with the
+      amount needed to move along a second axis.
+* It turns out that there always exists a set of axes, possibly not
+  orthogonal, where all mixed partials are zero.
+    * I talk about that in the other file.
+    * You can find these axes relatively simply.
+    * Once you have them, you can solve as above.
+    * I haven't shown whether there always exists an *orthogonal* set
+      of axes with this property, but I highly doubt it.
+* He starts to discuss "Newton's Method" which formalizes this
+  property.
+    * It involves some algebra to do what I was already doing.
