@@ -135,6 +135,63 @@ This says to move one step along `v`. Thus:
 
 Which is indeed the appropriate minimum.
 
+## Question Regarding Ellipses
+
+I originally wondered whether, if the axes of the quadratic were
+perpindicular, whether we could correctly calculate the needed
+movement from a different perpindicular basis.
+
+This works when the contours are circular, but that is needless to
+say, since this surface exhibits rotational symmetry.
+
+This is *not true* for an ellipse. If you try to measure the needed
+changes relative to a rotation of the axes of the surface, you will
+*not* calculate the correct answer. Here is why:
+
+  v_1 = cos(\theta)x_1 + sin(\theta)x_2
+  v_2 = -sin(\theta)x_1 + cos(\theta)x_2
+
+Cool. I'm assuming the axes of the parabola lie along the coordinate
+axes. Now let's use some notation:
+
+  d_1 = partial along x_1
+  d_11 = second partial along x_1
+  etc.
+
+So, let's calculate:
+
+  d_{v_1} = cos(\theta) d_1 + sin(\theta) d_2
+  d_{v_2} = -sin(\theta) d_1 + cos(\theta) d_2
+
+Great. Let's next consider the mixed partial!
+
+  d_{v_2 v_1} = -sin(\theta) d_{x_1 v_1} + cos(\theta) d_{x_2 v_1}
+
+Great! So let's calculate these:
+
+  d_{x_1 v_1} = cos(\theta) d_11
+  d_{x_2 v_1} = sin(\theta) d_22
+
+Notice the loss of the mixed partials `d_12`.
+
+Therefore, plugging in, we have:
+
+  d_{v_2 v_1} = -sin(\theta)cos(\theta) d_11 + sin(\theta)cos(\theta) d_22
+
+This says that the mixed partial is exactly zero exactly when either:
+
+1. The new axes are perpindicular to the old axes, OR
+2. The second partials were equal in the beginning, which means the
+   contours were always circular.
+
+My next question is whether the mixed partial effects can cancel
+out. But this can only happen exactly when the calculated movement
+along `v_1` is exactly opposite the calculated movement along
+`v_2`. In that case the second order effects will cancel each other
+out.
+
+Everywhere else, we would get the wrong answer.
+
 ## General Thoughts
 
 What we've shown is that we can always decompose a quadratic function
