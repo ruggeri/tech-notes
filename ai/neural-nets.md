@@ -865,3 +865,31 @@
 * He starts to discuss "Newton's Method" which formalizes this
   property.
     * It involves some algebra to do what I was already doing.
+* The problem is this involves inversion of the Hessian. He notes that
+  if you have a million weights, the Hessian has a trillion elements,
+  which is too hard to invert.
+* He also mentions that as you have more weights, that's more and more
+  mixed partials, and so the assumption that the partial along an axis
+  is independent of changes to other axes is more and more wrong.
+* The Hessian-Free method he mentions approximates the curvature
+  matrix, then minimizes with conjugate gradient.
+* He discusses conjugate gradient method a little.
+    * You move in a direction, all the way to a minimum.
+    * Next, you can calculate a vector along which the partial with
+      your previous direction is zero.
+    * So now you can move along *that* direction.
+    * With two-dimensions you are at a global minimum. You'd have to
+      do a bit more for more dimensions, but the number of steps is
+      linear in the number of dimensions.
+    * Basically the idea is: each step isn't orthogonal to the
+      previous steps, but it is independent of the previous
+      dimensions.
+* Here's the trick with CG
+    * To do all the steps, you are effectively calculating the inverse
+      of the Hessian.
+    * But what we're going to do is many fewer than `N` steps, which
+      will typically give a very good approximation of the minimum.
+* So here is the full HF method:
+    * Approximate the Hessian.
+    * Do conjugate gradient descent.
+    * Repeat.
