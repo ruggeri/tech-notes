@@ -100,7 +100,7 @@
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra (Strang)
     * I kinda know most of this, but I also need to learn PCA and SVD.
-    * I believe lent this to Anthony.
+    * Anthony doesn't have this. Where did I put this? At home?
     * **High priority**.
 * Learning Spark
     * Did read. Quick 1-day read describing Spark.
