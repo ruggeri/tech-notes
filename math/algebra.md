@@ -143,8 +143,11 @@ product `AB`. This suggestions a method of calculation.
 Note to self: matrix multiplication involves `O(n**3)` time.
 
 Another common way to apply a matrix to a vector is this: take the dot
-product of each row in the matrix with the vector. **TODO**: what is
-the intuition behind this?
+product of each row in the matrix with the vector. What is the
+intuition behind this? I suppose you could say this: the row is vector
+which is "most" transformed to the `i`th basis vector. This is because
+you can treat a single row in the matrix as a linear functional, and
+the gradient defines the direction of steepest ascent.
 
 **Inverting A Matrix**
 
@@ -231,9 +234,6 @@ inverse for *n* vectors (the columns) simultaneously. That's kind of
 interesting: to see it as nothing more than a parallelized/vectorized
 version of solving for one inverse.
 
-**TODO**: Perhaps I should have more geometric intuition about
-  manipulations of the rowspace.
-
 Performing "half" of this elimination can be seen to build the `LU`
 decomposition. Here, what we do is we start with `IA`. Then, when we
 add a row, we do the row operation on `A`, but the opposite operation
@@ -246,6 +246,18 @@ non-one diagonal. Sometimes we therefore factor to `LDU`. `L` is the
 same as before, but rows of `U` are scaled so that diagonal is
 one. The scaling is performed by `D`, which is a diagonal matrix with
 just the scaling values.
+
+Notice that because we may have needed to do pivots, in order to
+decompose any matrix we may have to decompose to `PA=LU` or `PA=LDU`.
+
+What is the idea of such a transformation? Well, it is this: to write
+a matrix as a pair of matrices, the first of which sends
+
+    e_i -> Sum_{j<=i} e_j
+
+and the second which sends
+
+    e_i -> Sum_{j>=} e_j
 
 What is the speed of Gaussian elimination? Well, for each row, we need
 to subtract it from every other row. This is `n(n-1)` row
@@ -260,6 +272,42 @@ Another calculation note: sometimes Matlab will do row-exchanges for
 the sake of numerical stability, since if a pivot is small, it can be
 bad to scale by this.
 
+**Elementary Matrices**
+
+All *invertible* linear transformations can be decomposed into a
+product of *elementary matrices*. These are:
+
+1. Matrix that swaps two coordinates.
+2. Matrix that scales a coordinate.
+3. Matrix that adds a coordinate to another. This is a *shear
+   mapping*.
+
+The first kind changes the sign of the determinant, the second changes
+the magnitude of the determinant, and the third has no impact.
+
+If we add in a fourth kind of elementary matrix, which zeros out a
+coordinate, then I do believe this generates all matrices.
+
+**Row-Operations vs Column-Operations**
+
+When we perform a row operation, we undo this by multiply by an
+elemtary matrix on the left side. This is a form of decomposition of
+the matrix.
+
+If we are doing Gaussian elimination, our operations are always to add
+a scalar multiple of a row `i` to another row `j>i`. The row operation
+matrix that performs this has a single off-diagonal entry, which is at
+position `(j, i)`. What this says is: add this much of the `i`th
+coordinate back to the `j`th coordinate, which will make up for our
+removal.
+
+Since `j>i`, this is a lower triangular matrix.
+
+We could also do the same thing but by doing column operations. If we
+subtracted a column `i` from a later column `j`, we need a matrix
+which has an entry *above* the diagonal, and we need to apply this
+column operation *before* the reduced matrix.
+
 **Transposes**
 
 So let's talk about transposes. I say that `A\trans x` maps `x` to its
@@ -267,10 +315,40 @@ projection on each of the columns of `A`. That's like almost literally
 the definition.
 
 We already showed that for any orthonormal matrix, the inverse is
-equal to its transpose.
+equal to its transpose. For a matrix with skew, the transpose
+`A\trans` does not properly invert `x`.
 
-For a matrix with skew, the transpose `A\trans` does not properly
-invert `x`.
+We say a matrix is **symmetric** if it is equal to its own transpose.
 
-Transpose flips across diagonal. A symmetric matrix is equal to its
-transpose.
+`RR\trans`
+
+For **permutation matrices**, the transpose is also the inverse.
+
+**TODO**: I feel like I really don't understand the transpose here.
+
+## Ch3: Vector Spaces and Subspaces
+
+Vector space is a space closed under linear combinations.
+
+For a linear transformation, the *column space* defines all possible
+values of `Ax`. It is of course a vector space. Naturally, we can only
+solve `Ax=b` exactly when `b` lies in the column space. We can
+calculate the `span` of the columns, which is exactly the smallest
+vector space containing those columns.
+
+A matrix also has a *null space*; these are vectors mapped to the zero
+vector under the transformation. The zero vector is always in the null
+space, but the null space can contain more vectors. Note that the null
+space is itself subspace. If the null space has positive dimension,
+then we say the matrix is *singular*.
+
+Note: *dimension* is the size of the minimum size of a set of *basis
+vectors* that spans a space. All minimal sets of basis vectors have
+the same number of vectors, so dimension is well-defined. (Too lazy to
+prove this).
+
+A random matrix almost surely has *independent* columns; no column can
+be written in terms of the others. This is exactly when the nullspace
+has dimension zero.
+
+**Calculation of the Null Space**
