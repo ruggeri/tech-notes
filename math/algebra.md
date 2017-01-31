@@ -125,10 +125,10 @@ preceding section:
 
 **Linear Transformations/Matrices**
 
-**Matrices** map linear combinations to linear combinations. Such a map is
-called a **linear transformation**. The first column is what the first
-basis vector maps to, the second basis vector maps to the second
-column, etc.
+**Matrices** map linear combinations to linear combinations. Such a
+map is called a **linear transformation**. The first column is what
+the first basis vector maps to, the second basis vector maps to the
+second column, etc.
 
 The product of a matrix with a vector is the result of applying the
 transformation to the vector. I like to see this as a weighted sum of
@@ -231,5 +231,42 @@ inverse for *n* vectors (the columns) simultaneously. That's kind of
 interesting: to see it as nothing more than a parallelized/vectorized
 version of solving for one inverse.
 
-**TODO**: I should have more geometric intuition about manipulations
-  of the rowspace.
+**TODO**: Perhaps I should have more geometric intuition about
+  manipulations of the rowspace.
+
+Performing "half" of this elimination can be seen to build the `LU`
+decomposition. Here, what we do is we start with `IA`. Then, when we
+add a row, we do the row operation on `A`, but the opposite operation
+on `I`. Here, we *only* try to eliminate in `A` below the
+diagonal. This results in transforming `A` to an upper triangular
+matrix, while `I` becomes lower triangular.
+
+Note that `A=LU` has `L` with 1s along the diagonal, while `U` has
+non-one pivots. Sometimes we therefore factor to `LDU`. `L` is the
+same as before, but rows of `U` are scaled so that diagonal is
+one. The scaling is performed by `D`, which is a diagonal matrix with
+just the scaling values.
+
+What is the speed of Gaussian elimination? Well, for each row, we need
+to subtract it from every other row. This is `n(n-1)` row
+operations. Each involves `n` elements. So we're talking `O(n**3)`
+time.
+
+This means that to 10x the dimension of the matrix, we 1,000x the time
+to solve. But note that most matrices are sparse, so there are far
+fewer operations to perform.
+
+**Transposes**
+
+So let's talk about transposes. I say that `A\trans x` maps `x` to its
+projection on each of the columns of `A`. That's like almost literally
+the definition.
+
+We already showed that for any orthonormal matrix, the inverse is
+equal to its transpose.
+
+For a matrix with skew, the transpose `A\trans` does not properly
+invert `x`.
+
+Transpose flips across diagonal. A symmetric matrix is equal to its
+transpose.
