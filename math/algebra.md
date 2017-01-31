@@ -242,7 +242,7 @@ diagonal. This results in transforming `A` to an upper triangular
 matrix, while `I` becomes lower triangular.
 
 Note that `A=LU` has `L` with 1s along the diagonal, while `U` has
-non-one pivots. Sometimes we therefore factor to `LDU`. `L` is the
+non-one diagonal. Sometimes we therefore factor to `LDU`. `L` is the
 same as before, but rows of `U` are scaled so that diagonal is
 one. The scaling is performed by `D`, which is a diagonal matrix with
 just the scaling values.
@@ -255,6 +255,10 @@ time.
 This means that to 10x the dimension of the matrix, we 1,000x the time
 to solve. But note that most matrices are sparse, so there are far
 fewer operations to perform.
+
+Another calculation note: sometimes Matlab will do row-exchanges for
+the sake of numerical stability, since if a pivot is small, it can be
+bad to scale by this.
 
 **Transposes**
 

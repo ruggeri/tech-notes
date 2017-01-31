@@ -2,60 +2,6 @@
 var v = document.querySelector('video'); v.playbackRate = 2.5
 ```
 
-## Solving system of equations
-
-Linear systems of equations are always like `Ax=b`:
-
-```
-a_11 x_1 + a_12 x_2 = b_1
-a_21 x_1 + a_22 x_2 = b_2
-...
-```
-
-So basically, you can see `A` as a linear transformation. To solve
-this, we want to apply `A\inv` to `b`.
-
-## Inverting a matrix
-
-To invert a matrix, let us first decompose it into three
-easy-to-invert matrices using Gaussian elimination.
-
-Gaussian elimination allows us to try to restructure the matrix in a
-way that makes it easier to work with. Basically, we take the first
-column and subtract it from each of the subsequent columns so only the
-first column has any non-zero component in the first coordinate. We
-then repeat so that only the first and second have any non-zero
-component in the first two coordinates. Etc.
-
-This gives us a lower triangular matrix. Corresponding to this is the
-upper triangular matrix that gives `A=LU`. The upper triangular matrix
-compensates for the column operations we perform to produce the lower
-triangular matrix. This is the *LU decomposition*.
-
-This ignores that `A_11` could be zero. In that case, you need to
-*exchange* columns. This corresponds to a pivoting of the columns,
-which gives us a `LUP` decomposition. If you get to a point where all
-the columns have a zero in a coordinate, then the matrix is singular.
-
-BTW: Matlab or a CAS will do row-exchanges for the sake of numerical
-accuracy. For instance, small pivots are not desirable.
-
-It is trivial to invert a triangular matrix like this. Therefore
-`A\inv=P\invU\invL\inv`.
-
-Elimination is `O(n**3)`. That's because each of `n` columns involves
-elimination on `i` other columns (average of `n/2` columns), each of
-which has `n` elements. So overall we're talking `O(n**3)`.
-
-## Meaning of LU decomposition
-
-We're breaking up a matrix into two steps: first, make changes to each
-basis vector, adjusting only in previous components, then make
-adjustments to these, changing only later components.
-
-The point is that by seeing the linear transformation of the basis
-vectors in these two steps, we can easily invert it.
-
 ## Determinant
 
 The determinant is the volume that the unit cube is mapped into. Note
@@ -87,17 +33,6 @@ determinant *singular*.
 It is worth noting that singular matrices are sparse in the space of
 matrices with random coordinates.
 
-## Augmented matrix
-
-There is a trick where, instead of producing `U` as you produce `L`,
-you instead apply `L\inv` to `I` while producing `L`, then, by doing
-*back-substitution*, you apply `U\inv` to `L\inv`. This is done with
-the *augmented matrix* `[A|I]`. If you just want to invert one vector,
-you can use the augmented matrix `[A|b]`.
-
-I don't cover these because I think doing the `LUP` decomposition and
-then inverting is fine.
-
 ## Preimage of singular matrices
 
 Say the matrix doesn't have full column space. Then its nullspace has
@@ -111,63 +46,7 @@ matrix with the dependent columns removed. Apply this inverse to the
 vector. This, plus an element of the nullspace is in the preimage of
 the vector.
 
-## Orthogonality
-
-**I think some of this is wrong and superseded by inner-product.md**
-
-I have this concept of independence: a vector is a linear combination
-of vectors, or it is not. This is a binary notion. Wrt one vector, a
-second vector is either a scalar multiple or it is not. What if I want
-to generalize this notion: what if two vectors are really similar, but
-not quite the same? This is the notion of an *inner product*.
-
-Say I fix a basis, and choose an inner product that identifies pairs
-of these vectors as *orthogonal*, having zero inner product. I could
-add other requirements: e.g., `<x, y> = <y, x>`. These seems very
-natural.
-
-More generally, let us speak of "continuity". Say that we take basis
-vectors `b1`, `b2`. Then let `x = (alpha b2) + (1 - alpha)b1`. Then we
-want:
-
-```
-<x, b2> = alpha
-```
-
-We get this if the inner product is *linear*:
-
-```
-<(alpha b2) + (1-alpha)b1, b2>
-= <alpha b2, b2> + <(1-alpha)b1, b2>
-= alpha<b2, b2> + (1-alpha)<b1, b2>
-= alpha*1 + (1-alpha)*0
-```
-
-I won't fill in all the details, but getting this kind of continuity
-implies linearity of the inner product. It also means that we can
-*decompose* a vector into components via projection. But it all comes
-from us wanting a natural generalization of similarity beyond the
-binary notion of dependence.
-
-I won't do the math, but for coordinate vectors, the dot product is
-the entirely natural choice. Basically, if you have a basis, call that
-orthogonal. Then the linearity requirement of the inner product
-implies the dot product.
-
-I always thought the dot product was magic. In fact, it is the natural
-choice if we're *looking* for a notion to generalize similarity. We
-find dot product by wanting to say vectors aren't just "the same" or
-"different" but *how* different.
-
 ## Orthogonality and inverses
-
-Since the projection of a vector `v` onto an orthonormal basis gives
-you the amount of each basis vector you need to form the `v`, taking
-the inner product of `v` with each column of an orthogonal matrix
-gives you the inverse of `v` under that transformation.
-
-This is in fact what happens when you take `(A\trans)v`. So (again,
-assuming `A` is orthonormal), you have that `A\inv=A\trans`.
 
 What if `A` does not have full row rank? That is, what if the matrix
 doesn't span the entire space, so a vector may not have an inverse?
