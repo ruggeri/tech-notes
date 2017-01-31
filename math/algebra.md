@@ -140,6 +140,8 @@ of `A`; that is what `e_1` maps to under `A`. Then apply `B` to this
 column. This is now equal to what ought to be the first column of the
 product `AB`. This suggestions a method of calculation.
 
+Note to self: matrix multiplication involves `O(n**3)` time.
+
 Another common way to apply a matrix to a vector is this: take the dot
 product of each row in the matrix with the vector. **TODO**: what is
 the intuition behind this?
@@ -173,3 +175,61 @@ we write:
     Q=Q\trans
 
 Since, `Q` is often used for an orthogonal matrix.
+
+## Ch2: Solving Linear Equations
+
+A system of linear equations can be seen as a matrix. Each equation is
+a coordinate in the new space. Each equation defines a row in the
+matrix. It's how much each coordinate in the original space
+contributes to the value of the second space.
+
+If we view the problem like this, then the solution is to take the
+target in the transformed space and find its inverse under the
+transformation.
+
+The typical way to find the solution is to perform **Gaussian
+Elimination**. What this does is slowly multiply each side of `Ax=b`
+by a set of basic transformations until `A` is eliminated and `b` has
+been transformed to its inverse under `A`.
+
+The operations are these:
+
+1. Scale a row.
+2. Add or subtract a multiple of a row from another.
+3. Swap rows.
+
+The algorithm is like this:
+
+1. Start with the first row. Scale so its initial entry is `1`.
+    * (For each transformation to `A`, perform the same transformation
+      to `b`).
+2. Subtract the appropriate amount from the other rows so that you
+   eliminate the other entries in the first column.
+3. Move to the second row. Repeat the process: scale so that the
+   second element in the second row is 1, and then subtract as needed
+   from the other columns.
+4. The only problem is if you encounter the `i`th row and it has `0`
+   at the `i`th column. In that case, swap two rows.
+
+If you apply the transformations to `b`, you will end up with convert
+it to its inverse. You may instead apply these transformations to `I`,
+which will convert this into the inverse linear transformation.
+
+If you encounter a column of all zeros, then we've shown that the
+**column rank** of this matrix is not **full**. That means that one of
+the basis vectors is mapped to a vector that can be written as a
+linear combination of the images of the other basis vectors. That is:
+the columns are not all linearly independent.
+
+Geometrically, what we are doing is this. We are saying: I want `e_1`
+to only impact the first coordinate of `b`; I want to eliminate its
+effect on the other coordinates. Then we say: good, now I want e_2 to
+only involve itself with the second coordinate in the image space.
+
+Note: the version where we transform `I` can be seen as finding the
+inverse for *n* vectors (the columns) simultaneously. That's kind of
+interesting: to see it as nothing more than a parallelized/vectorized
+version of solving for one inverse.
+
+**TODO**: I should have more geometric intuition about manipulations
+  of the rowspace.
