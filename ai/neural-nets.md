@@ -893,3 +893,142 @@
     * Approximate the Hessian.
     * Do conjugate gradient descent.
     * Repeat.
+* So then he starts with some NLP stuff.
+* First, he's going to learn text a character at a time, versus a word
+  at a time.
+    * The claim is that this shouldn't be very hard relative to using
+      words, if the goal is to understand the world.
+    * Pre-processing text is a big hassel. Problems include: (1)
+      morphemes (suffixes, prefixes), (2) proper nouns, especially if
+      they have multiple words.
+* Describes a potential, maybe naive RNN. You have hidden units, which
+  connect to the next round, but then you also have a 86 neurons for
+  the current character. This feeds into the next layer, which then
+  tries to do a softmax to predict the next character.
+    * To train this, we do backpropagation through time as usual.
+    * Incidentally, he suggests that predicting one of 86 characters
+      is much easier than predicting 100,000 words.
+* But he describes another approach. They consider the infinite tree
+  of all character strings. Each level represents a character. The
+  branching factor is 86.
+    * What we're trying to do is given a conditional probability at a
+      node for each of the 86 transitions.
+    * But without structure, that's impossible because the tree is
+      infinite, and impractical anyway.
+    * In a typical RNN (like above), we train this by saying: we keep
+      a state vector, and this induces a probability over the next
+      character, and they both tell you how to update the state vector
+      for the next iteration.
+    * What he wants to mention is that using a state vector allows you
+      to share a lot of structure. And the network has freedom is
+      finding how to share that structure.
+* He starts to mention a problem with the RNN.
+    * You want the *conjunction* of the previous state vector *and*
+      the next character to determine the next state.
+    * But if you have additive connections, then the effect of the
+      next character operates fairly apart from the prior state
+      vector.
+    * For the purposes of the `z` value of the next hidden nodes, this
+      is totally independent. But because the activation is a
+      non-linear function of `z`, there ought to be some conjunctive
+      effect.
+    * However, perhaps this is not very high. **TODO**: I would like
+      to think about this!
+    * An idea: maybe use the character to choose the hidden-to-hidden
+      weight matrix! This makes the conjunctive effect as great as
+      possible.
+    * My thought: maybe too great! Now you don't share structure
+      between those weight matrices...
+    * In particular, the digits 8 and 9 should have matrices about the
+      same!
+* So we're going to introduce *factors*. Factors work like this:
+    * They have two input groups. They have two sets of weights. The
+      weights are used on each of the two input groups to calculate a
+      weighted sum, as usual.
+    * We can then *multiply* these numbers together.
+    * There is then a fixed output weight vector. This is scaled by
+      the product calculated above.
+    * Note: I think the output weight vector can really be learned in
+      the normal way at the next layer of neurons...
+    * You may also wish to apply some activiation function...
+* You can view a factor this way.
+    * You have a matrix of hidden-to-hidden.
+    * This is scaled by multiplying a weight vector by "group B".
+    * Then this matrix is applied to the group A input to produce the
+      output.
+
+Some math:
+
+```
+output = (weight_1^T input_1)(weight_2^T input_2) output_weights
+output = (weight_1^T input_1)(weight_2 output_weights^T) input_2
+```
+
+* The second product is an **outer product**. That means it's a
+  matrix. But remember, it's a rank-1 matrix.
+* This matrix is applied to the input.
+* Then there is a scaling that happens because of the first input
+  inner product with the weights.
+* So what he's going to say is that if you have a bunch of these
+  factors, you are forming a *basis* of rank-1 matrices.
+* What the factors, when summed, are doing is allowing you to compute
+  a weighted sum of transition matrices to apply to the input.
+* This technique was used to do character prediction on strings
+  sampled from wikipedia of length 100 characters.
+* He lets the network see the first 10 characters. Basically, he won't
+  charge any error for mis-predicting the first ten characters.
+* At this point, he then starts trying to predict.
+* It took about 1mo on a GPU to train a good model.
+    * Hinton claims this is the best single model, though combinations
+      of models do better.
+* Of course, you can run this forward to do dreaming. At each step,
+  you pick a letter from the distribution calculated by the net.
+* This network basically never produces non-words, by the way. So it
+  knows how to spell.
+* He does some tricks to see what it maybe "knows":
+    * He gives it "Sheila thrunge", and the network puts an "s" on
+      "thrunge". It suggests that (1) it thinks thrunge is a verb
+      (it's not a word at all, really, but most people think thrunge
+      would be a verb), and (2) it thinks that Sheila is singular.
+    * It works for "People thrunge" too.
+* What does it know?
+    * Words.
+    * Balancing brackets; even can count them.
+    * Syntax: it produces mainly syntactically correct sentences.
+* He makes some summary of current research:
+    * RNN needs less training data than other language model methods.
+    * RNN improves faster as it gets more data.
+* Echo State Networks
+    * Okay. You start by fixing the hidden-to-hidden randomly, and
+      instead you just want to learn how to train the hidden to
+      output.
+    * The FFNN analogue is: for the first couple layers, just use
+      random weights. We're not going to train these.
+    * Then, in the last layer, learn these weights for the output.
+    * If the output layer is linear in the last hidden layer, then
+      this is a linear model of the jumbled and mixed up input.
+        * There seems to be some focus on linear output units, which
+          I'm not sure I totally understand.
+        * I don't know why that's easier, but I guess it makes the
+          problem effectively a LSR.
+    * The idea is that a big random expansion of the input vector can
+      make it easier for a linear model to fit the data.
+* When applying this old idea to RNN, you have to be careful to pick
+  random weights where the activity neither dies out nor explodes.
+    * So what they do is they want to keep the magnitude of the state
+      vector the same as the network proceeds.
+    * They say this is an "echo" state network, because if you give it
+      an input, it sort of persists and echoes around for a long time.
+    * The number of connections is sparse.
+    * The idea here is that there isn't too much mixing between parts
+      of the net. There are echoes in different parts, but they don't
+      necessarily intermix too quickly, which would create
+      incoherence.
+* Because learning is fast, we can experiment plenty with sparseness
+  and scales of weights.
+* Example: real time-varying frequency input, and the network is being
+  trained to produce a sine wave with that frequency.
+* ESNs do appear to best at modeling one-dimensional time series.
+* One trick is to use the ESN tricks of initialization of weights, but
+  then do regular training. They used rmsprop with momentum and that
+  worked well!
