@@ -1159,15 +1159,25 @@ output = (weight_1^T input_1)(weight_2 output_weights^T) input_2
         * That loss is exactly equal to the variance, which is the
           square of the weights.
     * So this is exactly the same as applying L2 regularization!
+    * This was for a *linear* network. He doesn't say, but presumably
+      experience shows this works okay for non-linear nets.
 * **TODO**: Wait a fucking second. Doesn't this mean that an
   error-in-variables model implicitly does some L2 regularization???
   That may make sense, since people say that we *attenuate* the
   coefficients when there is error in the variables.
     * Again, that assumes constant variance.
-* Of course, this isn't quite exactly true for anything non-linear.
-    * He says that applying Gaussian noise tends to work similar to
-      L2 penalty, and maybe a little better in RNNs.
-    * But I assume this is just an experimental result.
+* He then talks about gaussian noise in the weights.
+    * I presume what he means is: you compute a mean for the
+      weight. But then some mean-zero gaussian noise is added. This
+      calculates your contribution to the next unit.
+    * He says this isn't exactly the same as L2 regularization, but
+      does work out similar.
+    * Note from the quiz: this will tend to want the network to train
+      so that most units are not normally in their sensitive area. In
+      that case, the noise in the weights will have less impact on the
+      output after being attenuated by the logistic.
+    * Appears to work particularly okay for RNNs. I assume this is
+      just an experimental result.
 * Another way is to use noise in the activities.
     * He suggests making unit outputs stochastic, and the activation
       determines the probability of a one or zero.
@@ -1177,6 +1187,10 @@ output = (weight_1^T input_1)(weight_2 output_weights^T) input_2
     * Experience shows that performance is worse on the training set.
         * That should stand to reason, right? The point is to do
           better on hold-out data.
+    * Note what happens. Noise is introduced only if the unit is in a
+      sensitive region. If the unit is firmly on or off for most
+      inputs, then little noise is added.
+    * So the bias is toward confident units.
     * Trains considerably slower.
     * But he finds that you can do considerably better on the test
       set. This is an unpublished result.
