@@ -1032,3 +1032,118 @@ output = (weight_1^T input_1)(weight_2 output_weights^T) input_2
 * One trick is to use the ESN tricks of initialization of weights, but
   then do regular training. They used rmsprop with momentum and that
   worked well!
+
+## Week 9: Better Generalization
+
+* So he's going to show us techniques to avoid
+  overfitting. Overfitting happens when the model is very flexible,
+  then it can get confused and think that noise in the training set is
+  reliable signal for future predictions.
+* Obviously, first choice is to get more data.
+* A second choice is to limit the power of the network, so it has just
+  enough power to capture the true signal, but not enough to capture
+  the noise, which hopefully is weak relative to the signal.
+    * He's going to talk about ways to properly regulate the
+      "capacity" as he calls it.
+* Another technique is to average many models with different forms.
+    * Another model averaging technique is called "bagging", which is
+      where you train the same model on subsets of the data, then
+      average the results.
+* He describes another approach as "Bayesian".
+    * You use a single architecture, but average predictions made by
+      many different weight vectors.
+    * What I think he basically means is you calculate a posterior
+      distribution and use this to find a mean estimate for the output
+      when given new training examples.
+* The most obvious way to limit capacity is to limit the number of
+  hidden layers and the number of units per layer.
+* He suggests another way: start with small weights, and stop the
+  learning before there is time to overfit.
+    * This assumes it first finds the true regularities, and would
+      later find spurious regularities.
+* Another approach is to do "weight-decay," which is just
+  regularization.
+    * Common to use L2 or L1 penalties on the weights.
+* Another possibility is to add noise to the weights or noise to the
+  activities.
+* It is typical to use several of the approaches together.
+* How do we find the metaparameters?
+    * We could try lots of alternatives, and see which does best on
+      the test set.
+    * He claims that the one which does best is unlikely to work as
+      well on a *second* test set.
+    * I suppose that makes sense, in that the best may be succeeding
+      because of randomness. That exactly what he describes.
+    * I guess my thought would be: There are probably some settings
+      which are significantly better than ones which are significantly
+      worse.
+    * It's true you'll probably pick parameters that aren't the very
+      best, because noise, but you'll be closer to a good parameter
+      setting.
+    * So what you do is set the metaparameters with a validation set,
+      and then use a test set to predict future performance. Duh.
+* He recommends the cross-validation technique.
+    * First, you hold back the test set of course.
+    * Then, you divide the validation data into N sets.
+    * For every setting of metaparameters, you train on N-1 subsets,
+      then evaluate the validation error on the last subset.
+    * You do this N times, and average. This reduces the noise in your
+      estimate of the validation error.
+    * This is called N-fold cross-validation.
+* The technique of stopping early works like this:
+    * First, it's expensive to keep re-training a model with different
+      parameters.
+    * So another idea is just to train once, but stop early.
+    * What you do is have a validation set, and keep training until
+      performance on the validation set starts going down.
+    * But it can be hard to tell when that is, because the performance
+      on the validation set will have noise.
+    * So what you might do is keep training until you're **sure**
+      things are getting worse, and then just scroll back to when your
+      performance started to go down.
+* He wants to talk about why it is that keeping the weights small
+  prevents overgeneralization.
+    * He talks about the logistic function; it is linear when the
+      input is close to zero.
+    * So when weights are small, the input is close to zero.
+    * So in the beginning, the network is close to linear.
+    * Which is to say, the network has low capacity.
+    * As the weights grow, the input can get away from zero, which is
+      where the sigmoid is less well-approximated by a line. So this
+      is where the model is gaining capacity.
+* The L2 penalty basically tells the network not to use large weights
+  that it doesn't need.
+    * So this acts as a break on the network from using large weights
+      to fit the noise in the training set.
+    * One effect is that given two similar inputs, it prefers to put
+      half the weight on each, rather than all the weight on just one.
+    * That seems like it should be logical if the two inputs are noisy
+      estimates of the same underlying value.
+* An alternative is to use an L1 penalty.
+    * This drives a lot of weights to exactly zero.
+    * That's because there is a fixed cost to turning them on.
+    * And that cost might never be justified.
+    * So this results in a sparser model, which may help for
+      interpretation.
+* Yet another approach is to have the penalty decrease as the weight
+  gets bigger.
+    * This is kind of acting like a threshold. It wants weights to be
+      set to zero, but then it cares less about big weights later.
+* Yet another approach is *weight constraints*
+    * This says: put a constraint on the length of the vector of
+      weights coming into a unit. Don't let it grow beyond a certain
+      amount.
+    * What we might do is this: if an update violates the weight
+      constraint, we just scale down the length of the vector until it
+      meets the maximum.
+    * I think it would be better to apply a penalty to the length of
+      the weight vector, no?
+* He finds that weight constraints work better than penalties.
+    * Feels like it's easier to set a sensible value.
+    * Prevents over-penalization; there's no constraint at all when
+      the incoming weight vector is small.
+    * They still prevent weights from exploding.
+    * One way of thinking of the weight constraint. If one weight has
+      a large partial, than it can sort of grow itself, but it does so
+      by pushing the other weights down. I'm not sure if that's a good
+      thing, but that's how it works...
