@@ -1147,3 +1147,103 @@ output = (weight_1^T input_1)(weight_2 output_weights^T) input_2
       a large partial, than it can sort of grow itself, but it does so
       by pushing the other weights down. I'm not sure if that's a good
       thing, but that's how it works...
+* Let's say we add gaussian noise to the inputs of the neural network.
+    * Then the variance of the noise is amplified by the weights.
+    * It's amplified by the square of the weights since the variance
+      is the L2 error with the best constant predictor of the variable
+      (the mean).
+    * If the neurons on linear, then the noise gets added directly to
+      the output.
+    * So consider any setting of the weights. The total loss is the
+      loss on the undisturbed data, plus loss incurred by the noise.
+        * That loss is exactly equal to the variance, which is the
+          square of the weights.
+    * So this is exactly the same as applying L2 regularization!
+* **TODO**: Wait a fucking second. Doesn't this mean that an
+  error-in-variables model implicitly does some L2 regularization???
+  That may make sense, since people say that we *attenuate* the
+  coefficients when there is error in the variables.
+    * Again, that assumes constant variance.
+* Of course, this isn't quite exactly true for anything non-linear.
+    * He says that applying Gaussian noise tends to work similar to
+      L2 penalty, and maybe a little better in RNNs.
+    * But I assume this is just an experimental result.
+* Another way is to use noise in the activities.
+    * He suggests making unit outputs stochastic, and the activation
+      determines the probability of a one or zero.
+    * Specifically, he suggests: run a forward pass with this
+      stochastic model.
+    * Now, for the backward pass, do it as normal.
+    * Experience shows that performance is worse on the training set.
+        * That should stand to reason, right? The point is to do
+          better on hold-out data.
+    * Trains considerably slower.
+    * But he finds that you can do considerably better on the test
+      set. This is an unpublished result.
+* Explains Bayesian stats
+    * You have a prior on the parameters, this tells you a likelihood
+      on some data, which now gives you a posterior distribution on
+      the parameters.
+    * Gives an example of tossing a coin 100 times and getting 53
+      heads.
+    * He describes how frequentist would say that the MLE of the
+      probability of a head is exactly 0.53.
+    * Shows how to update from prior to posterior.
+* He's now going to talk about the MAP estimate of the parameters.
+    * He's going to show that weight decay is equal to a MAP estimate
+      given a particular prior.
+    * He starts by showing that minimizing squared error is a MLE of
+      the parameters, assuming that there is Gaussian noise added to
+      the output of the network.
+        * This is true regardless of the nature of the model.
+    * But now he's going directly into the MAP.
+    * He shows this is found by maximizing the negative log probs of
+      the prior and the conditional probability of the data.
+    * He sets this log prob of the conditional probability to the
+      squared error.
+        * This is not strictly true. The log prob of
+          `(1/sqrt(2sigma^2pi)e^(-(x-\mu)^2/2\sigma^2)` is not exactly
+          the residual squared error.
+        * But it *is* some constant plus a scalar multiple of the
+          residual squared error.
+        * The constant doesn't matter for MAP, but the scalar multiple
+          of the residual squared error (which is a function just of
+          your assumed sigma) *does* matter.
+        * But let's set that aside for a moment.
+    * Now, let's talk about the log probability of the weights.
+        * Minimizing the sum of the squared weights is exactly
+          equal to minimizing the log probability of the weights under
+          a Gaussian prior.
+            * Note, there is no sense of "error" here. We're assuming
+              the mean of the weight is zero.
+        * Again, this is true for a particular value of sigma, not all
+          sigma.
+    * Note: what matters is the *ratio* of the two `sigma^2`s you have
+      going on.
+        * Remember, `sigma^2` is the variance.
+    * So that's your lambda, which is how much regularization to
+      perform.
+        * That is: `lambda` is the ratio of the variance in the data
+          divided by the variance in the weights.
+    * This is great. It all comes back home!
+* He's going to talk about how you could calculate what weight
+  penalties to use without a validation set.
+    * Basically, it's going to use empirical estimates of the ratio of
+      the variances to compute a reasonable lambda.
+    * But Hinton says we can even compute different weight penalties
+      for different subsets of the connections! This would be very
+      expensive to explore if we had to find it with validation sets.
+* He starts by fitting a model with minimum residual squared error.
+* What he's going to do a MLE estimate on the output noise.
+    * This turns out to be the variance in the errors, I beileve.
+* He's also going to do a MLE estimate on the weight noise.
+    * This turns out to be the variance in the distribution of learned
+      weights, I believe.
+* Then he's going to update and repeat.
+* This is called "empirical Bayes."
+    * This feels like an expectation-maximization, but Bayes-style.
+    * Of course, this is really against a lot of the Bayesian theory.
+* Note: it is now easy to calculate different variances that maximize
+  probabilities of subsets of weights. In particular, we could apply
+  different amounts of regularization at different layers.
+* Hinton notes this works pretty good in practice.
