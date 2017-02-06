@@ -57,3 +57,29 @@ plt.show()
   kind of don't know what the operation will do.
 * For that reason, I kind of like the einsum method which lets me
   think easier.
+
+* They talk about train/test split.
+* sklearn has a method: `sklearn.model_selection.train_test_split`.
+    * Args are `X, y, test_percentage`.
+* They talk about some measures of classification error:
+    * Accuracy: percentage of examples we properly classified.
+    * Actually doesn't talk about recall or precision. Great.
+* They mention absolute error and MSE.
+    * They motivate MSE by differentiability.
+* They mention R2 score.
+    * R2 score is the proportion of variance in the output that can be
+      explained by the input.
+    * The baseline model is the mean, and you calculate the empirical
+      variance.
+    * Then you calculate the empirical variance with the linear model.
+    * Then you divide.
+    * You subtract this from one to get the R2 score.
+* They mention underfitting vs overfitting.
+    * They mention that underfitting happens when we have strong
+      biases. We see bad error on the train set when we have too
+      strong bias.
+    * We see overfitting when the performance gets really good on the
+      training set, but fails to generalize.
+    * We say that this error is due to *variance*. The reason is that
+      we say the model is too free so that the noise, or variance, in
+      the training set.
