@@ -70,6 +70,12 @@ above. It just wouldn't feel that necessary.
 
 ## Udacity
 
+**Nanodegrees**
+
+* AI Engineer
+* ML Engineer
+* Self-Driving Car
+
 **Interesting**
 
 * **Artificial Intelligence for Robotics** (Thrun, Georgia Tech)
