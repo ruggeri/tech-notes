@@ -10,11 +10,14 @@
 0. JRuby
 0. Webrick vs Puma; multi-threading.
 0. DB Perf: RAM vs Disk. Reads vs Writes.
+    * Can mention RDS.
 0. Scale up is easy; do it first.
+    * More cores, more ram, faster disks.
 
 **Scaling Out App Tier**
 
 0. Nginx as a reverse proxy.
+    * Mention ELB.
 0. Add app machines. They can be cheap for best perf/cost ratio.
 0. DB is chokepoint; runs on a fancy machine.
 0. Also increases redundancy.
@@ -76,7 +79,6 @@ follower if we ship logs async (as is typical).
 0. Why wasn't this a problem in leader-follower? Because only one
    sequencer of transactions.
 0. Solution is to bring 2PL to distributed, which is 2PC.
-**>>>Pick up from about here<<<**
 0. Do Cat Shelter example.
 0. Note availability problem if coordinator dies.
     * I don't think you have to discuss that the truest problem is if
@@ -95,12 +97,16 @@ follower if we ship logs async (as is typical).
 
 **Availability and Leader Election; CAP Theorem**
 
+0. So we're talking about failures. Easy to fix for load balancers
+   (via DNS round-robin) and app machines (load balancers keep track).
+    * Mention AWS Route 53.
 0. Let's go back to leader-follower replication.
 0. What happens if the leader dies?
 0. We need to bring another online. But someone can't just assert they
    want to be the new leader.
 0. This is a scenario for Paxos/Raft/Zab.
 0. But any solution makes you choose Partition or Availability.
+0. Async Replication + Failover means bounded dataloss.
 
 **Multi-Master: Replication + Consistency**
 
@@ -117,22 +123,55 @@ follower if we ship logs async (as is typical).
     * This means your system is *eventually consistent*, but there are
       periods of time where it is reporting different things to
       different people at different datacenters.
-0. *Pause*: This is what Cassandra does!
+    * One example is Friend/Defriend/LockFriend. If we're friends, and
+      I lock you down at the same time you defriend me in another data
+      center, someone's action is lost.
+
+**Cassandra, HBase, MongoDB**
+
+* Cassandra offers:
+    * Distributed datastore.
+    * NoSQL
+    * Auto-sharding. Add more machines, handle more load.
+    * Replication: lose machines, this data has been replicated at
+      other shards.
+    * Available; any replica can accept a write.
+    * Eventually Consistent: Last-Writer-Wins.
+* HBase is mostly the same except:
+    * Consistent. Not always available.
+* **TODO**: MongoDB
 
 **Multi-Master: CRDTs**
 
 0. In certain cases, where operations commute, then everything is
    okay.
-0. A good example is adding to a set.
+0. A good example is adding to a set (no removal).
 0. In that case, on the healing of the partition, everything is okay
    again.
+0. In particular, on each side of the partition, it doesn't look like
+   anything was rolled back. Because `T1 then T2` is the same as `T2
+   then T1`, the two machines may feel like the transactions were
+   ordered differently, but they both 'advance' to the same common
+   result.
 
 **Queues + Idempotency For Durability**
 
-Queues/Kafka
-*Cassandra vs Mongo vs HBase*
-Redis
+0. If we need to make an update to two rows at different shards, how
+   do we make sure we effect both changes?
+0. We can put the message into a queue, which will not lose the
+   message.
+0. If interrupted, it may deliver the message more than once.
+0. An *idempotent* operation has no effect if repeated.
+    * You can achieve this by having unique transaction IDs and
+      keeping a list of them.
+0. For instance, imagine a counter.
+0. Kafka is a common queue software.
+
+Redis, Elasticache
+ElasticSearch
 Docker
+CDN, CloudFront
+* Cache-Control headers
 
 databases/principles-of-distributed-database-systems.md
 databases/scaling.md
@@ -149,3 +188,10 @@ randos/papers/mapreduce.pdf
 randos/papers/megastore.pdf
 randos/papers/percolator.pdf
 randos/papers/spanner.pdf
+
+**Bonus Topics**
+
+* Log Formats (as part of Leader-Follower)
+* Back-in-time prevention with tokens (as part of async Leader-Follower)
+* Isolation Levels (as part of 2PL)
+* MVCC (as part of 2PL)
