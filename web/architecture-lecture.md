@@ -195,3 +195,36 @@ randos/papers/spanner.pdf
 * Back-in-time prevention with tokens (as part of async Leader-Follower)
 * Isolation Levels (as part of 2PL)
 * MVCC (as part of 2PL)
+
+**Maybe?**
+
+0. Claim HBase is good for reads.
+    * Because of "single-write master".
+    * I think they mean primary-copy with sync write lock on the other
+      replicas.
+        * This is of course somewhat slow.
+    * Won't do secondary indices for you.
+0. Cassandra
+    * Cassandra has fast single-row read performance, so long as
+      eventually consistency is okay.
+    * Otherwise, it needs to do a quorum read, which is slower.
+    * Writes are much faster than reads (because LSMT)
+        * I think "reads are slow" is mostly meant relative to write
+          throughput.
+        * LSMT does slow down reads a bit because you have to look at
+          several levels
+        * I think this assumes also that random reads hit disk.
+    * Does do secondary indices. But appears to be more limited than
+      MongoDB. Can only index a single column, and by equality.
+0. MongoDB
+    * Strong consistency because primary-copy syncronous replication.
+    * Expressive query language
+    * Secondary indices. I think MongoDB is suppose to have the best
+      support for secondary indices.
+        * I think that's what lets it have nice flexible querying.
+    * A lot of people do seem to say that MongoDB is most nice for
+      being able to flexibily develop, and that scalability is less
+      the primary reason to use MongoDB.
+    * Data split into replica sets. There's a master in each
+      set. Sounds like primary copy replication to me.
+        * Again, makes writes somewhat slow.
