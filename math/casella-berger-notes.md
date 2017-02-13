@@ -28,7 +28,8 @@
     * The expected sample variance is equal to the population variance.
         * Note the definition of the sample variance, however, is
           divided by `n-1`.
-    * These are *unbiased* estimators.
+    * These are *unbiased* estimators. That means the mean value of
+      the sample statistic is equal to the true statistic.
 * Weak and strong law of large numbers
 * Central Limit Theorem
 * Sufficient statistics
@@ -113,80 +114,153 @@
       the expected risk. That seems appropriate if we've already
       decided we care about risk anyway.
 * Hypothesis testing
-    * Likelihood ratio test; compare the max likelihood of the null
-      hypothesis to the max likelihood over all of Theta (the
-      parameter space). If this is `<c` (where `c` is a constant
-      between zero and one), then reject the null hypothesis.
+    * We propose a null hypothesis, which we will try to reject. We
+      also have a complementary alternative hypothesis.
+        * For instance, the null hypothesis may be that a parameter
+          `\theta` is in one set, while the alternative is that it is
+          in the complementary set.
+    * A hypothesis testing procedure is a procedure whereby you either
+      choose to reject the null hypothesis, or decide that the data
+      does not allow you to reject the null hypothesis.
+        * The sample space where the null hypothesis is *rejected* is
+          called the *rejection region*, while the space where the
+          null hypothesis is *not rejected* is called the *acceptance*
+          region.
+    * We would like to judge the quality of a hypothesis testing
+      procedure.
+    * Let us consider the two types of errors:
+        * First, assume that `\theta` in fact is in the null
+          hypothesis. Then our worry is that we falsely reject
+          `\theta`: that is, we worry about the probability that
+          `\theta` generates a sample in the rejection region. This is
+          called "Type I Error".
+        * Next, assume that `\theta` is *not* in the null
+          hypothesis. Then our worry is that the sample is *not* in
+          the rejection area. That is, we worry about the probability
+          that `\theta` does not generate a sample in the rejection
+          area.
+    * Let us now define `\beta_T(\theta)`, which is the probability
+      that given the parameter is truly `\theta`, that it generates a
+      sample that the test rejects.
+        * We *want* `\beta(\theta)` to be exactly zero for all
+          `\theta` in the null hypothesis. That means we never falsely
+          reject the null hypothesis.
+        * Alternatively, we want `\beta(\theta)` to be exactly one for
+          all `\theta` in the alternative hypothesis. That means we
+          would never fail to reject the null hypothesis when the null
+          hypothesis is in fact false.
+    * Notice that the test is telling us whether or not to reject the
+      hypothesis. Therefore, the test needs to be parameterized by the
+      hypothesis. As we said, a good test for a hypothesis is likely
+      to reject when the parameter is not in the null hypothesis, and
+      likely to accept otherwise.
+    * Now, we define a *level \alpha* test to be one where
+      `\beta(\theta) <= \alpha` for all `\theta` in the null
+      hypothesis.
+        * This means that a level `\alpha` test has a ceiling on the
+          probability of making a type I (false rejection) error.
+        * It says nothing about type II error (failure to reject).
+    * A simple test would say that `\beta(\theta) = 0` for all
+      `\theta`. That would be a level `\alpha` test for any `\alpha`.
+        * But it is clearly stupid because this would never reject the
+          hypothesis when it isn't true.
+        * That's the point, we want `\beta(\theta)` to be large for
+          anything outside the null hypothesis.
+    * We define an *unbiased* test. This says that `\beta` on the null
+      hypothesis set is always greater or equal to `\beta` on the
+      alternative hypothesis set.
+        * This means that the test is at least as likely to reject the
+          hypothesis if `\theta` is in the alternative hypothesis, as
+          opposed to when `\theta` is in the null hypothesis.
+        * This would be even dumber than just having
+          `\beta(\theta)=0`. For a biased test, there are null
+          hypothesis `\theta` less likely to be rejected than
+          alternative hypothesis `\theta`. That is perverse!
+    * We want to start considering tests that have high `\beta` for
+      members of the alternative hypothesis. Given a class of tests,
+      `C`, we say that a test `T` is *uniformly most powerful* if for
+      any other test `T'`, then for all `\theta` in the alternative
+      hypothesis, `\beta(\theta) >= \beta'(\theta)`.
+        * That is, a uniformly most powerful test is one which is
+          least likely to fail to reject the null hypothesis when the
+          parameter truly lies in the alternative hypothesis.
+    * A UMP test amongst the class of level `\alpha` tests represents
+      a "best in class" test for that given false-rejection rate
+      `\alpha`.
+        * Many problems don't have a UMP level `\alpha` test. That
+          means that some level `\alpha` tests work better on parts of
+          the alternative hypothesis than other tests, and vice versa.
+    * The Neyman-Pearson lemma says taht for certain simple hypotheses
+      (where both null and alternative hypotheses consist of a single
+      value of `\theta`), then the LRT with an appropriate cutoff is a
+      UMP test of level `\alpha`.
+    * What is the Likelihood Ratio Test? Basically, we compare the
+      supremum of the likelihood of the sample over the null
+      hypothesis space, and take its ratio with the supremum of the
+      likelihood over the entire space. If the ratio is `<c`, then we
+      reject the null hypothesis.
+        * The logic of this test is clear, but is it any good?
+        * The Neyman-Pearson lemma from right above says that for the
+          appropriate `c` that gives a desired `\alpha`, this is a UMP
+          test, if both hypotheses consist of a single parameter. So
+          in this sense, the test is good, in fact: optimal.
+    * Another result, by Karlin-Rubin, applies in certain cases for
+      *one-sided* tests.
+        * The null hypothesis is `\theta <= \theta_0` and the
+          alternative hypothesis is `\theta > \theta_0`.
+        * Next, the theorem requires that for any two
+          `\theta_1>\theta_2`, that the likelihood ratio
+          `f_1(x)/f_0(x)` is monotonically non-decreasing in `x`.
+        * What that means is that the larger `x` is, the more likely
+          `theta_1` is over `theta_0`.
+        * In that case we can choose a cutoff `x_0`, where the
+          probability that `\theta_0` would generate an `x>x_0` is
+          exactly the desired `\alpha`.
+        * That means that `\beta(\theta_0)=\alpha`, and we know that
+          for any `\theta<\theta_0`, `\beta(\theta)` can only be
+          smaller. That means this is a level `\alpha` test.
+        * Now we need to show that this is a uniformly most powerful
+          test. I'm lazy and don't want to prove that right now.
+* Bayesian Hypothesis Testing
     * If you have a prior, you can use the posterior to evaluate the
       probability of both hypotheses; you can accept the one with the
       higher probability. Alternatively, if you want to be safe, you
       can reject the null hypothesis only when the probability of the
       alternative is higher than some threshold.
-    * To evaluate, the power function `\beta(\theta)` is the
-      probability when the parameter is `\theta` that the null
-      hypothesis will be rejected.
-        * Ideally this is zero when `\theta` is in the null hypothesis
-          region, and one elsewhere.
-    * The power function will be used to measure the performance of a
-      hypothesis test.
-        * You may wish to put a min false positive probability, and a
-          max false negative probability. This would need to be true
-          for any setting of `\theta`.
-        * This may not be possible for a given sample size.
-    * A *level \alpha test* means that the probability of incorrectly
-      rejecting the null hypothesis is always less than `\alpha`. This
-      means that for every `\theta \in \Theta_0` (i.e., for every null
-      hypothesis theta), the probability of incorrectly rejecting the
-      null hypothesis is less than `\alpha`.
-        * This shows a focus on not falsely rejecting the null
-          hypothesis.
-        * BTW, `\alpha` is your "signifcance level".
-    * A test is called *unbiased* if for every `\theta` in the
-      alternative hypothesis, `\beta(\theta)` is greater than any
-      `\beta(\theta')` for `\theta'` in the null hypothesis.
-        * That is, it's stupid to say you're avoiding false positives
-          if don't even detect true positives!
-    * A *uniformly most powerful test* is one which has greater
-      `\beta(\theta)` for all `\theta` in the alternative hypothesis,
-      when compared to other tests in the class.
-        * That is: the test always has the highest true positive rate
-          in the class, no matter the parameter.
-    * A UMP test amongst the class of level `\alpha` tests is best in
-      class for tests with that false positive rate.
-        * For many problems, a UMP does not exist.
-    * The Neyman-Pearson lemma says that for *simple* hypotheses
-      (where both null and alternative hypotheses consist of one
-      `\theta` each), the LRT with an appropriate cutoff is a UMP test
-      of level `\alpha`.
-    * Karlin-Rubin shows one extension. If for any pair of `\theta_1 >
-      \theta_2`, the likelihood ratio of `\theta_1` versus `\theta_2`
-      is non-decreasing as the observation `x` increases, then
-      Karlin-Rubin gives a way to construct a UMP test of level
-      `\alpha`.
-        * This basically says that, for one-sided hypotheses, we can
-          construct a simple UMP level.
-    * However, for many hypotheses no UMP test will exist.
-* p-value: A p-value is any statistic where for any `\theta` in the null
-  hypothesis, and any `\alpha`, `Pr_\theta(p(x) <= \alpha) <= \alpha`.
-    * Given such a p-value it is easy to give a level `\alpha` test by
-      rejecting the null hypothesis iff `p(x) <= \alpha`.
-    * Reporting a p-value imparts more than setting a threshold
-      `\alpha`, running a level `\alpha` test, and reporting
-      acceptance or rejction.
-    * The p-value lets the reader bring their own conception of what
-      `\alpha` should be, and answer whether the hypothesis would have
-      been accepted using the level `\alpha` test.
-    * You get to pick what "more extreme" means.
-* Careful!
-    * A low p-value does not suggest anything about the probability
-      that the null hypothesis is true. That makes no sense in
-      frequentist statistics. It only means that the observation was
-      unlikely for any \theta in the null hypothesis.
-    * In fact, if you really do have prior beliefs on the \theta, it
-      may still be that the null hypothesis is quite likely, either
-      because the alternative hypothesis has very low probability to
-      begin with, or because the observation is about equally unlikely
-      under both hypotheses.
+* First, let's start by mapping all samples into the range
+  `[0, 1]`. This lets us talk about an example being "more extreme"
+  than another.
+    * Obviously, any monotonic transformation of the space would
+      preserve the notion of extremity.
+    * So we want something better. We want that `p(x_0)` is defined
+      such that to `sup_\theta P_\theta(p(x) <= p(x_0)) = p(x_0)`.
+    * That means exactly this: that `p(x)` is the probability of
+      obtaining a result at least as extreme as this one (for the
+      worst theta).
+    * From this, we can immediately get a level `\alpha` test. In
+      particular, we reject exactly when `p(x) <= \alpha`.
+    * Thus, the p-value is useful in allowing the reader to interpret
+      the "strength" of the evidence. That is, we can set the false
+      rejection rate as low as `p(x)`, and this evidence would still
+      indicate rejection of the null hypothesis.
+* It is common that the p-value is monotone in `x`, which yields a
+  very understandable rejection region.
+    * In particular, for any function `W`, you can define `p(x)` to be
+      `sup_\theta Pr_\theta(W(X) >= W(x))`.
+    * A one-sided value may have `W(x)` be montone in `x`, while a
+      two-sided value may have `W(x)` be proportional to the distance
+      from some statistic like the mean.
+* Hypothesis Testing Summary/Pitfalls:
+    * A level alpha test only means that the probability of
+      false-rejection given theta is in fact in the null hypothesis is
+      less than or equal to alpha.
+    * Nothing here speaks to the "probability that the null hypothesis
+      is false" or "is true".
+    * Note that a sample does not just suggest rejection of the null
+      hypothesis merely because it is unlikely under the null
+      hypothesis. It only makes sense to take as evidence against the
+      null hypothesis if this sample is *even more* unlikely under the
+      alternative hypothesis.
 * Decision Theory for Hypotheses
     * Zero-One loss is common. In that case the risk for `\theta` in
       the null hypothesis is `\beta(\theta)`; likewise for `\theta` in
@@ -209,15 +283,24 @@
       coverage probabilities.
         * The higher this is, the lower the worst false rejection rate
           is.
-    * This corresponds to hypothesis testing.
-        * Take a level alpha test. Consider a sample `x`. Define the
-          interval estimator to be the region in which the test would
-          not reject the null hypothesis.
-        * Consider a theta. Consider any sample from theta. Because we
-          are using a level alpha test, we should reject they
-          hypothesis with probability at most alpha.
-        * Therefore, the probability that theta is in the confidence
-          interval is 1-alpha.
+    * We can design an interval estimator from an acceptance region of
+      a level `\alpha` point hypothesis test.
+        * Take a `\theta_0`. Let `A(\theta_0)` be the acceptance
+          region of a level `\alpha` test for `H_0=\theta_0`. That is,
+          let this be the region where we wouldn't reject `\theta_0`.
+        * Now, let the confidence interval of `x` be every `\theta`
+          where `x \in A(\theta)`. That means, where `x` would not
+          cause the rejection of `\theta`.
+        * So consider any `\theta`. It generates an `x`. What is the
+          probability that `\theta` is in the confidence interval?
+          Well, the probability that `\theta` was rejected by the test
+          is at most `\alpha`. That means that the probability that
+          `x` lies in the acceptance region is at least `1-\alpha`. By
+          definition, `\theta` is in the confidence interval when `x`
+          is in the acceptance region. And since we just said that `x`
+          is in the acceptance region with probability at least
+          `1-\alpha`, that means that `\theta` is in the confidence
+          interval with that same probability.
     * You can of course do a Bayesian version, which are called
       *credible sets*. This says the parameter has a 90% chance of
       being in the set. That is of course quite different from what
