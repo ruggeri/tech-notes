@@ -73,7 +73,8 @@ plt.show()
       variance.
     * Then you calculate the empirical variance with the linear model.
     * Then you divide.
-    * You subtract this from one to get the R2 score.
+    * You subtract this from one to get the R2 score, which is the
+      proportion of the original variance explained away by the model.
 * They mention underfitting vs overfitting.
     * They mention that underfitting happens when we have strong
       biases. We see bad error on the train set when we have too
@@ -83,3 +84,47 @@ plt.show()
     * We say that this error is due to *variance*. The reason is that
       we say the model is too free so that the noise, or variance, in
       the training set.
+
+* In the NN for IMDB sentiment, a major advance was binarizing the
+  input. The theory presented was that commons words often didn't
+  convey sentiment, and so by scaling them by count we were amplifying
+  noise.
+* I guess the idea is not to just train the network to learn that
+  these words are stupid. We want it to learn smart stuff. So it makes
+  sense to help it.
+* Changing the batch size allowed me to make updates much faster. A
+  batch size of 1 seemed to work totally fine. I guess it makes sense:
+  this is *stochastic*.
+* They did do what I suggested: keep those words with predictive power.
+    * I used pseudocounts.
+* He suggests the true value in this is the ability to train over much
+  more data.
+
+* We're going to start with TFLearn.
+* Mentions how sigmoids have fallen out of favor because of vanishing
+  derivatives. So we can use ReLU.
+* They mention you need to be careful of "dead" units. If a unit is
+  never active for any input, then you can't backpropagate through it
+  to any examples, which mean the input weights stop being updated.
+* They mention what a softmax group is.
+* They mention the cross-entropy loss function. They don't mention
+  what I know, which is that this is exactly the log likelihood of the
+  data.
+* TFLearn initializes weights, runs forward passes, backpropagates,
+  updates. You basically just define the architecture of the network.
+    * It does make it stupid easy to define a network and run it.
+
+* They talk about word2vec, which does an embedding of words.
+    * There are two methods (1) continuous-bag-of-words: we predict
+      the current word from the bag of context words on either side,
+      or (2) continuous skipgrams: we predict the context words from
+      the current word. It is typical with skipgrams to weight the
+      error on closer words more than the error on more distant words.
+* They intro some RNN resources.
+
+* In Siraj's sentiment program, the input is a sequence of
+  integers. He then uses `tflearn.embedding` which I presume says: the
+  input is between 1-#words, and I map this to a vector of 128
+  units. The mapping is the same for different words, I assume.
+* He also uses `tflearn.lstm`. I'm not really sure how TFLearn does
+  RNN. For instance, how many LSTM units are being used?
