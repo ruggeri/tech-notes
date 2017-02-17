@@ -37,6 +37,12 @@ If you apply the transformations to `b`, you will end up with convert
 it to its inverse. You may instead apply these transformations to `I`,
 which will convert this into the inverse linear transformation.
 
+**TODO**: That's not quite correct. If you perform 1-4, remember
+you're decomposing `A` into `LU`. And if you're performing the inverse
+operations to `I`, you're forming `L\inv`. But after this, you need to
+sweep back up again in `U` to clear out the entries above the
+diagonal.
+
 Note: the version where we transform `I` can be seen as finding the
 inverse for *n* vectors (the columns) simultaneously. That's kind of
 interesting: to see it as nothing more than a parallelized/vectorized
