@@ -24,6 +24,6 @@ This demonstrates that any orthogonal matrix (which represents
 rotations + flips) always has its inverse equal to its transpose! Thus
 we write:
 
-    Q=Q\trans
+    Q\inv=Q\trans
 
 Since, `Q` is often used for an orthogonal matrix.
