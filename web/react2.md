@@ -49,6 +49,10 @@ Here are the steps:
 Note this doesn't discuss any routing right now. And I don't have any
 async actions at the moment.
 
+## Organization
+
+In DayPlanner I'm breaking out directories for actions/reducers.
+
 # Libraries I've Used
 
 * Webpack, Babel.
