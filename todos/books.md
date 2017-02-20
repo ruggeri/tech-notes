@@ -102,6 +102,7 @@
     * I kinda know most of this, but I also need to learn PCA and SVD.
     * Anthony doesn't have this. Where did I put this? At home?
     * **High priority**.
+    * Anthony has this as of Feb 20th.
 * Learning Spark
     * Did read. Quick 1-day read describing Spark.
     * Generally pretty good. Not earth shattering.
