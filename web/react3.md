@@ -353,11 +353,96 @@ the component. Above, I expose a property
 The wrapped Root component can only be instantiated in the context of
 a `Provider`. This wrapping is done quite simply in `Root::render`.
 
+## Redux Saga
+
+redux-saga introduces an idea parallel to the reducer concept, which
+is a Saga. A saga is mostly a glorified async/await pattern.
+
+To install, add:
+
+    "redux-saga": "^0.14.3",
+
+Let's start by updating our `store.es7`:
+
+```
+import * as Redux from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { rootReducer } from './reducers.es7';
+import { rootSaga } from './sagas.es7';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = Redux.createStore(
+  rootReducer,
+  Redux.applyMiddleware(sagaMiddleware),
+);
+
+sagaMiddleware.run(rootSaga);
+
+export { store };
+```
+
+I've moved construction of the rootReducer into `reducers.es7`. We're
+also installing the saga middleware and using it to run the
+`rootSaga`.
+
+I will add an action creator for `RECEIVE_SCHEDULE_ITEMS` to
+`actions/schedule_items.es7`. I will add a reducer for this in
+`reducers/schedule_items.es7`. I will *remove* the reducer for
+`FETCH_SCHEDULE_ITEMS`; this will become a saga!
+
+Here is my `sagas/schedule_items.es7`:
+
+```
+import { call, fork, put, takeEvery } from 'redux-saga/effects';
+import { actions } from '../actions.es7'
+
+const siActions = actions.scheduleItems;
+
+function *fetchScheduleItems() {
+  const scheduleItems = yield call(function*() {
+    const response = yield fetch("/schedule_items.json");
+    const scheduleItems = yield response.json();
+    return scheduleItems;
+  });
+
+  yield put(siActions.receive(scheduleItems));
+}
+
+function *watchFetchScheduleItems() {
+  yield takeEvery(siActions.fetch.toString(), fetchScheduleItems);
+}
+
+function* rootSaga() {
+  yield [
+    fork(watchFetchScheduleItems)
+  ];
+}
+
+export {
+  rootSaga
+};
+```
+
+What we see here is the creation of a `rootSaga`, which "forks" the
+`watchFetchScheduleItems`. This lets several sagas run simultaneously,
+and we would need it if we had more sagas we could run. To run them
+simultaneously, we yield the array.
+
+I hate this watcher, which is just fucking boilerplate. The
+`takeEvery` method means wait for each fetch action, and run the
+`fetchScheduleItems` method each time.
+
+In `fetchScheduleItems` I use the `fetch` API to get some JSON. This
+returns a promise, which I yield. The `#json` method also returns a
+promise. You're not allowed to directly yield a promise to
+`redux-saga`, which is why I must use `call` to run the generator
+function.
+
+Having done that, when the fetching and jsoning are done, then
+`fetchScheduleItems` can resume. I then use `put` to dispatch an
+action, which asks the reducer to process the received items.
+
 ## TODO
 
 * Routing
-* Async actions via redux-saga.
-
-  "dependencies": {
-    "redux-saga": "^0.14.3",
-  }
