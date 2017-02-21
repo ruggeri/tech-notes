@@ -30,6 +30,9 @@ where the most influential breakthroughs are.
     * https://github.com/jtoy/awesome-tensorflow/
     * Has a bunch of resources; including some good blog posts, and
       Google papers.
+* CPU Architecture notes.
+* Electricity.
+* Zero-shot learning?
 
 ## Statement
 
