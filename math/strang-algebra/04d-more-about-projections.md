@@ -12,20 +12,19 @@ projection into this space is the identity. Therefore,
 matrices, where we already saw this very same property that
 `A\inv=A\trans`.
 
-So I am next interested in cases where there are fewer than `n`
-dimensions to the subspace. In that case, we know the matrix `A`
-has column rank strictly less than `n`.
+So I am next interested in cases where there are `k<n` dimensions to
+the subspace. In that case, the subspace is spanned by a basis of `k`
+vectors. That means that `A` has `k` columns, but still has `n` rows,
+because the subspace is embedded in `R^n`.
 
-So, if we write in the `a_i` as rows of `A\trans`, this is a
-rectangular matrix, where the number of rows is less than the number
-of columns. Likewise, `A` is just the opposite; the number of columns
-is less than the number of rows.
+Likewise, we know that `A\trans` projects a vector onto each of `k`
+basis vectors for the subspace. That means there are `k` rows, but `n`
+columns, because this is a projection down from an `n`-dimensional
+space to a `k`-dimensional space.
 
-Of course, `AA\trans` is square. This can of course be verified by
-computation, but the idea is that we're projecting members of `R^n`
-into a subspace of lower dimensionality, but it still may use all the
-coordinates. It's just that the coordinates aren't linearly
-independent.
+The important thing to note is that `AA\trans` is *square*. That's
+because this maps vectors in `R^n` to vectors in the `k`-dimensional
+subspace embedded in `R^n`, which still consists of `n`-tuples.
 
 Again, `AA\trans` will not be invertible, because `A\trans` projects
 down into a lower dimensionality space (doesn't have full row rank),

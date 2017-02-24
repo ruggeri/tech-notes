@@ -47,4 +47,7 @@ could still think of this as a linear combination of the columns of
 Let me propose a new way of seeing matrix multiplication `AB`. Apply
 the first row of `B` to an input vector. This is the amount of the
 first coordinate in `Bv`. Now, scale the first column of `A` by this
-amount. Repeat and sum. This is exactly what I described above.
+amount. Repeat and sum.
+
+If we view matrix multiplication this way, then `AA\trans` is computed
+exactly as the sum given above!
