@@ -97,5 +97,3 @@ In case it is not obvious, the matrix `A\transA` takes an `x` and maps
 it to a new `x` that is the skewed projection of `y` onto the column
 basis.  Thus the matrix `(A\transA)\inv` is the matrix that does the
 opposite skewing to undo this.
-
-**TODO**: I am still stuck around page 210.
