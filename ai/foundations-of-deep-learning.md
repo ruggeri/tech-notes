@@ -297,3 +297,112 @@ print('Loss: {}'.format(l))
 * He mentions that PCA is one way to do dimensionality reduction.
 * When there are missing values, you can try to replace them with a
   mean. You might also try to do some smoothing to eliminate outliers.
+
+**Convolutional NN**
+
+A tensor flow example:
+
+```
+# Solution is available in the other "solution.py" tab
+import tensorflow as tf
+
+output = None
+hidden_layer_weights = [
+    [0.1, 0.2, 0.4],
+    [0.4, 0.6, 0.6],
+    [0.5, 0.9, 0.1],
+    [0.8, 0.2, 0.8]]
+out_weights = [
+    [0.1, 0.6],
+    [0.2, 0.1],
+    [0.7, 0.9]]
+
+# Weights and biases
+weights = [
+    tf.Variable(hidden_layer_weights),
+    tf.Variable(out_weights)]
+biases = [
+    tf.Variable(tf.zeros(3)),
+    tf.Variable(tf.zeros(2))]
+
+# Input
+features = tf.Variable([[1.0, 2.0, 3.0, 4.0], [-1.0, -2.0, -3.0, -4.0], [11.0, 12.0, 13.0, 14.0]])
+
+# TODO: Create Model
+hidden_layer = tf.add(tf.matmul(features, weights[0]), biases[0])
+hidden_layer = tf.nn.relu(hidden_layer)
+output = tf.add(tf.matmul(hidden_layer, weights[1]), biases[1])
+
+# TODO: Print session results
+with tf.Session() as session:
+    session.run(tf.global_variables_initializer())
+    print(session.run(output))
+```
+
+I've copied multilayer_perceptron.py to show how easy it is to setup
+with TF.
+
+They claim that you can do better with fewer parameters by going
+deeper rather than wider. That makes sense to me, I think. But I think
+it would be valuable to give an example. He says that this can work
+because there is often a naturally hierarchical nature to the problems
+we're trying to solve. For instance, a face is composed of eyes, nose,
+mouth, which are composed of upper lip, lower lip, nostrils, etc.
+
+They show how to use `tf.learn.Saver` to save/load model
+parameters. You want to give each variable a name, otherwise the saver
+will have difficulty deserializing if you instantiate any variables
+not in exactly the same order (since it gives variables a name like
+"variable_N", so names are dependent on order of construction).
+
+Mentions: why didn't we use deep nets forever? One problem is we
+didn't have big enough datasets to train them. Another problem is that
+we have learned how to do better regularization.
+
+Some ways to prevent overfitting:
+
+* Early termination: stop before you overfit.
+* Mentions L2 regularization.
+* Mentions dropout: as we know, zero out half the activations.
+    * This effectively forces the network to learn redundant
+      representations.
+    * This sort of does voting, in the sense that you can have a
+      number of slightly different feature detectors.
+* If you do dropout, when you go to use the system, you don't want to
+  dropout randomly anymore. You want to use *all* the redundant
+  detectors.
+    * But the weights weren't trained this way, thus potentially
+      causing problems.
+    * To fix this, if you drop half the activations, scale the other
+      half by two.
+    * This makes sense because you're training such that later you can
+      expect to have all the units, not half of them.
+    * There is a TF method `tf.nn.dropout` which does exactly this for
+      you.
+    * You give it a `keep_prob`. As explained, you'll want to use
+      `1.0` when evaluating your network.
+
+**ConvNets**
+
+* You have *patches*, this is a rectangle in the image. You have a NN
+  from the patch to `k` outputs.
+* You run the same NN on every patch. This converts each patch into
+  having depth `k`.
+* If you have a *stride* of 1, you will lose two pixels in either
+  dimension. If you have a stride of 2, you will lose about half the
+  pixels.
+* This is their motivation for the prisms. The input is flat, and has
+  the biggest surface area. But then the surface area decreases for
+  each convolution stage, with a greater depth. The depth is
+  theoretically semantic information. As you go further into the net,
+  you squeeze out the semantic info.
+* You can see this as generating a new image with `k` channels, with a
+  single pixel per patch. Thus the semantic information remains local
+  to the pixels.
+* The `k` channels are called a *feature map*.
+* What about edges? You either do *valid padding* (don't go off the
+  edge) or you let yourself go one the edges and pad with zeros, which
+  results in the same image size. This is called *same padding*.
+* This process of mixing adjacent information is called a
+  convolution. We're learning what convolution to perform. This
+  function is the *kernel function*.
