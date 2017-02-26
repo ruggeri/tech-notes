@@ -54,6 +54,13 @@ about covariance. I think `X\trans X` might be related to the
 empirical covariance. I am even more sure of that when I look at the
 wiki page on estimation of covariance matrix.
 
+**TODO**: I think this section is well intended: it is good to have an
+intuitive understanding of what this projection of the data onto
+itself means. But this isn't a comprehensive understanding yet; I
+haven't really truly internalized this, or expressed this properly. I
+should revisit this in time.
+
 Finally, Strang notes that you can fit any kind of model, not just a
 line, this way, so long as it is linear in a transform of each of the
 predictor variables.
+
