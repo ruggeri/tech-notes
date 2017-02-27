@@ -406,3 +406,104 @@ Some ways to prevent overfitting:
 * This process of mixing adjacent information is called a
   convolution. We're learning what convolution to perform. This
   function is the *kernel function*.
+
+```
+# Output depth
+k_output = 64
+
+# Image Properties
+image_width = 10
+image_height = 10
+color_channels = 3
+
+# Convolution filter
+filter_size_width = 5
+filter_size_height = 5
+
+# Input/Image
+input = tf.placeholder(
+    tf.float32,
+    shape=[None, image_height, image_width, color_channels])
+
+# Weight and bias
+weight = tf.Variable(tf.truncated_normal(
+    [filter_size_height, filter_size_width, color_channels, k_output]))
+bias = tf.Variable(tf.zeros(k_output))
+
+# Apply Convolution
+conv_layer = tf.nn.conv2d(input, weight, strides=[1, 2, 2, 1], padding='SAME')
+# Add bias
+conv_layer = tf.nn.bias_add(conv_layer, bias)
+# Apply activation function
+conv_layer = tf.nn.relu(conv_layer)
+```
+
+In this example, the strides are `[1, 2, 2, 1]` because it's a stride
+of one through the input data, 2 for the width and height dimensions,
+and 1 for the channels. Obviously the data and channel strides will
+typically be 1. It appears the channel stride is sorta redundant,
+since I think the convolution will be get all the color channels as
+input.
+
+`bias_add` looks like it's just a special case of `tf.add` but allows
+broadcasting. For instance, this adds the bias to all the convolution
+outputs, even though this is a lower-dimensionality tensor.
+
+We often use max pooling. This is basically another kernel, where the
+kernel operation is to output the max value. I presume this reduces
+noise. But it also adds another layer, and more hyperparameters.
+
+A common architecture is a few layers of convolution and max pooling,
+followed by a couple layers of fully-connected layers. This was the
+typical strategy of LeNet (letter recognition) and AlexNet (image
+classification).
+
+Another form of pooling is average pooling. This does a very obvious
+"blurring".
+
+2-by-2 max pooling filters with a stride of 2 are common.
+
+Pooling reduces the size of the output, and it also prevents
+overfitting. But I think it should also reduce noise in the image,
+too. But it appears that pooling may be on the decline; this is
+because (1) dropout is often a better regularizer, (2) pooling throws
+away information, and (3) overfitting is less of a problem with very
+huge datasets; we're more focused on the problem of underfitting: our
+models don't have enough parameters. Presumably we don't use more
+parameters because our model would take too long to train?
+
+So, you have these convolutions, and the convolution to perform is
+learned by a depth-one network. But you can apply a 1x1 convolution
+after, which effectively makes this a "deep convolution", if you like.
+
+Another idea is "inception module" (I don't know what the fuck that
+means; it maybe comes from GoogLeNet). But the idea is that it can be
+hard to decide whether to do pooling, a 1x1 convolution, a 3x3, 5x5?
+The idea is to do all of these, and then just take the image maps
+computed by each and concatenate them. The next layer can look at all
+these different forms of information and potentially synthesize them.
+
+**TODO**: It strikes me, what is the pro-vs-con of L2 and dropout for
+  regularization?
+
+They show how easy it is to use Keras to build a network at a high
+level. It's basically a builder pattern. This is worth covering and
+exploring.
+
+They have an already setup GPU instance in AWS.
+
+## Project Notes
+
+Setup of AWS was fairly hard when you don't know what you're doing.
+
+I used two conv layers, both doing 2x2 filters with 2x2 max pooling
+and stride. I had 16 channels at each conv layer. I applied dropout,
+then fed to a fully connected layer of 512 units. Then fed directly to
+the output. I used RELU throughout.
+
+Nothing worked well until I took the truncated normal and cranked it
+down from a stddev of 1.0 to 0.1. Then everything worked wonderfully.
+
+I let it run for a good long time, but it's hard to overfit with a
+dropout of 50% applied. My test accuracy was 70%, which was exactly in
+line with my validation accuracy.
