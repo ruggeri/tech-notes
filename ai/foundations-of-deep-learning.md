@@ -507,3 +507,6 @@ down from a stddev of 1.0 to 0.1. Then everything worked wonderfully.
 I let it run for a good long time, but it's hard to overfit with a
 dropout of 50% applied. My test accuracy was 70%, which was exactly in
 line with my validation accuracy.
+
+**TODO**: I should record some of my code, or check it in somewhere.
+**TODO**: I should see how long this would take to train on my latop.
