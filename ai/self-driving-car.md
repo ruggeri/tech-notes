@@ -68,6 +68,12 @@ those which make sense in the context of the strong edges. One way to
 approach this is to keep those weak gradient pixels that are adjacent
 to a strong gradient pixel.
 
+This technique is called *hysteresis*, I guess.
+
+BTW, OpenCV has a good writeup here:
+
+http://docs.opencv.org/trunk/da/d22/tutorial_py_canny.html
+
 Problems with Canny Detection are: Gaussian smoothes out edges, window
 for discrete differentiation is too small, thresholds should be set
 more locally, because lighting can be different in different parts of
@@ -93,3 +99,14 @@ bucket `(kpi/4, r)`.
 At the end, you can look at buckets meeting a threshold count. You can
 then look in the bucket, and try to connect those points in the bucket
 which are sufficiently close.
+
+## Conda
+
+```
+source activate myenv
+python -m ipykernel install --user --name myenv --display-name "Python (myenv)"
+source activate other-env
+python -m ipykernel install --user --name other-env --display-name "Python (other-env)"
+```
+
+The above demonstrates how to setup other kernels for use in Jupyter.

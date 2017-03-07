@@ -138,117 +138,8 @@ plt.show()
       course many matrix math ones.
 * There's also `tf.Variable`, which takes a starting value but later
   can be updated. We need to use `init =
-  tf.global_variables_initializer()` and do `sess.run(init)`. Like so:
-
-
-```
-import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
-
-def get_weights(n_features, n_labels):
-    """
-    Return TensorFlow weights
-    :param n_features: Number of features
-    :param n_labels: Number of labels
-    :return: TensorFlow weights
-    """
-    return tf.Variable(tf.truncated_normal((n_features, n_labels)))
-
-
-def get_biases(n_labels):
-    """
-    Return TensorFlow bias
-    :param n_labels: Number of labels
-    :return: TensorFlow bias
-    """
-    # TODO: Return biases
-    return tf.Variable(tf.zeros((n_labels)))
-
-
-def linear(input, w, b):
-    """
-    Return linear function in TensorFlow
-    :param input: TensorFlow input
-    :param w: TensorFlow weights
-    :param b: TensorFlow biases
-    :return: TensorFlow linear function
-    """
-    return tf.add(tf.matmul(input, w), b)
-
-def mnist_features_labels(n_labels):
-    """
-    Gets the first <n> labels from the MNIST dataset
-    :param n_labels: Number of labels to use
-    :return: Tuple of feature list and label list
-    """
-    mnist_features = []
-    mnist_labels = []
-
-    mnist = input_data.read_data_sets('/datasets/ud730/mnist', one_hot=True)
-
-    # In order to make quizzes run faster, we're only looking at 10000 images
-    for mnist_feature, mnist_label in zip(*mnist.train.next_batch(10000)):
-
-        # Add features and labels if it's for the first <n>th labels
-        if mnist_label[:n_labels].any():
-            mnist_features.append(mnist_feature)
-            mnist_labels.append(mnist_label[:n_labels])
-
-    return mnist_features, mnist_labels
-
-
-# Number of features (28*28 image is 784 features)
-n_features = 784
-# Number of labels
-n_labels = 3
-
-# Features and Labels
-features = tf.placeholder(tf.float32)
-labels = tf.placeholder(tf.float32)
-
-# Weights and Biases
-w = get_weights(n_features, n_labels)
-b = get_biases(n_labels)
-
-# Linear Function xW + b
-logits = linear(features, w, b)
-
-# Training data
-train_features, train_labels = mnist_features_labels(n_labels)
-
-with tf.Session() as session:
-    session.run(tf.global_variables_initializer())
-
-    # Softmax
-    prediction = tf.nn.softmax(logits)
-
-    # Cross entropy
-    # This quantifies how far off the predictions were.
-    # You'll learn more about this in future lessons.
-    cross_entropy = -tf.reduce_sum(labels * tf.log(prediction), reduction_indices=1)
-
-    # Training loss
-    # You'll learn more about this in future lessons.
-    loss = tf.reduce_mean(cross_entropy)
-
-    # Rate at which the weights are changed
-    # You'll learn more about this in future lessons.
-    learning_rate = 0.08
-
-    # Gradient Descent
-    # This is the method used to train the model
-    # You'll learn more about this in future lessons.
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
-
-    # Run optimizer and get loss
-    _, l = session.run(
-        [optimizer, loss],
-        feed_dict={features: train_features, labels: train_labels})
-
-# Print loss
-print('Loss: {}'.format(l))
-```
-
+  tf.global_variables_initializer()` and do `sess.run(init)`. There
+  are examples in my "coursera" homeworks repository.
 * They talk about numerical stability a bit. In particular, the danger
   zone for floating point is when you add small numbers to big ones,
   because we don't have that many digits of precision.
@@ -301,46 +192,6 @@ print('Loss: {}'.format(l))
 **Convolutional NN**
 
 A tensor flow example:
-
-```
-# Solution is available in the other "solution.py" tab
-import tensorflow as tf
-
-output = None
-hidden_layer_weights = [
-    [0.1, 0.2, 0.4],
-    [0.4, 0.6, 0.6],
-    [0.5, 0.9, 0.1],
-    [0.8, 0.2, 0.8]]
-out_weights = [
-    [0.1, 0.6],
-    [0.2, 0.1],
-    [0.7, 0.9]]
-
-# Weights and biases
-weights = [
-    tf.Variable(hidden_layer_weights),
-    tf.Variable(out_weights)]
-biases = [
-    tf.Variable(tf.zeros(3)),
-    tf.Variable(tf.zeros(2))]
-
-# Input
-features = tf.Variable([[1.0, 2.0, 3.0, 4.0], [-1.0, -2.0, -3.0, -4.0], [11.0, 12.0, 13.0, 14.0]])
-
-# TODO: Create Model
-hidden_layer = tf.add(tf.matmul(features, weights[0]), biases[0])
-hidden_layer = tf.nn.relu(hidden_layer)
-output = tf.add(tf.matmul(hidden_layer, weights[1]), biases[1])
-
-# TODO: Print session results
-with tf.Session() as session:
-    session.run(tf.global_variables_initializer())
-    print(session.run(output))
-```
-
-I've copied multilayer_perceptron.py to show how easy it is to setup
-with TF.
 
 They claim that you can do better with fewer parameters by going
 deeper rather than wider. That makes sense to me, I think. But I think
@@ -490,11 +341,13 @@ They show how easy it is to use Keras to build a network at a high
 level. It's basically a builder pattern. This is worth covering and
 exploring.
 
-They have an already setup GPU instance in AWS.
+They have an already setup GPU instance in AWS. (But I built my own
+anyway).
 
 ## Project Notes
 
-Setup of AWS was fairly hard when you don't know what you're doing.
+Setup of AWS was fairly hard when you don't know what you're doing. I
+wrote this up in `randos/aws-gpu-instance-setup.md`.
 
 I used two conv layers, both doing 2x2 filters with 2x2 max pooling
 and stride. I had 16 channels at each conv layer. I applied dropout,
@@ -507,6 +360,3 @@ down from a stddev of 1.0 to 0.1. Then everything worked wonderfully.
 I let it run for a good long time, but it's hard to overfit with a
 dropout of 50% applied. My test accuracy was 70%, which was exactly in
 line with my validation accuracy.
-
-**TODO**: I should record some of my code, or check it in somewhere.
-**TODO**: I should see how long this would take to train on my latop.
