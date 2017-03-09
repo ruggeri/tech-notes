@@ -23,6 +23,8 @@ where the most influential breakthroughs are.
 
 **Randoms**
 
+* Implement Gaussian elimination.
+* Implement Canny edge detection; Hough transform.
 * Finish Aho compilers textbook!
 * Maybe look at Elm/FRP. RxJS? Find a good book for this?
 * Jeff Dean on ML: http://research.google.com/pubs/pub40565.html
