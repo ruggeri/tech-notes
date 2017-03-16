@@ -104,6 +104,33 @@ And from here you can find the corresponding `y'` via `Ax`, meaning:
 
 **Pseudo-Inverse**
 
+
+
+
+
+The matrix `A\trans A` is called a *Gramian matrix* (as in
+Gram-Schmidt). It maps `e_i` to their image under decomposition into
+rows of `A` and reconstruction by `A\trans`. The error is seen by
+attempting to put a row `a_i` through this process. `A a_i` will be a
+vector of dot products `(a_1 \cdot a_i, a_2 \cdot a_i, \ldots, a_k
+\cdot a_i)`. Then, when we apply `A\trans` to reconstruct `a_i`, we
+will get:
+
+    \sum a_j (a_j \cdot a_i)
+
+
+
+
+The reconstruction
+depends on the extent to which the rows of `A` are not orthonormal. It
+makes sense that `e_i` maps to `(a_1 \cdot a_i, a_2 \cdot a_i, ...,
+a_n \cdot a_i)`.
+
+You can note especially `A a_i`: the action of `A` on a row
+`a_i`. This maps `a_i` to `(a_1 \cdot a_i, 
+
+
+
 Basically, the matrix `(A\trans A)\inv A\trans` is a *pseudo-inverse*
 for `A`. I say pseudo-inverse because since `A` is not surjective, it
 doesn't have a true inverse. But `A` is injective on its image, so
@@ -128,12 +155,9 @@ performing *unskewing*.
 
 **Mixing Matrix**
 
-The matrix `A\trans A` is called a *Gramian matrix* (as in
-Gram-Schmidt). It maps `e_i` to their image under decomposition and
-reconstruction by `A`.  The reconstruction depends on the extent to
-which the rows of `A` are not orthonormal. It makes sense that `e_i`
-maps to `(a_1 \cdot a_i, a_2 \cdot a_i, ..., a_n \cdot a_i)`.
 
 The matrix `(A\trans A)\inv` undoes this. It takes that vector `(a_1
 \cdot a_i, ..., a_n \cdot _ai)` and maps it back to `e_i`.
 
+In sum, we can talk about the matrix `(A\trans A)\inv A\trans`. This
+matrix in sum does 
