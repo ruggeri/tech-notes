@@ -6,14 +6,14 @@ Some very simple projection matrices are `I`, and `I` but with some of
 the diagonal zeroed-out (we drop that coordinate).
 
 Okay. Say you want to project into a given subspace. Give me an
-orthonormal basis for that subspace. Note that while multiply by a
-matrix can be seen as a mapping from a linear combination of basis
-vectors to a linear combination of matrix columns, you can also see it
-as the projection of the vector onto each of the rows.
+orthonormal basis for that subspace. Note that while (1) multiplying
+by a matrix can be seen as a mapping from a linear combination of
+basis vectors to a linear combination of matrix columns, you can (2)
+also see it as the projection of the vector onto each of the rows.
 
 Therefore, we can write the basis vectors into matrix rows: let's call
-this `A\trans`. Then we know that once we've done this projection, we
-need to now map this vector of projection lengths to a linear
+this `A\trans`. Then we know that once we've (1) done this projection,
+we need to (2) now map this vector of projection lengths to the linear
 combination of those original vectors. Therefore, if we've written the
 basis vectors as columns of `A`, we can do this by multiplying
 `A\trans y` by `A`. Thus the matrix that does this entire thing is

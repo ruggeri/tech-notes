@@ -30,7 +30,7 @@ Already, we have some obvious properties of our inner product:
 Ideally, we would like it that `<v, e_i'>` always decomposes `v` into
 a linear combination of any `e_i'`. However, there is no way to make
 this work consistently. The reason is perhaps clear: `<v, e_i'>` has
-to depend on the *other* members of the new basis, but how much `e_i'`
+to depend on the *other* members of the new basis, and how much `e_i'`
 is in `v` can be different for different completions of the new basis!
 
 So we see we can't make every basis happy. But we can make *some*
@@ -38,7 +38,7 @@ bases happy. So what then is the natural way to extend this notion of
 decomposition?
 
 We can bring in geometry. I *declare* that the original basis `B`
-consists of unit length vectors, all at write angles. This is called
+consists of unit length vectors, all at right angles. This is called
 an *orthonormal* basis. Because I've chosen a Euclidean geometry, we
 can talk about the *length* (or *norm*) of any vector `v`. This is:
 

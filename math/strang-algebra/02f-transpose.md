@@ -18,7 +18,8 @@ We say a matrix is **symmetric** if it is equal to its own transpose.
 
 `RR\trans`
 
-For **permutation matrices**, the transpose is also the inverse.
+For **permutation matrices**, the transpose is also the inverse. (This
+is in part because premutation matrices are rotation matrices, albeit
+the rotation might have an imaginary component).
 
-**TODO**: They don't say a lot about the transpose as this time.
-**TODO**: But I feel like I definitely don't understand it.
+**TODO**: I have no idea what symmetry means.
