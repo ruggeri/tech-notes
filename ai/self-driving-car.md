@@ -110,3 +110,5 @@ python -m ipykernel install --user --name other-env --display-name "Python (othe
 ```
 
 The above demonstrates how to setup other kernels for use in Jupyter.
+
+* then they go through basic linear and logistic regression with GD.

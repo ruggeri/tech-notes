@@ -360,3 +360,13 @@ down from a stddev of 1.0 to 0.1. Then everything worked wonderfully.
 I let it run for a good long time, but it's hard to overfit with a
 dropout of 50% applied. My test accuracy was 70%, which was exactly in
 line with my validation accuracy.
+
+## RNN/LSTM
+
+* They just go over the basic idea of RNN and LSTM.
+* They show you how to do an RNN with LSTM in TensorFlow, using a
+  contrib package.
+* You can control exploding gradient by "clipping", which means you
+  just don't let it be bigger than a certain number.
+* Projects: Text generation, stock prediction.
+    * Also saw this in Keras.
