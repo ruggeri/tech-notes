@@ -198,6 +198,11 @@ equation*. Two examples:
   scaled appropriately.
 * Assuming the matrix is real, then imaginary eigenvalues come in
   pairs: they are complex conjugates.
+    * Proof: `Ax=\lambda x => A\conj x\conj = \lambda\conj x\conj`.
+    * Then: `Ax\conj = \lambda\conj x\conj`. We drop the conjugate on
+      `A` because A is real. This shows that an imaginary
+      eigenvector's conjugate is also an eigenvector, and its
+      eigenvalue is conjugate, too.
     * A matrix with odd dimension must have at least one real
       eigenvalue!
 
