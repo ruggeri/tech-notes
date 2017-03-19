@@ -383,4 +383,34 @@
       can use that to calculate the error.
         * In the limit, you might expect rejection error to go to zero.
 
+## Regression
+
+The model is that `E(Y|x)` is linear in `x`. The note that if the
+joint distribution is bivariate normal, then this assumption is true.
+
+But then they start discussing residual sum of squares, and they do
+the calculus to find those parameters that minimize this.
+
+Then they talk about in what world this is a good estimate. They say,
+assume the `x_i` are known and fixed by the experimenter. Assume the
+`Y_i` are measured, but that there is some error because of
+uncontrolled variables unknown to the experimenter.
+
+Now, at first they don't even assume that the errors are normal! Then,
+they show that in a restricted set of estimators, the line that
+minimizes RSS actually is the best linear unbiased estimator
+(BLUE). But I didn't follow that proof, and I don't know why I care
+about BLUE anyway. I believe this theorem is the Gauss-Markov theorem.
+
+Next, they introduce the *conditional normal model*, which is what I
+know. The errors are distributed normally. The other model considered
+is the *bivariate normal* model, where it is allowed that the
+predictors may have error, too.
+
+They first analyze the conditional normal model. They show that the
+maximum likelihood estimate is the least squares solution.
+
+**TODO**: The discussion of bivariate normal was just too much math
+  for me. And I didn't read their errors in variables stuff.
+
 Source: Casella-Berger
