@@ -102,3 +102,54 @@ But, if we don't assume the second derivative is constant, we're back
 in the same boat. We can try to make an assumption that the second
 derivative doesn't change "too fast", which corresponds to some other
 learning rate on the second derivative.
+
+## Momentum
+
+Momentum tries to deal with the ravine problem. The idea is this: in
+dimensions in which the learning rate is too low, you will pick up
+speed. In the dimensions in which the learning rate is too high, you
+dampen this effect of the overstepping. However, if the learning rate
+is much too high, you ought to be able to diverge still! However, that
+requires that each overstep be twice the prior overstep!
+
+If you undershoot, it's because the second derivative was not as steep
+as you thought. Therefore, you should perhaps assume the second
+derivative is less steep. That seems to me to suggest increasing the
+learning rate appropriately. Perhaps you will say: "look, the
+derivative changed by an observed amount in the prior step, so if we
+divide by the length of the step, that suggests an average second
+derivative." It may be too aggressive to set this learning rate using
+this estimated second derivative, but maybe you can smooth this with a
+decay constant?
+
+I'm thinking: what if you make a step which undershoots by a tiny
+amount? That is, your estimate of the second derivative seems good. If
+you've picked up a ton of momentum, wouldn't you want to start hitting
+the brakes?
+
+## Adagrad
+
+Adagrad adjusts the learning rate for a parameter to:
+
+    \theta_{i, t+1} = \theta_{i, t} + (\alpha / G_{i, t})*g_{i, t}
+
+With:
+
+    G_{i, t} = \sqrt(\eps + \Sum_{t'<t} g_{i, t'}**2)
+
+(The `\eps` is there to make sure this is never equal to zero).
+
+Why do this? It seems like what they want to do is increase the
+learning rate for features that are uncommon, versus for features that
+occur frequently. If a feature is infrequent, presumably it has a
+small gradient because it is zero?
+
+This seems very differnt from what momentum was trying to
+solve. Momentum was about your assumption of the change in curvature
+being wrong. If you care about correcting that, you should be
+computing what the curvature actually was, and using that for future
+calculations.
+
+For instance, the step size for Adagrad stays constant if the gradient
+stays constant. But for me that suggests that you should *increase*
+the step size! That's what momentum would do!
