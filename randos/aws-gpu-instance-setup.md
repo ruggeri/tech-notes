@@ -40,7 +40,7 @@ https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v5.1/prod_201
 They won’t let you download this directly to AWS, so you need to
 download from their website, then upload with scp.
 
-export LD_LIBRARY_PATH="/ebs/ubuntu/cuda"
+export LD_LIBRARY_PATH="/ebs/ubuntu/cuda/lib64"
 
 (Confusing name for a directory because this is actually a different
 library)
