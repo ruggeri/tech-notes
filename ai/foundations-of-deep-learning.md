@@ -368,5 +368,17 @@ line with my validation accuracy.
   contrib package.
 * You can control exploding gradient by "clipping", which means you
   just don't let it be bigger than a certain number.
+* I wrote the text generation project; they showed a stock prediction
+  project.
+* The LSTMCell API is pretty straightforward. You did need to use
+  LSTMStateTuple, and each cell you create needs to be in its own
+  scope. You also need to `scope.reuse_variables()` to reuse the
+  previous LSTM gate-weights.
+* API Notes
+    * MultiRNNCell wires up a number of layers.
+    * A higher-level approach is to use the `static_rnn` or
+      `dynamic_rnn` functions. I think `static_run` is if the examples
+      always have a fixed length; and `dynamic_rnn` is for when
+      different examples have different lengths?
 * Projects: Text generation, stock prediction.
-    * Also saw this in Keras.
+    * Stock prediction was in Keras, but I'm more focused on TF.
