@@ -382,3 +382,46 @@ line with my validation accuracy.
       different examples have different lengths?
 * Projects: Text generation, stock prediction.
     * Stock prediction was in Keras, but I'm more focused on TF.
+
+## Embedding
+
+* Skipgram vs CBOW.
+    * CBOW "smoothes" in the sense that all the context words are used
+      to predict the center word. A larger bag of words are treated as
+      an observation.
+    * Skip-gram you predict context words from center word. Each pair
+      of words (center word + one context word) is a potential example.
+* The model you use is a hidden layer with no activation function,
+  then fully connected and fed into a softmax layer.
+    * I suppose this is overall linear, but forces a dimensionality
+      reduction in the first layer.
+* The inputs are one-hot, and the outputs are probabilities. The
+  expected output is a one-hot.
+* Tricks:
+    * Subsampling. This has you throw away a proportion of words that
+      occur too frequently.
+    * Negative subsampling. In the second layer, you adjust the
+      weights that connect the embedding to the correct word. Then you
+      select ~5 negative words and adjust the weights connecting the
+      embedding to these words.
+    * This means you adjust a very small number of the weights for
+      each example. This is helpful because your embedding dimension
+      may be 300 and the number of words is maybe 10k. That would be
+      30MM parameters to tweak on every example...
+    * In the first layer, you would only change weights pertaining to
+      the input word anyway.
+* The TF website mentions that an alternative approach to *prediction
+  based methods* is to use *count based methods*. What this does is
+  basically convert each word into a vector of its co-occurrence
+  counts with each other word. Then you do SVD. This is called latent
+  semantic analysis.
+* The TF website mentions a little more about the idea of negative
+  subsampling. Basically, you are trying to learn to discriminate the
+  context word from "noise" words. In a sense, the model is not trying
+  to learn the probability distribution of the context words; it is
+  instead trying to learn to *discriminate*.
+    * They note that then you naturally do a Monte Carlo thing by
+      picking only a small subset of noise words to discriminate
+      against.
+    * In the limit this is the same as the generative model, but it is
+      much more scalable for the reason we noted above.
