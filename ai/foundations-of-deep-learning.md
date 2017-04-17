@@ -425,3 +425,99 @@ line with my validation accuracy.
       against.
     * In the limit this is the same as the generative model, but it is
       much more scalable for the reason we noted above.
+* Talks about t-SNE a little bit.
+    * This is a dimensionality reduction technique.
+    * Links to a Chris Olah post.
+    * Consider MNIST; you can project down to two coordinate axes. But
+      this won't do a good job of keeping close points close together.
+    * You can do better by projecting down to the principal component
+      axes.
+    * Another way is to do an *optimization based approach*. For
+      instance, let your cost be `Sum (distance_in_new_space -
+      distance_in_old_space)**2`. This is called *multidimensional
+      scaling* or MDS.
+    * We could try different cost functions. For instance, Sammon's
+      method divides this quadratic cost by the distance in the
+      original space. That strongly prefers putting close points
+      close, and cares less about the distance between far points.
+    * But that isn't very different than MDS in a high-dimensional
+      space becaue everything is far away from each-other in a
+      high-dimensional space.
+    * Another interesting idea. We do the quadratic penalty only for
+      nearest neighbors of a point. For any other point not a nearest
+      neighbor, we actually assess a penalty based on `1/distance`:
+      the proximity. This basiclly puts springs between the nearest
+      neighbors in the old space plus every point is a charged
+      particle that wants to push away the others.
+    * t-SNE in particular looks like it has an interesting
+      motivation. But I haven't had a chance to study it deeply at
+      this time.
+    * It would be fun to implement these!
+
+## Tensorboard
+
+* Not much too it. The main things are `tf.summary.scalar`,
+  `tf.summary.histogram`.
+* You also use a `tf.summary.FileWriter` to log the output.
+* `tf.summary.merge_all` gives you a single value you can run with a
+  session. When this is evaluated you hand it to the `FileWriter`.
+* You can look at these values overtime. But you can also look at the
+  graph structure. If you use named scopes it will organize the graph
+  nicely.
+* A common trick is to choose a log subfolder named with your
+  hyperparameters in the dirname. Tensorboard can be pointed at the root
+  `logs/` folder and will present all the models side-by-side.
+
+## Randoms
+
+* Sriraj demos a style transfer using VGG.
+* Sriraj demos an RNN to generate music based on Pat Metheney MIDI
+  files.
+* Talks about GloVe: global vectors. Sounds like it makes a
+  co-occurrence matrix and then does a low rank
+  factorization. Effectively like collaborative filtering.
+* Talks about sequence-to-sequence generation of headlines. Uses a BBC
+  dataset with text and headlines. He featurizes using GloVe, then
+  uses an RNN to try to generate the given headlines.
+    * But wait, the headline isn't equal to the corpus length, right?
+    * I didn't really understand this. I think this is a notebook
+      project later.
+    * Also, it looks like attention is a big part of this.
+
+## Weight Initialization
+
+* Of course you need to break symmetry, and you won't have any signal
+  backprop if you choose all zero weights.
+* He shows dramatically that a random uniform `0-1` is *way* worse
+  than `-1` to `+1`. Fascinating!
+    * After 2 epochs on MNIST, the -1 to +1 weights had 89% accuracy
+      vs 74%!
+    * They show that picking the scale of the weights is important:
+      plus or minus `0.1` can be much better than `1.0`!
+    * Using this smaller weight range, they increased accuracy over
+      two epochs from 90.5% to 97%.
+    * They give `1/sqrt(# of inputs)` as a general rule for the limit.
+* They claim that normal is better than uniform, though they don't
+  give any justification for that.
+    * They suggest truncating, presumably because extreme values means
+      some neurons get saturated.
+    * They mention this is more useful when you have large networks
+      because there are more likely to be extreme weights output.
+    * In the small MNIST example they provide, the benefit did not
+      materialize.
+* They link to the Xavier initialization paper, but also *batch
+  normalization*.
+    * The batch normalization paper says the typical way to handle
+      saturation and exploding/vanishing gradients in deep networks is
+      to use ReLU, careful initialization a la Xavier and Glorot, and
+      low learning rates.
+    * They were able to train an ImageNet classifier in 1/14th the
+      number of training steps and get the same accuracy.
+    * Of course, this allows you to simply train for longer!
+    * So batch normalization looks important. It seems to be that they
+      keep the inputs to each layer of mean zero and variance
+      one. They also decorelate the inputs.
+    * They add in two new parameters which allow you to change the
+      mean or variance; but those are learned, and if you don't change
+      them, you can be assured that they won't change from changes in
+      the output of the previous layer, I believe.
