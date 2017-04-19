@@ -521,3 +521,46 @@ line with my validation accuracy.
       mean or variance; but those are learned, and if you don't change
       them, you can be assured that they won't change from changes in
       the output of the previous layer, I believe.
+
+## Transfer Learning
+
+* They're going to take VGG and use it as a feature extractor.
+    * You strip off the last FC layer (which was just for softmax
+      purposes to the 1k ImageNet classes) and use this as your input.
+    * The idea is that VGG has already learned how to detect useful
+      features.
+    * These features are sometimes called *CNN codes*.
+    * You can use your own softmax for your task, or Karpathy suggests
+      maybe linear SVM.
+    * Karpathy mentions that sometimes you backprop into the last
+      couple layers of the VGG. That's because as you get later, the
+      features are more specific to the task of ImageNet. The earlier
+      layers are more generic. But you don't want to backprop all the
+      way, otherwise you'll get overfitting. There's a reason you're
+      trying to *transfer* the previous learning.
+* Again, I want to note that transfered embeddings like we're using
+  VGG for should *reduce* train accuracy.
+    * Now, if we port over knowledge, like how to extra useful visual
+      features, we may help ourselves get better generalization
+      performance.
+    * Even if we don't port over knowledge, by forcing the network to
+      do a dimensionality reduction, we may get it to generalize
+      better.
+    * However, I doubt that if we map one-hot vectors to embeddings,
+      but our embedding is only learned by the current task, I don't
+      think this should help. The reason I doubt this is because the
+      one-hot vectors have no concept of what it means to be "similar"
+      to each other, except insofar as they have similar output on the
+      task. But that doesn't help you generalize to unseen examples
+      (because you don't know their similarity to the task)
+    * So, for instance, putting an embedding matrix in front of the
+      LSTM for the sentiment analysis project, but not using word2vec
+      and instead just training it for the given task, seems hopeless!
+* TF has an Inception3 transfer learning tutorial. They talk about the
+  "bottleneck", which is the penultimate layer and the one that has
+  pulled out features for classification. They say: feed forward
+  through Inception3 to the bottleneck for each example. Save these
+  representations to disk. Now train as usual. Basically: don't feed
+  forward through the whole Inception3 each time; that's unnecessary,
+  since you won't be adjusting any weights in there. Just train on the
+  representation that Inception3 gives you.
