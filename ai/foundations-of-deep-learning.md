@@ -564,3 +564,22 @@ line with my validation accuracy.
   forward through the whole Inception3 each time; that's unnecessary,
   since you won't be adjusting any weights in there. Just train on the
   representation that Inception3 gives you.
+
+## Q-Learning
+
+* So there's a table where the rows are states and the columns are
+  actions. The entries are long-term expected rewards.
+* The idea presumably is to balance exploration and exploitation.
+* Also, I assume you need some way to backpropagate rewards.
+* Bellman Equation:
+
+    Q(s, a) = reward(s) + \gamma (max_{a'} Q(s', a'))
+
+* Presumably `s'` corresponds to the state you transition to.
+* Gamma determines how much to backprop the reward. Interesting. I'm
+  not sure why they don't set it to one?
+* They're going to learn by having all zeros in the table.
+* When they receive a reward, they potentially update all the previous
+  folks on their path if the reward changed the best play value.
+* Of course, the problem is that there are too many actions that you
+  could take.
