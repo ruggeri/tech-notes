@@ -876,7 +876,87 @@ state. But you do have a sensor which gives you *evidence*. You know
 The agent keeps track of a belief state which is a probability that it
 is in each of the states.
 
-**I paused here to review Ch15**
+The idea is this: the action in the optimal policy depends on your
+current belief state; it's not a function of the underlying true
+state, which is unknown. So you do whatever is best under the belief
+state, get some new evidence, which you use to update your belief
+state, and then repeat.
+
+Now, the problem is going to be this. You don't know what state you're
+in. You take an action. You don't know what you'll perceive, so you
+won't know what beliefs you'll have next. But, in a way, this POMDP is
+really an observable MDP if you focus on the *belief state* instead of
+the *physical state*. In that case, your action probablistically takes
+you to a new belief state; the action actually does modify the
+physical state, but more importantly it probablistically modifies the
+belief state.
+
+The point is this: the POMDP is a MDP process on belief states. But
+the problem is that this POMDP now is over a *continuous
+space*. That's because the belief space is continuous. Note also that
+the space has as many dimensions as there are physical states.
+
+**17.4.2: Value iteration for POMDP**
+
+Think about a *conditional* plan. A conditional plan says: "If I see
+this series of percepts, I take this next action". The optimal policy
+at a given belief state `b` is just a conditional plan. The policy
+just tells you exactly what to do as the percepts come in. Overall,
+the policy is a conditional plan for each belief state.
+
+When considering a conditional plan `p` for a belief state `b`, we
+want to know its expected utility. The best plan is exactly the
+conditional plan that maximizes the expected utility. The best policy
+is a mapping of belief states to best conditional plans.
+
+Let us denote the expected utility of a plan `p` in a *physical state*
+`s` as `U_p(s)`. We don't know how to calculate this at the moment,
+but if we *could*, then we would say `U_p(b) = \Sum_s b_s
+U_p(s)`. That is, we weight the expected utility of the plan in each
+physical state by the belief we are in that state.
+
+So now we can consider conditional plans in terms of physical states,
+from which we can calculate the utility of the plan for any belief
+state. That will let us pick the best conditional plan at each belief
+state.
+
+But how do we calculate `U_p(s)`? Well, we can look at all conditional
+plans of depth 1 (and assume termination). We can then evaluate every
+depth 1 plan on every physical state. We can then recurse. This gives
+us the utility of any depth `d` conditional plan for any initial
+physical state.
+
+From that, for any belief state `b`, we can calculate the best
+conditional plan by picking the plan where the weighted sum of `\Sum_s
+b_s U_p(s)` is maximized. A note: the utility of a fixed plan `p` is a
+linear function `b`, so the utility of the best plan is *piecewise
+linear* in `b`. That ought to let us write down the best policy as a
+mapping of belief regions to conditional plans.
+
+Now, this has extremely high complexity. Consider a plan of length
+`d`. At each time step, you take one of `|A|` actions, and then
+observe one of `|E|` percepts. So the complexity is
+`|A|**|E|**d`. This is doubly exponentional!
+
+Note that it is not necessary to consider all the plans. Here's the
+idea. Every plan consists of an action, followed by a continuation
+plan. The continuation plans are those plans calculated in the last
+recursion step. Many of those plans will be *strictly dominated* by
+other plans; we need not consider any continuation plan that was
+strictly dominated.
+
+In that case, we need only generate `|A| * n**|E|` plans at level
+`d+1`, where `|A|` is for the initial action, and then for each
+possible percept in `|E|`, we conditionally execute one of the `n`
+undominated plans at level `d`.
+
+This is still way too many plans. Also, I think evaluation of each
+plan still takes time `|S|*|E|`, because you have to consider the
+utility of the successor plan for each percept in each of the
+subsequent possible `|S|` states, weighting appropriately.
+
+The point is: this isn't even feasible for the 4x3 POMDP example world
+they give. So this is hopelessly fucked.
 
 ## Ch18: Learning From Examples
 

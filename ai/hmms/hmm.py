@@ -195,6 +195,7 @@ def entropy(probs):
 # TODOs:
 # 1. EM.
 # 2. Fixed lag smoothing.
+# 3. Viterbi.
 
 def main():
     # Build model; run model. Smooth estimates.
