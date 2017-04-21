@@ -177,6 +177,21 @@ def cross_entropy(true_hidden_states, hidden_state_estimates):
 
     return num_bits
 
+# This tries to calculate the marginal probability of the hidden
+# states after enough time for mixing.
+def stationary_hidden_state_probabilities(model):
+    probs = np.ones(model.num_hidden_states) / model.num_hidden_states
+    for _ in range(1000):
+        probs = model.transition_matrix.dot(probs)
+
+    return probs
+
+def entropy(probs):
+    e = 0.0
+    for prob in probs:
+        e += -np.log2(prob) * prob
+    return e
+
 # TODOs:
 # 1. EM.
 # 2. Fixed lag smoothing.
@@ -191,13 +206,17 @@ def main():
 
     # Evaluate model
     ce = cross_entropy(hidden_states, smoothed_hidden_state_estimates)
-    avg_ce = ce / NUM_TIME_STEPS
-    random_ce = np.log2(NUM_HIDDEN_STATES)
-    compression_ratio = avg_ce / random_ce
+    hmm_ce = ce / NUM_TIME_STEPS
+    mixed_ce = entropy(stationary_hidden_state_probabilities(model))
+    uniform_ce = np.log2(NUM_HIDDEN_STATES)
+    mixed_compression_ratio = hmm_ce / mixed_ce
+    uniform_compression_ratio = hmm_ce / uniform_ce
 
-    print(f"Bits per state: {avg_ce}")
-    print(f"Bits per state with no information: {random_ce}")
-    print(f"Compression ratio: {compression_ratio}")
+    print(f"Bits per state: {hmm_ce}")
+    print(f"Bits per state with mixed probs: {mixed_ce}")
+    print(f"Mixed compression ratio: {mixed_compression_ratio}")
+    print(f"Bits per state with uniform state probs: {uniform_ce}")
+    print(f"Uniform compression ratio: {uniform_compression_ratio}")
 
 if __name__ == "__main__":
     main()
