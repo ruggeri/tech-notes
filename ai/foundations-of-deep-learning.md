@@ -583,3 +583,9 @@ line with my validation accuracy.
   folks on their path if the reward changed the best play value.
 * Of course, the problem is that there are too many actions that you
   could take.
+* It appears like Q-Learning is pretty tempermental. The problem is
+  that the Q-function is being approximated by the neural network, and
+  errors in the Q-function approximation are fedback into the system
+  because of the recurrence relationship. That leads to potential
+  explosion of errors.
+    * Karpathy recommends another technique called *policy gradients*.

@@ -935,8 +935,11 @@ mapping of belief regions to conditional plans.
 
 Now, this has extremely high complexity. Consider a plan of length
 `d`. At each time step, you take one of `|A|` actions, and then
-observe one of `|E|` percepts. So the complexity is
-`|A|**|E|**d`. This is doubly exponentional!
+observe one of `|E|` percepts. Each plan that with action `A` is then
+defined by its set of continuation plans for each of `|E|`
+percepts. So we have `# of d-depth plans = |A| * (# of d-1 depth
+plans) ** |E|`. This complexity is `|A|**|E|**d`. This is doubly
+exponentional!
 
 Note that it is not necessary to consider all the plans. Here's the
 idea. Every plan consists of an action, followed by a continuation
@@ -957,6 +960,8 @@ subsequent possible `|S|` states, weighting appropriately.
 
 The point is: this isn't even feasible for the 4x3 POMDP example world
 they give. So this is hopelessly fucked.
+
+**Read up to (not including) ch 17.4.3: Online agents for POMDPs.**
 
 ## Ch18: Learning From Examples
 
@@ -1044,51 +1049,225 @@ estimation method will converge to the correct answer, it may do so
 slowly because it needs to consider/reject theories which shouldn't
 even have been allowable in the first place.
 
-An *adaptive dynamic programming* approach just tries to estimate the
-transition probabilities. Then it can solve using regular dynamic
-programming for the Bellman equation. They talk about how you can do a
-MLE by computing `#(moved to state s' from s via a) / #(took action a
-at state s)`.
+An *adaptive dynamic programming* tries to model the transition
+probabilities. If it does this, then it can use regular dynamic
+programming to solve the value of the policy. This was the policy
+evaluation technique from MDPs.
 
-I misstated passive learning. You aren't locked into a single
-policy. It's the data that's fixed (you can't play the game while
-learning). But once you estimate the transition probabilities, you can
-try to pick the best policy.
+They mention that using the MLE of the transition probabilities
+(`#(moved to staet s' from s via a) / #(took action a at state s)` is
+probably too extreme. Moreover, you're going to compute a policy
+valuation as if these transition probabilities were *exactly
+accurate*.
 
-They suggest another idea as opposed to picking the best policy in
-light of the MLE transition probabilities. This is *Bayesian
-reinforcement learning*. You view some evidence, and you have
-probabilities for various hypotheses about the transition probability
-matrix. Now you pick the best policy which maximizes the expected
-utility under this collection of theories.
+For that reason, they suggest computing a posterior on the transition
+model. Now, when you're done learning the transition model, it's
+natural now to try to compute a new policy. Now, given a transition
+hypothesis `h` and a policy `\pi`, you can compute the policy
+evaluation `u_h^\pi` which is the expected utility of executing `\pi`
+if the transition model is `h`. So, to choose the best *new* policy,
+you can average `u_h^\pi` over all hypotheses, weighting by the
+posterior probability of `h`. Last, you pick `\pi*` to maximize this.
+
+A note: the point of passive reinforcement learning is that (1) you
+don't know the transition model, (2) you collect some data, (3) you
+want to either (a) evaluate a policy or (b) come up with a best
+policy. Note that the task isn't really "online."
 
 Another approach is *robust control theory*. Here you keep a subset of
 the hypothesis space of theories with a baseline likelihood (you throw
 away the rest). Then you choose the policy that maximizes the
 performance under the most adversarial hypothesis.
 
-A crude version of ADP is iterate over the examples. At each state
-`s`, consider a successor state `s'`. Consider the difference between
-`U(s)` and `U(s')` (the `U` are your current estimates of state
-utility; they can be initialized randomly). Add `\gamma
-difference_in_U` to `U(s)` to update this; the `\gamma` is a learning
-rate. To get this to converge, you need take the average of `U(s)`
-which involves keeping counts of how many times you've been at `s`. Or
-you can simply decrease `\gamma` over time.
+**Temporal Difference Learning**
+
+Here's an approach which is closer to direct utility estimation, but
+tries to make it fit the Bellman equation. At each state `s`, consider
+a successor state `s'`. Consider the difference between `U(s)` and
+`U(s')` (the `U` are your current estimates of state utility; they can
+be initialized randomly). You want to make these agree.
+
+So let's update `U(s)`. We want to increase it by `(R(s) + \gamma
+U(s')) - U(s)`. That would update `U(s)` to `R(s) + U(s')`. Instead,
+let's use a learning rate `\alpha`.
 
 This is called *temporal-difference learning* (stupid name). The
 "temporal" is that you are comparing the difference in utilities of
 two states at different times. This approach doesn't try to learn the
-transition probabilities. Basically, it does ADP, but one example at a
-time (rather than considering all possible actions).
+transition probabilities like ADP. Instead, you try to learn the
+utilities directly again.
+
+To converge, this needs a few technical requirements. First, note that
+the update of `U(s)` is based on a single successor `U(s')`, instead
+of the maximum of the successors. Now, we want `U(s)` to converge to
+`R(s) + max U(s')`, but the sum of a bunch of updates does not
+converge. For that reason you have should take the *average* of the
+updates. One way to do this is to make `\alpha` decrease as more
+updates are made to `U(s)`.
+
+Note again that the TD algorithm doesn't try to compute any transition
+probabilities. It assumes these are "baked in" to information about
+the utilities.
+
+You can see TD as a simple form of ADP. ADP, by doing the policy
+evaluation, tries to make a utility of a state `s` agree with the
+weighted utilities of its successors `s'`, using its estimate of the
+transition probabilities. TD does a similar thing, except it only uses
+one observed successor for each example.
+
+Note that ADP updates are "global" while TD updates are "local".
+
+**Passive Learning is Online**
+
+They aren't clear about this (maybe *I'm* not clear about this). A
+technique like ADP is supposed to watch as new transitions are
+observed. It will update its transition model, and recompute
+utilities. It could theoertically update its policy.
+
+Most updates will effect only a few transition probabilities. So
+instead of doing a global update, maybe just update the utilities for
+states where likely successors have undergone a large utility change.
 
 On the other hand, you can make the refinement finer by avearging over
 several examples. They also note that learning the entire transition
 matrix can be unfeasible. So they recommend picking just a few of the
-most relevant examples. This is called *prioritized sweeping*.
+most relevant examples. This is called *prioritized sweeping*. This is
+important because ADP is very costly for large state spaces.
 
 They talk about "adjustments" made by ADP. I assume they are talking
 about the trouble with cycles, since otherwise the dynamic programming
 solution is exact and needs to evaluate each vertex once?
 
-**Only read to Active Reinforcement Learning**
+**Active ADP**
+
+Here again we will try to learn the transition probabilities. As we
+learn these, we will update our `U`. With passive ADP, we had a fixed
+policy, so solving `U` was simple given an estimate of `P(s' | s,
+a)`. Now, however, we have a choice of utility; we want the utility
+under the best policy. So that means we should do either value or
+policy *iteration* to update `U`. Okay. Next, each turn, we pick the
+action which will give us the best expected utility.
+
+Now, if the agent is truly greedy like this, it won't explore and thus
+often ends up in a bad policy. This is exploration vs
+exploitation. Now, a reasonable scheme is *greey in the limit of
+infinite exploration*; it should explore less and less and exploit
+more and more. One technique is an *epsilon-greedy* agent, which
+explores randomly `1/\epsilon` percent of the moves.
+
+That can converge quite slowly. Another approach is to put an
+optimistic prior on states that haven't been explored often. They
+suggest like so:
+
+    U^+(s) = R(s) + \gamma max_a f(\Sum_s' P(s'|s, a)U^+(s'), N(s, a))
+
+This `f(utility, number_of_times_explored)` function is the
+*exploration function*. A simple choice is to pick a `R^+` which is a
+super high reward, and then set `f(u, n) = R^+` if `n < N`, some fixed
+number of times to explore a state.
+
+**Active TD Learning**
+
+Recall that TD learning tried to update a utility function based on an
+observed reward and the future utility from that state. This worked
+for a *fixed policy*. Recall that we didn't need a model of the
+transitions to do TD learning.
+
+Now, to choose a next action, the active TD agent *does* need a
+transition model. That's because it needs to look a step ahead and
+decide what to do. That wasn't needed when TD was just used to
+evaluate a fixed policy.
+
+On the other hand, you still don't need the transition model when
+updating the utilities.
+
+**Q Learning**
+
+An "alternative TD method" is called *Q-learning*. Here, instead of
+trying to learn the `U(s)` function, we try to learn `Q(s, a) =
+expected utility of doing a in state s`. Of course, we want `U(s) =
+max_a Q(s, a)`.
+
+This looks like just another way to write `U`, but note that the `Q`
+function lets us avoid trying to estimate a transition model at
+all. Action selection just picks `argmax_a Q(s, a)`. For learning,
+because we do the TD thing:
+
+    Q(s, a) <- Q(s, a) + \alpha (R(s) + \gamma max_a' Q(s', a') - Q(s, a))
+
+We do this update when we chose action `a` and it leads to state `s'`.
+
+Q learning is called *model free* because we can do it without any
+model of the transition probabilities.
+
+There is a small variant called *state-action-reward-state-action* or
+*SARSA*. This has the following update equation:
+
+    Q(s, a) <- Q(s, a) + \alpha (R(s) + \gamma (Q(s', a') - Q(s, a)))
+
+Here, we don't update `Q(s, a)` until we've chosen action `a'` at
+state `s'`. Now, if we're choosing the best action always, then there
+is no difference. However, if we don't have full control over the
+actions we choose, then this update may be more realistic.
+
+For this reason, we call SARSA *on-policy*, because the updates are
+based on what the agent actually goes on to do. Q-learning is
+*off-policy* because it is interested in the ideal, not what the
+policy will actually do. Q-learning would be preferable to SARSA when
+we're exploring, because we don't want to penalize our Q scores when
+taking suboptimal exploratory action.
+
+**Active ADP and Q-Learning**
+
+What is better, ADP or Q-Learning? Is model free better or worse? They
+suggest that model-based approaches have had more success. They
+suggest this is especially useful in more complicated games.
+
+BTW, these slides were helpful:
+
+https://courses.cs.washington.edu/courses/cse573/12au/slides/08-rl.pdf
+
+**Generalization in Reinforcement Learning**
+
+They talk about utility function and Q function approximation. For
+large spaces (or infinite ones!) you can't represent these as simply a
+matrix. Instead, you map down your state space into a low dimensional
+space. This makes things much more tractable. More, it's not
+reaosnable to visit *every state*, which is what you have to do to
+learn a state's utility in the tabular format.
+
+In the low dimensional space, you can generalize from observed states
+to unobserved states.
+
+The simplest example is for direct utility estimation. Consider a
+linear model with least squares error. Then use stochastic gradient
+descent to update the parameters as you go.
+
+Let's consider this for Q-values:
+
+    \theta_i <- theta_i + \alpha * (
+      Q(s, a) - (R(s) + \gamma max_a' Q(s', a')
+    ) * (d Q(s, a)/d \theta_i)
+
+They note that with non-linear function approximators (like neural
+networks), this update rule can arbitrarily diverge from the best
+approximation of the true `Q` function. Maybe that's why my Pong AI
+sucks, for instance.
+
+**Policy Search**
+
+The idea is to keep edit a policy to make better decisions. We'll
+*parameterize* the policy by writing it in terms of `Q_\theta`
+functions. For instance, we can use a neural network.
+
+However, we're not going to do Q-learning. We won't learn our
+`Q_\theta` to try to approximate the true `Q`. We just want to choose
+the `\theta` that leads to good *policy performance*.
+
+Now, if we want to use the derivative of `\pi` wrt `\theta`, we have a
+problem, since `argmax_a Q(s, a)` is discontinuous in `\theta`. For
+that reason, we're going to find a *stochastic policy*. The policy
+will give us an array of probabilities under which to take one of the
+actions.
+
+**TODO**: Still reviewing policy search...
