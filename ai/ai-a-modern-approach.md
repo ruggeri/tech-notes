@@ -1256,18 +1256,141 @@ sucks, for instance.
 
 **Policy Search**
 
-The idea is to keep edit a policy to make better decisions. We'll
-*parameterize* the policy by writing it in terms of `Q_\theta`
-functions. For instance, we can use a neural network.
+The idea is to edit a policy to make better decisions. We'll
+*parameterize* the policy by writing it in terms of `\theta`
+functions. We can use gradient ascent to improve the `\theta`. Because
+the policy decisions are not typically differentiable, a trick is to
+make the outputs of a policy *stochastic*. The policy generates
+probabilities with which we perform the actions.
 
-However, we're not going to do Q-learning. We won't learn our
-`Q_\theta` to try to approximate the true `Q`. We just want to choose
-the `\theta` that leads to good *policy performance*.
+They give an example of a policy which is an argmax of `Q_\theta(s,
+a)`. There's a big difference from Q learning though. Whereas in Q
+learning we tried to learn Q so that it converged to the optimal Q
+value, all we care about here is that changes to Q improve the policy
+outputs.
 
-Now, if we want to use the derivative of `\pi` wrt `\theta`, we have a
-problem, since `argmax_a Q(s, a)` is discontinuous in `\theta`. For
-that reason, we're going to find a *stochastic policy*. The policy
-will give us an array of probabilities under which to take one of the
-actions.
+They give another example of learning a `U` utility function which is
+used by the policy with a depth-10 lookahead search. Again, `U` that
+performs well doesn't have to be a very accurate `U`.
 
-**TODO**: Still reviewing policy search...
+Note: I think in the Q example they gave, you wouldn't even use the
+Bellman equations.
+
+How do we guide optimization? Let `\rho(\theta)` be the *policy
+value*: the expected utility of the policy from a randomized start
+position. If a differentiable closed form existed, then we could do
+gradient ascent. Another approach is hill climbing. Here we pick a
+small delta and see if it improves the policy. If the policy and the
+environment are deterministic, this should be generally easy to try.
+
+The problem is that we don't know `\rho(\theta)` most
+likely. Otherwise everything would be so simple.
+
+**Policy Search: Want a baseline**
+
+We can play the game to generate examples and observe the rewards
+collected. For a given example sequence, for each action `a_i` we took
+in state `s_i` we want to change `\theta` to increase the probability
+of `a_i` in proportion with how much reward was received subsequent to
+`a_i`.
+
+This isn't quite right, though. This says any action on a sequence
+which led to a reward is a "good" action. But the real good action may
+have been followed by many obvious or insignificant actions. What we
+really want to know is how much reward we would have received if we
+had taken the *other* action. Then we could update based on the
+*difference*. Insignificant actions would let us change action without
+any penalty, whereas significant ones would have a large difference.
+
+The problem, of course, is that we don't know what would have happened
+if we had played differently. We could try to simulate taking the
+other action. We could do this, but even if our environment is
+deterministic, our policy is stochastic. Therefore, we would need to
+do many trials to understand the value of the other option.
+
+**REINFORCE**
+
+Note that since the policy is stochastic, it doesn't particularly
+matter if the environment is too. Either way, we can't tell the value
+of making an action.
+
+REINFORCE is a (somewhat obvious?) approach to estimating the gradient
+at a position `s` if we do simulation sampling. Basically, sample from
+`s` results from performing alternative actions. Then the gradient at
+`s` wrt `\theta` is:
+
+    change in probability of action i * average reward to go selecting action i
+
+This technique is called REINFORCE.
+
+So REINFORCE works by observing the reward to go under different
+actions. This is presumably much better than hill climbing by trying
+out sample changes to `\theta`, because the dimension of the number of
+actions is hopefully much smaller. But still we may have very noisy
+estimates of the rewards of future states.
+
+Note, the reason this works is that the average reward to go selecting
+an action `i` will converge to the expectation under the policy of
+taking action `i`. But of course it will be noisy. But, in the long
+run this ought to converge.
+
+The way REINFORCE works (sometimes called Monte Carlo Policy Gradient
+Ascent) is to not run simulations, but to just use the observed
+sequences. That is: we make the update to `\theta` so as to encourage
+(or discourage) the probability of action `a` taken in state `s`,
+without considering the other actions or possibilities. We don't try
+to estimate the value of the other actions, even in a noisey way.
+
+The idea is that in the limit of observations, this should even
+out. It's just like stochastic gradient descent: updating based on an
+example may cause you to make some bad adjustments to weights. But
+with more data, this should even out.
+
+(the RL course by David Silver was helpful here).
+
+**Actor-Critic**
+
+Variance is the problem with REINFORCE. To reduce this, you could
+really use a better approximator of the value of an state or a state,
+action pair.
+
+So you can simultaneously learn an approximation of the value
+function. The "critic" tries to learn a `Q(s, a)` function
+(parameterized by `w`, which is used by the actor when considering an
+update to `\theta`.
+
+So now you feed observations to the critic, it learns new valuations,
+and thus your policy gradient should be:
+
+    change in probability of (s, a) times critic's value of (s, a)
+
+So each step, you first update the policy, then update the critic.
+
+Now, when we were doing REINFORCE, our updates were based on the end
+reward and the sequence of actions. Now our observations change `Q`
+which changes the valuation of every `(s, a)`. But it still makes
+sense to update the policy for the `(s, a)` on the sequeqnce, because
+those `Q` values are probably the most directly changed.
+
+**Advantage**
+
+Now, when we update `\pi` based on `Q(s, a)`, we're improving actions
+that led to a good result even if they weren't important to that
+result. But we said that's okay in the long run.
+
+But the long run would come quicker if instead we used *advantage*,
+which is the difference `Q(s, a) - V(s)`. So if we had a network that
+learned `V` too, that could help!
+
+Note that you don't need to use advantage to converge to the correct
+solution; it just may greatly increase the convergence *rate*.
+
+**Other**
+
+They mention that Deep Mind, when updating a Q network, used a second
+copy of the Q network where values didn't change. They kept updating
+the network to bring it in line with the static network, only
+ocassionally replacing the static network with the new Q network. They
+found this improved stability.
+
+(The Emergent Future blog posts on RL were also helpful).

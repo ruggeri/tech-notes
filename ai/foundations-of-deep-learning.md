@@ -589,3 +589,5 @@ line with my validation accuracy.
   because of the recurrence relationship. That leads to potential
   explosion of errors.
     * Karpathy recommends another technique called *policy gradients*.
+* Sriraj shows a multi-armed bandit solver using policy gradients. But
+  I didn't really follow what he was doing.
