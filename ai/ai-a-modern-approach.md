@@ -456,6 +456,26 @@
 * Solve problems using local search. Maybe sudoku would work?
 * Solve tree problems. Try to search for trees.
 
+## Ch7: Logical Agents
+
+* They have a knowledge base that represents what they know in
+  sentences. Interactions with the environment are: `tell` to inform
+  it of a percept, and `ask` to ask it what to do.
+* It will use rules of inference and logic to figure out what should
+  be done.
+* Sentences have a *syntax*, which specifies what sentences are well
+  formed. They also have a *semantics*, which defines the truth of the
+  sentence with respect to a possible world.
+    * Possible worlds are called *models*. A model *for* a statement
+      is a possible world where that statement is true.
+* A statement `a` *entails* a statement `b` if all models of `b` are
+  also models of `a`.
+* In logics where the space of models is finite, it is possible to see
+  whether `a` entails `b` by enumerating the models.
+* A prover is a program that decides whether a statement is true. It
+  is *sound* if it never says a false statement is true. It is
+  *complete* if it always says a true statement is true.
+
 ## Ch13: Quantifying Uncertainty
 
 * They note that agents keep track of belief states as they interact
