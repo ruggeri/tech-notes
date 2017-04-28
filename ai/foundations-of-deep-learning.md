@@ -646,3 +646,13 @@ line with my validation accuracy.
   Learning with NN paper highlights this as one of their most
   important contributions. They say "it introduces short-term
   dependencies", which I don't think I understand.
+* I think a main idea of sequence-to-sequence is that unlike an RNN,
+  it doesn't need to output a token at a time (simultaneous
+  translation). The decoder RNN makes sense as a way of building out a
+  sequence of output. This is different than, for instance, running an
+  RNN to read a sentence, and then make a single binary decision of
+  whether the sentence is positive or negative.
+* I think a perfect example is translation, where you read the whole
+  sentence, you've built up an understanding of what it means, and
+  then you start generating output in the target language
+  word-by-word.
