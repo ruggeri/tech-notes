@@ -411,3 +411,195 @@ that it is now hopeless to show that `\tau` is an implication. That's
 why this is a *semidecision procedure*.
 
 ## Ch2: First-Order Logic
+
+They note that propositional logic is not expressive enough to allow
+many deductions that we feel are valid. Let us say we can write our
+hypotheses as propositional statements `\Sigma` and our possible
+conclusion as `\tau`. If it is true that `\Sigma` implies `\tau`, then
+we feel that the conclusion is a valid deduction from the hypotheses.
+
+However, sometimes we cannot make this deduction in the formalism of
+propositional logic, even though it appears valid to us. That is: the
+formalism of propositional logic is limiting us. Therefore, we
+introduce *first-order logic*. A first-order language consists of:
+
+* Parentheses and propositional connective symbols (not and implies
+  are all we need to define the others).
+* A countable number of variables `v_i`.
+* Equality symbol (they say it is *optional*).
+* Quantifier symbol (means "for all").
+* Predicate symbols: `n`-place predicates. These are like `Hv`. What
+  predicate symbols are available depends on the specific first-order
+  logic we are talking about.
+* Functions symbols.
+* Constants (possibly empty). Sometimes these are considered
+  "zero-place" function symbols.
+
+Here are some examples of first-order langauges:
+
+1. Pure predicate language
+    * No equality symbol; for each `n`, a countable number of n-place
+      predicate symbols; a countable number of constants; no functions.
+2. Language of Set Theory
+    * Equality
+    * One predicate symbol: `\element`.
+    * No functions, or maybe just `\emptyset`.
+3. Elementary Number Theory
+    * Equality
+    * One predicate: `<`.
+    * One constant: `0`.
+    * Functions: `S` for successor, `+`, `*`, and `E` (for
+      exponentiation).
+
+Since it is generally considered that all mathematics can be written
+in terms of set theory (I assume there is no "proving" this), it is
+significant that we have a formal language for statements in set
+theory.
+
+They now define the syntax. First, *terms* are constants, symbols, and
+functions applied to constants and symbols. For instance, in number
+theory, `SS0` is a term. An *atomic formula* is a predicate followed
+by a number of terms: e.g., `= v_1 v_2`. Last, the wffs are atomic
+formulas closed under the following operations: negation (`\not
+\alpha`), implication (`\alpha -> \beta`), and quantification
+(`\forall v_i \alpha`).
+
+Note, `\not v_1` is not a wff because `v_1` is a term, not an atomic
+formula. Though it feels like it should not be a wff because `v_1` is
+free. They give an appropriate definnition of *free variable*.
+
+Now, they call a wff without free variables a *sentence*. We're very
+primarily intersted in sentences rather than other wffs.
+
+## Ch2.2: Truth and Models
+
+They introduce the concept of a *structure*, which tells us how to
+interpret a first-order formula. It defines:
+
+1. The set over which `\forall` quantifies; this is the *universe* or
+   *domain* of `A`.
+2. For each `n`-place predicate, the structure specifies an `n`-ary
+   relation on the domain.
+3. For each constant the structure specifies a member of the domain.
+4. Likewise, each function symbol is associated to an `n`-ary function
+   on the domain to the domain. (Note, we are not allow *partial*
+   functions; the functions have domain over the entire set).
+
+So structures tell us how to interpret statements of a
+language. Statements in the language are true or false depending on,
+whether interpreted in the structure, they are true or false.
+
+For instance, you can use the notation of set theory, and then
+interpret is as number theory. In that case, statements true when
+interpreted in the structure of set theory may not be true when
+interpreted in the structure of number theory.
+
+Let us begin to try to formalize this. Consider a wff. Let `s` be an
+assignment of all variables to elements of the domain. Then we can
+extend `s` to terms, by replacing variables with their assigned
+values, and constants with their corresponding value, and applying
+whatever functions are involved.
+
+Likewise, for atomic formulas, we say that a structure `A` satisfies
+`= t_1 t_2` with respect to an assignment `s` if `s(t_1) =
+s(t_2)`. Likewise for predicates: `P t_1 t_2 t_3` is satisfied by
+structure `A` wrt assignment `s` if `(s(t_1), s(t_2), s(t_3))` is a
+member of the predicate `P` defined on the domain of `A`. Likewise, we
+can extend to negations, implications, and
+quantification. Quantification is most interesting. `\forall v_1
+\alpha` is satisfied by `A` wrt assignment `s` if `\alpha` is
+satisfied wrt `s'` for every `s'` which replaces the assignment of
+`v_1` with an element of the domain.
+
+Of course, you don't really need to define all variables with `s`,
+only the free variables of the wff. In particular, for a sentence, we
+may drop the assignment `s` altogether: either `A` satisfies `\sigma`
+for every assignment, or for none. In the first case, we say `\sigma`
+is *true* in `A` or that `A` is a *model* of `\sigma`. We can likewise
+say that `A` is a model of a set of sentences `\Sigma` if it is a
+model of each `\sigma \in \Sigma`.
+
+So structures tell us how to interpret first-order logic wffs. We say
+that the structure is a model for the sentences whose interpretation
+in the structure is true.
+
+An example of a sentence not true in the structure of rationals but
+true in the structure of reals. `\exists y (= (* y y) (+ 1 1))`.
+
+Now we define *logical implication*. We say that `\Sigma` logically
+implies `\tau` if for every structure of the language, and for every
+assignment `s`, such that the structure satisfies all wffs of `\Sigma`
+with `s`, then the structure also satisfies `\tau` with `s`. This is
+analogous to tautological implication.
+
+A *valid formula* is the analogoue to a tautology, it is a logical
+implication of the empty set.
+
+They list some examples of logical implication. For instance, `\forall
+v_1 Qv_1` logically implies `Q v_2`. `\not \not \sigma` is a valid
+formula. We prove this by using the "law of double negation". But
+isn't that what we are trying to prove?
+
+Meta point. We are proving the law of double negation in the formal
+language we are talking about; the formal language is sometimes called
+the "object language." We may use any valid reasoning of the
+"meta-language" (e.g., English) to do so.
+
+They note that logical implication is much like tautological
+implication. But tautological implication was ammenable to a simple
+effective procedure to decide tautologies. But to determine logical
+implication, you must consider all structures, which are infinite in
+number. We will see that the set of valid sentences is not
+decidable. (I think this is more like a sneak-peek type note).
+
+They mention the notion of *definability*. A set is definable in a
+structure if there is a wff `\phi` with a single free variable such
+that an assignment of the free variable satifies `\phi` iff that value
+is in the set. For instance, in the structure of real numbers with
+multiplication, but not comparison, we can define numbers greater than
+or equal to zero by a wff asserting the existence of a square
+root. This notion can of course be extended to relations.
+
+Note that not all sets/relations can be definable. For there are an
+uncountable number of sets/relations, but only a countable number of
+wffs.
+
+Again a sneak peek: they will show that all decidable relations in `N`
+(the set of numbers) must be definable in `N` (the structure for the
+first order logic).
+
+Now, when we study an area of mathematics, we first use an appropriate
+language. Then we throw down some axioms. Now, the study of the field
+is to identify what the logical implications are of any model for the
+axioms.
+
+Now, they define `Mod \Sigma` be the "class" of all models of
+`\Sigma`. This is apparently too large to be a "set", but they don't
+go into that particularly. A class of structures is an *elementary
+class* if it is the class of models for some sentence `\sigma`. An
+*elementary class in the wider sense* is a class of models for a set
+`\Sigma`. ("Elementary" is apparently used as a synonym for
+"first-order").
+
+Let us give an example. Consider a first-order language with just `=`,
+`\forall`, and a binary relation `E`. Some structures for this
+language are called *graphs*: the elements of the domain are called
+*vertices* and `E` is called the *edge relation*. Caveat: the edge
+relation must be symmetric and irreflexive! This is summarized by:
+
+    \forall x (\not xEx) \and (\forall y xEy -> yEx)
+
+So the class of graphs is an *elementary class*. It turns out that
+finite graphs are *not* an elementary class, not even in the "wider
+sense." They will show this later.
+
+What do these words mean? When we study a field, we pick a language,
+and then we restrict ourselves to structures that are models for some
+axioms.
+
+Note: a class of models for a finite set of sentences is a simple
+elementary class: just take the conjunction of the sentences. We only
+need "the wider sense" if there are an infinitude of sentence to
+model.
+
+**Read up to homomorphisms**
