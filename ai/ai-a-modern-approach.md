@@ -475,6 +475,97 @@
 * A prover is a program that decides whether a statement is true. It
   is *sound* if it never says a false statement is true. It is
   *complete* if it always says a true statement is true.
+* They define propositional logic. Models are truth assignments.
+* They define a simple prover when there are finitely many
+  propositional variables is to enumerate all possible assignments and
+  check if (1) the hypotheses are satisfied and (2) the conclusion is
+  not satisfied. If that never happens, then the hypotheses
+  tautologically imply the conclusion.
+* Of course, this can be very slow; the number of assignments to
+  enumerate grows exponentionally in the number of propositional
+  variables.
+    * Propositional entailment is co-NP complete: that means that a
+      negative proof can be quickly checked, but we don't expect that
+      we can actually decide this language in polytime.
+    * This approach is typically called *model checking*; we use
+      *theorem proving* to mean more sophisticated methods.
+* They give some proving rules:
+    * Modus ponens: `a -> b, a` lets you infer `b`.
+    * And elimination `a and b` lets you infer `a` and `b`.
+* So a prover has a state: it starts out with the knowledge base. It
+  can apply rules of inference to expand its set of statements; these
+  are the actions. The goal is to get to a state which includes the
+  statement we are trying to prove.
+* A proof can be much simpler than model checking, since it can ignore
+  many irrelevant parts of the problem. But then you have to know how
+  to *find* the proof...
+* They give a complete prover:
+    * You can turn every sentence into conjunctive normal form.
+    * Next, you do inference by *resolution*. Resolution is basically:
+      `\not p \or q, p` resolves to `q`.
+    * So to show the knowledge base implies `\alpha`, put the
+      knowledge base in CNF with `\not \alpha`. Then do resolution
+      repeatedly.
+    * Either this eventually ends, in which case `\alpha` is not
+      implied. Or you end up with an empty clause, showing that there
+      was a contradiction.
+    * This is called a refutation theorem prover.
+* Basically, what you do is this. You do a BFS, starting with a set of
+  clauses of the CNF `KB \and \not \alpha`. You expand the set by
+  resolution. Either you discover the empty clause, or you max out the
+  BFS and thus fail to prove `\alpha`.
+* Effectively, you're trying to do a proof by contradiction.
+* A *definite clause* is a disjunction of literals where exactly one
+  is true. a *Horn clause* is a disjunction where at most one is true.
+    * Horn clauses are closed under resolution.
+* A *goal clause* has no positive literals; you want this because it
+  establishes the refutation of `KB \and \not \alpha`.
+* It is desirable to keep a KB of just definite clauses.
+    * First, a defininte clause `\alpha \or \beta \or \gamma` can be
+      written as `\not\alpha \and \not\beta \implies \gamma`. This is
+      easy to understand.
+    * The other kind of definite clause is a *fact*, which is just an
+      asertion that something is true.
+    * We can use algorithms called forward chaining and backward
+      chaining, which produce natural inference steps that humans can
+      follow.
+    * Deciding entailment with Horn clauses can be done in time linear
+      in the size of the KB.
+* The forward chaining algorithm works like this:
+    * You have a KB of definite clauses. You want to prove `q`, a
+      single propositional symbol. For any definite clause where the
+      hypotheses are satisfied by your known facts then add the
+      conclusion in. Continue.
+    * Either you eventually add `q` or you stop.
+* You can implement this in linear time.
+    * For each definite clause, keep a count of hypotheses you need to
+      show.
+    * Start a queue of propositional symbols known to be true.
+    * Keep a hash of symbols you have processed before.
+    * Iterate through the symbols. For each clause that requires that
+      symbol, decrement the count. (You keep an index and can do this
+      in constant time).
+    * If the count hits zero for a clause, then add its conclusion.
+    * Otherwise mark the symbol as processed so you don't get in loops.
+    * If you ever see `q`, the symbol you want to prove, then you are
+      done!
+* This will let us deduce all entailed propositions `q`. The process
+  is sound and complete with respect to atomic sentences.
+* Backward chaining works the opposite way. You start with `q`. Then
+  you see who implies `q`. Then you check whether these are implied,
+  et cetera, et cetera. This can be done in linear time too. This
+  reasoning is "goal directed."
+    * Backward chaining is very often much more efficient because it
+      only considers relevant facts.
+    * Meh. I feel like for every example where forward chaining is
+      worse than backward chaining, I could give another example the
+      other way.
+    * The reason why backward chaining is typically more efficient
+      must have something to do with what kind of KBs are typical in
+      the world. That is: it's a little more subtle than presented
+      here...
+
+**Up to 7.6: Effective Propositional Model Checking**
 
 ## Ch13: Quantifying Uncertainty
 
