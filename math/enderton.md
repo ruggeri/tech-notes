@@ -349,3 +349,65 @@ assignment defined by `A`.
 
 But then wait a second. This truth assignment satisfies `\Sigma` but
 not `\tau`, which contradicts our original assumption! It is proven!
+
+**Effectiveness and Computability**
+
+They introduce an informal notion of *effective procedure*. It roughly
+means exact, finite length instructions that can be executed by a
+simple machine. The instructions should terminate after a finite
+period of time (though unbounded) and return yes or no.
+
+They want to know: is there an effective procedure to decide if
+`\Sigma \implies \tau`.
+
+They define *decidable*. A language `\Sigma` is decidable if there is
+an effective procedure to determine whether a given `\tau` is in
+`\Sigma`. The language of well-formed formulas is decidable.
+
+Take a finite set `\Sigma`. There is an effective procedure to decide
+whether `\tau` is a tautological consequence of `\Sigma`: do the
+truth-table thing. Likewise, the set of tautological consequences of
+`\Sigma` is decidable. And specifically, the set of tautologies is
+decidable.
+
+Now, we know some languages are not decidable. Since programs are
+strings, there are countably many of them. But languages are sets of
+strings, so there are an uncountable number of them.
+
+If `\Sigma` is infinite, then in general its tautological consequences
+are *not decidable*. However, they are *effectively enumerable*: there
+is a procedure that lists all tautological consequences of `\Sigma`.
+
+Effectively enumerable clearly means that you have a *semi-decision
+procedure*: a program that produces YES if `\tau` is in the language,
+but may otherwise run forever. Likewise, if you have a semi-decision
+procedure, you can enumerate the members of the language by "time
+sharing;" start testing the first statement, and after 1min start
+testing the second, then switch to the first again, then try a third,
+etc, etc. Thus effectively enumerable languages are exactly those
+which are semidecidable.
+
+A decidable language is clearly effectively enumerable. A language
+which is semidecidable, and where its complement is semidecidable, is
+then decidable (run the two semidecision procedures in parallel; at
+least one has to terminate and tell you the answer).
+
+They end with a theorem: for an enumerable set `\Sigma`, the
+tautologiacal consequences of `\Sigma` are enumerable. It is easy to
+produce a semi-decision procedure for `\tau`. The consequences of any
+finite subset of `\Sigma` are decidable. So start with `\nullset`: is
+`\tau` implied by `\nullset`? Next is `\tau` implied by `{ \sigma_1
+}`. `What about `{ \sigma_1, \sigma_2 }`? Et cetera.
+
+By the compactness theorem, there is a finite subset `\Sigma_0` where
+the consequences of `\Sigma_0` are equal to the consequences of all of
+`\Sigma`. Thus, in trying to decide whether `\tau` is implied,
+eventually we will get to a set large enough to contain `\Sigma_0`, at
+which point the truth table method will detect that `\tau` is implied.
+
+On the other hand, if `\tau` is not an implication of `\Sigma`, we
+will blow right past our first superset of `\Sigma_0`, not realizing
+that it is now hopeless to show that `\tau` is an implication. That's
+why this is a *semidecision procedure*.
+
+## Ch2: First-Order Logic
