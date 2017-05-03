@@ -656,3 +656,31 @@ line with my validation accuracy.
   sentence, you've built up an understanding of what it means, and
   then you start generating output in the target language
   word-by-word.
+* Sriraj talks about *memory networks* and *dynamic memory networks*.
+    * I have basically no idea what these are.
+* In v1.1 TF switched the API to `BasicDecoder`, along with
+  `TrainingHelper` and `GreedyEmbeddingHelper`.
+    * I embed the inputs, then feed this to an RNN.
+    * The last RNN state I feed to the decoder.
+    * For training, the `TrainingHelper` provides the decoder (1) the
+      start symbol, then (2) each word in the sentence, where (3) each
+      of these is embedded.
+    * It is trained to produce the output sequence, followed by a stop
+      symbol. Learning the stop symbol is important otherwise we
+      infinite loop.
+    * The `TrainingHelper` ensures that the correct prior word is fed
+      in at each time step. When performing inference, the
+      `GreedyEmbeddingHelper` will take the most likely word from the
+      prior timestep, embed it, and then provide this as input at the
+      next decoder step.
+    * The `GreedyEmbeddingHelper` will also see the stop symbol, and
+      will cease decoding when it sees the stop symbol. But if the
+      decoder RNN was never trained to produce the stop symbol, the
+      `GreedyEmbeddingHelper` will let your decoder RNN run forever.
+    * You use `dynamic_decode` to produce the `DecoderOutput`;
+      `DecoderOutput#rnn_output` is the sequence of decoder
+      productions.
+    * Using this, you can use `sequence_loss`. I'm not exactly sure
+      how you would do a sampled softmax loss with `sequence_loss`; I
+      think you'd have to write that yourself. You'd want to if the
+      vocabulary is large.
