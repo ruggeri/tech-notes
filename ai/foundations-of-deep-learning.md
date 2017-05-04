@@ -684,3 +684,18 @@ line with my validation accuracy.
       how you would do a sampled softmax loss with `sequence_loss`; I
       think you'd have to write that yourself. You'd want to if the
       vocabulary is large.
+* Sriraj has another video about attention. Basically, if you want to
+  do seq2seq, and the entire sentence is crammed into a single final
+  LSTM state, you're asking a lot. You could increase the number of
+  LSTM units, but that is going to be inefficient. I assume that for
+  early steps you can't really use all that state.
+    * So they use attention. I have to read more about this
+      elsewhere. Basically, the LSTM state says how much to look at
+      prior encoder outputs.
+    * They further improve performance by using a *bidirectional
+      RNN*. Basically, this uses context from both sides by running
+      *two* RNNs. The outputs of the bidirectional RNN is the pair of
+      outputs from both sides.
+    * Google used 1 bidirectional layer, than 7 unidirectional layers
+      for the encoder. They used 8 unidirecitonal decoder layers.
+    * Note: they can do unidirectional layers in parallel.
