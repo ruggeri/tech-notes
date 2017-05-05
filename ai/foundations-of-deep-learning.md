@@ -703,6 +703,30 @@ line with my validation accuracy.
     * Google used 1 bidirectional layer, than 7 unidirectional layers
       for the encoder. They used 8 unidirecitonal decoder layers.
     * Note: they can do unidirectional layers in parallel.
+* In the Deep Learning School lecture Quoc Le mentions that it is
+  common to do a beam search when decoding. You pick the response with
+  the highest overall probability. This is different from a greedy
+  decoding, which commits at each timestep to the currently mostly
+  likely next word, but can paint itself into a corner.
+* Quoc also mentions scheduled sampling, which is the thing where on
+  training you slowly start feeding in the actually produced output
+  (rather than the target output), so that the decoder can learn not to
+  go off the rails too much.
+* Quoc also notes that theoretically you can use seq2seq for
+  transcription, but this doesn't seem to work very well.
+* Quoc talks a little about memory vs attention. Imagine you are asked
+  a question about a book. Attention says: go back through the book
+  and find out what part is relevant. On the other hand, memory would
+  store facts from the book in a memory store that is retrievable
+  later.
+    * Quoc mentions that an alternative is to use reinforcement to
+      decide a single place in the text to look at? But how can that
+      work with variable length inputs?
+* There are also neural machines where you give them some operations,
+  and they can push operands into a stack, and they can decide
+  probabilistically whether to perform an operation.
+
+Source: https://www.youtube.com/watch?v=G5RY_SUJih4
 
 ## More Attention Mechanism
 
