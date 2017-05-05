@@ -689,6 +689,10 @@ line with my validation accuracy.
   LSTM state, you're asking a lot. You could increase the number of
   LSTM units, but that is going to be inefficient. I assume that for
   early steps you can't really use all that state.
+    * Note why increasing LSTM units is inefficient. Because as you
+      increase LSTM units, you increase number of weights
+      *quadratically*. That's because LSTM from a prior timestate
+      effects LSTM of next timestate.
     * So they use attention. I have to read more about this
       elsewhere. Basically, the LSTM state says how much to look at
       prior encoder outputs.
@@ -699,3 +703,72 @@ line with my validation accuracy.
     * Google used 1 bidirectional layer, than 7 unidirectional layers
       for the encoder. They used 8 unidirecitonal decoder layers.
     * Note: they can do unidirectional layers in parallel.
+
+## More Attention Mechanism
+
+* Let's think about an image. Rather than doing one summary of the
+  image and then feeding it to a decoder, let's instead create
+  summaries of many sections.
+* Then, we take these section summaries plus the current RNN
+  state. Each section summary is hooked into a hidden layer with the
+  state. This gives scores for each section, which go through a
+  softmax. These proabilities are how much attention to give to each
+  section summary.
+* We then take a weighted sum of the section summaries. This is the
+  input to the decoder at the next timestep.
+* This process is differentiable and is called *soft attention*. There
+  is another approach called *hard attention*. Here the system samples
+  a single part of the image.
+    * This is not easily differentiable. You can do a kind of Monte
+      Carlo thing to calculate a derivative.
+    * It appears that there is not much performance difference, so the
+      focus is on soft attention.
+* As mentioned above, you can do this for sentences and
+  translation. It is common to use a bidirectional RNN.
+    * This process is sometimes called *alignment*, because when the
+      decoder goes to generate the next word, it focuses on some part
+      of the encoded sentence, and thus the newly output word reflects
+      the preivously encoded state focused upon.
+* There seems to be consensus that the problem is memorizing the whole
+  sentence; especially the earliest bits, and also cramming this in
+  one vector.
+    * They mention that reversing the sentence for encoding helps
+      because early parts of the sentence come last and thus closest
+      to the beginning of the encoder. But it seems a little odd
+      because then later words are even further away!
+    * They also note that performance can be better if the encoder
+      reads the sentence *twice*!
+* Seems like Cho from Bengio's lab is the one who owns this field.
+* End-to-End memory and Neural Turing Machines are always mentioned in
+  the same discussion of attention and I've listed them to study more.
+* There is a note that with attention, if we output `<unk>`, we can
+  replace this with the word of input that is most attended; hopefully
+  it's like a placename or other proper noun.
+* A few notes about GNMT (Google Neural Machine Translation):
+    * The final encoder state doesn't feed directly into the decoder
+      anymore. For simplicity, the decoder is initialized presumably
+      with zeros or randomly (presumably can be learned). The only way
+      encoded information is accessed is by attention.
+    * They also only use a bidirectional RNN on the first layer. That
+      lets them parallelize computations in subsequent
+      layers. Otherwise, you have to wait for an entire bidirecitonal
+      layer to finish before you can start computing the next layer.
+    * They use "teacher forcing", which is the technique where when
+      training you give the "correct" translation word, not the one
+      that was actually selected.
+    * They use *residuals*. Basically, each layer adds a delta to the
+      output of the last layer. This makes it easy to learn the
+      identity function.
+
+Source: https://blog.heuritech.com/2016/01/20/attention-mechanism/
+Source: http://www.wildml.com/2016/01/attention-and-memory-in-deep-learning-and-nlp/
+(Excellent) Source: https://arxiv.org/pdf/1703.01619.pdf
+
+## Autoencoders
+
+* Basically, a bottleneck layer, and you try to reconstruct the input
+  from the bottleneck layer.
+* But these are worse at compression than other traditional
+  techniques, and they do poorly at generalization, apparently.
+* But they appear to be good at dimensionality reduction and image
+  denoising.
