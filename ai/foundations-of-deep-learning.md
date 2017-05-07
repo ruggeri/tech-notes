@@ -788,6 +788,45 @@ Source: https://blog.heuritech.com/2016/01/20/attention-mechanism/
 Source: http://www.wildml.com/2016/01/attention-and-memory-in-deep-learning-and-nlp/
 (Excellent) Source: https://arxiv.org/pdf/1703.01619.pdf
 
+## More Augmented RNNs
+
+* Neural Turing machines have memory.
+    * At each timestep the can read and write.
+    * It's a soft read and a soft write, of course. Based on attention.
+    * Where to attend? First, you do *content-based* attention: you
+      have a query vector, and you pick those cells that are most
+      similar (easiest to do with dot product). You then can mix this
+      with the previous attention vector; the mixing ratio can be
+      learned and dependent on the current RNN state.
+    * Next, you can apply a *shift filter*. This allows *location
+      based attention*. The shift filter does a 1d convolution and
+      basically lets you move forward one from the previous time
+      step. This is good for looping.
+    * It looks like Sutskever is the one trying to use
+      non-differentiable memory access and reinforcement.
+* Adaptive computation time
+    * It appears that you basically have a "halt bit." You continue to
+      process until the halt bit falls below a threshold.
+    * This lets the machine work harder at some time steps than
+      others. Interesting.
+    * This appears to be very new and I'm not sure when it would be
+      very useful.
+* Neural Programmer
+    * You give it access to functions that it can use.
+
+Source: http://distill.pub/2016/augmented-rnns/
+
+## End-to-End Memory Networks
+
+* Simple example. Take the facts and featurize them into `m_i` and
+  `c_i`. Consider a query; featurize this as `u`. Now, take the dot
+  product of `u` and `m_i`; using a softmax, we get a distribution
+  over the memories. So take the weighted sum of the `c_i`, which are
+  the content.
+* The facts are normally sentences for a Q-and-A system.
+* TODO: I was looking at some of the papers about this but they are
+  quite unclear...
+
 ## Autoencoders
 
 * Basically, a bottleneck layer, and you try to reconstruct the input
