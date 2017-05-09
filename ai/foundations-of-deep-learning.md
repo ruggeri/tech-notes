@@ -827,7 +827,7 @@ Source: http://distill.pub/2016/augmented-rnns/
 * TODO: I was looking at some of the papers about this but they are
   quite unclear...
 
-## Autoencoders
+## Autoencoders and Variational Autoencoders
 
 * Basically, a bottleneck layer, and you try to reconstruct the input
   from the bottleneck layer.
@@ -835,3 +835,90 @@ Source: http://distill.pub/2016/augmented-rnns/
   techniques, and they do poorly at generalization, apparently.
 * But they appear to be good at dimensionality reduction and image
   denoising.
+* They did succeed to take a 28x28 image and compress it to 32
+  float32s. It's kinda impressive actually.
+* To do denoising, they train on the noisy images. I guess the idea is
+  that the network says: I don't know how to capture this noise, but I
+  can capture the signal.
+* As an example we did an autoencoder on MNIST with a *ton* of
+  Gaussian noise added.
+* A motivation for autoencoders: this is an unsupervised method, and
+  we want to be able to learn in a world that has tons and tons of
+  unlabeled data. Autoencoders are learning a representation of the
+  data, based only on their desire to "simplify" their understanding
+  of the data. But I guess a question is: how will we leverage this
+  understanding to do tasks?
+    * Say we have a semi-supervised setting: some data is labeled, but
+      the vast majority is not.
+    * So we use the unlabeled data to learn a representation.
+    * We then try to learn a model for the labels using this
+      representation.
+    * Our hope is that the learned representation accurately
+      summarizes those features which are important for the task.
+    * That way, maybe we only need to use a small number of parameters
+      for the supervised task (it's okay to use more parameters to
+      transform the input to the representation; we have lots of data
+      for that task).
+    * Also, hopefully this allows for good generalization from the
+      labeled data to the larger dataset.
+    * This kind of semi-supervised learning is how the brain
+      works. Geoff Hinton has said that there isn't enough supervised
+      labels that you can collect over a lifetime. The only place to
+      get enough usable data is from the input itself.
+* Sriraj talks about variational autoencoders.
+* I think the basic idea is this:
+    * Your autoencoder is supposed to be reducing the dimensionality
+      of the data.
+    * One way to reduce the capacity is to reduce the number of units.
+    * You can also perform regularization.
+    * An alternative to regularization is to use a prior
+      (regularization is often *equivalent* to some kind of prior).
+* Here is the idea.
+    * You want a simple model with which you can understand `x`. That
+      means "reducing" `x` to a lower-dimensional latent space `z`.
+    * Now, you know that your model won't be perfect, and won't be
+      able to understand all the factors that cause `x` to take on its
+      value. So the `x`s will look sort of random to any model that we
+      come up with, because we have limited understanding. But a
+      pretty good model should have `P(X | Z=z)` have low
+      entropy. Otherwise, your `z` isn't telling you much about `X`!
+    * To be useful, you need to be able to map observed `x`s to the
+      latent space. That involves computing `P(Z | X=x)`. Again, if
+      this has high entropy, then we won't have any idea what the true
+      value of `Z` might be, and our latent representation is useless.
+* We will use neural networks to compute these distributions.
+    * The *encoder* will take an `x` sample and spit out the
+      parameters of the conditional distribution of `Z`.
+    * The *decoder* will take a `z` sample and spit out the parameters
+      of a conditional distribution of `X`.
+* Now, if we did a maximum likelihood thing, then the system might try
+  to do this: learn an encoder that makes `P(Z | X=x)` be *super
+  specific*, so that `z` is predicted extremely strongly by `x`. Then,
+  make the decoder super sensitive to `z`, so that it produces just
+  the right output.
+    * Granted, we should be able to limit this somewhat by limiting
+      the capacity of our model, which means using a small neural
+      network size.
+    * If you think about it, I believe this is what a standard
+      autoencoder does. It maps a value to a *single exact latent
+      representation*.
+* The variational autoencoder approach is going to try to use a
+  Bayesian approach. It will adopt a prior on `Z`: a spherical normal
+  distribution.
+    * This is probably a reasonable prior no matter the task, because
+      even though the `P(X)` is not normally distributed, this
+      presumably arises from the non-linearity of the network.
+    * In other words, perhaps this is saying "All fundamental,
+      Platonic qualities are normally distributed, and any non-normal
+      quantities in the universe arise from non-linear systems."
+    * That might be a reasonable amnd resilient basis for most
+      learning.
+* In the VAE literature, the encoder is sometimes called the inference
+  *network* and the decoder is called the *generative network*.
+* One thing that feels weird: the prior is on the distribution of the
+  latent values: not the parameters of the networks!
+* I believe the reason they call this *variational* is because the
+  encoder and decoder functions have been chosen from a family of
+  distributions (defined by the possible settings of the neural
+  networks). SGD is finding the best approximation it can amongst this
+  family.
