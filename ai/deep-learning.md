@@ -216,3 +216,212 @@ to L2 regularization; basically, if you consider the trajectory of the
 updates, you're only letting them get so close to the optimum.  But
 here's why early stopping is so much better: it tells you exactly how
 much regularization to use by observation of the validation set.
+
+They mention parameter sharing: CNNs are by far the biggest example.
+
+*Bagging* means *bootstrap aggregating*. It is an *ensemble method*
+that works by doing *model averaging*. The idea is to sample with
+replacement and train `k` models. It apparently works well for methods
+that are unstable, and NNs are a good example of that. Indeed, simply
+by training the same model with slightly different initialization and
+minibatches selected is often very effective.
+
+Boosting does the opposite: the ensemble members are trained to
+correct the errors made by the others.
+
+Dropout acts like bagging. Bagging is expensive, because you have to
+train a separate NN for each bag. But each dropout mask for a network
+is effectively specifying a different network; it shares many
+parameters with other networks, but it also has a lot of
+differences. Each "network" defined by a dropout mask is trained with
+a different sample of examples. Now, we won't train all the way to
+convergence, but training this huge number of models each just a
+little is very effective.
+
+To compute the prediction of the ensemble, technically we should
+average over all possible masks. But there are an exponential number
+of masks. Sometimes people do run inference 10 or 20 times with
+different masks to get a very reliable estimate.
+
+Hinton was the one to suggest *weight scaling inference*. That says:
+if the dropout on any given unit is 50%, then use all the units in the
+network and divide all activations by 2. There isn't actually a
+theoretical justification for why this approximates the ensemble, but
+empirically it performs very well. In a network where the units are
+all linear except the outpout layers, this does truly correspond to
+the ensemble average.
+
+It has been found that in some cases that even an ensemble average of
+1,000 subnetworks is outperformed by the weight scaling approach. But
+then some other research shows the Monte Carlo approximation approach
+outperforms for some other tasks. It's not entirely clear, but weight
+scaling is very simple and preferred.
+
+Srivastava (a Hinton student) showed dropout is more effective than
+weight decay or norm constraints. Wang and Manning showed a technique
+called *fast dropout*. Basically, it is less random than dropout, so
+it can converge faster. The point is that the randomness isn't really
+the point of dropout: it's the model averaging. They claim an order of
+magnitude speedup.
+
+This view as bagging doesn't seem to be the primary interpretation by
+Hinton or Manning. They talk more about preventing co-adaptation of
+features; the idea that an uncommon but highly indicative feature will
+suppress the use of a common but less powerfully indicative
+feature. They note that it is important to destroy *features* rather
+than just add noise to the inputs; adding noise to the input doesn't
+typically destroy the availability of features until it totally
+destroys the input.
+
+One thought that justifies this thinking about coadaptation: some
+experiments show that dropout is superior to canonical bagging.
+
+They mention another form of dataset augmentation, where examples are
+adversarialy modified. That is, you take images in the training set,
+and see what very similar images are classified very differently. Then
+you add those as examples. The theory is that networks are
+"excessively linear", and that near labeled examples you can still
+change the output dramatically through small changes in a number of
+dimensions, all of which compound. By using adversarial examples you
+are encouraging the network to have "local constancy".
+
+This technique can work well when you have semi-supervised
+learning. Consider an unlabled point `x`; your superivsed model
+guesses `y`. This might not be correct, but you can probably benefit
+by forcing your model to have a consistent guess for `x'`
+adversarially generated near `x`. This is called a *virtual
+adversarial example*. Again, this is training robustness to small
+changes.
+
+They mention an idea called *tangent prop*. This basically says: you
+may identify some axes along which an example can be modified without
+effect on the label. For instance, translation of an image represents
+a dimension along which you can modify an image. So what you do is add
+a regularization penalty where you take the inner product of the
+gradient and this invariance axis. That basically is saying: penalize
+the model if changing this thing that makes no difference in real life
+does make a difference in the model. This is very similar to dataset
+augmentation, and requires prior knowledge.
+
+They note some problems with tangent propagation vs dataset
+augmentation. Tangent propagation trains the model to resist
+"infintesimal changes", whereas dataset augmentation "confers
+resistance to larger perturbations." They also note that tangent prop
+doesn't work well with ReLU, but I don't understand this reasoning.
+
+It is also related to *double backprop*, which applies regularization
+to the gradient, preferring small gradients at the examples. This just
+says do tangent prop along all axes. If you think about it, this is
+like adversarial training, too! Again, adversarial training is the
+non-infintesimal version of double backprop.
+
+## Ch8: Optimization for Training Deep Models
+
+There is some jargon. We typically have a performance measure we care
+about, but because that is hard to define, we often settle for
+minimizing a loss function. We want to minimize the *risk*: the
+expectation of the loss. But since we don't know the distribution of
+the data, we minimize the *empirical risk*. And even then, we
+typically substitute a *surrogate loss function* like negative
+log-likelihood of the correct class because a measure like accuracy
+doesn't have useful derivatives.
+
+They note that a surrogate loss function can learn more. For instance,
+there's a difference between 51% belief in the correct answer and 99%
+belief. A model with more confidence will be more resistant to
+perturbation. So pure accuracy is not actually an ideal measure,
+really.
+
+Another thought: with early stopping, we can stop when the true loss
+function stops improving on the holdout set. In that case, we may stop
+earlier than when the surrogate loss function has been minimized.
+
+They talk about stochastic and mini-batch learning. They note this
+works because the standard error in the mean of the gradient improves
+sublinearly in the number of examples: it is `sigma / \sqrt(n)`. So
+doing 100x more examples only gives you a 10x reduction in
+variance. So often you converge faster by taking more gradients
+faster.
+
+Why not a minibatch of size one? Well, you do get more stable
+estimates. And multicore architectures often are underutilized with a
+single example to work on at a time. They do note an interesting
+phenomenon: small batches tend to have a regularizing effect.
+
+Minibatches of size 100 can approximate a gradient pretty well,
+empirically. But for 2nd order information you may need many more
+examples: like maybe 10,000.
+
+They mention that you at least want to shuffle before doing
+batches. This seems to be good enough, even though your batches are
+not truly random. They note that you can do parallelized versions of
+SGD where many updates are made independently, and that this seems
+actually to work fairly well.
+
+They mention the problem of *local minima*. Of course, there are many
+global minima: you can always permute the weights. But the worry is if
+some local minima are much greater than global minima. They claim that
+there isn't a lot of evidence this is a common and problematic
+phenomenon. They say that experts feel that local minima are normally
+very good points in the network space. They encourage practitioners
+(who often complain about local minima) to explore whether the
+gradient has truly vanished, or whether there is something else wrong.
+
+They say that our problem is saddle points. They note that as the
+number of dimensions increases, the ratio of saddle points to local
+minima should grow exponentially. That's because a minimum has a
+hessian with all positive eigenvalues, while a saddle point is free to
+se have a mix. They note that for many families of random functions,
+critical points of low cost typically have more positive
+eigenvalues. That means that true minima are probably low cost, but
+critical points of high cost are probably saddle points. Fascinating.
+
+There are theoretical results about families where saddle points are
+the real problem. And empirical studies back that up. So the message
+is: fear the saddle points, not the local minima!
+
+Now, for first-order methods, saddle points seem like they are often
+escaped pretty well. Newton's method seems to be more susceptible to
+jumping toward saddle points. But in any case Newton's method is not
+tractable generally, so this is no great loss at this time.
+
+They note the problem of *cliffs*. Here, the gradient is huge, and you
+may take a huge step and jump off the cliff face to way too far
+away. The solution is typically *gradient clipping*. The intuition is
+that the gradient is telling you a *direction* not a step size,
+really. Clipping is a problem in recurrent nets especially, because
+the effect of the same weight is compounded over several steps. They
+say they will study this more (including the *vanishing gradient*
+problem) in the chapter on RNNs.
+
+These concerns have all been about getting stuck or moving in the
+wrong direction. But more typically, the problem isn't about where we
+go, but how long it takes to get there.
+
+They also mention theoretical bounds to what can be efficiently
+learned. But they note that in practice these don't give any useful
+indications of what to do, and that often a reasonably acceptable
+solution is available.
+
+They note that for SGD, you should be decreasing the learning rate
+over time. That's because there is stochastic noise in the batches
+that does not decrease over time; you won't converge unless you
+attenuate learning rate. They note that a sufficient learning rate
+condition is: that if you took an infinite number of steps, the steps
+would add up to infinity (so that you can travel any distance
+required), and the sum of squares of steps is less than infinity (that
+is, the step size reduces to zero over time).
+
+It is common to decay to 1% of the initial step size.
+
+They talk about momentum, and how it helps when you have small but
+consistent gradients, or noisy gradients. It can also help when you
+have high curvature they say (I suppose because high curvature
+represents acceleration?). Momentum is typically increased over
+time. They mention Nesterov momentum.
+
+They note some convergence results that show how fast you can expect
+convergence in the case of convex functions, but these of course don't
+really apply...
+
+**Pausing at 8.4: Initialization strategies**
