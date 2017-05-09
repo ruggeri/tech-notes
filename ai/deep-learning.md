@@ -150,3 +150,69 @@ obsolete. And also using ReLU.
 
 They also note: ReLU was inspired by neuroscience, so there are some
 positive contributions from that field.
+
+## Ch7: Regularization
+
+Typical not to do decay on biases, just weights.
+
+They explore L2 and L1 regularization. They note that L1 will tend to
+make the weights sparse. They note that L2 does MAP with a Gaussian
+prior on the weights.
+
+They talk about weight constraint techniques. You can theoretically
+enforce constraints by finding the appropriate penalty, but it is much
+more common to project `\theta` to the nearest point that satisfies
+the constraint. Hinton apparently suggests a high learning rate with a
+weight constraint to explore a space fast. He suggested constraining
+the norm of columns of the weight matrix, so that the input to any one
+unit does not grow too large.
+
+They note that sometimes a problem is "underdetermined" and has many
+possible answers. So regularization forces there to be a "best"
+solution. E.g., with the kernel trick an SVM would have many
+possibilities, but we effectively regularize by choosing the maximum
+margin hyperplane.
+
+They mention dataset augmentation by rotation and translation. Can do
+left-to-right flips, but be careful of "b" and "d"! Likewise,
+top-to-bottom is almost always wrong.
+
+They mention that adding noise can be beneficial, as NNs can be
+sensitive to noise in the inputs. On the other hand, in a linear model
+this should be the same as L2 regularization (as noted in the Hinton
+class). But you can't argue with experience, I guess: the NNs are
+*not* linear, so the action of adding Gaussian noise is *not* truly
+the same as L2 regularization.
+
+They note that doing a perturbation of the weights when running feed
+forward will result in you adding a regularization term proportional
+to the square of the gradient's magnitude. This means you prefer
+settings where small changes in the weights would not have a large
+impact on the output of the model.
+
+You can also do *label smoothing*. Here, you can admit that the
+dataset may have mislabeled examples. So instead of targeting exactly
+the class, you use the full power of cross entropy and say that the
+example has probability `\eps` of one class and `1-\eps` of the other
+class. Apparently this is quite a common trick.
+
+I don't see how this is really "regularization," but they mention
+semi-supervised tasks, where the tradeoff between the clustering task
+and the supervised task results in better generalization. And they
+mention multi-task learning, where a base representation is
+constructed that will be fed to many tasks, so they can reinforce each
+other.
+
+Early stopping is clearly the easiest. Evaluation of the validation
+set can be expensive, but it can be done in parallel with
+training. They mention that some people then try to add in the
+validation data to train a bit more, monitoring accuracy on the
+validation data. But it can keep going down due to overfitting! One
+approach is to stop when it falls below the training set loss observed
+at the time the validation loss stopped decreasing.
+
+Why does early stopping work? Interesting! It actually is equivalent
+to L2 regularization; basically, if you consider the trajectory of the
+updates, you're only letting them get so close to the optimum.  But
+here's why early stopping is so much better: it tells you exactly how
+much regularization to use by observation of the validation set.
