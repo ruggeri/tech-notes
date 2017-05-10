@@ -539,3 +539,33 @@ Answer: no. It used to be that the mean at layer `k` was determined by
 a complicated interaction of *all layers prior to `k`*. Now, it
 depends just on `\beta_k`, a single parameter. That means this is much
 easier to train.
+
+They talk about some pretraining approaches. Greedy pre-training has
+you train up to level `k`, and then use the outputs of this last layer
+as a fixed input to train layer `k+1`. The theory on why this works is
+that the middle layers get better guidance of how they should organize
+themselves.
+
+They note: SGD with momentum continues to be a very popular approach,
+and has been since the 80s. The big advances are in coming up with
+architectures that do well with our optimization techniques. For
+instance, LSTM plays nice with SGD on deep networks. Use of ReLU and
+skip connections are also examples.
+
+They mention *continuous learning*. Here, you use a series of
+less-and-less blured versions of the objective function. The idea is
+that maybe the original blurred one is convex, and each time maybe
+you're in a part of the objective function where it is convex. This
+sounds like it has been somewhat successful.
+
+*Curriculum learning* is another idea. Here, you start out with easy
+examples being given more weight by the objective function. Then, as
+the network masters the easy examples, you increase the importance of
+the hard ones. This is actually similar to how humans teach other
+humans. It was found though that it is valuable to have a mix of easy
+and hard examples; maybe because with the easy examples you overtrain
+in a way not compatible with learning the hard examples?
+
+## Ch9: CNNs
+
+**TODO**
