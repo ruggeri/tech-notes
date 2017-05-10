@@ -424,4 +424,118 @@ They note some convergence results that show how fast you can expect
 convergence in the case of convex functions, but these of course don't
 really apply...
 
-**Pausing at 8.4: Initialization strategies**
+Now they talk about initialization. They admit this is very poorly
+understood, so guidelines are heuristic. One problem is that with poor
+initialization you may still do well on the training set but then
+suffer poor generalization. Typically we try to initialize to have
+some desirable property in the beginning, but then this might be lost
+as we train...
+
+Maybe the only truly known guideline is to break symmetry. If units
+have the same activation and same input weights, they'll do the same
+thing. That effectively reduces the dimensionality of the space that
+can be represented by the network. Random initialization effectively
+makes the units compute different functions. But in theory you could
+choose the weights to be orthogonal to each other initially; then you
+would be guaranteed every unit would compute something very
+different. In practice, random weights work well.
+
+In practice it doesn't appear like Gaussian vs uniform distribution
+makes much difference. But scale definitely matters. They mention that
+if you use small weights, you will lose signal; I don't know if I
+totally understand why this is problematic to the next layer if
+everything is reduced by a constant factor... But large weights can
+cause saturation.
+
+They give one possible reason. Early stopping is like a prior that
+says the initial parameters were correct. So if the parameters are
+large, that means it says that units have strong interconnected
+effects.
+
+I think I continue to be unsure on this point...
+
+You might select a uniform choice in the range `+/- 1/sqrt(m)`, where
+`m` is the number of inputs. That should give you unit variance. The
+Glorot and Bengio initialization is `+/- sqrt(6/(m+n))`, which is a
+compromise which also tries to ensure the gradient has unit
+variance. Note these are only exactly true in linear networks, but
+they seem to work well. But you can also treat the *gain* of the
+weights at each layer as a hyperparameter and search for the best
+choices.
+
+Okay, what about initialization of weights? For ReLU, it is typical to
+use small positive bias to avoid saturation at values below zero. For
+output units, you might choose a bias such that, when you apply the
+final activation, you obtain the marginal statistics. And last, for
+multiplicative factors, like a gate multiplier on an LSTM, you might
+try a bias of 1.0.
+
+They mention the possibility of pre-training. Here, you train a
+network for one task, and then use those weights when learning another
+task. It is common to do this with unsupervised pre-training, I think.
+
+They talk about adaptive learning rate algorithms like AdaGrad,
+RMSProp, Adam. They mention that they all seem pretty good; there is
+no conesnsus on the best one. It typically depends on what someone has
+the most experience with.
+
+They talk about some 2nd order methods. Newton's method I am familiar
+with; but it's too expensive! *Conjugate gradients* are
+interesting. Here's the idea. Let's say you start out in one
+direction, and do a line search to find the minimum. Then there is
+zero gradient in this direction at a minimum, so you will
+*necessarily* move perpindicular to this gradient in the next
+step. This creates zig-zagging.
+
+To stop the zig-zagging, we can use Hessian information. We want
+`prev_direction^T * H * current_direction = 0`. That's saying: at the
+current point, moving in such a direction won't make us want to move
+any more in `prev_direction`.
+
+If we have a perfect quadratic function in `n` dimensions, we verify
+solve in exactly `n` steps. That won't quite happen if the function is
+not quadratic, but if it better approximated locally by a quadratic
+(and it should be) then this can be better.
+
+Now to find a conjugate direction! You *could* invert the Hessian,
+that is the most obvious way. But apparently there are some other
+ways: Fletcher-Reeves and Polak-Ribiere. But I'm not too interested in
+the gritty math right now.
+
+They talk about BFGS. This basically builds up an approximation, over
+many steps, of the Hessian. It does this by making low-rank updates to
+the approximation at each step. However, even though this is fast, it
+takes `O(n**2)` memory. That is itself very intractable. Therefore,
+L-BFGS keeps a low-rank approximation of the approximation of the
+Hessian matrix.
+
+**NB**: My impression is that focusing too much on this nitty-gritty
+math would be a waste of time. I think the math behind these systems
+is very circumspect anyway, so maybe exploring architectures would be
+more profitable. OTOH, techniques like dropout and batch normalization
+and ReLU are many of the advances that made these new architectures
+possible...
+
+Next they talk about **batch normalization**. They are very excited
+about this. Basically: when you optimize all layers in parallel, you
+break an assumption of each layer that its will be the sole
+update. It's the same problem with adjusting all parameters of a layer
+at once, but just moreso.
+
+So here's what you do. You basically replace the activations of a
+layer with the unit variance, zero mean version of those activations
+on the minibatch. You also backpropagate through this operation. What
+this does is make layer `k` not try to change itself just to change
+its mean or variance. That can be handled at some subsequent layer by
+a general increase in the weights.
+
+Now, they note that for each layer you can learn an `\alpha` to scale
+the activations and a `\beta` as a bias; basically the layer can take
+on any variance or mean. That gives the network back representational
+power that was lost by doing the batch normalization. But then what is
+the point? Doesn't that take us back to where we started?
+
+Answer: no. It used to be that the mean at layer `k` was determined by
+a complicated interaction of *all layers prior to `k`*. Now, it
+depends just on `\beta_k`, a single parameter. That means this is much
+easier to train.
