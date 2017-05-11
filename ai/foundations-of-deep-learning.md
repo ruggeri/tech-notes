@@ -1122,4 +1122,142 @@ They say that, subjectively, GANs seem to produce better looking
 results than VAEs. They note that FVBNs are easier to train than VAEs,
 but that GANs are also hard to train.
 
+Boltzman machines require MCMC both for training and generation. This
+is the other direction than variational: MCMC. But MCMC is slow and
+doesn't scale well to many dimensions. It is also hard to tell when it
+has mixed, so that the samples are representative of the model. They
+note that Boltzman machines are seldom used now because of these
+problems.
+
+Which brings us to implicit density models. Generative stochastic
+networks generate samples through a Markov chain method. They don't
+explain GSNs, but say that they are slow.
+
+In summary. GANs are faster than FVBNs because they don't require
+generating a coordinate at a time (can run in "parallel"). Boltzman
+machines are slow and can only use certain distributions because those
+allow MCMC to be tractable. GSNs are presumably also troubled by
+MCMC. Doesn't rely on variational bounds.
+
+The big downside: GANs can be difficult to train because they need to
+find a Nash equilibrium, not just a minimum.
+
+They then talk about how GANs work. They note that you can inject `z`
+anywhere in the network. You can put some of it as input to the first
+layer, and then you can use some more in a middle layer. That's
+interesting; not sure if I see that as highly valuable, though...
+
+They acknowledge the issue with the gradients. They acknowledge that
+it is theoretically pleasing to use a single value function.
+
+They note that GANs are sort of like reinforcement learning. But the
+generator gets to see the gradient of the reward. That sounds good,
+but the downside is the reward is non-stationary.
+
+They note that if you do arithmetic on the latent representations, you
+tend to get reasonable results. For instance, if you take the latent
+representation for a man with glasses, then subtract a latent
+representation for a man, then add a representation of a woman, you
+will generate a woman with glasses.
+
+The give some tips and tricks. Incorporating label data seems to help:
+even if only the discriminator can see the labels! It's not entirely
+clear why that would help. They note label smoothing: they say this
+helps because it keeps the discriminator from becoming too hyper
+confident. Hyperconfidence is exploitable by a network constructing
+adversarial examples. They do note that you shouldn't smooth the fake
+labels.
+
 Source: https://arxiv.org/pdf/1701.00160.pdf
+
+* For conditional GANs, they didn't find it useful to use the noise
+  vector; this ended up being ignored by the generator.
+* They note conditional GANs tend to be convolution-deconvolution
+  encoder/decoder approach. They also add *skip connections*, where
+  the `i`th level is attached to the `n-i`th level. The idea is to
+  always make the original image available, and not force everything
+  through a really narrow final convolution layer.
+* They note an important idea. Let's say you want to do image
+  segmentation. Then, the network will probably output a segmentation
+  that is "blurry", because it wants to be fairly correct. It sort of
+  "averages over" the possibilities.
+* But when the possiblities are truly multi-modal, then this creates a
+  lot of blur. A discriminator of a GAN could see this blur and
+  penalize the network. So the network is biased to hallucinate a
+  less blurry segmentation.
+
+Source: https://arxiv.org/pdf/1611.07004v1.pdf
+
+## One Shot Learning
+
+* Sriraj talks about Neural Turing Machines. So there's an LSTM which
+  is the controller.
+* And he talks about attention and reading/writing all the items, so
+  that we have full differentiability.
+* Mentions content based and location based attention.
+* They did a "one-shot learning" task. This is character recognition
+  with just a couple characters per class. It was very successful.
+* But why?
+
+Paper notes:
+
+* They describe a Differentiable Neural Computer. They claim it is a
+  little different than a Neural Turing Machine.
+* First attention mechanism is content-based.
+    * The lookup is key-value. This allows references.
+* They also have an attention mechanism that records a matrix
+  `L[addr1, addr2]`, which is `~1.0` if `addr2` is written after
+  `addr1`, otherwise close to zero. This allows replay of sequences of
+  writes. This works even if they were written at different timesteps.
+* They specifically practiced on graph problems: like find the
+  shortest path. The performance was much better than LSTMs.
+* It appears that the big difference from the NTM is that while the
+  NTM has address based addressing so that you can access a sequence
+  of values, this has the matrix to store what was modified after what.
+* Another problem: the NTM had no memory allocation strategy to keep
+  it from overwriting other "allocations" of memory. So they have a
+  memory allocation concept.
+
+Source: http://www.readcube.com/articles/10.1038/nature20101?shared_access_token=3UerOr1f0fy3oL_CytWdxtRgN0jAjWel9jnR3ZoTv0MggmpDmwljGswxVdeocYSujsARxGW1q2qxK0cTqi1Bup-nSH200cGUW_ET9MIG_6rvvXTcoxOnAX6B4E8dQs4FQ-yScxXe8EB0XnzqbUw3Qw%3D%3D
+
+* One-shot learning tries to learn from just one, or sometimes a few,
+  examples. Most methods require many many examples. And they can't do
+  online learning well; if new categories are introduced, they need to
+  totally reorganize themselves. The idea is that memory lets you
+  record new experiences and do self-modification.
+* They note that it is characteristic of human intelligence to have
+  very new behaviors based on very little new information. For
+  instance, we hear a word a couple times and know what it means.
+* What they want to explore is *meta learning*. Here, they mean that
+  over a long time you learn how to learn. But in a single task, you
+  learn quickly, applying the strategies you've learned.
+* (BTW, it looks like Alex Graves is active in this area).
+* They note that while LSTMs, sort of address the idea of memory, they
+  have trouble stably recording data. They have difficulty being
+  selectively read by address. And also, they have a fixed amount of
+  memory available and constantly in use.
+* They call out both NTMs (Graves) and memory networks (Weston) as
+  examples. They see the main idea as this: memory augmented networks
+  have access to *external* storage, rather than *internal* memory
+  like LSTMs.
+* They describe a regime where you have a series of different
+  tasks. The network sees an example, makes a guess, sees the label,
+  repeat. The idea is to learn over the course of the task and
+  maximize accuracy over the course of the task.
+* Here's an example of what they were able to accomplish.
+    * They do 100k "epsidoes". Each episode uses 5 image classes. The
+      machine needs to learn how to learn how to recognize the image
+      classes.
+    * Now it's time to test! Again, the network is given 5 random
+      image classes: never seen before!
+    * Within an episode, the network accurately identifies the 2nd
+      instance of a never-before seen class at 82% accuracy. It has
+      95% accuracy after five examples.
+    * So the network has clearly learned how to learn to a certain
+      extent.
+    * Performance is superhuman.
+    * They scaled up to fifteen classes. They also used five character
+      string labels.
+* Fascinating, fascinating paper!
+
+Source: https://arxiv.org/pdf/1605.06065.pdf
