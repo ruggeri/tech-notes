@@ -568,4 +568,81 @@ in a way not compatible with learning the hard examples?
 
 ## Ch9: CNNs
 
+They note that what NN people call convolution is often just called
+*cross-correlation*. Whatever, but good to know, since I had that
+problem of flipping. They note that convolution is equivalent to
+multiplication by a matrix with some entries constrained.
+
+The ideas behind CNNs are: (1) sparse connectivity which reduces the
+number of parameters to train and speeds up computations, (2)
+parameter sharing which further reduces number of parameters to train
+and memory, and (3) equivariance, which means that translations of
+input results in translation of feature maps.
+
+Max pooling can be used to make a layer invariant to small
+translations; it is helpful if we care more about the presence of a
+feature than exactly where it is. They note that you can pool over
+locations, but you can also pool over feature maps, which means that
+the feature maps can learn what they want to be invariant to; e.g.,
+three maps could look for a five in any orrientation. This sounds less
+about spatial properties than just the general maxout or saturation
+idea.
+
+They note that convolution and pooling are basically like restrictions
+on the weight matrix. Thus, you can think of them as an "infinitely
+strong prior." They note that this means you may encounter
+underfitting, as the model has lost freedom.
+
+They talk about striding and padding. They talk about *tiled
+convolution*, where basically your convolution is made of a set of
+sparsely connected regions. THis seems very uninteresting.
+
+They briefly mention that you don't have to use CNNs just for
+classification. For instance, you could do pixel-by-pixel
+labeling. They note an architecture from Collobert which iteratively
+applies convolutions to refine label predictions. But this isn't much
+discussed, even though it sounds very interesting!
+
+They note some possible applications. Audio is a 1-D application:
+amplitude over time. Image is a 2d application: you can move the
+kernel in both dimensions. Likewise, audio can be 2d if you do a
+Fourier transform and slide the kernel along the frequency axis; then
+that makes it respond regardless of the frequency: e.g., detect a sine
+wave at any frequency. A 3d application could be video.
+
+They make a note: because of the nature of convolution, it can process
+different image sizes. Likewise, you can use pooling to reduce an
+image to a desired size: e.g., ask if a feature is present anywhere in
+each quadrant, thus reducing to 2x2.
+
+So oftentimes a lot of our network is learning convolution operators,
+and then we do some kind of simple classification. We can train the
+whole network of the classification plus feature extraction, or we can
+train feature extraction seperately. One idea used by Coates is to do
+k-means clustering of images, and then use each centroid as a
+kernel. Or you can learn them through some other unsupervised
+approach (discussed in later chapters).
+
+It is noted that random filters actually do pretty well! One practical
+suggestion is to use random filters to pick an architecture of your
+CNN, and then train that.
+
+They mention that you can do greedy layer-wise pretraining. Here, you
+leave the rest of the network untrained, but just train the first
+layer, then leave that be, and train the second. You can do this also
+with an unsupervised criteria at each layer; they'll talk about that
+in Part III. But they note: now there is a lot more labeled data, and
+because there is more compute resources, these techniques are not as
+common.
+
+They make some interesting historical notes. Convnets were relatively
+successful at a time when other NNs were not considered
+successful. It's not clear why they were succeeding. Nowadays, when we
+use contemporary techniques from the 90s, they seem to perform
+reasonably well. So maybe practitioners didn't have a lot of compute
+resources, and thus the savings of convnets was very important. Or
+maybe it was psychological.
+
+## Ch10: RNNs
+
 **TODO**
