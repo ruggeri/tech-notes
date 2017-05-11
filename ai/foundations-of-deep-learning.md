@@ -922,3 +922,204 @@ Source: http://distill.pub/2016/augmented-rnns/
   distributions (defined by the possible settings of the neural
   networks). SGD is finding the best approximation it can amongst this
   family.
+
+## Generative Adversarial Networks
+
+* Uses:
+    * Text to photorealistic images.
+    * Squiggles and lines in Adobe illustrator to image.
+    * Apparently there's a tool to do this for drawings of cats.
+    * Blueprints to a rendering of the building.
+* They say that since GANs try to impersonate, they can be used to
+  mimic human actions. They have also been used to do physics
+  simulations (claim savings of millions of dollars).
+* The idea is this. You have a generator model, and it gets feedback
+  on how it is doing from a discriminator network.
+* The generator is being trained in an adversarial way.
+* You can have a single value function and have the discriminator try
+  to maximize it at the same time the generator tries to minimize
+  it. Eventually you should find yourself at a Nash equilibrium. The
+  natural value function is the percentage of correctly classified
+  examples, or rather the cross entropy.
+* The best discriminator outputs a guess based on the density of the
+  true distribution at a point versus the generator distribution.
+    * Therefore, the best that the generator can do is exactly mimic
+      the distribution of the original. Then the densities are exactly
+      the same, and the discriminator can only get a CE loss of 1 nat.
+* So here's a problem with iterative training.
+    * The generator proposes only values at one mode of the true
+      distribution.
+    * Now the discriminator will hate that image and always reject it,
+      even though those are actually good images!
+    * The generator will then move on to choose another mode!
+    * This continues with no convergence!
+* They say that leaky ReLU is more common for GANs because this
+  ensures signal can get all the way back to the generator, through
+  the discriminator.
+    * It appears common to use a tanh as the generator output layer.
+    * The discriminator needs a sigmoid.
+    * For loss, the discriminator will use the CE. And the generator
+      will use the CE with the labels switched. This works better than
+      the negative of the discriminator's CE.
+    * Why? It seems like the generator wants to beat the discriminator
+      by making it use lots of nats. But the problem is about how the
+      derivative behaves as the logits approach 1.0.
+    * Basically: CE has nice properties when you're *minimizing it*.
+    * Note: a point that minimizes the "deceived CE" must maximize the
+      "true CE", and vice versa. So these criteria specify the same
+      optima, but the gradients are different.
+* To generate images, Goodfellow suggests transposed convolution with
+  a stride. But maybe you should do the resize plus regular
+  convolution as discussed previously.
+* Goodfellow recommends batch normalization for GANs.
+* Summary:
+    * Autoencoders learn a representation that allows reconstruction
+      of an image. We can sort of abuse this, possibly, by inputting
+      an image that is *not* from the original distribution, and thus
+      maybe giving it features of the original distribution.
+    * Alternatively, shouldn't you be able to input random noise into
+      the latent layer?
+    * I suppose that might not work, because the network may expect
+      there to be correlations in that layer. Though ideally it should
+      not, as that would be an inefficient representation.
+    * GANs are fed noise, which the generator will think of as a
+      latent representation of some image.
+    * It gets to decide what image that latent representation means.
+    * It will try to produce images that correspond to the unlabeled
+      data distribution. It will not directly see any of the unlabeled
+      data.
+    * Basically, the GAN is producing random images, and asking: how
+      close to an original image was I?
+    * I don't understand at the moment how GANs can create new images
+      with properties that you desire?
+    * I suppose, if you do you have labels or descriptions, you can
+      feed this to both generator and discriminator. Now, the
+      discriminator is being asked: "Is this an image of a zebra?"
+    * Now, you should be able to ask the generator to give you "zebra
+      with wings" or some craziness.
+    * The idea being that if it learns the underlying concepts, it
+      might be able to mix these.
+* Why does the GAN not just learn a single really good example image?
+  The reason is that even if this is very good, the discriminator will
+  learn to reject it!
+    * So the GAN is incentivized to not just produce a small number of
+      good examples of the real distribution, but truly to emulate the
+      entire distribution.
+* Here's another idea.
+    * Imagine a text generator that was learning to caption images.
+    * A truly supervised task would be to say: did you generate the
+      exact caption that this image was labeled with?
+    * But then you could generate a perfectly reasonable description,
+      but it's not the same. "It is a yellow bike with black tires and
+      brown handlebars" is different from "There are two black wheels
+      and leather handlebars and a yellow frame."
+    * So maybe the GAN is good at giving "partial credit". That seems
+      more reasonable.
+
+**Paper notes**
+
+* They highlight Boltzman machines or deep belief nets as models that
+  have an undirected component. But inference in that setting is very
+  hard.
+* They say instead of the generator trying to maximize `-log(1 -
+  D(G(z)))`, it provides stronger gradients to minimize
+  `-log(D(G(z)))`. They note, as above, that this has the same "fixed
+  point dynamics": that is, minima.
+    * They say this is important early on when it is very very for the
+      discriminator to recognize the generated images, so that there
+      are very weak gradients for the generator to do better.
+
+Source: https://arxiv.org/pdf/1406.2661.pdf
+
+* They mention explicitly the idea of annotation of images which is
+  one-to-many, in the sense that many possible outputs are reasonable.
+
+Source: https://arxiv.org/pdf/1411.1784.pdf
+
+They note that generative modelling is a big part of unsupervised
+learning. They say that the idea is that if you can generate, then you
+probably have learned a good disentangled representation. They sound a
+little skeptical. They note VAEs and GANs are the common techniques
+here.
+
+They assume the utility is in using the disentangled version
+downstream.
+
+They are going to show an approach that they say the quality of the
+disentangled representations they learn are as good as when given
+supervised information. Their technique is going to try to push the
+GAN to learn a particularly good representation.
+
+Here's what they do. In addition to `z`, they also feed in `c` (these
+are both noise generated). The generator produces an output. The
+difference from a vanilla GAN is that the generator is given a bonus
+when `I(c ; x)` is high; that is, when `x` tells you a lot about the
+code `c`. That basically says: I want the `c` to be high-level
+semantic information, and the `z` to be what adds in random noise and
+variation that are less semantically meaningful.
+
+Let's go through this. They want to minimize the conditional entropy
+`H(C|x)`. Without access to `P(C|x)` they cannot find this.
+
+Now, `H(C|x)` is measured using the best enconding. If we used the
+wrong encoding from a probability distributino `Q(C|x)`, this could
+only do worse. Let us define `H' = E_{c \tilde
+P}[-log(q(c|x))]`. Minimizing establish an upper-bound on the true
+conditional entropy `H(C|x)`.
+
+TODO: They do some fancy math regarding some kind of variational
+statistics thing. I understand the idea: they're trying to capture the
+most meaningful information in these variables. But I need to study
+some statistics to understand this.
+
+They were able to do some pretty fancy stuff with this. In an entirely
+unsupervised way, they were able to learn the "angle" of a chair. That
+means they could give the same `z`, but manipulate `c` to spin the
+chair around in 3d space.
+
+Source: https://arxiv.org/pdf/1606.03657.pdf
+
+Mentions some uses of generative models. Can generate time-series
+future outcomes, so can be used for reinforcement learning. Or could
+generate an imaginary environment to learn in. You can fill in missing
+data; you can do semi-supervised learning. Generative models are
+better at "multi-modal" output. For instance, rather than predict just
+one outcome, which is smoothed out, you can generate a couple
+samples. Another example is superresolution or art generation.
+
+They go through some alternatives. The first set of alternatives have
+explicit density models. A subset have tractable, explicit density
+mdoels. An example is *fully visible belief networks*, which basically
+generates a sample `x` one coordinate at a time, conditioned on all
+prior coordinates. The probability distributino of the next coordinate
+is conditioned on the prior coordinates. This was done with WaveNet by
+DeepMind, and this is very succesful at generating speech, but it
+takes 2min to generate 1sec. The downside is speed.
+
+PixelRNN also by DeepMind works this way too, and inspired WaveNet.
+
+Another approach is to set `p_x = p_z(g\inv(x)) * deg(jacobian of
+g\inv at x)` where `z = g\inv(x)`. But that means you need a
+one-to-one `g` mapping `z` into `x`, which means you need the same
+dimensionality. And to tractably invert `g` could be hard; you also
+need to invert the jacobian. This limits your choices of `g`.
+
+Reminder: we want to find `p_x` for the model so that we can make sure
+the model is maximizing the likelihood of the produced data. Even if
+we want to produce samples, we presumably want some belief that this
+corresponds with the observed data.
+
+Another approach is to use a model which does explicitly give a
+density to the observed, but where this density can only be
+approximated. Variational autoencoders are an example. Here, we find
+some approximation that is a lower bound for the likelihood; we then
+maximize this lower bound. The problem, of course, is that if the
+lower bound is not tight enough, we will not maximize the true
+likelihood, and thus learn the wrong probability
+distribution. Apparently this is possible even in the limit of data.
+
+They say that, subjectively, GANs seem to produce better looking
+results than VAEs. They note that FVBNs are easier to train than VAEs,
+but that GANs are also hard to train.
+
+Source: https://arxiv.org/pdf/1701.00160.pdf
