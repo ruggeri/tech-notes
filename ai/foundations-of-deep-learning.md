@@ -786,7 +786,8 @@ Source: https://www.youtube.com/watch?v=G5RY_SUJih4
 
 Source: https://blog.heuritech.com/2016/01/20/attention-mechanism/
 Source: http://www.wildml.com/2016/01/attention-and-memory-in-deep-learning-and-nlp/
-(Excellent) Source: https://arxiv.org/pdf/1703.01619.pdf
+(Excellent) Source: *Neural Machine Translation and Sequence-to-sequence Models: A Tutorial*
+    https://arxiv.org/pdf/1703.01619.pdf
 
 ## More Augmented RNNs
 
@@ -1029,12 +1030,15 @@ Source: http://distill.pub/2016/augmented-rnns/
       discriminator to recognize the generated images, so that there
       are very weak gradients for the generator to do better.
 
-Source: https://arxiv.org/pdf/1406.2661.pdf
+Source: Generative Adversarial Nets (Goodfellow)
+    https://arxiv.org/pdf/1406.2661.pdf
 
 * They mention explicitly the idea of annotation of images which is
   one-to-many, in the sense that many possible outputs are reasonable.
+* But not a lot profound here...
 
-Source: https://arxiv.org/pdf/1411.1784.pdf
+Source: Conditional Generative Adversarial Nets (Mirza, a Montreal person)
+    https://arxiv.org/pdf/1411.1784.pdf
 
 They note that generative modelling is a big part of unsupervised
 learning. They say that the idea is that if you can generate, then you
@@ -1077,7 +1081,8 @@ unsupervised way, they were able to learn the "angle" of a chair. That
 means they could give the same `z`, but manipulate `c` to spin the
 chair around in 3d space.
 
-Source: https://arxiv.org/pdf/1606.03657.pdf
+Source: InfoGAN: Interpretable Representation Learning by Information Maximizing Generative Adversarial Nets (Xi Chen, Sutskever, Abbeel)
+    https://arxiv.org/pdf/1606.03657.pdf
 
 Mentions some uses of generative models. Can generate time-series
 future outcomes, so can be used for reinforcement learning. Or could
@@ -1168,7 +1173,8 @@ confident. Hyperconfidence is exploitable by a network constructing
 adversarial examples. They do note that you shouldn't smooth the fake
 labels.
 
-Source: https://arxiv.org/pdf/1701.00160.pdf
+Source: NIPS 2016 Tutorial: Generative Adversarial Networks (Goodfellow)
+    https://arxiv.org/pdf/1701.00160.pdf
 
 * For conditional GANs, they didn't find it useful to use the noise
   vector; this ended up being ignored by the generator.
@@ -1186,7 +1192,8 @@ Source: https://arxiv.org/pdf/1701.00160.pdf
   penalize the network. So the network is biased to hallucinate a
   less blurry segmentation.
 
-Source: https://arxiv.org/pdf/1611.07004v1.pdf
+Source: Image-to-Image Translation with Conditional Adversarial Networks (BAIR people I don't know)
+    https://arxiv.org/pdf/1611.07004v1.pdf
 
 ## One Shot Learning
 
@@ -1218,7 +1225,8 @@ Paper notes:
   it from overwriting other "allocations" of memory. So they have a
   memory allocation concept.
 
-Source: http://www.readcube.com/articles/10.1038/nature20101?shared_access_token=3UerOr1f0fy3oL_CytWdxtRgN0jAjWel9jnR3ZoTv0MggmpDmwljGswxVdeocYSujsARxGW1q2qxK0cTqi1Bup-nSH200cGUW_ET9MIG_6rvvXTcoxOnAX6B4E8dQs4FQ-yScxXe8EB0XnzqbUw3Qw%3D%3D
+Source: Alex Graves, Demis Hassabis
+    http://www.readcube.com/articles/10.1038/nature20101?shared_access_token=3UerOr1f0fy3oL_CytWdxtRgN0jAjWel9jnR3ZoTv0MggmpDmwljGswxVdeocYSujsARxGW1q2qxK0cTqi1Bup-nSH200cGUW_ET9MIG_6rvvXTcoxOnAX6B4E8dQs4FQ-yScxXe8EB0XnzqbUw3Qw%3D%3D
 
 * One-shot learning tries to learn from just one, or sometimes a few,
   examples. Most methods require many many examples. And they can't do
@@ -1260,4 +1268,44 @@ Source: http://www.readcube.com/articles/10.1038/nature20101?shared_access_token
       string labels.
 * Fascinating, fascinating paper!
 
-Source: https://arxiv.org/pdf/1605.06065.pdf
+Source: One-shot Learning with Memory-Augmented Neural Networks (DeepMind people I don't know)
+    https://arxiv.org/pdf/1605.06065.pdf
+
+## Hyperparameters
+
+* Learning rates: Bengio suggests they're the most important
+  parameter.
+* They mention learning rate decay and adaptive learning rates.
+* They mention that larger size can more efficiently use computational
+  resources because vectorization. But you can run out of memory. They
+  suggest up to 256 examples as reasonable.
+* They mention that some of the jitter of minibatching can mean you
+  won't get so stuck in local minima.
+* They mention early stopping.
+* Karpathy mentions that deeper than 3 layers seems not to help very
+  much for conventional NNs. He notes that is unusual as deep
+  convolutional nets can be very helpful.
+* Mention that if training accuracy exceeds validation accuracy
+  greatly, then too many units, or you need dropout or regularization.
+* LSTM and GRU seem to run about even, though my understanding is that
+  GRU is more efficient. They indicate that 2 RNN layers may be
+  plenty, and that more can give mixed results.
+    * They do mention that LSTM or GRU is much more common than
+      vanilla RNN.
+* I take all this advice with a big grain of salt, because I think it
+  probably just really depends on the task.
+    * E.g., some speech recognition tasks do better with five or seven
+      layers.
+* They also suggest that an embedding size of 500 is plenty. Some
+  papers don't see improvement after 50 dimensions, while others see
+  incremental improvements up to 200.
+* Not a very insightful lesson.
+
+## DCGANs
+
+* Looks like Ian Goodfellow was supposed to do this and some content
+  from him will be added later?
+* We're going to do transposed convolutions with no pooling and with
+  batch normalization. Transposed convolutions have a stride of two in
+  the output and generate more layers than they start with.
+* The discriminator will again do striding and not use max pooling.
