@@ -1309,3 +1309,121 @@ Source: One-shot Learning with Memory-Augmented Neural Networks (DeepMind people
   batch normalization. Transposed convolutions have a stride of two in
   the output and generate more layers than they start with.
 * The discriminator will again do striding and not use max pooling.
+* Batch Normalization
+    * They're introducing it because it seems needed to make DCGANs
+      work well.
+    * Allows higher learning rates, makes initialization easier.
+    * Some activation functions that you can't otherwise use become
+      viable again. For instance, sigmoids are hard to use for RNNs,
+      but if you're learning the gain separately, then it should be
+      okay.
+    * They suggest that it shouldn't actually make your networks
+      perform better, just train much faster. I believe you would
+      verify this by noting that it doesn't increase the
+      representational power of the network.
+    * But they mention you can get better results by training more
+      different kinds of models faster.
+* As mentioned in the Deep Learning book, you batch normalization
+  before the activation. That makes sense because normalization is
+  about linearity, and so you do it before the non-linearity.
+* They do some tests. Batch normalization is quite a bit slower per
+  example. On a four FC layer network for MNIST, it ran 2x-4x
+  slower. But there was much more rapid and steady progress toward
+  convergence.
+    * With batch normalization, on MNIST you cross 80% accuracy 6x
+      faster than without.
+    * I suspect if you do GPU training batch norm is quite a bit
+      faster. Also, I think the benefits are probably greater on
+      deeper and especially recurrent networks.
+* The difference is extremely dramatic with a sigmoidal activation
+  function. Here batch normalization results in a 45x speedup.
+* They show that using a high learning rate can rapidly accelerate
+  training. This can be dangerous with ReLU normally because too many
+  die out. But BN did perfectly fine.
+* BN was much more resilient to poor intialization of weights,
+  training in scenarios where there was no ability to learn without
+  BN. They note that high learning rates and ReLUs seem to not mix at
+  all.
+* So let's talk about how to do BN in TF. The hardcore way is to use
+  `tf.nn.batch_normalization`.
+    * This simply does `(gamma(x - mu)/sigma) + beta`. You give
+      tensors for each of these (plus a variance epsilon value.
+    * Of course, gamma and beta can be trained by the model. But you
+      need to supply mu and sigma. How?
+    * You can create variables for them. You should make them not
+      trainable.
+
+```
+def bn(z, training_mode):
+    # Will be used at test time. TF shouldn't train these; they are
+    # computed!
+    pop_mean = tf.Variable(
+        tf.zeros_like(z), trainable = False
+    )
+    pop_variance = tf.Variable(
+        tf.ones_like(z), trainable = False
+    )
+
+    def train_helper():
+        # Will be used for training this batch.
+        batch_mean, batch_variance = tf.nn.moments(z, (0,))
+
+        # The operations update the population mean/variance for future test
+        # time use.
+        update_pop_mean = tf.assign(
+            pop_mean, pop_mean * decay + batch_mean * (1 - DECAY)
+        )
+        update_pop_variance = tf.assign(
+            pop_variance, pop_variance * decay + batch_variance * (1 - DECAY)
+        )
+
+        # control_dependencies will make sure these are updated even
+        # though they aren't necessarily required by the graph
+        # structure.
+        with tf.control_dependencies([update_pop_mearn, update_pop_variance]):
+            return tf.nn.batch_normalization(
+                x = z,
+                mean = batch_mean,
+                variance = batch_variance,
+                offset = beta,
+                scale = gamma,
+                variance_epsilon = EPSILON
+            )
+
+    def test_helper():
+        return tf.nn.batch_normalization(
+            x = linear_output,
+            mean = pop_mean,
+            variance = pop_variance,
+            offset = beta,
+            scale = gamma,
+            variance_epsilon = EPSILON
+        )
+
+    # This says do one if in train mode, else the other.
+    return tf.cond(training_mode, train_helper, test_helper)
+
+```
+
+* Let's mention why you can't just use the batch mean/variance at test
+  time. In the extreme example with one example, every `z` value will
+  be set to zero because of mean normalization!
+    * Regardless, this isn't what you want. The idea of the batch
+      normalization is that the batch is a good estimate of the
+      current mean/variance, and you want to make changes while
+      controlling for that.
+    * But when doing inference, there are no proposed changes. Here,
+      you might as well just use the overall estimate of the
+      mean/variance.
+* Alternatively, you can just use `tf.layers.batch_normalization`
+    * Behind the scenes, there are still now variables used for
+      updating population means/variances.
+    * So, you'll want to do `tf.control_dependencies` with
+      `tf.get_collection(tf.GraphKeys.UPDATE_OPS)`.
+* When training convnets, remember that you don't want to just batch
+  normalize per `(x, y, layer_idx)`, but actually just per
+  `layer_idx`. That's because all the pixels in a layer are produced
+  by the same operation.
+    * You can accomplish this with `batch_mean, batch_variance =
+      tf.nn.moments(conv_layer, [0,1,2], keep_dims=False)`
+* Likewise, you can use batch normalization for an RNN.
