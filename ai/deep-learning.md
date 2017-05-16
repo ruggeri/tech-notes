@@ -645,4 +645,33 @@ maybe it was psychological.
 
 ## Ch10: RNNs
 
-**TODO**
+* Pretty basic discussion. They mention teaching forcing, and how this
+  is a kind of maximum likelihood approach.
+* They note that you have to assume a stationary conditional
+  distribution for an RNN. But of course the advantage is you use far
+  fewer parameters.
+* They mention how do you decide when to stop? One way is a stop
+  symbol.
+* They discuss bidirectional RNNs. Seems like Graves is really into
+  this. They mention it makes sense for tasks like speech recognition
+  where information about subsequent sounds shapes our interpretation
+  of the previous sounds.
+* They describe encoder/decoder architecture briefly. The mention
+  attention but that is discussed later in the book.
+* They describe the idea of a recursive neural network. Here, pairs of
+  adjacent elements are combined. Then this is repeated. Again and
+  again until you get just one element. You use the same matrix to
+  combine at every level.
+    * The advantage they mention is that the path from the final
+      result to the items of the sequence is now logarithmic, which
+      helps with backprop.
+* They discuss the long term dependency problem. The idea is this: the
+  gradient for long-term dependencies is very small, whereas the
+  gradient for short-term spurious dependencies is much greater. So
+  it's really hard to learn long-term dependencies.
+* They propose another approach, called *echo state networks*. The
+  idea is this. The hard thing to learn is how to make sure the hidden
+  weights capture the information over the sequence of values. So they
+  want you to *manually* set these, and just learn the output weights.
+    * If your output is a regression value with squared loss, your
+      task is now a simple convex task.
