@@ -1427,3 +1427,21 @@ def bn(z, training_mode):
     * You can accomplish this with `batch_mean, batch_variance =
       tf.nn.moments(conv_layer, [0,1,2], keep_dims=False)`
 * Likewise, you can use batch normalization for an RNN.
+
+* I wrote up a project where I implement batch normalization for a
+  very deep convolution network for MNIST.
+* And I also implemented code that uses BN and a DCGAN to generate
+  SVHN samples.
+
+* Ian Goodfellow describes one way to use GANs for a semi-supervised
+  task. Train the discriminator to predict whether an output is
+  fake, or if not what output class it belongs to.
+    * You're going to eventually throw the generator away but keep the
+      discriminator.
+    * The loss function is the cross entropy with the labels for real
+      inputs, plus the CE for if it thinks a fake image is real at
+      all.
+    * He mentions that "feature matching" is important, but doesn't
+      really describe what that means.
+    * This video was effectively useless right now, because there
+      isn't enough description.
