@@ -675,3 +675,56 @@ maybe it was psychological.
   want you to *manually* set these, and just learn the output weights.
     * If your output is a regression value with squared loss, your
       task is now a simple convex task.
+    * The idea is to set the weights of the transition matrix such
+      that all eigenvalues are close to one. If that is true, then you
+      don't get blow up or shrinkage.
+    * ESN weight setting techniques have been used as *initialization*
+      values for normally trained networks with some success.
+* They suggest other ways to avoid vanishing/exploding gradients:
+    * Add skip connections.
+    * Or add linear self-connections wiht a weight near one. That
+      calculates a decaying average. These are called leaky units
+      sometimes.
+* They talk about LSTMs. This adds the ability to forget, whereas
+  leaky units just remember. They also mention GRU which is a minor
+  simplification. They note that many LSTM variants appear to work the
+  same, but initially biasing the forget gate to 1.0 seems to help:
+  that makes the LSTM be initially biased toward remembering fully.
+* They discuss gradient clipping, which basically is worried that
+  you'll be on the face of a cliff and take way too big a step.
+    * You can either do element-wise clipping or clip the *norm*,
+      which renormalizes the gradient to have a maximum value.
+    * Norm clipping preserves direction. But it appears either way
+      works about equally well.
+    * It has actually been found that taking a *random* step works
+      about as well. Presumably this can jitter you off the rockface.
+    * They do note that theoretically doing norm clipping may cause
+      SGD to no longer be an estimation of the overall gradient
+      optimization. That's because some batches are unaffected, but
+      other examples are. But the impact of this is negligable.
+* They note an interesting technique to use *regularization* to
+  encourage *information flow*.
+    * Here's the idea. You want the derivative of the loss wrt the
+      hidden unit activations at time `t` to have the same norm as for
+      wrt hidden unit activations at time `t-1`.
+    * Basically, that's saying that the network is not more or less
+      sensitive to changes in activation at time `t-1` than at `t`.
+    * So, to do this, you can add a regularization term.
+    * This does appear to be pretty effective.
+    * This is from work by Razvan Pascanu; I see him a lot.
+* They talk about explicit memory.
+    * This is the idea of memory networks (Weston) and neural Turing
+      machines (Graves).
+    * They talk about how they have content-based addressing; each
+      cell of the memory contains a whole vector.
+    * The problem of vanishing or exploding gradients doesn't exist
+      here, because explicit memory is kept across timesteps.
+    * They mention that reads/updates are typically *soft*; they
+      affect all cells, but some more than others.
+    * They mentino there is study of stochastically choosing a cell to
+      operate on. This is called *hard attention*, and requires
+      different training methods.
+
+## Ch11: Practical Methodology
+
+**TODO**

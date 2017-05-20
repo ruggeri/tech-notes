@@ -1445,3 +1445,7 @@ def bn(z, training_mode):
       really describe what that means.
     * This video was effectively useless right now, because there
       isn't enough description.
+
+* For the project, I used max pooling and `resize_nearest_neighbor`
+  and felt like I got better results for the face generation project.
+* I found this project very demoralizing, actually.
