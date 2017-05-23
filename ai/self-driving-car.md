@@ -154,6 +154,47 @@ which are sufficiently close.
 ## CNNs
 
 * Explains weight sharing and mentions CNN idea.
+* Talks about feature maps and different padding modes.
+* They seem to indicate that pooling has fallen out of favor. They
+  seem to indicate that a major benefit to pooling was that it
+  prevents overfitting, but that dropout is a better regularizer.
+    * I thought the idea was to just detect a feature once as present,
+      but I guess a fully connected layer can maybe learn that anyway,
+      while pooling loses so much information.
+    * One question: does that mean that average pooling is more
+      popular now? And I don't know that I've seen a backlash against
+      max pooling...
+* He mentions an idea of 1x1 convolutions. Here, you're just mixing
+  the layers at each pixel, so it adds some deepness but is very
+  simple. Sometimes people alternative 1x1 convs with larger
+  convolutions.
+* He suggest the *inception architecture*, where several types of
+  convolution are done: a 1x1, a 3x3, a 5x5, and even an AVG pooling
+  followed by a 1x1. And then the results are concatenated at each
+  pixel. That sort of gets the best of both worlds, without using too
+  many parameters.
+* They have you build a simple version of LeNet-5 in TF.
+
+## Sign Detection
+
+* I wroteup a review. But mostly I saw that BN was very useful, plus
+  learning rate adjustment.
+* Perturbation didn't help much, but grayscaling seemed to help a lot,
+  oddly. I don't have a theory about why. I learned about adaptive
+  histogram equalization, which seems to produce good contrast
+  images. However, I didn't use it because it requires OpenCV which I
+  haven't yet finished building for Python 3.6.
+* I used 5x5 convolutions, but I think more 3x3s is generally
+  preferred as more efficient.
+* It was important to dropout *after* max pooling, presumably because
+  max pooling resists dropout by doing pooling across nodes.
+* I got much better performance by decaying the learning rate: 5%
+  misclassification to 3%. I would do that again in the future. Batch
+  normalization also appeared to help a lot.
+* Fancy techniques like 1x1 convolutions or LeCun's multi-scale
+  features didn't seem to help that much. In the future, I would start
+  simpler and only use like two convolution layers of 3x3, since LeCun
+  got good performance from that.
 
 ## Conda
 
