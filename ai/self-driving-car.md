@@ -196,6 +196,100 @@ which are sufficiently close.
   simpler and only use like two convolution layers of 3x3, since LeCun
   got good performance from that.
 
+## Keras
+
+* They introduce Keras, which is just a high-level version of TF. The
+  Sequential class from Keras allows you to make simple networks that
+  consist of a series of layers; you add the layers one-by-one to the
+  network.
+
+Here is a Keras example:
+
+```
+model = Sequential()
+model.add(Conv2D(
+    filters = 32,
+    kernel_size = (3, 3),
+    padding = "same",
+    input_shape = (32, 32, 3)
+))
+model.add(MaxPooling2D())
+model.add(Dropout(0.50))
+model.add(Flatten())
+model.add(Dense(128))
+model.add(Activation("relu"))
+model.add(Dense(5))
+model.add(Activation("softmax"))
+history = model.fit(
+    X_normalized, y_one_hot, nb_epoch = 3, validation_split=0.2
+)
+```
+
+* I would say that it would be well worth reading the Keras
+  documentation. It seems like I could just use Keras mostly from now
+  on.
+* They see an LSTM as just a regular kind of layer. Here's an example:
+
+```
+model = Sequential()
+model.add(LSTM(32, return_sequences=True,
+               input_shape=(timesteps, data_dim)))  # returns a sequence of vectors of dimension 32
+model.add(LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
+model.add(LSTM(32))  # return a single vector of dimension 32
+model.add(Dense(10, activation='softmax'))
+```
+
+I guess you can think of an LSTM as operating not on a sequence but on
+a vector input, with a particular kind of form of
+transformation. There is also a `stateful` flag that allows you to use
+the previous batch's LSTM hidden state vector as the initial state
+vector in the next batch. This is useful if you want long sequences as
+input, but you split it up into stretches of time. That makes things
+more tractable.
+
+There is functionality to save the structure of a model to a JSON or
+YAML file. There is functionality to save and load weights. The
+simplest way to save an architecture *and* weights is `Model#save`.
+
+Methods of the `Sequential` model include `compile` (you specify
+optimizer, loss function, metrics to track), `fit` (you give the
+training set), `evaluate` (to run your validation or test set),
+`predict` (obvious). Training, testing, and prediction can all be done
+`_on_batch`. There are also `generator` versions, which presume that
+you want to train the current batch on the GPU in parallel with
+running the generator to produce the next batch (often with data
+augmentation) on the CPU. These are helpful if your dataset won't fit
+in memory.
+
+There are of course many many layer types. `LocallyConnected2D` sounds
+like something I've wanted; a sparse connectivity with unshared
+weights.
+
+There are many preprocessing functions. There are a number for
+skipgrams and negative sampling. There's one for generating perturbed
+images.
+
+It's straightforward to add constraints to weight matrices and
+biases. The typical choice would be max norm. Likewise you can easily
+add simple regularizers like L2. Gradient clipping on the other hand
+is an attribute of the optimizer classes.
+
+There are a bunch of callbacks you can provide to the `fit`
+method. You can use EarlyStopping to top early if you are not making
+progress. You can use a LearningRateScheduler, or ReduceLROnPlateau
+(which reduces learning rate when loss doesn't change for a specified
+number of epochs).
+
+You can acheive a bidirectional LSTM using a layer
+*wrapper*. Bidirectional wants to take in your LSTM layer as an
+argument.
+
+Keras distributes a bunch of datasets for your easy use. They also
+provide a bunch of pretrained models (mostly imagenet models) for your
+transfer learning use; it is easy to strip off classification layers,
+and also to selectively retrain a few top extraction layers, too, if
+you like. To freeze a layer, you set `#trainable` to false.
+
 ## Conda
 
 ```
