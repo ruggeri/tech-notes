@@ -290,6 +290,103 @@ transfer learning use; it is easy to strip off classification layers,
 and also to selectively retrain a few top extraction layers, too, if
 you like. To freeze a layer, you set `#trainable` to false.
 
+## Transfer Learning
+
+* Mentions that one advantage is that if a well-known network has been
+  trained on a large dataset, you can get a big advantage if you're
+  working with a smaller dataset.
+* Common approachn when you have a small dataset of similar data is
+  you freeze the convolutional layers, strip off the FC classification
+  layers, and replace with a randomly initialized FC classification
+  layers. Then you just train these with your small dataset. This
+  avoids overfitting.
+    * If your small dataset is quite different, you may even want to
+      strip off some of the top convolution layers, because those may
+      not be features of what you're looking for.
+    * But early convolutions which look for shapes could still be very
+      useful. So you might just keep the first couple convolutions,
+      and again not training those.
+* If you have a lot of data, you can use the pre-trained weights as an
+  initial choice, but then retrain the whole thing.
+* They claim increased amount of labeled data plus more computational
+  power of GPUs is why NNs are a thing now.
+* They talk about some history:
+    * LeNet was from 1998 and was used for digit recognition.
+    * AlexNet was similar (but deeper) and used for ImageNet.
+        * Used GPUs, which was new. Also used ReLU, which was
+          new. Also dropout, which was new. Error on ImageNet dropped
+          from 26% to 15%.
+* AlexNet architecture:
+    * Input is 224x224x3. They do 11x11 convolution to 96
+      layers. Stride is 4. That downsamples to 55x55. They use ReLU.
+    * Then they do LRN followed by 3x3 pooling with a stride of
+      two. That further downsampels to 27x27. They find overlapping
+      pooling added about 0.5% accuracy.
+    * Next they do two sets of 128 5x5 convolution on 48 layers
+      each. I believe they do this on two parallel GPUs. The stride is
+      now one.
+    * They again do LRN and 3x3 pooling with a stride of two. This
+      brings us to a size of 13x13. No more pooling will be done.
+    * Now they do two sets of 192 3x3 kernels, each acting on *all*
+      256 layers of the prior layer. This is the only time there is
+      cross-communication in the convolution pipeline. At this point
+      they stop doing LRN or pooling.
+    * They repeat an identical layer of two pairs of 192 3x3 kernels,
+      but this time they work on only half the previous 384 layers.
+    * They have a pair of 128 3x3 kernels, as ever acting on halves of
+      the previous layer's feature maps.
+    * They now do a fully connected layer of 4096 units, followed by a
+      second layer of 4096 units. This then goes to 1000 unit softmax
+      layer, which is the output.
+    * They note that CNNs are a good way to inject a bunch of
+      knowledge: that features are invariant to translation, which is
+      vital to learn a very hard task with limited data.
+    * They note that training took 5 days on two GTX 580 GPUs. They
+      used two GPUs primarily because their GPUs didn't have enough
+      memory to fit the entire model otherwise.
+    * They increase the dataset size by a factor of *2048* by doing
+      224x224 crops of the 256x256 input images. At test time, they
+      take a 256x256 image and take 5 224x224 patches: the corners and
+      the center. They then average the results. Without this
+      augmentation, they found that overfittingn was a huge problem
+      and they would have been forced to use a much smaller network.
+    * (BTW, the paper has a mathematical error; the input should be
+      227x227x3; Karpathy notes this).
+    * They further augment by doing PCA for the pixel intesnities
+      across ImageNet and then adding small multiples of the principal
+      components. This effectively changes the intensity of the
+      lighting, they claim. This increases accuracy by one %age point.
+    * They do weight decay, which they found was important to get good
+      *training* accuracy; so they didn't use it as merely a
+      regularizer. Weird that this would occur. Otherwise, they did
+      standard SGD on batches of 128 with momentum. They initialized
+      with Gaussian weights of 0.01 stddev. They used a bias initialized
+      at 1.0 for some of the convolutional layers.
+    * They decayed the learning rate by 10x when the validation error
+      stopped improving.
+    * One way they test visual knowledge is to find what pairs of
+      images are closes at the last layer of 4096 hidden units,
+      measured by L2 distance.
+    * They note that accuracy decreases by 2 %age points if any layer
+      is removed. So they claim depth is very important.
+* They note that LRN is not typically used anymore, as it doesn't seem
+  to add much if any value.
+* They then start talking about VGG. This is a simpler architecture.
+* GoogLeNet performs just a bit better than VGG. They used the
+  "inception module" idea, which is very efficient.
+    * Inception module was pooling followed by a 1x1.
+    * AND, a 1x1, followed by: (a) nothing, (b) a 3x3 convolution, (c)
+      a 5x5 convolution.
+    * It ends up having a very small number of parameters, while still
+      being very accurate. So it's a good choice for real-time
+      applications they say.
+* Resnet is also from 2015, and is from Microsoft.
+    * It has 152 layers, vs 22 from GoogLeNet or 19 from VGG.
+    * Resnet has 3% error which is better than human accuracy.
+    * It can train fast because of the skip connections.
+* This module was idiotic. They gave you some bottleneck features and
+  had you train a simple logistic classifier.
+
 ## Conda
 
 ```
