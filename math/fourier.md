@@ -1,3 +1,5 @@
+**NOTE**: I believe this is being superseded by fourier2.md.
+
 ## Sinusoidal Basis
 
 From linear algebra, I know that given an inner product and an
