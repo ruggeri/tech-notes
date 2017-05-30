@@ -81,7 +81,7 @@ locked down domain. So you have no choice for `<v, w>` at that point.
 **A proposed inner product**
 
 I propose `I(f, g) = \Int_{-T/2}^{T/2} f(t)g(t)`. This in some ways
-feels like a natural generaltization fo the dot product, though I hope
+feels like a natural generalization of the dot product, though I hope
 to provide more motivation soon (when I figure it out!).
 
 In order to show this works, it will suffice to show that (1) `I` is
@@ -358,3 +358,75 @@ function on `(-x, x)` is always representable. That's even more direct
 than showing for any indicator function with rational endpoints.
 
 **TODO**: Show that `sin(nk)` does this!
+
+## TODO
+
+When considering the dot product, we followed this reasoning. First,
+we realized the choice of basis was arbitrary. We saw that if we
+wanted vectors to decompse properly in rotations of the basis, we had
+to use the dot product.
+
+What trips me up with Fourier stuff is: why are we talking about sine
+and cosine, why are we talking about this L2 inner product?
+
+Here is a similar approach to the space of sinusoidal functions. Take
+two independent sinusoidal functions that generate the space. Call one
+sine, call the other coxsine. We want an inner product that allows us
+to "rotate" this basis, and still have the inner product work on the
+rotated version.
+
+One question is: what does it mean to "rotate" a basis? What do we
+want to preserve? Presumably, we want this inner product to work in
+bases that are phase shifts of the original basis. It is true by
+identity that linear combos of `sin` and `cos` corresponding to `(cos
+theta, sin theta), (-sin(theta), cos(theta))` *are* in fact phase
+shifts...
+
+Now, we recognize that the L2 inner product *does* seem correct, as
+the limit of a series of approximations with *finite* dimensional
+spaces. Now, for finite spaces, we have that the dot product makes
+sense if we want rotations of the basis to be zero.
+
+So, is it true that `sin` and `cos` are the infinite limit of a series
+of finite dimensional rotated bases? It does feel like `sine` and
+`cosine` are rotations of each other in the sense that at every
+`theta`, one is `sin(theta)` `cos(theta)`. So it's kinda like every
+"dimension" is being rotated by a different theta.
+
+But even if `sin` and `cos` are the limit of a series of rotated
+bases, what of it? Aren't there other series that would converge to
+other functions? My guess is not! My guess is that other rotated bases
+would simply converge *to phase shifts of sine and cosine*.
+
+But then I wonder: does that mean you can only use the L2 inner
+product to decompose into sinusoidal functions? That seems like it
+couldn't be true. In that case, is there still a sense in which any
+two periodic functions could be considered a limit of rotated bases?
+
+By the way. I feel like I haven't used continuity anywhere.
+
+A thought. It is very convenient if we choose as basis vectors vectors
+where, when approximated in a finite dimensional space, the
+approximations are orthogonal, and thus we can decompose a function
+into a finite dimensional approximation. That happens when the series
+of approximations in higher-and-higher dimensional spaces are are
+orthogonal. If we want this convenience, then this necessarily implies
+that (1) the basis vectors of the function space must be orthogonal
+wrt the L2 inner product (2) the basis vectors of the function space
+must have norm 1, and (3) the true decomposition is indeed given by
+the L2 inner product.
+
+Okay, I'm convinced that the L2 inner product makes total sense. It's
+the only way if you want to be able to use more and more percise
+finite approximations to the basis, and get decompositions that are
+more and more accurate. So I believe the question is no longer: "Why
+L2 inner product?" We can take that as a given.
+
+That sets up a few questions:
+
+(1) Why are sine and cosine natural choices for the basis? Can we use
+other non-sinusoidal functions? Are they in some sense sine and
+cosine?
+
+(2) Why are orthogonal sinusoidal functions phase shifted by pi/2
+radians? This seems easier to demonstrate
