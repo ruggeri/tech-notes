@@ -15,7 +15,7 @@ combination of these *two* basis vectors. It is natural that the space
 has dimensionality 2, because all members of the space were
 parameterized by a tuple `(a, phi)` as presented above.
 
-## Decomposition of sinusoidal functions of period T
+## Inner Product and Finite Approximation
 
 Now, I would like to decompose any member `f` in the "original"
 representation of `(amplitude stretch, phase shift)` to `(a, b)`,
@@ -138,7 +138,7 @@ want is:
 I believe this math is confirmed in the Strang chapter linked here:
 http://math.mit.edu/~gs/cse/websections/cse41.pdf
 
-## Extending our result
+## Inner Product Explored for all Piecewise Continuous Periodic Fns
 
 **Periodic Piecewise Continuous Functions**
 
@@ -261,56 +261,116 @@ notion of convergence, but perhaps this is very hard, because multiple
 topologies may be compatible with the same notion of
 convergence.
 
-**Utility of Approximations**
+**Integral inner product allows approximations**
 
-But I'm getting a little distracted by theory. It seems reasonable to
-require that if a sequence converges to `f`, then the sequence of the
-average absolute difference ought to converge to zero.
+I've gotten a little distracted by theory. Let's circle back and think
+about how we plan to break up a function `f` into a linear combination
+of basis vectors. Basically: how do we plan to do the projections?
 
-I suggest this because we will want to decompose functions into their
-bases, but maybe not "all the way". We'll probably want a "fine
-enough" approximation in the basis, and then use this to solve real
-problems.
+The space of piecewise continuous functions is extremely
+varied. Whatever process of projection is going to have to work for
+many antagonistic vectors to project; it would be incredible if this
+were always simple.
 
-If, as we make our decomposition "more and more fine", we don't have a
-better and better approximation of the average absolute intensity,
-that sounds like it may hinder us from doing many useful
-calculations. Basically, it would mean the decomposition wasn't really
-helpful, and we'd be lying to ourselves thinking that our calculation
-from the approximation was describing approximate behavior of the
-underlying function.
+It would sure be nice if we could take a finite approximation of `f`
+and a finite approximation of a basis vector `e_i`, and perform some
+kind of projection of the `f` approximations onto the `e_i`
+approximation. Then, hopefully, in the limit, this would converge to
+the proper approximation.
 
-Therefore, we may note that pointwise convergence is out. Consider a
-series of functions `f_i` which take the value `3**i` on the interval
-`1/2**i - 1, 2**(i+1) - 1`. This converges pointwise to the zero
-function (which has integral zero) but divergent integral (because
-while the length is halving, the height is tripling). So no matter how
-fine our approximation with this series, we would get worse and worse
-approximations of the integral.
+Of course, the simplest approximation is to break `f` and `e_i` into
+step functions. That effectively makes them vectors in `R^n`. The
+simplest inner product here is just the dot product. And of course, in
+the limit, that will converge to the integral of `f` times `e_i`. That
+suggests we use this as our inner product.
 
-**Hilbert Space/L2 Space**
+I don't see that we're forced to use this inner product. But it seems
+like any other inner product would just be making our lives
+difficult. It may even be that all other inner products are in some
+sense this integral product, but I don't know that. At the moment, it
+seems perverse to consider alternatives, so I will not.
 
-We will use the L2 norm, which is the square-root of the integral of
-the squared difference. This is traditional, but I'm not sure why. Per
-the above, I see a motivation to make our notion of convergence
-strong: it means that when we approximate, we have a useful
-approximation. But why not make them *even stronger*!
+**From inner product to norm and topology**
 
-I will speculate. Let us say we used the *L3* norm. Then it is
-possible that a basis wrt the L2 norm may no longer span the entire
-space. Perhaps *no* countable basis would span: that would be
-horrible! I don't know whether that is possible.
+We've decided how we want to decompose a function. But in what sense
+is the "recomposition" the original vector? In a finite dimensional
+space, after decompsition, we could restore and get exactly the
+original vector. But here, the "restoration" is actually a sequence of
+restorations. In what sense does this converge to the original?
 
-But even if, with this new norm, you still have a countable basis,
-maybe it is *really hard to decompose into*. The whole point of
-Fourier analysis is to come up with this nice way to decompose these
-periodic functions.
+Consider a function `f` and a finite decomposition and recomposition
+`f_i`. The "error" is `f - f_i`. If we had `f - f_i` in the basis,
+then adding in exactly one times `f - f_i` would give us exactly `f`.
 
-Indeed, it appears that L2 is the only Hilbert space amongst the Lp
-spaces: one which is a inner product space complete wrt the norm
-induced by the inner product. Presumably that means that for other Lp
-spaces, there is no valid inner product that generates the norm. I
-don't know that; this is just speculation.
+Let's consider `I(f - f_i, f - f_i)`. If `f_i = f`, it makes sense
+that this is zero; though I suppose it could be anything, because
+adding zero to the basis makes a non-linearly independent set.
+
+On the other hand, when `I(f - f_i, f - f_i)` is non-zero, this means:
+"I wish I had some of the error vector `f - f_i`."
+
+On the third hand, consider the possibility that `f != f'` but `I(f,
+f - f') = 0`. That means: "`f` and `f - f_i` are not equal, but only
+in a sense that I don't care about. Even if you gave me the exact
+'fixup' vector, I would choose not to use it."
+
+Let us say that a sequence `f_i` converges to `f` if the error's
+*norm* has limit zero (that's what we call: "how much do you want to
+use of yourself to reconstruct yourself?). It can be shown that thea
+reconstitution error will, in the limit, always be orthogonal to all
+basis vectors. Therefore, the reconstitution always converges to `f`
+if the basis spans, *or* to a vector `f\hat` with non-zero norm whose
+error is orthogonal to all basis vectors.
+
+**L2 convergence is a stronger notion than pointwise convergence**
+
+Consider a series of functions `f_i` which take the value `3**i` on
+the interval `1/2**i - 1, 2**(i+1) - 1`. This converges pointwise to
+the zero function (which has integral zero) but the norm of the L2
+error diverges.
+
+No matter the basis, we would never see an approximation series like
+this (provided we use an orthogonal basis). The approximation will
+converge to some `f\hat`, which may not be the true `f`, but it won't
+*diverge*!
+
+Moreover: A basic result is that if `f` is in the span of an
+orthogonal basis, the sequence of absolute areas of each approximation
+`f_i` will converge to the absolute area of the original `f`.
+
+This basically says: if you care about the average power of a signal,
+the approximations will not lie to you!
+
+It is *not* true that for any `F`, that `lim F(f_i) = F(f)`. This
+cannot be so for every `F`. However, hopefully for many common and
+useful applications, we will be able to use the basis transformation
+like that. Indeed: it is the whole point of this exercise!
+
+**Stronger notions of convergence?**
+
+When you say that it isn't safe to assume `lim F(f_i) = F(f)`, that
+makes me wonder whether we can find a decomposition method such that,
+when we decompose a function, the convergence is stronger, and thus we
+`lim F(f_i)` will converge to the correct value for a greater class of
+`F`.
+
+This is a question beyond my pay grade. I have worries. The first is
+that your decomposition method may need to be very complex. Is there a
+method of finite approximation? My second worry is that your basis may
+have to be far too large. In particular, if the basis is of
+uncountable dimension, is it possible that a series of *finite*
+approximations will converge (in your stronger sense!) to the target
+`f`?
+
+## Arriving at the Fourier Basis
+
+By now I have thoroughly convinced you that the integral inner product
+is the most common-sense way to perform projection in a space of
+piecewise continuous functions on a domain of finite volume.
+
+But now we must ask: what basis should we use? Obviously any
+orthogonal set that spans the space will work. What do those look
+like? What are our choices?
 
 **Beginning To Produce A Basis**
 
@@ -318,7 +378,7 @@ I propose a countable spanning set. Consider all indicator functions
 of open sets with rational endpoints. This is countable. There is
 clearly a pointwise convergent series of finite linear combinations of
 this basis for any pointwise continuous fuction `f`. I will not show
-that this converges in L2 norm, but that seems expected.
+that this converges in L2 norm, because I am lazy.
 
 This set is not independent, so there is certainly not a unique
 decomposition into these functions. What about indicator functions
@@ -327,12 +387,17 @@ can build a series of "staircases" that converges to the constant
 function `[0,1)` (start with 1/2 of `I_{[0,1)}` and 1/4 of `I{[0,
 1/2)}`.
 
-**Wait, why do we not like step function bases?**
+**Why do we need an orthogonal basis**
 
-I'd like to step back for a moment: what do I care about unique
-decomposition? Isn't any approximation good? It certainly seems like
-uniqueness of decomposition is irrelevant provided the approximation
-is satisfactory according to whatever other criteria I have.
+Duh. If the basis is not orthogonal, then we can project onto the
+basis vectors and get a proper deconstruction. When you reconstruct
+you're not going to get the original vector!
+
+On the other hand, maybe we can introduce a series of finite, bases
+that each consist of orthogonal vectors (their countable union does
+*not* consist entirely of orthogonal vectors), each yielding a more
+accurate deconstruction of `f`. Of course, we can do this with a
+series of step-function approximations.
 
 But now we have to remember the point of what we're doing at all. We
 *know* we can approximate a function by measuring it at points `i/k`
@@ -351,86 +416,32 @@ high frequency oscilate too quickly for you to take advantage of.
 Indeed, the point is this. You want an approximation in a domain where
 the calculations you want to make are *easy to perform.*
 
-**The Idea: Sinusoidals Can Approximate Indicator Functions**
-
-**TODO**: I think you can prove this by showing that the indicator
-function on `(-x, x)` is always representable. That's even more direct
-than showing for any indicator function with rational endpoints.
-
-**TODO**: Show that `sin(nk)` does this!
-
 ## TODO
 
-When considering the dot product, we followed this reasoning. First,
-we realized the choice of basis was arbitrary. We saw that if we
-wanted vectors to decompse properly in rotations of the basis, we had
-to use the dot product.
+1. The next natural step is to show you can approximate steps with
+sinusoidals, which will show that they span the space. It's probabily
+easiest for `I_{-x, x}`.
 
-What trips me up with Fourier stuff is: why are we talking about sine
-and cosine, why are we talking about this L2 inner product?
+2. We know there are other orthogonal bases other than sinusoidals (at
+least for finite dimensional spaces). Are these all in some "sense"
+generalizations of the sinusoidal case? I doubt so! For instance, the
+wavelet transform!
 
-Here is a similar approach to the space of sinusoidal functions. Take
-two independent sinusoidal functions that generate the space. Call one
-sine, call the other coxsine. We want an inner product that allows us
-to "rotate" this basis, and still have the inner product work on the
-rotated version.
+3. We know we can *rotate* a basis and maintain orthogonality. For the
+sinusoidal basis, this means phase shifts. Can you explain intuitively
+why? But there are many other orthogonal bases: can you "rotate" to
+them?
 
-One question is: what does it mean to "rotate" a basis? What do we
-want to preserve? Presumably, we want this inner product to work in
-bases that are phase shifts of the original basis. It is true by
-identity that linear combos of `sin` and `cos` corresponding to `(cos
-theta, sin theta), (-sin(theta), cos(theta))` *are* in fact phase
-shifts...
+4. Are there any other natural basis choices other than sin/cos? We
+know that for finite dimensions, it doesn't matter, they're all
+rotations of each other. Is that true here?
 
-Now, we recognize that the L2 inner product *does* seem correct, as
-the limit of a series of approximations with *finite* dimensional
-spaces. Now, for finite spaces, we have that the dot product makes
-sense if we want rotations of the basis to be zero.
+5. Sin/cos seem like they wouldn't be a ntural choice. But maybe they
+are: maybe sin/cos are the limit of a series of rotated bases?
 
-So, is it true that `sin` and `cos` are the infinite limit of a series
-of finite dimensional rotated bases? It does feel like `sine` and
-`cosine` are rotations of each other in the sense that at every
-`theta`, one is `sin(theta)` `cos(theta)`. So it's kinda like every
-"dimension" is being rotated by a different theta.
-
-But even if `sin` and `cos` are the limit of a series of rotated
-bases, what of it? Aren't there other series that would converge to
-other functions? My guess is not! My guess is that other rotated bases
-would simply converge *to phase shifts of sine and cosine*.
-
-But then I wonder: does that mean you can only use the L2 inner
-product to decompose into sinusoidal functions? That seems like it
-couldn't be true. In that case, is there still a sense in which any
-two periodic functions could be considered a limit of rotated bases?
-
-By the way. I feel like I haven't used continuity anywhere.
-
-A thought. It is very convenient if we choose as basis vectors vectors
-where, when approximated in a finite dimensional space, the
-approximations are orthogonal, and thus we can decompose a function
-into a finite dimensional approximation. That happens when the series
-of approximations in higher-and-higher dimensional spaces are are
-orthogonal. If we want this convenience, then this necessarily implies
-that (1) the basis vectors of the function space must be orthogonal
-wrt the L2 inner product (2) the basis vectors of the function space
-must have norm 1, and (3) the true decomposition is indeed given by
-the L2 inner product.
-
-Okay, I'm convinced that the L2 inner product makes total sense. It's
-the only way if you want to be able to use more and more percise
-finite approximations to the basis, and get decompositions that are
-more and more accurate. So I believe the question is no longer: "Why
-L2 inner product?" We can take that as a given.
-
-That sets up a few questions:
-
-(1) Why are sine and cosine natural choices for the basis? Can we use
-other non-sinusoidal functions? Are they in some sense sine and
-cosine? Because I've shown there are some pretty *not* sinusoidal
-orthogonal functions. OTOH, I didn't have continuity at the endpoints.
-
-(2) Why are orthogonal sinusoidal functions phase shifted by pi/2
-radians? This seems easier to demonstrate
+6. Remember, if we are talking about a finite dim function space that
+is spanned by sin/cos, then not every orthogonal basis of dimension
+two will span the same space.
 
 Some maybe useful links:
 
