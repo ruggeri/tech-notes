@@ -426,7 +426,12 @@ That sets up a few questions:
 
 (1) Why are sine and cosine natural choices for the basis? Can we use
 other non-sinusoidal functions? Are they in some sense sine and
-cosine?
+cosine? Because I've shown there are some pretty *not* sinusoidal
+orthogonal functions. OTOH, I didn't have continuity at the endpoints.
 
 (2) Why are orthogonal sinusoidal functions phase shifted by pi/2
 radians? This seems easier to demonstrate
+
+Some maybe useful links:
+
+https://dsp.stackexchange.com/questions/17212/is-there-any-alternative-basis-for-a-fourier-like-transform
