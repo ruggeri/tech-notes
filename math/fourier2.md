@@ -130,10 +130,10 @@ on `[0, pi/2]`. Which means the sum is the same as integrating
 
 The same argument works on the left side. So the integral across the
 period is `pi`. This suggests that we should in fact correct `I` by a
-factor of `T/2`. But otherwise this works correctly. So what I really
+factor of `2/T`. But otherwise this works correctly. So what I really
 want is:
 
-    I(f, g) = T/2 \Int_{-T}^{T} f(t)g(t) dt
+    I(f, g) = 2/T \Int_{-T}^{T} f(t)g(t) dt
 
 I believe this math is confirmed in the Strang chapter linked here:
 http://math.mit.edu/~gs/cse/websections/cse41.pdf
