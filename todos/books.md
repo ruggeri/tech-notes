@@ -42,6 +42,7 @@
       role. Gives a sense of how Storm and Cassandra might be used.
 * Bitcoin for the Befuddled
     * Read whole thing. Good introduction; fun!
+    * On loan to Mike Golubitsky.
 * Causality (Pearl)
     * Started. Very hard and not directly related to standard AI/ML
       techniques.
