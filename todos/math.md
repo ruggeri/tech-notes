@@ -19,3 +19,4 @@
 * Might be nice to have a sumary of Kolmogorov complexity again.
 * WTF are variational methods?
 * All this spectral graph theory I don't understand.
+* Grover's Algorithm

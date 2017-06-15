@@ -16,7 +16,7 @@ where the most influential breakthroughs are.
 * Math
     * PCA/SVD.
     * Quasi-Newton methods.
-    * Fourier
+    * Discrete Fourier Transform
 * Online Courses
     * Maybe Compilers course.
     * Fundamentals of EE course.
@@ -35,6 +35,7 @@ where the most influential breakthroughs are.
 * CPU Architecture notes.
 * Electricity.
 * Zero-shot learning?
+* Grover's algorithm.
 
 ## Statement
 
