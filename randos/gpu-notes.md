@@ -65,9 +65,19 @@ will do 30 TFLOPS of half-precision work. This is about 50% more than
 the P100 line.
 
 It also has something called *tensor cores*. What the fuck is that?
-They claim these can do 120 TFLOPS.
+They claim these can do 120 TFLOPS. The tensor cores do *GEMM*, which
+is the name for generalized matrix multiply, which is `Result := aXY +
+bZ`.
 
-Availability for Tesla purchases is spotty. It may cost $10-15k!
+It looks like the tensor core is something called a *systolic
+array*. How this can be done to perform matrix multiplication is
+explained here:
+
+    http://web.cecs.pdx.edu/~mperkows/temp/May22/0020.Matrix-multiplication-systolic.pdf
+
+Availability for Tesla purchases is spotty. It may cost $10-15k! It
+will be in their "desktop supercomputer" appliance, and also in a rack
+mounted form.
 
 ## Random
 
