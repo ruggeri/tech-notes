@@ -79,6 +79,24 @@ Availability for Tesla purchases is spotty. It may cost $10-15k! It
 will be in their "desktop supercomputer" appliance, and also in a rack
 mounted form.
 
+## TPU
+
+The first generation seems mostly to benefit from a systolic matrix
+multiplication unit. It does INT8 math, and is basically only used for
+inference, since the accuracy is too low to reliably follow a
+gradient. It theoretically can do 92 TOPS/sec; we don't say TFLOPS/sec
+because that's *floating point*. The K80 can do 2.8 TFLOPs/sec of
+floating point, while a Haswell 18 core can do 2.6 INT8 ops.
+
+BTW, that K80 perf number may be bullshit. That's the FP32 number I'm
+almost sure; the FP16 is 8.73 TFLOPs. Wait, they turned off boost
+mode, which dropped the perf. They also computed based on a single die
+vs dual die, which halves the TFLOPs. Why did they do that?
+
+It seems like Google doesn't really want you to do training; they're
+fine selling you inference. This is maybe for rent in the GCE cloud,
+possibly.
+
 ## Random
 
 It appears that SLI is not an important feature. SLI is about
