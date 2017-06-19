@@ -160,9 +160,51 @@ Sources:
 http://www.drdobbs.com/parallel/unified-memory-in-cuda-6-a-brief-overvie/240169095
 https://devblogs.nvidia.com/parallelforall/unified-memory-in-cuda-6/
 
+## Hardware
+
+Each GPU has many SMs. Blocks of work are distributed to the
+SMs. Threads execute concurrently on the SM. Multiple blocks can be
+done concurrently on an SM.
+
+To do a bunch of work in parallel, it does SIMT: single-instruction
+multiple thread.
+
+The instructions are pipelined, however there is no OOE or branch
+prediction or speculative execution.
+
+The SM works in groups of 32 threads called "warps". Threads all start
+at the same position in the code, but then have their own instruction
+pointer so can branch and go in different directions. (Etymology of
+*warp* is from weaving, a la "threads").
+
+When given a block to execute, the threads are divided into
+warps. Warps are then scheduled all together. Warps all execute the
+same instruction simultaneously: therefore, best performance is gained
+when all threads agree on a path through the code. When there is
+divergence, the diverged threads are then executed in serial until
+they get back together. The threads which are currently not exceuted
+in a warp are called *inactive*. They are inactive because they
+diverged, and can't be run simultaneously with the other *active*
+threads.
+
+This is mostly just SIMD, but the programmer doesn't need to write
+things in a strictly SIMD way. Diverging from SIMD is going to hurt
+performance, but can still be correct. They compare to the idea of how
+cache is managed for you on a CPU; it's just a performance concern.
+
+They mention that if multiple threads write a same memory location
+simultaneously, then if the write is *atomic* then the writes are
+serialized in some undefined order.
+
+In terms of scheduling, each warp's execution context is maintained
+on-chip; the registers are appropriately divided amongst all warps on
+the SM. So switching warps has no cost, because nothing needs to be
+saved to memory. Likewise, the data cache is split amongst the warps,
+which means there is no cache invalidation when you schedule a
+different warp.
+
 ## TODO
 
-* 4: Hardware Implementation
 * 5: Performance Guidelines
 * All leterred appendices. Especially J: Unified memory programming.
 
