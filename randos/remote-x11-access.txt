@@ -39,9 +39,10 @@ simple with `apt-get install`. Now, Chrome won't be happy if you try
 to run two copies of the application for the same user
 simultaneously. But otherwise no problem!
 
-## TODO
+Last, you'll get an annoying dialogue about "color managed device."
+The fix is described here:
 
-1. Need to stop this craziness with managed color device.
+    https://github.com/TurboVNC/turbovnc/issues/47
 
 ## Trying to use X11VNC
 
