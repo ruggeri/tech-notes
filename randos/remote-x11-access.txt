@@ -1,0 +1,83 @@
+## Using TigerVNC
+
+VNC is a protocol, I believe. Some desktop environments have an option
+to allow people to connect to a running desktop via VNC. TigerVNC (and
+a number of others) actually start their own "pseudo-X-server" (my
+term), which is not run on a GPU or output to a monitor. Insteaed, it
+uses regular memory. Then people can connect.
+
+The first thing to do is to update sources: `sudo apt-get
+update`. Then you want to install ubuntu-gnome-desktop: `sudo apt-get
+install ubuntu-gnome-desktop`. This installs Gnome 3.8.x.
+
+You also want to download TigerVNC from:
+https://bintray.com/tigervnc/stable/tigervnc/1.8.0. You install this
+locally into your home directory.
+
+When you run the server, they will create a `~/.vnc/` folder. It will
+have a password file, but you will need to use SSH to securely protect
+your session. More on this later.
+
+There is a `startx` script: this is run instead of whatever Xorg
+scripts you have. You can delete everything and replace it with one
+line:
+
+    gnome-session --disable-acceleration-check &
+
+If you don't add that flag, it won't run the server and you'll look at
+a blank screen. For reference: I found the problem not by inspecting
+just the TigerVNC log, but also using `journalctl -b`.
+
+You start and stop TigerVNC like this:
+
+    ~/tigervnc-1.8.0.x86_64/usr/bin/vncserver :1
+    ~/tigervnc-1.8.0.x86_64/usr/bin/vncserver -kill :1
+
+From here you can download and run Chrome and Atom: install with `sudo
+dpkg -i`. Chrome will ask you to install `libappindicator1`: this is
+simple with `apt-get install`. Now, Chrome won't be happy if you try
+to run two copies of the application for the same user
+simultaneously. But otherwise no problem!
+
+## TODO
+
+1. Need to stop this craziness with managed color device.
+
+## Trying to use X11VNC
+
+I do not recommend this way. X11VNC is a program that lets you connect
+over VNC to a running X server. Per above, install
+`ubuntu-gnome-desktop`. Then, you need to be able to run an X server
+as a user:
+
+    sudo apt-get install xserver-xorg-legacy
+    sudo usermod -a -G tty ubuntu
+    sudo chmod 0660 /dev/tty*
+
+Also, you need to `sudo vim /etc/X11/Xwrapper.config`. Note that this
+file only exists if you installed `xserver-xorg-legacy`. Change
+`allowed_users=console`:
+
+    allowed_users=anybody
+
+You should now be able to start an X server.
+
+Next, you need to install `x11vnc`:
+
+    sudo apt-get install x11vnc
+    x11vnc -storepasswd
+
+At this point, you should be able to run:
+
+    xinit /usr/bin/gnome-session -- :3
+    x11vnc -display :3 -usepw
+
+Last, to allow larger resolutions, you want to `sudo vim
+/etc/X11/xorg.conf` (it probably won't exist) and add:
+
+    Section "Screen"
+        Identifier "My Screen"
+        Subsection "Display"
+            Virtual 1280 1024
+        EndSubSection
+    EndSection
