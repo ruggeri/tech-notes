@@ -86,6 +86,14 @@ swap(T& a, T& b) {
     a = std::move(b);
     b = std::move(tmp);
 }
+
+//Equivalent, with static cast!
+template <class T>
+swap(T& a, T& b) {
+    T tmp(static_cast<T&&>(a));
+    a = static_cast<T&&>(b);
+    b = static_cast<T&&>(tmp);
+}
 ```
 
 This here avoids the use of any assignment constructors, using only
