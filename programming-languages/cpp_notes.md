@@ -152,6 +152,9 @@ use it, but I'm still the owner? For instnace:
 The answer is to make sure that `f(unique_ptr<X>& x)`: it takes a
 reference to a `unique_ptr`.
 
+One last thought. You can say `make_unique<X>(arg1, arg2)` and now you
+didn't even call `new` yourself!
+
 **Containers of references**
 
 We can write a container which stores values. We can write a container
@@ -210,10 +213,152 @@ rvalue.
 Another note: you need nonmember operators if you want to be able to
 do `int + MyComplexClass`.
 
+**Derived Classes**
+
+If you want to override, suffix with `override` to make sure you match
+a virtual function. You can use `final` if you don't want anyone to
+override. They note that a `final` override in `T` can increase
+performance when calling the method on a `T*` because that can be
+dynamically dispatched.
+
+Non-virtual functions cannot be overrided, only hidden.
+
+If you do multiple inheritance, you might still implement an abstract
+base class as a `virtual` derivation, so there is only one copy of
+this.
+
+They note that you can provide overrides that are resolved via dynamic
+resolution. Like `f(Shape*)`, `f(Circle*)`, `f(Square*)`.
+
+**Lambdas**
+
+* We wrote versions of `each` and `map` for the vector. This involved
+  `decltype` and `auto`.
+* Talked about how lambdas are allocated.
+
+**Bind**
+
+`std::bind` will partially apply a function. The way you can specify
+unbound arguments is using placeholders:
+
+    int plus(int, int);
+    auto f1 = bind(plus, 3);
+    f1(123);
+    auto f2 = bind(plus, _1, 3);
+
+There is also a function called `std::mem_fn`. Calling a pointer to a
+member function works like this: `(objp->*member_functionp)(arg1,
+arg2)`. By using `mem_fn` this is simple.
+
+But of course these can be done with lambdas...
+
+**Member Type Aliases**
+
+It is common, so that generic code can be easily written, to do
+something like this:
+
+    template<typename T>
+    class Vector {
+      using value_type = T;
+      // ...
+    }
+
+First, this lets me use `value_type` everywhere in preference to
+`T`. But also, let's say I want to write a method that works on
+any kind of enumerable thing:
+
+```
+template<typename Enumerable>
+auto get(Enumerable& e, int idx) -> typename Enumerable::value_type {
+  return e[idx];
+}
+
+vector<int> is{1, 2, 3, 4};
+cout << get(is, 3) << endl;
+```
+
+See how this uses `typename`, which is needed to access member types?
+I believe I could also do `decltype(e[idx])`. Yet a more verbose way
+would be:
+
+    decltype(declval<Enumerable>()[declval<int>()])
+
+Becausde that type is hard to write:
+
+    template <typename Enumerable>
+    using EnumerableValueType =
+      decltype(declval<Enumerable>()[declval<int>()]);
+
+Last: I think `auto` could have figured this out at the definition,
+but not at a declaration, I believe.
+
+**Hiding**
+
+You can redefine methods in derived classes. This is not an *override*
+of a virtual method. This is *hiding*. The only valid use case is if
+you can write a specialized version to use when you know the exact
+type of the object, but that the original version is still okay to
+call. That's because:
+
+    Base* b = new Derived();
+    b->f();
+
+will call `Base::f` instead of `Derived::f`. Note that you can't just
+simply add new overloads in the derived class; even one redefine in
+the derived class hides all the previous definitions in the base, even
+if the types are different. You need to specifically import (`using
+Base::f`) all the `Base` overloads, or selectively do this for those
+overloads you want in the derived class.
+
+**Type Erasure/Contravariance**
+
+You can't pass a vector of square pointers to a function that takes a
+vector of shape pointers. The problem is that you might try to store a
+circle there. Moreover, a template instantiation might have been
+*specialized* or otherwise had its methods optimized in a way that
+makes it not possible to substitute. For instance, a `vector<Shape*>`
+and a `vector<Square*>` could be implemented in totally different
+ways!
+
+A solution is like so:
+
+    template <typename T>
+    void sayHello(vector<T*>& shapes) {
+      for (auto shape : shapes) {
+        shape->speak();
+      }
+    }
+
+But this doesn't work for *virtual* methods, because virtual methods
+must not be templated. The reason is presumably that implementation
+would be hard: if you use a template function in the derived class,
+the compiler needs to generate a space in the base classes' vtable,
+and also every other implementation. Java gets around this because
+type erasure.
+
+**Slicing**
+
+There is trouble when you try to slice an inherited class:
+
+    Derived d1;
+    Derived d2;
+    Base& b = d1;
+    b = d2;
+
+Note that this will call `Base::operator=`, and will not fully assign
+from `d2`, unless the assignment operator is virtual, which it
+probably should be. I would say this: if you have any virtual method,
+you should have virtual `operator=`. If you have no virtual functions,
+then this feels less bad.
+
 ## Todos
 
-* **TODO**: Up to ch15 in Stroustrup.
-* Lambdas. Threads.
-* Probably should do an example where `decltype` is used. I imagine
-  some container example?
-* Slicing problems? Hiding problems?
+* reentrant mutex
+* Placement new for backing store of array.
+
+## Resources
+
+* ISOC++ FAQ (formerly Parashift)
+* C++ Programming Language
+* Effective C++ and Effective Modern C++
+* C++ Concurrency in Action
