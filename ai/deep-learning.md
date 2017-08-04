@@ -546,6 +546,9 @@ as a fixed input to train layer `k+1`. The theory on why this works is
 that the middle layers get better guidance of how they should organize
 themselves.
 
+Another approach is transfer learning: train for some tasks, and then
+use the output of the `k`th layer as input for another task.
+
 They note: SGD with momentum continues to be a very popular approach,
 and has been since the 80s. The big advances are in coming up with
 architectures that do well with our optimization techniques. For
@@ -727,4 +730,126 @@ maybe it was psychological.
 
 ## Ch11: Practical Methodology
 
-**TODO**
+This is a chapter of general advice.
+
+* First, choose an error metric and a desired level of performance.
+* They mention precision and recall. They mention F-score. Typically,
+  by varying a threshold for deciding, you can get a precision-recall
+  curve. You can measure the area under the curve.
+* They recommend fully-connected feedforward when you have fixed size
+  vector, LSTM/GRU with sequences, convolutions with sequences.
+* They recommend SGD with momentum and using a weight decaying
+  strategy. Linear decay, exponential decay, or 2-10x decay when
+  hitting a plateau are all popular.
+* They recommend some regularization from the beginning unless you
+  have tens of millions of examples. Early stopping is a no-brainer,
+  but dropout is easy.
+    * They mention that batch normalization allows you to skip
+      dropout, because of noise in the estimates of the statistics
+      used for normalization.
+* They say don't get more data until performance on the training set
+  is good. In that case, add more capacity, or twiddle
+  hyperparameters. But if training set performance is good and test
+  set isn't, then collecting data can be the easiest choice.
+    * If this isn't possible, add regularzation to try to generalize
+      better from a small dataset.
+    * They recommend examining curves of performance given amounts of
+      data. This can help you decide how much more to collect, since
+      you can try to extrapolate performance. Typically, you have to
+      double training set at least to see better performance.
+* When tuning hyperparameters, learning rate is by far the most
+  important.
+* Common to do grid search. Logarithmic scales are frequently used:
+  learning rates of `0.1, 0.01, 0.001...`.
+* They suggest random search over grid search. You sample from some
+  distribution that seems reasonable. Experiments have found this is
+  better. It appears that this works better because normally only some
+  parameters are important, and you will try different values for
+  these under every trial. You won't waste time exploring the many
+  possible settings of the unneeded variables.
+* They mention that you can try to model validation set performance
+  from the hyperparameters: like a hypermodel. But they say this often
+  works very poorly.
+* They next talk about debugging. They mention that you should look at
+  the "worst mistakes" of the algorithm, to see what is going on with
+  these. This can be measured by probability of the correct class
+  assigned by the model.
+* They recommend trying to find software bugs by trying to fit a
+  classifier to a single exmple. If it can't do this perfectly,
+  something is fucked.
+* Histograms of activations and backpropagated gradients are
+  useful. You can see if you are saturating neurons. Likewise, you can
+  see if gradients are exploding/vanishing.
+* They suggest comparing magnitudes of parameter gradients to the
+  parameter values. Ideally, the update over a minibatch would be ~1%
+  to each parameter: that way they are changing not too fast, but not
+  too slow.
+
+## Ch12: Applications
+
+* They talk about GPUs, and how they have high-speed access to large
+  amounts of RAM, plus high data-paralelism, which is enabled by low
+  branching.
+* Distributing over more computers is easy at inference time, since
+  this is data parallel. For training, is harder...
+* Distributed async SGD is typical. This basically reads and writes to
+  a *parameter server* without a lock. This is inaccurate, but the
+  higher volume of updates is worth it.
+* They mention that it is common to train in clusters, but sometimes
+  you deploy to user hardware like cellphones. They mention *model
+  compression*: here, after trainng a complex model, you then generate
+  random datapoints and see what the complex model says. You then use
+  these to train a smaller, simpler model. You can do this because you
+  now have an "infinite" number of datapoints.
+* When detecting a rare event, you can train a *cascade* of
+  classifiers. The first will tell you if the even is definitely not
+  detected. If the confidence returned is not high enough, a second,
+  more sensitive test is used. Et cetera. You can either have higher
+  model capacity at each step, or have trained using boosting.
+* They talk about mixture of experts: a neural network called a *gater*
+  gives weights to a variety of networks, each of which has a
+  decision.
+* This can be used to accelerate inference (not just improve results)
+  if you have *hard mixture*, which means the gater just chooses the
+  best model.
+    * Incidentally, they mention the idea of a decision tree where
+      decisions are made by NNs.
+* They mention ASICs and FPGAs were not that attractive when GPU perf
+  was ever-increasing. But now this may be more useful, as single-core
+  performance is not increasing quickly. They mention using fewer bits
+  at inference time, but that 8 to 16bits are needed for backprop.
+* Visual tasks:
+    * Easy for humans; hard for computers. One of the most popular
+      deep learning domains.
+    * Reporting objects detected, bounding boxes, transcribing,
+      segmentation by classifying pixels.
+    * Synthesis isn't a primary goal, but can be useful for
+      restoration, or when we want to remove and replace parts of an
+      image. Synthesis is a byproduct of generative modeling which is
+      part of deep learning research.
+    * Preprocessing involves putting pixels in a range of `(0, 1)` or
+      `(-1, 1)`. Often must crop to the same size, but convolutional
+      models often don't care.
+    * Augmentation: cropping differently, translations, rotations.
+    * Other nonlinear distortions of an image.
+* Contrast normalization is typially useful.
+    * Global contrast normalization takes the overall image, subtracts
+      out mean intensity, and then divides by the standard deviation.
+    * This effectively maps all examples to a hypersphere, right?
+      Because you're renormalizing.
+    * Otherwise, neural networks would have to learn how to respond
+      the same to images with different contrast-levels, which
+      basically means that they would need features which are
+      colinear, but with differently scaled biases.
+* **TODO**: They explain whitening very briefly, but I don't understand.
+* However, we can often lose a lot of valuable information. This can
+  happen if half the image is bright and the other half dark. Contrast
+  normalization will try to keep those seperated, but maybe lose a lot
+  of detail inside those zones.
+* Thus local contrast normalization, which does contrast normalization
+  in a small window. This can be done as a convolution. Note that LCN
+  is sometimes used as a non-linearity applied to hidden layers,
+  though my understanding is that is no longer considered very
+  helpful.
+
+**TODO**: Up to 12.3 Speeceh Recognition.
