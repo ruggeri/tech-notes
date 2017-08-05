@@ -851,5 +851,146 @@ This is a chapter of general advice.
   is sometimes used as a non-linearity applied to hidden layers,
   though my understanding is that is no longer considered very
   helpful.
+* Speech Recognition:
+    * 20ms frames of audio data, typically spectral intensity
+      presumably via FFT.
+    * Historically had a HMM for phonemes, then a gaussian mixture
+      model to produce audio.
+    * First RBMs were used to model phoneme-audio data relationship.
+    * 2d convolutional models: one axis is spectral intensities, and
+      the other is time.
+    * Also RNNs.
+    * TIMIT is the main test here.
+* NLP
+    * Difficult because of the large output space, curse of
+      dimensionality.
+    * ngram models have zero counts all the time, because of curse of
+      dimensionality. So you smooth. You can either smooth all words
+      the same, or try to put words in categories and smooth similar
+      words together.
+    * Another idea is the *cascade* of models: you have a series of
+      ngram models, of smaller and smaller ngrams. If there isn't
+      enough count for a reliable estimate, you back off to a
+      lower-order model.
+    * This of couesre leads to word embeddings.
+    * Next problem is high-dimensionality of outputs. Mapping from a
+      hidden state to a huge softmax is `O(num_hidden *
+      vocab_size)`. This is costly at both train and inference times.
+    * One approach is the hierarchical softmax. At each node you make
+      a decision using logistic regression. That is much faster to
+      train, but to get probability distribution over all possible
+      words is still very costly. Likewise, to do inference is
+      similarly slow.
+    * This can have lower performance because categories are sort of
+      random.
+    * Another idea is *importance sampling*. Here, you backprop the
+      positive word, and also some negative ones. This is a proper
+      Monte Carlo method if you pick the negative words in proportion
+      to their current posterior probability.
+    * Because you typically pick uniformly, you want to weight the
+      negative sampled words.
+    * Again, this doesn't help for inference.
+* Neural Machine Translation
+    * They just mention encoder/decoder and attention models.
+    * They note how encoder/decoder is hard to make work with variable
+      sentence sizes.
+* Recommendation
+    * Collaborative filtering is the typical technique, but you can do
+      content-based filtering if you have access to content, which you
+      can then use a NN to embed.
+    * They talk about exploration vs exploitation in the context of
+      recommendation. This is a *contextual bandit problem*. The
+      context is what you know about the users or the ad opportunity
+      or whatever.
+* They mention question answering, but note that performance in this
+  domain is weak.
+    * They mention several knowledge bases which are available.
 
-**TODO**: Up to 12.3 Speeceh Recognition.
+## Ch 13: Linear Factor Models
+
+* These are unsupervised approaches. We're finding underlying
+  features.
+* Simplest is PCA. Then there is *probabilistic PCA*. This models `x`
+  as a linear transformation of underlying `h`, plus some gaussian
+  noise. `h` is normally assume distributed Gaussian.
+* Independent component analysis is used to separate a signal into
+  low-level signals that are added together.
+    * Many variants. One common approach is to deterministically
+      generate the output from the hidden layer.
+    * **TODO**: I find this discussion very confusing.
+* Slow Feature Analysis
+    * Slow feature principle says that features should change little
+      frame-to-frame. That implies adding a penalty to features that
+      change a lot. Common to use mean-squared difference.
+    * So you featurize `x` by finding the linear transformation that
+      changes the least frame-to-frame. But you need to require that
+      the expectation is zero, else you could just add a constant; so
+      non-unique solution. Also, you need to set something like the
+      variance to one, so that you don't just always output zero or
+      some small number.
+    * Last, you want to force zero linear correlation between
+      features.
+    * This is all solvable in closed form!
+    * It is typical to use a quadratic basis expansion by multiplying
+      `x_i * x_j`. Then, you can repeat SFA several times even.
+    * One problem is that what you really want is to be able to
+      predict frame-to-frame, not just have generally invariant
+      features. For instance, position may change rapidly if velocity
+      is high, but that doesn't mean you should retain position...
+* Sparse Coding
+    * Again, you have factors which generate `x` by linear
+      transformation, with Gaussian noise.
+    * You use a Laplace prior to bias with sharp peaks at zero.
+    * Instead of encoding using an affine transformation, you actually
+      find that code which maximizes `p(h | x)` which involves an
+      optimization procedure.
+    * For training, you'll do an EM type thing: find the best codes
+      `h`s for `x`s, then adjust `W` to maximize probabilities of `x`s
+      given `h`s, then repeat.
+    * A difficulty is that this can be slow, expecially if you were to
+      try to stack them, because of the optimization problem of
+      finding the best code.
+    * Another problem is it is hard to backpropagage. A common
+      technique for factor analysis is to do unsupervised pretraining
+      and then use the supervised task to tweak these features.
+* All factor models tend to produce poor samples, because of the
+  independence assumptions about the underlying `h`.
+
+## Ch14: Autoencoders
+
+* You can restrict the number of units for an autoencoder. Or you can
+  try to restrict the expressiveness of the encoder and decoder
+  functions.
+* For instance:
+    * You don't want the identity encoder/decoder.
+    * Likewise, you don't want to learn encoder that maps to training
+      example number, and decoder that maps training example number to
+      that exact example.
+* Another approach is to regularize.
+* Sparse autoencoders try to minimize reconstruction error while
+  maximizing sparsity.
+    * This puts a "prior" on the encodings `h`. That's a little
+      different than a prior on weights!
+* Denoising autoencoders try to minimize reconstruction error when
+  some noise is added in. This means that the model is supposed to be
+  learning some of the structure.
+* Another technique is to penalize based on the gradient of `h` with
+  respect to `x`. This is called a *contractive* autoencoder. This
+  says the encoding shouldn't change much if the output changes just a
+  little.
+* Autoencoders are often used for dimensionality reduction. I assume
+  it is also convenient to get a featurization for supervised learning
+  that can be learned from unlabeled data.
+* These lower-dimensional representations can be much more efficient
+  to learn on.
+* They also talk about how binary codes can make semantic hashing
+  easy. In that case, you can hash a query, and look it up in a hash
+  map. You can als flip one bit at a time and find those which are
+  off-by-one.
+    * To learn a binary encoding, you can use sigmoids, and then
+      slowly add in larger and larger Gaussian noise, which will bias
+      your inputs to the sigmoids to saturate.
+    * Then, when encoding, don't add in the gaussian noise, and just
+      round to zero or one.
+
+**TODO**: Up to Ch15: Representation Learning.
