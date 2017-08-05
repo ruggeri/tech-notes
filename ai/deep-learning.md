@@ -915,9 +915,17 @@ This is a chapter of general advice.
   noise. `h` is normally assume distributed Gaussian.
 * Independent component analysis is used to separate a signal into
   low-level signals that are added together.
-    * Many variants. One common approach is to deterministically
-      generate the output from the hidden layer.
-    * **TODO**: I find this discussion very confusing.
+    * The general idea is this. If you add multiple signals, they will
+      tend to be Gaussian and noisey.
+    * So seperate into deterministic components that when subject o
+      affine transformation result in the observed signal.
+    * But prefer those which are highly independent (have low mutual
+      information). Another approach is to prefer those which are most
+      non-Gaussian: you know that mixing results in a Gaussian (at the
+      limit), so finding the least Gaussian is in a way "least mixed."
+      This can be measured by Kurtosis.
+    * This is used as a technique for *blind signal separation*. In a
+      sense, that is what we are trying to do.
 * Slow Feature Analysis
     * Slow feature principle says that features should change little
       frame-to-frame. That implies adding a penalty to features that
