@@ -155,6 +155,22 @@ reference to a `unique_ptr`.
 One last thought. You can say `make_unique<X>(arg1, arg2)` and now you
 didn't even call `new` yourself!
 
+**weak_ptr**
+
+This is for weak references. You can upgrade them to a shared_ptr by
+calling `lock()`, but this may give you a null pointer of course.
+
+How is this implemented? Here's the idea (I think). A `shared_ptr` has
+a reference to the object, and a *control block*. The control block
+has the (1) use count and (2) weak ptr count.
+
+When the use count hits zero, the managed data is deleted. But the
+control block *is not*. When the weak ptr count hits zero, then the
+control block is delted.
+
+The weak ptr can know the managed object is deleted by seeing that use
+count is zero.
+
 **Containers of references**
 
 We can write a container which stores values. We can write a container
@@ -235,6 +251,15 @@ resolution. Like `f(Shape*)`, `f(Circle*)`, `f(Square*)`.
 * We wrote versions of `each` and `map` for the vector. This involved
   `decltype` and `auto`.
 * Talked about how lambdas are allocated.
+* It's worth noting that if you use `[=]`, it will capture the `this`
+  pointer *by-value*. So it will *not* copy fields by value if you say
+  `myField`, because it means `this->myField`. So the best thing to
+  do, according to Scott Meyers, is to always explicitly list
+  captures.
+* They mention *init* captures. They work like this:
+  `[value = whatever]`. This is particularly useful for moving:
+  `[value = std::move(value)]`. This is C++14, else you could use
+  `std::bind` and pass it in as a parameter.
 
 **Bind**
 
@@ -351,14 +376,57 @@ probably should be. I would say this: if you have any virtual method,
 you should have virtual `operator=`. If you have no virtual functions,
 then this feels less bad.
 
+**PIMPL**
+
+The C++98 idea is this:
+
+```
+// .h
+// include like no headers
+class Widget {
+ public:
+  // Constructor declaration, methods
+ private:
+  struct Impl;
+  Impl* pImpl;
+};
+
+// .cpp
+// include many headers
+
+struct Impl {
+  // Bunch of fields.
+};
+
+Widget::Widget() : pImpl(new Impl()) {}
+Widget::~Widget() { delete pImpl }
+
+// Methods now use pImpl rather than this to access fields.
+```
+
+Using PIMPL you don't need to include headers (except insofar as you
+need argument/return types, I guess.
+
+For C++11, you can use a `unique_ptr`, but because the type is
+incomplete, you'll need to declare `Widget::~Widget()` in the header
+file; else C++ will try to inline generate the default, which can't
+work because the type is incomplete and you can't destruct an
+incomplete type. But in the CPP file you write `Widget::~Widget() =
+default`, like normal. Here you finally have the complete type.
+
 ## Todos
 
-* reentrant mutex
 * Placement new for backing store of array.
 
 ## Resources
 
-* ISOC++ FAQ (formerly Parashift)
-* C++ Programming Language
-* Effective C++ and Effective Modern C++
-* C++ Concurrency in Action
+* ISOC++ FAQ (formerly Parashift) (reviewed)
+* C++ Programming Language (reviewed)
+* Effective C++
+    * **TODO** Review again?
+* Effective Modern C++ (reviewed)
+* C++ Concurrency in Action (reviewed)
+
+## TODO
+
+* Review Modern C++ Design by Andrei Alexandrescu.
