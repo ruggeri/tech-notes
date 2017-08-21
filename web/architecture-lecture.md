@@ -48,6 +48,8 @@ follower if we ship logs async (as is typical).
 
 0. Split the DB into shards each with 1/Nth the data.
 0. For transactions that read/write a single row, this is ideal.
+0. Consistent Hashing
+0. To insert, simply generate a random ID.
 0. Joins are not very scalable because they involve all shards.
     * It sounds like, inside a datacenter, this is not always true.
     * For instance, you can do a distributed join: hash the join key
