@@ -13,7 +13,8 @@ Here's how the basic form of timestamping works, with no versions:
     * Again, set the commit bit to false until you commit.
 * If writing but RT<TXID and TXID<WT:
     * That means your write is going is supposed to be forgotten.
-    * If the commit bit is set, then you can just continue.
+    * If the commit bit is set, then you can just continue and not
+      write.
     * Otherwise, you have to wait. You don't know whether the write
       already in place will actually be committed.
         * If the in-place write gets aborted, your write should be
@@ -33,7 +34,7 @@ advantage maybe over 2PL.
 ## MVCC Part I
 
 In our version of timestamping thus far, reading transactions must
-abort if a write has already happend with a later TXID. We could avoid
+abort if a write has already happened with a later TXID. We could avoid
 doing that if we kept older versions of records.
 
 So instead of overwriting any records, create copies. The read
@@ -41,12 +42,12 @@ timestamps will monotonically increase, but the write timestamp never
 changes.
 
 Now, a read can use the latest version that was valid at its TXID. As
-before, a later read must wait on an uncommited write. So writers do
+before, a later read must wait on an uncommitted write. So writers do
 still block approximately half the readers (depends on who got the
 lower TXID).
 
 A write must abort if a later read happened on the most recent
-version. But it now doesn't need to wait on an uncommited later write;
+version. But it now doesn't need to wait on an uncommitted later write;
 it can just put the record in place!
 
 This is an improvement. We now never need to abort a reading
