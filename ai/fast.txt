@@ -1,0 +1,5 @@
+## Resources
+
+* http://course.fast.ai/lessons/lessons.html
+* https://github.com/fastai/courses/tree/master/deeplearning1/nbs
+* http://wiki.fast.ai/
