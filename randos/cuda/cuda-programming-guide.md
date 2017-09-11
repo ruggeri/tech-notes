@@ -203,9 +203,56 @@ saved to memory. Likewise, the data cache is split amongst the warps,
 which means there is no cache invalidation when you schedule a
 different warp.
 
+## Performance
+
+**Maximize SM Utilization**
+
+* Use async functions to concurrenty do work on host and various GPUs.
+* Try to avoid cross block communication. That would require a series
+  of kernels.
+* Use streams to possibly execute multiple kernels simultaneously.
+* To get maximum throughput, you want that there is always a warp
+  ready to execute. On recent GPUs, 4 warps can be run at a time by an
+  SM.
+    * If a warp is stalled, that's okay, so long as some other warp is
+      always ready to go.
+    * Stalls happen when an operand is not available: that is, memory
+      latency.
+    * They talk about *arithmetic intensity* as the ratio of on-chip
+      operations to operations that need to access memory. If the
+      arithmetic intensity is low, you need more warps to be able to
+      saturate the SM. Otherwise the SM will have nothing to do.
+    * For instance: accessing global memory takes about 300 cycles on
+      a CC3.0 device. Assume the arithmetic intensity is 30:1. Then,
+      we need 10 warps to be able to fully utilize the SM and hide the
+      latency.
+* Another source of stalled warps is `__syncthreads`. Having more
+  blocks can be helpful because otherwise an SM might not have any
+  work to do, because all the warps of a block are waiting for another
+  warp to finish.
+* They mention register usage. It looks like an SM has `2**15`
+  registers. That means that if a thread uses `32 = 2**5` registers,
+  and `512 = 2**9` threads per block, then exactly `2=2**1` blocks can
+  run simultaneously on an SM. But if you use even one more register,
+  now the SM can only do one block at a time.
+    * So you want to use not too many registers! But of course, the
+      compiler wants to use registers to avoid spilling to memory.
+    * BTW: you should always choose the number of threads per block to
+      be a multiple of the warp size; else you'll underutilize the SM.
+
+**Maximize Memory Throughput**
+
+* Minimize host/GPU transfers.
+    * To acheive this, you might even do *non-parallel* work on the
+      GPU, if it isn't burdensome, to avoid shuttling data
+      back-and-forth between device and host.
+* Of course, you want to minimize global memory access too. There are
+  L1 and L2 caches, but some of the L1 cache can be explicitly managed
+  by you as *shared memory*.
+
 ## TODO
 
-* 5: Performance Guidelines
+* 5: Performance Guidelines: Up to 5.3.2.
 * All leterred appendices. Especially J: Unified memory programming.
 
 ## Primary Source
