@@ -540,11 +540,16 @@ a complicated interaction of *all layers prior to `k`*. Now, it
 depends just on `\beta_k`, a single parameter. That means this is much
 easier to train.
 
-They talk about some pretraining approaches. Greedy pre-training has
-you train up to level `k`, and then use the outputs of this last layer
-as a fixed input to train layer `k+1`. The theory on why this works is
-that the middle layers get better guidance of how they should organize
-themselves.
+They talk about some pretraining approaches. Greedy *supervised*
+pre-training has you train up to level `k`, and then use the outputs
+of this last layer as a fixed input to train layer `k+1`. There are a
+number of ways: the original is to just train a one-layer network,
+then use the hidden activations as the input and train a second
+one-layer network. If you like, you can feed both the hidden
+representation *and* the original input.
+
+The theory on why this works is that the middle layers get better
+guidance of how they should organize themselves.
 
 Another approach is transfer learning: train for some tasks, and then
 use the output of the `k`th layer as input for another task.
@@ -1001,4 +1006,171 @@ This is a chapter of general advice.
     * Then, when encoding, don't add in the gaussian noise, and just
       round to zero or one.
 
-**TODO**: Up to Ch15: Representation Learning.
+## Ch15: Representation Learning
+
+* They note that division is easy with Arabic numbers but not with
+  Roman numerals. Tasks can be easy if you find the right
+  representation.
+* Feedforward networks can be seen to be learning a representation in
+  the last layer, then applying a simple classification procedure.
+    * The representation learned in the penultimate layer depends on
+      how the final layer works. For instance, the classes should be
+      linearly seperable in the embedding described by the penultimate
+      layer if the classifier is logistic regression.
+* Any task can be used to learn a representation. Obviously
+  autoencoders do. And you can learn a representation with one task
+  and then use it in another context.
+* The idea of the chapter is that we can do semi-supervised learning:
+  use unlabeled data to learn a representation, and then use that for
+  supervised problems. That fits with huge datasets of unlabeled data.
+* The first approach is to do *greedy layerwise unsupervised
+  pretraining*. This basically trains a series of autoencoders: each
+  layer is the hidden layer in an autoencoder. Then you can fine-tune
+  the final result for a supervised task if you like.
+    * You can use RBMs, one-layer autoencoders, sparse
+      coding... Anything that learns latent representations.
+    * This is the discovery of 2006 that kicked off the DL renesaince:
+      that you can use this as an initialization for deep networks.
+    * Also used as initialization for unsupervised networks like deep
+      autoencoders, deep belief nets, deep Boltzman machines.
+* They note that sometimes unsupervised pretraining yields worse
+  results. That's weird. But first they want to take note of other
+  semi-supervised approaches: (1) virtual adversarial, (2) training a
+  representation which minimizes a sum of supervised and unsupervised
+  losses.
+* In the beginning, it was thought that unsupervised pretraining
+  started you in a place where you were more likely to fall into a
+  local minima that was "good", then if you started in a random
+  location. But that presumes that you were going to stop when you
+  were at a local minima. In fact, we typically stop before we hit
+  local minima. So they say the effect is really a *regularizing*
+  effect; that we start somewhere more good and then wander near
+  there.
+    * Again, I'm not sure I totally understand/buy how early stopping
+      is supposed to be a regularizer. In a prior chapter they show
+      that it is the same as applying an L2 penalty (when learning a
+      linear function).
+    * I presume the regularization is relative to the starting
+      location?
+* They note that pretraining will work better where unsupervised and
+  supervised tasks can use similar features. Hopefully the
+  unsupervised task finds features that allow you to linearly seperate
+  the classes, for instance. They note that you can train unsupervised
+  and supervised simultaneously (which is no longer greedy layerwise
+  pretraining), and that helps both parts focus on learning shared
+  valuable features.
+* They note that representation learning will be more helpful when
+  initial representations are poor. For instance, one hot word
+  vectors. Images may have a rich representation.
+    * They note that a major part of "richness" is the extent to which
+      L1 or L2 norm accurately describes differences in the
+      vectors. For instance: all one hot word vectors are the same
+      distance apart, even though semantic meanings can be similar.
+* When you have lots of unlabeled data, then unsupervised training can
+  be very valuable. Another idea: normal regularization biases you
+  toward representations that are "simple" in a certain sense:
+  generated by mostly linear functions with weights penalized by L1 or
+  L2 loss. When the underlying distribution is very complex, the
+  unsupervised task can be a better regularizer.
+* Most improvement is seen on the *test* error. It has been observed
+  that with unsupervised pretraining, a network typically stays in a
+  certain neighborhood and has low variance in the trained network,
+  whereas there is very high variance in the trained function if the
+  network is randomly initialized.
+* They mention that training a network with two phases means you can
+  explore hyperparameters slowly: the "real" way to do things would be
+  to rerun *both* phases if you want to tweak an unsupervised phase
+  parameter. But in practice we just tweak the parameters for the
+  unsupervised task and then leave that part alone: we assume we did a
+  good enough job.
+* Another note is that it's hard to know how to control the amount of
+  unsupervised regularization. This is not the case if you train
+  supervised and unsupervised together and combine the penalties,
+  using some weighting ratio.
+* Today, unsupervised pretraining is mostly used for word vectors,
+  where distances really suck. But for very large datasets, and also
+  even medium size ones like CIFAR and MNIST (5k examples per class),
+  regularization with dropout and with batch normalization seem to be
+  superior. On very small sets, Bayesian methods are more popular and
+  successful.
+    * So it sounds like pretraining doesn't really have much it is
+      really good at...
+* On the other hand, supervised pretraining is popular, and networks
+  like VGG even publish their weights for transfer learning.
+* Transfer learning in particular can be useful. For visual tasks,
+  even if the tasks aren't very similar, edge detection, invariance to
+  geometry changes can be highly important.
+* On the other hand, sometimes we keep the *last* layers if the
+  similarity is in the *input*. That may be the case for transcription
+  software, where we really just want to optimize to a specific
+  individual's unique *vocal* features.
+* In some competitions, it is found that training really deep
+  unsupervised representations can really help in tasks where you then
+  have to classify new categories. For instance, you train on cats and
+  dogs, but then are asked to classify cars and boats.
+    * The finding was specifically that you need *many fewer* examples
+      from the new categories to reach asymptotic performance, so long
+      as your representation learned was very deep.
+    * This is sometimes called *one-shot* learning. Using even a
+      single example, you can classify new examples which are close to
+      the single example in the representation space.
+    * That probably works great for, for instance, flower
+      identification. Here you can train on some classes, identify the
+      important factors of variation, and then a new class comes along
+      which is just another specific setting of those factors of
+      variation.
+* A *zero-shot* problem works like this: you train a classifier that
+  can look at images in a class, and a description of the class. Then
+  you give it a *description* of a new class. It can then classify
+  without ever seeing an example.
+* They note that the general hypothesis behind semi-supervised
+  learning is that you are learning the causal factors of X, and that
+  these causal factors can also explain Y: maybe Y is one of the
+  factors!
+    * This will totally fail if X is totally random, and Y is purely a
+      *function* of X.
+    * **I believe this is a vital insight!** Note that you can learn Y
+      from X, but modeling X will only help if you think the causes of
+      X are highly correlated with Y.
+* One problem is that there may be many factors of variation, and that
+  if the representation space is constrained, Y may not be amongst the
+  top few. They give an example of a robotics task: a representation
+  of an image is learned by an autoencoder. But fine details are lost:
+  in their example, the arm of the robot is well encoded, but the tiny
+  ball it is trying to pick up is *not*.
+    * That's because the ball is small in the image, and the
+      autoencoder doesn't see it as particularly salient when
+      evaluated against the L2 reconstruction cost.
+    * But the problem is that the ball is *super* relevant for the
+      robotics task! But how should the autoencoder know that?
+* One approach is to use an adversary to determine what is
+  salient. Say you present the reconstructed image and the original:
+  can the adversary figure out which is which?
+    * This implicitly learns a better error function.
+    * Another example is head generation: the ears are often blurred
+      when training on L2 error, but much less so when using an
+      adversary, which can see blurred ears easily.
+    * **I believe again that this is vital!** Note that instead of
+      using a penalty, we are using an adaptively learned adversary!
+* They talk about *distributed representations*. I think the point
+  they are making is that you ideally learn independent dimensions of
+  causality. I think it's like twenty questions: rather than ask "is
+  it class 1? Class 2? Class 3?", if you learn features that some of
+  the classes share, but others don't, you can narrow down to the
+  answer with fewer questions.
+* They talk about how these features are only likely to be learned by
+  *deep representations*. That's because the features are highly
+  nonlinear.
+    * Now, they note that with enough units and connections, a
+      one-layer hidden network can model anything. But they also note
+      that deeper networks can be much more *efficient*.
+    * You can prove that some families of functions can be represented
+      with a linear number of neurons with a depth of `k`, but would
+      require an exponential number of neurons if you didn't provide
+      enough depth.
+* I think the idea is basically what I have thought about in the past:
+  to seperate classes, try to find dimensions of variation that are
+  relevant across classes. Basically, try to find features that are
+  0/1 for half the classes, rather than just 1 for a single class.
+
+**TODO**: Up to chapter 16!
