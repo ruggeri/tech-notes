@@ -1173,4 +1173,60 @@ This is a chapter of general advice.
   relevant across classes. Basically, try to find features that are
   0/1 for half the classes, rather than just 1 for a single class.
 
-**TODO**: Up to chapter 16!
+## Ch16: Structured Probabilistic Models
+
+* Examples of PGM advantages are:
+    * Density estimation.
+    * Denoising.
+    * Missing value imputation.
+    * Sampling.
+* Can't just use a lookup table:
+    * Statistical efficiency: you need so much data to train such a
+      model.
+    * Sampling would mean you have to generate a number `U(0,1)` and
+      then iterate through table until you surpass this. (You could
+      fix this with preprocessing, actually).
+    * But running arbitrary probabilistic queries would be painfully
+      slow.
+* Graphical structure can greatly limit interacting variables, so if
+  CPDs involve few variables, then you can use far fewer parameters.
+    * If the structure is convenient (like a tree), certain query
+      operations can be pretty easy too. But arbitrary querying can be
+      difficult, still.
+* Undirected model makes sense when causal direction *could* run
+  either way, or where we don't understand the causality. The example
+  they give is: you, your coworker and your roommate. The variable is
+  whether each of you has a cold. Then you and your coworker, and you
+  and your roommate are both related, but it's not clear in what
+  direction.
+    * Every *clique* (group of nodes each one connected together) gets
+      a *potential*. The unnormalized probability is the product of
+      the clique potentials. The partition function is the normalizing
+      constant.
+* We often cosider *enery-based models*. These have the unnormalized
+  probability equal `exp(-E(x))`, where `E` can be any kind of
+  function you like. A probability distribution written this way is
+  called a *Boltzmann distribution*. It sounds like any distribution
+  can be considered a Boltzmann. Machines based on an energy model are
+  called *Boltzmann machines*.
+    * The term Boltzman machine is thus very elastic. But we can
+      assume it is only used when the probability distribution is
+      *naturally* a Boltzman distribution.
+    * These are also called *log-linear* models. It turns out that we
+      used "Boltzmann" primarily when there are *latent* variables,
+      otherwise we say "log-linear" or just Markov Random Field.
+    * The function `-E` is sometimes called *harmony* (mostly by this
+      Smolensky guy). NB: the RBM is sometimes called a *harmonium*.
+    * Hinton was the guy who figured out how to train these fast.
+* We want to know if two sets of variables A and B are conditionally
+  independent given C. For undirected models, the answer is exactly if
+  every path between A and B involves a vertex in C. This is
+  *seperation*.
+* For directed models it is slightly more complicated: we talk about
+  *d-seperation*. The problem is caused by *v-structure*, which causes
+  *the "explaining-away" effect.
+* Of course, not every independence will be implied by the graph
+  structure. And some independencies may exist based on certain
+  *contexts*. Maybe A and B are independent *if* C=1.
+
+**TODO**: Up to 16.2.6.
