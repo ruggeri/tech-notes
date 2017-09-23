@@ -1228,5 +1228,188 @@ This is a chapter of general advice.
 * Of course, not every independence will be implied by the graph
   structure. And some independencies may exist based on certain
   *contexts*. Maybe A and B are independent *if* C=1.
+* They note that no probability distribution is *inherently* directed
+  or undirected. You can always use a complete graph to represent any
+  probability distribution (in a directed graph this is a DAG which
+  orders the nodes and has in edges from all prior vertices).
+* Typically we want to choose a graph structure that maximizes the
+  number of independences.
+* They talk about how you might convert between graph structures. To
+  go directed to undirected, you need to worry about if A and B are
+  parents of C, but there is no edge between A and B. In that case you
+  are supposed to add such an edge to the undirected model. I believe
+  this is related to "explaning away".
+    * The structure described in a directed graph is called an
+      "immorality." That's because A and B are like unwed parents of
+      C. Wow that is dumb.
+* On the other hand, to go from undirected to direct, you worry about
+  cycles. Every cycle will need to have at least one *chord* added to
+  them (if it doesn't have one already): an edge between
+  non-consecutive vertices.
+    * Not 100% sure why... I didn't spend too much time pondering
+      this.
+* They note that given an undirected graph, there are different ways
+  to interpret the graph. What are the factors?
+    * E.g., consider three vertices all connections drawn in.
+    * Is this a single three-variable factor, or three two-variable
+      factors?
+    * The first is simpler.
+* Sometimes they talk about a *factor graph*. This is a *bipartite*
+  graph with two kinds of vertices: the variable vertices, and factor
+  vertices. Variables are connected to those factors they are involved
+  in. No factors are connected to other factors; same with variable
+  vertices.
+    * This is an unambiguous representation.
+* They note directed graphs are simple to sample from. You just start
+  at the top and work your way down. This is simple provided sampling
+  the CPDs is simple.
+    * But of course sampling with conditioning can be hard if some of
+      the conditioned variables have unspecified ancestors.
+* Sampling an undirected model can use Gibbs sampling.
+    * This involves randomly setting the variables. Then you pick one
+      variable and sample it conditioned on all the others.
+    * You repeat, and eventually this should converge to the correct
+      distribution.
+    * Of course samples are highly correlated.
+    * Slow, hard to tell when the chain has mixed.
+* Okay, so how do you learn dependencies? If you just consider the
+  visible variables, there are too many interacting factors.
+    * You can try to slowly add dependencies between observed
+      variables, and score based on likelihood and model complexity.
+* You probably want to add *latent* variables.
+    * Often the MAP estimate of the latent variables is a good
+      learned representation of the visible variables.
+    * They don't talk about how you want to structure the latent
+      variable connections at this time...
+* When you have hidden variables, and you want to do maximum
+  likelihood estimation, then you need to calculate `P(v)` in your
+  model. This is a marginalization query, and there is typically no
+  easy way to do it.
+* They talk about how deep learning people approach PGM.
+    * The networks are not necessarily very deep. They may have a
+      single layer of latent variables.
+    * Typically the DL people have more latent variables than
+      observed. The PGM people have almost all observed, though some
+      may be missing at random.
+    * Also, traditional PGM latent variables are normally intended to
+      model some unseen phenomenon that we *believe* is there. Like
+      maybe we observe the speed, and need to decide what the throttle
+      is set at. We have a good idea what the latent variable means.
+    * Likewise, for HMMs. The latent variable is about the phoneme
+      being spoken.
+    * For DL, we normally have no idea what the variables will mean.
+* Since each latent variable is often attached to many visible
+  variables (and vice versa), there are lots of connections, which
+  makes it hard to use traditional inference techniques from PGM.
+    * Likewise, traditional *approximate* methods like loopy belief
+      propagation don't tend to work very well, either.
+* Therefore DL networks typically are designed with Gibbs sampling or
+  variational inference in mind.
+* They next talk about restricted Boltzmann machines.
+    * Here, we have one latent layer. Connections are only between
+      visible and latent.
+    * Binary values.
+    * There is an energy cost for each visible variable to be set to
+      1, and likewise for each hidden variable.
+    * But last there is a term for interactions with the hidden
+      variables.
+    * This is characterized by a matrix W.
+    * For each hidden variable, there is an energy cost to setting
+      each of the visible variables to 1. Basically, each pair of
+      hidden and visible has an associated energy cost.
+* To train an RBM, note that `p(h|v)` equals the product of `p(h_i|v)`
+  because independence. And you can show that `p(h_i|v)` is the
+  sigmoid of the inner product of the visible variables and the
+  appropriate weight matrix row.
+* Therefore, you can easily do a *block Gibbs sampling*; sample all
+  the `h_i` simultaneously.
+* Similar equations hold to sample all the `v_i`. Therefore you can
+  start generating samples of the joint distribution.
+* This doesn't totally tell me how to train an RBM though. But I think
+  maybe I can see how.
+    * Each time, you want to sample the new `{v_i}`. And then you want
+      to see what the ratio is of the observed `{v_i}` and the
+      Gibbs sampled `{v_i}`.
+    * Not sure, but it's a guess.
+    * I looked up on Wikipedia: it's almost exactly that!
 
-**TODO**: Up to 16.2.6.
+# Ch17: Monte Carlo Methods
+
+* Basic Monte Carlo algorithm to find the integral is to sample
+  points, run them through the function to integrate, and then average
+  the results.
+* This approximates `\Int f(x)`. Sometimes you want to compute `\Int
+  p(x)f(x)`. This is important when `X` is not distributed uniform. If
+  you can sample from `p(x)`, then you can still easily average
+  `p(x)f(x)`.
+* But often you cannot sample from `p(x)` easily. Example: say you
+  want to compute `p(v)`. This is `\Int_H p(h)p(h, v)`. It may be
+  simple to calculate `p(h, v)`: for instance, in a directed model.
+* So that means we need to sample `p(h)`. But what if that is hard?
+* Well, what if it is easy to *compute* `p(h)`, given `h`. Then we are
+  all good.
+* In fact, we can sample from any distribution `q(h)`, so long as we
+  average out `p(h)p(h, v)/q(h)`. When `q=p` then of course this is
+  the same as the original procedure. And when `q` is uniform, this is
+  the same as the version where you calculate `p(h)` and sample
+  uniform.
+* So what is the best choice of `q`? Well, it should be proportional
+  to `p`. But it should *also* be proportional to `f(h)`! For
+  instance, imagine a function which is zero everywhere, except on a
+  small probability set where it has large values. Then you want to
+  really just sample in that important area.
+* How fascinating! You may not want to use just the *true*
+  distribution!
+* Now, finding this optimal `q` may be impossible, or it could be
+  really hard to sample from. But you can try to choose something
+  approximately correct: any choice of `q` can be correct.
+* They note that you can also do *biased* importance sampling. This is
+  when you don't have a normalized version of either `p` or `q` or
+  both. In that case, you just divide your unnormalized average by the
+  average ratio of your unormalized `p/q`.
+    * This should converge in the limit, but will add noise
+      (i.e. variance).
+* But sometimes you can't even figure out how to sample from a good
+  distribution `q`.
+    * This is most common in undirected models.
+* MCMC techniques can get your back. MCMC technically doesn't have a
+  proof of converging to correctness if there are zero probability
+  states (I think because you could *start* in a zero probability
+  state).
+* However, energy models don't have that problem.
+* Remember how MCMC works. You sample one (or a block) of variables at
+  a time. You keep repeating. YOu may start in a low probability
+  space, but eventually you should wander into a high probability
+  space. Then you wander around mostly in this space. You are now
+  sampling high probability samples.
+    * Probably using a lot of chains randomly initialized in parallel
+      will help if there are multiple modes of the distribution?
+* Another way to see it: the Markov chain is defined by a transition
+  matrix. MCMC is sampling from the long term stationary distribution.
+    * If you choose your transition matrix right, then its stationary
+      distribution is hopefully the one you want to sample!
+* So MCMC is the general technique for any stochastic matrix. Gibbs
+  sampling is where you sample one variable at a time. And block Gibbs
+  is just sampling multiple variables. However, they note that the
+  variables sampled should be independent given the variables held
+  constant.
+* Now your big problem, as mentioned, is modes. One way to overcome is
+  the block Gibbs. If you have highly interdependent variables, maybe
+  you can sample them all *simultaneously*, and get them to flip
+  together.
+    * Like, you know that for MNIST the overall images have modes each
+      with probability about 1/10.
+    * But if you need to sample a pixel at a time, it will be hard to
+      travel from one mode to another.
+* Of course, sampling a block can be hard: afterall, that was the
+  point of doing MCMC in the first place!
+* They also mention *tempering*. This basically adds a temperature
+  factor, which facilitates jumping more widely. They can then turn up
+  the temperature to move to another mode potentially.
+* It is noted that deeper levels often are more unimodal. That kind of
+  makes sense. If high level features are roughly uncorrelated, then
+  that's part of being a good distributed representation. And that
+  means that there shouldn't be any sharp peaks in the probability
+  space.
+
+**TODO: Up to chapter 18!**
