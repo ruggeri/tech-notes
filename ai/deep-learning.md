@@ -1411,5 +1411,37 @@ This is a chapter of general advice.
   that's part of being a good distributed representation. And that
   means that there shouldn't be any sharp peaks in the probability
   space.
+* Metropolis Hastings
+    * **I wrote this from looking at wikipedia and trying to remember
+      from the PGM class**.
+    * MH is an MCMC method. It differs from Gibbs sampling.
+    * First there is a proposal distribution. A natural distribution
+      is Gaussian centered on the current sample. So you're on a
+      random walk.
+    * You want to walk primarily toward regions of high
+      probability. Therefore, we need to tie where we walk to the
+      distribution we wish to emulate.
+    * Therefore, we also have an *acceptance* probability. The
+      acceptance probability is ideally the ratio between the
+      probability of the current sample `x_t` and the proposed sample
+      `x'`.
+    * If `x'` is more likely than `x_t`, then we simply move to
+      `x'`. On the other hand, if `x'` is *less* likely, we will still
+      consider moving there.
+    * We will move there with probability equal to the ratio of
+      probabilities of `x'` and `x_t`.
+    * Note that you do not need the normalized probability
+      distribution to calculate this.
+    * There is one note they make. If your proposal distribution is
+      not *symmetric*: if `q(x_1 -> x_2) != q(x_2 -> x_1)`, then you
+      need to do a correction factor on your acceptance distribution.
+    * You correct by the ratio of transitioning from `x' -> x_t`
+      compared to `x_t -> x'`. Otherwise, you're saying it's easier to
+      move from one state to another in a way that isn't related to
+      their probability distribution.
+    * MH vs Gibbs: it seems like Gibbs can be convenient when you know
+      `P(x_i|{x_{-i}})`. But when you don't, you can still use MH,
+      which requires only knowing `p\tilde(x)`, which may be simpler
+      information.
 
 **TODO: Up to chapter 18!**
