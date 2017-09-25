@@ -1116,6 +1116,41 @@ they give. So this is hopelessly fucked.
 
 **Only read to decision trees; this actually looks useful!**
 
+18.5 is about computational learning theory. It formulates the idea of
+*PAC*: probably approximately correct. An algorithm is a PAC learning
+algorithm if, given enough samples, the learned hypothesis will likely
+be within an epsilon ball of the truth.
+
+They do a simple example for deterministic boolean functions: `B^N ->
+B`. They consider the space of *all* boolean hypothesis functions. The
+error metric for the hypothesis is the percent of input values on
+which you learned the wrong output value.
+
+So imagine a learning algorithm sees N datapoints and is consistent on
+those datapoints. What is the probability that is within `\eps`
+distance from the true hypothesis? Well: very low! That's because
+there are `2^{N-k}` hypothesis consistent with the `k` datapoints
+you've observed. And if `\eps` is small, the vast majority have high
+hamming distance from the true hypothesis. And seeing one more
+datapoint won't particularly greatly improve your accuracy: you just
+become sure that one more input you learned the right output for.
+
+The number of samples required to learn within `\eps` of the true
+hypothesis is called the *sample complexity*. Now, if we restrict the
+hypothesis space, *and* if we know the true generator either (1) lies
+in the hypothesis space or (2) there is a "close enough" hypothesis in
+the space, then we can acheive generalization.
+
+I later read in the notes at the end that Leslie Valiant started PAC
+learning. He showed that for some classes, you cannot PAC learn
+*tractably* even though sufficient information exists in the
+examples. Huh.
+
+They mention that *uniform convergence theory* by Vapnik and
+Chervonenkis is an alternative theory that came out of statistics. The
+VC dimension is similar to the sample complexity. This theory also
+applies to continuous functions.
+
 ## Ch21: Reinforcement Learning
 
 * For a Markov Decision Process, the best action is the one that
