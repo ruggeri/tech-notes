@@ -1676,3 +1676,6 @@ This example was a little unusual, because this isn't variational
 *inference*. We used an exact inference `p(h|v; \theta_i)`. And we're
 not trying to infer anything, we're trying to calculate the MLE of
 `\theta`. So this example is maybe a little shoehorned in here.
+
+**TODO**: I'm up to 19.3, but I'm also feeling a little tired of this
+book now...
