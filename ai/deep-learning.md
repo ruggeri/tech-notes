@@ -1650,7 +1650,29 @@ positive, so that means
 
 is an upper bound for `-log(p(v))`.
 
+This quantity is denoted `L(v, \theta, q)`. This is called the
+variational free energy.
+
 Well, how will you use this? The idea is that you will work inside a
 family of `Q`, and you will minimize this value: this is the lowest
 possible lower bound for `-log(p(v))` you will get from this family
 `Q`.
+
+They next express EM in terms of variational free energy. Here, you
+set `q(h)` to the soft completion: `p(h | v; \theta_i)`. Note here
+that `\theta_i` is the parameters at step `i`.
+
+You then next update `\theta` so that the VFE is minimized. This only
+changes `-log p(h, v)`. Sometimes you can exactly calculate the
+`\theta` update, sometimes you have to do some hill climbing.
+
+Before you started changing `p`, note that `p=q` and thus the VFE was
+equal to `-log p(v)`. But as you change `p`, the VFE will become an
+overestimate of `-log p(v)`. Because you know the VFE will be an upper
+bound as you change `p`, that's why you know it's safe to minimize the
+VFE.
+
+This example was a little unusual, because this isn't variational
+*inference*. We used an exact inference `p(h|v; \theta_i)`. And we're
+not trying to infer anything, we're trying to calculate the MLE of
+`\theta`. So this example is maybe a little shoehorned in here.
