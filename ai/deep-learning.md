@@ -1444,4 +1444,213 @@ This is a chapter of general advice.
       which requires only knowing `p\tilde(x)`, which may be simpler
       information.
 
-**TODO: Up to chapter 18!**
+## Ch18: Partition function
+
+* We saw previously that in an RBM it is simple to calculate the
+  gradient of `p\tilde(x; \theta)` wrt `\theta`. This shows us the
+  direction to go so that we maximize the unnormalized probability.
+* However, we have to also consider the gradient of `Z` wrt
+  `\tilde`. When the gradients are equal, learning is done.
+* The gradient of `Z` is just the integral of the gradients of
+  `p\tilde(x)` over the space `X`. So we can use MCMC to estimate this
+  gradient.
+* So let's put this together to minimize `-log(p(D))`. That is the
+  MLE. This breaks into two parts: `[-log(p\tilde(D))] - [-log(Z)]`.
+* So to a GD update, you can do it in two steps:
+    * Calculate gradient of `-log(p\tilde(D))`.
+    * Calculate gradient of `-log(Z)`.
+* To calculate the gradient of `-log(Z)`, you sample some data points
+  from the current model. You then calculate the gradient on these
+  datapoints.
+* So this is a *positive* and *negative* phase.
+    * The positive phase says: make the `p\tilde` of the observed data
+      go up.
+    * The negative phase says: make the `p\tilde` of data the model
+      thinks is correct (*hallucinations*) go down.
+* Doing MCMC in the inner loop is expensive. So the
+  *contrastive-divergence* algorithm says: initialize your MCMC chain
+  each time with the true sampled data.
+    * That way you start somewhere which has reasonably high
+      probability. So you need fewer steps of MCMC.
+* The problem with this is that the model can still assign a lot of
+  probability to zones which are very unlikely *in the data*. And our
+  updates will no longer be pulling down in these zones, because our
+  updates tend to be closer to the observed data.
+* Another problem is that this doesn't really help if there are hidden
+  variables: you have nothing to initialize those to.
+* Another idea is *stochastic maximum likelihood*, also called
+  *persistent contrastive divergence*.
+    * Here you don't restart your Markov chain each time.
+    * If the distribution doesn't change too fast, a mixed estimate
+      from the previous iteration should be a good initialization
+      point for the next iteration.
+* An altogether different approach is *pseudolikelihood*.
+    * Here, you replace `-log(p(x))` with the sum `\Sum_i
+      -log(p(x_i|x_{-i}))`.
+    * Apparently that is an asymptotically consistent estimator.
+    * There is a *generalized* pseudolikelihood. Here, you partition
+      your variables into sets `S_i` and then you find `\Sum_i
+      -log(p(x_{S_i} | x_{-S_i}))`.
+    * This can make sense if you know some variables are closely
+      related but that other variable interactions are not very
+      important.
+* So how do you calculate this conditional probability?
+    * Well, it is `p\tilde(x) / p\tilde(x_{-S_i})`.
+    * The `Z`s cancel out.
+* The numerator is simple to calculate. How do we calculate the
+  denominator?
+    * Consider pure pseudolikelihood where `S_i = {x_i}`. We iterate
+      through the values of `x_i`, calculating `p\tilde(x_{-i} and x_i
+      = v_j)`.
+    * This computes the marginal we need. We can now divide.
+* Note that the denominator becomes exponentially more costly to
+  calculate as we generalize the `S_i` to involve multiple variables.
+* This technique requires that we be able to calculate `p\tilde(x)`
+  easily. The denominator clearly needs marginalization. But
+  `p\tilde(x)` itself is a marginal probability even if all visible
+  values are specified, because there can be hidden values.
+* Therefore `p\tilde` can be intractable! In that case, in the next
+  chapter, we learn how to estimate `p\tilde`.
+* We will later learn a number of methods that establish a *lower
+  bound* on `p\tilde`. These methods are inappropriate to use in the
+  context of pseudolikelihood, because a lower bound on the
+  denominator value really establishes an *upper bound* on the overall
+  pseudolikelihood.
+    * We need a *lower bound* on the estimate of `p\tilde` in order to
+      do maximum likelihood...
+* They next discuss a technique called *score matching*. The score of
+  `x` is the gradient of the log probability at `x` wrt changes in
+  `x`.
+* The score measures the sensitivity of the probability to changes in
+  `x`. If the scores of two distributions are equal, then their KL
+  divergence should be zero, I think.
+* So you might want to minimize the L2 norm of the difference of
+  `\grad_x log(p_model(x; \theta))` and `\grad_x log(p_data(x;
+  \theta))`.
+    * This is saying: the model should match the true data
+      distribution's scores at the points sampled from the true
+      distribution.
+* Now, the good news is that by taking the derivative wrt `x` (instead
+  of `\theta`), we know that `Z` won't be changing, so it gets killed
+  by the derivative.
+* The problem is that we definitely don't know `p_data` (here `p_data`
+  means the true distribution, not the empirical distribution).
+* They do some math trick to avoid needing `p_data`. It isn't shown
+  how to do that math trick, and when I read the paper it seemed
+  really hard. I don't really care.
+* They next talk about a technique called *noise contrastive
+  estimation*.
+* Here's the idea. You decide you're going to train `\theta` *and* an
+  estimate of the partition function: `\theta_Z`. You're going to
+  assume that `-log p(x) = -log(p\tilde(x)) - -log(\theta_Z)`.
+* Now, `\theta_Z` won't start out correct, so this won't be a proper
+  distribution. That's okay: we'll train it to become one.
+* We're going to train the network to distinguish noise from model
+  generated data. We'll sample a bunch of noise datapoints.
+* We want to fit `\theta, \theta_Z` so that the probability of the
+  true data is very high relative to the probability that it is from
+  the noise distribution. And vice versa.
+* So we want to maximize `p_model(x) / (p_model(x) + p_noise(x))` for
+  the true datapoints. This is basically training a logistic
+  regression model.
+* This takes the form `\sigma(log p_model(x) - log p_noise(x))`.
+* (I'm ommitting some details because I'm tired).
+* Now, this works okay when there are a few variables being
+  modeled. It even works fine if those variables take on many values.
+* But the approach breaks down with many variables. It's too easy for
+  the noise to give itself away.
+    * For instance, imagine trying to train a generative model for
+      faces.
+    * Then the model can learn: "I know it's noise if it doesn't have
+      eyes."
+    * This will be very good at discriminating noise from faces, even
+      though nothing has been learned about the other features.
+* There is another technique called *self-contrastive
+  estimation*. Instead of generating noise, it generates examples from
+  the model. It then tries to distinguish these samples from the real
+  examples.
+    * I'm confused. This sounds like contrastive divergence. It also
+      sounds like if we generate noise from the model, how will we be
+      able to tell these apart at all?
+    * The answer is yes: using the model as our noise distribution,
+      when we look at a sample, we could never distinguish it as
+      coming from one or the other.
+    * But since we know a sample is real (or a hallucination), the
+      question is how to update the `\theta` so that the real
+      prediction goes up the most and the false prediction goes down
+      the most, *relative* to the unchanged copy of the model.
+    * This basically says: change the model so that the hallucinations
+      will appear more probable in the old version, while the true
+      values appear more probable in the new version.
+    * I don't know, this still feels like CD to me, but in the paper
+      he claims (I think) that the objective function is different...
+    * I didn't work through all the math so I will punt.
+* In the last section we for the first time talk about actually
+  estimating Z. One scenario where we would need to do that is if we
+  were comparing two models A and B. We need to know the likelihood of
+  the data under these models, and `Z_A != Z_B` almost certainly.
+    * It comes down to a correction factor of `(#
+      examples)log(Z_A/Z_B)`.
+* Therefore, it will be good enough to calculate just the ratio.
+* They go through a couple methods to do this, but I don't feel it is
+  essential to summarize them. I'm not that interested in this level
+  of detail on this math.
+
+## Ch19: Approximate Inference
+
+* Exact inference operations like computing `p(h|v)` are intractable
+  in deep undirected networks. RBM is designed exactly to avoid this
+  difficulty.
+* The most important thing we want to estimate is often `p(v)`. We're
+  going to see how to bound this.
+
+Say we want to estimate `-log(p(v))`. We know:
+
+```
+-log(p(v)) = [\Int_H p(v, h)*(-log p(v, h))] - [\Int_H p(h | v)(-log p(h|v))]
+```
+
+This basically says that the if you code `(v, h)`, and you strip out
+the part which encodes `h`, then you're left with a code for `v` with
+length `-log(p(v))`.
+
+Now, it may be difficult to calculate `p(h|v)`. Let's consider some
+other distribution (any other), `q(h)`.
+
+Let's say we used `p` incorrectly to build a code for `q`. We know
+that:
+
+```
+KL(q(.), p(.|v)) = [\Int_H q(h)(-log p(h|v))] - [\Int_H q(h)(-log q(h))]
+```
+
+This is because the KL divergence measures the number of extra bits we
+use.
+
+Now, what is the length of the optimal coding for `h` in `p`? We know
+that from before: it is `[-log(p(v, h))] - [-log(p(v))]`. Basically,
+this is saying: the best code for `h` in `p` is to encode `p(h, v)`,
+but then strip out the part that was for `v`. Another way to look at
+is to say this code sucks even more:
+
+```
+KL(q(.), p(.|v)) + (-log(p(v)))
+  = [\Int_H q(h)(-log(p(h, v)))] - [\Int_H q(h)(-log q(h))]
+```
+
+This is saying, that if you use codes for `-log(p(h, v))` then not
+only are you wasting bits by encoding `h` with the wrong conditional
+distribution, but now you're tacking on this worthless `v`
+representation as well.
+
+We can of course subtract KL from both sides. Now, KL must always be
+positive, so that means
+
+    [\Int_H q(h)(-log(p(h, v)))] - [\Int_H q(h)(-log q(h))]
+
+is an upper bound for `-log(p(v))`.
+
+Well, how will you use this? The idea is that you will work inside a
+family of `Q`, and you will minimize this value: this is the lowest
+possible lower bound for `-log(p(v))` you will get from this family
+`Q`.
