@@ -828,6 +828,11 @@ Source: http://distill.pub/2016/augmented-rnns/
 * TODO: I was looking at some of the papers about this but they are
   quite unclear...
 
+(I added these sources a bit later: I think they're releavnt)
+Source: https://arxiv.org/pdf/1506.02075.pdf
+(This one is about dynamic memory networks; seems very similar)
+Source: https://arxiv.org/pdf/1506.07285.pdf
+
 ## Autoencoders and Variational Autoencoders
 
 * Basically, a bottleneck layer, and you try to reconstruct the input
@@ -1270,6 +1275,9 @@ Source: Alex Graves, Demis Hassabis
 
 Source: One-shot Learning with Memory-Augmented Neural Networks (DeepMind people I don't know)
     https://arxiv.org/pdf/1605.06065.pdf
+
+There is also *zero-shot* or *zero-data* learning.
+https://pdfs.semanticscholar.org/00d3/fadfadc977ba4b6511bec1b2a3026d877099.pdf
 
 ## Hyperparameters
 
