@@ -1,0 +1,30 @@
+**AI/ML**
+
+* Read Probabilistic Robotics.
+* Decision trees, random forests, boosting, bagging.
+* Understand SVM better.
+* Maybe review Norvig AI textbook for ideas.
+* Resume Driverless Car? CS188 style course?
+
+**Distributed Systems**
+
+* I've mostly moved on, but I want to understand Spanner/F1.
+
+**Math**
+
+* Understand PCA/SVD properly.
+* Euler's identity (I think I do understand...)
+* Fourier Transform (Pretty sure I understand this, too).
+* *Fast* Fourier Transform.
+* Properly writeup Lagrange, KKT.
+
+**Other**
+
+* Grover's Algorithm
+* Read Taming Text.
+* Learn Electronnics properly.
+* Learn Physics properly.
+
+**Not Essential**
+
+* Memory fencing: I don't understand this.

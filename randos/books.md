@@ -1,10 +1,9 @@
 ## Priority
 
 * Artificial Intelligence: A Modern Approach (Norvig, Russell)
+* Probabilistic Robotics
 * ElasticSearch in Action
 * Intro To Linear Algebra (Strang)
-* Machine Learning (Murphy)
-* Redis in Action
 
 ## All Books
 
@@ -14,7 +13,7 @@
 * Amazon Web Services in Action
     * **TODO**
 * An Introduction to Statistical Learning
-    * **TODO**
+    * Doesn't really feel essential.
 * Approximation Algorithms (Vazirani)
     * Did not read.
     * This collects algorithms to a variety of problems. Not really
@@ -42,7 +41,6 @@
       role. Gives a sense of how Storm and Cassandra might be used.
 * Bitcoin for the Befuddled
     * Read whole thing. Good introduction; fun!
-    * On loan to Mike Golubitsky.
 * Causality (Pearl)
     * Started. Very hard and not directly related to standard AI/ML
       techniques.
@@ -200,6 +198,7 @@
 * Taming Text
     * Looks like it might have some interesting stuff related to text
       search that I think I know, but might want to check on.
+    * **At the office**
 
 **Uninteresting**
 

@@ -1,0 +1,5 @@
+* Robotics is science of perceiving and manipulating physical world
+  through computer controlled devices.
+
+* Robot environments are unpredictable. Sensors have limited
+  resolution, can fail (detecting failure is hard). Actuation 
