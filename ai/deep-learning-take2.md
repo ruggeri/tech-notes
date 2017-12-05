@@ -268,3 +268,167 @@ sigmoids.
 
 Now, when deploying the model for semantic hashing, you don't add the
 noise, and just round to zero or one.
+
+## Ch15: Representation Learning
+
+The tension is between retaining information about the data and other
+desirable properties, such as independence of variables.
+
+Deep networks are often initialized with a stack of autoencoders or
+RBMs. This is unsupervised greedy layer-wise pretraining. They claim
+this isn't needed any more for densely connected networks, but not
+why. This
+(https://www.reddit.com/r/MachineLearning/comments/22u1yt/is_deep_learning_basically_just_neural_networks/cgqgy9w/)
+claims that ReLU and dropout obsolesced pre-training, since (1) you
+can propagate signal better and (2) dropout provides good
+regularization. It is noticed that greedy pre-training doesn't seem to
+be very helpful. But they do note that when you have large unlabeled
+sets and small labeled sets, unsupervised pre-training can be helpful
+still.
+
+Aside: that thread has significant debate on whether sigmoids or ReLUs
+are better. There is a claim that maybe sigmoids are better for
+regression? Others say that ReLU isn't typically used for
+autoencoders, and also that the benefit is really for deeper nets. I
+don't feel like there is a clear explanation at the moment for me why
+one would be better at some tasks and the other better at other
+tasks...
+
+For supervised tasks, sometimes this doesn't decrease training error,
+but *does* reduce test error. That makes sense, because the network is
+maybe biased toward weights that pass forward more information about
+examples that aren't supervised-trained on. In this sense I think
+Goodfellow considers it regularization.
+
+There are many ways to do semi-supervised learning. One is virtual
+adversarial, another is to try to minimize cost of a combined
+unsupervised and supervised network. But the focus here is
+pretraining.
+
+They say there are two parts to the pretraining idea. First, that
+pretraining has a "regularizing" effect (per above) and (to a lesser
+extent), can improve optimization on the training set. The other part
+of the question is: why does learning about the input distribution
+help you solve the classification/regression problem? They admit this
+isn't totally well understood.
+
+It's not clear how the regularizing comes about. At first, people
+thought it was because you were biased to certain local minima. But
+experience shows that local minima aren't really a problem. My theory
+would be that the starting weights bias you toward settings of the
+weights that look equivalent, but work better for the test set. It's
+not that this area is inaccessible, but that it has no attracting
+power.
+
+They mention that the unsupervised hopefully forces the data into a
+representation that is useful to the supervised task. For instance,
+hopefully the unsupervised codes linearly seperate the examples. But
+it isn't well understood when this will happen. Therefore, the most
+popular approach (I think), is to do the unsupervised and supervised
+training simultaneously. I expect this means the supervised task will
+tend to push the unsupervised task toward learning compatible codes.
+
+Of course, the worse the original representation, the more useful is
+unsupervised training. For this reason it is super-useful for words,
+but less useful for images, since images do actually have more
+semantic similarity embedded in L2 distance.
+
+They suggest that the more complicated the supervised function, the
+more attractive it is to regularize with unsupervised learning, versus
+other weight decay type methods, which bias you toward simpler
+functions which isn't really what you want.
+
+Erhan explored unsupervised pre-training a fair bit. They found that
+NNs always trained to the same region when pre-trained, which meant
+there was less variance in outcome. That implies that there was less
+overfitting. But why? There is a hypothesis that unsupervised training
+encourages finding/use of the true causal factors.
+
+They mention another disadvantage of two phases of
+pretraining/training. You now have an outer loop to test pretraining
+parameters, making everything slower. You also can't really choose how
+you want to balance the effect of unsupervised loss versus supervised
+loss: you either pre-train or not. So it seems even better to do both
+simultaneously.
+
+Experimentally, straight supervised training with dropout acheives
+better performance on large and medium sized datasets. But then on
+small datasets Bayesian approaches work better!
+
+**Transfer Learning**
+
+They then talk about transfer learning more generally. They mention
+that a lot of times tasks share low-level features. Sometimes they
+share *high* level features. For instance, speech-to-text might want
+to keep the high layers, but swap out the low layers to be tuned for
+different speakers.
+
+They mention that empirically in transfer learing competitions (learn
+on example set A features that are used for linear classification on
+example set B), deeper representations seem to do a lot better with
+far fewer examples in A.
+
+They mention one-shot and zero-shot learning as extreme transfer
+learning examples.
+
+**What Makes A Representation Good?**
+
+IT can be that if we learn the factors that cause `x`, then the `y` we
+want to predict from `x` may itself be among those causal factors.
+
+We normally try to impose sparsity or independence on the factors `h`;
+that isn't the same as finding the causes. Why is that helpful? They
+posit (without real proof) that once you identify causes, you can
+generally separate these into independent factors. I don't know that I
+totally believe that.
+
+In general: if `y` is closely associated with the causal factors of
+`x`, then representation learning ought to be helpful.
+
+One challenge is that `y` may be associated with a cause of `x` that
+might not otherwise seem to be among the most important causes. For
+instance, imagine a task where you are asked: is there a house in the
+background of the photo? Then if you use the L2 error for
+reconstruction, this causal factor doesn't really impact the overall
+image very much. In that case, it's not entirely clear if unsupervised
+learning is going to be very helpful.
+
+They note one solution idea: GANs. This allows us to learn what
+details are salient and should be explained.
+
+One advantage to learning causal factors is that if you learn `y | h`
+(`h` is the causes of `x`), then this is robus to changes in the
+distribution on `h`. This may be particularly important for transfer
+learning, because when moving domains, the distribution on the
+underlying causes of variation may change, but maybe the mechanics
+stay the same. This is more likely to break if we learned things that
+are *associated* with the causes.
+
+They note that distributed representation is clearly important for
+representation learning. This is what allows us to learn things about
+cats and realize this can transfer to dogs. They give a geometric
+intuition: that this lets us modify several different regions of space
+by changing one weight.
+
+I feel like this section is very hand-wavy and not saying much...
+
+**Depth**
+
+They claim that those factors that can be independent of each other
+must be at a high level, because they interact at lower levels. Like
+"roundness of face" and "big mouth" are pretty independent, but they
+probably play out with complicated interactions at a lower level. That
+suggests a need for *depth*.
+
+**Asumptions That Help Us Find Underlying Causes**
+
+If we're going to find true underlying causes, we need to have
+assumptions that will bias us toward learning those causes. Otherwise,
+we may learn features that are merely associated with the pheonomenon.
+
+The most interesting of this laundry list (to me) is sparsity and
+independence of high-level factors. The idea of sparsity is that most
+features are not needed for most examples. For instance, a feature
+about size of elephant trunk is not relevant to non-elephant
+images. Likewise, independence of features. They also mention temporal
+coherence, which relates to slow-feature analysis.
