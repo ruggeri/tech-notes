@@ -1,0 +1,47 @@
+**Feature Hashing**
+
+Simple feature hashing just hashes the features and does a
+dimensionality reduction. This has an advantage of no storage cost for
+dictionaries. Also helpful when you could encounter new features
+online and want to do online updates to weights.
+
+Gaurav once claimed that feature hashing can *improve* performance and
+Peter couldn't believe that. I think the idea is that dimensionality
+reduction this way can serve as a form of regularization or
+prior. Imagine you're doing logistic regression, and then are a bunch
+of unique features. Then they can steal all the weight and now you
+won't use the other features.
+
+When you feature hash, you will put a certain number of useless
+features in with these low-reach features. I feel like maybe this
+implicitly performs a Beta prior by throwing in something like
+pseudocounts.
+
+**Jaccard Similarity/Min Hashing**
+
+This is the proportion of intersection versus union.
+
+Min hashing says that you take the minimum hash value and if that
+intersects, it's a match. The probability that minhashes are equal is
+equal to Jaccard similarity.
+
+You can have several minhashing functions. This, gives you more
+insight into the similarity.
+
+They do note: technically a hash function ought to be a random
+permutation of 1..N, where N is the number of words in the
+vocabulary. This is actually very infeasible to sample. But I think
+this is silly; just using standard hashing functions is probably good
+enough (maybe?).
+
+**Random Projection**
+
+You decide on what side of a random hyperplane a vector lies. Two
+vectors being on the same side of a hyperplane implies that they
+probably have smaller angle between them.
+
+**Lookup Of Nearest Neighbors**
+
+If you have `k` LSHs, then you look at those items which collide in
+one of those buckets. You then can calculate similarity with the full
+equation.
