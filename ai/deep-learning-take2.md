@@ -432,3 +432,99 @@ features are not needed for most examples. For instance, a feature
 about size of elephant trunk is not relevant to non-elephant
 images. Likewise, independence of features. They also mention temporal
 coherence, which relates to slow-feature analysis.
+
+## Ch16: Graphical Models
+
+Without structure, too many parameters. Sampling, density estimation,
+conditional queries, et cetera are too hard. And statistical
+efficiency is too low.
+
+In a Bayes net, the number of parameters is potentially exponentional
+in the number of parents (assuming binary variables). For Markov
+network, it is exponentional in clique size.
+
+Typical that we use an *energy function* where `p(x) =
+exp(-E(x))`. This is a Boltzmann distribution; machines with this kind
+of distribution can be called Boltzmann machines. Originally BMs had
+only binary variables, but that isn't true anymore. BMs typically have
+latent variables, otherwise we call these just Markov fields or even
+just log-linear models.
+
+Indeed, with this format, then you can just talk about each clique
+setting having a certain energy, which is the log of its *clique
+potential*.
+
+By association with physics, the unnormalized marginal log probability
+of `x` (that is, `log p\tilde(x)`) is sometimes called the *free
+energy*. We can calculate this by summing out over all `h` `E(x, h)`.
+
+It's not entirely clear to me when to prefer Bayes nets versus Markov
+networks. Clearly, in a trivial sense, they are equivalent (clique of
+entire graph), but I presume some probability distributions are more
+naturally represented as Bayes nets and others with Markov networks.
+
+**Sampling**
+
+Ancestral sampling of Bayes nets is very efficient. If you need to
+condition on something upstream and then sample on something
+downstream, that is cool too. But if you need to sample from something
+upstream, then you will no longer have a fast sampling approach.
+
+Of course, you can do Gibbs sampling on undirected models, but you
+have no real assurance of when this will mix.
+
+An advantage to structured models is that we can inject our knowledge
+by choosing a structure we think is appropriate. For instance,
+consider LDA.
+
+**Hidden Variables**
+
+These can often be added and then relationships between the visible
+units can be expressed more succinctly. And the hidden units now
+become a useful encoding/representation that can be used for other
+tasks.
+
+**Inference**
+
+Can be hard to calculate probabilities. Examples when we want to do
+this: expected hidden value code for visible units, conditional
+visible unit query (`p(y | x)`; `y` isn't hidden per se, because it is
+observed in the training set), maximum likelihood training (because we
+need `p(x)`).
+
+Most models we use won't allow exact inference. But approximate
+inference can be fast. Most common DL approximate inference technique
+is variational inference.
+
+**Deep Graphical Models**
+
+They mention that the big distinction is that latent variables have no
+explicitly intended purpose in Deep Models. We figure that the model
+will learn that.
+
+Deep models also have dense connectivity to latent variables. Thus
+Loopy Belief Propagation, a typical approximation approach in sparse
+networks, doesn't work well in these dense networks. So a big
+difference from classic PGM is that we don't use LBP.
+
+**Restricted Boltzmann Machine**
+
+The quintessential deep undirected model. Single layer of hidden units
+and of visible units. Only pairwise connections between hidden and
+visible units. Dense connectivity. Designed to be easy to perform
+Gibbs sampling on.
+
+RBM has factorial conditional distributions `p(v | h)` and `p(h |
+v)`. The first is `\prod_i p(v_i | h)` and the second is `\prod_i
+p(h_i | v)`.
+
+Likewise, `p(v_i = 1 | h)` is easy to compute. We take `\sigma(b_i +
+W_{i, :} h)`.
+
+This makes it very easy to do *block Gibbs sampling*. So sampling can
+be fast!
+
+It is easy to calculate the derivative of the energy function: if you
+know both `v` and `h`. That means it is possible to do maximum
+likelihood if everything were visible. But I assume we have an EM part
+here, where we use the derivatives for optimization in the inner loop?
