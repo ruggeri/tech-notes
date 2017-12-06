@@ -529,7 +529,12 @@ know both `v` and `h`. That means it is possible to do maximum
 likelihood if everything were visible. But I assume we have an EM part
 here, where we use the derivatives for optimization in the inner loop?
 
-(Not quite! Training uses the contrastive divergence concept).
+Not quite! Training uses the contrastive divergence concept. My
+approach suggested won't work because having the derivative of the
+energy function gives you the derivative of the unnormalized
+probability of an example, but does *not* give you the derivative of
+the normalized probability, since a change to the potentials affects
+not only `p\tilde_\theta(x)` AND `Z(\theta)`.
 
 ## Ch17: Monte Carlo Methods
 
@@ -699,4 +704,91 @@ intuition.
 
 ## Ch18: Confronting the Partition Function
 
-**TODO**: I am here!
+We talked about how to sample. But now we need to talk about how to
+optimize a model with a partition function. Returning to the RBM
+example: we praticularly want to know the gradient of `Z` as a
+function of `\theta`. We need that to do gradient descent: we can
+easily calculate the derivative of `E(v, h)`, but that doesn't tell us
+how a change to `\theta` affects `Z`. If `E(v, h)` goes down a lot,
+but `Z` goes down even more, then that means that `p(v, h)` is *less*
+probable.
+
+Everything makes sense in the log probability space. We have:
+
+    \log p(v, h; \theta) = \log (p\tilde(v, h; \theta) / Z(\theta))
+    = \log p\tilde(v, h; \theta) - \log Z(\theta)
+
+This decomposition consists of a *positive* "phase" (the term where
+you increase the unnormalized probability of `v, h`) and a *negative*
+"phase" (the term where you try to decrease the partition function
+`Z`. Effectively: decrease the unnormalized probability of all other
+configurations. When these forces are equal, you've got MLE.
+
+Because the partition function sums out/integrates over all variables,
+it is typically the more difficult quantity to calculate. The positive
+term is the easy part.
+
+Now, we can show that the gradient of `\log Z(\theta)` is equal to the
+expectation of `\grad_\theta \log p\tilde(x)` for `x ~ p(x)` according
+to the model. That's actually sort of interesting: the gradient of
+`Z(\theta)` would be the *sum* of the gradients, not the
+expectation. But it is also logical: you are comparing what you are
+doing on the positive example to the change you make at a "typical"
+example.
+
+This is basically the idea: we want to (1) push down on the energy at
+training set datapoints, and (2) pull up on the energy everywhere, in
+particular proportional to the probability that the model assigns to
+those datapoints.
+
+This is basically saying: model, correct yourself by making your
+incorrect beliefs less likely, and your correct beliefs more likely.
+
+**Naive MCMC**
+
+Because an expectation is involved, this is a classic time to do an
+MCMC thing!
+
+What you do is this. Take a mini-batch. Calculuate the positive
+gradient.
+
+Next, generate a sample by mixing an MCMC chain. Find the gradient
+with respect to `\theta` of the *hallucinations*. Now subtract the
+positive and negative gradients and use it to update.
+
+The problem is that you're burning in an MCMC chain in the inner loop,
+which is very slow. Possibly ~100 MCMC steps will be needed for a
+small image patch.
+
+**Contrastive Divergence**
+
+The idea is that you can avoid long burn-in time if you start the
+chain out in a distribution that is approximately the target
+distribution.
+
+The model `p(x)` is supposed to converge to the true, target
+distribution. So you can start your MCMC by sampling a random example
+from the training dataset. This is sampling from the target
+distribution, right?
+
+Now, you need a sample from *your* distribution. So you still have to
+do MCMC, using maybe 1-20 Gibbs sampling steps. By using a reasonable
+starting point, rather than randomly sampling an initial point,
+burn in/mixing requires far fewer steps.
+
+It is typicaly to just use your mini-batch and do a number of Gibbs
+sampling steps.
+
+They note that in the beginning, when your model distribution is very
+far from the true distribution, you probably won't properly mix. While
+you may push down on the probability in the wrong places, you will
+still pull up in the right places. As you get closer to the true
+distribution, the initialization from the dataset should be more of a
+good starting point and the chain will mix better.
+
+Indeed, this is the traditional way to do RBM training. You take an
+example `v`, and sample `h`. You use `v, h` to calculate your positive
+gradient. Then you resample `v'`, and then `h'` too. Use `v', h` for
+your negative gradient calculation.
+
+**TODO**: Was up to spurious modes.
