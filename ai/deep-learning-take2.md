@@ -630,4 +630,73 @@ in a stochastic matrix is that squared...
 Nowhere have we said how we should construct the transition function
 for our MCMC algorithm. We need to discuss that!
 
-*I am up to here!*
+This says, pick a single value and update it based on its conditional
+probability given the values of the other variables. This is typically
+easy. This is *Gibbs sampling*.
+
+*Block Gibbs sampling* is when you update many variables
+simultaneously. You can do this when all the variables updated are
+conditionally independent given their neighbors. This is for instance
+*exactly* the case when dealing with the RBM.
+
+There are other possible MCMC approaches like Metropolis-Hastings. I
+forget how that works. But they say that Gibbs is much more widely
+used in DL than MH.
+
+**Sampling Between Modes**
+
+The problem is that it can take a long time to wander from one area of
+high probability to another if there are *very* improbable spaces in
+between. This in particular happens when there are strong dependencies
+between variables.
+
+They show an example of a sharp, very skewed normal. It's hard to walk
+from one side to the other, because the steps you can make are very
+small.
+
+All else equal, if you can sample highly dependent variables in a
+block, then that is ideal. So, for instance, I expect blocked Gibbs
+for RBM is probably way better than pure Gibbs.
+
+All the same, they show a problem with MNIST, where it's really hard
+to move from one class to another. The reason is that the `h` code is
+still very highly dependent on the `v`, and vice versa.
+
+The fundamental problem is: we want `x` to be highly dependent on `h`:
+that means `h` is retaining the info for `x`. But the more we succeed
+at this, the harder it will be to wander.
+
+In particular, they note that MCMC is going to have a hard time
+especially when the manifolds for different classes are
+disconnected. Then it's going to be really hard to wander. But that is
+really unfortunate because that's exactly the case we typically
+expect!
+
+**Tempering**
+
+Here, we throw in a temperature parameter. That is, we scale the
+energy by `\beta`: `p(x) ~ \exp(-\beta E(x))`. The higher `\beta` is,
+the "colder" the environment is, and the probability distributino
+becomes more sharply peaked. For small (positive) `\beta`, the higher
+the temperature, and the more uniform.
+
+By changing the temperature, we might be able to help ourselves move
+between modes. However, they mention that this approach has not yet
+shown a lot of fruit, because we have to be very careful how we change
+the temperature.
+
+**Depth**
+
+There is a note, which I think they just add for interest, that deeper
+representations seem to be more unimodal than shallow
+representations. Experimentally, I think they trained a deep
+autoencoder representation, and then used this for an RBM and the RBM
+mixed better.
+
+However, they note that it isn't clear how to use this insight
+practically. So they seem to include it just to help you build
+intuition.
+
+## Ch18: Confronting the Partition Function
+
+**TODO**: I am here!
