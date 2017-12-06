@@ -791,4 +791,78 @@ example `v`, and sample `h`. You use `v, h` to calculate your positive
 gradient. Then you resample `v'`, and then `h'` too. Use `v', h` for
 your negative gradient calculation.
 
-**TODO**: Was up to spurious modes.
+**CD Problems**
+
+The first problem is *spurious modes*. These are areas of high
+probability in the model which are of low probability in the
+data. These tend not to be visited/actively suppressed if you use CD,
+since you're initializing with data from the training distribution.
+
+CD doesn't help much with deeper models. That's because with deeper
+models it is hard to obtain samples of the hidden units. I assume this
+is because in an RBM you don't need to initialize any hidden units;
+you can select just based on the `v` from the distribution. If you
+have two layers, you need to initialize `h_2` to sample `h_1`, or vice
+versa to sample `h_2`. If this initialization is random, then it won't
+be like the underlying distribution.
+
+**Persistent Contrastive Divergence**
+
+This technique is also called *stochastic maximum likelihood*. The
+idea is very simple. You initialize the model with samples that were
+drawn in the previous iteration. The idea is that if the model is
+changing slowly, then the last samples are still fairly likely under
+the model, and are a good place to start.
+
+This can be a good strategy for deep Boltzmann machines. They suggest
+on a small image patch you might need 5-20 steps of the chain to mix.
+
+However, you must not change the model too quickly, or you must run
+the chain longer between samples. And it can be hard to know that
+you're doing this correctly, just like it's always hard to evaluate
+mixing.
+
+**Pseudolikelihood**
+
+Principle is that to calculate `p(A = a | B = b)`, (assuming the set
+of variables `A` and the set `B` union to the whole space)you need
+only calculate `p\tilde(A = a, B = b)` and divide by `\sum p\tilde(A =
+a_i, B = b)`. Basically: you don't need the entire partition function.
+
+If there an additional set of variables `C`, you'll have to sum that
+out.
+
+So it's potentially quite simple to calculate `p(A = a | B = b)` if
+`A` consists of a single variable and `B` consists of all the rest. (I
+mean, this is basically why we can do Gibbs sampling, right?).
+
+Now, the log likelihood `\log p(X = x)` is equal to `\log p(X_1 =
+x_1) + \log p(X_2 = x_2 | X_1 = x_1) ...`. The difficult here is that
+we have to marginalize over some large sets of variables. Basically,
+that first term is the worst to calculate!
+
+So the *pseudolikelihood* approach is this: just sum out `\log p(X_i =
+x_i | X_{-i} = x_{-i})`. Clearly this is *far* simpler to
+calculate. This may seem like a ridiculous hack, but in the limit of
+data, it is asymptotically consistent and maximizing this should give
+you the MLE. Of course, you may not have an infinite amount of data
+;-).
+
+There is a concept called *generalized pseudolikelihood*. This is a
+simple extension: instead of always doing a conditional probability
+for `X_i` using everything else as given, you partition the `X` into
+sets `S_1,\ldots,S_k`. Then you condition `p\tilde(X_{S_i} = x_{S_i} |
+X_{-S_i} = x_{-S_i})`.
+
+This can be very useful if you know some sets of variables have strong
+interactions; the stronger an interaction, the more standard
+pseudolikelihood will break down. One example when you can know this
+is presumably for images.
+
+Pseudolikelihood is hard to calculate if you have to marginalize out a
+large set of hidden variables `H` to compute `log p(V = v)`. So I'm
+not sure when pseudolikelihood is useful: just for fully visible
+models? It seems like even for RBMs, you'd have to marginalize `2^|H|`
+settings of the hidden units?
+
+**TODO**: Was up to score matching.
