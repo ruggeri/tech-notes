@@ -433,7 +433,7 @@ about size of elephant trunk is not relevant to non-elephant
 images. Likewise, independence of features. They also mention temporal
 coherence, which relates to slow-feature analysis.
 
-## Ch16: Graphical Models
+## Ch16: Structured Probabilistic Models for Deep Learning
 
 Without structure, too many parameters. Sampling, density estimation,
 conditional queries, et cetera are too hard. And statistical
@@ -528,3 +528,106 @@ It is easy to calculate the derivative of the energy function: if you
 know both `v` and `h`. That means it is possible to do maximum
 likelihood if everything were visible. But I assume we have an EM part
 here, where we use the derivatives for optimization in the inner loop?
+
+(Not quite! Training uses the contrastive divergence concept).
+
+## Ch17: Monte Carlo Methods
+
+There are two reasons to sample. The first is sometimes we literally
+want to produce samples: sample images, or fill in missing parts of an
+image. The other is that we may use the samples to help approximate a
+sum or integral. The more samples we draw, the better our estimate of
+the sum/integral. A good example is if we want to compute the gradient
+of the log partition function, which can be intractable.
+
+**Importance Sampling**
+
+There is a technique called *importance sampling* which can be
+useful. Here we sample from a distribution `q(x)` and take the
+empirical average of `p(x)/q(x) f(x)`. Of course, this will converge
+to the right expectation of `f(x)` no matter the choice of `q`.
+
+What is the best choice for `q`? Here we want the `q` that minimizes
+the variance after `n` samples. The best choice is that `q*` (the best
+`q`) choose `x` with probability proportional to `p(x) |f(x)|`. This
+basically says: be the same as `p`, except be biased toward `x` that
+have large magnitude. This is probably most easily understood if you
+think of rare events that are massive (e.g., black swans).
+
+Note that the best `q*` requires a normalizing constant `Z`. Typically
+it is not practical to calculate `Z`. But we can often choose `q`
+values that are better than just `p`.
+
+**Biased Importance Sampling**
+
+There is also *biased importance sampling*, which doesn't require
+explicit normalization. Here you sample from `q\tilde`, and weight
+`f(x)` as usual `p\tilde(x)/q\tilde(x)`. But then you "normalize" by
+the sum of `p\tilde(x) / q\tilde(x)`, which approximates the
+proper normalization constant.
+
+This actually results in a biased estimate for finite `n`, but it is
+*consistent*: it will converge to the right answer in the limit,
+because then the normalization will approach the correct value.
+
+**Sampling in High Dimensions Is Hard**
+
+If `q` is a uniform distribution on a high-dimensional space, then it
+is often that `q(x) >> p(x)|f(x)|`, which means you will sample
+useless values that either don't actually occur very often, or are
+very small in magnitude and don't contribute a lot for that reason. On
+the other hand, for presumably fewer `x` values where `q(x) <<
+p(x)|f(x)|`, you will have a situation where you are not sampling
+important values that have big impact, but don't occur very often.
+
+Unfortunately, when we have many dimensions the distribution can have
+"high dynamic range," which makes the scenario described above
+common. Still, importance sampling is used pretty often.
+
+**MCMC**
+
+The idea is that `p` may be hard to sample from, and that there is no
+good `q` that will give you low-variance.
+
+MCMC is best understood for discrete case first. Say you have a
+distribution over `k` states. That's a vector in `R^k` that sums to
+one. Now, consider a stochastic matrix `T`. Now, there's some proof
+that a stochastic matrix always has a real, principal eigenvector with
+eigenvalue equal to one. That means, that `T^k v` will approach this
+eigenvector as `k \to \infinity`, no matter the initial choice of
+`v`. This is the *stationary distribution* of the transition matrix
+`T`. (So long as `v` is not orthogonal to the eigenvector, which is
+probability zero under any reasonable initialization distribution).
+
+The point is this: let's choose a transition matrix such that in the
+limit it will converge to the right stationary distribution: the `p`
+that is desired!
+
+This shows the mixing, but if at each step you sample from the
+calculated probability distribution, then in the limit your sample is
+distributed as if by the principal eigenvector.
+
+The same trick holds for continuous distributions.
+
+After mixing (aka *burn in*), ever sample has probability `p(x)`, but
+of course subsequent samples are not independent.
+
+You can *thin*, by dropping samples until you feel like you have
+wandered far enough awawy. Alternatively, you can have totally
+uncorrelated samples if you use different chains. This could exploit
+parallelism. But I presume mixing time is less than reasonable
+decorrelation time, so overall CPU utilization would be higher.
+
+Unfortunately we don't typically have very good tests for whether a
+chain is mixed. Theoretically, if we had a discrete case, we could
+examine the second eigenvector, and see if the eigenvalue is
+small. However, if we have a number of variables, the number of states
+is exponential in the number of variables, and the number of entries
+in a stochastic matrix is that squared...
+
+**Gibbs Sampling**
+
+Nowhere have we said how we should construct the transition function
+for our MCMC algorithm. We need to discuss that!
+
+*I am up to here!*

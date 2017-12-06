@@ -1332,6 +1332,16 @@ This is a chapter of general advice.
       Gibbs sampled `{v_i}`.
     * Not sure, but it's a guess.
     * I looked up on Wikipedia: it's almost exactly that!
+    * **NB**: I came back to look at this later. This describes
+      contrastive divergence, and is basically correct. I'm kind of
+      surprised I guessed this correctly.
+    * Today, when I was reviewing this chapter, my guess was to do an
+      EM estimate of `h` and then do GD to try to maximize the `v`
+      value's log probability `log p(v|h)`.
+    * Interesting. I know that we can't do a full GD to maximize just
+      `p(v|h)` alone. But I thought we might calculate the gradient
+      for the first improvement, sum gradients over a minibatch, and
+      update. I'm kinda surprised that isn't done?
 
 # Ch17: Monte Carlo Methods
 
