@@ -786,9 +786,15 @@ still pull up in the right places. As you get closer to the true
 distribution, the initialization from the dataset should be more of a
 good starting point and the chain will mix better.
 
+**RBM Training**
+
 Indeed, this is the traditional way to do RBM training. You take an
 example `v`, and sample `h`. You use `v, h` to calculate your positive
-gradient. Then you resample `v'`, and then `h'` too. Use `v', h` for
+gradient. It is worth noting: this isn't exactly `\grad_\theta
+p\tilde(v)`, but it is an unbiased estimate. To sum out over all
+`2^|H|` hidden states is presumably impractical.
+
+Then you resample `v'`, and then `h'` too. Use `v', h` for
 your negative gradient calculation.
 
 **CD Problems**
@@ -859,10 +865,39 @@ interactions; the stronger an interaction, the more standard
 pseudolikelihood will break down. One example when you can know this
 is presumably for images.
 
-Pseudolikelihood is hard to calculate if you have to marginalize out a
-large set of hidden variables `H` to compute `log p(V = v)`. So I'm
-not sure when pseudolikelihood is useful: just for fully visible
-models? It seems like even for RBMs, you'd have to marginalize `2^|H|`
-settings of the hidden units?
+**Pseudolikelihood and RBM Training**
 
-**TODO**: Was up to score matching.
+The original Hyvarinen paper talks about pseudolikelihood on *fully
+visible* Boltzmann networks. They mention that extensions to hidden
+variables is an "important subject for the future."
+
+In the Tieleman PCD paper, he compares with pseudolikelihood *for
+fully visible Boltzmann networks*.
+
+It wasn't immediately obvious how to do pseudolikelihood for
+RBMs. Now, we know that we want to calculate `p(V_i = v_i | V_{-i} =
+v_{-i})`. We know that means calculating `\sum_h p\tilde(V_i = 1,
+V_{-i} = v_{-i}, H = h)`, and the same for `V_i = 0`.
+
+The problem is the summation involves `2^|H|` terms. It seems like the
+conditional independence of `H` on `V` should help. It does.
+
+We know that `p\tilde(v, h) = \prod_{i=1}^{k} e^{h_i (Wv)_i}`, where
+`k` is the number of hidden features.
+
+Now we want to sum over all `h` vectors. They all either have `h_1 = 0`
+or `h_1 = 1`. So we can extract a factor of `(e^{1 (Wv)_i} + 1)`,
+and then just have a sum of products of the form `\prod_{i=2}^{k}
+e^{h_i (Wv)_i}`. But then we just continue.
+
+This shows that the `p\tilde(v)` can be calculated very rapidly and
+has a simple analytic form. Which means we can take its derivative
+very simply.
+
+https://stats.stackexchange.com/questions/114844/how-to-compute-the-free-energy-of-a-rbm-given-its-energy
+
+Cho in his master's thesis argues that pseudolikelihood doesn't seem
+to be a good way to train BMs or RBMs. It doesn't appear to be a good
+approximator of the likelihood.
+
+https://pdfs.semanticscholar.org/6c20/07f69d44a4b302bded40eaa28ce5fa543de2.pdf
