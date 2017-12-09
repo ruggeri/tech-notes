@@ -868,6 +868,18 @@ interactions; the stronger an interaction, the more standard
 pseudolikelihood will break down. One example when you can know this
 is presumably for images.
 
+It is important to note: it can be hard or impossible to use
+pseudolikelihood when you can only approximate `p\tilde`. The reason
+is that you can't always use an approximation as a denominator, and
+that is what you are doing with pseudolikelihood. A particular case is
+when you are using a lower-bound approximation to `p\tilde`. We'll see
+that pseudolikelihood doesn't play nice with variational inference,
+which uses lower bounds.
+
+In particular: variational inference is a primary way to train deep
+Boltzmann machines, so pseudolikelihood is hard or impossible to make
+work in that context.
+
 **Pseudolikelihood and RBM Training**
 
 The original Hyvarinen paper talks about pseudolikelihood on *fully
@@ -985,3 +997,153 @@ he's *not* saying it's part of the objective, because we already saw
 all `h` values were marginalized out.
 
 Huzzah! Thank god this nightmare is over!
+
+**Score Matching/Ratio Matching**
+
+Score matching is another approach when you have a closed form
+unnormalized probability distribution. If you have that (and if you
+have continuous observed variables), then you can use score matching.
+
+Your goal is this: minimize the sum across all datapoints `x` of the
+L2 norm of the difference in *score* of the data distribution and the
+model distribution at `x`. The score is:
+
+    \grad_x p(x; \theta)
+
+You don't need Z to calculate that. But you need the *data
+distribution*. If you had that, you wouldn't be doing any of this!
+
+But Hyvarinen showed that you can just minimize the sum across all
+datapoints `x` of:
+
+    \sum_i (log p(x))''_i + 1/2 [(log p(x))'_i]^2
+
+where `i` ranges over all dimensions.
+
+You can't use score matching when you can't calculate a derivative,
+which means pretty much any approximation of `p\tilde` won't work with
+score matching, since approximating `p\tilde` has nothing to do with
+matching the derivative.
+
+So it is very hard to see how to use score matching for deep
+networks. Moreover, because the nodes in the first hidden layer are
+probably discrete, you can't apply score matching to pretrain each
+layer either.
+
+All this is too bad, because score matching doesn't involve MCMC,
+which is great.
+
+There is another approach called *ratio matching*. Here you want to
+minimize a loss `\sum (1 / (1 + p\tilde(x)/p\tilde(f(x))))^2`. `f`
+corrupts `x` by flipping a bit at a position. It avoids the partition
+function in the same way as pseudolikelihood.
+
+It sounds a lot like maximizing pseudolikelihood: you push down on all
+the corruptions of `x` by one bit.
+
+**Noise Contrastive Estimation**
+
+This approach basically tries to learn the normalization
+constant. How?
+
+We introduce a noise distribution that generates samples `x`. The
+closer the noise to the true distribution the better, but maybe just
+uniform or gaussian noise will work.
+
+We then create a dataset of `(x, y)`, where `y = 1` for true samples
+`x`, and `y = 0` for fake samples.
+
+We now reframe our problem: we now have a maximum likelihood problem
+for classification of examples as true or false. Now, we can do some
+analysis ourselves:
+
+    p(y = 1 | x) = p_model(x) / (p_model(x) + p_noise(x))
+        = 1 / (1 + p_noise(x)/p_model(x))
+        = \sigma(-log p_noise(x) / p_model(x))
+        = \sigma(log p_model(x) - log p_noise(x))
+
+Now, the only thing we can tune is `p_model(x)`. Basically: we want to
+find the best `p_model(x)` to optimize the loss.
+
+What is `p_model(x)`? This is normally hard to say because we don't
+know the normalizing constant. But here we're going to learn an extra
+parameter: `c`, which is our estimate of `Z`. We'll compute the
+probability in the normal way:
+
+    log p_model(x) = log p\tilde(x) - log c
+
+Asymptotically we should learn a `c` that approaches `Z` and properly
+normalizes. But while we're learning, it's fine that `c` does not
+quite normalize. This is tolerated by the definition of the problem.
+
+Notice that we don't want to just make `c` very small. If we did that,
+we would also think that *noise* was more probably from the model.
+
+**Negative Sampling**
+
+(My note)
+
+NCE is very similar to *negative sampling*. I used negative sampling
+when learning word embeddings. Remember how this works:
+
+    (1) a layer of context, which is like a 50k one hot.
+    (2) a matrix of embeddings
+    (3) a layer of predictions, which is ~50k words again.
+
+Here's the idea, if the embedding has like 200 units, and there are
+50k words, then we're talking like 1MM connections to calculate the
+probability distribution.
+
+So the idea of negative sampling is to just pick a subset of *negative
+samples*, and train the softmax against these. For instance, if you
+picked 100 negative words, that would mean you train (101 * 200)
+weights this iteration. This is much more efficient.
+
+The training objective is now a little monkeyed. It turns out that
+negative sampling is not asymptotically consistent on identifying the
+probability distribution. Thus it is only good for learning feature
+embeddings.
+
+Dyer has some analysis: https://arxiv.org/pdf/1410.8251.pdf
+
+**Negative Sampling vs NCE**
+
+I'm going to imagine that NCE basically does just like negative
+sampling, except it doesn't look at 100 or so negative activations to
+do a softmax. Instead, I assume it learns a parameter `c` that tries
+to learn the unnormalized sum of the softmax layer. This ought to be
+consistent.
+
+In fact, you can just tell NCE to assume `Z = 1`, and then instead of
+softmaxing, I guess you just do a sigmoid at each point?
+
+The Dyer paper notes: if you are trying to develop a *generative*
+model of language, you should be doing negative sampling.
+
+The word2vec paper (https://arxiv.org/pdf/1310.4546.pdf) talks about
+NCE vs Negative Sampling. It basically says that NCE is overkill for
+their purposes.
+
+**When To Use NCE**
+
+NCE is a classic choice for a problem like word embeddings. In the
+word prediction task, there is really only one target variable being
+predicted, but it takes on many many values.
+
+NCE breaks down when you have many variables, even if they only have a
+few values, because it's too easy. Remeber: NCE is like a stupid
+GAN. In particular, say you're trying to learn to recognize faces. The
+problem is that if you're training against randomly generated face
+noise, then as soon as you notice eyes or mouthes, you have an
+ironclad way to reject the noise samples.
+
+**Self-Contrastive Estimation**
+
+Here, your noise sample is *the same model*. So you want to try train
+a better and better version of the model, which each time understands
+the bullshit of the previous version.
+
+Wait: isn't this like literally the same as contrastive divergence?
+SCE seems like an idea that no one cares about besides Goodfellow, so
+it hasn't been studied very much. There are like only two or three
+papers that mention it at all.
