@@ -1214,6 +1214,20 @@ fact, you can iteratively choose better and better `Z*`.
 You want to maximize the likelihood of your data, `p(v)`. But as we
 know this can be intractable to calculate.
 
+Likewise, we may also want to calculate a posterior over some
+variables: `p(H | V = v)`. We may want to do this for the purpose of
+performing sampling.
+
+In both cases, variational inference can be an alternative to MCMC.
+
+I saw a joke from David Blei: "Variational inference is that thing you
+implement while waiting for your Gibbs sampler to converge". The
+reason is that MCMC is unbiased but slow, but variational inference is
+biased but potentially much faster. The bias comes from the
+restriction on the family of variational distributions.
+
+(https://www.quora.com/When-should-I-prefer-variational-inference-over-MCMC-for-Bayesian-analysis)
+
 **Variational Inference In Bits!**
 
 Here is an equation:
@@ -1262,3 +1276,42 @@ and should feel bad. Just kidding! Maybe...
 
 Anyway, the ELBO is just negative variational free energy. It is a
 lower bound of course.
+
+**Expectation Maximization as Variational Inference**
+
+Neal and Hinton have a weird spin on EM as variational
+inference. Let's recall what EM is:
+
+(0) Randomly initialize `\theta^0`.
+(1) Calculate posterior `p_{\theta^i}(H | V = v)`.
+(2) Optimize `\theta^{i+1}` so that:
+    `\int_h p_{\theta^0} p_{\theta^{i+1}}(V = v | H = h)`
+    is maximized.
+(3) Repeat!
+
+They see this process like so:
+
+(0) Randomly initialize `\theta^0`.
+(1) Set `q(h | v)` equal to `p_{\theta^i}(h | v)`.
+(2) Optimize `\theta^{i + 1}` so that you minimize
+    the variational free energy: `-L(v, \theta^{i+1}, q)`.
+(3) Repeat.
+
+Basically, you're saying at each step: change the model to the model
+where the fixed variational approximation is the best approximation it
+can be.
+
+However, once you have changed the model, even though this is the best
+model for this choice of `q`, there may be a new choice of `q` that is
+even better!
+
+I believe that the choice of `q` is actually always optimal for a
+fixed `\theta`. In that case, the variational free energy is exactly
+the free energy of `p(v)`. However, the free energy is always still
+positive (unless `p(v) = 1`), and thus there is the possibility that
+changing `\theta` can further reduce the variational free energy.
+
+In this view, EM is a coordinate descent to minimize variational free
+energy. To do this, you can use either derivatives to modify `\theta`
+slightly. Or, if your model allows, you can exactly solve for optimal
+`\theta` for the given `q`.
