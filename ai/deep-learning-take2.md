@@ -1208,3 +1208,57 @@ As we know, the numerator and denominator are importance sampling
 estimates of `Z*/Z_0` and `Z*/Z_1`. This approach can work well if
 there is a good intermediate distribution between `Z_0` and `Z_1`. In
 fact, you can iteratively choose better and better `Z*`.
+
+## Ch19: Approximate Inference
+
+You want to maximize the likelihood of your data, `p(v)`. But as we
+know this can be intractable to calculate.
+
+**Variational Inference In Bits!**
+
+Here is an equation:
+
+    nlog p(v) = E_{h ~ q}[nlog p(v, h)] - H(q) - D_KL(q(.) | p(.|v))
+
+Where does this come from? Here's the idea. If we use `p(v, h)` to
+encode samples from `q`, this is stupid: `p(v, h)` doesn't even
+integrate to 1 over all `h`. The problem is that there is a part of
+the code for `(v, h)` that really just represents `v`: this has `nlog
+p(v)` bits.
+
+Now, if `q = p(.|v)`, then we would have:
+
+    nlog p(v) = E_{h ~ p(.|v)}[nlog p(v, h)] - H(p(.|v))
+
+This is saying: if you know the expected code length of this stupid
+code, then subtract out the entropy of `p(.|v)`, which is the optimal
+code length, and that gives you the part you were wasting by coding
+`nlog p(v)`.
+
+However, if we use some `q \ne p(.|v)`, then
+
+    E_{h ~ q}[nlog p(v, h)] - H(q)
+
+overestimates the number of bits needed to store `p(v)`. The reason is
+that this is that `p(.)` doesn't give an optimal encoding for
+`q(.)`. The excess comes from `D_KL(q(.) | p(.|v))`.
+
+As you know, we call `nlog p(v)` the *free energy* of `v`. Likewise,
+we call:
+
+    E_{h ~ q}[nlog p(v, h)] - H(q)
+
+the *variational free energy* of `v` (for the distribution `q`). It is
+by necessity an *upper bound* on `nlog p(v)`. For better choices of
+`q`, we will have `H(p(.|v))` be smaller, and the upper bound will be
+tighter. When `q(.) = p(.|v)`, we will have the variational free
+energy equal to the true free energy.
+
+**Evidence Lower Bound**
+
+*Evidence lower bound* is for people who like maximizing log
+likelihood more than minimizing encoding length. Those people are bad
+and should feel bad. Just kidding! Maybe...
+
+Anyway, the ELBO is just negative variational free energy. It is a
+lower bound of course.
