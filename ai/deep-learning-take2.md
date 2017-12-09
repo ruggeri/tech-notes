@@ -1147,3 +1147,64 @@ Wait: isn't this like literally the same as contrastive divergence?
 SCE seems like an idea that no one cares about besides Goodfellow, so
 it hasn't been studied very much. There are like only two or three
 papers that mention it at all.
+
+**Partition Function Estimation: Importance Sampling**
+
+Estimating the partition function can be important so that we can
+evaluate model performance.
+
+To compare two models, we would look at the difference in log
+likelihood of the data. This breaks down into the log of the ratio of
+the unnormalized probabilities in both models, minus the log of the
+partition function ratio. If we can estimate this ratio, we are good.
+
+Let's use that idea to approximate `Z_1` for a model of
+interest. We'll use a model `p_0` designed to be easy to (1) calculate
+`p_1\tilde(x)` and (2) `Z_1` easy to calculate.
+
+If we do that, then we can use this to do a Monte Carlo estimation of
+`Z_1` like so:
+
+    Z_1 = \int_x p_1\tilde(x)
+    Z_1 = \int_x p_0(x)/p_0(x) p_1\tilde(x)
+        = \int_x p_0(x) Z p_1\tilde(x) / p_0\tilde(x)
+        = Z \int_x p_0(x) p_1\tilde(x) / p_0\tilde(x)
+
+Obviously we can do a Monte Carlo approximation by:
+
+    Z_1 = Z_0/K \sum p_1\tilde(x) / p_0\tilde(x)
+
+This is basically exactly importance sampling. Basically it treats the
+target distribution for `x` as uniform (integrate over entire space),
+and the proposal distribution as `p_0(x)`. It multiplies the sum of
+`p_1\tilde(x)` by `1/p_0(x)`.
+
+This will work for *any* proposal distribution, but it will only be
+efficient if there is a `p_0` similar to `p_1` which is tractable. But
+this is a challenging burden: you want to do this Monte Carlo thing to
+calculate `p_1`, which is a complicated distribution, but now you're
+asking for a `p_0` that is simple and close to `p_1`??
+
+**Annealed Importance Sampling**
+
+Here's the idea. You start with a simple distribution to sample from,
+and you then use this to generate samples from a series of
+distributions, each one closer to the true one than the last.
+
+I don't want to get too much into this. The idea seems not super
+profound, but clever. The book says this is the most popular technique
+for estimating the partition function of an RBM. But the book also
+says this may be for no good reason, and that other techniques might
+work better.
+
+*Bridge sampling* is similar. It basically introduces a `p*`
+distribution, and you try to estimate `Z*` using `p_0` AND `p_1`. Like
+so:
+
+    Z_1/Z_0 ~ (\Sum p\tilde*(x) / p\tilde_0(x))
+              / (\Sum p\tilde*(x) / p\tilde_1(x))
+
+As we know, the numerator and denominator are importance sampling
+estimates of `Z*/Z_0` and `Z*/Z_1`. This approach can work well if
+there is a good intermediate distribution between `Z_0` and `Z_1`. In
+fact, you can iteratively choose better and better `Z*`.
