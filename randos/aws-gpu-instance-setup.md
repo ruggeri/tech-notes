@@ -17,7 +17,7 @@ https://developer.nvidia.com/cuda-downloads
 http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
 sudo dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
 sudo apt-get update
-sudo apt-get install cuda
+sudo apt-get install cuda=8.0.61-1
 
 There's a pdf with post installation instructions (but I list them
 below.)

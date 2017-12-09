@@ -514,6 +514,9 @@ and of visible units. Only pairwise connections between hidden and
 visible units. Dense connectivity. Designed to be easy to perform
 Gibbs sampling on.
 
+For the RBM, we have `E(v, h) = -vWh` (if I fold the biases into dummy
+variables).
+
 RBM has factorial conditional distributions `p(v | h)` and `p(h |
 v)`. The first is `\prod_i p(v_i | h)` and the second is `\prod_i
 p(h_i | v)`.
@@ -879,20 +882,47 @@ RBMs. Now, we know that we want to calculate `p(V_i = v_i | V_{-i} =
 v_{-i})`. We know that means calculating `\sum_h p\tilde(V_i = 1,
 V_{-i} = v_{-i}, H = h)`, and the same for `V_i = 0`.
 
-The problem is the summation involves `2^|H|` terms. It seems like the
-conditional independence of `H` on `V` should help. It does.
+The problem is the summation involves summing out `2^|H|` terms. It
+seems like the conditional independence of `H` on `V` should help. It
+does.
 
-We know that `p\tilde(v, h) = \prod_{i=1}^{k} e^{h_i (Wv)_i}`, where
-`k` is the number of hidden features.
+We know that:
 
-Now we want to sum over all `h` vectors. They all either have `h_1 = 0`
-or `h_1 = 1`. So we can extract a factor of `(e^{1 (Wv)_i} + 1)`,
-and then just have a sum of products of the form `\prod_{i=2}^{k}
-e^{h_i (Wv)_i}`. But then we just continue.
+    p\tilde(v, h) = exp(v^T b_v + (v^T W)h + h^T b_h)
+        = exp(v^T _bv) \prod_i exp[ ((v^T W)h + h^T b_h)_i ]
+
+Now, to calculate `p\tilde(v)`, we must marginalize all `h`
+vectors:
+
+    p\tilde(v) = exp(v^T b_v) \sum_h \prod_i exp[ ((v^T W)h + h^T b_h)_i ]
+
+Note that we can split the vectors in half: those where `h_1 = 0`, and
+those where `h_1 = 1`. Thus we can write:
+
+    p\tilde(v) = exp(v^T b_v)
+                 [exp(0) + exp[ ((v^T W) + b_h)_1 ]]
+                 \sum_{h_{2:K}}
+                 \prod_{i = 2}^K
+                    exp[ ((v^T W)h + h^T b_h)_i ]
+
+And of course we can just continue for all features. This becomes:
+
+    p\tilde(v) = exp(v^T b_v)
+                 \prod_i
+                 [exp(0) + exp[ ((v^T W) + b_h)_i ]]
 
 This shows that the `p\tilde(v)` can be calculated very rapidly and
 has a simple analytic form. Which means we can take its derivative
 very simply.
+
+Now, we want to *maximize* `p\tilde(v)`, but we can equivalently
+*minimize* `-log p\tilde(v)`. This quantity is called the *free
+energy* of `v`:
+
+    -\log p\tilde(v) = -(v^T b_v)
+                       - \sum_i \log(
+                           [exp(0) + exp[ ((v^T W) + b_h)_i ]]
+                       )
 
 https://stats.stackexchange.com/questions/114844/how-to-compute-the-free-energy-of-a-rbm-given-its-energy
 
@@ -901,3 +931,57 @@ to be a good way to train BMs or RBMs. It doesn't appear to be a good
 approximator of the likelihood.
 
 https://pdfs.semanticscholar.org/6c20/07f69d44a4b302bded40eaa28ce5fa543de2.pdf
+
+Pseudolikelihood can be interpreted as having a "negative" phase in
+the sense of trying to suppress examples that are different at one
+coordinate.
+
+**RBM: Use Exact Gradient Of E(v)!**
+
+I was very confused about CD. Once I saw that you could directly
+calculate `F(v)`, I started to ask why we don't minimize:
+
+    -log p(v) ~ F(v_pos) - F(v_neg)
+
+I assumed we were trying to minimize
+
+    -log p(v_pos, sampled_h_pos) - -log p(v_neg, sampled_h_neg)
+
+However, that is *not* what is suggested, and you can verify this in
+Murphy's Machine Learning book, specifically algorithm 27.3.
+
+It explicitly shows: you do MCMC to sample a new `v_neg`, then you do
+gradient descent on the log probability as above. In doing MCMC, you
+always use binarized hidden vectors.
+
+CD is explicit about how to calculate the *gradient*. Let's do it
+ourselves:
+
+    -\log p\tilde(v) = -(v^T b_v)
+                       - \sum_i \log(
+                           [exp(0) + exp[ ((v^T W) + b_h)_i ]]
+                       )
+    =>
+    \grad_{W_{i, j}} -\log p\tilde(v)
+    =
+    \grad_{W_{i, j}}
+    - \log( 1 + exp[ ((v^T W) + b_h)_j ] )
+    )
+    =
+    - 1 / (
+        1 + exp[ ((v^T W) + b_h)_j ]
+    )
+    exp[ ((v^T W) + b_h)_j ]
+    v_i
+    =
+    -v_i \sigma( [v^T W + b_h]_j )
+    =
+    -v_i E[h_j | v]
+
+Look at that! The gradient is exactly the outer product of `v` *and*
+the probability vector `h`. *That is what Hinton is suggesting*. He's
+giving us the *update* rule in terms of the probability vector `h`;
+he's *not* saying it's part of the objective, because we already saw
+all `h` values were marginalized out.
+
+Huzzah! Thank god this nightmare is over!
