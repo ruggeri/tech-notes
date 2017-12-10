@@ -1360,7 +1360,8 @@ for one example is:
     |h|_1 + |v - (Wh + b)|_2
 
 (I believe this is correct; the book has something that I think is
-slightly wrong).
+slightly wrong). TODO: In particular, where did the `\lambda` go to
+determine how much L1 regularization?
 
 Anyway, we now know what to do. Do hard EM, choosing first the best
 `h`, then the best `W`. Apparently both problems are convex. In fact,
@@ -1371,3 +1372,131 @@ search*, which is described in a paper by Ng and his students. But the
 point is that it is very possible.
 
 (http://ai.stanford.edu/~hllee/nips06-sparsecoding.pdf)
+
+**Variational Learning More Generally**
+
+We saw soft and hard EM. But now we want to talk more generically.
+
+We will try to minimize the variational free energy over a family of
+distributions `Q`. In order to do this, we need to be able to
+calculate the variational free energy. That means we need to be able
+to calculate:
+
+    (1) E_q[nlog p(v, h)]
+    (2) H(q)
+
+The most typical kind of family `Q` consists of factorial
+distributions:
+
+    q(h | v) = \prod_i q_i(h_i | v)
+
+This is called the *mean field* approximation. However, if this isn't
+good enough, we can also choose how we want to structure `q`: we can
+make some sets of variables independent and other sets we model. That
+is, we can partition the variables. This is called *structured
+variational inference*.
+
+Finding the `q` that minimizes the variational free energy is
+equivalent to minimizing `D_{KL}(q(.)|p(.|v))`. Why did we choose
+that? It appears the idea is that this means we minimize
+`E_q[nlog p(v, h)]`, rather than `E_p[nlog q(v, h)]`. The book seems
+to imply that being able to choose a simple family `q` means the
+expectation can be done more easily, versus the expectation with the
+challening distribution. TODO: I think I need experience with
+variational inference to truly understand this.
+
+**Binary Sparse Coding: Equations**
+
+They do an example of using variational inference for discrete latent
+variables. I'll give a general summary.
+
+First, they show that the gradient of `nlog p(v)` can be written as an
+expectation over `h~p(h|v)` of the gradient of `nlog p(h)`. But
+`p(h|v)` is hard to calculate. So let's take another approach.
+
+First, we'll say that `Q` is the family of mean-field approximations
+over `h`, which is just a factorial of Bernoulli variables.
+
+They then show a closed form for the variational free energy
+`E_{h~q}[nlog p(h,v)] - H(q)`. The first step is to write this as:
+
+    E_{h~q}[(nlog p(h)) + (nlog p(v|h)) - (nlog q(h))]
+
+Because of the structure of the model, we can write this as:
+
+    E_{h~q}[(\sum_i nlog p(h_i)) + (\sum_j nlog p(v_j|h)) - (\sum_i nlog q(h_i))]
+
+That's because (1) the prior `p(h_i)` is a factorial Laplace
+prior. Next, each `p(v_j|h)` is independent by the structure of the
+directed graphical model. Last, the `q(h)` was chosen to be a mean
+field distribution.
+
+Okay, I don't want to overly math this, but maybe I will. Let's just
+consider:
+
+    E_{h~q}[\sum_i nlog p(h_i)]
+
+By virtue of `q` being a factorial distribution, we know:
+
+    \sum_i E_{h_i~q}[nlog p(h_i)]
+
+But then of course `H_i` is a Bernoulli variable. Now, the `q` is
+parameterized by a vector `h\hat`, where `h\hat_i` is the Bernoulli
+parameter probability `H_i = 1` under the distribution `q`.
+
+Therefore, we can further break down:
+
+    \sum_i (h\hat_i nlog p(h_i = 1)) + (1 - h\hat_i)(nlog p(h_i = 0))
+
+Now, these `p(h_i = 1)` and `p(h_i = 0)` are simply parameters of the
+model, so we can leave those be.
+
+Likewise, we can easily break down
+
+    E_{h~q}[(\sum_i nlog q(h_i))]
+
+Again, this is because of the factorial distribution that makes things
+easy. It is simply:
+
+    \sum_i (h\hat_i nlog h_i) + (1 - h\hat_i)(nlog (1 - h\hat_i))
+
+The last part involves calculating:
+
+    E_{h~q}[\sum_j nlog p(v_j|h)]
+
+This I choose not to get into. But note that it looks like it wouldn't
+be too bad, because we already used the independence of the `v_j`
+given the `h`.
+
+None of this would have been possible if we were using the true
+`p(.|v)`. We've been able to break everything down into quantities
+that no longer require integrating out all of the `H` variables.
+
+**Learning Binary Sparse Coding**
+
+They talk about how you could now try to learn the model. I think the
+idea is that you would then try to find the `h\hat` that minimizes the
+variational free energy at each point `v`. You would then try to
+update the `\theta` to minimize the variational free energy using that
+fixed `h\hat`.
+
+They talk about how finding the `h\hat` at a point `v` could be done
+using gradient descent. However, it is apparently more common to use
+*fixed-point equations*. The idea is that you iterate through
+`h_i\hat` and choose the value where `\grad_{h_i\hat} -L(v, \theta,
+h\hat)` is zero. This can typically be solved in closed form. You keep
+iterating until there is no sufficient improvement.
+
+I presume that once you have found your best `q` (that is, best
+`h\hat`), then you now turn around and optimize the variational free
+energy with respect to the model parameters.
+
+Things get very mathy and I kind of lost the thread. In particular, it
+isn't 100% clear to me how to optimize the model once we have our `q`
+chosen. I think maybe it comes down to linear regression at that
+point?
+
+**TODO**: I don't understand why anything about this model will
+encourage a sparse representation. It seems like the `b_i` parameters
+are learnable. I thought the whole point of sparse coding required a
+prior; we had a laplace prior in the Hard EM example.
