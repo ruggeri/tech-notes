@@ -1315,3 +1315,59 @@ In this view, EM is a coordinate descent to minimize variational free
 energy. To do this, you can use either derivatives to modify `\theta`
 slightly. Or, if your model allows, you can exactly solve for optimal
 `\theta` for the given `q`.
+
+**MAP Learning As Variational Inference**
+
+The MAP estimate for `h` given observed `v` is `argmax_h p(h |
+v)`. They suggest viewing this as choosing the `q(h)` from a family of
+Dirac distributions. Here you are attempting to minimize the
+variational free energy.
+
+Having done this, you can now flip around and try to now minimize
+variational free energy with respect to `\theta` for a fixed choice of
+`q`. This is kind of silly though: `H(q)` is going to be negative
+infinity (is it really negative infinity? I would have thought zero?
+Basically: it's undefined; except maybe as a limit.).
+
+A quick note: there is MAP-EM, where the M step is choosing the MAP
+estimate using a Bayesian prior, rather than a maximum likelihood
+estimate. What I believe we are talking about here is using the MAP
+estimate of the hidden variables for the E step.
+
+I believe what we call this version of EM is *hard EM*.
+
+**Hard EM for Sparse Coding**
+
+Sparse coding puts a prior distribution on the hidden variables. The
+prior is typically the factorial Laplace prior, which is equivalent to
+using an L1 regularization penalty on the hidden unit values.
+
+In sparse coding the `v` are assumed to be distributed Gaussian with
+mean `Wh + b`. This means that all `h` variables are in one big
+clique. That makes estimation of `p(h |v)` potentially very hard.
+
+Depending on choice of prior, things could be still be easy. If the
+prior on the `h` variables were Gaussian, we would have an overall
+Gaussian model, I believe. Then we would just be solving a mixture of
+Gaussians (I think).
+
+However, we have a Laplace prior, and apparently this doesn't allow us
+any shortcuts to `p(h | v)`.
+
+Therefore, we do the MAP estimate for `h`. The variational free energy
+for one example is:
+
+    |h|_1 + |v - (Wh + b)|_2
+
+(I believe this is correct; the book has something that I think is
+slightly wrong).
+
+Anyway, we now know what to do. Do hard EM, choosing first the best
+`h`, then the best `W`. Apparently both problems are convex. In fact,
+you can see that minimization wrt `W, b` is just linear regression.
+
+To efficiently find `h` apparently a good algorithm is *feature-sign
+search*, which is described in a paper by Ng and his students. But the
+point is that it is very possible.
+
+(http://ai.stanford.edu/~hllee/nips06-sparsecoding.pdf)
