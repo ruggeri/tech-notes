@@ -1569,6 +1569,27 @@ find the best `q_i`.
 I won't pretend to be some variational calculus wizard or that I feel
 super confident in ch19.4, but I think I get the gist enough for now.
 
+**Variational Inference Is Self-Fulfilling**
+
+Variational inference is going to bias you toward learning `p_\theta`
+that is compatible with your family `Q`. That's because if you do the
+EM type thing, you'll use some `q` to basically calculate
+`E_{q}[h]`. Then you'll change `p` to be more compatible with that
+expectation.
+
+The amount of harm done is very hard to measure. They mention that you
+can sort-of look to see how tight bound is if you can estimate
+`p(v)`. In that case, you can ask how close the variational free
+energy of `v` is to `nlog p(v; \theta)`.
+
+But even if it seems that *this* learned choice of `p` is actually
+very compatible with the approximation family `Q`, it is *not*
+necessarily the case that the best `p*` must be at all compatible with
+`Q`. In that case, you can *think* your learned `p` is good, when in
+fact it is shit.
+
+Basically, there is no easy way out...
+
 **TODO**: ch19.5
 
 **TODO**: ch20.
