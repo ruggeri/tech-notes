@@ -1590,6 +1590,40 @@ fact it is shit.
 
 Basically, there is no easy way out...
 
-**TODO**: ch19.5
+**Learned Approximate Inference**
+
+We see that optimization of `p_\theta` requires knowing `p(h | v)`. We
+saw using variational inference how to approximate this by finding a
+good variational approximation `q_i`.
+
+It can be slow to do this. One idea is to *learn a network* that will
+try to predict the best parameters and predict the best `q` in the
+family `Q`. This is kind of like a "meta-learning" problem now.
+
+To learn this network, you need samples of the true `p(h | v)`. So you
+can run MCMC and then train a network.
+
+They have a wild concept called *wake-sleep*. Here goes:
+
+(1) During the day, you think about how to optimize `p_\theta` to a
+given network predicting `q`.
+
+(2) During the night, as you dream, you think about how to change your
+network predicting `q`.
+
+They claim this is more plausible than the idea that *hallucinations*
+for contrastive divergence are generated while sleeping. The reason is
+that sleeping is a long process, and in CD you need to alternate
+between drawing positive and negative samples.
+
+Of course this is entirely speculative, but it's an interesting
+tangent.
+
+This was tried with some success for DBMs by Salakhutdinov and
+Larochelle.
+
+They say that this learned approximate inference is common in
+generative modelling, and that VAE is an example. That's for the next
+chapter though! Hooray!
 
 **TODO**: ch20.
