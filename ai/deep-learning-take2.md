@@ -1411,8 +1411,14 @@ They do an example of using variational inference for discrete latent
 variables. I'll give a general summary.
 
 First, they show that the gradient of `nlog p(v)` can be written as an
-expectation over `h~p(h|v)` of the gradient of `nlog p(h)`. But
-`p(h|v)` is hard to calculate. So let's take another approach.
+expectation over `h~p(h|v)` of the gradient of `nlog p(h)`. This is
+actually an entirely generic equation that has nothing in particular
+to do with binary sparse coding. And it is the whole point: `p(h|v)`
+is hard to calculate, which is why it's hard to find the gradient of
+`nlog p(v)`.
+
+Which is why we will basically avoid expectation wrt `p` and use `q`
+instead.
 
 First, we'll say that `Q` is the family of mean-field approximations
 over `h`, which is just a factorial of Bernoulli variables.
@@ -1426,10 +1432,10 @@ Because of the structure of the model, we can write this as:
 
     E_{h~q}[(\sum_i nlog p(h_i)) + (\sum_j nlog p(v_j|h)) - (\sum_i nlog q(h_i))]
 
-That's because (1) the prior `p(h_i)` is a factorial Laplace
-prior. Next, each `p(v_j|h)` is independent by the structure of the
-directed graphical model. Last, the `q(h)` was chosen to be a mean
-field distribution.
+That's because (1) the prior `p(h_i)` is a factorial Laplace prior,
+(2) each `p(v_j|h)` is independent by the structure of the directed
+graphical model, (3) the `q(h)` was chosen to be a mean field
+distribution.
 
 Okay, I don't want to overly math this, but maybe I will. Let's just
 consider:
@@ -1439,6 +1445,9 @@ consider:
 By virtue of `q` being a factorial distribution, we know:
 
     \sum_i E_{h_i~q}[nlog p(h_i)]
+
+See how our expectation of `q` is easy? My understanding is this is
+the whole point of the variational inference technique.
 
 But then of course `H_i` is a Bernoulli variable. Now, the `q` is
 parameterized by a vector `h\hat`, where `h\hat_i` is the Bernoulli
@@ -1496,7 +1505,70 @@ isn't 100% clear to me how to optimize the model once we have our `q`
 chosen. I think maybe it comes down to linear regression at that
 point?
 
-**TODO**: I don't understand why anything about this model will
-encourage a sparse representation. It seems like the `b_i` parameters
-are learnable. I thought the whole point of sparse coding required a
-prior; we had a laplace prior in the Hard EM example.
+**Aside**: I didn't understand at first why anything about this model
+will induce sparsity. The author (Marc Henniges) kindly explained it
+to me. The idea is that you can't use "just a little" of an extracted
+feature: it's all or nothing. Presuming that the number of codes is
+less than or equal to the number of dimensions of the probability
+manifold, we'll learn those basis vectors. When we go to encode an `x`
+value, there will be no ability to use "just a little" of these
+vectors to explain away noise.
+
+On the other hand, since no L1 regularization is performed on the
+*weights*, if we use too many coding bits, those bits *can* be learned
+to explain away noise.
+
+https://fias.uni-frankfurt.de/~bornschein/papers/HennigesEtAl_lva2010.pdf)
+
+**TODO**: If later it seems interesting, I could look at Murphy, which
+seems to have a fairly decent treatment of variational
+inference. Koller definitely would cover this; I didn't look at how
+easy it is to follow her treatment.
+
+**Tbe "Variational" In Variational Inference**
+
+First, what is the calculus of variations? It is basically just
+calculus on *functionals* (maps functions to scalars). We're taking a
+derivative with respect to a function space. Note that if the function
+space is parameterized by a finite number of parameters, then this is
+really just plan old calculus on `R^n`.
+
+If `h` can take on a continuous range of values, we need to find a
+density function `q` that minimizes the variational free energy. This
+requires finding a stationary point `q` where the variational
+derivatives are zero.
+
+Now, if we use the mean field approximation where `q` is constrained
+to be a factorial distribution, then it can be proven that the best
+`q\tilde_i` satisfies:
+
+    q\tilde(h_i) = exp(E_{h_{-i} ~ q(h_{-i})} log p\tilde(v, h))
+
+What the fuck happened there? Let's write this better (IMHO):
+
+    log q\tilde(h_i) = E_{h_{-i} ~ q(h_{-i})} log p\tilde(v, h)
+
+Look at that. It says: the *energy* of `q\tilde(h_i)` should equal to
+the *expected energy* of `p(v, h)` where the other `h_{-i}` values are
+distributed according to `q_{-i}`. Basically, this sounds like: the
+`q_i` must be consistent with themselves.
+
+Now, practitioners can use this characterization of `q_i` to solve for
+`q_i` in terms of the other `q_{-i}`. One way to use this then is to
+just iterate solving the fixed point equations for each `q_i`
+repeatedly.
+
+One neat result is that sometimes you can see from the
+characterization of `log q_i\tilde` the *form* that the `q_i` must
+take. For instance, they show a setup where you can see that the `q_i`
+*must* be Gaussian distributions.
+
+If you can prove that, then you can use any optimization procedure to
+find the best `q_i`.
+
+I won't pretend to be some variational calculus wizard or that I feel
+super confident in ch19.4, but I think I get the gist enough for now.
+
+**TODO**: ch19.5
+
+**TODO**: ch20.
