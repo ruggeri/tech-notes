@@ -1626,4 +1626,57 @@ They say that this learned approximate inference is common in
 generative modelling, and that VAE is an example. That's for the next
 chapter though! Hooray!
 
-**TODO**: ch20.
+## Ch20: Deep Generative Models
+
+**Boltzmann Machines**
+
+Traditional Boltzmann machines just all visible and hidden units
+connected. One interesting property is that you can show an update to
+a weight depends only on how much those two units "fire together."
+This is called Hebbian learning and is considered potentially
+biologically plausible because it doesn't require any overall
+coordination.
+
+Boltzmann machines are universal probability distribution
+approximators if we start introducing hidden units (which of course we
+do).
+
+**RBMs**
+
+I already discussed these at length. They are designed to be easy to
+train via CD or SML.
+
+**Deep Belief Networks**
+
+Okay, I think I get it. First you train an RBM on the visible
+inputs. Because this is an RBM, you can calculate the expectation on
+the hidden units. You then train another RBM to model that
+expectation. Repeat.
+
+When you are done, you now have a stack of autoencoders which have not
+been jointly trained. Now, you know that if you know the visible
+units, you cannot simply apply the weights of the first layer to get
+the expectation on the first hidden layer. However, if you know the
+first hidden layer values, you can use the learned weight matrix to
+sample the visible values.
+
+This same logic applies all the way up. The top layer is left as a
+regular RBM because (1) it's still easy to compute the second-to-top
+layer (2) you don't have a prior distribution on the top layer anyway.
+
+So to generate samples, you do MCMC on the top. Then you do weight
+matrices all the way down.
+
+As mentioned, it is intractable to do inference of `h` or calculate
+the log likelihood of `v`. In practice, you don't fine-tune the DBN.
+
+Here's the zany thing. You can use the DBN weights to initialize an
+MLP which is then trained to do a classification task (or regression for
+that matter). This FF network is then fine-tuned via backprop.
+
+This heuristic choice of initialization seems to work well in
+practice. But it is weird, because by propagating *up* you kinda lose
+interaction effects I would have thought... But maybe the idea is that
+you can relearn that by your supervised training.
+
+**TODO**: Up to ch20.4: DBM!
