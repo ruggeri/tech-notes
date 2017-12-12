@@ -1653,30 +1653,122 @@ inputs. Because this is an RBM, you can calculate the expectation on
 the hidden units. You then train another RBM to model that
 expectation. Repeat.
 
-When you are done, you now have a stack of autoencoders which have not
-been jointly trained. Now, you know that if you know the visible
-units, you cannot simply apply the weights of the first layer to get
-the expectation on the first hidden layer. However, if you know the
-first hidden layer values, you can use the learned weight matrix to
-sample the visible values.
+You then use the network like this: at the top is an RBM, and then you
+use the other weights as a *directed* network with sigmoid
+activations. You can now sample visible values easily by doing block
+Gibbs sampling in the RBM, then ancestral sampling down.
 
-This same logic applies all the way up. The top layer is left as a
-regular RBM because (1) it's still easy to compute the second-to-top
-layer (2) you don't have a prior distribution on the top layer anyway.
+Typically there is no fine-tuning attempted, but theoretically you can
+do something like wake-sleep to try to optimize the network. I think
+it's hard maybe to do contrastive divergence or SML because it is
+intractable to infer `h` from `v`. So you want to do something
+variational I think.
 
-So to generate samples, you do MCMC on the top. Then you do weight
-matrices all the way down.
+You can't easily do inference of hidden variables up from the visible
+units. The reason is that `p(h^1 | v)` requires knowledge of the
+original `p(h^1)` which is not obtainable.
 
-As mentioned, it is intractable to do inference of `h` or calculate
-the log likelihood of `v`. In practice, you don't fine-tune the DBN.
+You might try to do MCMC to generate samples. However, you won't be
+able to do block Gibbs, because inside a layer, units are not
+conditionally independent, even if you condition with the "above"
+layer and the "below" layer.
 
-Here's the zany thing. You can use the DBN weights to initialize an
-MLP which is then trained to do a classification task (or regression for
-that matter). This FF network is then fine-tuned via backprop.
+The reason is the explaining away effect. I was very confused about
+this, so let me be clear. Say that the bias for `v_i` is very
+negative. Let's also say that there are two hidden variables `h_1,
+h_2` both with equal, large positive weight connection to `v_i`. Then
+if we know `h_2` is *not* on, then this is extremely strong evidence
+that `h_1` *is* on.
 
-This heuristic choice of initialization seems to work well in
-practice. But it is weird, because by propagating *up* you kinda lose
-interaction effects I would have thought... But maybe the idea is that
-you can relearn that by your supervised training.
+Since you can't do MCMC to sample binary codes, how do you encode
+hidden codes from the binary units?
 
-**TODO**: Up to ch20.4: DBM!
+You flip the weights and use them to initialize an MLP down to the
+hidden units. This is not totally justified: it's a heuristic that
+seems to work well. If we do this the our MLP (the flipped DBN) will
+no longer know about explaining away effects.
+
+We can also now do supervised training of the MLP. This fine tunes the
+weights.
+
+**TODO**: I'm not 100% sure what the virtues are of this approach. Why
+turn the stack of RBMs into a DBN by making them a sigmoid network?
+Why not just leave it as an initialization for a DBM? Likewise, what
+good is this approach if you're just going to flip the weights around
+for an MLP that then loses the explaining away effects?
+
+**Deep Boltzmann Machines**
+
+This is basically a bunch of RBMs connected together. We can treat the
+odd and even layers separately, in which case we can do block Gibbs
+easily. That lets us generate samples relatively fast.
+
+We can train using SML (stochastic maximum likelihood) now, because we
+have fast sampling.
+
+They do some explaining of DBN vs DBM. In the DBN, the concept is that
+we can approximate mean field inference by just doing an upward
+pass. In DBMs, because of their structure we actually *can* find the
+mean field expectations efficiently.
+
+Later they say that sampling from a DBM is *hard*. Get it together! Is
+it easy or hard? I think what they mean is that for SML, beacuse of
+the Gibbs updates, you can advance a mixed chain fast. However, for
+sampling given a given value `v`, you'd have to mix a chain. You can't
+use an already mixed chain and replace all the `v` variables: that
+choice of `v` may be very inconsistent with what has mixed hidden
+variables, thus necessitating mixing all over again.
+
+So now I'm like: how does SML work? I get that for hidden values, you
+mix a chain and just continue Gibbs sampling. But how do you infer the
+hidden values from the visible values?
+
+**Variational Inference for DBMs**
+
+What they do is use the mean field approximation and optimize
+`q`. They alternate updates to layers. I think the idea is that you
+can solve the fixed point equation for all the even layers
+simultaneously. Then for the odd layers.
+
+**Learning Parameters for DBMs**
+
+You do the normal variational free energy minimization thing. However,
+the variational lower bound for a DBM includes the partition function
+as a term.
+
+They explain what to do (it's what I guessed). You do the variational
+thing to solve the positive phase. You then do SML with blocked gibbs
+sampling to estimate the partition function for the negative phase.
+
+In this way you avoid having to burn in a new chain for your positive
+data each time. You're only using SML for the *negative* side.
+
+They say that you need to initialize with greedily trained RBMs that
+you stack.
+
+**More Horrible Details of DBM Training**
+
+To acount for the fact that you will get bottom-up *and top-down*
+inputs, they recommend halving the pretrained weights. I don't really
+understand exactly why. For some reason you want to have *two* copies
+of each visible unit in the bottom layer (and two copies of the
+topmost hidden units). Again, I don't understand why.
+
+Last, they mention that state of the art performance requires a tweak
+to SML which I don't really understand.
+
+**Jointly Training the DBM**
+
+The naive way to train the DBM for classification is to train the
+whole thing, then train a final MLP classifier on top of the top-level
+extracted hidden features.
+
+One big problem is you won't know how your hyperparameters are working
+until you train the whole thing, so that you can finally evaluate the
+MLP performance. That's a long loop for learning hyperparameters!
+
+They discuss a few ways to try to deal with this, but I didn't really
+follow. Ch20.4.5 is brutal.
+
+**TODO**: I put the book away again at Ch20.5. Maybe I'll go back and
+read about VAE or GANs.
