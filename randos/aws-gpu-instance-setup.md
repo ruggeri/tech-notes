@@ -73,3 +73,39 @@ c.NotebookApp.ip = '*'
 
 May also need to add rule for security group on AWS so you can reach
 port 8888.
+
+## Persistence Mode
+
+After each reboot, you must reset persistence mode to on:
+
+    # AWS documents say this can take several minutes to run?
+    sudo nvidia-persistenced
+    sudo nvidia-smi -pm 1
+
+
+You maybe have to turn off the power scaling feature too
+
+    sudo nvidia-smi --auto-boost-default=0
+
+And this tells the GPU to set its max speed to max:
+
+    # For P2
+    sudo nvidia-smi -ac "2505,875"
+    # For P3
+    sudo nvidia-smi -ac "877,1530"
+
+## P3 Instances
+
+On P3 you need to use Cuda 9 and CUDNN 7. I've uploaded those to the
+/ebs directory.
+
+This was a helpful resource:
+    https://github.com/mind/wheels/releases/tag/tf1.4-gpu-cuda9
+
+Here's where I downloaded CUDA 9.0.176-1, with instructions
+https://developer.nvidia.com/cuda-90-download-archive
+
+    sudo dpkg -i cuda-repo-ubuntu1604_9.0.176-1_amd64.deb
+    sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+    sudo apt-get update
+    sudo apt-get install cuda=9.0.176-1
