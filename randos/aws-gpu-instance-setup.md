@@ -94,6 +94,9 @@ And this tells the GPU to set its max speed to max:
     # For P3
     sudo nvidia-smi -ac "877,1530"
 
+This stuff never seems to be needed for me, actually. It seems like
+the default is in persistence mode?
+
 ## P3 Instances
 
 On P3 you need to use Cuda 9 and CUDNN 7. I've uploaded those to the
@@ -109,3 +112,31 @@ https://developer.nvidia.com/cuda-90-download-archive
     sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     sudo apt-get update
     sudo apt-get install cuda=9.0.176-1
+
+I also needed to compile the Intel MKL thing as described.
+
+## P3 Instances: Build your own TF
+
+I actually recently built my own TF from source. It wasn't actually
+that bad.
+
+I also had to clear out a *bunch* of other versions of CUDA, CUDNN,
+whatever that seem like maybe they were preinstalled. That pissed me
+off; I think Amazon installed maybe some packages that were screwing
+things up? I think the use maybe of a different driver or something
+maybe causes the instability I previously noticed.
+
+P3 often hangs. I have the problem even if I just run `nvidia-smi -pm
+1`, so it can't be TF.
+
+But ever since I've cleared out a bunch of the NVIDIA garbage that
+seemed pre-installed, things seem much better.
+
+Building TF is actually quite easy. The only trick was:
+
+    https://stackoverflow.com/questions/43113508/math-functions-hpp-not-found-when-using-cuda-with-eigen
+
+All I had to do was create a symlink.
+
+I'm not 100% convinced we're out of the woods, but I haven't had P3
+instability since (not that long a sample size, tho).
