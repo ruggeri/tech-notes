@@ -101,3 +101,8 @@ The fourier series just projects onto sinusoidals with period
 
 The question is: what's the difference? What functions can be
 represented with a series, and which need a transform?
+
+TODO: Why does Fourier basis span the space of periodic functions?
+
+TODO: Why do sine/cosine of all periods span the space of square
+integrable functions?
