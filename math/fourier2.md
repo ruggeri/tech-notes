@@ -91,6 +91,8 @@ that (2a) `I(sin, sin) = 1.0`, (2b) `I(sin, cos) = 0.0` and (2c)
 imply `I(cos, sin) = 0.0`. But I don't really need to prove symmetry,
 to be honest, if I were to show this extra fact.
 
+(TODO: I(cos, cos) doesn't equal 1.0, right? It equals pi. I should have a correction factor of 2/(2pi) = 1/pi).
+
 **I always exists**
 
 Right now, we're talking about a space of sinusoidal functions, which
@@ -294,7 +296,7 @@ seems perverse to consider alternatives, so I will not.
 
 We've decided how we want to decompose a function. But in what sense
 is the "recomposition" the original vector? In a finite dimensional
-space, after decompsition, we could restore and get exactly the
+space, after decomposition, we could restore and get exactly the
 original vector. But here, the "restoration" is actually a sequence of
 restorations. In what sense does this converge to the original?
 
@@ -316,7 +318,7 @@ in a sense that I don't care about. Even if you gave me the exact
 
 Let us say that a sequence `f_i` converges to `f` if the error's
 *norm* has limit zero (that's what we call: "how much do you want to
-use of yourself to reconstruct yourself?). It can be shown that thea
+use of yourself to reconstruct yourself?). It can be shown that the
 reconstitution error will, in the limit, always be orthogonal to all
 basis vectors. Therefore, the reconstitution always converges to `f`
 if the basis spans, *or* to a vector `f\hat` with non-zero norm whose
@@ -389,11 +391,11 @@ function `[0,1)` (start with 1/2 of `I_{[0,1)}` and 1/4 of `I{[0,
 
 **Why do we need an orthogonal basis**
 
-Duh. If the basis is not orthogonal, then we can project onto the
+Duh. If the basis is not orthogonal, then we can't project onto the
 basis vectors and get a proper deconstruction. When you reconstruct
 you're not going to get the original vector!
 
-On the other hand, maybe we can introduce a series of finite, bases
+On the other hand, maybe we can introduce a series of finite bases
 that each consist of orthogonal vectors (their countable union does
 *not* consist entirely of orthogonal vectors), each yielding a more
 accurate deconstruction of `f`. Of course, we can do this with a
