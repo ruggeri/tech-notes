@@ -140,3 +140,5 @@ All I had to do was create a symlink.
 
 I'm not 100% convinced we're out of the woods, but I haven't had P3
 instability since (not that long a sample size, tho).
+
+(Nope, looks like stuff is still fucked...)
