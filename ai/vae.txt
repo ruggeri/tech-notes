@@ -1,0 +1,222 @@
+The idea is simple. Sample z from a simple distribution Z, run through
+a feed-forward network, and produce a sample x.
+
+Now, if Z is factorial Gaussian, is that a good latent representation
+for the X? The theory is that if the FFNN is deep, then the Z can be
+mapped to some interal representation which has a highly complicated
+distribution. Then that internal representation can be mapped to the X
+space.
+
+The point is, with a deep enough network, we should be able to
+approximate sampling from any distribution by sampling from a
+factorial Gaussian and running it through the network.
+
+So, that's wonderful! How do we train this network? We will train by
+MLE of the observed X values, which by the way is the same as trying
+to minimize the KL divergence from the learned to the true
+distribution.
+
+But how do we calculate `P_model x`? This is `\Int_z P(z) P(x|z)`. Two
+problems: `P(x|z)` is a dirac delta right now (1 where `x` is the
+value we get from running `z` through the FFNN), so we do the typical
+thing and extend our model with Gaussian noise.
+
+The other problem regards the integration. We cannot integrate over
+all the `z` values.
+
+## Variational Approach
+
+We could try to do a Monte Carlo integration approach, sampling `z`
+values randomly, and then integrating to try to approximate the
+integral. But almost all `z` values wouldn't really contribute
+anything to the integral, because the spaces are very high
+dimensional.
+
+So, we would like to "focus" on those values of `z` for which `P(z|x)`
+is high enough to be worth calculating. Let's note how, if we know
+`P(z|x)`, this information helps us. That is, we know:
+
+(1) P(z)
+(2) P(x|z) (equivalently, P(z, x), since we already know P(z))
+(3) P(z|x) (this is the one we don't really have)
+
+Then:
+
+    P(x) = P(z)[P(x|z)/P(z|x)] = P(z)[(P(z, x)/P(z))/(P(z,x)/P(x))] = P(z)(P(x)/P(z))
+    log P(x) = log P(z) + (log P(x|z) - log P(z|x))
+
+In fact, this is maybe a little easier if I write:
+
+    log P(x) = log P(z, x) - log P(z|x)
+
+And I like working with negative logs:
+
+    nlog P(x) = nlog P(z, x) - nlog P(z|x)
+
+Incidentally, this has a straightforward information theoretic
+interpretation. This says: to get the code for x, take a code for z,
+x, and then strip out the part which is just for z conditioned on the
+part which is just for x.
+
+That totally makes sense. So now we see exactly how knowing `P(z|x)`
+would let us calculate P(x).
+
+However, we do not know `P(z|x)`; this is in fact
+intractable. Instead, let's say we have a *guess* at `P(z|x)`:
+`Q(z|x)`.
+
+Now, since `Q(z|x)` is not quite right, then
+
+    nlog P(x) != nlog P(z, x) - nlog Q(z|x)
+
+The fixup factor is easy, though. It is:
+
+    nlog Q(z|x) - nlog P(z|x)
+
+Sometimes this fixup factor is negative, and sometimes it is
+positive. Therefore, even if
+
+    nlog P(z, x) - nlog Q(z|x)
+
+is very small, that means nothing for nlog P(x), because
+
+    nlog Q(z|x) - nlog P(z|x)
+
+could be very huge.
+
+## Variational Approach: Integrate over all z values
+
+Now, I ask you: what the hell `z` am I supposed to have been using for
+the previous section? *Any* z value would be fine. It doesn't need to
+be a z value with high `P(z|x)` or anything. The math works out
+regardless of the z value.
+
+We know that for my choice of `Q`, sometimes
+
+    nlog Q(z|x) - nlog P(z|x)
+
+is negative, and sometimes positive. But a loser cannot win all the
+time. Since Q is not P, then, on "average", it must be that
+
+    nlog Q(z|x) - nlog P(z|x)
+
+is positive.
+
+Let the great integration begin!
+
+    \Int_z Q(z) nlog P(x) = \Int_z Q(z) [
+        (nlog P(z, x) - nlog Q(z|x))
+        - (nlog Q(z|x) - nlog P(z|x))
+    ]
+
+    =>
+
+    nlog P(x) = E_Q[nlog P(z, x)] - H(Q) - KL(Q, P)
+
+    =>
+
+    nlog P(x) + KL(Q, P) = E_Q[nlog P(z, x)] - H(Q)
+
+The left side is called the *variational free enery*. The minimum of
+the variational free energy is `nlog P(x)`. Sometimes `nlog P(x)` is
+called the *free energy* of `x`.
+
+Now, if `Q = P`, then the right side is exactly `nlog P(x)`. If `Q !=
+P`, then the variational free energy is greater than `nlog
+P(x)`. Thus, we can do gradient descent to try to turn `Q` into
+`P(z|x)`.
+
+The universe of distributions is too great to try to optimize
+in. Thus, we restrict `Q` to have a structure, and then find the `Q`
+that minimizes the variational free energy. This Q *is not* the same
+as the true P, but hopefully it is close.
+
+## Variational Training
+
+So, the first thing to do is to train `Q` so that it minimizes the
+free energy. Having found a good `Q`, we can then try to optimize
+`P_\theta` so that this minimizes the variational free energy wrt `Q`.
+
+If we repeat this process, hopefully our `P_\theta` sequence of
+estimates approaches the true `P`. However, that might not happen,
+because of the bias of `Q`. In particular, we cannot learn good `P`
+values where `P(z|x)` lacks any good approximation in the family of Q
+distributions.
+
+However, setting aside this bias, this approach gives a way to train.
+
+## VAE: The Networks Structure
+
+We know that `P(x|z)` is defined in terms of a network. This is called
+the *decoder* network.
+
+We need to have a parameterized family of `Q(z|x)` distributions. The
+VAE approach is this: have a network that exists for prediction of `z`
+from `x`. This conditional distribution will be restricted to
+factorial Gaussian where the network learns means and standard
+deviations. Note that even though it will be assumed that the `z`
+variables are conditionally independent given `x`, that does *not*
+mean they are independent. The network can calculate means from the
+`x` value that are are highly interdependent.
+
+This network is called the *decoder* network. Note that VAE isn't
+really the same as autoencoding: it's more of a metaphor.
+
+## VAE Training
+
+The point of the variational approach is to choose `Q` so that the
+variational free energy can be easily calculated/estimated. We need to
+calculate and minimize:
+
+    E_Q[nlog P(z, x)] - H(Q)
+
+For any given `x` value, it is trivial to calculate `H(Q(X|z))`
+because this is just the entropy of a factorial Gaussian.
+
+How about `E_Q[nlog P(z, x)]`? This is equal to:
+
+    \Int_Z Q(z|x) nlog P(z, x)
+
+The first part Q(z|x) has an analytic form, but `nlog P(z, x) = nlog
+P(z) + nlog P(x|z)` does not, as `nlog P(x|z)` is the output of a
+network. So this integral is hard to calculate.
+
+Of course, we can do Monte Carlo integration on this integral. But
+since we're going to be doing SGD anyway, let's just estimate this
+integral with a single sample from `Q(Z|x)`. That is, we'll estimate
+the vallue of the integral as
+
+    nlog P(z, x)
+
+for a randomly chosen `z ~ Q(Z|x)`.
+
+This means that we have an *estimate* of the variational free
+energy. We want to now tweak our network parameters to improve this
+estimate.
+
+## VAE Training II: Reparameterization Trick
+
+It is easy to tweak the decoder network, since it has fixed input `z`
+which was sampled. We just do backpropagation.
+
+How do we backpropagate to the encoder network? We want to change the
+encoder network so it would sample a better choice of `z`. But how do
+you backpropagate through a single random sample?
+
+Here's the idea. Instead of sampling from `Q(z|X)`, imagine sampling
+from unit normals `N(mu = 0, sigma^2 = 1)`, then *scaling* by the
+standard deviation calculated by the network, and then *adding( in the
+mean calculated by the network.
+
+In that case, we don't need to backprop through the sampling
+operation: we backprop to train the multiplier and addition factors.
+
+The Carl Doersch tutorial linked below has a great illustration of
+this.
+
+## It is completed!
+
+Go in peace!
+
+Source:
+    https://arxiv.org/pdf/1606.05908.pdf
