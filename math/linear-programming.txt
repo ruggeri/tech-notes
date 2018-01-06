@@ -1,0 +1,80 @@
+Linear programming is a kind of optimization problem where you want to
+maximize a linear function, subject to linear inequality
+constraints. It is also assumed `x >= 0`.
+
+Now, I believe it should be obvious that the solution to a linear
+program always lies at a vertex (or if there are multiple optima, then
+an entire face of the polyhedra defining the confined area is
+optimal. That's because the gradient of the objective function is
+constant, and therefore if we are in the interior, we want to keep
+moving directly up the gradient until we are "blocked" by a face of
+the polyhedra, and then we want to slide along the face until we get
+to a vertex where we cannot move forward.
+
+Will this approach always work? In particular, are there some vertices
+where all faces head against the gradient of the objective, but there
+is another, *better* vertex?
+
+The answer is no because of the convexity of the constraint polyhedron
+constraint space. If `x` and `y` are feasible, then `x + \alpha(y -
+x)` is always feasible. And if `y` is better than `x`, then we can
+slide along that edge.
+
+This is exactly the simplex algorithm of Dantzig, which has more
+detail on how to actually execute this plan. Note that in the worst
+case the time spent could be equal to the number of vertices, which
+could be exponentional in the number of dimensions of the
+problem. However, in pracrice the approach works well.
+
+It is interesting: apparently this is one of the first problems where
+people asked what kind of "average" complexity could exist. Under many
+probability distributions, the average case is polynomial. Also,
+apparently those degenerate cases, when you add a little Gaussian
+noise to the constraints, almost surely become non-exponentional
+cases. You could say that the degeneracy of those cases is "unstable."
+
+## Duality
+
+Now, consider `x` the number of goods you make, and `b` is your
+resource allocation. The value of each good i is `c_i`. Finding the
+`x` that maximizes your profit `c^T x` is exactly the linear
+programming problem.
+
+Let's say I want to set prices on the goods so that there can be a
+marketplace for the goods. I am the government and control the
+resources. I want all the goods to be utilized so that nothing is left
+on the table, but I also don't want to charge too low a price; I want
+to get fair value for the goods.
+
+So we can flip things around. First, we want
+
+   A^T y >= c
+
+This says: don't give away resources. Since `A^T_{i, :}` is the
+resource cost to produce a unit of `x_i`, if `y` is such that `A^T_{i,
+:} y < c_i`, then that says it is a giveaway to let people by the
+goods to produce units of `x_i`. Their demand to use the resource will
+be insatiable!
+
+Now, I want the resource to be utilized. If I set the prices too high,
+no one wants to use the resources. Let's consider two feasible prices:
+`y1` and `y2`, where `b^T y1 < b^T y2`. I say the prices `y2` result
+in underutilization.
+
+The reasoning goes something like this. If the prices are set
+correctly, profit to the market is zero, by the inequality
+constraint. If the resources are being fully utilized, then the entire
+resource bundle should be consumed by the market. But if you raise the
+price the market must pay for the resources when the profit was
+originally zero, then you're driving them into *negative* profits.
+
+That is if the market consumes *all* the resources. What if it leaves
+some on the table: if some of the constraints are inactive? Then I
+argue that those constraints were never necessary. In that case, the
+price for those goods could be zero. (TODO: Prove this!)
+
+## TODO
+
+Okay, I am tired. I feel like it must be the case that goods that are
+underutilized can have a price of zero. But proving this seems to be a
+little challenging today.
