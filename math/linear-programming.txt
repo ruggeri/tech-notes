@@ -33,48 +33,138 @@ apparently those degenerate cases, when you add a little Gaussian
 noise to the constraints, almost surely become non-exponentional
 cases. You could say that the degeneracy of those cases is "unstable."
 
-## Duality
+## Weak Duality
 
-Now, consider `x` the number of goods you make, and `b` is your
-resource allocation. The value of each good i is `c_i`. Finding the
-`x` that maximizes your profit `c^T x` is exactly the linear
-programming problem.
+Consider `x` the number of goods you make, and `b` is your resource
+allocation. The value of each good i is `c_i`. Finding the `x` that
+maximizes your profit `c^T x` is exactly the linear programming
+problem.
 
-Let's say I want to set prices on the goods so that there can be a
-marketplace for the goods. I am the government and control the
-resources. I want all the goods to be utilized so that nothing is left
-on the table, but I also don't want to charge too low a price; I want
-to get fair value for the goods.
+Let's talk about an alternative problem. I want to set prices for the
+resources, and let the market pick a plan. I want the following
+requirement:
 
-So we can flip things around. First, we want
+* No feasible but suboptimal plan x' with c^T x' < x^T x* should
+  entail non-negative profit.
+* The optimal plan x* should have non-negative profit.
 
-   A^T y >= c
+In other words: I want to set prices such that no suboptimal plan is
+preferred to the optimal plan
 
-This says: don't give away resources. Since `A^T_{i, :}` is the
-resource cost to produce a unit of `x_i`, if `y` is such that `A^T_{i,
-:} y < c_i`, then that says it is a giveaway to let people by the
-goods to produce units of `x_i`. Their demand to use the resource will
-be insatiable!
+Note that this must entail:
 
-Now, I want the resource to be utilized. If I set the prices too high,
-no one wants to use the resources. Let's consider two feasible prices:
-`y1` and `y2`, where `b^T y1 < b^T y2`. I say the prices `y2` result
-in underutilization.
+    A^T p >= c
 
-The reasoning goes something like this. If the prices are set
-correctly, profit to the market is zero, by the inequality
-constraint. If the resources are being fully utilized, then the entire
-resource bundle should be consumed by the market. But if you raise the
-price the market must pay for the resources when the profit was
-originally zero, then you're driving them into *negative* profits.
+Let's think why. `A^T_{i, :}` is the resource requirements to produce
+one unit of good `i`. So `A^T p` is the cost to produce one unit of
+each of the goods under these prices. If producing a good i ever has
+positive profit (that is, when its cost is `< c`), then producing
+*any* amount of that good `i` would yield positive profit. That is,
+all `\alpha e_i` would produce positive profit. But presuming `c_i >
+0` (a basic non-denergcy requirement), then for smaller `\alpha`,
+`\alpha e_i` is suboptimal to `\alpha e_i` for bigger `\alpha`. That
+would mean that suboptimal plans have positive profit, which I said we
+won't allow.
 
-That is if the market consumes *all* the resources. What if it leaves
-some on the table: if some of the constraints are inactive? Then I
-argue that those constraints were never necessary. In that case, the
-price for those goods could be zero. (TODO: Prove this!)
+I next note that `A^T p >= c` means that the most profitable
+production plan x' under a price regime p must yield zero profit,
+since producing any good never yields profit.
 
-## TODO
+Next, I note that
 
-Okay, I am tired. I feel like it must be the case that goods that are
-underutilized can have a price of zero. But proving this seems to be a
-little challenging today.
+      max c^T x <= min b^T p
+
+for x obeying the resource constraints and p obeying the price
+constraints. Why?
+
+Well, imagine if c^T x* > b^T p for any valid `p`. That would mean
+that you could profit by buying the entire resource endowment `b` and
+then producing x*. And I just said that you can never have a
+profitable plan under the price constraints.
+
+This result is called *weak duality*.
+
+## Strong Duality
+
+I want to prove that
+
+  max c^T x = min b^T p
+
+This is true for linear programs. It is called *strong duality*.
+
+Why is this important? It says that for any resource optimization
+problem, there is an equivalent problem of finding *shadow
+prices*. Under the shadow prices, the optimal allocation has zero
+profit. Thus no suboptimal plan can be superior (by price constraint
+rule). In that case, by using these prices I will get the same
+behavior as under the resource constraint problem.
+
+Let's prove this! We'll do it by contradiction: we'll show how to take
+any prices p where c^T x* < b^T p, and find some *new* prices that
+*lower* the cost of the overall resource endowment.
+
+So assume that c^T x* < b^T p. Then consider the best x' plan under p
+where:
+
+(1) c^T x' >= (Ax)p. That is, The plan x' must not lose money. We know
+    that there is always such a plan for x = 0.
+(2) Of the plans that do not lose money, choose that plan x' which
+    maximizes c^T x'.
+
+In fact, we know that `(Ax) p = c^T x'`. Because we know that the
+prices are set such that you can never make profit.
+
+Now, c^T x' <= c^T x* < b^T p, by assumptions. Therefore, my question
+is: could we change `p` so that we lower b^T p without violating the
+constraint that A^T p >= c?
+
+I argue yes. First, note that producing x' cannot use all of the
+resource endowment b. Otherwise, that would mean that x' was a
+money-losing plan, since it would cost more to buy all the resources
+than we earn by producing and selling the finished goods x'.
+
+Let's consider each good that we are producing some of under plan
+x'. We know that each of these goods `i` must have `A^T_{i, :} p =
+c`. That's because no good can make money (`>c`), and the best plan
+would never try to produce a good that loses money (`<c`).
+
+All other goods must have negative value to produce, otherwise we
+would choose to produce them (again, I assume that c_i > 0 for all
+goods).
+
+Now, I want to change prices so that `b^T p` goes down, but all
+constraints are respected. For any good where `A^T_{i, :} p > c`, I
+know that I can move at least a tiny amount in any direction `\delta
+p` and not violate the constraint.
+
+My worry is about the goods where `A^T_{i, :} p = c`. Is there any
+direction I can move to decrease `b^T p` but *not* decrease these
+prices?
+
+The answer: yes! First, I recognize that `b` must not be in the span
+of those goods produced under the plan `x'`. Else then it would be a
+zero-profit plan to buy all the goods. But then the best way to use
+all the goods is x*. The point is: if x' is suboptimal, it must not
+consme all of b. Which means no x' zero-loss plan under p can consume
+the entire resource allocation.
+
+What is the fastest way to reduce the value of `b^T p`? Simple: reduce
+prices in the direction of `b`! That is the gradient of the valuation
+of the resources as a function of prices.
+
+But doing that would reduce some of the prices of the goods produced
+under plan x'. Uh-oh. Well here's what you do: you project b onto each
+of the resource requirements to produce a unit of each good produced
+under plan x'. You subtract out that projection. Thus, you're changing
+the price change in the direction b such that it leaves the price of
+the produced goods unchanged.
+
+And here is the point: since b is not in the span of the resource
+requirements of the produced goods, it must be that after subtracting
+out all the projections, you're left with a non-zero direction of
+change which will reduce `b^T p`.
+
+And what does that finally show? It shows that you can always decrease
+`b^T p` without violating the price constraints, until the optimal
+plan x* is now an optimal plan under the prices p. That is: you have
+proven the existence of shadow prices!
