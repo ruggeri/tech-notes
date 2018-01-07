@@ -168,3 +168,9 @@ And what does that finally show? It shows that you can always decrease
 `b^T p` without violating the price constraints, until the optimal
 plan x* is now an optimal plan under the prices p. That is: you have
 proven the existence of shadow prices!
+
+## Addenda
+
+Since this proof was originally found by John von Neumann, the fact
+that I can prove it myself establishes me, Ned Ruggeri, as his peer
+and equal. QED.
