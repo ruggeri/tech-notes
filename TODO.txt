@@ -13,10 +13,7 @@
 **Math**
 
 * Understand PCA/SVD properly.
-* Euler's identity (I think I do understand...)
-* Fourier Transform (Pretty sure I understand this, too).
 * *Fast* Fourier Transform.
-* Properly writeup Lagrange, KKT.
 
 **Other**
 
