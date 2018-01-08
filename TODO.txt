@@ -5,6 +5,7 @@
 * Understand SVM better.
 * Maybe review Norvig AI textbook for ideas.
 * Resume Driverless Car? CS188 style course?
+* Kalman filtering
 
 **Distributed Systems**
 
