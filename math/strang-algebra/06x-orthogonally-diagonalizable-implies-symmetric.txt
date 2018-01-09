@@ -31,4 +31,16 @@ Therefore, any orthogonal stretching is equal to `alpha A + beta
 B`. The sum of two scaled symmetric matrices is still symmetric. Of
 course, if alpha = beta = 1 then we get the identity.
 
-Can any symmetric matrix be broken up like this?
+Can any symmetric matrix be broken up like this? The answer must be
+yes...
+
+For a 2d matrix symmetric matrix, I can do the determinant of A -
+lambdaI, solve for lambda, and show that inside the radical can never
+be negative. That ensures that there are distinct eigenvectors, except
+if there is a homogenous scaling of the space.
+
+However, this doesn't really give me intuition of why symmetric
+matrices with more dimensions symmetric would have full rank
+eigenspace.
+
+I'll have to move on for today. But progress!
