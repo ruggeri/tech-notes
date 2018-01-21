@@ -142,3 +142,10 @@ I'm not 100% convinced we're out of the woods, but I haven't had P3
 instability since (not that long a sample size, tho).
 
 (Nope, looks like stuff is still fucked...)
+
+## Rollback?
+
+I rolled back to trying to use the 9.0.176-1 CUDA with the 387.26
+driver. Trying to clean build again.
+
+It seems like maybe this has worked?
