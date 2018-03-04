@@ -73,13 +73,62 @@ A *ctrie* is a mutable, concurrent version.
 
 ## Suffix Tree
 
-https://en.wikipedia.org/wiki/Suffix_tree
+Suffix tree for a string `S` is a compressed trie all suffixes stored
+in reverse order. Suffixes end in `$` so all values stored at leaf
+nodes.
+
+Allows rapidly finding whether a substring. That's because any
+substring is the *prefix* of a suffix. Which means that we can just
+travel down the tree with our query.
+
+Likewise easy to see if a string is a suffix, of course.
+
+Can count how many times a string occurs by counting leaf nodes.
+
+Can find longest repeated substring by searching for deepest node that
+has two children.
+
+Suffix links: points to the node which represents the suffix that
+started one character after this one started. That is, the node for
+`xyz$` points to the node for `yz$`.
+
+Finding the longest common substring of `s1` in the suffix tree for
+`s2`. You start matching at start of `s1`. You eventually exhaust. But
+then you follow the suffix link to move forward a starting letter in
+`s1`.
+
+You want your suffix tree to be a compressed trie. Ukkonen's algorithm
+is used to do this. Memory usage appears to be linear.
+
+## Use Cases for Tries
+
+Autocompletion, T9 autocomplete. Longest prefix is used by IP routing;
+how many bytes of the code do you have a match for?
+
+The primary competitor is the BST. A BST lets you find all completions
+of a prefix because you can search for the prefix, then just iterate
+through forward. But first problem is that you have to keep doing
+string comparisons. And you also have to go all the way down the tree
+to see if a string is a prefix. And it is not `O(1)` to extend a
+prefix by a single letter.
+
+With a trie, lookup is independent of size of dictionary. I guess it's
+not totally irrelevant: if you have 1024 keys, then you have a depth
+of at 10. So that's a factor of 10 slower than using a trie to lookup
+strings (since at each level you have to do a comparison). You might
+argue: a trie involves a lot of jumping. But you have to jump a lot in
+a BST too.
+
+We know that a suffix tree can be stored in length `O(n)`. And we know
+that suffix tree lets us very rapidly find partial matches.
+
+## TODO
+
 https://en.wikipedia.org/wiki/Deterministic_acyclic_finite_state_automaton
 https://en.wikipedia.org/wiki/Hashed_array_tree
 https://en.wikipedia.org/wiki/HAT-trie
 
-**TODO**: What is the advantage of any of these over BST??
-
 ## Resources
 
 https://idea.popcount.org/2012-07-25-introduction-to-hamt/
+https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/suffixtrees.pdf
