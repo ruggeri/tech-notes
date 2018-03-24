@@ -20,7 +20,8 @@
 **Other**
 
 * Grover's Algorithm
-* Read Taming Text.
+* Read Taming Text. (or maybe that distributed systems book or the
+  elastic search one or some other info retrieval book)
 * Learn Electronnics properly.
 * Learn Physics properly.
 
