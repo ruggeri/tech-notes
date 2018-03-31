@@ -1,0 +1,29 @@
+Phone operating systems don't typically give you unrestricted access
+to do whatever you want.
+
+In the Android world, which runs a *nix like system, you can *root*
+the phone, which means you gain root user privileges. I did this on my
+Pixel 2 by unlocking the bootloader and loading TWRP.
+
+*Unlocking* the bootloader allows you to boot operating systems not
+signed by the manufacturer. Most Android phones don't let you do this;
+Pixel 2 makes it very easy.
+
+After booting into TWRP, you can flash the recovery image with a
+patched version of the OS. You then recover the patched version. The
+patched OS is specific to the phone.
+
+Note: you don't need to root to install apps distributed outside the
+App Store. This can always be done by *sideloading*.
+
+However, you need root to have root access and modify the system.
+
+I'm not sure how Magisk fits into this. I think that maybe it is an
+app that manages being able to enable root. I think the TWRP images
+maybe have something to do with "magiskboot".
+
+LineageOS is the community continuation of the CyanogenMod
+project. They didn't have a build for Pixel 2 when I got mine. It is
+like a distro of Linux.
+
+**I have probably messed up many important details**
