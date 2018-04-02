@@ -70,6 +70,10 @@ request be made.
 
 http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 
+Actually, why should you need the preflight? This describes why.
+
+https://stackoverflow.com/questions/15381105/cors-what-is-the-motivation-behind-introducing-preflight-requests
+
 ## Content-Security-Policy
 
 Content-Security-Policy is an HTTP header which can tell the browser
