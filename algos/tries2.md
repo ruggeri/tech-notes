@@ -73,9 +73,8 @@ A *ctrie* is a mutable, concurrent version.
 
 ## Suffix Tree
 
-Suffix tree for a string `S` is a compressed trie all suffixes stored
-in reverse order. Suffixes end in `$` so all values stored at leaf
-nodes.
+Suffix tree for a string `S` is a compressed trie all
+suffixes. Suffixes end in `$` so all values stored at leaf nodes.
 
 Allows rapidly finding whether a substring. That's because any
 substring is the *prefix* of a suffix. Which means that we can just
