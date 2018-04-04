@@ -24,6 +24,7 @@
   elastic search one or some other info retrieval book)
 * Learn Electronnics properly.
 * Learn Physics properly.
+* Coq
 
 **Not Essential**
 
