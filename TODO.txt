@@ -29,3 +29,15 @@
 **Not Essential**
 
 * Memory fencing: I don't understand this.
+
+**General Interests**
+
+* Machine learning on the backburner again maybe.
+  * Except maybe I should think broadly about ways to make ML fun for
+    me?
+  * But fundamentally how would I test out those possibilities?
+* Theorem proving. GOFAI techniques in limited domains where success
+  is possible. Games, planning, theorem proving.
+* Database implementation.
+* Programming language implementation (a little bit).
+* Information retrieval and search.
