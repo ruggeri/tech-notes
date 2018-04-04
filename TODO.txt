@@ -39,5 +39,6 @@
 * Theorem proving. GOFAI techniques in limited domains where success
   is possible. Games, planning, theorem proving.
 * Database implementation.
+* Formal verification.
 * Programming language implementation (a little bit).
 * Information retrieval and search.
