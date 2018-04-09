@@ -205,3 +205,15 @@ Random note: parallelism on a single CPU with multiple cores can be
 advantageous because of the shared L2 cache (L1 typically not shared).
 
 Source: Art of Multiprocessor Programming
+
+## WTF Write (AKA store) Buffers?
+
+I think the idea is this: for OOE to reorder memory accesses, it uses
+a store buffer. A store is not actually performed until the processor
+knows that it doesn't violate a dependency. But the processor cannot
+know about dependencies across cores or processors.
+
+When I say "memory access" or "memory write", we really mean L1
+cache. That's why this is a problem even when we have cache coherence.
+
+Source: https://en.wikipedia.org/wiki/Memory_disambiguation

@@ -59,6 +59,9 @@
     * Also had good stuff about theory of relational data; I had read
       that years ago.
     * Even the parallel DB stuff is pretty good.
+* Designing Data-Intensive Applications
+    * Love it. Everything I want to talk about and cover in my
+      architecture lecture series.
 * Distributed Algorithms (Lynch)
     * Started. The style here is pretty brutal. Totally comprehensive.
     * I feel like I'm not super-interested in the theory of
@@ -99,9 +102,8 @@
     * Great resource, but I already know everything I need from here.
 * Intro To Linear Algebra (Strang)
     * I kinda know most of this, but I also need to learn PCA and SVD.
-    * Anthony doesn't have this. Where did I put this? At home?
     * **High priority**.
-    * Anthony has this as of Feb 20th.
+    * I have this at home safe and sound!
 * Learning Spark
     * Did read. Quick 1-day read describing Spark.
     * Generally pretty good. Not earth shattering.
