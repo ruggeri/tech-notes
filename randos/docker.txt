@@ -1,0 +1,109 @@
+## TODO
+
+These notes are a random mishmash. I got kinda bored with this project.
+
+The idea is:
+
+1. VirtualBox is an Oracle product that runs a VM hypervisor for you.
+2. You can use Kubernetes to run VM nodes. In particular minikube does
+   this (runs a 1 node cluster).
+3. You can build an image of your application with Docker.
+4. You can then deploy the image to your Kubernetes cluster.
+
+## VirtualBox
+
+This is a VM hypervisor.
+
+Then Kubernetes can ask VirtualBox to run a node in VirtualBox.
+
+## Chef and Puppet: Configuration Management
+
+These are *configuration management* systems. Take Chef in particular.
+This lets you write configuration scripts that install various software,
+make sure services are running, et cetera. Your configuration management
+may even install Docker for you.
+
+I think the configuration management mostly pertains to configuring the
+machine and the OS. Not necessarily the application.
+
+## Docker
+
+Docker builds images of your application that can be deployed to and
+launched on other machines.
+
+You typically create a Docker *service* out of several images. You can
+specify in your service (through `docker-compose.yml`) how many
+replicas of an image you want to run.
+
+What do you do with that service? You can create a Docker swarm that
+consists of many machines, each running the Docker server. You can then
+deploy an image to run many containers of your application on those
+machines. I believe this is similar to what Kubernetes does.
+
+## Kubernetes
+
+Docker focuses mostly on the container. But Kubernetes is more about
+"orchestration." That means placing containers on machines, allowing
+them to "discover" each other via domain names (by running a cluster
+DNS), scale services.
+
+Mesos is another competitor.
+
+## Notes
+
+Docker appears to be winning as the container. Kubernetes is winning for
+ochestration.
+
+## More Docker Notes
+
+
+
+A docker image is your packaged program. You can list them with
+`docker image ls`.
+
+A container is the running instance of the image. it can be run via
+`docker ps`. You can also use `docker container ls`. If you add `--all`
+you get a history of run containers.
+
+You set up a `Dockerfile`. You can specify a *base image* with `FROM`.
+There is an official repository of base images.
+
+Other things you set are `WORKDIR`, `ADD` (to copy files from here to
+image), `RUN` (for installation commands like `pip`), `EXPOSE` (to
+expose ports to the outside world) and `CMD` (the command to run).
+
+I believe the distinction between `RUN` and `CMD` is that `RUN` is run
+at image build time.
+
+After defining your `Dockerfile`, you use `docker build -t
+name_of_image`.
+
+You then use `docker run -p HOST_PORT:INTERIOR_DOCKER_PORT image_name`
+to launch a container. You probably want to add `-d` to detach. You can
+use `docker attach` to later attach to the container. And of course you
+can `docker container stop`.
+
+Weird. Stopping a container does not remove it. I guess you can start
+and stop containers at will. You can *restart* containers (`docker
+start`). Weird.
+
+You can use `docker container rm` to remove stopped containers. You can
+use `docker image rm` to remove unneeded images.
+
+They talk about how you can publish your images to the cloud. It makes
+it easy to run your images anywhere.
+
+## Docker Swarm
+
+You can use `docker login` to login to your `hub.docker.com` account.
+You can then use `docker push` to push a built image to hub. Then you
+can `docker run` it from anywhere.
+
+You can write a `docker-compose.yml` file. This has info like:
+
+* The image to deploy.
+* How many replicas. Resource limits.
+* Restart policy (on failure, for instance)
+* Which ports should be open.
+* You can add a load balancer called "webnet".
+
