@@ -17,3 +17,6 @@ the Linux source code...
 
 http://www.inf.ed.ac.uk/teaching/courses/os/slides/04-thread18.pdf
 https://www.quora.com/Why-are-system-calls-expensive-in-operating-systems
+
+Possibly quite useful?
+https://stackoverflow.com/questions/9964899/why-are-os-threads-considered-expensive
