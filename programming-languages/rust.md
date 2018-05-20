@@ -288,8 +288,87 @@ class methods.
 
 You can have multiple `impl` blocks, but they'll discuss that later.
 
+## Enums
+
+Can have methods. They're sum types. They can be tuples, or even have
+associated field names! Of course, `Option<T>` is the most important
+enum of all.
+
+They talk about match, how you can match variants, and how you can
+destructure. You can use `_` to handle any cases not enumerated. You can
+also potentially use `if let`, which works just like Swift.
+
+## Modules
+
+Slighty wack. You can split your code into source files. Then you can
+say `mod client;`, and it will load the `client.rs` definitions as a
+module named `client`. You don't say `mod client { ... }` in
+`client.rs`; it's already put in the mod just by being in another file.
+
+This is for a library anyway.
+
+But then you can actually make directories named `network/`. We would
+then load `network/mod.rs`. Now we can have further submodules. As in,
+if `network` had a `server` submodule, then `mod.rs` could say `mod
+server;` and that is defined in `network/server.rs`.
+
+You can mark functions and modules et cetera as `pub`. Then others can
+use them.
+
+## Vec/String/HashMap
+
+You can say `let v: Vec<i32> = Vec::new()`, or just `let v = vec![1, 2,
+3]`.
+
+You can get references to values like `&v[1]`. Of course if they're
+copyable that's fine too. But a reference like `&v[1]` will block
+mutable ops like `v.push`. You'll have to use `{}` if you want to do
+that...
+
+It looks like you can pass a `&String` for a `&str` argument. Rust calls
+this a "deref conversion," but it's not explained yet. Kinda
+interesting: `+` takes ownership of the first argument. Makes sense;
+this must be an efficient version.
+
+A `String` is a wrapper for `Vec<u8>`.  Note, the `String#len` method
+returns the number of *bytes*, not number of unicode characters. In
+fact, even the notion of a character is sketchy; what about diacritic
+characters? For this reason you cannot index into a string. Also time
+complexity, because index to character or whatnot requires `O(k)` time.
+
+You can use slice like `&hello[1..4]` to get those *bytes*. Rust crashes
+if the byte indices don't line up to characters. You can call `#chars`
+to iterate over character values, giving you a series of chars. A char
+stores a unicode code point. Note that it is *not* in UTF-8 encoding;
+it's just the UTF number. So char is less efficient than UTF-8. It's
+more like UTF-32 which is fixed width.
+
+Sidebar: what is the point of UTF-16? Worst of both worlds? Incompatible
+with ASCII, and inefficient. But not if most of your text is in Chinese,
+in which case UTF-16 is more efficient. But if there's a lot of
+whitespace for formatting, UTF-8 is better again. Also, if you loose a
+byte of UTF-16 data, everything becomes garbage. UTF-8 is self
+synchronizing.
+
+You can also use `#bytes()` to get an iterator over `u8` values.
+
+Grapheme clusters are not parsed by Rust; you need an external crate for
+that.
+
+HashMap is the next structure. Not literal syntax or macros, but you can
+call `collect` on a sequence of tuples.
+
+    let teams  = vec![String::from("Blue"), String::from("Yellow")];
+    let initial_scores = vec![10, 50];
+
+    let scores: HashMap<_, _> = teams.iter().zip(initial_scores.iter()).collect();
+
+The hash map takes ownership of keys/values. You *can* have references
+as your keys/values, but they must have lifetime at least as long as the
+HM.
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
 
-https://doc.rust-lang.org/book/second-edition/ch06-00-enums.html
+https://doc.rust-lang.org/book/second-edition/ch09-00-error-handling.html
