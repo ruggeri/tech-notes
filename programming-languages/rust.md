@@ -188,7 +188,8 @@ dereferences? We could use just plain `item`, but then we must say
 I think the similarity to `s: &String` is deceptive. Notice that we have
 said `&item`, with the `&` before the variable name. That's quite a bit
 different than `&String`, with an `&` before the type. It's like in C
-the difference between `int* x` and `*xp`.
+the difference between `int* x` and `*xp`. (BTW I think that you use
+`ref` when you want to go value -> reference in a binding).
 
 You can take slices of strings:
 
@@ -367,8 +368,56 @@ The hash map takes ownership of keys/values. You *can* have references
 as your keys/values, but they must have lifetime at least as long as the
 HM.
 
+There are *match guards*, which are basically ifs that you tack on to a
+variant match.
+
+They talk about the `unwrap` (panic on error) and `expect` (you provide
+the panic message) methods of `Error`. There is also a special `?`
+syntax that will return the error, if any, otherwise unwrap. This is
+useful for "propagating" errors.
+
+    fn read_username_from_file() -> Result<String, io::Error> {
+        let mut f = File::open("hello.txt")?;
+        let mut s = String::new();
+        f.read_to_string(&mut s)?;
+        Ok(s)
+    }
+
+## Generics
+
+They show a generic method. There is a concept like thing (called trait
+bounds), which says that parameters can be required to implement certain
+traits.
+
+When implementing, you can have specializations. Traits can also have
+default implementations. This lets you use them as mixins.
+
+You can use trait bounds to conditionally implement methods, or
+conditionally implement whole traits.
+
+You can even implement a trait for *any* type that meets a trait
+requirement:
+
+    impl<T: Display> ToString for T {
+        // --snip--
+    }
+
+Anything that implements `Display` also implements `ToString`.
+Presumably you can specialize as needed.
+
+I'm confused about what happens when there are two implementations of
+the same method in two different traits. How do we choose? I think Rust
+requires us to disambiguate.
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
 
-https://doc.rust-lang.org/book/second-edition/ch09-00-error-handling.html
+https://doc.rust-lang.org/book/second-edition/ch10-03-lifetime-syntax.html
+
+* Things I learned via BST:
+    * Box.
+    * formatting with debug_struct
+    * A bunch of annoying shit about match guards. If a match guard
+      takes ownership, can't use an if. You can't take ownership of
+      internal part for a match...
