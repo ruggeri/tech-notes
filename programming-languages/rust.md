@@ -9,7 +9,8 @@ Unwraps errors with `expect`.
 
 `match` can unwrap sum types.
 
-`parse` is weird. Has something to do with templates...
+`parse` is weird. Has something to do with templates... Can look at
+desired return type to know what to do? **TODO**: How does parse work?
 
 You can have tuples `x = (1, 2, 3)`. You can destructure tuples `let (x,
 y, z) = (1, 2, 3)`. You can access tuple fields `x.0`.
@@ -21,7 +22,8 @@ semicolon.
 
 Functions can be given a return type with `fn num() -> i32`.
 
-`if`/`else` can be an expression.
+`if`/`else` can be an expression. You can also use "if let" to do a
+simple form of match.
 
 You have `loop`, `while`, and `for`. For works like this:
 
@@ -34,6 +36,8 @@ fn main() {
     }
 }
 ```
+
+ **TODO**: how does iterator work?
 
 Note you can do countdowns with a `Range`:
 
@@ -162,6 +166,8 @@ I'm thinking to myself: this sounds great for multithreaded code, but
 potentially burdensome if code is merely singlethreaded, because the
 Rust compiler is going to have limited ability to statically reason...
 
+**TODO**: Write code where I have to implement copy/clone/drop.
+
 Interesting. A Rust char is a unicode code point. Does that mean every
 Rust char is 4 bytes or something???
 
@@ -266,8 +272,11 @@ Can structs store references? Yes! You might prefer:
 which is more general. But this is tricky. We can't store a reference in
 a struct without using *lifetimes*, and I don't understand those yet.
 
+**TODO**: Implement a struct that needs lifetime annotations.
+
 They talk about `#[derive(Debug)]`, which lets you use `println!("{:?}",
-user)`. You can also use `{:#}` which indents.
+user)`. You can also use `{:#?}` which indents. Note that `fmt` library
+has a bunch of helpers to help you implement `fmt::Debug` yourself.
 
 ## Methods
 
@@ -292,12 +301,20 @@ You can have multiple `impl` blocks, but they'll discuss that later.
 ## Enums
 
 Can have methods. They're sum types. They can be tuples, or even have
-associated field names! Of course, `Option<T>` is the most important
-enum of all.
+associated field names (like structs)! Of course, `Option<T>` is the
+most important enum of all.
 
 They talk about match, how you can match variants, and how you can
 destructure. You can use `_` to handle any cases not enumerated. You can
 also potentially use `if let`, which works just like Swift.
+
+(They don't mention `@` which works like in Haskell).
+
+Interesting: I learned you can mutate an enum variable. As in you can
+reassign.
+
+They also don't mention the `take` method of option, which is very
+valuable. It mutates to None while removing the value.
 
 ## Modules
 
@@ -316,6 +333,12 @@ server;` and that is defined in `network/server.rs`.
 You can mark functions and modules et cetera as `pub`. Then others can
 use them.
 
+Common to write your code as a library, then use `extern crate` to load
+the library for your short binary code.
+
+You use `use` to bring names into scope. To access sibbling modules you
+typically use `super` rather than starting from the top again.
+
 ## Vec/String/HashMap
 
 You can say `let v: Vec<i32> = Vec::new()`, or just `let v = vec![1, 2,
@@ -323,13 +346,17 @@ You can say `let v: Vec<i32> = Vec::new()`, or just `let v = vec![1, 2,
 
 You can get references to values like `&v[1]`. Of course if they're
 copyable that's fine too. But a reference like `&v[1]` will block
-mutable ops like `v.push`. You'll have to use `{}` if you want to do
-that...
+mutable ops like `v.push` (because may have to recopy the entire store).
+You'll have to use `{}` if you want to do that...
 
 It looks like you can pass a `&String` for a `&str` argument. Rust calls
 this a "deref conversion," but it's not explained yet. Kinda
 interesting: `+` takes ownership of the first argument. Makes sense;
-this must be an efficient version.
+this must be an efficient version. You write; `let s1 = s1 + &s2`, to
+shadow the original s1.
+
+**TODO**: Look into deref convresions, which I assume is some traits
+magic.
 
 A `String` is a wrapper for `Vec<u8>`.  Note, the `String#len` method
 returns the number of *bytes*, not number of unicode characters. In
@@ -364,17 +391,29 @@ call `collect` on a sequence of tuples.
 
     let scores: HashMap<_, _> = teams.iter().zip(initial_scores.iter()).collect();
 
+**TODO**: Learn how stuff like "collect" works with type inference.
+
 The hash map takes ownership of keys/values. You *can* have references
 as your keys/values, but they must have lifetime at least as long as the
 HM.
+
+They have a cool interface called `hm.entry("my key")`, which returns an
+`Entry` object, which might even be empty. You can then use methods like
+`or_insert` to insert only if the key isn't already there.
+
+## Error Handling
 
 There are *match guards*, which are basically ifs that you tack on to a
 variant match.
 
 They talk about the `unwrap` (panic on error) and `expect` (you provide
-the panic message) methods of `Error`. There is also a special `?`
-syntax that will return the error, if any, otherwise unwrap. This is
-useful for "propagating" errors.
+the panic message) methods of `Result`. A result is either `Ok` or an
+`Err(err)` variant. The `err` value is typically an enum of things that
+can go wrong.
+
+There is also a special `?` syntax that will return
+the error, if any, otherwise unwrap. This is useful for "propagating"
+errors.
 
     fn read_username_from_file() -> Result<String, io::Error> {
         let mut f = File::open("hello.txt")?;
@@ -383,17 +422,34 @@ useful for "propagating" errors.
         Ok(s)
     }
 
-## Generics
+**TODO**: Any way to make `RUST_BACKTRACE=1` (an environment variable
+you can set when running a debug build) the default?
 
-They show a generic method. There is a concept like thing (called trait
+## Generic Types, Traits, and Lifetimes
+
+Generic functions, structs enums. They show a generic method; you use
+`impl<T> Point<T> { ... }`. There is a concept like thing (called trait
 bounds), which says that parameters can be required to implement certain
 traits.
 
 When implementing, you can have specializations. Traits can also have
 default implementations. This lets you use them as mixins.
 
-You can use trait bounds to conditionally implement methods, or
-conditionally implement whole traits.
+```
+pub trait MyTrait {
+  pub fn my_fun(&self) -> int;
+}
+```
+
+Once you have traits, you can use them as trait bounds. You say: this
+generic function exists *if* the type meets the required trait bounds.
+Can also uses them to conditionally implement methods:
+
+    impl<T: Display + PartialOrd> Pair<T> {
+      fn this_method_only_if_both_are_met() {
+        ...
+      }
+    }
 
 You can even implement a trait for *any* type that meets a trait
 requirement:
@@ -403,17 +459,76 @@ requirement:
     }
 
 Anything that implements `Display` also implements `ToString`.
-Presumably you can specialize as needed.
+Presumably you can specialize as needed. This is called a "blanked
+implementation."
+
+As you can see, this is why we need to be able to have multiple `impl`
+statements.
 
 I'm confused about what happens when there are two implementations of
 the same method in two different traits. How do we choose? I think Rust
-requires us to disambiguate.
+requires us to disambiguate. I think this is part of the reason why we
+can only use trait methods if the trait has been brought in scope. I
+think it's also why we can only implement a trait in a module if either
+(1) the trait has been defined in the module or (2) the class being
+implemented on is defined in the module.
+
+**TODO**: Exactly how do trait methods become methods of the object? I
+think it's similar to Scala, and maybe also Go in the sense that traits
+do not imply vtables. Thus traits can be applied to primitive types.
+
+## Lifetimes
+
+Seems simple enough?
+
+    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+I believe this says: the result is only good for the period of time both
+`x` and `y` references are valid. You can do similar for a struct:
+
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+
+This says: the lifetime of the struct must have a lifetime that does not
+exceed the stored reference.
+
+Inference rules for functions are simple:
+
+1. Every parameter assumed to have its own distinct lifetime.
+2. Output lifetimes are assumed to be same as parameter lifetime, if all
+   parameters have same input lifetime.
+3. Otherwise, if a *method* on a reference, then output has same
+   lifetime as the reference.
+
+There is a special lifetime called `'static`, which means lives forever.
+Typically not the answer to your problems.
+
+## Testing
+
+You make a module named `tests` and apply `#[cfg(test)]` to it. Then you
+add an anotation `#[test]` to each fn you want in the module. You can
+use `cargo test` to run them. You use macros like `assert_eq!` and the
+like.
+
+For unit tests, they usually put the tests modules either (1) right in
+the source file of the module, or (2) in a submodule file or directory.
+
+For integration tests, you can make a top level tests directory. You
+don't need a `mod.rs` here; `cargo test` will run all tests.
 
 ## TODO
 
 Wow there sure is a lot to read about Rust...
 
-https://doc.rust-lang.org/book/second-edition/ch10-03-lifetime-syntax.html
+**TODO**: Up to
+An I/O Project: Building a Command Line Program. Page 247 of the book!
 
 * Things I learned via BST:
     * Box.
@@ -421,3 +536,25 @@ https://doc.rust-lang.org/book/second-edition/ch10-03-lifetime-syntax.html
     * A bunch of annoying shit about match guards. If a match guard
       takes ownership, can't use an if. You can't take ownership of
       internal part for a match...
+    * `take` on an option is very useful! Then I wrote my own for BST!
+    * `mem::swap` is often essential. I think otherwise you can't swap
+      without taking ownership, which is seldom what you want.
+    * Box patterns were a helpful language extension. Would be
+      interesting to investigate what others exist.
+    * Looks like you often have to write two versions of methods that
+      return either an immutable or mutable reference (`find` vs
+      `find_mut`). No generics over the mutability of a reference.
+      Really? That seems horrible.
+    * Methods that return internal references (like I did with my BST)
+      can be very powerful. For instance, to do remove, I did a find,
+      then called delete on the reference to the node. Similar for
+      insert.
+* TODO: Read the standard library and some major libraries to see how
+  Rust is used.
+
+## Notes from Rust By Example
+
+The `format!`/`print!`/`println!` macros let you use named args. As in:
+`println!("hello {dog}; I am {cat}" cat="gizmo", dog="henry")`.
+
+TODO: Up to https://doc.rust-lang.org/rust-by-example/types.html
