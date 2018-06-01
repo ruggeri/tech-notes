@@ -563,7 +563,7 @@ I built my own iterator. It needed some tricks.
 
 Wow there sure is a lot to read about Rust...
 
-**TODO**: Up to p272 in the book; working with environment variables.
+**TODO**: Functional Language Features. p280.
 
 * Things I learned via BST:
     * Box.
