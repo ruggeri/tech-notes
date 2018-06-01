@@ -523,12 +523,39 @@ the source file of the module, or (2) in a submodule file or directory.
 For integration tests, you can make a top level tests directory. You
 don't need a `mod.rs` here; `cargo test` will run all tests.
 
+## An I/O Project: Building a Command Line Program
+
+Looked up how `collect` works. It's an iterator trait method. It is
+templated on the return value, which should be a collection that
+implements the `FromIterator` trait. An `Iterator` has an associated
+type called `Item`; the `collect` method has a type bound where the
+`FromIterator` should have as its template argument `Iterator::Item`.
+
+In the example they use `std::fs::File`. To use fancy read methods on a
+file, you need to include `std::io::Read`, which is the mixin that goes
+beyond a simple `read` method into a mutable slice of `u8`. But you need
+to have the trait in scope. The easiest way to load traits like that is
+to use `std::io::prelude::*`. Another useful one is `BufRead` trait,
+which gives `#lines`.
+
+They use `Result::unwrap_or_else` to unwrap errors parsing arguments. I
+also use an enum for errors. `unwrap_or_else` takes a closure; and
+inside we use `process:exit`.
+
+They use a pattern for their `run` function where it returns a
+`Result<(), Box<Error>>`. The idea must be (1) there really is no return
+value, but (2) there can be many kinds of `Error`. `std::error::Error`
+is a *trait* (different from the result variant `Err`, btw), which
+basically just has a description method. Must be boxed.
+
+**TODO**: Why is an associated type needed? Doesn't `Iterator` have a
+template argument; can't we just use that?
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
 
-**TODO**: Up to
-An I/O Project: Building a Command Line Program. Page 247 of the book!
+**TODO**: Up to p272 in the book; working with environment variables.
 
 * Things I learned via BST:
     * Box.
