@@ -551,6 +551,14 @@ basically just has a description method. Must be boxed.
 **TODO**: Why is an associated type needed? Doesn't `Iterator` have a
 template argument; can't we just use that?
 
+I built my own iterator. It needed some tricks.
+
+* The iterator uses a boxed iterator with string references.
+* You specify the associated type. But you also need to give the
+  lifetime of the Iterator trait. That is: `Box<Iterator<Item=&'a str> + 'a>`.
+
+**TODO**: Look up trait lifetimes when boxing.
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
