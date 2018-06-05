@@ -6,44 +6,30 @@
 // Maybe it would be nice to refcount the next?
 
 #[derive(Clone)]
-enum  List<T: Clone> {
-  Cons { val: T, next: Box<List<T>> },
-  Nil
+enum List<T: Clone> {
+    Cons { val: T, next: Box<List<T>> },
+    Nil
 }
 
-impl <T: Clone> List<T> {
-  fn new(val: T, next: &List<T>) -> List<T> {
-    List::Cons {
-      val: val,
-      next: Box::new((*next).clone())
-    }
-  }
+use List::*;
 
-//  fn prepend(self, val: T) -> List<T> {
-//    List::Cons {
-//      val: val,
-//      next: Box::new(self)
-//    }
-//  }
+impl <T: Clone> List<T> {
+    fn new(val: T, next: &List<T>) -> List<T> {
+        Cons {
+            val: val,
+            next: Box::new(next.clone())
+        }
+    }
 }
 
 fn main() {
-  let v = List::new(32, &List::Nil);
-  let v2 = List::new(64, &v);
-  let v3 = List::new(128, &v2);
+    let v = List::new(32, &Nil);
+    let v2 = List::new(64, &v);
+    let v3 = List::new(128, &v2);
 
-  if let List::Cons { val: my_val, .. } = v {
-    println!("{}", my_val);
-  }
-
-  let mut x = v3;
-  loop {
-    match x {
-      List::Cons { val, next } => {
+    let mut x = &v3;
+    while let Cons { val, next } = x {
         println!("Val: {}", val);
-        x = *next;
-      },
-      List::Nil => { break }
+        x = next;
     }
-  }
 }
