@@ -679,9 +679,78 @@ are automatically derived when a struct is composed of `Send` and `Sync`
 stuff. But you can write unsafe code to do this; but we'll have to talk
 about that another time...
 
+## Rust and OOP
+
+Doesn't really have inheritance. They mention that you can use override
+the default methods of traits, which is sort of like code reuse. They
+also talk about how inheritance relates to generic programming. They
+talk about "bounded parameteric polymorphism." Basically, they mean that
+trait bounds are like your interfaces, which isn't exactly inheritance,
+but is a related concept.
+
+So you can use traits like interfaces, and they will perform dynamic
+dispatch for you. Not every trait is usable for trait objects. For
+instance, take the `Clone` trait:
+
+    pub trait Clone {
+        fn clone(&self) -> Self;
+    }
+
+This clearly can't work because an implementer must return a value,
+rather than a pointer or reference. Likewise, interfaces with generic
+parameters can't be used, because they won't have been generated for
+every instance that implements the trait.
+
+They then show us how to store and use a `Vec<Box<MyTrait>>`. Presumably
+you cannot have `Vec<MyTrait>` because `MyTrait` isn't sized. But then
+my question is: how can we store a `MyTrait` in our own structures? As
+in: how does `Box` work with a trait template parameter. Is it ever
+necessary to worry about that?
+
+**TODO**: I recall something about traits and lifetimes. What is the
+deal with that?
+
+## Patterns and Matching
+
+Places pattern matching happens:
+
+1. `match` (duh)
+2. `if let`
+3. `while let`
+4. `for`
+    * `for (index, value) in v.iter().enumerate()`
+5. `let (x, y, z) = (1, 2, 3);`
+6. `fn print_coordinates(&(x, y): &(i32, i32)) {`
+
+`let`, `for`, and function parameters must be *irrefutable* patterns.
+Others are conditional so can be *refutable*.
+
+You can use `|` to "or" patterns as in Haskell.
+
+They note the need to destructure references sometimes:
+
+    let points = vec![
+        Point { x: 0, y: 0 },
+        Point { x: 1, y: 5 },
+        Point { x: 10, y: -3 },
+    ];
+
+    let sum_of_squares: i32 = points
+        .iter()
+        .map(|&Point { x, y }| x * x + y * y)
+        .sum();
+
+If you tried to destructure with just `Point { x, y }`, you'd get an
+error: "expected &Point, found struct `Point`".
+
+I think if you wanted references to `x` and `y` you would need to use
+`ref`.
+
+They also mention `@` which is like Haskell.
+
 ## TODO
 
-Up to p398 about is Rust OOP?
+Up to ch19 Advanced Features.
 
 Wow there sure is a lot to read about Rust...
 
