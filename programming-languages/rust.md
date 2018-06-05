@@ -559,11 +559,131 @@ I built my own iterator. It needed some tricks.
 
 **TODO**: Look up trait lifetimes when boxing.
 
+## Iterators and Closures
+
+You write closures like this:
+
+    let f = |arg1| {
+        arg1 + 123
+    };
+
+Closures get type inference on their args based on first use. But you
+can also specify if need be. Their type is `Fn(i32) -> i32`.
+
+Closures can either use a mutable or immutable reference, or may take
+ownership of the closed over variable.
+
+**TODO**: I'm a little confused about `FnOnce`, which is a trait for
+when a closure takes ownership. Can the closure be called only once,
+because after the memory is discarded? Or does the captured environment
+live as long as the closure does?
+
+They then show the `Iterator` interface and how to implement `next`.
+Then they apply it to the Regexp project just like I already did.
+
+## Cargo and Crates.io
+
+Mostly boring. Some info on workspaces, which I should review, but
+instead skipped because I am more interested in the language itself.
+
+## Smart Pointers
+
+Smart pointers are those that implement `Deref` and `Drop` traits. Your
+main smart pointers are:
+
+1. `Box<T>`
+2. `Rc<T>`
+3. `Ref<T>` and `RefMut<T>` via `RefCell<T>`.
+
+Boxes store things on the heap, simple. No overhead. They are implicitly
+coerced to references because they implement `Deref`, which has a method
+`fn deref(&self) -> &T`. `Deref` has an associated type called `Target`.
+
+Note that `String` implements `Deref` for `&str[]`.
+
+There's a second trait called `DerefMut` that changes `&mut Box` to
+`&mut Target`. You have to implement that separately.
+
+`Drop` is a trait that just calls `#drop`. It's for RAII.
+
+`Rc` is another smart pointer. It does reference counting. You can start
+out by `Rc::new(x)`. This takes ownership. You can then use `Rc::clone`
+on the reference to increment the shared count. We could just say
+`my_rc_obj.clone()`, but this looks like a deep clone, so the Rust folks
+recommend using `Rc::clone(my_rc_obj)` style for clarity of purpose.
+
+`Rc` only lets us share immutable references, for the obvious reason
+that a mutable reference is supposed to be exclusive of any immutable
+reference.
+
+They talk about `RefCell` and "interior mutability." This is when you
+have an immutable value, but you want to mutate something inside. I
+think it's like marking a field mutable in C++. They give an example of
+a mock object: the trait it might implement may have an immutable API,
+but the mock object wants to record how many times a method is called,
+or what arguments it is sent.
+
+`RefCell` works by returning smart pointers called `Ref<T>` and
+`RefMut<T>`. `RefCell` enforces that it will panic when you ask for a
+second simultaneous `RefMut<T>`. But it also needs to know when those
+things die.
+
+`Cell` works similarly, but appears to copy the value in and out of the
+cell? `Mutex` is like `RefCell` but for threaded programs.
+
+**TODO**: What is the point of `Cell`? Are there other good examples of
+wanting to use `Rc` and `RefCell` together?
+
+**TODO**: Write an implementation of `Rc`.
+
+They talk about `Rc::downgrade`, which gives you a *weak* reference. You
+can use `Rc::upgrade` to convert a weak reference to an `Option<T>`.
+
+## Concurrency
+
+`thread::spawn`, and you give a closure. Gives you a `JoinHandle` and
+you can call `join` on it. You can call `unwrap` to get the return
+value.
+
+They show how to use `mpsc::channel`. It gives a `(tx, rx)` pair. You
+can then move the `tx` to another thread which can send down values. The
+`rx` has methods like `recv` and `try_recv`. You can call `tx.clone` to
+have multiple producers.
+
+They also have a `Mutex` class. When you call `lock` you get a smart
+pointer called `MutexGuard`. When dropped the mutex is unlocked.
+
+Now, if you want to share a `Mutex` across threads, you can't, because
+no one will have ownership of it. So you need to put it in an `Rc`.
+Except not an `Rc`, because `Rc` is not thread safe. So you need to use
+`Arc`, which is the thread-safe version of `Rc`. Of course it is even
+slower than `Rc`. The "a" is for "atomic."
+
+They hint at the similarity of `Rc` and `RefCell` to `Arc` and `Mutex`.
+
+They talk about the `Send` trait. Pretty much everything can be moved
+across threads. An exception is `Rc`, which has shared mutable
+stateinside its immutable interface.
+
+`Sync` is another important trait. If `T` is `Sync`, that means that
+`&T` is `Send`. That is, a value is `Sync` if threads can share
+references to the object. We already know that `Rc` is not `Sync`, since
+it's not even `Send`. `RefCell` *is* `Send`, but it is not `Sync`,
+because the checking that `RefCell` does is not thread safe. This is the
+point of `Mutex`. Note that `Arc<T>` is not `Sync` unless `T` is `Sync`.
+Otherwise, even though we would be doing ref counting correctly, we
+would have data races on `t`.
+
+You don't normally implement `Send` or `Sync` yourself, because those
+are automatically derived when a struct is composed of `Send` and `Sync`
+stuff. But you can write unsafe code to do this; but we'll have to talk
+about that another time...
+
 ## TODO
 
-Wow there sure is a lot to read about Rust...
+Up to p398 about is Rust OOP?
 
-**TODO**: Functional Language Features. p280.
+Wow there sure is a lot to read about Rust...
 
 * Things I learned via BST:
     * Box.
