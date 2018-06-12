@@ -280,10 +280,44 @@ net-zero correlation.
 Any finite sum of sinusoidals will have period `T`. It will be
 continuous and everywhere differentiable.
 
+What about "infinite sums" of the basis vectors? Do these make any
+sense? Maybe, if they converge, for some meaningful definition of
+"converge."
+
+The most natural topology to use is the L2 norm, which is the square
+root of the inner product, which we have already defined. We could use
+other norms or even more general topological definitions of convergence,
+but this is not a topology course.
+
+Let me give one justification for the L2 norm. The L2 norm basically
+asks: how much of yourself would you want to use to reconstruct
+yourself, according to this inner product? Say you have a sequence of
+fns `f_k`, and the L2 norm of `||f - f_k||` doesn't converge to zero.
+Then that basically says: I always want to use more of myself; the
+approximation sequence hasn't fully captured what I am about.
+
+Our space is not complete with respect to this basis. That is, there are
+Cauchy sequences that don't converge to any algebraically spanned
+function. I will later show that a sequence of sums converges to an
+indicator function of `(a, b)`.
+
+What is the completion of the space? It is all of the L2 integrable
+functions on the period `T`. This should be provable if I can show (1)
+the basis spans (topologically) any indicator `(a, b)`, and (2) any
+function topologically spanned is square integrable.
+
+So the completion is `L2(0, 1)`. By the time I'm done I should have
+shown that the sine waves are a topological basis for this space. There
+are other possible *algebraic* bases: ones which are linearly
+independent, and can exactly sum to any function in `L2`. The problem
+is: these would be uncountable in size, and thus useless, even if we
+knew how to project on them. An algebraic basis is called a *Hamel
+basis* whereas a topological basis is called a *Schauder basis*.
+
 ## TODO
 
-1. TODO: Consider infinite sums. What space is spanned on sinusoidal
-   space where periods divide T.
+1. **TODO**: Prove that `L2(0, 2pi)` is topologically spanned by
+   sinusoids with period dividing `2pi`.
 2. TODO: Extend to entire continuum.
 3. TODO: Consider the DFT.
     * Why can we only detect frequencies up to `num_samples * duration`?
