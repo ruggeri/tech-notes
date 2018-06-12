@@ -402,3 +402,9 @@ the integral quantity truly is.
 
 A. Complex version can handle just real valued version if you include
    counter rotation.
+
+## Resources
+
+This set of course notes is extremely useful. I copied it to my repo.
+
+https://ocw.mit.edu/courses/nuclear-engineering/22-02-introduction-to-applied-nuclear-physics-spring-2012/readings/MIT22_02S12_read_fourier.pdf
