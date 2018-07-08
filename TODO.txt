@@ -9,7 +9,7 @@
 
 **Distributed Systems**
 
-* I've mostly moved on, but I want to understand Spanner/F1.
+* Now that I've read Spanner/F1, I'm done for now.
 
 **Math**
 
