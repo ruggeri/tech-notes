@@ -355,7 +355,7 @@ after R1 ends (but before W2 finishes), we must also have R2 sees W2.
 Basically, it should be that every operation is as if it happened at a
 single moment in time during the transaction period.
 
-Linearizable and serialable mean different things:
+Linearizable and serializable mean different things:
 
 1. Linearizable is about one-record items (AKA registers). It says that
    each write must be as if it happened at one moment in time, and that
@@ -559,3 +559,6 @@ use primary replication.
 ## Part III
 
 **TODO**: Wrote up my notes up to part III.
+
+* Resource: https://jepsen.io/consistency
+    * Nice graph of different consistency models.
