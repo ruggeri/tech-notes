@@ -556,9 +556,29 @@ decision.
 It's more efficient to use consensus to do leader election, then just
 use primary replication.
 
-## Part III
+## Ch10: Batch Processing
 
-**TODO**: Wrote up my notes up to part III.
+Talks a lot about MapReduce. They talk a lot about all sorts of join
+tricks. I'm familiar with most of those.
 
-* Resource: https://jepsen.io/consistency
+They talk about how MapReduce can be a good choice for batch producing
+search indexes. And also fault tolerance properties of MapReduce
+framework.
+
+They discuss systems like Spark which offer optimization to the
+MapReduce model (primarily by not materializing intermediate state).
+
+They discuss Pregel briefly. Pregel is basically like the actor model,
+but consisting of phases.
+
+They mention that a more declarative style like in Spark allows for
+query optimization. Also, less code.
+
+## Ch11: Stream Processing
+
+**TODO**: I'm summarizing notes up to here!
+
+## Resources
+
+* https://jepsen.io/consistency
     * Nice graph of different consistency models.
