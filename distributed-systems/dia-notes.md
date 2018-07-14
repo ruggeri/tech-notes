@@ -576,7 +576,20 @@ query optimization. Also, less code.
 
 ## Ch11: Stream Processing
 
-**TODO**: I'm summarizing notes up to here!
+Message brokers can be helpful not just for background, but also when
+a resource is unavailable. The request can be processed later.
+
+Acknowledgments are used. Idempotency.
+
+They talk about message brokers that log series of messages
+permanently. This log can be partitioned. Allows replay. Kafka is the
+example.
+
+Clients can keep track of where in the log they have consumed up
+to. But you've got a potential problem where client crashes. When a a
+new machine takes over, will it know where the client had read up to?
+
+**TODO**: Up to DBs and Streams subchapter of ch11 p451.
 
 ## Resources
 
