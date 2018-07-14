@@ -1,4 +1,4 @@
-## Byzantine Generals
+## Byzantine Generals Setup
 
 Consider a set of loyal and traitor generals. The loyal generals need
 to agree on a plan: they must all execute the plan together to
@@ -6,49 +6,54 @@ succeed. Traitor generals pose as loyal generals, they will try to get
 the loyal generals to do different things. They could also try to get
 the generals to adopt a "bad plan."
 
-What is a bad plan? Well, let us say that all loyal generals, if given
-the true observations of the other loyal generals, will
-deterministically vote for a plan. This is the "good plan".
+In the algorithm, every general will submit a value. We require:
 
-For the generals to agree on the good plan, they must all get the same
-observations from the other generals. The traitors can defect from
-this, sending one message to some generals, and a conflicting message
-to other generals.
+1. If a loyal general `i` votes a value `v_i`, then every loyal
+   general must make their decision using `v_i`.
+2. For a nonloyal general, it doesn't matter what value the loyal
+   generals use to make their decision. However, *every general must
+   use the same value.*
 
-Since traitors can do this, we can't blindly trust a message from a
-general; we must use other information from other generals. But this
-opens up the possibility that we will disregard and reverse the
-message from a *loyal* general, based on other messages from
-traitors. And we know tht we must always get all the loyal generals to
-use the messages from loyal generals.
+We may now recast the problem: one "commanding general" tries to
+communicate their value to all the other generals (called
+lieutenants). All lieutenants must agree on the value, and if the
+commander is loyal, they must agree on the *right* value.
 
-Because all loyal generals must ultimately use the same value for
-every general (loyal or traitor), and use the *true* value for every
-loyal general, we can focus on how any single general could inform the
-others of his message. Here there is a concept of a "commanding
-general" and "lieutenant generals".
+If we can solve this problem, we can just iterate through each of the
+generals to get everyone to communicate their submitted value.
 
-Note that, in turn, each general will have a chance to be commanding
-general.
+Of course, the traitors can defect from the algorithm however they
+want.
 
-Consider with three generals. If the commanding general is a traitor
-and the other two are loyal, then the commander can send different
-messages to both lieutenants. One lieutenant could try to inform the
-other that the message of the message he received. This would allow
-one general to reverse his decision and reach consensus wiht the other
-loyal general.
+## Impossible To Solve With 3 Generals, 1 Traitor (without signatures)
 
-But that strategy would be ripe for abuse if the commanding general
-were loyal, but the lieutenant was a traitor. In that case, the
-lieutenant could convince the loyal lieutenant that the commander was
-a traitor. So we clearly cannot solve the problem with three generals,
-one of whom is a traitor.
+Consider a loyal lieutenant. They get a message `v1` from the
+commander, but a conflict message `v2` from their fellow lieutenant.
 
-The next step is to extend this: to show that we can never handle
-`>=1/3` traitors. Say that we can tolerate `m` traitors when there are
-`2m` honest generals. Then we could use that protcol to solve the 3
-general problem: have each general play the role of `m` generals in
-the proposed protocol.
+Which one is lying? If the commander is loyal, then they *must* vote
+`v1`. Otherwise, one of the loyal lieutenants must change their vote
+(to come into sync with each other). WLOG, let's say that lieutenant 1
+must change their vote to `v2`, iff the commander is a traitor.
+
+With just one round of communication, a loyal lieutenant cannot
+distinguish the two possibilities. But the problem is that future
+communication rounds can't help.
+
+## Cannot Solve With >=1/3 Traitors
+
+It's a proof by contradiction. Assume we could solve the problem with
+`3m` generals even when `m` of them were disloyal. We'll show how that
+would imply a solution to the three generals problem (which we see is
+unsolvable).
+
+If we can do it, have each general simulate `m` participants. The
+general simulates `m-1` lieutenants and a simulated general, too.
+
+We could then just run the algorithm. The loyal lieutenant would have
+all their simulated lieutenants arrive at the same value, which the
+loyal lieutenant knows is the correct value.
+
+## Approximate Solution Not Possible
 
 Note that it doesn't matter if you only want the generals to
 "approximately" agree: say the decision isn't attack/retreat, but to
@@ -59,67 +64,112 @@ to the exact version. I believe this, since at the end of the day I
 think the actual nature of the values being communicated is
 irrelevant.
 
-**Solution with >2/3rs Loyal**
+**TODO**: I kind of skipped over this in the paper.
+
+## Solution In Sync Model; 2/3+ Loyal
+
+First, Lamport is specific about the model:
+
+1. Every sent message is delivered correctly.
+    * Redundancy checks?
+2. Receiver knows who sent it.
+    * Cryptography?
+3. Absence of a message can be detected.
+    * This isn't true. Can have async model.
+    * In paper they assume that we can detect withheld messages, in
+      which case we know it's a traitor, and we substitute a default
+      value.
+
+Basically, this is the *synchronous model*.
 
 Lamport proposes an algorithm `OM(m)`. The base case is `OM(0)`: in
 that case, the lieutenants commit to the commander's order.
 
 For `OM(i)`, each lieutenant takes their instruction, and plays
-`OM(i-1)`, sending his value. At the end, each lieutenant takes the
+`OM(i-1)`, sending their value. At the end, each lieutenant takes the
 value they decided on from `OM(i-1)`, and takes the majority value of
 these `n-2` rounds in which they received orders.
 
-**Lemma**
+Lamport claims `OM(m)` works if there are `m` traitors and `3m+1`
+participants.
 
-We need to show this will work. Consider if there are more than `2k+m`
-generals overall, and `k` traitors. I claim that `OM(m)` will work
-*when the commander is loyal*.
+## Proof Works For m=0, n>=1
 
-This is clearly true for `m=0`; everyone blindly follows a loyal
-commander. Let us prove for all `m` by induction. Consider a loyal
-lieutenant. They will play `OM(m-1)`. When this happens, there will be
-`2k+(m-1)` generals overall, and `k` traitors still. Then by
-induction, the loyalists will all correctly receive the lieutenant's
-value.
+Clearly works, as there are no traitors. Everyone can be trusted.
 
-When all is said and done, the loyalist receives `>k+(m-1)` true votes
-(from the loyalists). This itself constitutes a majority, so no matter
-what the traitor lieutenants send, they cannot confuse the loyalists.
+## Proof For m=1, n>=4
 
-What is this lemma saying? This is recognizing that each round played
-with a loyalist as comander reduces the number of loyalists in the
-next round by one. That's why, if we want to run `m` rounds, we make
-sure to give ourselves an extra `m` loyalists over 2/3s.
+If the commander is the liar, everyone else is honest. They all see
+the commander's messages truly, and act in concert.
 
-**Theorem**
+More dangerous is if the commander is *not* the liar. Then here each
+honest lieutenant has the `v` value they were sent by the commander, a
+`v` vote from the other honest partner, and an `x` vote from the
+liar. But the liar is in minority, and so loses.
 
-Now consider if there are `>3m` generals, of which `m` are
-traitors. By induction, if `m=0`, then it is clear that all loyal
-generals reach consensus.
+## Proof for m=2, n>=7
 
-So let's proceed inductively. If the commander is loyal, then we can
-use our previous lemma by setting `k=m`. We actually don't need the
-induction in that case.
+**Commander is liar**
 
-But what if the commander is *not* loyal? We can't use the lemma
-directly, then. But consider what the lieutenants do. Any loyal
-lieutenant will now lead a group of `>3m-1` generals, of which `m-1`
-are traitors. This satisfies the inductive hypothesis, so we know that
-the general correctly communicates his value to the other lieutenants.
+If the commander is the liar, then the subalgorithm works for `m=1`,
+`n=6`. The lying commander may send different msgs to the honest
+lieutenants, but the subalgorithm works properly.
 
-QED!
+Likewise, the lying lieutenant, when they play as commander, cannot
+fool anyone. Thus all honest players see the same set of messages.
 
-**Note on Refusal To Participate**
+Note: the possibility of this lying lieutenant is the reason we must
+play a nested version of the algorithm. In fact, you must always play
+a subround if (1) the commander is a liar and (2) a lieutenant is a
+liar. Because the commander can make it almost a totally split vote,
+and the lieutenant then pushes things over the edge.
 
-We assume that messages cannot be lost, or forged. We are only
-expecting traitors to confuse us by telling one person something and
-another something else.
+Also note: to catch the lying lieutenant, we only need 3 others to
+catch them in the subalgorithm. So if we know the commander is the
+liar, we really only need five participants.
 
-The traitors could also *withhold* messages. In that case, we can
-replace their value with a default value. This works only because we
-assume that if we don't hear from a general, they *must* be a traitor.
+**Commander tells truth**
 
-That's not an entirely realistic model...
+More dangerous: the commander is a truth teller. That leaves two liars
+acting as lieutenants.
+
+Each lieutenant plays the subalgorithm, as we've already seen is
+required in case the commander is the liar. In this scenario where the
+commander is honest, it would have been preferrable *not* to play the
+subalgorithm, because it offers a chance for the liars to subvert the
+honest lieutenants' attempts to forward the message they received.
+
+So let's consider each honest lieutenant playing the
+subalgorithm. Everyone will accept the majority vote of what people
+say about this lieutenant. Which means: we need at least *3* votes to
+counter the two liars. That's what brings us to needing a total of
+seven participants:
+
+* The commander,
+* The lieutenant, acting as subcommander,
+* Three honest lieutenants,
+* Two liars.
+
+As noted previously, the traitor lieutenants *will* be able to fool
+the others about the message they received from the commander. But it
+won't matter, because they are in the minority. They can only succeed
+by confusing people about the honest lieutents' messages.
+
+## Induction
+
+If you must tolerate `m` failures, that means:
+
+* You must keep playing subrounds until there is only one liar
+  left. You can never trust the base-case algorithm if both the
+  commander and a lieutenant could both be traitors.
+* If, at any of the rounds before the basecase round you have a
+  traitor commander, everything will be fine. The subalgorithm will
+  work, because the number of traitors has dropped by one.
+* Most troublesome case is if we recurse `m` rounds with all honest
+  participants. Then, to work, we must have `m+1` honest lieutenants
+  left, in addition to the `m` dishonest ones.
+
+And thus we need `3m+1`!
 
 ## With Signed Messages
 
@@ -134,6 +184,10 @@ to everyone else.
 Any traitor who lies in the first stage will be caught out. A traitor
 can't lie in the second stage, because that would require forging
 signatures to other letters.
+
+Therefore, to tolerate `m` failures, you need the minimum `m+2`
+participants. The problem is vacuous (lol, their word) with just one
+honest participant (`m+1`).
 
 ## Missing Communication Paths
 
@@ -155,6 +209,9 @@ That turns out to be a *very* high degree of connectivity. E.g., in a
 graph with `3m+1` nodes, `3m`-regular implies a complete graph (no
 missing paths).
 
+**Note**: I didn't review this part because it wasn't important to
+me...
+
 ## Summary
 
 Note that communication line failures look like processors lying
@@ -174,4 +231,5 @@ in a future paper...
 ## References
 
 * The Byzantine generals problem
+    * https://www.microsoft.com/en-us/research/uploads/prod/2016/12/The-Byzantine-Generals-Problem.pdf
 * Reaching agreement in the presence of faults
