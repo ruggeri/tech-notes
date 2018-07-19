@@ -589,7 +589,28 @@ Clients can keep track of where in the log they have consumed up
 to. But you've got a potential problem where client crashes. When a a
 new machine takes over, will it know where the client had read up to?
 
-**TODO**: Up to DBs and Streams subchapter of ch11 p451.
+**DBs and Streams**
+
+They look at DB operations as just a stream of operations transforming
+a distributed replicated state machine.
+
+One problem: synchronizing changes to parallel systems. Let's say you
+have two updates (update1 and update2) that need to update BOTH your
+DB and also a search index. There's the possibility that the updates
+get performed in opposite order at each site.
+
+Problem is that you have a multi-leader system. Could we make just one
+leader? They recommend the DB and *change data capture*.
+
+They talk about *event sourcing*. CDC means you publish a log of
+mutations to the datastore. Event sourcing is that you record a log of
+application interactions, and that the state is built from this. There
+isn't really any mutation; there are just immutable events. I really
+like this idea. Feels like it gives a really good audit history,
+debugging, confidence that you can rebuild, et cetera. It also feels
+like you get more information; which can be useful for analytics.
+
+**Up to: Deriving several view from the same event log p461**
 
 ## Resources
 
