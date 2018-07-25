@@ -90,7 +90,7 @@ history. Also, to prevent them from modifying past history, each block
 includes the cryptographic hash of the previous block. If an attacker
 tries to modify a prior block, he will change this hash; future blocks
 which contain that hash will not be valid successors of the attacker's
-changed block. He will have a short chain.
+changed block. They will have a short chain.
 
 What stops an attacker from computing and storing a bunch of hash
 pre-images, then dropping a bunch of blocks to rewrite history? This
@@ -248,31 +248,18 @@ information to the network about what addresses you migth control.
 
 ## Replace-by-fee
 
-Replace-by-fee lets the sender opt into allowing a future overwrite of
-the transaction if they up the fee. Under current rules, the 2nd
-transaction would be ignored since it looks like a double spend.
+When a transaction is in the "mempool" of a node, you are allowed to
+send a replacement transaction. Why would you want to do this?
 
-Bitcoin makes no guarantees about what transactions are included in
-the blocks. Miners could always drop the 1st transaction and take the
-2nd.
+The idea is that, if you have not offered a high enough fee, your
+transaction will sit unprocessed for a long time. But it *can* be
+eventually processed, since it is valid.
 
-*However*, the default has been to drop the 2nd, which means
-transactions like this aren't *relayed* through the swarm, which means
-that effectively no one does RBF.
+You can replace a transaction, increasing the fee amount offered.
 
-This proposed change would cause these to be relayed by default.
-
-The downside is that people would have difficulty relying on 0-confirm
-transactions, because they could always be replaced. You can't
-guarantee a 0-confirm won't be replaced currently, but it is expected
-not to be replaced. This makes it harder for you to quickly accept
-small amounts.
-
-RBF is opt-in, but people might forget to set it, thus frustrating
-users who make a mistake. The justification is for there to be a
-fee-market for payment processing. Others suggest not allowing to
-change the payee ("first-seen-safe"). Not sure what the downside would
-be to that...
+Downside: makes zero-conf verification (verification with no blocks
+seen) impossible. There are some strategies like "first-seen-safe";
+that lets you change the fee but not the addresses you send to.
 
 ## Blocksize
 
