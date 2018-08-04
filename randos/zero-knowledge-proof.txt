@@ -1,0 +1,25 @@
+Classic example. Prove you have a 3-coloring of a map. This is an NP
+complete problem.
+
+You color the map. You hash each color (with a nonce). This hides the
+values. You send the hashed map to the validator.
+
+You let the validator ask to reveal two adjacent vertices. You
+give the hash pre-image, and they can verify this.
+
+You can repeat as many times as you want; but you need to permute the
+colors used each time. This gives no info about the coloring.
+
+## Zero Knowledge Password Proof
+
+I can upload a public key to a server, and then I can use a private
+key to sign nonces, proving myself to the server.
+
+This leaks some knowledge about my private key. The private key can be
+brute-forced. They can keep looking until they find the key that
+signs. Of course, this is silly.
+
+The idea is this, though. This is a *password* proof. The idea is that
+the password should be short. It could be dictionary attackable.
+
+https://www.cs.columbia.edu/~smb/papers/neke.pdf
