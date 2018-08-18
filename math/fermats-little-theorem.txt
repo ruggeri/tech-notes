@@ -75,3 +75,28 @@ By the preceding argument, we said this cannot happen unless one of
 `x` and `y-1` are zero mod `p`. We already said that `b != 0 (mod
 p)`. Which means `y-1 = 0 (mod p)`, i.e. `y = 1 (mod p)`. And that is
 what I wanted to show.
+
+## Ned Proof Continued
+
+I have showed that repeated multiplication does eventually bring you
+back to `a (mod p)`. But what if the length of that loop is *not* `p`?
+Of course it must be at *most* `p`, but could it be less?
+
+**TODO**
+
+## Euler's Totient Theorem
+
+* a^{phi(n)} = 1 (mod n)
+* Where `phi(n)` is the number of coprime numbers `<=n`.
+  * Note the `<=n`.
+* Note that `phi(p) = p-1` for any prime `p`.
+  * Note that `p - phi(p)` is the number of not-coprime numbers `<=n`.
+* If `n=pq`, where both prime, then totient is equal to
+  `(p-1)*(q-1)`. Why?
+  * Consider the number of not-coprimes.
+  * This is `p, 2p, ..., (q-1)p`.
+  * And also `q, 2q, ..., (p-1)q`.
+  * And finally: `pq`.
+  * Alternatively, `q + p - 1` (because overcounting).
+* But note that this is exactly `pq - (p-1)(q-1)`. Expand the terms.
+  * This shows that `phi(pq) = (p-1)(q-1)`.
