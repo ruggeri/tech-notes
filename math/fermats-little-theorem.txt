@@ -1,0 +1,77 @@
+## Statement
+
+Fermat's little theorem says:
+
+    a^p = a (mod p)
+
+Alternatively,
+
+    a^{p-1} = 1 (mod p)
+
+## Binomial Theorem Proof
+
+I read this on Wolfram. It is inductive. Note the statement is true
+for `a = 1` of course.
+
+Use the Binomial Theorem:
+
+    (a + 1)^p = (p choose p) a^p + (p choose p-1) a^{p-1} + ...
+                (p choose 1) a + (p choose 0) 1
+
+Note all the coefficients have the form:
+
+     p! / (k! (p-k)!)
+
+For any `k` not equal to zero or `p`, then necessarily this is
+divisible by `p`.
+
+So we can say:
+
+   (a + 1)^p = a^p + 1 (mod p)
+
+But here we use the inductive hypothesis, that `a^p = 1 (mod p)`.
+
+So we have
+
+   (a + 1)^p = a + 1 (mod p)
+
+Done!
+
+## Ned Proof
+
+By pigeon hole, we know that the series `a^k (mod p)` eventually must
+enter a cycle. The question is whether `a` is part of the cycle.
+
+One way to enter a "cycle" is if `a^k = 0 (mod p)`. But that would
+mean `xy = 0 (mod p)` for `x = a^{k - 1}` and `y=a`. In fact, for any
+`x, y` this cannot be true unless `x = 0 (mod p)` or `y = 0 (mod
+p)`. For consider that `x` and `y` can both be written with prime
+factorization, and since both are `<p`, that prime is not featured. So
+it's not featured in their product. So their product cannot be zero
+mod `p`.
+
+Great. But what if the series is like: `a, a^2, a^3, ..., b, ...,
+b`? That is, it's like a linear progression, and then it hits `b`,
+which is part of a loop. I want to show that can't happen.
+
+This can only occur if `b a^k = b (mod p)` for some `k>0`. How could
+this happen?
+
+Note: we can assume:
+
+* `b != 0 (mod p)`, for reason given above,
+* `b != 1 (mod p)`, because that's what we're trying to prove.
+* `a^k != 1 (mod p)` because that's what we're trying to prove.
+
+So the last case is like so:
+
+   xy = x (mod p)
+
+for some `x != 0 (mod p)`, `y != 1 (mod p)`. But then note:
+
+    x(y - 1) = 0 (mod p)
+
+By the preceding argument, we said this cannot happen unless one of
+`x` and `y-1` are zero mod `p`. We already said that `b != 0 (mod
+p)`. Which means `y-1 = 0 (mod p)`, i.e. `y = 1 (mod p)`. And that is
+what I wanted to show.
