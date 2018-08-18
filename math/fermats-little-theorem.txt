@@ -4,7 +4,7 @@ Fermat's little theorem says:
 
     a^p = a (mod p)
 
-Alternatively,
+Equivalently,
 
     a^{p-1} = 1 (mod p)
 
@@ -22,8 +22,7 @@ Note all the coefficients have the form:
 
      p! / (k! (p-k)!)
 
-For any `k` not equal to zero or `p`, then necessarily this is
-divisible by `p`.
+For any `k` st `0<k<p`, then necessarily this is divisible by `p`.
 
 So we can say:
 
@@ -37,50 +36,68 @@ So we have
 
 Done!
 
-## Ned Proof
+## Cancelation Law, sequence of products is a permutation of elements
 
-By pigeon hole, we know that the series `a^k (mod p)` eventually must
-enter a cycle. The question is whether `a` is part of the cycle.
+Consider repeated addition of `a`. That is, consider:
 
-One way to enter a "cycle" is if `a^k = 0 (mod p)`. But that would
-mean `xy = 0 (mod p)` for `x = a^{k - 1}` and `y=a`. In fact, for any
-`x, y` this cannot be true unless `x = 0 (mod p)` or `y = 0 (mod
-p)`. For consider that `x` and `y` can both be written with prime
-factorization, and since both are `<p`, that prime is not featured. So
-it's not featured in their product. So their product cannot be zero
-mod `p`.
+    a, 2a, 3a, 4a, ..., (p-1)a
 
-Great. But what if the series is like: `a, a^2, a^3, ..., b, ...,
-b`? That is, it's like a linear progression, and then it hits `b`,
-which is part of a loop. I want to show that can't happen.
+We certainly know that `pa = 0 (mod p)`. We also know that no `ka != 0
+(mod p)` for any `k` such that `0<k<p`. This is because the
+factorizations of `k` and `a` neither have `p` in them. So the
+factorization of their product cannot have `p` in it. Thus `ka != 0
+(mod p)`.
 
-This can only occur if `b a^k = b (mod p)` for some `k>0`. How could
-this happen?
+Since it is never true that `ka != 0`, then it is never true that
+`(k+1)a = a`. Thus, the cycle never loops back to `a` until
+`k=p`. Every element of the cycle must be unique (no "wheels within
+wheels"), and since `ka` is of length `p`, it must hit all `p`
+elements.
 
-Note: we can assume:
+This thus implies cancelation. That is, for any `a != 0 (mod p)`:
 
-* `b != 0 (mod p)`, for reason given above,
-* `b != 1 (mod p)`, because that's what we're trying to prove.
-* `a^k != 1 (mod p)` because that's what we're trying to prove.
+    xa = ya (mod p)
 
-So the last case is like so:
+implies that `x = y (mod p)`.
 
-   xy = x (mod p)
+## Ned's Approach to Fermat's Little Theorem
 
-for some `x != 0 (mod p)`, `y != 1 (mod p)`. But then note:
+Consider the sequence `a^i`. This necessarily must enter a cycle. By
+our cancelation discussion, we know that `a^i` will never be
+zero. Thus we must eventually enter a cycle where repeated
+multiplication brings us back to where we started.
 
-    x(y - 1) = 0 (mod p)
+Now, does the cycle contain `a`? Of course. For consider if it did
+not. Let us assume that we enter the cycle at `b=a^j` (I don't care
+about `j`). Then:
 
-By the preceding argument, we said this cannot happen unless one of
-`x` and `y-1` are zero mod `p`. We already said that `b != 0 (mod
-p)`. Which means `y-1 = 0 (mod p)`, i.e. `y = 1 (mod p)`. And that is
-what I wanted to show.
+    b a^k = b (mod p)
+
+for some `k`, since this is what it means to be a cycle. But then we
+know that
+
+    a^k = 1 (mod p)
+
+by our above cancelation argument. In that case we know that `a^{k +
+1}` must be `a`, just as we hoped to fined.
 
 ## Ned Proof Continued
 
 I have showed that repeated multiplication does eventually bring you
 back to `a (mod p)`. But what if the length of that loop is *not* `p`?
 Of course it must be at *most* `p`, but could it be less?
+
+In fact, the cycle length need not be exactly `p`. Consider:
+
+    2^i (mod 7) => 2, 4, 1, 2, 4, 1, 2
+    3^i (mod 7) => 3, 2, 6, 4, 5, 1, 3
+
+What do we see here? We se that `a^{p - 1}` is equal to 1 each
+time. But we can see that for some `k` which divides `p-1`, we can
+have `a^k=1`. This then implies that `a^p = 1`.
+
+So here is what I want to show: the smallest `k` such that `a^k = 1`
+must divide `p-1`.
 
 **TODO**
 
