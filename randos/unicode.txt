@@ -1,0 +1,108 @@
+In the beginning there was ASCII.
+
+Then they wanted to add more Latin characters. This is "Latin-1" AKA
+ISO 8859-1.
+
+There is a Windows superset of Latin-1 called "Windows-1252" (also
+called CP-1252). This includes some new printable
+characters. Historically it has been common for websites to claim a
+content type of Latin-1, but include the Windows-1252 characters that
+aren't true Latin-1 characters. For this reason, HTML5 standard says
+that if a website says that something is in Latin-1, browsers should
+treat it as Windows-1252.
+
+Unicode then came around. Every "grapheme" gets a "code point." A code
+point is a number. A series of numbers thus describes a
+string. Graphemes are not necessarily characters: they can be
+ligatures. Thus, the notion of a "character" can consist of multiple
+code points in succession. This is called a "grapheme cluster." So
+even given a sequence of code points, it's a parsing problem to get
+individual "characters."
+
+For backward compatibility, the ASCII characters get the same Unicode
+code points. That is, characters in the range 0-127 are the same
+whether ASCII or Unicode.
+
+For now, the highest Unicode codepoints reserved are 21 bits long.
+
+The next question is how to encode the code points to bytes. The
+simplest format is probably UTF-32. It is fixed width, and each code
+point is encoded as a 32-bit number. (UTF-32 assumes that max code
+point is 21 bit long).
+
+The most common format is UTF-8. Here, each code point is encoded with
+1, 2, 3 or 4 bytes. This is biased toward Latin characters: ASCII
+characters have codepoints in the range 0-127, so they are always
+1-byte encoded, and UTF-8 is the same as ASCII if only encoding ASCII
+text.
+
+At present, worst-case, UTF-8 is equally space-inefficient to
+UTF-32. This is because UTF-8 encodes 21-bit quantities with at most
+32-bits. That is: UTF-32 has built-in inefficiency. But if we added
+enough Unicode characters, then sometimes UTF-8 would need 5 bytes, in
+which case UTF-32 could in theory be more space efficient.
+
+UTF-16 is like UTF-8, but uses one or two 16bit quantities. It
+*cannot* be treated like ASCII. It can be more efficient if there were
+a lot of 3 byte UTF-8 codes that can now be represented with 2 bytes
+(less overhead). I think that is the case for CJK text.
+
+I think UTF-16 came from an earlier time of UCS-2. UCS-2 was a
+fixed-width 2byte format when we thought we only needed 2**16
+codepoints. People invested in UCS-2, but then got angry later about
+the idea of UTF-32. I guess UTF-16 is equal to UCS-2 if you only use
+characters from the "Basic Multilingual Plane" (which consists of
+codepoints up to 2**16).
+
+UTF-7 is an interesting case: it is a *7 bit* encoding for
+Unicode. The idea is to map every character to a valid ASCII
+character. This means that UTF-7 is safe for use with software that
+may not be "8-bit clean." There may be software that thinks it can use
+the top bit of an ASCII character however it likes. This would garble
+a text sent in a format that needed all 8 bits.
+
+Another example could be Base64 encoding. This encodes everything to a
+*printing* ASCII character. It works in 6bit chunks: it maps every
+6bits to a 7bit ASCII character. And each ASCII character is stored
+using 8 bits. That means 4:3 increase in size.
+
+Base64 could be used to encode UTF-8, -16, or -32 to be 8-bit
+clean. But it can also be used of course for binary files. It is the
+common format used to convert binary files to text, for upload in an
+HTTP post request.
+
+Base64 uses some ASCII characters like "+", "=", "/" that aren't safe
+for use in URLs. Imagine if you want to use a 128-bit id in a
+URL. Then you need to Base64 encode, but you additionally have a
+problem that this uses characters not arbitrarily allowed in URLs. So
+it is typical to further replace "+", "=", "/" with *percent encoded*
+values like %2B, %2F, et cetera.
+
+Alternatively there is the base64url format, which avoids the problem
+by replacing using "-" instead of "+" and "_" instead of "/". There is
+still the problem with "="...
+
+# Python
+
+Python2 has two string types: `str` and `unicode`. Methods like `len`
+aren't going to work if you put some UTF-8 character codes in a
+string. For instance, "Ô" needs two bytes in UTF-8, and you'll get len
+2 of this as an `str`, vs len 1 as a `unicode`. You get that by
+prefixing `u"Ô"` vs just `"Ô"`.
+
+On the other hand, Python default expects files to be in UTF-8
+format. This is fine even if the file is in ASCII. But if the file is
+in either Latin-1 or Windows-1252, this is not compatible with UTF-8
+and will cause a parsing error.
+
+A few ways you can handle this:
+
+    open("file.txt", "r", encoding="latin-1")
+
+Or you can open as binary:
+
+   bs = open("file.txt", "rb").read()
+
+Then you read, you'll get a `bytes` object. You can then say
+`bs.decode("latin-1")`. That transcodes from Latin-1 to a unicode
+object.
