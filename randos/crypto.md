@@ -55,6 +55,12 @@ in the future. To acheive this, you want to use something like DH to
 establish session keys that will later be discarded. I believe this is
 what SSH does.
 
+Note: you can also generate ephemeral RSA keys. But DH I believe is
+preferred for this because performance.
+
+But most of all: I think it's about standardization of crypto
+protocols.
+
 ## Password Storage
 
 Typically you want to store a hash of a password, so that the password
