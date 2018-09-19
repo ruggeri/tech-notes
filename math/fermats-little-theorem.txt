@@ -36,29 +36,32 @@ So we have
 
 Done!
 
-## Cancelation Law, sequence of products is a permutation of elements
+## Permutations proof
 
-Consider repeated addition of `a`. That is, consider:
+We know that 1a, 2a, 3a, ..., is just a permutation of 1, 2, 3,
+... Therefore we know that:
 
-    a, 2a, 3a, 4a, ..., (p-1)a
+    (p-1)! = 1a * 2a * 3a ... * (p-1)a
 
-We certainly know that `pa = 0 (mod p)`. We also know that no `ka != 0
-(mod p)` for any `k` such that `0<k<p`. This is because the
-factorizations of `k` and `a` neither have `p` in them. So the
-factorization of their product cannot have `p` in it. Thus `ka != 0
-(mod p)`.
+Where the right side is permuted somehow. But this is:
 
-Since it is never true that `ka != 0`, then it is never true that
-`(k+1)a = a`. Thus, the cycle never loops back to `a` until
-`k=p`. Every element of the cycle must be unique (no "wheels within
-wheels"), and since `ka` is of length `p`, it must hit all `p`
-elements.
+    (p-1)! = (p-1)! a**(p-1)
 
-This thus implies cancelation. That is, for any `a != 0 (mod p)`:
+Cancelation says:
 
-    xa = ya (mod p)
+    a**(p-1) = 1.
 
-implies that `x = y (mod p)`.
+Donezo.
+
+## Combinatorics
+
+Consider necklaces of length p, where there are `a` choices of beads
+at each spot. There are a**p necklaces. Of these, a of them are
+constant color. Every other necklace of has p equivalent permutations.
+
+That means that (a**p - a) is divisible by p. That means:
+
+    a**p = a.
 
 ## Ned's Approach to Fermat's Little Theorem
 
