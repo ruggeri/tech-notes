@@ -63,46 +63,32 @@ That means that (a**p - a) is divisible by p. That means:
 
     a**p = a.
 
-## Ned's Approach to Fermat's Little Theorem
+## Size of subgroup divides size of group
 
-Consider the sequence `a^i`. This necessarily must enter a cycle. By
-our cancelation discussion, we know that `a^i` will never be
-zero. Thus we must eventually enter a cycle where repeated
-multiplication brings us back to where we started.
+Consider a subgroup `A` consisting of elements `a_i`. You can also
+consider the cosets of the subgroup `bA`. Clearly if `b` is already in
+`A`, then `bA = A`.
 
-Now, does the cycle contain `a`? Of course. For consider if it did
-not. Let us assume that we enter the cycle at `b=a^j` (I don't care
-about `j`). Then:
+A coset has the same size as the original subgroup. This is because
+`b**-1 bA` gives back `A`. This is only possible if there is a
+one-to-one correspondence.
 
-    b a^k = b (mod p)
+Last, no two cosets partially overlap. Consider if: b_0A intersects
+b_1A. Then there is are two elements a_0 and a_1 such that:
 
-for some `k`, since this is what it means to be a cycle. But then we
-know that
+    a_0 b_0 = a_1 b_1
+    b_0 = (a_0 ** -1) a_1 b_1
 
-    a^k = 1 (mod p)
+So take any `b_0 a`. Then we have that
 
-by our above cancelation argument. In that case we know that `a^{k +
-1}` must be `a`, just as we hoped to fined.
+   b_0 a = b_1 a (a_0 ** -1) a_1
 
-## Ned Proof Continued
+This is an element of `b_1 A`, showing that `b_0 A` is a subset of
+`b_1 A`. And of course you can go the other direction.
 
-I have showed that repeated multiplication does eventually bring you
-back to `a (mod p)`. But what if the length of that loop is *not* `p`?
-Of course it must be at *most* `p`, but could it be less?
-
-In fact, the cycle length need not be exactly `p`. Consider:
-
-    2^i (mod 7) => 2, 4, 1, 2, 4, 1, 2
-    3^i (mod 7) => 3, 2, 6, 4, 5, 1, 3
-
-What do we see here? We se that `a^{p - 1}` is equal to 1 each
-time. But we can see that for some `k` which divides `p-1`, we can
-have `a^k=1`. This then implies that `a^p = 1`.
-
-So here is what I want to show: the smallest `k` such that `a^k = 1`
-must divide `p-1`.
-
-**TODO**
+This shows that cosets partition the group into non-overlapping sets
+`bA` all of equal size. This shows that the size of `1A` must divide
+the size of the group.
 
 ## Euler's Totient Theorem
 
