@@ -134,14 +134,20 @@ So far, so good. The CockroachDB people explain that the scheme
 described offers serializability. But it doesn't offer linearizability.
 That's because I can:
 
-1. Start a transaction to create a user account at a fast node ts 100ms.
-   Wait.
-2. Next, start a transaction to create a document for that user. This
-   hits a slow node with a clock of 50ms.
+1. Modify a record at partion 123 with a leader with a fast clock at
+   100ms. Wait for this to commit.
+2. Next, start a transaction to create a record at partion 456 with a
+   slow clock of 50ms.
 
 Now, if I historically look at things, it looks like the document was
 created before the user. I've violated linearizability (serializability
 is okay!).
+
+How can this be problematic? Say I want to do a *read* across
+partition 456 and 123. If I start the read at the machine with slow
+clock and choose a timestamp of 75ms, I'll read the second record but
+not the first. This is a failure of linearizability. Note this can
+only happen if there is skew.
 
 I can fix this if I use a "causality token:" which is just the timestamp
 that tx1 commited at. This is fine if I pass it around. But what about
