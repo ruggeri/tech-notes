@@ -65,9 +65,10 @@ That means that (a**p - a) is divisible by p. That means:
 
 ## From primitive root theorem
 
-See my z-mod-p document. We know any cyclic subgroup of a cyclic parent
-group must have order dividing the order of the parent group. And I show
-in the z-mod-p document that Z mod p is always cylic of order p-1.
+See my z-mod-p document. We know any cyclic subgroup of a cyclic
+parent group must have order dividing the order of the parent
+group. And I show in the z-mod-p document that Z mod p is always cylic
+of order p-1.
 
 ## Euler's Totient Theorem
 

@@ -214,38 +214,40 @@ number of roots of unity is at least as many as the number of roots of
 We showed that every element of a finite group is in a cyclic group.
 
 We know that we can "factor" any cyclic subgroup further into cyclic
-subgroups with order `p**k` for some prime `p`. We know that the product
-of these cyclic subgroups is the original group.
+subgroups with order `p**k` for some prime `p`. We know that the
+product of these cyclic subgroups is the original group.
 
-So consider all subgroups with order `p**k`. Let us ignore subgroups of
-order `p**j` if they are contained in a subgroup of order `p**k`. Every
-element is in the product of all these subgroups.
+So consider all subgroups with order `p**k`. Let us ignore subgroups
+of order `p**j` if they are contained in a subgroup of order
+`p**k`. Every element is in the product of all these subgroups.
 
-Let us assume, momentarily, that there is at most one subgroup of order
-`p**k` (for any `k`, not necessarily maximal).
+Let us assume, momentarily, that there is at most one subgroup of
+order `p**k` (for any `k`, not necessarily maximal).
 
-First, note that this means that if there exists a subgroup `p**k`, then
-any subgroup of order `p**(k-i)` must be contained by it. Else, we could
-have two distinct subgroups of order `p**(k-i)`.
+First, note that this means that if there exists a subgroup `p**k`,
+then any subgroup of order `p**(k-i)` must be contained by it. Else,
+we could have two distinct subgroups of order `p**(k-i)`.
 
-So that means we have a bunch of subgroups of order `p_i**k`. All these
-subgroups have distinct `p_i`. So they are all coprime. So their product
-has a `\prod p_i**k` elements. This is the entire multiplicative group.
-Which shows the entire multiplicative group is cyclic (since product of
-cyclic groups of coprime order is also cyclic).
+So that means we have a bunch of subgroups of order `p_i**k`. All
+these subgroups have distinct `p_i`. So they are all coprime. So their
+product has a `\prod p_i**k` elements. This is the entire
+multiplicative group.  Which shows the entire multiplicative group is
+cyclic (since product of cyclic groups of coprime order is also
+cyclic).
 
-It then immediately follows that order of every subgroup divides `p-1`.
+It then immediately follows that order of every subgroup divides
+`p-1`.
 
 ## Lagrange's Theorem
 
-In *any* group (not just Z mod p), we have that the order of a subgroup
-divides the order of the group. For consider the subgroup `A`. Then
-consider every *coset*
+In *any* group (not just Z mod p), we have that the order of a
+subgroup divides the order of the group. For consider the subgroup
+`A`. Then consider every *coset*
 
     bA
 
-The size of `bA` is equal to `A`, since we can always invert with `b**-1
-bA`.
+The size of `bA` is equal to `A`, since we can always invert with
+`b**-1 bA`.
 
 The `bA` do not partially overlap. Otherwise:
 
