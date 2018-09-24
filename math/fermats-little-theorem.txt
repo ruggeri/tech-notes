@@ -63,17 +63,34 @@ That means that (a**p - a) is divisible by p. That means:
 
     a**p = a.
 
+
+## Lagrange's Theorem
+
+In *any* group (not just Z mod p), we have that the order of a
+subgroup divides the order of the group. For consider the subgroup
+`A`. Then consider every *coset*
+
+    bA
+
+The size of `bA` is equal to `A`, since we can always invert with
+`b**-1 bA`.
+
+The `bA` do not partially overlap. Otherwise:
+
+    b_0 a_0 = b_1 a_1
+
+But this means that `b_1 = b_0 a_0 a_1**-1`. But that means that `b_1`
+was in the coset `b_0 A` from before. Indeed any `b_1 a` can be
+rewritten in terms of `b_0 a`.
+
+This shows that the cosets partition `G` and thus the order of the
+subgroup `A` divides the order of the group `G`.
+
+I don't need primitive root theorem for this. It's true in any group.
+
 ## From primitive root theorem
 
 See my z-mod-p document. We know any cyclic subgroup of a cyclic
 parent group must have order dividing the order of the parent
 group. And I show in the z-mod-p document that Z mod p is always cylic
 of order p-1.
-
-## Euler's Totient Theorem
-
-* a^{phi(n)} = 1 (mod n)
-* Where `phi(n)` is the number of coprime numbers `<=n`.
-  * Note the `<=n`.
-* Note that `phi(p) = p-1` for any prime `p`.
-  * Note that `p - phi(p)` is the number of not-coprime numbers `<=n`.

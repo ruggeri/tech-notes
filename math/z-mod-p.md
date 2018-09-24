@@ -123,13 +123,15 @@ Then additionally, we must have `b**m != 1`, as `(a**m) * 1 != 1`.
 So our question is: can it ever be that `a**m` is the inverse of
 `b**m`?
 
-The answer is no. Note firs that because they are inverses, we must have
-that `a**m` has the same order as `b**m`. But we know that `a**m` must
-have order dividing `k`, while `b**m` must have order dividing `j`.
+The answer is no. Note firs that because they are inverses, we must
+have that `a**m` has the same order as `b**m`. But we know that `a**m`
+must have order dividing `k`, while `b**m` must have order dividing
+`j`.
 
 But since `k, j` is coprime, no number divides both `k` and `j` except
-`1`. So `a**m` and `b**m` only have the same order if both are of order
-`1`, which means `a**m = 1 == b**m` which only happens when `m = kj`.
+`1`. So `a**m` and `b**m` only have the same order if both are of
+order `1`, which means `a**m = 1 == b**m` which only happens when `m =
+kj`.
 
 Another way to put it:
 
@@ -237,30 +239,6 @@ cyclic).
 
 It then immediately follows that order of every subgroup divides
 `p-1`.
-
-## Lagrange's Theorem
-
-In *any* group (not just Z mod p), we have that the order of a
-subgroup divides the order of the group. For consider the subgroup
-`A`. Then consider every *coset*
-
-    bA
-
-The size of `bA` is equal to `A`, since we can always invert with
-`b**-1 bA`.
-
-The `bA` do not partially overlap. Otherwise:
-
-    b_0 a_0 = b_1 a_1
-
-But this means that `b_1 = b_0 a_0 a_1**-1`. But that means that `b_1`
-was in the coset `b_0 A` from before. Indeed any `b_1 a` can be
-rewritten in terms of `b_0 a`.
-
-This shows that the cosets partition `G` and thus the order of the
-subgroup `A` divides the order of the group `G`.
-
-I don't need primitive root theorem for this. It's true in any group.
 
 ## A `k`th degree polynomial has at most `k` roots
 
