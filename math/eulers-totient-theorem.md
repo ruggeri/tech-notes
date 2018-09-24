@@ -31,7 +31,7 @@ Note that no element `x` not coprime with `n` is invertable. Since the
 Let's just consider the coprime numbers. They form a subgroup within
 `Z mod n`. There are `phi(n)` of these elements.
 
-We may now consider cyclic subgroups of this multiplicative group. 
+We may now consider cyclic subgroups of this multiplicative group.
 
 We can prove Euler's totient theorem just like we proved Fermat's
 little theorem with Lagrange. We know by Lagrange that the size of any
@@ -40,45 +40,27 @@ Euler's theorem right away as a corrolary.
 
 ## Factoring chains
 
-Let's take another approach. Let's form all the chains of the
-multiplicative group. We can factor these down to chains of order
-`p**k`.
+Let's consider my approach to proving Fermat's little theorem:
 
-I believe that crossing chains of coprime order still gives a chain
-with length equal to the product. Let's think:
+1. We can take all chains of the form `a**i`.
+2. Any such chain can be broken down until we have a chain of length
+   `p**k`.
+3. Previously, I then showed that only one chain of length `p**k` can
+   exist (because a polynomial of degree `p**k` can only have `p**k`
+   roots).
+    * (This isn't true in the case of `Z mod n`; more in a second).
+4. Multiplying two chains of coprime order gives a new chain with
+   a new order equal to the product of the old orders.
+    * (This is still true in `Z mod n`).
+4. This then implies the primitive root theorem.
+    * (Not true in `Z mod n` because 3 is not true).
+5. Which implies Fermat's little theorem.
 
-1. All elements of `a**i, b**j` have coprime order. Since it is clear
-   that order of an element must divide the size of the cyclic
-   group. (This property is a little more obvious than Lagrange).
-2. This implies that `a**i` and `b**j` can never be inverses. Since
-   they still must have equivalent order.
-3. This means that `a**i b**i = 1` only when both `a**i` and `b**i`
-   are 1. Which only happens for `p_1**k_1 p_2**k_2`.
+## More than `k` `k`th roots of unity is possible.
 
-So if we break down to the chains of length `p**k`, I want to multiply
-these together to form a chain of length `phi(n)`.
-
-## Carmichael
-
-Apparently there is a Carmichael lambda function. Sometimes there is a
-smaller number `lambda(n) < phi(n)` where:
-
-    a**lambda(n) = a mod n
-
-for all `a`. This implies that sometimes the multiplicative group is
-*not* cyclic (no element has order `phi(n)`). That is: there is no
-primitive root.
-
-WTF? How did this go wrong?
-
-## Assumption: only one chain of length `p**k`
-
-When proving the primitive root theorem, I needed that a chain of
-length `p**k` was unique. This was true because a polynomial of degree
-`p**k` can have at most `p**k` roots when we are working with fields.
-
-This is *not* true. The factor theorem says that we could factorize
-like so:
+This will not work with `mod n`. The primary reason is that the a
+polynomial of degree `k` can have more than `k` roots when working `Z
+mod n`. The factor theorem says that we could factorize like so:
 
     (x - a) (x - b) (x - c)
 
@@ -90,32 +72,45 @@ But when we are working `mod n` we *can* have `xyz = 0` when none are
 zero. So this shows that factorization doesn't mean that there are
 only `k` roots.
 
-This is good. It shows that my primitive root theorem proof wasn't
-wrong. If the proof "worked" here, it would be proving that the
-multiplicative group of `Z mod n` is cyclic, which is not always true
-(because Carmichael).
+## Chains can intersect
 
-## Maximal chains
+An implication of a single chain of length `p**k` meant that any chain
+of length `p**i` (`i < k`) must be contained in that chain.
 
-I think I can still say this:
+This is *not* true when working `Z mod n`. When working mod 35, then
+you have three order two elements: `6, 29, 34`. But only 29 has a
+square root. That means that while `29` is in a length `2**2 = 4`
+chain, `6, 34` are not.
 
-1. Crossing two coprime chains yields a chain with `p_1**k_1 p_2 k**2`
-   elements and contains the original chains.
-2. So there *is* a maximal size if you pick one copy of each of the
-   chains of length `p_i**k_i`.
-3. There may be many different versions of this maximum chain
-   length. But if there are `x` versions of the maximum chain length
-   `c`, then we still must have `xc = phi(n)`.
+This is clearly implied by the fact that you can have a chain of
+length `p` not contained in a chain of length `p**2`. Consider if `a`
+is in an order four chain:
 
-NOTE: I think this relies on:
+    (x, x**2 = a, x**3, x**4 = 1)
 
-    No two chains can intersect unless one is contained as a subgroup
-    of the other.
+While `(b, 1)` is contained in no order four chain. Then:
 
-    AND
+    (xb, x**2 b**2 = a 1, x**3 b, x**4 b**4 = 1 1 = 1)
 
-    If there is a chain of length p**k, then every chain of length
-    p**(k-1) should be contained in a chain of length p**k.
+is a new chain. It intersects the old one, but creates new elements.
 
-I haven't proven these, but I think that for now, I am content with my
-understanding of the situation.
+## Counting argument...
+
+Note that, overall, even though there are not two distinct chains of
+length `p**k`, the duplicate value `a` in the new chain is offset by
+the length two chain which contains `b`.
+
+I believe this shows that, effectively, even if you multiply maximal
+chains, the double counting you get is equal to the number of unique
+elements found in smaller chains.
+
+This makes it "effectively" as if there were possible `n_i` chains of
+length `p_i**k_i`, each *non-intersecting*.
+
+Note that, if this were true, then even though there are multiple
+choices of chain for each of the `p_i**k_i`, then still we have that
+the total number of elements in the group is:
+
+    \prod n_i p_i**k_i
+
+Which would mean that the `p_i**k_i` must divide `phi(n)`.
