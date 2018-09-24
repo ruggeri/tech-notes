@@ -120,8 +120,28 @@ to con you and see your secret even though they don't possess
 one. They could repeatedly do this to each party. That's a zero
 knowledge proof scenario.
 
-BTW: Shamir is basically that k points determine a k+1 dim curve. So
-if you want m-of-n, you sample n points of a m+1 dim curve.
+(Actually there is a thing called verifiable secret sharing which
+seems to be simpler than ZKP).
+
+## Shamir Secret Sharing
+
+Shamir is basically that k points determine a k+1 dim curve. So if you
+want m-of-n, you sample n points of a m+1 dim curve.
+
+Okay but how do you reconstruct? You use these things called Lagrange
+basis polynomials. It works like so.
+
+    (x_0, y_0), (x_1, y_1), (x_2, y_2)
+
+Then you say:
+
+    l_0 = (x - x_1) / (x_0 - x_1) * (x - x_2) / (x_0 - x_2)
+    ...
+
+The idea is that for `x_1, x_2`, we have `l_0 = 0`. And for `x_1`, it
+is 1. So we can multiply by `y_0`.
+
+The sum of these Lagrange polynomials is the desired polynomial.
 
 ## TODO2
 
