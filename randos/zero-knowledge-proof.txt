@@ -12,14 +12,41 @@ colors used each time. This gives no info about the coloring.
 
 ## Zero Knowledge Password Proof
 
-I can upload a public key to a server, and then I can use a private
-key to sign nonces, proving myself to the server.
+I don't understand the point of ZKPP. How is it better than uploading
+a public key to a remote server, and then the remote server challenges
+us with nonces, asking us to sign them?
 
-This leaks some knowledge about my private key. The private key can be
-brute-forced. They can keep looking until they find the key that
-signs. Of course, this is silly.
+You can encrypt the private key with your weak password. Maybe the
+weakly encrypted private key can be attacked offline with a dictionary
+attack? You keep trying to decrypt until you find a decrypted private
+key that matches the public key?
 
-The idea is this, though. This is a *password* proof. The idea is that
-the password should be short. It could be dictionary attackable.
+What if the server keeps the public key private? Then how can you tell
+when the dictionary attack has succeeded?
+
+I guess maybe you observed signed nonces in the past, and you can
+check whether signing gives the same answer? But that means either (1)
+they weren't using SSL, or (2) you broke SSL temporarily. Even if they
+didn't use SSL, then they can still use DH for the nonce. In which
+case you'd have to not only eavesdrop the SSL communication, but
+literally do an impersonation.
+
+Basically: what attack does ZKPP prevent that public/private key
+authentication via signing nonces doesn't?
+
+**Some more thoughts**
+
+Relying on the remote server to keep the public key private might be a
+lot to ask. But then my thought is this:
+
+1. If a server can check an answer,
+2. And an attacker is presumed to be able to steal this checking,
+3. And the client can produce answers,
+4. And the client has encrypted how to produce answers,
+5. But the attacker stole the encrypted answer producer,
+6. Can't the attacker repeatedly try decrypting the answer producer,
+   and then see if the answer producer produces an answer that can be
+   accepted by the server's verification procedure?
+
 
 https://www.cs.columbia.edu/~smb/papers/neke.pdf
