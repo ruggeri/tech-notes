@@ -70,5 +70,12 @@ But the attack is mitigated. For the MITM to extend the duration of
 their session, they need to do a password reset, which the client can
 eventually notice.
 
+Haseeb mentioned that using a PBKDF you can maybe make the stored
+password hash hard to crack. So you for your ZKPP, you presumably
+first use a PBKDF on the password, and then do the ZKPP thing with the
+password hash. You can choose something with adjustable CPU and memory
+difficulty.
+
 * Fucking useless source: https://www.cs.columbia.edu/~smb/papers/neke.pdf
 * Personal communication: https://mail.google.com/mail/u/0/#inbox/KtbxLzGLkSbsHbrxhrPhzDskndMKpDbQDV
+* Slightly more useful source: https://pdfs.semanticscholar.org/2880/993c1abc110e832422753a5134f8ccf0633b.pdf
