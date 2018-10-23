@@ -1,9 +1,13 @@
+**This tracks The Rust Programming Language**
+
 Install rustup.
 
 Use the VS Code extension.
 
 You can start new projects with cargo. If you install the cargo edit
 plugin, you can say `cargo add` to add deps.
+
+## Common Programming Concepts
 
 Unwraps errors with `expect`.
 
@@ -48,7 +52,7 @@ Note you can do countdowns with a `Range`:
         println!("LIFTOFF!!!");
     }
 
-## Ownership
+## Understanding Ownership
 
 Every value in Rust has a variable that is its owner. There can be only
 one. When the owner goes out of scope, the value is dropped.
@@ -168,6 +172,8 @@ Rust compiler is going to have limited ability to statically reason...
 
 **TODO**: Write code where I have to implement copy/clone/drop.
 
+## The Slice Type
+
 Interesting. A Rust char is a unicode code point. Does that mean every
 Rust char is 4 bytes or something???
 
@@ -237,7 +243,7 @@ array like `let a = [1, 2, 3]` has type `[i32; 3]`. But a slice like
 `&a[..]` has type `&[i32]`. Slices have a `len` method since we don't
 know that at compile time. But they are not mutable in size.
 
-## Structs
+## Using Structs to Structure Related Data
 
 Structs work like you think. A mutable struct lets you mutate the
 fields.
@@ -278,7 +284,7 @@ They talk about `#[derive(Debug)]`, which lets you use `println!("{:?}",
 user)`. You can also use `{:#?}` which indents. Note that `fmt` library
 has a bunch of helpers to help you implement `fmt::Debug` yourself.
 
-## Methods
+## Methods Syntax
 
 Along with a `struct Rectangle { ... }`, you can also have an `impl
 Rectangle`. In here go the methods. For instance:
@@ -459,7 +465,7 @@ requirement:
     }
 
 Anything that implements `Display` also implements `ToString`.
-Presumably you can specialize as needed. This is called a "blanked
+Presumably you can specialize as needed. This is called a "blanket
 implementation."
 
 As you can see, this is why we need to be able to have multiple `impl`
@@ -477,7 +483,31 @@ implemented on is defined in the module.
 think it's similar to Scala, and maybe also Go in the sense that traits
 do not imply vtables. Thus traits can be applied to primitive types.
 
-## Lifetimes
+They've added some new syntax:
+
+    fn notify(item: impl Summary) {
+        // ...
+    }
+
+This is just pure syntactic sugar for:
+
+    fn notify<T: Summary>(item: T) {
+        // ...
+    }
+
+There is also syntax to say:
+
+    fn do_something() -> impl MyFavoriteTrait {
+        // ...
+    }
+
+This is useful when the return type may have no name known to you
+(like the type of a closure!). It is **not** a way to do runtime
+polymorphism. `do_something` must return only *one type* of thing. It
+cannot sometimes return `X: MyFavoriteTrait` and others return `Y:
+MyFavoriteTrait`.
+
+## Validating References with Lifetimes
 
 Seems simple enough?
 
@@ -489,8 +519,12 @@ Seems simple enough?
         }
     }
 
-I believe this says: the result is only good for the period of time both
-`x` and `y` references are valid. You can do similar for a struct:
+The result is only good for the period of time *both* `x` and `y`
+references are valid. Note: even if `x` and `y` do have different
+"concrete" lifetimes, when calling `longest`, we will set `'a` to be
+the shared overlap of the two.
+
+You can do similar for a struct:
 
     struct ImportantExcerpt<'a> {
         part: &'a str,
@@ -510,7 +544,9 @@ Inference rules for functions are simple:
 There is a special lifetime called `'static`, which means lives forever.
 Typically not the answer to your problems.
 
-## Testing
+## Writing Automated Tests
+
+**TODO**: Review is up to here (p264)
 
 You make a module named `tests` and apply `#[cfg(test)]` to it. Then you
 add an anotation `#[test]` to each fn you want in the module. You can
