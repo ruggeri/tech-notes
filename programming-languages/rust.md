@@ -546,8 +546,6 @@ Typically not the answer to your problems.
 
 ## Writing Automated Tests
 
-**TODO**: Review is up to here (p264)
-
 You make a module named `tests` and apply `#[cfg(test)]` to it. Then you
 add an anotation `#[test]` to each fn you want in the module. You can
 use `cargo test` to run them. You use macros like `assert_eq!` and the
@@ -654,28 +652,34 @@ reference.
 
 They talk about `RefCell` and "interior mutability." This is when you
 have an immutable value, but you want to mutate something inside. I
-think it's like marking a field mutable in C++. They give an example of
-a mock object: the trait it might implement may have an immutable API,
-but the mock object wants to record how many times a method is called,
-or what arguments it is sent.
+think it's like marking a field mutable in C++. They give an example
+of a mock object: the trait it might implement may have an immutable
+API, but the mock object wants to record how many times a method is
+called, or what arguments it is sent.
 
 `RefCell` works by returning smart pointers called `Ref<T>` and
 `RefMut<T>`. `RefCell` enforces that it will panic when you ask for a
 second simultaneous `RefMut<T>`. But it also needs to know when those
 things die.
 
-`Cell` works similarly, but appears to copy the value in and out of the
-cell? `Mutex` is like `RefCell` but for threaded programs.
+`Cell` works similarly, but appears to copy the value in and out of
+the cell. This is basically a non-heap version of `RefCell`. But it
+doesn't need to do run-time enforcement that there are not multiple
+mutable references out because you you never have a reference to
+it. You just swap in/out. So it's more efficient.
 
-**TODO**: What is the point of `Cell`? Are there other good examples of
-wanting to use `Rc` and `RefCell` together?
+`RefCell` and `Cell` are not thread-safe. The `Mutex` type is the
+thread-safe alternative you'll want.
+
+**TODO**: Are there other good examples of wanting to use `Rc` and
+`RefCell` together?
 
 **TODO**: Write an implementation of `Rc`.
 
 They talk about `Rc::downgrade`, which gives you a *weak* reference. You
 can use `Rc::upgrade` to convert a weak reference to an `Option<T>`.
 
-## Concurrency
+## Fearless Concurrency
 
 `thread::spawn`, and you give a closure. Gives you a `JoinHandle` and
 you can call `join` on it. You can call `unwrap` to get the return
@@ -703,19 +707,20 @@ stateinside its immutable interface.
 
 `Sync` is another important trait. If `T` is `Sync`, that means that
 `&T` is `Send`. That is, a value is `Sync` if threads can share
-references to the object. We already know that `Rc` is not `Sync`, since
-it's not even `Send`. `RefCell` *is* `Send`, but it is not `Sync`,
-because the checking that `RefCell` does is not thread safe. This is the
-point of `Mutex`. Note that `Arc<T>` is not `Sync` unless `T` is `Sync`.
-Otherwise, even though we would be doing ref counting correctly, we
-would have data races on `t`.
+references to the object. We already know that `Rc` is not `Sync`,
+since it's not even `Send`. `RefCell` *is* `Send`, but it is not
+`Sync`, because the checking that `RefCell` does is not thread
+safe. This is the point of `Mutex`. Note that `Arc<T>` is not `Sync`
+unless `T` is `Sync`.  Otherwise, even though we would be doing ref
+counting correctly, we would have data races on `t`. (Correct. `Arc`
+should only hold things that are `Sync`).
 
 You don't normally implement `Send` or `Sync` yourself, because those
 are automatically derived when a struct is composed of `Send` and `Sync`
 stuff. But you can write unsafe code to do this; but we'll have to talk
 about that another time...
 
-## Rust and OOP
+## Object Oriented Programming Features of Rust
 
 Doesn't really have inheritance. They mention that you can use override
 the default methods of traits, which is sort of like code reuse. They
@@ -737,16 +742,18 @@ rather than a pointer or reference. Likewise, interfaces with generic
 parameters can't be used, because they won't have been generated for
 every instance that implements the trait.
 
-They then show us how to store and use a `Vec<Box<MyTrait>>`. Presumably
-you cannot have `Vec<MyTrait>` because `MyTrait` isn't sized. But then
-my question is: how can we store a `MyTrait` in our own structures? As
-in: how does `Box` work with a trait template parameter. Is it ever
-necessary to worry about that?
+They then show us how to store and use a `Vec<Box<dyn
+MyTrait>>`. Presumably you cannot have `Vec<MyTrait>` because
+`MyTrait` isn't sized. But then my question is: how can we store a
+`MyTrait` in our own structures? As in: how does `Box` work with a
+trait template parameter. Is it ever necessary to worry about that?
 
-**TODO**: I recall something about traits and lifetimes. What is the
-deal with that?
+It looks like the syntax is `Box<dyn MyTrait>`. The `dyn` is
+presumably for "dynamic."
 
 ## Patterns and Matching
+
+**TODO**: Up to p511.
 
 Places pattern matching happens:
 
