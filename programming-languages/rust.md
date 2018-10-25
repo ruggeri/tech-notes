@@ -910,7 +910,36 @@ Nothing else in this chapter is very interesting...
 
 ## Advanced Functions and Closures
 
-**Up through p587**
+You can pass around function pointers. Their *type* is `fn(i32) ->
+i32`, which is slightly different from the *trait* `Fn(i32) ->
+i32`. Note, however, that the type implements the trait.
+
+They give a nice example:
+
+    let list_of_numbers = vec![1, 2, 3];
+    let list_of_strings: Vec<String> = list_of_numbers
+        .iter()
+        .map(ToString::to_string)
+    .collect();
+
+Integers are `Display`, and `ToString` has a blanket defition for any
+`Display`. Anyway, there isn't really any difference here once you get
+down to compiling, but it's a preference thing.
+
+They note that you can return a closure like so:
+
+    fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+        Box::new(|x| x + 1)
+    }
+
+But you can also use this syntax:
+
+    fn returns_closure() -> impl Fn(i32) -> i32 {
+        |x| x + 1
+    }
+
+This presumably will *not box*. The `impl Trait` idea is helpful when
+the name of the type is complicated or unknown.
 
 ## TODO
 
@@ -953,3 +982,4 @@ TODO: Up to https://doc.rust-lang.org/rust-by-example/types.html
 * Look over Rust Reference?
 * Look over Rustonomicon?
 * Look over "Too Many Lists?"
+    * https://github.com/rust-unofficial/too-many-lists
