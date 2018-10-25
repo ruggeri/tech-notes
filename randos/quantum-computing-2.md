@@ -36,16 +36,16 @@ What unitary transformations can be performed in hardware? It turns
 out (Aaronson says so anyway) that we can approximate any
 transformation if we have just a few basic transformations.
 
-Let's consider the Haddamard transformation:
+Let's consider the Hadamard transformation:
 
     1/sqrt{2} 1/sqrt{2}
     1/sqrt{2} -1/sqrt{2}
 
 This maps `|0>` to ``1/sqrt{2} (|0> + |1>)`. But interesting note: if
-you do it again, you'll get `|1>`. This effectively derandomizes the
-value of the qubit when observed. It does this via constructive and
-destructive interference. That happens because of the negative sign,
-btw. Aaronson says we don't need complex amplitudes for quantum
+you do it again, you'll get `|0>` again. This effectively derandomizes
+the value of the qubit when observed. It does this via constructive
+and destructive interference. That happens because of the negative
+sign, btw. Aaronson says we don't need complex amplitudes for quantum
 computing; that we only need negative probability amplitudes (I think
 he says so?).
 
@@ -111,11 +111,11 @@ entangled. But if they are entangled, this is a no-no!!
 
 Consider, please, this interesting scenario. Consider the single-qubit
 system in the state `1/\sqrt{2} (|0> + |1>)`. I have already said that
-applying the Haddamard again will give you `|1>`.
+applying the Hadamard again will give you `|1>`.
 
 On the other hand, consider the two qubit system `1/sqrt{2} (|00> +
 \|11>)`. This is entangled: it is the **EPR pair**.Say that I want to
-apply the Haddamard to the second qubit (and do nothing to the first
+apply the Hadamard to the second qubit (and do nothing to the first
 qubit).
 
 Let's first do this the right way: `I \tensor H`. Then this matrix is:
@@ -145,3 +145,4 @@ to qubit2.
 
 * Scott Aaronson
 * Quantum Computing Without the Physics (Italian TJ Watson guy).
+* https://quantumcomputing.stackexchange.com/questions/4430/quantum-teleportation-second-classical-bit-for-removing-entanglement
