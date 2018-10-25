@@ -1,8 +1,11 @@
 **This tracks The Rust Programming Language**
 
-Install rustup.
+## Installing Rust
 
-Use the VS Code extension.
+Install rustup. I used the shell script from their website (not
+homebrew). Add the rustfmt and rls components.
+
+Use the VS Code extension. (Haven't re-installed this yet).
 
 You can start new projects with cargo. If you install the cargo edit
 plugin, you can say `cargo add` to add deps.
@@ -786,14 +789,130 @@ They note the need to destructure references sometimes:
 If you tried to destructure with just `Point { x, y }`, you'd get an
 error: "expected &Point, found struct `Point`".
 
-I think if you wanted references to `x` and `y` you would need to use
-`ref`.
+They mention using `..` to ignore all other parts of a value. They
+mention **match guards**, which are like in Haskell.
+
+    let x = Some(456)
+    let val = 123
+
+    match x {
+        Some(num) if num == val => {
+            println!("Good work!");
+        },
+        _ => {
+            println!("Doees not match!");
+        }
+    }
 
 They also mention `@` which is like Haskell.
 
-## TODO
+They mention the old `ref` keyword:
 
-Up to ch19 Advanced Features.
+    fn my_robot_function(robot_name: &Option<String>) {
+    match robot_name {
+        &Some(ref name) => println!("Found a name: {}", name),
+        None => (),
+    }
+
+You used to need to usee `ref name` because otherwise Rust would think
+you were taking ownership of the string. Which isn't possible if
+`robot_name` is itself a reference.
+
+Rust now assumes that if you are matching a reference, that all
+bindings are borrows too. The keywords are much less needed. But these
+keywords are still potentially useful if you want to borrow just parts
+of a struct for mutability and others immutably. But that is much more
+rare.
+
+## Unsafe Rust
+
+Can:
+
+* Dereference raw pointer.
+* Call unsafe function or method. Typical example: an extern C function.
+* Access/modify a mutable static variable.
+* Implement an unsafe trait: Sync or Send.
+
+They show an example where you want to "split" a slice into
+two. Normally you can't have two mutable references to the same slice.
+
+## Advanced Lifetimes
+
+They show lifetime subtyping. Basically this is just a way to assert
+that a lifetime `'a` outlives a lifetime `'b`. It is necessary in some
+scenarios. They gave an example like:
+
+    A context object stores a reference to a string.
+    We pass a context object *reference* into a function.
+    The function wants to return a reference to the underlying string.
+    The string lifetime should be able to be used even after the context
+    goes away.
+
+They show the *anonymous lifetime*. It is just syntactic sugar:
+
+    fn wrap_str(s: &str) -> StrWrap<'_>
+    ==
+    fn wrap_str<'a>(s: &'astr) -> StrWrap<'a>
+
+This just saves on some typing. It's kind of like the elision rule,
+but you get to use it in generic parameters.
+
+## Advanced Traits
+
+They talk about associated types. These are types declared inside a
+trait:
+
+    pub trait Iterator {
+        type Item;
+
+        fn next(&mut self) -> Option<Self::Item>;
+    }
+
+    impl Iterator for Counter {
+        type Item = u32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            // --snip--
+
+The only reason to do this versus `Iterator<T>` is that it limits to
+one implementation. This means that we can call `next` on a `Counter`
+without having to specify which kind of `Iterator` we are talking
+about.
+
+You can have different versions of the same `fly` method defined in a
+`impl Pilot for Human` and `impl Human` directly. To clarify which you
+mean, you can write: `Pilot::fly(&my_human_instance)`.
+
+They mention that `trait OutlinePrint: fmt::Display {` means that
+`OutlinePrint` relies on `fmt::Display` having also been implemented.
+
+They mention the idea of the *newtype pattern*. Here you just create a
+simple wrapper:
+
+    struct Wrapper(Vec<String>);
+
+    impl fmt::Display for Wrapper {
+        // ...
+    }
+
+This lets you implement external traits for external types. But the
+downside is you don't have automatic conversion. You can do that if
+you implement the `Deref` trait.
+
+## Advanced Types
+
+They talk about type aliases: `type Kilometers = i32`. This is just a
+synonym. It's not like `struct Kilometers(i32)` which is a
+newtype. The point is for when you have complicated types and you
+don't want to repeat the name constantly.
+
+Nothing else in this chapter is very interesting...
+
+## Advanced Functions and Closures
+
+**Up through p587**
+
+## TODO
 
 Wow there sure is a lot to read about Rust...
 
@@ -825,3 +944,12 @@ The `format!`/`print!`/`println!` macros let you use named args. As in:
 `println!("hello {dog}; I am {cat}" cat="gizmo", dog="henry")`.
 
 TODO: Up to https://doc.rust-lang.org/rust-by-example/types.html
+
+## Other Sources
+
+* Finish Rust book review.
+    * Finish ch20 and review macros.
+* Read Rust by Example.
+* Look over Rust Reference?
+* Look over Rustonomicon?
+* Look over "Too Many Lists?"
