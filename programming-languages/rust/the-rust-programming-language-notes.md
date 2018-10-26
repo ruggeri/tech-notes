@@ -941,6 +941,51 @@ But you can also use this syntax:
 This presumably will *not box*. The `impl Trait` idea is helpful when
 the name of the type is complicated or unknown.
 
+## Building a Multithreaded Web Server
+
+Used some `BufReader` and `BufWriter`. Kinda weird that there is a
+`BufRead` interface but no `BufWrite` trait. `BufWriter` I think just
+buffers for one-by-one character output. Regardless I expect you
+always need to issue `flush` even when operating on the `TcpStream`
+directly.
+
+Can easily make multithreaded and fork every time. But let's go one
+further and implement a thread pool.
+
+I had three classes: `ThreadPool`, which just keeps a vector of
+`WorkerManager`s. Each `WorkerManager` watches the work count assigned
+(maintained via an Arc Mutex). The `WorkerManager` creates the
+channel. It gives the receiver to the `WorkerWorker`.
+
+The `WorkerWorker` will receive tasks (boxed functions) across the
+channel. It has a `run` method to loop receiving tasks, until it
+receives a message to `ShutDown` (there is an enum of messages).
+
+The `WorkerWorker` can be assigned a `WorkCompletionHandler`. This is
+just a boxed function. The manager sets this with a callback to
+decrement the work count. This function is moved to the
+`WorkerWorker`, but this needs to do `Sync` work on the work count:
+thus the mutex.
+
+Note: there is a cyclic relationship between `WorkerWorker` and
+`WorkerManager`; they must both maintain the work count. In c++, I
+would pass `WorkerWorker` a pointer to the partially constructed
+`WorkerManager`. However, that is not really possible with Rust. Thus
+I build the work count mutex, and pass it to both (the minimal amount
+of shared state).
+
+As mentioned, `WorkerManager` can send `ShutDown` message to stop the
+`WorkerWorker`. But how to *wait* for the `WorkerWorker` to shut down?
+To do this, I must keep the `JoinHandle` created when I fork a thread
+for the worker. But now I notice another problem.
+
+So I stored an `Option<JoinHandle>` in the `WorkerWorker`. It starts
+as `None`, but then when the `WorkerManager` starts a thread it will
+store the join handle.
+
+I am realizing I can merge the roles of `WorkerWorker` and
+`WorkerManager`...
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
@@ -967,17 +1012,10 @@ Wow there sure is a lot to read about Rust...
 * TODO: Read the standard library and some major libraries to see how
   Rust is used.
 
-## Notes from Rust By Example
-
-The `format!`/`print!`/`println!` macros let you use named args. As in:
-`println!("hello {dog}; I am {cat}" cat="gizmo", dog="henry")`.
-
-TODO: Up to https://doc.rust-lang.org/rust-by-example/types.html
-
 ## Other Sources
 
-* Finish Rust book review.
-    * Finish ch20 and review macros.
+* Finish Rust book review chapter on Macros. Everything else completed
+  in book.
 * Read Rust by Example.
 * Look over Rust Reference?
 * Look over Rustonomicon?
