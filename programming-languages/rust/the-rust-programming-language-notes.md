@@ -44,7 +44,7 @@ fn main() {
 }
 ```
 
- **TODO**: how does iterator work?
+**TODO**: how does iterator work?
 
 Note you can do countdowns with a `Range`:
 
@@ -585,16 +585,18 @@ value, but (2) there can be many kinds of `Error`. `std::error::Error`
 is a *trait* (different from the result variant `Err`, btw), which
 basically just has a description method. Must be boxed.
 
-**TODO**: Why is an associated type needed? Doesn't `Iterator` have a
-template argument; can't we just use that?
+Why is an associated type needed? Doesn't `Iterator` have a template
+argument; can't we just use that? The reason is simplicity: this way
+there is only one implementation of Iterator which means that when we
+call the methods, we don't have to specify what version.
 
 I built my own iterator. It needed some tricks.
 
 * The iterator uses a boxed iterator with string references.
 * You specify the associated type. But you also need to give the
-  lifetime of the Iterator trait. That is: `Box<Iterator<Item=&'a str> + 'a>`.
-
-**TODO**: Look up trait lifetimes when boxing.
+  lifetime of the Iterator trait. That is: `Box<Iterator<Item=&'a
+  str> + 'a>`. Nowadays you prolly want `dyn Box<Iterator<Item=&'a
+  str> + 'a>` I think.
 
 ## Iterators and Closures
 
@@ -610,10 +612,8 @@ can also specify if need be. Their type is `Fn(i32) -> i32`.
 Closures can either use a mutable or immutable reference, or may take
 ownership of the closed over variable.
 
-**TODO**: I'm a little confused about `FnOnce`, which is a trait for
-when a closure takes ownership. Can the closure be called only once,
-because after the memory is discarded? Or does the captured environment
-live as long as the closure does?
+I believe that `FnOnce` performs an operation that can be done only
+once, consuming the closed environment (and itself).
 
 They then show the `Iterator` interface and how to implement `next`.
 Then they apply it to the Regexp project just like I already did.
@@ -755,8 +755,6 @@ It looks like the syntax is `Box<dyn MyTrait>`. The `dyn` is
 presumably for "dynamic."
 
 ## Patterns and Matching
-
-**TODO**: Up to p511.
 
 Places pattern matching happens:
 
@@ -986,6 +984,23 @@ store the join handle.
 I am realizing I can merge the roles of `WorkerWorker` and
 `WorkerManager`...
 
+## Macros
+
+Two kinds of macros: `macro_rules!`, which works on syntax matching
+arms, and "procedural macros" that work via `derive`.
+
+`macro_rules!` are a fair bit like macros in C. Procedural macros are
+actually functions written in Rust that consume the AST, producing a
+token stream. There are some tools like `quote!` and `stringify!` to
+help you.
+
+Right now, the only way to do procedural macros is via `derive`.
+
+I won't look into these more at present. They are pretty
+sophisticated, and not ergonomic. The Rust people seem to want to
+evolve macros substantially; they do not appear to be in a settled
+state.
+
 ## TODO
 
 Wow there sure is a lot to read about Rust...
@@ -1014,10 +1029,9 @@ Wow there sure is a lot to read about Rust...
 
 ## Other Sources
 
-* Finish Rust book review chapter on Macros. Everything else completed
-  in book.
 * Read Rust by Example.
 * Look over Rust Reference?
 * Look over Rustonomicon?
 * Look over "Too Many Lists?"
     * https://github.com/rust-unofficial/too-many-lists
+* https://danielkeep.github.io/tlborm/book/index.html
