@@ -1,0 +1,84 @@
+## ASCII
+
+ASCII code is 7bit with a parity. That means value are 0-127. Values
+32-126 are all printing characters. Values 0-31 and 127 are
+non-printing.
+
+What are the non-printing characters? They are things like:
+
+* 0: null.
+* 4: EOT (end of transmission). This is sent by the terminal when you
+  type Ctrl-D. It is different from EOF, which is a return condition of
+  the C library for character input.
+    * Just because the terminal sends EOT doesn't mean that the
+      application will treat it like an end of file.
+    * For instance, with `cat`, it will only be treatedly like EOF if
+      the EOT appears as the first character on a new line.
+* 7: Bell. Rings a bell.
+* 8: Backspace. Ctrl-H.
+* 10: Line feed. Newline. Ctrl-J.
+* 13: Carriage return. Ctrl-R.
+* 27: Escape. Ctrl-[.
+* 127: Delete. Ctrl-?.
+
+Note: you can send any of these via the keyboard by using Ctrl-whatever.
+
+## Escape sequences
+
+The escape character `Ctrl-[` originally was used to "escape" characters
+like `Ctrl-J` so that these could pass through uninterpreted. As in: it
+was like escaping for any other embedding into a string.
+
+Later, the `Ctrl-[` character was coopted to be used for proprietary
+extensions to terminals. But this caused problems because different
+terminals had their own different proprietary extensions. Thus the
+library `termcap` (term capability) was developed (by Bill Joy).
+`termcap` was extended by `terminfo`. These programs both let programs
+look up what the escape sequences are for certain operations.
+
+Eventually, however, people realized that the DEC VT100 (and its clones)
+were dominating the terminal space. The VT100 control sequences were
+thus standardized. This is nowadays called ISO/IEC 6429.
+
+Applications like vi and emacs continue to use `termcap`/`terminfo`, as
+does `curses`. In theory, these programs thus work on terminals outside
+VT100. In practice, however, these programs/libraries are no longer
+tested on terminals outside VT100, and are likely to have bugs.
+
+Many programs thus assume that the ANSI escape codes are in use, and
+will write and interpret them directly.
+
+## CSI Sequences
+
+So `^[` is the ASCII code for escape. There are a not very large list of
+escape sequences. But the most common is `^[[` (i.e., `ESC[`). This is
+the *command sequence introducer* (CSI). The following command sequences
+are standardized:
+
+* `^[[` then `A` for cursor up. Also `B` (down), `C` (forward), `D`
+  back.
+* `^[[y;xH` moves cursor to row `y` column `x`.
+
+CSI also standardized commands to put the terminal in various color
+modes.
+
+## Readline commands
+
+Here are several non-standardized commands, which Readline respects:
+
+In emacs, ESC-b moves back a word, while ESC-f move forward one word.
+ESC-DEL deletes the previous word. These are not ANSI standardized.
+
+Likewise, we have commands like ^A, ^E, ^K, ^U to modify lines.
+
+And also ^C and ^Z to send signals.
+
+Some of these commands (especially the control/carrot ones) violate the
+intention of the ASCII control characters. For instance, I believe ^U
+means "Negative Acknowledgment".
+
+When a user types Meta-x, this is typically delivered by iTerm as
+`ESC-x`. That means you can say `Meta-[ d` for back arrow.
+
+Anyway, I am not sure where (if anywhere) these are standardized. I
+believe they are just conventions of readline, and bash uses readline.
