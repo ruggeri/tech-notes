@@ -203,11 +203,142 @@ Of course, you can amplify this by using more parity qubits. And you
 throw out everything and start again whenever you detect
 eavesdropping.
 
+## Simon's Algorithm
+
+We have a function `f` defined on `n` bits where for some `a` `f(x) =
+f(y)` iff `y = x + a (mod 2**n)`. We want to find `a`.
+
+Note that if we try `k` values of `x`, then maximum we can test `k(k -
+1) / 2` values of `a`. Yet `a` is in a domain that grows exponentially
+in `n`. If we know nothing about `f` then there is no way to solve
+this faster.
+
+Here is an expected polytime quantum algorithm (Simon's algorithm).
+
+First, apply `H^{\otimes n}` to `n` input qubits to achieve a uniform
+superposition. Then run those qubits through a circuit that produces
+`|x> \otimes |f(x)>`.
+
+We now want to "undo" the `H^{\otimes{n}}` operation by applying it a
+second time to the `|x>` values. However, because the `|x>` qubits are
+entangled with the `|f(x)>` qubits, applying `H^{\otimes{n}}` to the
+`|x>` no longer quite undoes the original Hadamard.
+
+So let's consider a fixed value of `|f(x)>`. Assuming `a != 0`, there
+are exactly two values of `|x>` that are associated with `|f(x)>`:
+`|j>` and `|j + a>`.
+
+So what happens when we put `|j>` and `|j + a>` through the Hadamard?
+So, let's note this fact about Hadamard:
+
+    H^{\otimes n} |j> = \sum_{i = 0}^{2^n - 1} (-1)^{i \cdot_n j} |i>
+
+(`\cdot_n` means bitwise dot product mod 2. i.e., do `i, j` share an
+even number of bit values in common?).
+
+## Hadamard Operation in Depth
+
+What the fuck does that mean? Let's consider Hadamard on one
+qubit. Remember that Hadamard is equal to: reflect y coordinate, then
+rotate 45deg CCW.
+
+So, applying Hadamard to the computational basis gives you a new
+basis: `\frac{1}{\sqrt{2}} (|0> + |1>)` and `\frac{1}{\sqrt{2}} (|0> -
+|1>)`.
+
+So lets apply it again to these basis states. Hadamard is its own
+inverse. Lets consider what `H` does to `H|0>`. It takes the
+`\frac{1}{\sqrt{2}} |0>` part of `H|0>` and gives this some `|0>` and
+some `|1>` component. At the same time, `H` transforms the
+`\frac{1}{\sqrt{2}} |1>` part by giving it some `|0>` component, and
+some *negative* `|1>` component. Thus, the `|0>` parts that `H`
+creates from `H|0>` combine constructively in the `|0>` basis
+dimension, but combine destructively in the `|1>` basis
+dimension. That's how we get back to `HH|0> = |0>`.
+
+Let's think of what `H^{\otimes{n}}` does to `|0>_n` (`n` qubits with
+value `|0>`). It maps this to every state `|x>`, where the amplitude
+is equal to `\frac{1}{\sqrt{2^n}}`.
+
+Now lets apply the Hadamard to try to go back. Then every `|x>` value
+contributes some amplitude to every `|y>` value. If we were just
+working with one qubit, then we know that every value (both `|0>` and
+`|1>`) gives positive amplitude to `|0>`, while only `|1>` gets mapped
+to contribute negative value to `|1>`.
+
+We can now consider applying the Hadamard operation iteratively to
+each qubit of the `n` qubits. If the first qubit is `|1>`, this means
+it contributes an amplitude of `\frac{1}{\sqrt{2}}` to `|0>` and of
+`-\frac{1}{\sqrt{2}}` to `|1>`.
+
+If the next qubit is also `|1>`, then we will multiply the first
+amplitudes by `\frac{1}{\sqrt{2}}` and `-\frac{1}{\sqrt{2}}`
+again. And this is how we get the equation that we get the equation
+that `|x>` maps to:
+
+    \sum (-1)^{count of 1s in common to both x and y} |y>
+
+## Back to Simon's Algorithm
+
+We said that for any value `|f(x)>` there were two states `|x>` and
+`|x+a>` that are entangled with that state. So when we apply the
+Hadamard, we don't affect `|f(x)>`, but for the other qubits we have
+the amplitude for each `j`:
+
+    (-1)^{number of 1s in common to x and j}
+    + (-1)^{number of 1s in common to x+a and j}
+
+Interesting. So note that these will constructively interfere when `a`
+has an even number of 1 bits in common with `j`. That is, when
+
+    a \cdot_n j mod 2 = 0
+
+It doesn't matter what the input `x` qubits were. When we have `a
+\cdot_n j mod 2 = 1`, then we will have destructive
+interference. Which means that, no matter what `|f(x)>` is, if we
+measure the input qubits at the end, we must measure a value `j` which
+has an even number of bits in common with `a`.
+
+## Using our Quantum Circuit as Part of a Procedure
+
+By sampling `j`, we have halved our search space for `a`. Only 50% of
+`a` values will have an even number of 1s in common with `j`.
+
+The idea is to iteratively sample `j`s, and build up a system of
+linear equations. We do like this:
+
+    J a = 0 (mod 2)
+
+Where our `j`s are rows in `J`, the `a` is a column vector we're
+searching for, and `0` is a column of zeros, because rows of `J`
+always have an even number of ones with `a`.
+
+Once we have sampled `n` linearly independent `j` values (considered
+mod 2), then the system will have at most one non-zero solution for
+`a`.
+
+**TODO**: I'm a little fuzzy on how many linearly independent vectors
+`j` are needed to determine a unique solution `a` given that the
+matrix does not have a unique inverse.
+
+Anyway, it can be shown that if you sample vectors randomly, then you
+very quickly get a linearly independent spanning set. The probability
+of `n` linearly independent vectors amongst `n+k` samples is bounded
+below by `1 - 1/(2**k)` (presumably fairly easy result of Mermin
+2007).
+
+So with `O(n)` executions, you are very likely to choose a set of
+vectors `j` that constrain `a` to exactly one non-zero value. Doubling
+the number of executions much more than doubles the odds (by above
+result).
+
+It feels like this algorithm is in the quantum analogue of ZPP AKA Las
+Vegas algorithms.
+
 ## TODOs
 
 * Quantum teleportation
-
-**TODO**: CONTINUE!! ONWARD!!
+* Continue onward to Grover's Algorithm.
 
 ## Sources
 
