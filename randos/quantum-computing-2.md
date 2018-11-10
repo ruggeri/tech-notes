@@ -335,6 +335,33 @@ result).
 It feels like this algorithm is in the quantum analogue of ZPP AKA Las
 Vegas algorithms.
 
+## Grover's Algorithm
+
+Black box search with a function that outputs 1 for exactly one input.
+(Works fine if there are more than one positive input; you'll see.).
+
+Here's the idea. You're going to put things in a superposition, then
+flip the amplitude of the solution state to negative. At this point, you
+can subtract the state from 2x the average amplitude. This will reduce
+the amplitude of all the wrong states, and increase the amplitudes of
+the good states (negative minus negative, right?).
+
+Notice how this works until the average amplitude goes negative.
+Let's check it out:
+
+  (# of bad answers) * amplitude_of_each_bad_answer
+  = (# of good answers) * amplitude_of_each_good_answer
+
+Since we are going to have to square amplitudes, we can get this highest
+if there is exactly one good answer.
+
+* TODO: Talk about number of iterations.
+* TODO: I think you can get max constant prob of a good answer.
+* TODO: But then you can just repeat a few times to get any prob
+  desired. As long as you can get over 51% (not 50% + eps!) in poly
+  time, you can get over 99% in polytime.
+* TODO: Talk about how to build this operation from gates.
+
 ## TODOs
 
 * Quantum teleportation
