@@ -1,0 +1,163 @@
+In one-round prisoner's dilemma, a *Nash equilibrium* strategy is for
+both players to defect.
+
+Nash equilibrium means: a pair of strategies, where each strategy is
+optimal given the opponent's strategy.
+
+Any pair of strategies which is not a Nash equilibrium will not be
+stable. People will want to change their strategy.
+
+Note: there can be more than one Nash equilibirum. Not all Nash
+equilibrium have equal value.
+
+Of course, a non-Nash Equilibrium strategy pair `(x, y)` may produce
+superior outcomes for both players than a Nash equilbrium `(a,
+b)`. Both cooperate beats both defect, even though both cooperate is
+not Nash.
+
+Nash showed that any finite game must have a Nash equlibrium, though
+not necessarily a *pure* Nash equilibrium. A pure strategy is one with
+no randomization.
+
+Nash equilibrium doesn't talk about "discovery" or evolution. It
+doesn't mean that, if we allow players to continue changing their
+strategy iteratively, that they will eventually stop changing. They
+may never enter a Nash equilibrium.
+
+In prisoner's dilemma, the always-defect strategy is the *only* Nash
+equilibrium.
+
+## Dominant Strategy
+
+A dominant strategy is one which is better no matter what strategy the
+opponent plays. If `S_a` is the best strategy for player a, and `S_b`
+is the best strategy for player b given that a plays `S_a`, then
+`(S_a, S_b)` must be a Nash equilibrium.
+
+If the game is symmetric, and if there exists a strictly dominant
+strategy, then that is the only Nash equilibrium. In the case of
+Prisoner's Dilemma, always-defect is the dominant strategy, thus the
+only Nash equilibrium.
+
+## N-Round Prisoner's Dilemma
+
+What if you repeat for N rounds? Then always-defect is still the only
+Nash equilibrium. Because on the last round, you should certainly
+defect. But that means on the second-to-last round, you can treat it
+like the "last round" (since both players know they should defect in
+the last round). Inductively, always defect.
+
+BUT: with N rounds, always-defect is no longer the *dominant* strategy
+for all opponent's strategy choices. Say opponent plays: I'll
+cooperate until you defect, then I'll defect every time. In this game,
+you should cooperate until last turn, *then* defect. (This strategy is
+called Grim).
+
+## IPD
+
+What about when you don't know when the game will stop? There is more
+than one way to analyze:
+
+* Say that there is a `p` probability that the game will stop on the
+  next round. What strategy maximizes the expected value?
+    * I think this is equivalent to "discounted" games. That's where
+      your valuation function discounts future results.
+* Say the game continues forever; is there a strategy that, with
+  probability 1.0, will eventually surpass every other alternative
+  strategy, and *stay* better forever?
+
+In both scenarios, always-defect is still a Nash equilibrium pair. But
+in both, it is not a dominant, for same reason as N round version. If
+opponent plays nice until you cheat, then your best play is to always
+play nice.
+
+*Unlike* N round version, GRIM is a Nash equilibrium pair for my
+infinite horizon version. It's also a Nash equilibrium if the discount
+rate for future reward is not too low.
+
+## Mixed Strategy
+
+For some games, the Nash equilibrium strategy is *mixed*, meaning it
+relies on randomness. None of the strategies I've discussed needs
+randomness.
+
+Classic case of mixed strategy being useful is "Matching pennies." You
+and I both get to pick heads or tails. If we both pick the same, I
+keep the two pennies, if we pick different you keep the two pennies.
+
+It is clear that without randomness, there is no Nash equilibrium
+strategy.
+
+## Mixed Strategies and IPD
+
+The possible use of mixed strategies doesn't change GRIM and
+always-defect from being Nash equilibria. Likewise, there is no
+dominant mixed strategy.
+
+## Stupid Nash Equilibria?
+
+We know that the GRIM pair is a Nash equilibria in the infinite
+horizon version.
+
+However, let's consider a version of the problem where player A
+declares: I will defect the first move, and I will always defect if
+you defected prior move. Then an opponent's best response is accept
+the pain the first time, but then play GRIM the rest of the time?
+
+That's not how it's supposed to work though. We're supposed to
+announce our strategies at the same time. Otherwise the "first mover"
+in anouncing a strategy would have an advantage.
+
+This problem doesn't matter if there is a dominant strategy of
+course. But what if there are two Nash equilibria, one where A does
+better than B, and the flip where B does better than A?
+
+## Thoughts
+
+The idea of Nash equilibria sounds like an infinite game kicked up
+another level. Nash equilibria are meaningless if you don't *reach
+them*.
+
+In one-round prisoner's dilemma, it makes sense that, if you cannot
+know that the opponent will do the strategy they say, then the smart
+thing to do is defect. Because defect is dominant.
+
+Okay: here is maybe my thoughts.
+
+1. If you do this NE shit, you may just kick things up to the next
+   level. As in, your game becomes strategy selection not the game
+   itself. And then you get into infinite cycles because of attempts
+   to extort.
+
+2. It seems silly to put any stock in what people say. You can say: "I
+   will do X", then not do it. So then I have to think about what I do
+   in response to your defection from X.
+
+I think this suggests that we should consider the game as being played
+*right from the start*. Which means: I am starting to play moves based
+on my strategy right away, and you are making moves based on your
+strategy right away. In fact, we don't have to think of "changing" our
+program, because that's really just part of the program to begin wtih.
+
+## Unknown Strategy
+
+What if the strategy of your opponent *is not known*? The theory of
+Nash equilibria relies on knowing your opponent's strategy; even if it
+is randomized.
+
+If there is a dominant strategy for the game with known opponent
+strategy, then it is irrelevant if you change things so that you don't
+know the opponent's strategy. But we saw that is *not* the case for
+IPD. Knowing your opponent's strategy is very useful information in
+deciding what to do.
+
+Does this setting give us a more interesting concept of dominance or
+equilibria? For instance, if I don't know whether my opponent plays
+always defect or GRIM, then should *I* play always defect or GRIM?
+
+Note: this is not the same as a 50/50 mixed strategy question. You're
+not allowed to do an expectation here. I'm not asking what you do if
+you *know* that I'm playing the mixed strategy 50/50
+GRIM/always-defect strategy.
+
+**TODO**: I think I got annoyed at how circuitous this all was.
