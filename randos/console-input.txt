@@ -78,7 +78,7 @@ intention of the ASCII control characters. For instance, I believe ^U
 means "Negative Acknowledgment".
 
 When a user types Meta-x, this is typically delivered by iTerm as
-`ESC-x`. That means you can say `Meta-[ d` for back arrow.
+`ESC-x`. That means you can say `Meta-[ D` for back arrow.
 
 Anyway, I am not sure where (if anywhere) these are standardized. I
 believe they are just conventions of readline, and bash uses readline.
