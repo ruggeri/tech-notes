@@ -157,6 +157,38 @@ When you do a TAS, it needs to talk to the bus. These failed requests
 can saturate the bus, destroying performance. With TTAS, you do not
 make bus requests that you *know* can't succeed.
 
+**How is TAS implemented?**
+
+So X86 has a LOCK instruction *prefix*, and you can use it on an
+instruction like INC (increments one value), or XCHG (swaps two
+values), or CMPXCHG (basically compare and set). These instructions
+are probably almost meaningless without the LOCK prefix.
+
+It appears that to accomplish this, the machine must take exclusive
+access of the the cacheline (for CMPXCHG, maybe two cachelines?)
+involved.
+
+In Intel 486 days, apparently they did an entire lock on the memory
+bus. Starting with Pentium Pro they do a cache lock on just that line.
+
+* Resources
+* SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
+* Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
+    * Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
+* **Wait this is the real deal:**
+    * http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
+    * It sounds like basically doing a LOCK operation necessarily
+      means bus traffic to tell everyone to give us exclusive access
+      (and further to lock them out from future access).
+    * We can avoid this if we have *shared* access already, and then
+      we can just test locally and see the lock cannot be acquired.
+    * When a lock is freed, our local copy will be invalidated, and
+      *then* we can acquire the lock.
+* These slides explain the same thing:
+    * http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
+
+**More About Cache Lines**
+
 They make a related suggestion: try to keep a contested lock and its
 data on different cachelines, so that attempts to get the lock won't
 invalidate the data (and changes to the data don't signal that the
