@@ -1035,3 +1035,8 @@ Wow there sure is a lot to read about Rust...
 * Look over "Too Many Lists?"
     * https://github.com/rust-unofficial/too-many-lists
 * https://danielkeep.github.io/tlborm/book/index.html
+    * Book of Rust Macros
+* Read old blog posts:
+    * https://blog.rust-lang.org/
+* Read old This Week In Rust
+    * https://this-week-in-rust.org/

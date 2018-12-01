@@ -1,0 +1,5 @@
+Clap: Command line args.
+Crossbeam: concurrency.
+Diesel: ORM.
+Rusti: Interactive Rust.
+Serde: Serialization/deserialization framework.
