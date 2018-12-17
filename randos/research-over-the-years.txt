@@ -1,0 +1,64 @@
+**2018 Research**
+
+Fourier Transform
+VAE
+Shadow prices, linear programming.
+Green threads
+Rust
+Eigenbasis, Symmetric matrices
+Spanner. Read Data Intensive Applications.
+Byzantine Fault Tolerance
+Lightning network
+Basic ZKP, Zero Knowledge Password Proof
+RSA
+Quantum Algorithms
+
+**2017 Research**
+
+Started Foundations of Machine Learning in Feb 2017.
+Learned CNNs.
+Learned RNNs, word embeddings.
+Wrote up an HMM.
+Learned a lot about RL.
+Wroteup batch normalization.
+Made much Fourier Transform progress.
+Understood Euler’s formula.
+Learned about TPUs.
+Wrote up notes on CUDA.
+Reviewed MCMC.
+Read DL book.
+Write a simple RBM
+Variational Inference
+Incompleteness Theorems
+
+**2016 Research**
+
+Concurrent and lock-free datastructures
+Learned about emscripten.
+Learning about compilers (most have been the compilers book from when I helped Kate).
+Learned everything I know about DBs this year.
+Learned about isolation levels.
+Studied SSI and MVCC.
+Read NAND to Tetris. Learned about latches.
+Was definitely trying to understand distributed databases this year.
+Looks like I wrote up log structured merge trees
+Understood inner product and relationship to sin/cosine much better.
+Took that boring Mining Massive Datasets course.
+Learned about probabilistic complexity classes.
+Learned how bitcoin works.
+
+**2015 Research**
+
+In late 2015 I first implemented a neural network.
+Took Machine Learning, Mining Massive Datasets courses.
+Took PGM course.
+Regularization
+Parallel merge sort
+Wrote a Chess AI (that I couldn't beat)
+Learned Golang.
+Playing with Rust.
+Understood traits concept.
+Learned various A* type methods.
+Binomial Heaps!
+Implemented async/await via spawn concept
+Studied various GC strategies
