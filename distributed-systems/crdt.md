@@ -108,10 +108,11 @@ and put DELETED there. You can do that even if you haven't written it
 yet!
 
 Not really sure what happens if two clients want to write to the same
-child? I think the answer is that every id is `(element id, site id)`,
-to break ties. This does present the possibility of some text
-appearing inside some other text, I think. But not in the long term,
-since your cursors will end up in different places.
+child? I think the answer is that every id is `(element id, site id)`
+(site id really means client id), to break ties. This does present the
+possibility of some text appearing inside some other text, I
+think. But not in the long term, since your cursors will end up in
+different places.
 
 This is called LSEQ. It competes with Operational Transforms.
 
@@ -127,3 +128,7 @@ This is called LSEQ. It competes with Operational Transforms.
 * http://hal.upmc.fr/file/index/docid/555588/filename/techreport.pdf
     * Presents a litany of CRDTs, including ones for co-operative text
       editing.
+
+Good summary:
+
+https://hackernoon.com/building-conclave-a-decentralized-real-time-collaborative-text-editor-a6ab438fe79f
