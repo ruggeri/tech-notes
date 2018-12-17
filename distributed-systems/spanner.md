@@ -109,6 +109,13 @@ A way MVCC can work on one machine:
    transaction from the pending set.
 4. One key point: you don't remove someone from the pending set until
    all prior txs have been fully flushed.
+    * I believe this pertains to the flushing of disk blocks?
+    * As in, we don't want to flush changes to disk until all the
+      preceding edits are flushed to disk.
+
+Note: I'm not sure what the surce is for this version of MVCC? I
+believe I'm trying to offer true serializability, preventing write
+skew.
 
 **How Cockroach Does It?**
 
