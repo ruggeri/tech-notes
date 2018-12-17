@@ -12,6 +12,7 @@ Lightning network
 Basic ZKP, Zero Knowledge Password Proof
 RSA
 Quantum Algorithms
+GEB
 
 **2017 Research**
 
