@@ -1,44 +1,21 @@
-**AI/ML**
+**Reviewed 2018-12-16**
 
-* Read Probabilistic Robotics.
-* Decision trees, random forests, boosting, bagging.
-* Understand SVM better.
-* Maybe review Norvig AI textbook for ideas.
-* Resume Driverless Car? CS188 style course?
-* Kalman filtering
+* Finish Grover's algo.
+* PCA/SVD work.
+* Kalman Filtering. SLAM.
+* Writeup how reverse image search works. Text search/info retrieval.
+* Zero knowledge proof. Interactive proofs? Zcash?
+* Slasher protocol.
+* Compiler project.
 
-**Distributed Systems**
+I think I want to resume studying AI/ML maybe. SVD and Kalman
+filtering are techniques I still want to properly understand.
 
-* Now that I've read Spanner/F1, I'm done for now.
+There isn't much I'm interested in with regard to algorithms. I am
+still interested in recalling how things like reverse image search and
+text search work.
 
-**Math**
-
-* Understand PCA/SVD properly.
-* *Fast* Fourier Transform.
-* Differential Equations
-
-**Other**
-
-* Grover's Algorithm
-* Read Taming Text. (or maybe that distributed systems book or the
-  elastic search one or some other info retrieval book)
-* Learn Electronics properly.
-* Learn Physics properly.
-* Coq
-
-**Not Essential**
-
-* Memory fencing: I don't understand this.
-
-**General Interests**
-
-* Machine learning on the backburner again maybe.
-  * Except maybe I should think broadly about ways to make ML fun for
-    me?
-  * But fundamentally how would I test out those possibilities?
-* Theorem proving. GOFAI techniques in limited domains where success
-  is possible. Games, planning, theorem proving.
-* Database implementation.
-* Formal verification.
-* Programming language implementation (a little bit).
-* Information retrieval and search.
+I don't think there is anything I really care to learn about
+databases. With regard to distributed systems, I am interested in how
+something like Zcash works (more about crypto than distributed). I
+might also want to review Slasher again?
