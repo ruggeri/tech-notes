@@ -76,6 +76,16 @@ is easy to invert `e mod phi(n)`. But if we don't know how to factor
 `n`, then we don't know how to calculate `phi(n)`. In that case, we
 don't know what to invert `e` with respect to.
 
+Important point: the following is *not* true:
+
+    g^{x} mod a, AND y = x mod a THEN
+    g^{x} = g^{y}. WRONG
+
+Basically, mods don't work in exponents. Here's an example (`a = 123`):
+
+    101 ^ 8 % 123 = 109
+    101 ^ {246 + 8} % 123 = 32
+
 Does finding `d` mean that you must be able to factor `n`? I believe
 this is unknown. Therefore breaking the private key of RSA may be easier
 than factoring.
