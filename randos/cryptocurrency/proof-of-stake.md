@@ -27,40 +27,74 @@ time from their work on the authoratative chain.
 
 ## Proof of Stake
 
-Of course, this is highly energy inefficient.
+I believe the idea is this. First, there are validators. The
+validators each sign blocks one after the other.
 
-What if we let anyone publish a block whenever they want? Then people
-would be presenting lots of chains, and who could say which is better
-than the others?
+To keep there being one history, we must disincentivize signing two
+blocks. The way that *slasher* does this is like so. If Markov signs
+versions A and B of block 100, first note that validator Curie who
+comes next will only build on one of the versions (because she doesn't
+want to get smacked down like Markov is about to). Let's say Curie
+builds on top of version A.
 
-One way to prevent people from building on multiple chains is called
-*slasher*. With slasher, it is considered misbehavior to forge blocks
-on multiple chains. If Alice forges blocks on chains A and B, then Bob
-can take her signature of the chain A block, and show that to chain
-B. Chain B will forfeit her coins. Likewise, Bob can show chain A to
-forfeit her coins.
+Anyone can submit a copy of Markov's signed version B to the chain
+built on top of version A. This special transaction does not
+invalidate Markov's version A on the A chain (that would revert
+history), but it does steal Markov's stake that he has put up to
+become a validator.
 
-This means there *is* a cost to building on both chains: forfeiture.
+If Markov's stake to steal is 10 BTC, he can't pay every validator 10
+BTC to ignore his malfeasance; that would not be economical. He
+*could* pay the next validator, but malfeasance proof can be submitted
+any time.
 
-Okay, maybe people don't want to build on two chains. But why should
-they work on the *same* chain?
+## Proof-of-Work Override
 
-One idea is if the group agrees on who should forge the next
-block. Anyone who tries to skip this order can be ignored.
+What if a validator is asleep? How will you skip them?
 
-However: what if someone is "asleep"? Clients can be configured to
-time out the validator, and move on to a "next in line"
-validator. They now get the chance to forge.
+You can have a proof-of-work override. There's a problem that is
+expected to take maybe 10min. If you solve the problem, you get to
+mine the block. The next validator gets to sign in the normal way.
 
-People can try to "line jump:" publish a new block without waiting for
-validator who is supposed to come next. The question is: will
-validators work on top of your block? You can disincentivize this
-through slasher; building on the "wrong" chain brings penalties. And
-if you can only choose one, why not play the Keynsian beauty contest
-of trying to guess who the others will pick?
+One question is: what stops you from just mining over-and-over to
+rewrite history?
 
-One problem: harder to discover what is the authoritative history
-now. Can no longer just judge on length.
+One possibility: the mining difficulty is different for different
+successors. For instance, maybe whenever it is Markov's turn, then
+Curie can skip with a difficulty that means 10min, but Gizmo can skip
+with a difficulty that implies 20min.
+
+The idea here is that while *someone* can skip relatively quickly,
+it's not like that same person can just go to the past and mine
+block-after-block via skipping.
+
+## "Long Range Attack"?
+
+(Not sure if I'm using the right term).
+
+Will validators ever be able to "cash out?" What if they want to stop
+being validators?
+
+If validators cash out (or if they are tired and willing to lose their
+stake), then they no longer have anything at stake. Which means they
+can sell their old keys, and people can sign duplicate copies of old
+blocks without any real penalty.
+
+You can reduce the problem by enforcing a delay of 3k blocks before a
+cash out is completed. This means that duplicate signed blocks should
+always be at least 3k blocks old.
+
+Except not really. Let's say that you wait until the entire set of old
+validators has turned over. You buy *all* their keys, so you own 100%
+of the validators. You can now mint blocks super fast to catch up
+(because you can always mint as the next validator, who has the
+easiest target, and you can just throw more CPUs at it).
+
+One way to stop this is never allow a reorganization greater than 3k
+blocks back. But that doesn't help anything, actually, for the same
+reason it wouldn't with Bitcoin. Anyone new to the network would be
+like: "WTF, why are you people working on this shorter version of the
+chain?" So things would look bizarre.
 
 ## Thoughts
 
