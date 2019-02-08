@@ -126,3 +126,20 @@ Takewaways:
 * http://www.confluent.io/blog/apache-kafka-samza-and-the-unix-philosophy-of-distributed-data
     * Not highly enlightening. Just talks about Unix streams.
     * It's more complicated than that...
+
+## More
+
+This post is useful:
+
+    https://www.confluent.io/blog/exactly-once-semantics-are-possible-heres-how-apache-kafka-does-it/
+
+It mentions that messages sent to Kafka are idempotent because of
+message ID. It also mentions you can transactionally send messages to
+multiple topics. Presumably this works via 2PC or somesuch? An
+application tells everyone to put the write in a temp space (or tells
+everyone about *all* writes). Someone eventually cleans this up when
+the write goes through everywhere? Anyone can recover if they've been
+replicated the write. Presumably relies on: no ordering across
+partitions still, even if part of same transaction.
+
+There's a lot more, but I am good for now...
