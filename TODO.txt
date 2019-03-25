@@ -7,6 +7,8 @@
 * Zero knowledge proof. Interactive proofs? Zcash?
 * Slasher protocol.
 * Compiler project.
+* Might be nice to get Deep Q Network to actually work...
+  * Neural Turing Machine, Monte-Carlo Tree Search.
 
 I think I want to resume studying AI/ML maybe. SVD and Kalman
 filtering are techniques I still want to properly understand.
