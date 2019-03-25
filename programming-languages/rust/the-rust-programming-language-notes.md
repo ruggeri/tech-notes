@@ -1040,3 +1040,4 @@ Wow there sure is a lot to read about Rust...
     * https://blog.rust-lang.org/
 * Read old This Week In Rust
     * https://this-week-in-rust.org/
+* https://rust-lang-nursery.github.io/rust-cookbook/
