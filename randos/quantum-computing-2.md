@@ -4,49 +4,6 @@ Sometimes you'll see `<0|` which means the conjugate transpose of
 `|0>`. So `<0||0> = 1`. We simplify and just write `<0|0>` (no double
 bar) to mean the inner product of `|0>` with itself.
 
-## Quantum Key Distribution
-
-I want to agree on secret key bits with you. We assume we have a
-quantum channel, and an authenticated classical channel. An
-authenticated channel means that Eve can eavesdrop but cannot pretend
-to be either of us. What kind of scenario could be like that: if I can
-authenticate can't I do crypto? Maybe the authentication comes from
-some factor that can't be mimicked, like your voice.
-
-Anyway, I send you some qubits, prepared either in the `|0>, |1>`
-computational basis or the Hadamard basis: `\frac{1}{\sqrt{2}} (|0> +
-|1>)`.
-
-I send you 32 qubits, each one prepared in a 50/50 choice of basis. 16
-will constitute our key, and 16 will be used for checking for
-eavesdroppers.
-
-How do we know eavesdroppers haven't observed the 16 qubits you're
-going to use as a key? Well, we're going to test them with the other
-16 qubits. You randomly choose a basis to measure each qubit in. You
-will send the results back to me. You will say what basis you measured
-in.
-
-For those 16 qubits, you probably measured half of them in the wrong
-basis. But for the other half you do choose correctly. I know what the
-right answers are in that basis.
-
-Now, if Eve had eavesdropped one of those eight qubits, then after
-measuring, she needs to put something back in the channel. But here's
-the problem: how is she going to know how to prepare the qubits again
-for replacement? Measuring the eavesdropped qubits doesn't give her
-any information about the basis they were prepared in.
-
-So if Eve puts a qubit back in, she has a 50% that she'll put it in
-the wrong basis. Then there's a 50% chance it's selected for
-parity. Then there's a 50% chance that Bob measures it in the right
-basis. If all those things happen (1/8), then Alice's eavesdropping is
-detected.
-
-Of course, you can amplify this by using more parity qubits. And you
-throw out everything and start again whenever you detect
-eavesdropping.
-
 ## Simon's Algorithm
 
 We have a function `f` defined on `n` bits where for some `a` `f(x) =
