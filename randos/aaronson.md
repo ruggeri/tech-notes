@@ -677,6 +677,40 @@ not independent.
 
 TODO1: I'm not sure I really understand mixed state.
 
+## Quantum Computing
+
+(I've moved on past Quantum now!)
+
+He talks about universal gate set. He talks about how, if you want to
+use a quantum algo as a subroutine of your quantum algo, you may have to
+"uncompute" so that you "erase" your Turing tape so that you're all
+zeroes again. That matters because you may want to interfere the results
+of your subroutines, and you can't have the subroutine results entangled
+with subroutine state else to do that.
+
+He says that BPP is in BQP. It's because anywhere you need to flip a
+coin, just apply Hadamard to `|0>` and observe.
+
+Of course, BQP is in EXP, because it can be simulated.
+
+He mentions that BQP is in PP. Here's why. He notes that to compute the
+probability that a machine accepts, you can iterate all computational
+paths. That is, for each gate, you pick one direction to go in. You
+accumulate a single amplitude along the way.
+
+Of course, there are so many paths. Some of the amplitudes are positive
+and others are negative. But ultimately each is computable in polytime.
+
+He already showed that whether the sum of exponentionally many terms is
+greater than a given threshold can be solved in PP. Anyway, I don't need
+to know everything about this...
+
+He does start to mention the many worlds explanation.
+
+## Penrose
+
+**TODO**
+
 ## More
 
 * An interview here:
