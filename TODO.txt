@@ -1,6 +1,5 @@
 **Reviewed 2018-12-16**
 
-* Finish Grover's algo.
 * PCA/SVD work.
 * Kalman Filtering. SLAM.
 * Writeup how reverse image search works. Text search/info retrieval.
@@ -9,6 +8,7 @@
 * Compiler project.
 * Might be nice to get Deep Q Network to actually work...
   * Neural Turing Machine, Monte-Carlo Tree Search.
+* Continue DB project? Bitcoin project?
 
 I think I want to resume studying AI/ML maybe. SVD and Kalman
 filtering are techniques I still want to properly understand.
