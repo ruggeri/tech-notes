@@ -709,7 +709,56 @@ He does start to mention the many worlds explanation.
 
 ## Penrose
 
-**TODO**
+Penrose is trying to say that the human brain operates in a
+nonalgorithmic way. He grounds this in Lucas' argument: if we work in
+fixed formal system `F`, we can "see" that "This sentence cannot be
+proved in F" is true, which shows that we aren't really working in
+`F`.
+
+Aaronson says: Lucas' argument is equivalent to claiming humans can
+"see" that `F` is consistent. But can all humans truly "see" that? And
+if we allow humans to be failable in this assumption, then we should
+grant the same option to be falliable to computers, in which case they
+can "prove" the statement too.
+
+Note: Penrose isn't saying the brain is a quantum computer. Quantum
+computers still have the same computability as Turing
+machines. Penrose is arguing that the brain can do hypercomputation.
+
+If you have this claim about hypercomputation, you shouldn't even be
+able to *simulate* intelligence with a Turing machine. But Aaronson
+says: surely you can do that with a huge lookup table.
+
+So Aaronson says: I think what we want is a machine that can simulate
+intelligence *efficiently*. Then it may be the case that no Turing
+machine can even simulate intelligence (efficiently).
+
+Of course, even if the brain is the kind of hypercomputer that can
+"simulate" intelligence efficiently, then why does that make us think
+that kind of computer is conscious. How do those things relate? And
+anyway, what does that have to do with the Lucas argument now?
+
+More generally: is there any relationship between quantum and
+consciousness? He quips: "they're both mysterious so the answer must
+be yes!" But, more charitably, he says: they both seem to have this
+aspect of reconciling third-person reality with first-person
+experience.
+
+Aaronson gives some reasons why they might not be related. If a
+non-quantum computer can be reproductively successful, why would it be
+selected for? People don't seem too be doing anything obvious that is
+only efficient on a quantum machine. The brain seems a weird place for
+quantum coherence to last. And anyway: all this speculation is
+supposed to explain consciousness, but it would still be equally
+mysterious why a computer computer has consciousness.
+
+He suggests one positive thing, though. Imagine the transporter
+experiment. Why might you not be okay with being destroyed? Perhaps
+the brain stores "you" inside quantum state. Then that can't be
+cloned. So the "transporter" cannot be duplicating you; it either
+fails to copy the quantum state, OR it would need to work in a fancier
+way. It would need to deconstruct you *as* you were reassembled on the
+other side (a la quantum teleportation).
 
 ## More
 
