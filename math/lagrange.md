@@ -27,14 +27,26 @@ differentiable. In the case that `f` is differentiable, its
 differential is the hyperplane defined by linear combinations of the
 partials.
 
-We must talk about the second derivative test; some partials may be
-positive, others negative, others zero. What we need is that the
-Hessian be negative . That means that `H \cdot \delta{x}` is always `<
-0`, so that the slope is always negative in the neighborhood, so that
-a maximum is attained at `x*`.
+Okay, so now we discuss the second derivative test. If the gradient is
+a vector of first-order partials, then the second derivative is a
+*matrix* of second-order partials. It is not enough that the diagonal
+consist of all negative values. That *does* tell you that moving
+straight away along the `i`th dimension will not positively impact the
+first-order partial of `f` wrt changes in dimension `i`.
 
-(TODO: Reviewing this document, I am a little confused. I think all
-partials must be zero, and all Hessian entries be negative.)
+But we must beware of saddle points! And the trickiest saddles are
+those which slope down along the the `e_1, e_2` directions, but slope
+*up* along `e_1 + e_2`
+
+We need `\delta{x}^T H \delta{x} < 0` for all small `\delta{x}`. That
+is, move in direction `\delta{x}` will change all the entries in the
+gradient by `H \delta{x}`. But we want to know how much our move of
+`\delta{x}` affects the overall `f` value. That is why we finally
+multiply `\delta{x}^T` with `H \delta{x}`. We need that to be `<0`.
+
+A matrix that has this property is called *negative definite*. This
+happens if all eigenvalues are negative. (We know of course that the
+Hessian has full eigenspace because of the spectral theorem).
 
 ## Equality Constraints
 
