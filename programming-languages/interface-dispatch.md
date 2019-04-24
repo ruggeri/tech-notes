@@ -170,3 +170,6 @@ Source: https://news.ycombinator.com/item?id=9526440
 
 [2]: https://wiki.openjdk.java.net/display/HotSpot/InterfaceCalls
 [1]: http://yanniss.github.io/521-10/oopsla01.pdf
+
+* Another good source: https://lukasatkinson.de/2018/interface-dispatch/
+    * I found this much later; it confirmed much of wbat I wrote here.
