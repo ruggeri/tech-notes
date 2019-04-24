@@ -33,6 +33,9 @@ Hessian be negative . That means that `H \cdot \delta{x}` is always `<
 0`, so that the slope is always negative in the neighborhood, so that
 a maximum is attained at `x*`.
 
+(TODO: Reviewing this document, I am a little confused. I think all
+partials must be zero, and all Hessian entries be negative.)
+
 ## Equality Constraints
 
 Now say that you need to optimize a function wrt an equality
@@ -64,16 +67,16 @@ where the isoquant of `f` is parallel to `g`. If that were not true,
 we could move a little along `g` (in one direction or another) and
 move either up or down `f`.
 
-Isoquants of `f` are perpindicular to `\grad f`. Likewise, the set
-`g(x)=0` defines a manifold perpindicular to `\grad g`. So we know
+Isoquants of `f` are perpendicular to `\grad f`. Likewise, the set
+`g(x)=0` defines a manifold perpendicular to `\grad g`. So we know
 that `\grad f` and `\grad g` must lie in the same subspace. If they
-did not, we can project `\grad f` onto the subspace perpindicular to
+did not, we can project `\grad f` onto the subspace perpendicular to
 `\grad g` and move a little along the manifold to pick up some
 positive `f` change.
 
 Therefore, we have `\grad f = \lambda \grad g`. The constant `\lambda`
 is called the *Lagrange multiplier*. At most points `x`, there is no
-such `\lambda`, but at a minimium or maximum there must be such a
+such `\lambda`, but at a minimum or maximum there must be such a
 `\lambda`.
 
 Here is how I would solve the problem. I would set `\grad f = \lambda
@@ -88,8 +91,8 @@ convert it back to `x`.
 ## Example
 
 Let's say we want to maximize `f(x, y) = x + y`. We are subject to the
-constraing `g(x, y) = x^2 + y^2 - 1 = 0`. Basically: find the point
-that maximizes `x + y` on the unit circle.
+constraint `g(x, y) = x^2 + y^2 - 1 = 0`. Basically: find the point that
+maximizes `x + y` on the unit circle.
 
 I then do like so:
 
@@ -98,7 +101,7 @@ I then do like so:
     (1/[2 \lambda], 1/[2 \lambda]) = (x, y)
 
 Now I ask: why may I assume that `\lambda != 0`. Because if `\lambda =
-0`, that means I wouldn't polute even if you didn't charge me. So in
+0`, that means I wouldn't pollute even if you didn't charge me. So in
 that case an optimum for `\lambda = 0` would be an optimum for any
 `\lambda != 0`.
 
@@ -136,11 +139,11 @@ In the pollution credit regime, your firm wants to maximize:
     f(x) - \lambda g(x)
 
 That is, it wants `\grad f(x) - \lambda \grad g(x) = 0`. This is the
-case at any price `\lambda`. However, at some prices `\lambda` you
-will choose to polute. The government wants to enforce `g(x) = 0`,
-which is an additional constraint.
+case at any price `\lambda`. However, at some prices `\lambda` you will
+choose to pollute. The government wants to enforce `g(x) = 0`, which is
+an additional constraint.
 
-One way to express this contraint is that the partial of `\lambda
+One way to express this constraint is that the partial of `\lambda
 g(x)` wrt `\lambda` is zero. That is really just a stupid restatement
 of `g(x) = 0`; it says nothing new. This does admit a new
 interpretation, though: that your firm is insensitive to small
