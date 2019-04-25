@@ -141,10 +141,12 @@ So far, so good. The CockroachDB people explain that the scheme
 described offers serializability. But it doesn't offer linearizability.
 That's because I can:
 
-1. Modify a record at partion 123 with a leader with a fast clock at
-   100ms. Wait for this to commit.
-2. Next, start a transaction to create a record at partion 456 with a
-   slow clock of 50ms.
+1. Markov signs up for my blog website. Create a user record at
+   partition 123 with a leader with a fast clock at 100ms. Wait for this
+   transaction to commit.
+2. Next, Markov authors a blog post. He writes the blog post record to
+   partition 456 with a slow clock of 50ms. Wait for this transaction to
+   commit.
 
 Now, if I historically look at things, it looks like the document was
 created before the user. I've violated linearizability (serializability
@@ -214,13 +216,14 @@ partition, you can wait for the time of the most recent tx to pass. That
 ensures the read data was assigned a timestamp truly in the past when
 you return the data to the user.
 
-When reading from multiple partitions, you *could* do an extra round of
-communication. You'd take the max of the timestamps read, and wait for
-all these to pass. Note: you want to choose the minimum safe timestamp,
-but that means the maximum
+Here's the corresponding optimization when reading from multiple
+partitions. You'd have the partitions report the time of their most
+recent performed transactions. No transaction will be performed at a
+lower timestamp. You take the maximum of those times. You now wait until
+every machine believes that this time has passed.
 
-They talk about how the timestamps can be granular. Duh; I wouldn't have
-wanted to do this for the entire node!
+Only once you have waited this long will you know that no new
+transaction will be written with a lower timestamp.
 
 ## Takeaways
 
