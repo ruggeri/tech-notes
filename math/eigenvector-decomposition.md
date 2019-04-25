@@ -40,13 +40,13 @@ and we have identified the 2nd, orthogonal eigenvector.
 Consider $B = Q^T A Q$, where $A$ is a symmetric matrix, and $Q$ is a
 rotation matrix. Then of course $B^T = Q^T A^T (Q^T)^T = Q^T A Q = B$.
 
-Then the preceeding statement about 2x2 matrices is a special
-case. For if we have identified one eigenvector, write it as the first
-row of $Q$, and chose any second row that is orthogonal. Then clearly
-the first column of the rotated matrix $A'$ is $(\lambda_1, 0)$. But
-since $A'$ must still be symmetric, it follows that it is
-diagonal. And thus we have that the second column is $(0, \lambda_2)$
-and we have our second eigenvector in the second row of $Q$.
+Then the preceding statement about 2x2 matrices is a special case. For
+if we have identified one eigenvector, write it as the first row of $Q$,
+and chose any second row that is orthogonal. Then clearly the first
+column of the rotated matrix $A'$ is $(\lambda_1, 0)$. But since $A'$
+must still be symmetric, it follows that it is diagonal. And thus we
+have that the second column is $(0, \lambda_2)$ and we have our second
+eigenvector in the second row of $Q$.
 
 **Inductive Step**
 
@@ -83,8 +83,8 @@ I will construct a series of rotations $Q_i$ such that:
     A = Q_1^T ... Q_{n-1}^T A' Q_{n-1} ... Q_1
 
 and $A'$ has empty first row and first column, except for a top-left
-$\lambda_1$. If I do that, then note that I have acheived an
-eigenvector which is the first row of $Q_{n-1} ... Q_1$.
+$\lambda_1$. If I do that, then note that I have achieved an eigenvector
+which is the first row of $Q_{n-1} ... Q_1$.
 
 Here is what I do. I start with the reduced 2x2 matrix:
 
@@ -172,8 +172,8 @@ symmetric, then so is $U$, and thus $U$ must be diagonal.
 Since this process works for *any* (real) matrix, every matrix is
 *triangularizable*. (Probably every complex matrix too...).
 
-**TODO**: Am I sure of this? Can rotation matrices be written as a
-Schur decomposition?
+Wait. Are rotation matrices triangularizable? Yes of course. For in the
+proper basis, a rotation matrix is simply the identical matrix. Duh.
 
 **Improving Numerical Stability**
 
