@@ -1,23 +1,21 @@
-**Reviewed 2018-12-16**
+**Reviewed 2019-04-25**
 
-* PCA/SVD work.
-* Kalman Filtering. SLAM.
+* Kalman Filtering.
 * Writeup how reverse image search works. Text search/info retrieval.
 * Zero knowledge proof. Interactive proofs? Zcash?
-* Slasher protocol.
 * Compiler project.
 * Might be nice to get Deep Q Network to actually work...
   * Neural Turing Machine, Monte-Carlo Tree Search.
 * Continue DB project? Bitcoin project?
 
-I think I want to resume studying AI/ML maybe. SVD and Kalman
-filtering are techniques I still want to properly understand.
+I think I want to resume studying AI/ML maybe. Now that I understand
+SVD, I think understanding Kalman filtering is within my reach.
 
 There isn't much I'm interested in with regard to algorithms. I am
 still interested in recalling how things like reverse image search and
 text search work.
 
-I don't think there is anything I really care to learn about
+I don't think there is anything more that I really care to learn about
 databases. With regard to distributed systems, I am interested in how
 something like Zcash works (more about crypto than distributed). I
-might also want to review Slasher again?
+think I have satiated my curiosity about proof-of-stake like Slasher.
