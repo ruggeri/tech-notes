@@ -39,10 +39,14 @@ Since `A^T A` is symmetric, the spectral theorem says we may write:
 
 (Where `V` is an orthogonal matrix.)
 
-This is basically saying that `\sqrt{\Sigma} V^T` would be a data-matrix
-with an equivalent correlation matrix. Now, the way to *remove*
-correlations in `A` is the same way to remove correlations in `V^T`.
-Set:
+This is basically saying that `\sqrt{\Sigma}^{1/2} V^T` would be a
+data-matrix with an equivalent correlation matrix. (**TODO**: This
+sounds weird. Clearly `\sqrt{\Sigma}^{1/2} V^T` doesn't have the same
+number of examples as `A`. Is each row of `\sqrt{\Sigma}^{1/2} V^T`
+supposed to be an "example" in some sense?).
+
+Now, the way to *remove* correlations in `A` is the same way to remove
+correlations in `\sqrt{\Sigma}^{1/2} V^T`. Set:
 
     A' := A (V \Sigma^{-1/2})
 
@@ -91,22 +95,101 @@ This is the **singular value decomposition**.
 which would basically align with the notation of `\sigma^2` for
 variance.)
 
-## TODO
+## Uses Of SVD/PCA
 
-* Feature selection?
+**Whitening of Data Matrix**
 
-## Applications
+First, we note that PCA uses the singular value decomposition (which
+applies for any matrix), but is based in a statistical theory. For
+instance, that is why we mean center and unit normalize the columns of
+the data matrix first. This is so that `A^T A` is properly the
+correlation matrix.
 
-* PCA, low-rank approximations. Feature compression.
-* Collaborative filtering.
-* Image compression.
-* Matrix factorization.
+First, PCA gives a "whitened" version of the data which is much easier
+to learn on. This is by removing correlations, but I also expect it
+helps to normalize the de-correlated features. Otherwise, if you are
+doing any kind of regularization, you'll have a preference for using
+those features that explain a lot of the variation in the dataset (and
+are thus already scaled bigger).
 
-* In low dimensional space:
-    * Clustering and categorization.
-    * Use for info retrieval. If you have a term document matrix,
-      you can extract meta-features and then match your query in that
-      space.
-* Note: LSI is a lot like PCA but it doesn't mean normalize, which can
-  turn a sparse matrix dense.
-* PCA does seem to be basically just SVD (plus mean centering).
+**Feature Selection**
+
+Of course, PCA is useful for doing feature selection and low-rank
+approximations. Any feature that is significantly predicted by other
+variables plus a small amount of normally distributed "noise" (possible
+"signal") will tend to be eliminated and have that "noise" dropped.
+
+One should be a little careful though. If the remaining "noise" is
+actually the important signal, PCA isn't going to detect. For instance,
+imagine a data-set where column one is some irrelevant variable
+(variance 1.0), and column two is a copy of that irrelevant variable,
+plus a tiny amount of noise. Then if PCA is forced to construct a single
+feature, it will want the first feature.
+
+Basically: PCA feature selection isn't being informed by your problem.
+
+An example of feature selection is the "eigenface" approach. Note that
+you can use PCA to do compression (minimizes squared loss).
+
+**Clustering**
+
+Say you want to do nearest-neighbor style clustering. You're doing this
+with the L2 norm in Euclidean space. Then if a variable is copied a
+bunch of times, it becomes more and more important for the purpose of
+calculating distance.
+
+By doing PCA and dropping those meta-features which capture little
+additional variance, you are reducing the "double counting" that was
+previously being performed. Note that I think it's important to
+normalize meta-feature columns to unit variance (after having used
+variance to drop unimportant meta-features), so that you don't retain
+the bias.
+
+An example is document classification, where you have documents and your
+features are the presence of certain words. In document categories that
+have lots of synonyms, you'd be over-emphasizing the importance of those
+categories.
+
+**Querying**
+
+If you cluster documents, you can also find those which are closest to a
+particularly query. For instance, if someone searches with terms X, Y,
+and Z, you can transform that into the latent feature space, and then do
+nearest-neighbor in that space.
+
+**Collaborative Filtering**
+
+You can do PCA for recommendation. Basically, your `U` is a matrix where
+rows are users, and columns are "personality traits." The columns of the
+matrix `V^T` describes the "ideal" set of personality traits associated
+with each product.
+
+To predict what a user `u` will think of a product `v^T` , we may take
+`u v^T`. But this will perfectly reconstruct the observation in the data
+matrix `A`.
+
+*But*, if we start dropping low-value features, the prediction will no
+longer be perfect. Effectively, we are suspecting that those low-value
+features are noise related to simply whether or not they have
+experienced that product, not whether they like the product.
+
+I may note: there is an *alternative* technique called *non-negative
+matrix factorization*. It is similar to PCA in that it searches for a
+latent representation of the users and a representation of the products.
+Like PCA it tries to identify good products by multiplying `u v^T`.
+
+The difference is that NNMF constrains the matrix to use only
+*non-negative entries*. The columns of `v^T` are likewise not
+constrained to be orthogonal. The learning is done by gradient descent.
+
+Basically, NNMF means that the features are only (positively) additively
+combined. If you're searching for latent features for faces, eigenfaces
+means you will "subtract" a face, but NNMF only lets you "add" faces. It
+is hoped that NNMF creates more interpretable features.
+
+I assume that, for the same `k`, PCA will minimize squared loss better
+than NNMF, because that is what PCA is the solution for. I'm not sure
+when NNMF is a better choice. NNMF should tend toward *sparse
+representations* of users; a feature that is negatively correlated with
+the user's original representation will simply not be used in the user's
+re-representation.
