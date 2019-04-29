@@ -1,4 +1,4 @@
-## Godel, Turing and Friends
+## Ch3: Godel, Turing and Friends
 
 **Godel's Completeness Theorem**
 
@@ -148,7 +148,7 @@ physical system. There are many more choices to make. There's more
 than one model consistent with the theory. As we observe new
 phenomena, we may need to grow outr theory.
 
-## Minds and Machines
+## Ch 4: Minds and Machines
 
 Church-Turing thesis: anything computable is computable on a TM. This
 isn't a proof of anything; it's more a guess. Will we come up with a
@@ -172,7 +172,7 @@ He does wonder, as I do, about how it is that we "perceive"
 ourselves. We don't "feel" like robots. If we were just robots, how
 would we feel like we do?
 
-## P, NP, and Friends
+## Ch 6: P, NP, and Friends
 
 Naturally we're interested in things we can compute
 efficiently. Efficient on what machine? We could say TM; then any
@@ -319,7 +319,7 @@ it to be intermediate between `P` and `NP`-complete (and
 Aaronson talks about polynomial hierarchy, which is a generalization
 of NP and coNP, but I don't care too much right now...
 
-## Randomness
+## Ch 7: Randomness
 
 Expectation of variables is linear: expectation of a sum of two
 variables (even if correlated) is sum of their expectations.
@@ -477,7 +477,7 @@ Okay: I clearly don't follow a lot of this; it's above my paygrade
 mabye. But I understand enough that I might be able to come back and
 make more sense...
 
-## Crypto
+## Ch 8: Crypto
 
 OTP is clearly optimal, but hard to distribute keys.
 
@@ -554,7 +554,7 @@ problems. This lets you compute on encrypted data.
 Lattice cryptography is not yet efficient, but it is getting more
 practical.
 
-## Quantum
+## Ch 9: Quantum
 
 Quantum generalizes probability to include negative and imaginary
 amplitudes. Okay, take a bit. It has a certain probability of being a
@@ -675,11 +675,13 @@ which *cannot* be a tensor product:
 This is a pair of *entangled* qubits. We might say that there state is
 not independent.
 
+He goes on to discuss no cloning, quantum crypto, and quantum
+teleportation. But I've covered all those in my quantum subfolder. I
+augmented Aaronson with the Quantum Computing Without The Physics paper.
+
 TODO1: I'm not sure I really understand mixed state.
 
-## Quantum Computing
-
-(I've moved on past Quantum now!)
+## Ch 10: Quantum Computing
 
 He talks about universal gate set. He talks about how, if you want to
 use a quantum algo as a subroutine of your quantum algo, you may have to
@@ -705,9 +707,14 @@ He already showed that whether the sum of exponentionally many terms is
 greater than a given threshold can be solved in PP. Anyway, I don't need
 to know everything about this...
 
+He shows some algos like Simon's algorithm. Again, I have explored those
+in my quantum folder. He notes that Simon's algorithm shows that,
+relative to an oracle, `BPP != BQP`. That suggests that maybe BQP is
+more powerful than BPP.
+
 He does start to mention the many worlds explanation.
 
-## Penrose
+## Ch 11: Penrose
 
 Penrose is trying to say that the human brain operates in a
 nonalgorithmic way. He grounds this in Lucas' argument: if we work in
@@ -717,8 +724,8 @@ proved in F" is true, which shows that we aren't really working in
 
 Aaronson says: Lucas' argument is equivalent to claiming humans can
 "see" that `F` is consistent. But can all humans truly "see" that? And
-if we allow humans to be failable in this assumption, then we should
-grant the same option to be falliable to computers, in which case they
+if we allow humans to be fallible in this assumption, then we should
+grant the same option to be fallible to computers, in which case they
 can "prove" the statement too.
 
 Note: Penrose isn't saying the brain is a quantum computer. Quantum
