@@ -767,6 +767,129 @@ fails to copy the quantum state, OR it would need to work in a fancier
 way. It would need to deconstruct you *as* you were reassembled on the
 other side (a la quantum teleportation).
 
+## Ch 12: Decoherence And Hidden Variables
+
+Notes that the weirdness of quantum is not that it is stochastic, but
+that there is interference. Says otherwise Einstein would not think this
+is spooky (just that we might have imprecise measurement).
+
+So he starts out: what if your brain is in a superposition of seeing a
+red or blue dot. Then we do a unitary transformation. What's the
+probability of seeing a red dot given that you saw a blue dot before?
+
+Basically: you can't do "conditioning" when talking about quantum
+states. At a previous time, you weren't in any one state: you were in a
+superposition. And if you had measured at the prior time, then running
+the experiment would give you a totally different result.
+
+This challenges the idea that you have a "past."
+
+Anyway, he talks about decoherence. Basically, say you have an EPR pair,
+but you lose one of the qubits. Now you don't get the proper
+interference when you apply quantum operations to the remaining qubit.
+
+He mentions that he thinks that (1) decoherence is a lot like the second
+law (because as system decoheres, any individual region of space will
+see its entropy go up). He also suggests that (2) this is what motivates
+the arrow of time. As in: as time moves forward, the system decoheres,
+and branches of the quantum state will separate and probably never
+interfere again in the "future."
+
+He notes that the tree can't branch forever (even in an infinite
+dimensional space?). But he notes that we'll all be dead by the time the
+branches start interfering with each other. Anyway, the whole discussion
+kind of dodges the original question about "conditioning" on past
+experience.
+
+**Hidden Variables**
+
+Basically, a hidden variable theory tries to give an explanation for any
+quantum phenomenon in terms of operations on a normal L1 probability
+state. He notes that by definition they are indistinguishable from
+quantum theory.
+
+He notes 4 things about hidden variable theories:
+
+* If you want to cook up a transition matrix that evolves the
+  probabilistic state to match the evolution of quantum state `\phi`
+  with unitary operation `U` applied, then the transition matrix must
+  also depend on the state `\phi`. That is: the evolution function for
+  the hidden variable state is not merely a translation of the evolution
+  function for the quantum state.
+* Any hidden variables theory will not give the same stochastic
+  transition matrix for `VU` as you get from translating `V` and `U`
+  independently and multiplying. So the translation is not "time-slice
+  independent."
+* Skipped one...
+* Last, Bell's theorem shows that any hidden variable theory needs to
+  have an explanation involving "instantaneous communication." He
+  stresses: not that we could use the hidden variable theory to send
+  messages faster than light; just that there needs to be some kind of
+  collapse across points instantaneously.
+
+He gives some hidden variable theories. He ends with the Bohmian one.
+Basically, Bohmian mechanics is *deterministic*, but non-local. The
+transition matrix is all ones and zeroes.
+
+Anyway... I don't know that I fully understand these things...
+
+## Ch 13: Proofs
+
+He investigates probabilistic proofs. One class is `MA`: Merlin-Arthur.
+Here, the question is: "Are there polynomial sized proofs that can be
+verified by a randomized algorithm?" This is a smashup of NP with BPP.
+
+This can be extended to Arthur-Merlin `AM`. Here, Arthur can first
+submit a random "challenge" to Merlin. Basically, this means that Merlin
+shouldn't be able to cook up any "trick" proofs; his proof needs to be
+responsive to Arthur's challenge. `AM` clearly contains `MA`, but there
+is a proof that additional rounds of communication are pointless. The
+conventional wisdom is that `P = MA = AM`.
+
+He talks about zero-knowledge proofs. One example is graph
+non-isomorphism. Say you want to prove that you know two graphs are
+non-isomorphic. Then you let the challenger submit a permutation of one
+of the two graphs. Because they are not isomorphic, you can tell which
+one this corresponds to. You reply thusly. This convinces the
+challenger.
+
+Note: the challenger learns nothing here. He gains no ability to
+convince anyone else that the graphs are not isomorphic (since they can
+submit their own challenges). This is an example of a *statistical ZKP*.
+
+Another kind is a *computational ZKP*. Here, we do our graph coloring
+thing, where we encrypt our colorings for commitment. We are relying on
+non-invertibility of our encryption. Clearly `SZK` is contained in
+`CZK`.
+
+A *probabilistically checkable proof* (PCP) says that you can verify a
+proof by just looking in a few random places. That is: in the right
+proof system, a false proof should make errors just about everywhere.
+
+Consider graph isomorphism. For problem size `n`, consider an
+enumeration of all graphs of size `n`. The "proof" is an exponentially
+long string, where each bit `i` corresponds to the `i`th graph in the
+list. You give a zero if the `i`th graph corresponds to `G_0` or a one
+if it corresponds to `G_1`. Else you choose randomly (doesn't matter).
+
+The checker chooses a graph, does a permutation, and then checks that
+position to see if you have a zero or one there. They quickly realize
+that you have always got the right answer.
+
+Of course, this is bogus because a huge string is required. But the PCP
+theorem says (1) every NP problem has a PCP, and (2) the proof length is
+polynomial in the problem size.
+
+Last, he explores a complexity class called DQP. Basically, this is a
+model of computation which is like quantum, but it assumes a hidden
+variable theory, and it says that when you measure, you don't just get
+the result, but you get the whole history of the hidden variables.
+
+He shows how this would give you some speedup over BQP on a certain kind
+of problem. He doesn't believe this kind of computing device exists, but
+he thinks it is interesting because it shows that you can "modestly"
+extend BQP without being able to solve all NP complete problems.
+
 ## More
 
 * An interview here:
