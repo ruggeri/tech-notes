@@ -44,7 +44,7 @@ non-coprime numbers `x<p`, so you should find one after not too long of
 testing.)
 
 Anyway, this *suggests* that BPP might be larger than `P`, but we don't
-strictly know.
+strictly know. (Looks like the expectation of most is that `P = BPP`).
 
 **Quantum State**
 
