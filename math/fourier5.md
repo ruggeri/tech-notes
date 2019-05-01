@@ -1,36 +1,5 @@
 ## Fourier Transform
 
-We are also interested in *aperiodic* functions. That is: functions
-defined on the whole real line.
-
-An aperiodic function must use an infinite number of frequencies, as
-otherwise. If it were comprised of a finite series of sinusoidals, each
-with period `\lambda_i`, then just take `\lambda = \Pi_i \lambda_i`. The
-function has period dividing `\lambda`.
-
-Let's project our aperiodic function `f` onto a sinusoidal with
-frequency `fq`.
-
-Let's consider a single frequency `fq`.
-
-That is, we want to project onto
-`exp(i * 2pi * fq * t)` by forming the integral:
-
-    m_k(fq) = 1/(fq/k) \int_{-1/(2fq/k)}^{1/(2fq/k)} f(t) exp(-i * 2pi * fq * t) dt
-
-Whew! The key thing is that this is `m_k(fq)`, where the base frequency
-is `fq / k`, and the period integrated over is thus `k/fq`.
-
-We know that if `f(f)` does in fact equal `exp(-i * 2pi * fq * t)`, then
-this value `m_k(fq)` will *always* be 1.0. In fact, we can let `k`
-continuously range toward infinity, and we will still converge to 1.0.
-That's because the uncompleted part of the wave becomes less and less
-significant, next to the many correctly measured complete cycles.
-
-In general, for a fixed `k`, to reconstruct `f(t)` we use the `m_k(fq)`
-as weights, and do the weighted sum out all frequencies a multiple of
-`fq/k`. You could also call the weights *masses*.
-
 But what if the mass is always zero? That can happen. As in: consider if
 we split up a rectangle into finer and finer segments, under the theory
 that we sum up the mass of all the segments to get back the original
