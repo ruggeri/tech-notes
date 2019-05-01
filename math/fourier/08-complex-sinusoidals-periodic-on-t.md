@@ -12,6 +12,16 @@ that:
 
   c \exp{i * k * t)} = \exp{i * -k * t}
 
+Note that once we have negative `k`, we can write:
+
+    0.5 \exp{i * k * t} + 0.5 \exp{i * -k * t}
+    = 0.5(cos(kt) + i sin(kt)) + 0.5(cos(-kt) + isin(-kt))
+    = 0.5(cos(kt) + i sin(kt)) + 0.5(cos(kt) - isin(kt))
+    = cos(kt)
+
+Likewise we could recover `sin(kt)`. So note that the real valued
+sinusoidals are in the span of these complex valued ones!
+
 **Inner Product Continues To Work Great**
 
 To project `f` onto `exp(i * k * t)`, we will do as before:
