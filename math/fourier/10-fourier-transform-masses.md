@@ -23,6 +23,9 @@ What would be our generalization of the inner product? We could try:
       1/T
       \int_{-T/2}^{T/2} f(t) \conj{g(t)} dt
 
+(**NOTE**: This is *not* the L2 inner product! That inner product
+doesn't have my `1/T` correction factor.)
+
 If `f(t) = g(t) = exp(i*\omega*t)`, then this continues to be `1.0` as
 expected. Why? Whenever `T = k \omega`, then this is perfectly `1.0`.
 The "error" of accounting only for a part of the full period is greatest
@@ -41,3 +44,7 @@ the limit approaches zero.
 Calculating these limits, if `f` is indeed equal to a countable sum of
 the basis vectors, we may decompose `f` into "mass" values for each
 basis vector.
+
+(Notice the handwaving. Countable sum? I didn't define the norm I'm
+using on the whole space. Presumably it is the square-root of the inner
+product I gave above. But that is **not** quite the L2 norm!)
