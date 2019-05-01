@@ -173,7 +173,7 @@ every radii of the circle. But that's only 1/2 the length story; you're
 leaving out the ys.
 
 This shows that we need a *correction factor* when doing projections.
-The correction factor is to multiply by `1/pi`. If the wavelength had
+The correction factor is to multiply by `2/2pi`. If the wavelength had
 been `T`, that just stretches everything out by `T`, so the correction
 factor would be `2/T`.
 
@@ -198,9 +198,8 @@ integrate. If we did integrate on `[0, 2pi)`, we'd just get `2pi c`. You
 can see the correction factor is `1/T`.
 
 Why the difference? Maybe because the real valued approach of projecting
-onto just `cos(theta)` only gives you half the story.
-
-**TODO**: Can you make this `1/T` vs `2/T` story more precise?
+onto just `cos(theta)` only gives you half the story. (Actually, that's
+*exactly* the reason.)
 
 ## Sinusoids with period dividing T
 
@@ -231,9 +230,9 @@ correction factor.
 
 The real question is: what about `sin(k1t)` onto `sin(k2t)`. Is the
 projection zero? Here's how I see it. Say the first of these waves is
-travelling faster than the second (one has to be if `k1 != k2`). Then
-for every rotation that the first makes, the second falls `theta`
-degrees behind.
+traveling faster than the second (one has to be if `k1 != k2`). Then for
+every rotation that the first makes, the second falls `theta` degrees
+behind.
 
 So consider each time when the first wave is at phase `phi`. The
 question is: what is the sum of the second wave's values at these times?
@@ -277,8 +276,8 @@ net-zero correlation.
 
 ## Space of Functions Spanned
 
-Any finite sum of sinusoidals will have period `T`. It will be
-continuous and everywhere differentiable.
+Any finite sum of sinusoidals with period `T/k_i` will have period
+dividing `T`. It will be continuous and everywhere differentiable.
 
 What about "infinite sums" of the basis vectors? Do these make any
 sense? Maybe, if they converge, for some meaningful definition of
@@ -293,20 +292,23 @@ Let me give one justification for the L2 norm. The L2 norm basically
 asks: how much of yourself would you want to use to reconstruct
 yourself, according to this inner product? Say you have a sequence of
 fns `f_k`, and the L2 norm of `||f - f_k||` doesn't converge to zero.
-Then that basically says: I always want to use more of myself; the
-approximation sequence hasn't fully captured what I am about.
+Then that basically says: the "remainder" doesn't want to use
+less-and-less of itself.
 
-Our space is not complete with respect to this basis. That is, there are
-Cauchy sequences that don't converge to any algebraically spanned
-function. I will later show that a sequence of sums converges to an
-indicator function of `(a, b)`.
+(One can also note: the inner product multiplies amplitudes. The L2 norm
+is exactly the norm that undoes that.)
+
+Our space of sinusoidals is not complete with respect to the sinusoidal
+basis `{ sin(kt), cos(kt) }`. That is, there are Cauchy sequences that
+don't converge to any algebraically spanned function. I will later show
+that a sequence of sums converges to an indicator function of `(a, b)`.
 
 What is the completion of the space? It is all of the L2 integrable
-functions on the period `T`. This should be provable if I can show (1)
-the basis spans (topologically) any indicator `(a, b)`, and (2) any
+functions that have period `T`. This should be provable if I can show
+(1) the basis spans (topologically) any indicator `(a, b)`, and (2) any
 function topologically spanned is square integrable.
 
-So the completion is `L2(0, 1)`. By the time I'm done I should have
+So the completion is `L2(0, T)`. By the time I'm done I should have
 shown that the sine waves are a topological basis for this space. There
 are other possible *algebraic* bases: ones which are linearly
 independent, and can exactly sum to any function in `L2`. The problem
@@ -320,7 +322,9 @@ We are also interested in *aperiodic* functions. That is: functions
 defined on the whole real line.
 
 An aperiodic function must use an infinite number of frequencies, as
-otherwise it would be periodic on the longest wavelength.
+otherwise. If it were comprised of a finite series of sinusoidals, each
+with period `\lambda_i`, then just take `\lambda = \Pi_i \lambda_i`. The
+function has period dividing `\lambda`.
 
 Let's consider a single frequency `fq`. That is, we want to project onto
 `exp(i * 2pi * fq * t)` by forming the integral:
