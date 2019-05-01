@@ -55,3 +55,8 @@ Everything will cancel out.
 I think this view is more intuitive. It basically says: unless we are in
 lockstep (`k=k1`) we will totally shift through each other, having a
 net-zero correlation.
+
+Note that if `k1 = -k`, then `\int f(t) exp(-i*k1*t) dt` *still
+integrates to zero*. If we *didn't* use the complex conjugate, then the
+inner product of `exp(i*k*t)` and `exp(i*-k*t)` would be `T` instead of
+zero!
