@@ -29,9 +29,18 @@ is exactly the norm that undoes that.)
 **The Algebraic Closure Is Incomplete**
 
 Our space of sinusoidals is not complete with respect to the sinusoidal
-basis `{ sin(kt), cos(kt) }`. That is, there are Cauchy sequences that
-don't converge to any algebraically spanned function. I will later show
-that a sequence of sums converges to an indicator function of `(a, b)`.
+basis `{ \sqrt{2/T} sin(kt), \sqrt{2/T} cos(kt) }`. That is, there are
+Cauchy sequences that don't converge to any algebraically spanned
+function. I will later show that a sequence of sums converges to an
+indicator function of `(a, b)`.
+
+Note: even though an indicator function on `(a, b)` is spanned
+topologically, that does not mean that there is a sequence that
+pointwise converges to the indicator function. Consider the endpoints
+`a, b`. The sinusoidal sequence will "jump" past those. This is called
+the "Gibbs phenomenon." There is a finite jump of about 9%. But since
+the jump is only at a couple points, it doesn't affect the L2 norm, and
+the series still converges in norm to the indicator function.
 
 What is the completion of the space? It is all of the L2 integrable
 functions that have period `T`. This should be provable if I can show

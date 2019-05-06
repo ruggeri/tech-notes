@@ -24,9 +24,9 @@ sinusoidals are in the span of these complex valued ones!
 
 **Inner Product Continues To Work Great**
 
-To project `f` onto `exp(i * k * t)`, we will do as before:
+To project `f` onto `\sqrt{1/T} exp(i * k * t)`, we will do as before:
 
-    1/2pi * \int f(t) * exp(-i * k * t) dt
+    \int f(t) * \sqrt{1/T} exp(-i * k * t) dt
 
 As before, when `f(t) = c exp(i * k * t)`, we'll recover `c`. So we may
 assume instead that `f(t) = c exp(i * k2 * t)`, for `k2 != k`.
@@ -48,7 +48,7 @@ Finally `f` gets back to no angle ahead. If `gcd(k, k2) > 1`, then they
 will make additional "full" rotations like this, but it won't matter
 (since the integral on the first "full" rotation will be zero anyway).
 
-The point is: all this will cancel out. `f exp(-i*k*t)` is itself
+The point is: all this will cancel out. `f(t) exp(-i*k*t)` is itself
 describing circular motion. And the integral on circular motion is zero.
 Everything will cancel out.
 
@@ -56,7 +56,13 @@ I think this view is more intuitive. It basically says: unless we are in
 lockstep (`k=k1`) we will totally shift through each other, having a
 net-zero correlation.
 
-Note that if `k1 = -k`, then `\int f(t) exp(-i*k1*t) dt` *still
-integrates to zero*. If we *didn't* use the complex conjugate, then the
-inner product of `exp(i*k*t)` and `exp(i*-k*t)` would be `T` instead of
-zero!
+(This corresponds to my feeling about the inner product. It is asking:
+how many degrees ahead am I? Note that any two sinusoidals which are not
+in lockstep will constantly "shift" through each other. That is, the
+inner product of `sin(kt)` with `sin(k2t + \phi)` is the same for all
+`\phi`. Which means it has to be zero.)
+
+Note that if `k1 = -k`, then `\int f(t) * \sqrt{1/T} exp(-i*k1*t) dt`
+*still integrates to zero*. If we *didn't* use the complex conjugate,
+then the inner product of `\sqrt{1/T} exp(i*k*t)` and `\sqrt{1/T}
+exp(i*-k*t)` would be `1.0` instead of zero!

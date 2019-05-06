@@ -20,11 +20,15 @@ aperiodic.)
 What would be our generalization of the inner product? We could try:
 
     \lim_{T->\infty}
-      1/T
-      \int_{-T/2}^{T/2} f(t) \conj{g(t)} dt
+      \frac{
+        \int_{-T/2}^{T/2} f(t) \conj{g(t)} dt
+      }{
+        \int_{-T/2}^{T/2} g(t) \conj{g(t)} dt
+      }
 
-(**NOTE**: This is *not* the L2 inner product! That inner product
-doesn't have my `1/T` correction factor.)
+Note that this is a "normalized" version of the L2 inner product. The
+reason we want to do this normalization is because `exp(i*\omega*t)` has
+infinite norm.
 
 If `f(t) = g(t) = exp(i*\omega*t)`, then this continues to be `1.0` as
 expected. Why? Whenever `T = k \omega`, then this is perfectly `1.0`.
@@ -45,6 +49,5 @@ Calculating these limits, if `f` is indeed equal to a countable sum of
 the basis vectors, we may decompose `f` into "mass" values for each
 basis vector.
 
-(Notice the handwaving. Countable sum? I didn't define the norm I'm
-using on the whole space. Presumably it is the square-root of the inner
-product I gave above. But that is **not** quite the L2 norm!)
+(Technically I didn't show convergence of the sum in the L2 norm, but
+whatever...)

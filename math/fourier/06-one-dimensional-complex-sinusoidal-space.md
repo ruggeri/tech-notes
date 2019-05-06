@@ -24,4 +24,3 @@ have both real and imaginary parts.
 So our world with two basis vectors `sin` and `cos` with real scalars is
 slightly different from our world with one basis vector `cos(theta) +
 isin(theta)` with complex scalars. But they are also very similar.
-

@@ -23,7 +23,7 @@ zero. The same argument about integrating an odd function applies.
 What about `sin(kt)` projected onto `sin(kt)`? This is still `\pi`,
 because you make `k` revolutions around, but you're making them `k`
 times more rapidly. So the total remains the same and so does the
-correction factor: `2/T`. The same argument of course applies to
+correction factor: `\sqrt{2/T}`. The same argument of course applies to
 `cos(kt)`.
 
 **Sinusoidals With Different Periods Are Orthogonal**

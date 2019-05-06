@@ -12,9 +12,9 @@ our same property to hold. We want the velocity to equal `i * exp(i*t)`.
 That says: we want velocity always to be perpendicular to the position,
 with equal magnitude. We also know that `exp(0) = 1`.
 
-That describes rotation around the unit circle with constant speed equal
-to 1.0. A rotation takes `2pi` seconds. And the position at any time `t`
-is given by:
+That describes a counter-clockwise rotation around the unit circle with
+constant speed equal to 1.0. A rotation takes `2pi` seconds. And the
+position at any time `t` is given by:
 
   cos(t) + isin(t)
 

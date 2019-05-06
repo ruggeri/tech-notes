@@ -18,7 +18,9 @@ Note that multiply 1 by `i` is a rotation by 90deg, `i` multiplied by
 
 I say that multiplying by `cos(theta) + isin(theta)` is equivalent to a
 rotation by `theta` degrees. We know this is true when multiplying `1`
-and `i`.
+and `i`. That is, multiplication by `cos(theta) + i sin(theta)` maps `1`
+to `cos(theta) + i sin(theta)` and maps `i` to `-sin(theta) + i
+cos(theta)`, as expected.
 
 I say: extend this definition of multiplication *as* rotation to all the
 complex numbers. That is: multiplying `a + bi` by `cos(theta) +

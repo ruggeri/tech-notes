@@ -1,30 +1,33 @@
 We would like to consider *uncountable sums* of our basis vectors. What
 could that even mean?
 
-When we're talking about uncountable sums, we're talking about
-integration. What do we need for integration? First, we need a *measure*
-on open sets in the space from which we are summing up. Then we need to
-assign a *density* to each point in the space.
+It's clear we want to do some kind of integration. We want a *measure*
+on the space of `exp(i*\omega*t)`. The measure will assign *masses* to
+*sets* that partition the space. We already saw that some points in the
+space may be assigned some *mass*.
 
-For the notion of convergence to make sense, we need a sequence of
-finer-and-finer approximations. We achieve this by choosing
-finer-and-finer partitioning of the space being integrated over.
+Let me call attention to functions with finite L2 norm that have compact
+support (these are aperiodic by definition). Then note that the mass for
+each frequency `\omega` in the decomposition must be zero.
 
-Last, we need a norm, so that the idea that a sequence can converge
-makes sense.
+Once we have factored out the "mass" part, we can start talking about
+*density* at each `\omega`. That will increase the number of functions
+that are decomposable. But in order to have a notion of density, we must
+have a corresponding metric on the space `exp(i*\omega*t)`.
 
-(I'm probably not speaking very accurately about Lebesgue integration,
-but give me a break.)
-
-Now, if we want to decompose functions into the Fourier basis, assigning
-a "density" for each basis vector `exp(i*\omega*t)`, then we need a
-notion of proximity in our basis. But the inner product/norm I used in
-the prior section won't help.
+This metric *cannot* be implied by the inner product we have been using
+up to now. Why?
 
 The reason is that the Fourier basis is *discrete* with respect to the
-norm I introduced. You might suspect that this is the case, because the
-inner product of two basis vectors is always `0.0`. If you do the math
-(and I have at the whiteboard), you'll see that my "fake" L2 norm from
+norm I've been using. You might suspect that this is the case, because
+the inner product of two basis vectors is always `0.0`. If you do the
+math (and I have at the whiteboard), you'll see that the L2 "norm" from
 the previous section evaluates to `\sqrt{2}` for any two sinusoidals
 with different periods. That makes sense: `||e_2 - e_1||_2 = \sqrt{2}`
 sounds like it should be correct.
+
+So let's introduce our own metric on the basis space. We will measure
+distance between two sinusoidals by the distance in their angular
+frequency. Given that, we know what we want:
+
+    f(t) = \int_\omega f\hat(\omega) exp(i*\omega*t) d\omega
