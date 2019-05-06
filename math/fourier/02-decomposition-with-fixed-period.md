@@ -58,3 +58,6 @@ variable of rotation...
 
 A "statistics" view is that you are asking for the "correlation" between
 `u` and `v`. In that setting, the inner product makes sense.
+
+**TODO**: clarify these random, still un-unified and incomplete thoughts
+into a more coherent story.

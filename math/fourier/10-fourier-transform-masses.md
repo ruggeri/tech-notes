@@ -49,5 +49,9 @@ Calculating these limits, if `f` is indeed equal to a countable sum of
 the basis vectors, we may decompose `f` into "mass" values for each
 basis vector.
 
-(Technically I didn't show convergence of the sum in the L2 norm, but
-whatever...)
+But wait a moment, what does it mean for the sequence of sinusoidal sums
+to "converge?" There can be no convergence in `L2` norm, because we're
+talking about functions that don't even have finite `L2` norm! So we'd
+have to talk about some kind of normalized generalization of norm as
+well. As in: do we capture closer-and-closer to 100% of what the
+original function is about.
