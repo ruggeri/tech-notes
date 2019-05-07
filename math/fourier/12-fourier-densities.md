@@ -77,3 +77,37 @@ of `1/T`, then (when properly normalized overall), that should converge
 to the correct answer as `T` increases.
 
 **What is the normalizer?**
+
+The normalizer pertains to the difference between measuring time in
+seconds, but measuring frequency in terms of radians per second rather
+than cycles per second.
+
+Consider trying to project `f(t) = exp(i*t)` onto itself. Consider
+calculating this projection over one cycle: from zero to `2\pi` seconds.
+
+The "normalized" projection is:
+
+    \int_0^{2\pi} f(t) exp(-it) / |exp(it)|^2 dt
+    = \int_0^{2\pi} 1.0 / 1.0 dt
+    = 2\pi
+
+I want to compare this to the corresponding "granularity" of projecting
+over `2\pi` seconds. The Fourier series would ask us to assign a value
+to each of `exp(i*k*t)`, which is an angular frequency width of `1.0`.
+
+By increasing `T` to `2k\pi`, we reduce the angular frequency width to
+`1/k`, while increase the total "mass" of the projection to `2k\pi`. To
+me, this means that the mass assigned to a region is always `2\pi` times
+greater than desired. Thus we should apply a correction factor when
+performing the inverse Fourier transform:
+
+    \frac{1}{2\pi} \int f\hat(\omega) exp(i*\omega*t) dt
+
+**Other Notations**
+
+Physicists seem to prefer angular frequency. They can gain a symmetric
+Fourier transform/inverse Fourier transform by applying a correction of
+`\frac{1}{\sqrt{2\pi}}` on either side.
+
+Another alternative is to project onto `exp(i * 2pi * fq * t)`. Then
+then unit of frequency does match up properly!
