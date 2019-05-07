@@ -76,6 +76,8 @@ give each of those frequency amplitudes an equal weight equal to a width
 of `1/T`, then (when properly normalized overall), that should converge
 to the correct answer as `T` increases.
 
+(This argument is unclear, but I  expand and clarify below.)
+
 **What is the normalizer?**
 
 The normalizer pertains to the difference between measuring time in
@@ -91,15 +93,28 @@ The "normalized" projection is:
     = \int_0^{2\pi} 1.0 / 1.0 dt
     = 2\pi
 
-I want to compare this to the corresponding "granularity" of projecting
-over `2\pi` seconds. The Fourier series would ask us to assign a value
-to each of `exp(i*k*t)`, which is an angular frequency width of `1.0`.
+We know that the mass will scale linearly in `k`, the number of complete
+rotations; that is `2k\pi` radians. But we can see that the mass being
+calculated is always off by a factor of `2\pi`, even if you took care of
+eliminating the factor by which increased `T` results in increased
+projection magnitude (which we have done, by taking the ratio of
+projections).
 
-By increasing `T` to `2k\pi`, we reduce the angular frequency width to
-`1/k`, while increase the total "mass" of the projection to `2k\pi`. To
-me, this means that the mass assigned to a region is always `2\pi` times
-greater than desired. Thus we should apply a correction factor when
-performing the inverse Fourier transform:
+Here is another thought. What is the correct density? We know that, in
+the limit of `T`, the result for `exp(i*t)` is unbounded. But if
+`T=2\pi`, then the Fourier series would ask us to assign a value to each
+of `exp(i*k*t)`, which is an angular frequency width of `1.0`. And the
+mass to assign will always be `1.0` (if we've normalized correctly).
+
+By increasing `T` to `2k\pi`, we *reduce* the angular frequency width in
+the Fourier series to `1/k`. But the desired mass to assign is *still*
+`1.0`. So the correct density for the interval of width `1/k` is `k`.
+
+But the integral is giving us back a value of `2k\pi`, which is exactly
+`2\pi` too much.
+
+Thus we should apply a correction factor when performing the inverse
+Fourier transform:
 
     \frac{1}{2\pi} \int f\hat(\omega) exp(i*\omega*t) dt
 

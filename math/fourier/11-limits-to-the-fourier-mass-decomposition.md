@@ -2,10 +2,10 @@
 
 Let me call attention to those functions `f` that have finite L2 norm.
 For any `\omega`, we must assign that zero mass in the decomposition.
-This is because the denominator of the "inner product" keeps increasing,
-while the numerator does not. Thus the decomposition into `exp(i \omega
-t)` is identically zero. Which is to say: no decomposition for `f`
-exists.
+This is because the denominator of the "inner product" keeps increasing
+when integrating over a greater `T`, while the numerator does not. Thus
+the decomposition into `exp(i \omega t)` is identically zero. Which is
+to say: no Fourier mass decomposition for `f` exists.
 
 What can we resort to if we cannot assign a positive mass to any basis
 vector? That is, what can we do if any finite or countable sum of basis
@@ -25,7 +25,7 @@ L2 norm adjustment will not change the mass decomposition. So the mass
 decomposition can miss a lot of interesting phenomena. Again, we will
 not converge in the `L2` norm, because of the finite norm adjustment.
 But we may capture approaching 100% of the norm (minus that fixed finite
-amount)...
+amount, which is 0%)...
 
 **For Finite/Countable Mass Sums, Did We Need The Fourier Transform Over
 The Reals?**
@@ -53,8 +53,8 @@ greater and greater `T_i` (selected as the gcd of the first `i` periods)
 will give a better and better approximation of `f`. And, moreover, the
 calculation of the weight for period `T_i` will be exact from the
 beginning. It's harder to see how we should know which `T_i` to use, if
-we don't know that by definition of `f`... But it suggests that we don't
-need special machinery.
+we don't know that by definition of `f`... But it suggests that, in
+principle, we don't need the Fourier transform for mass decomposition.
 
 **If We Don't Know Periods, When Is Fourier Mass Decomposition Safe Over
 The Whole Real Line**
@@ -68,9 +68,9 @@ reconstructing, we should converge in terms of "percentage" of L2 norm.
 But can we detect when a function isn't such a sum?
 
 Certainly if $\int_{-t}^{t} f(x) \conj{f(x)} dx$ grows too quickly in
-`t`. That grows only linearly for any sinusoidal. Even if the Fourier
-transform *did* converge for all `\omega`, certainly the reconstruction
-could not approach the original in L2 norm.
+`t`. The length traveled grows only linearly in `t` for any sinusoidal.
+Even if the Fourier transform *did* converge for all `\omega`, certainly
+the reconstruction could not approach the original in L2 norm.
 
 I kind of suspect that it should work for any `f` with an L2 norm that
 grows slowly enough. I think the fundamental question would be: if its
