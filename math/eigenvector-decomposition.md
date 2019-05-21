@@ -50,6 +50,11 @@ eigenvector in the second row of $Q$.
 
 **Inductive Step**
 
+**NOTE**: This proof is bogus. It is incorrect. What I do to try to put
+all zeroes in the first row/column won't work. You can zero out entries
+at $(1, 2)$ and $(2, 1)$, but when you go to zero out entries at $(1,
+3)$, $(3, 1)$ you'll disturb the first pair...
+
 Let us assume that every $n$ dimensional symmetric matrix is
 orthogonally diagonalizable. (Our inductive hypothesis.)
 
