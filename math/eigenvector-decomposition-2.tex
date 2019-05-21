@@ -1,0 +1,101 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+
+\newcommand{\define}[1]{\textit{#1}}
+\newcommand{\mtx}[1]{\bm{#1}}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\title{Every Real Symmetric Matrix Is Diagonalizable}
+
+% Helpers for this article:
+\newcommand{\mtxA}{\mtx{A}}
+\newcommand{\vecv}{\vec{v}}
+\newcommand{\vecw}{\vec{w}}
+
+\begin{document}
+\maketitle
+
+This proof (taught to me by JRN) generalizes my earlier proof that in
+a two dimensional space, a real symmetric matrix $\mtxA$ always has at
+least one eigenvector. To generalize, I will simply find a
+two-dimensional subspace invariant under $\mtxA$, and then apply my
+earlier result.
+
+Consider a function $f : \vecv \mapsto \norm{\mtxA\vecv}$, and its
+action on the spherical shell of unit vectors. Note that $f$ is
+continuous, and the spherical shell is \define{compact} (i.e., closed
+and bounded). Therefore, by the extreme value theorem, $f$ must obtain
+a maximum at one (or possibly more) unit vectors. Denote one such
+vector $\vecv$.
+
+It may well be that $\vecv$ is an eigenvector, but let us assume
+not. (Indeed, $\vecv$ need not always be an eigenvector.)
+
+We may assume without loss of generality that $\norm{\mtxA\vecv} =
+1$, since we could always scale the matrix appropriately. An
+eigenvector for the scaled version of $\mtxA$ would also be an
+eigenvector for the original $\mtxA$, naturally.
+
+Great. Let us explore $\norm{\mtxA\vecv}$:
+
+\begin{equation*}
+  \begin{split}
+    \norm{\mtxA\vecv}
+    \
+    \coloneqq{}& (\mtxA\vecv)\tran (\mtxA\vecv)
+    \\
+    ={}& \vecv\tran \mtxA\tran \mtxA \vecv
+    \\
+    ={}& \vecv\tran (\mtxA\mtxA\vecv)
+    \\
+    ={}& 1
+  \end{split}
+\end{equation*}
+
+We've used the symmetry of $\mtxA$ of course.
+
+Let's denote $\vecw \coloneqq \mtxA\vecv$. We know that $\norm{\vecw}
+= \norm{\mtxA\vecv} = 1$, by our choice of $\vecv$. And we know that
+$\norm{\mtxA \vecw} \le 1$, again by choice of $\vecv$.
+
+Now, let's consider $\vecv\tran (\mtxA\vecw)$. We know that this is
+$\cos{\theta} \norm{\mtxA\vecw}$, where $\theta$ is the angle between
+$\vecv$ and $\mtxA\vecw$. And this can only be $1$ (as required by
+choice of $\vecv$) if $\theta = 0$ (implying also that
+$\norm{\mtxA\vecw} = \norm{\vecv} = 1$). Thus, we must have:
+
+\begin{equation*}
+  \begin{split}
+    \vecv ={}& \mtxA\mtxA\vecv
+    \\
+    ={}& \mtxA\vecw
+  \end{split}
+\end{equation*}
+
+Whoa. How could this happen? Well, possibly $\mtxA\vecv = -\vecv$, or
+possibly $\mtxA\vecv = \vecv$. Either scenario would imply $\vecv$ is
+an eigenvector.
+
+There is a third possibility: $\mtxA\vecv$ is neither. But then note:
+we now have a two dimensional subspace spanned by $\vecv, \vecw$. And
+vitally: this subspace doesn't change even if you apply
+$\mtxA$. Because: $\mtxA\vecv, \mtxA\vecw = \vecw, \vecv$.
+
+But now we are home free. I'd already shown that a symmetric matrix on
+a two-dimensional subspace must always have an eigenvector. So we've
+found an eigenvector for $\mtxA$, and note that it has eigenvalue $1$.
+
+Of course, by simply repeating the process we can complete the
+diagonalization of $A$, and thus we are done.
+
+\end{document}
