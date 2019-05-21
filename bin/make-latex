@@ -1,0 +1,3 @@
+CMD="pdflatex --file-line-error --synctex=1 --halt-on-error"
+
+gfind . -regex ".*\.tex$" | parallel -P 1 $CMD

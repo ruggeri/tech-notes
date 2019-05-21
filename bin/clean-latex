@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Clean all latex tmp files.
+gfind . -regex ".*\\.\\(aux\|fdb_latexmk\|fls\|log\|gz\\)$" | parallel rm
