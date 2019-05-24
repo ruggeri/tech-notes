@@ -1,0 +1,27 @@
+AM modulates the *amplitude* of the wave. Like the wave can be "loud"
+or "soft".
+
+FM modulates the *frequency* of the wave. That is: how fast it is
+oscilating. You can modulate fast or slow.
+
+Both techniques, when time-sliced, can be used to send binary data.
+
+FM rejects noise better than AM typically. Why? I think the answer is
+that noise tends to affect the amplitude more than the frequency.
+
+But then my next question is again: why? Why does noise not affect the
+frequency particularly? I feel like it makes sense why noise directly
+affects AM. It's like someone else was talking, thus modulating the
+signal.
+
+But why doesn't it have the same affect on frequencies?
+
+It is true that the "zero crossings" can be affected by added
+noise. But I guess the idea is that this won't mess with the frequency
+spectrum very much?
+
+Here were some sources. But they didn't totally answer my questions...
+
+https://www.quora.com/Why-AM-signal-is-more-affected-by-noise-than-FM
+https://www.quora.com/Why-is-the-noise-immunity-frequency-modulation-better-than-amplitude-modulation
+http://www.commsp.ee.ic.ac.uk/~kkleung/Communications2_2009/Lecture5.pdf
