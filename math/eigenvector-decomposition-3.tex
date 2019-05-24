@@ -237,7 +237,7 @@ $\bvec{i}, \bvec{j}$:
     \bvec{1}\bvec{1}\tran
     + \ldots + (\cos\theta \bvec{i} + \sin\theta \vec{j}) \bvec{i}\tran
     + \ldots + (-\sin\theta \bvec{i} + \cos\theta \vec{j}) \bvec{j}\tran
-    + \ldots + \bvec{n}\bvec{n}
+    + \ldots + \bvec{n}\bvec{n}\tran
 \]
 
 I would like to know what happens to $f(\mtxQ\tran \mtxA \mtxQ)$ as we
@@ -432,10 +432,13 @@ Let's do this:
       ={}&
         (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
         + (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta) \mtxA_{i, j} \\
+      ={}&
+        (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
+        - 4 \cos\theta\sin\theta \mtxA_{i, j} \\
     \fptheta \left[ \mtxA'_{i, j}(0) \right]
       ={}&
         (\cos^2 0 - \sin^2 0) (\mtxA_{j, j} - \mtxA_{i, i})
-        + (-2\cos 0 \sin 0 - 2\sin 0 \cos 0) \mtxA_{i, j} \\
+        - 4 \cos 0 \sin 0 \mtxA_{i, j} \\
       ={}&
         (\mtxA_{j, j} - \mtxA_{i, i}) \\
     \\
@@ -473,7 +476,7 @@ $(i, k)$ cancel with changes at positions $(j, k)$, (d) changes at $(i,
 i)$ and $(j, j)$ never count because they are on-diagonal, (e) that
 leaves only positions $(i, j)$ and $(j, i)$.
 
-We may finally say:
+We may finally say that if $\mtxA$ minimizes $f$, then:
 
 \begin{equation*}
   \begin{split}
@@ -581,7 +584,7 @@ Okay let's calculate $\fptheta f$ for this matrix!
       \right]
     \\
     ={}&
-      (2)(2)
+      4
       \mtxA'_{2, 1}(\theta)
       \fptheta \left[ \mtxA'_{2, 1}(\theta) \right] \\
     \\
@@ -601,19 +604,22 @@ Okay let's calculate $\fptheta f$ for this matrix!
       \right] \\
     ={}&
       2 \big( -2\cos\theta \sin\theta - 2\sin\theta\cos\theta \big) \\
+    ={}&
+      -8 \cos\theta \sin\theta \\
       \fptheta \left[ \mtxA'_{2, 1}(0) \right]
     ={}&
-      2 \big( -2\cos 0\sin 0 - 2\sin 0\cos 0 \big) \\
+      -8 \cos 0 \sin 0 \\
     ={}&
       0 \\
     \\
       \fptheta \left[f(0)\right]
     ={}&
-      (2)(2)
+      4
       \mtxA'_{2, 1}(0)
       \fptheta \left[ \mtxA'_{2, 1}(0) \right] \\
     ={}&
-      2 \cdot 2 \cdot 2 \cdot 0
+      4 \cdot 2 \cdot 0 \\
+    ={}& 0
   \end{split}
 \end{equation*}
 
@@ -631,7 +637,7 @@ partial?
       \fptheta \Big[ \fptheta \left[f(\theta)\right] \Big] \\
     ={}&
       \fptheta \Big[
-        (2)(2)
+        4
         \mtxA'_{2, 1}(\theta)
         \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
       \Big] \\
@@ -646,11 +652,7 @@ partial?
     \\
       \fpthetax \left[ \mtxA'_{2, 1}(\theta) \right]
     &=
-      \fptheta \Big[
-        2 \big( -2\cos\theta \sin\theta - 2\sin\theta\cos\theta \big)
-      \Big] \\
-    &=
-      -8 \fptheta \Big[ \sin\theta\cos\theta \Big] \\
+      \fptheta \Big[ -8 \cos\theta \sin\theta \Big] \\
     &= -8 \left( \cos^2\theta - \sin^2\theta \right) \\
       \fpthetax \left[ \mtxA'_{2, 1}(0) \right]
     &= -8 \left( \cos^2 0 - \sin^2 0 \right) \\
@@ -680,7 +682,7 @@ negative, which means that we are at a local maximum.
 
 \section{General Second Order Conditions}
 
-Having verified that things work in an example, let's return to the
+Having verified that things work out in an example, let's return to the
 general setting. We want to show that the second partial must always be
 negative if $A_{j, j} - A_{i, i} = 0$ but $A_{i, j} \ne 0$.
 
@@ -725,7 +727,7 @@ focus on $\fpthetax \left[ \mtxA'_{i, j}(\theta) \right]$.
     &=
       \fptheta \Big[
         (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
-        + (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta) \mtxA_{i, j}
+        - 4 \cos\theta\sin\theta \mtxA_{i, j}
       \Big] \\
     &=
       \fptheta \Big[
@@ -762,6 +764,9 @@ And we may now plug this in:
       2 \mtxA'_{i, j}(\theta) \Big(
         -4 \left( \cos^2\theta - \sin^2\theta \right) \mtxA_{i, j}
       \Big) \\
+    ={}&
+      -8 \mtxA'_{i, j}(\theta)
+      \left( \cos^2\theta - \sin^2\theta \right) \mtxA_{i, j} \\
   \end{split}
 \end{equation*}
 
@@ -771,13 +776,12 @@ There is nothing left to do but evaluate at $\theta = 0$:
   \begin{split}
       \fpthetax \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
     ={}&
-      2 \mtxA'_{i, j}(0) \Big(
-        -4 \left( \cos^2  - \sin^2 0 \right) \mtxA_{i, j}
-      \Big) \\
+      -8 \mtxA'_{i, j}(0)
+      \left( \cos^2 0 - \sin^2 0 \right) \mtxA_{i, j} \\
     ={}&
-      2 \mtxA_{i, j} \left( -4 \mtxA_{i, j} \right) \\
+      -8 \mtxA'_{i, j} \mtxA_{i, j} \\
     ={}&
-      -8 \left( \mtxA_{i, j} \right)^2
+      -8 \left( \mtxA'_{i, j} \right)^2 \\
   \end{split}
 \end{equation*}
 
@@ -785,6 +789,11 @@ And there you have it. This second derivative must always be negative,
 since it is $-8$ (always negative) times $\left( \mtxA_{i, j} \right)^2$
 (always positive). (Note that we assumed $\mtxA_{i, j} \ne 0$, otherwise
 there was no reason to go down this road.)
+
+As a quick check from our previous example: if you have $\mtxA_{i, j} =
+2$, then $\fpthetax \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right] =
+-32$. If you then double this (to account for both $\mtxA'_{i, j}$ and
+$\mtxA'_{j, i}$), you get back $-64$ as I calculated previously.
 
 \section{Conclusion}
 
@@ -800,8 +809,8 @@ Let's recap what we have done.
   \item Since the space of rotations of $\mtxA$ is compact, and because
   $f$ is continuous, we know it achieves a minimum in this space.
 
-  \item We were unsure if the minimum of $f$ in the space is actually
-  zero.
+  \item We were unsure whether the minimum of $f$ on the space of
+  rotations is actually zero.
 
   \item We use the first derivative test to discover that for any
   optimal $\mtxA$, either $\mtxA_{i, j} = \mtxA_{j, i} = 0$ (as desired)
@@ -834,7 +843,7 @@ Second, the proof says that, if you believe things work in two
 dimensions, you can just keep picking pairs of basis vectors to fix, and
 do your best. Remember, you might ``disrupt'' previous work, but to the
 extent you disrupt previous work, you're helping other work. That's what
-we know from the cancelation of the $\mtxA_{k, i}, \mtx_{k, j}$ terms.
+we know from the cancelation of the $\mtxA_{k, i}, \mtxA_{k, j}$ terms.
 
 Probably that would have been a simpler proof right there. You have this
 iterative process now, and it must converge to an answer, so the answer
