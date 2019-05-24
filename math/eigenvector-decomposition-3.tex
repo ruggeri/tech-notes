@@ -1,0 +1,687 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\define}[1]{\textit{#1}}
+\newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\innerprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\mtx}[1]{\bm{#1}}
+\newcommand{\minuseq}{\mathrel{-}=}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+\newcommand{\reals}{\mathbb{R}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\title{Every Real Symmetric Matrix Is Diagonalizable}
+
+% Helpers for this article:
+\newcommand{\bvec}[1]{\vec{e_{#1}}}
+\newcommand{\fptheta}{\fpartial{}{\theta}}
+\newcommand{\fpthetax}{\fpartial{}{\theta^2}}
+\newcommand{\mtxspace}[1]{\reals^{#1 \times #1}}
+\newcommand{\mtxA}{\mtx{A}}
+\newcommand{\mtxD}{\mtx{D}}
+\newcommand{\mtxL}{\mtx{L}}
+\newcommand{\mtxQ}{\mtx{Q}}
+\newcommand{\mtxR}{\mtx{R}}
+\newcommand{\mtxU}{\mtx{U}}
+\newcommand{\mtxLU}{\mtxL\mtxU}
+\newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
+\newcommand{\mtxQR}{\mtxQ\mtxR}
+\newcommand{\vecv}{\vec{v}}
+\newcommand{\vecw}{\vec{w}}
+
+\begin{document}
+\maketitle
+
+This proof tries to correct my original ``proof.'' JRN pointed out the
+error in my proof to me and gave me an alternative one. His proof uses
+the extreme value theorem for a continuous function defined on a compact
+domain. His proof takes a slightly different approach than my original,
+though. This document is an attempt to import his idea (using the
+extreme value theorem) to correct my original version, while staying
+true to the intuition/idea I had been pursuing.
+
+\section{Proposition}
+
+\begin{theorem}[Finite Dimensional Spectral Theorem]
+  For any full-rank real symmetric matrix $\mtxA$, there exists an
+  orthogonal (aka ``rotation'') matrix $\mtxQ$ and a diagonal (aka
+  ``stretching'') matrix $\mtxD$ such that:
+
+  \[
+    \mtxA = \mtxQ \mtxD \mtxQ\tran
+  \]
+
+  Equivalently: any full-rank real symmetric matrix $\mtxA$ with
+  dimension $n$ possesses $n$ orthogonal (unit) eigenvectors $\{
+  \vec{u_1}, \ldots \vec{u_n} \}$. That is, for suitable $\lambda_i$:
+
+  \[
+    \mtx{A} \vec{u_i} = \lambda_i \vec{u_i}
+  \]
+
+  Note that if we have $\mtxQ$, we can obtain a set $\vec{u_i}$ by
+  extracting the columns. Alternatively, given $\vec{u_i}$ we can
+  produce $\mtxQ$ by writing them in as columns.
+\end{theorem}
+
+\section{Original Attempt}
+
+My original ``proof'' was inductive. I first proved a base case: that a
+full-rank symmetric matrix in $\mtxspace{2}$ has two orthogonal
+eigenvectors. I next showed that, if we find even a single eigenvector
+for $\mtxA \in \mtxspace{n}$, we can reduce the problem to finding $n-1$
+orthogonal eigenvectors for a corresponding full-rank symmetric of
+$\mtxspace{(n-1)}$. So far, this is correct.
+
+So the problem then becomes to find even a single eigenvector of
+$\mtxA$. I suggested a process which doesn't quite work. I recall it
+here.
+
+Our goal will be to find a rotation of basis such that $\mtxA' \coloneqq
+\mtxQ\tran \mtxA \mtxQ$ has blank first row/column (excepting
+$\mtxA'_{1, 1}$, which cannot also be zero, by assumption that $\mtxA$
+is full-rank).
+
+First, find a rotation of basis vectors $\bvec{1}, \bvec{2}$ such that
+has a zero at $\mtxA'_{2, 1}$. I tacitly assume here that $\mtxA_{2, 2}
+\ne 0$.
+
+Having done this, I want to repeat. I want to find a rotation of
+$\bvec{1}, \bvec{3}$ to zero out $\mtxA'_{3, 1}$. Again, assuming that
+$\mtxA_{3, 3} \ne 0$, this can be done.
+
+The mistake was here though. By zeroing out $\mtxA'_{3, 1}$, we may
+disrupt the zeroing out that was previously performed for $\mtxA'_{2,
+1}$. That happens exactly if $\mtxA'_{2, 3} \ne 0$.
+
+Ideally this wouldn't happen. If it didn't, and we could find a rotated
+basis in which $\mtxA'_{k, 1} = 0, \forall k\ne 1$, then we can invoke a
+property that, in any rotated basis, a symmetric matrix stays symmetric.
+That is, we'd also know that $\mtxA'_{1, k} = 0, \forall k\ne 1$.
+
+That would tell us that (1) $\bvec{1}$ is an eigenvector of $\mtxA'$,
+and (2) any eigenvector $\vec{u}'$ of $\mtxA'_{2:n, 2:n}$ is also an
+eigenvector of $\mtxA'$ (when you extend $\vec{u}'$ by prefixing with a
+zero for the first coordinate).
+
+As near as I can tell, nothing is wrong with the proof, except that the
+elimination procedure I describe doesn't work.
+
+\section{Contrast With Gaussian Elimination}
+
+Let's contrast with Gaussian elimination. In Gaussian elimination, our
+first task is to eliminate the off-diagonal entries of the first row.
+One-by-one we eliminate $\mtxA_{1, k}, \forall k \ne 1$. For each $k \ne
+1$, we subtract an appropriate amount of the first column $\mtxA_{:, 1}$
+from every other column $\mtxA_{:, k}$.
+
+Each \define{elementary (column) operation} corresponds to a shearing
+operation, and shearing preserves determinant. That's why Gaussian
+elimination is useful for calculation of the determinant.
+
+If you repeat this row-by-row, you can turn the matrix into an
+upper-triangular matrix. Collecting the operations that undo this gives
+you the $\mtxLU$ decomposition of $\mtxA$. If one scales the
+rows/columns of $\mtxL, \mtxU$ appropriately so that the diagonal
+entries are all $1$, collecting these factors as $\mtxD$, then we get
+the $\mtxLDU$ decomposition. The determinant of $\mtxA$ is simply the
+determinant of $\mtxD$. That is: the product of the diagonal entries of
+$\mtxD$.
+
+Of course, the $\mtxLDU$ decomposition doesn't give us information about
+the eigenvectors, because none of these matrices corresponds to a
+representation of $\mtxA$ in a rotated basis.
+
+There is a very similar approach that gives a different decomposition.
+Rather than trying to clear out above-diagonal entries in a row
+one-by-one, let's try to ``orthonormalize'' the columns of $\mtxA$. Here,
+we start by setting:
+
+\[
+  \mtxA'_{:, k} \minuseq \innerprod{\mtxA_{:, 1}}{\mtxA_{:,k}} \mtxA_{:, 1}
+\]
+
+Such an approach gives us the $\mtxQR$ decomposition of $\mtxA$.
+Note: we also normalize the columns of $\mtxQ$, combining the extracted
+diagonal matrix with $\mtxR$. Again, the determinant may be calculated
+by multiplying the diagonal entries of $\mtxR$.
+
+As with the $\mtxLDU$ decomposition before, the $\mtxQR$ doesn't give us
+access to the eigenvectors.
+
+\section{Exact Algorithm For Eigenvectors?}
+
+Each column operation in the $\mtxLDU$ algorithm ``fixes'' (that is,
+clears out) exactly one position in $\mtxA$. Once fixed, no subsequent
+step disturbs that position.
+
+Likewise, each column operation in the $\mtxQR$ algorithm fixes one
+column in $\mtxA$. That is, we make a column $\mtxA_{:, i}$ orthogonal
+to another column $\mtxA_{:, j}$. Again, no subsequent step disturbs
+this.
+
+Because each step moves us one ``unit'' of the way toward the final
+result, the runtime of these algorithms is a function of the number of
+``units'': that is, the number of elements (or columns) in $\mtxA$.
+
+Our problem for zeroing-out the first column of $\mtxA$ with rotations
+is this. If we try to use rotating operations instead of shearing
+operations, subsequent operations will always disturb prior operations.
+
+Let's look at a rotated basis which rotates only $\bvec{i}, \bvec{j}$;
+other basis vectors are left alone. But the problem is that $\mtxA'$,
+the new representation of $\mtxA$, will see
+\textit{both} the columns $\mtxA'_{:, i}, \mtxA'_{:, j}$ \textit{and}
+the corresponding rows $\mtxA'_{i, :}, \mtxA'_{j, :}$ changed.
+
+How can we proceed then? One possibility is to explore an iterative
+procedure that \textit{converges} to the solution, even if it never
+terminates. In practice we'll need something like that. Because
+compactness, an iterative procedure should also imply the existence of
+an exact solution.
+
+A second possibility (which I will pursue here), is to merely prove the
+\textit{existence} of a solution. But, rather than be too abstract, I
+will do this by showing that there always exists a series of steps that
+monotonically ``improve'' your matrix $\mtxA$. I won't show exactly to
+find those steps, but my approach is suggestive of an iterative
+procedure.
+
+\section{The Corrected Proof: Optimization Goal}
+
+At last, let us begin. We will cast our search for a diagonal matrix
+$\mtxA' \coloneqq \mtxQ\tran \mtxA \mtxQ$ as an optimization problem.
+Define:
+
+\[
+  f(\mtxA') = \sum_{i \ne j} \left(A_{i, j}\right)^2
+\]
+
+That is, $f(\mtxA')$ is the sum of squares of off-diagonal elements. Of
+course, $f(\mtxA') = 0$ iff $\mtxA'$ is diagonal. So $f$ is a measure of
+``badness'' that I want to minimize. To show that $\mtxA$ is always
+diagonalizable is to show that $f$ achieves a minimum of exactly zero on
+the space of rotated representations $\mtxA'$.
+
+Instead of writing $f$ as a function of $\mtxA'$, we could write $f$ as
+a function of $\mtxQ$. Or even less redundantly, as a function of
+$\frac{n(n-1)}{2}$ angles $\theta_{i, j}, \forall i \ne j$.
+
+This last view helps: the space of $\theta_{i, j}$ is really just points
+on the surface of a unit hypersphere, which is a compact set. We can
+apply the extreme value theorem since $f$ is continuous. That is: $f$
+achieves a minimum somewhere.
+
+The only question remains: is $\min f(\mtxA') = 0$?
+
+\section{How Rotations Change $\mtxA$}
+
+We also have that $f$ is differentiable. Thus we know that if there is a
+minimum for $f$ at $\mtxA'$, we must have that all derivatives here are
+zero. Let's consider the simplest rotation between two basis vectors
+$\bvec{i}, \bvec{j}$:
+
+\[
+  \mtxQ \coloneqq
+    \bvec{1}\bvec{1}\tran
+    + \ldots + (\cos\theta \bvec{i} + \sin\theta \vec{j}) \bvec{i}\tran
+    + \ldots + (-\sin\theta \bvec{i} + \cos\theta \vec{j}) \bvec{j}\tran
+    + \ldots + \bvec{n}\bvec{n}
+\]
+
+I would like to know what happens to $f(\mtxQ\tran \mtxA \mtxQ)$ as we
+change $\theta$ near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$
+where $k_1, k_2 \not\in \{ i, j \}$:
+
+\begin{equation*}
+  \begin{split}
+    \mtxA'_{k_1, k_2}(\theta)
+      ={}& \bvec{k_1}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{k_2} \\
+      ={}& \bvec{k_1}\tran \mtxA \bvec{k_2} \\
+      ={}& \mtxA_{k_1, k_2}
+  \end{split}
+\end{equation*}
+
+As we see, the only changed elements should be in rows (and columns) $i$
+and $j$.
+
+Let's next consider what happens to $\mtxA'_{k, i}(\theta)$ where $k
+\not\in \{i, j\}$.
+
+\begin{equation*}
+  \begin{split}
+    \mtxA'_{k, i}(\theta)
+      ={}& \bvec{k}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{i} \\
+      ={}& \bvec{k}\tran \mtxA \left(
+        \cos\theta \bvec{i} + \sin\theta \bvec{j}
+      \right) \\
+      ={}& \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \end{split}
+\end{equation*}
+
+Well, that makes sense! Naturally, because $\mtxA'(\theta)$ is
+symmetric, we know that $\mtxA'_{i, k}(\theta) = \mtxA'_{k, i}(\theta)$.
+
+We next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
+
+\begin{equation*}
+  \begin{split}
+    \mtxA'_{k, j}(\theta)
+      ={}& \bvec{k}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{j} \\
+      ={}& \bvec{k}\tran \mtxA \left(
+        -\sin\theta \bvec{i} + \cos\theta \bvec{j}
+      \right) \\
+      ={}& -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \end{split}
+\end{equation*}
+
+Last, we have for $\mtxA'_{i, j}(\theta)$:
+
+\begin{equation*}
+  \begin{split}
+    \mtxA'_{i, j}(\theta)
+      ={}& \bvec{i}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{j} \\
+      ={}&
+        \left( \cos\theta\bvec{i} + \sin\theta\bvec{j} \right)\tran
+        \mtxA
+        \left( -\sin\theta\bvec{i} + \cos\theta\bvec{j} \right)\\
+      ={}&
+        -\sin\theta\cos\theta \mtxA_{i, i}
+        + \cos^2\theta \mtxA_{i, j}
+        -\sin^2\theta \mtxA_{j, i}
+        +\sin\theta\cos\theta \mtxA_{j, j} \\
+      ={}&
+        (\sin\theta\cos\theta)(\mtxA_{j, j} - \mtxA_{i, i})
+        + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j}
+  \end{split}
+\end{equation*}
+
+\section{First Order Conditions}
+
+Let us now begin examining $\fptheta f(\mtxQ\tran \mtxA \mtxQ)$. Why?
+Because, at a minimum, we know that these partials must be zero. We hope
+to show that a minimum can only occur if only all off-diagonal entries
+are zero.
+
+First, let's look at:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{k_1, k_2}(\theta) \right)^2 \right]
+      = \fptheta \left[ \left( \mtxA_{k_1, k_2} \right)^2 \right]
+      = 0
+  \end{split}
+\end{equation*}
+
+As expected: those elements don't change, so they don't cause any change
+in $f$. Next, let's look at:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{k, i}(\theta) \right)^2 \right]
+      ={}& \fptheta \left[\left(
+          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+        \right)^2\right] \\
+      ={}& 2 \left(
+          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+        \right) \left( \fptheta \left[
+          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+        \right] \right) \\
+      ={}& 2 \left(
+        \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+      \right) \left(
+        -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+      \right)
+  \end{split}
+\end{equation*}
+
+We want to evaluate this derivative at $\theta = 0$, since we want to
+see what happens when we make small changes to $\mtxA$. Thus, we obtain:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{k, i}(\theta) \right)^2 \right] \big(0\big)
+      ={}&
+        2
+        \left( \mtxA_{k, i} \right)
+        \left( \mtxA_{k, j} \right)
+  \end{split}
+\end{equation*}
+
+Let us do the corresponding calculation for $\mtxA'_{k, j}$:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{k, j}(\theta) \right)^2 \right]
+      ={}& \fptheta \left(
+          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+        \right)^2 \\
+      ={}& 2 \left(
+          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+        \right) \left[ \fptheta \left(
+          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+        \right) \right] \\
+      ={}& 2 \left(
+        -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+      \right) \left(
+        -\cos\theta \mtxA_{k, i} - \sin\theta \mtxA_{k, j}
+      \right)
+  \end{split}
+\end{equation*}
+
+Again, substituting $\theta = 0$, we obtain:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{k, j}(\theta) \right)^2 \right] \big(0\big)
+      ={}&
+        2
+        \left( \mtxA_{k, j} \right)
+        \left( -\mtxA_{k, i} \right)
+  \end{split}
+\end{equation*}
+
+Do you see what has happened here? The change to $f$ due to change in
+$\mtxA'_{k, i}$ will be canceled out by the change to $f$ due to change
+in $\mtxA'_{k, j}$. (And likewise for $\mtxA'_{i, k}$ and $\mtxA'_{j,
+k}$.)
+
+Thus, when rotating between $\bvec{i}, \bvec{j}$, the only meaningful
+difference (if any) to $f$ is going to come from change at positions
+$\mtxA'_{i, j}, \mtxA'_{j, i}$.
+
+\section{Calculation Of $\fptheta \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]$}
+
+Let's do this:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]
+      ={}&
+        2
+        \mtxA'_{i, j}(\theta)
+        \fptheta \left[ \mtxA'_{i, j}(\theta) \right] \\
+    \\
+    \mtxA'_{i, j}(\theta)
+      ={}&
+        (\sin\theta\cos\theta) (\mtxA_{j, j} - \mtxA_{i, i})
+        + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j} \\
+    \mtxA'_{i, j}(0)
+      ={}&
+        (\sin0 \cos0) (\mtxA_{j, j} - \mtxA_{i, i})
+        + (\cos^2 0 - \sin^2 0) \mtxA_{i, j} \\
+      ={}& \mtxA_{i, j} \\
+    \\
+    \fptheta \left[ \mtxA'_{i, j}(\theta) \right]
+      ={}&
+        \fptheta \left[
+          (\sin\theta\cos\theta)(\mtxA_{j, j} - \mtxA_{i, i})
+          + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j}
+        \right] \\
+      ={}&
+        (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
+        + (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta) \mtxA_{i, j} \\
+    \fptheta \left[ \mtxA'_{i, j}(0) \right]
+      ={}&
+        (\cos^2 0 - \sin^2 0) (\mtxA_{j, j} - \mtxA_{i, i})
+        + (-2\cos 0 \sin 0 - 2\sin 0 \cos 0) \mtxA_{i, j} \\
+      ={}&
+        (\mtxA_{j, j} - \mtxA_{i, i}) \\
+    \\
+    \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
+      ={}&
+        2
+        \mtxA'_{i, j}(0)
+        \fptheta \left[ \mtxA'_{i, j}(0) \right] \\
+      ={}&
+        2
+        \mtxA_{i, j}
+        (\mtxA_{j, j} - \mtxA_{i, i}) \\
+  \end{split}
+\end{equation*}
+
+Wow, this lets us finally write:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ f(0) \right]
+      ={}&
+        \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
+        + \fptheta \left[ \left( \mtxA'_{j, i}(0) \right)^2 \right] \\
+      ={}&
+        2 \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right] \\
+      ={}&
+        2 \big( 2 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i}) \big) \\
+  \end{split}
+\end{equation*}
+
+I used these facts: (a) there is no change to entries outside the $i$th
+and $j$th rows/columns, (b) changes at positions $(k, i)$ cancel with
+$(k, j)$ (for $k \not\in \{ i, j \}$), (c) likewise changes at positions
+$(i, k)$ cancel with changes at positions $(j, k)$, (d) changes at $(i,
+i)$ and $(j, j)$ never count because they are on-diagonal, (e) that
+leaves only positions $(i, j)$ and $(j, i)$.
+
+We may finally say:
+
+\begin{equation*}
+  \begin{split}
+    \fptheta \left[ f(0) \right]
+      ={}& 0 \\
+    2 \big( 2 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i}) \big)
+      ={}& 0 \\
+    \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
+      ={}& 0 \\
+  \end{split}
+\end{equation*}
+
+Which of course implies:
+
+\begin{equation*}
+  \begin{split}
+    \mtxA_{i, j} = 0
+    \quad \text{or} \quad
+    (\mtxA_{j, j} - \mtxA_{i, i}) = 0
+  \end{split}
+\end{equation*}
+
+The first condition is what we want: it would impose a requirement that
+the matrix $\mtxA$ must have zero elements off the diagonal in order to
+minimize $f$. That is: $f$ would achieve a minimum only at a diagonal
+matrix. Since we know $f$ indeed achieves a minimum, it must be that
+$\mtxA$ is diagonalizable.
+
+But the second condition is an ``escape hatch.'' It says that the entry
+off the diagonal needn't be zero so long as $\mtxA_{j, j} = \mtxA_{i,
+i}$. Uh-oh?
+
+\section{An Example}
+
+Are we fucked? Presumably not. Let's just look at one matrix to make
+ourselves feel a little better:
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 \\
+    2 & 1
+  \end{bmatrix}
+\end{equation*}
+
+What happens when we try to rotate it?
+
+\begin{equation*}
+  \begin{split}
+      &\begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+      \end{bmatrix}\tran
+      \begin{bmatrix}
+        1 & 2 \\
+        2 & 1
+      \end{bmatrix}
+      \begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        \cos\theta  & \sin\theta \\
+        -\sin\theta & \cos\theta
+      \end{bmatrix}
+      \begin{bmatrix}
+        1\cos\theta + 2\sin\theta & -1\sin\theta + 2\cos\theta \\
+        2\cos\theta + 1\sin\theta & -2\sin\theta + 1\cos\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        1 \cos^2\theta + (2 + 2) \cos\theta \sin\theta + 1 \sin^2\theta
+        &
+        2 \cos^2\theta + (-1 + 1) \cos\theta \sin\theta - 2\sin^2\theta
+        \\
+        2 \cos^2\theta + (-1 + 1) \cos\theta \sin\theta - 2\sin^2\theta
+        &
+        1\cos^2\theta + (-2 - 2) \cos\theta\sin\theta + 1\sin^2\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        1 + 4\cos\theta\sin\theta
+        &
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+        \\
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+        &
+        1 - 4\cos\theta\sin\theta
+      \end{bmatrix}
+    \end{split}
+\end{equation*}
+
+Okay let's calculate $\fptheta f$ for this matrix!
+
+\begin{equation*}
+  \begin{split}
+      \fptheta \left[f(\theta)\right]
+    ={}&
+      \fptheta \left[
+        \left( \mtxA'_{2, 1}(\theta) \right)^2
+        + \left( \mtxA'_{1, 2}(\theta) \right)^2
+      \right]
+    \\
+    ={}&
+      (2)(2)
+      \mtxA'_{2, 1}(\theta)
+      \fptheta \left[ \mtxA'_{2, 1}(\theta) \right] \\
+    \\
+      \mtxA'_{2, 1}(\theta)
+    ={}&
+      2 \left( \cos^2\theta - \sin^2\theta \right) \\
+      \mtxA'_{2, 1}(0)
+    ={}&
+        2 \left( \cos^2 0 - \sin^2 0 \right) \\
+    ={}&
+      2 \\
+    \\
+      \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+    ={}&
+      \fptheta \left[
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+      \right] \\
+    ={}&
+      2 \big( -2\cos\theta \sin\theta - 2\sin\theta\cos\theta \big) \\
+      \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+    ={}&
+      2 \big( -2\cos 0\sin 0 - 2\sin 0\cos 0 \big) \\
+    ={}&
+      0 \\
+    \\
+      \fptheta \left[f(0)\right]
+    ={}&
+      (2)(2)
+      \mtxA'_{2, 1}(0)
+      \fptheta \left[ \mtxA'_{2, 1}(0) \right] \\
+    ={}&
+      2 \cdot 2 \cdot 2 \cdot 0
+  \end{split}
+\end{equation*}
+
+All our calculations check out with what we've done before. And we know
+that, because this is a 2-by-2 real symmetric matrix, it must be
+diagonalizable. And still the first partial is zero\dots
+
+Well, the solution is clear: what is the story with the \textit{second}
+partial?
+
+\begin{equation*}
+  \begin{split}
+      \fpthetax \left[f(\theta)\right]
+    ={}&
+      \fptheta \Big[ \fptheta \left[f(\theta)\right] \Big] \\
+    ={}&
+      \fptheta \Big[
+        (2)(2)
+        \mtxA'_{2, 1}(\theta)
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+      \Big] \\
+    ={}&
+      4 \Big[
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+        +
+        \mtxA'_{2, 1}(\theta)
+        \fpthetax \left[ \mtxA'_{2, 1}(\theta) \right]
+      \Big] \\
+    \\
+      \fpthetax \left[ \mtxA'_{2, 1}(\theta) \right]
+    &=
+      \fptheta \Big[
+        2 \big( -2\cos\theta \sin\theta - 2\sin\theta\cos\theta \big)
+      \Big] \\
+    &=
+      -8 \fptheta \Big[ \sin\theta\cos\theta \Big] \\
+    &= -8 \left( \cos^2\theta - \sin^2\theta \right) \\
+      \fpthetax \left[ \mtxA'_{2, 1}(0) \right]
+    &= -8 \left( \cos^2 0 - \sin^2 0 \right) \\
+    &= -8 \\
+    \\
+      \fpthetax \left[f(0)\right]
+    ={}&
+      4 \Big[
+        \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+        \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+        +
+        \mtxA'_{2, 1}(0)
+        \fpthetax \left[ \mtxA'_{2, 1}(0) \right]
+      \Big] \\
+    ={}&
+      4 \Big[
+        \left(0 \cdot 0\right)
+        +
+        \left(2 \cdot -8\right)
+      \Big] \\
+    ={}& -64
+  \end{split}
+\end{equation*}
+
+Wonderful. In conclusion, we see that indeed the second partial is
+negative, which means that we are at a local maximum.
+
+\section{General Second Order Conditions}
+
+Having verified that things work in an example, let's return to the
+general setting. We want to show that the second partial must always be
+negative if $A_{j, j} - A_{i, i} = 0$ but $A_{i, j} \ne 0$.
+
+\end{document}
