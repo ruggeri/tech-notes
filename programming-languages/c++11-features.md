@@ -133,7 +133,7 @@ struct Object {
 }
 
 Object one = { 4.3, 2 };
-Object[] many = {{4.3, 2}, {-1.1, 5}};
+Object[] many = { {4.3, 2}, {-1.1, 5} };
 ```
 
 But this only worked on POD in C++03. Now there's a
