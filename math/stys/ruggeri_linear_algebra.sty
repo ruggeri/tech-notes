@@ -1,0 +1,42 @@
+\ProvidesPackage{ruggeri_linear_algebra}
+
+%% Vectors
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Basis vector
+\newcommand{\bvec}[1]{\vec{e}_{\mathbf{#1}}}
+
+% Common vector names
+\newcommand{\vecu}{\vec{u}}
+\newcommand{\vecv}{\vec{v}}
+\newcommand{\vecw}{\vec{w}}
+
+%% Matrices
+
+\newcommand{\mtx}[1]{\mathbf{#1}}
+
+% Common matrix names.
+\newcommand{\mtxA}{\mtx{A}}
+\newcommand{\mtxD}{\mtx{D}}
+\newcommand{\mtxL}{\mtx{L}}
+\newcommand{\mtxQ}{\mtx{Q}}
+\newcommand{\mtxR}{\mtx{R}}
+\newcommand{\mtxU}{\mtx{U}}
+
+% Common Matrix Decompositions
+
+\newcommand{\mtxLU}{\mtxL\mtxU}
+\newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
+\newcommand{\mtxQDQ}{\mtxQ\mtxD\mtxQ\tran}
+\newcommand{\mtxQR}{\mtxQ\mtxR}
+
+%% Operations
+
+\newcommand{\innerprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+
+%% Spaces Of Matrices
+
+\newcommand{\mtxspace}[1]{\reals^{#1 \times #1}}

@@ -1,0 +1,33 @@
+\ProvidesPackage{ruggeri_common}
+
+%% Commonly used libraries.
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+%% Binary Operators
+
+\newcommand{\defeq}{\coloneqq}
+\newcommand{\minuseq}{\mathrel{-}=}
+
+%% Calculus
+
+% Partial derivatives.
+\newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\fptheta}{\fpartial{}{\theta}}
+\newcommand{\fpthetax}{\fpartial{}{\theta^2}}
+
+%% Common Sets
+
+\newcommand{\reals}{\mathbb{R}}
+
+%% Misc
+
+\newcommand{\define}[1]{\textit{#1}}
+
+%% Theorem Environments
+
+\theoremstyle{plain} \newtheorem{theorem}{Theorem}
+% Lemmas should use same count as theorems.
+\theoremstyle{plain} \newtheorem{lemma}[theorem]{Lemma}

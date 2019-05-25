@@ -3,44 +3,12 @@
 \usepackage{geometry}
 \geometry{letterpaper}
 
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{bm}
-\usepackage{mathtools}
-
-\newtheorem{theorem}{Theorem}
-
-\newcommand{\define}[1]{\textit{#1}}
-\newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
-\newcommand{\innerprod}[2]{\langle #1, #2 \rangle}
-\newcommand{\mtx}[1]{\bm{#1}}
-\newcommand{\minuseq}{\mathrel{-}=}
-\newcommand{\norm}[1]{\lVert #1 \rVert}
-\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
-\newcommand{\reals}{\mathbb{R}}
-\renewcommand{\vec}[1]{\mathbf{#1}}
-
-\title{Every Real Symmetric Matrix Is Diagonalizable}
-
-% Helpers for this article:
-\newcommand{\bvec}[1]{\vec{e_{#1}}}
-\newcommand{\fptheta}{\fpartial{}{\theta}}
-\newcommand{\fpthetax}{\fpartial{}{\theta^2}}
-\newcommand{\mtxspace}[1]{\reals^{#1 \times #1}}
-\newcommand{\mtxA}{\mtx{A}}
-\newcommand{\mtxD}{\mtx{D}}
-\newcommand{\mtxL}{\mtx{L}}
-\newcommand{\mtxQ}{\mtx{Q}}
-\newcommand{\mtxR}{\mtx{R}}
-\newcommand{\mtxU}{\mtx{U}}
-\newcommand{\mtxLU}{\mtxL\mtxU}
-\newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
-\newcommand{\mtxQR}{\mtxQ\mtxR}
-\newcommand{\vecv}{\vec{v}}
-\newcommand{\vecw}{\vec{w}}
+\usepackage{ruggeri_common}
+\usepackage{ruggeri_linear_algebra}
 
 \begin{document}
+
+\title{Every Real Symmetric Matrix Is Diagonalizable}
 \maketitle
 
 This proof tries to correct my original ``proof.'' JRN pointed out the
