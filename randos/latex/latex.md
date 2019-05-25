@@ -1,9 +1,7 @@
-* More docs to review:
-  * Latex For Beginners
-  * AMS Latex Docs
-  * Latex 2e Unofficial Manual
-  * Not So Short Introduction
-  * Mathmode
-  * Latex For Authors
-* IEEEeqnarray docs.
+TODOS:
 
+* Latex 2e Unofficial Manual (183 pages)
+* Mathmode (143 pages)
+* IEEEeqnarray docs. (is there a single source for this?)
+* graphicx
+* bibtex

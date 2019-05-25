@@ -1,3 +1,5 @@
+**Notes from the Not So Short Introduction**
+
 ## Chapter 2: Typesetting Text
 
 * `\include` command.
@@ -292,7 +294,8 @@ But again, `amsmath` has you with `\bmatrix`:
 
 * In order of increasing space:
   * `\,`, `\:`, `\;`, `\ `, `\quad`, `\qquad`.
-* Negative space: `\!`.
+  * These have synonyms like `\thinspace, \medspace, \thickspace`.
+* Negative space: `\!` (synonyms: `\negthinspace` et cetera).
 * They mention an example for `\,`: typesetting the dx for an integral:
   * `\int x^2 \,\mathrm{d}x`. `mathrm` means "math Roman."
 * If you do a double integral, `\int\int` has an awkward space.
