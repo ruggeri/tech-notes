@@ -28,17 +28,21 @@ true to the intuition/idea I had been pursuing.
   orthogonal (aka ``rotation'') matrix $\mtxQ$ and a diagonal (aka
   ``stretching'') matrix $\mtxD$ such that:
 
-  \[
-    \mtxA = \mtxQDQt
-  \]
+  \begin{nedqn}
+    \mtxA
+  & = &
+    \mtxQDQt
+  \end{nedqn}
 
   Equivalently: any full-rank real symmetric matrix $\mtxA$ with
   dimension $n$ possesses $n$ orthogonal (unit) eigenvectors $\setof{
   \vecu[1], \ldots \vecu[n] }$. That is, for suitable $\lambda_i$:
 
-  \[
-    \mtxA \vecu[i] = \lambda_i \vecu[i]
-  \]
+  \begin{nedqn}
+    \mtxA\vecu[i]
+  & = &
+    \lambda_i \vecu[i]
+  \end{nedqn}
 
   Note that if we have $\mtxQ$, we can obtain a set $\vecu[i]$ by
   extracting the columns. Alternatively, given $\vecu[i]$ we can
@@ -115,14 +119,21 @@ representation of $\mtxA$ in a rotated basis.
 There is a very similar approach that gives a different decomposition.
 Rather than trying to clear out above-diagonal entries in a row
 one-by-one, let's try to ``orthonormalize'' the columns of $\mtxA$.
-Here, we start by setting:
+Here, we start with $\mtxA' \defeq \mtxA$ and one-by-one reassign:
 
-\[
-  \mtxA'_{:, k} \minuseq \innerprod{\mtxA_{:, 1}}{\mtxA_{:,k}} \mtxA_{:, 1}
-\]
+\begin{nedqn}
+  \mtxA'_{:, k}
+& \minuseq &
+  \innerprod{
+    \mtxA'_{:, 1}
+  }{
+    \mtxA'_{:,k}
+  }
+  \mtxA'_{:, 1}
+\end{nedqn}
 
-Such an approach gives us the $\mtxQR$ decomposition of $\mtxA$.
-Note: we also normalize the columns of $\mtxQ$, combining the extracted
+Such an approach gives us the $\mtxQR$ decomposition of $\mtxA$. Note:
+we should also normalize the columns of $\mtxQ$, combining the extracted
 diagonal matrix with $\mtxR$. Again, the determinant may be calculated
 by multiplying the diagonal entries of $\mtxR$.
 
@@ -151,17 +162,17 @@ operations, subsequent operations will always disturb prior operations.
 Let's look at a rotated basis which rotates only $\bvec{i}, \bvec{j}$;
 other basis vectors are left alone. But the problem is that $\mtxA'$,
 the new representation of $\mtxA$, will see
-\textit{both} the columns $\mtxA'_{:, i}, \mtxA'_{:, j}$ \textit{and}
+\emph{both} the columns $\mtxA'_{:, i}, \mtxA'_{:, j}$ \emph{and}
 the corresponding rows $\mtxA'_{i, :}, \mtxA'_{j, :}$ changed.
 
 How can we proceed then? One possibility is to explore an iterative
-procedure that \textit{converges} to the solution, even if it never
+procedure that \emph{converges} to the solution, even if it never
 terminates. In practice we'll need something like that. Because
 compactness, an iterative procedure should also imply the existence of
 an exact solution.
 
 A second possibility (which I will pursue here), is to merely prove the
-\textit{existence} of a solution. But, rather than be too abstract, I
+\emph{existence} of a solution. But, rather than be too abstract, I
 will do this by showing that there always exists a series of steps that
 monotonically ``improve'' your matrix $\mtxA$. I won't show exactly to
 find those steps, but my approach is suggestive of an iterative
@@ -170,12 +181,13 @@ procedure.
 \section{The Corrected Proof: Optimization Goal}
 
 At last, let us begin. We will cast our search for a diagonal matrix
-$\mtxA' \coloneqq \mtxQ\tran \mtxA \mtxQ$ as an optimization problem.
-Define:
+$\mtxA' \defeq \mtxQtDQ$ as an optimization problem. Define:
 
-\[
-  f(\mtxA') = \sum_{i \ne j} \left(A_{i, j}\right)^2
-\]
+\begin{nedqn}
+  f(\mtxA')
+& = &
+  \sum_{i \ne j} \left(A_{i, j}\right)^2
+\end{nedqn}
 
 That is, $f(\mtxA')$ is the sum of squares of off-diagonal elements. Of
 course, $f(\mtxA') = 0$ iff $\mtxA'$ is diagonal. So $f$ is a measure of
@@ -188,11 +200,12 @@ a function of $\mtxQ$. Or even less redundantly, as a function of
 $\frac{n(n-1)}{2}$ angles $\theta_{i, j}, \forall i \ne j$.
 
 This last view helps: the space of $\theta_{i, j}$ is really just points
-on the surface of a unit hypersphere, which is a compact set. We can
-apply the extreme value theorem since $f$ is continuous. That is: $f$
-achieves a minimum somewhere.
+on the surface of a unit hypersphere, which is a compact set. (TODO: JRN
+informs me this intuition is not quite correct.) We can apply the
+extreme value theorem since $f$ is continuous. That is: $f$ achieves a
+minimum somewhere.
 
-The only question remains: is $\min f(\mtxA') = 0$?
+The only question remains: is $\min_{\mtxA'} f(\mtxA') = 0$?
 
 \section{How Rotations Change $\mtxA$}
 
@@ -201,80 +214,89 @@ minimum for $f$ at $\mtxA'$, we must have that all derivatives here are
 zero. Let's consider the simplest rotation between two basis vectors
 $\bvec{i}, \bvec{j}$:
 
-\[
-  \mtxQ \coloneqq
-    \bvec{1}\bvec{1}\tran
-    + \ldots + (\cos\theta \bvec{i} + \sin\theta \vec{j}) \bvec{i}\tran
-    + \ldots + (-\sin\theta \bvec{i} + \cos\theta \vec{j}) \bvec{j}\tran
-    + \ldots + \bvec{n}\bvec{n}\tran
-\]
+\begin{nedqn}
+  \mtxQ
+& \defeq &
+  \bvec{1}\bvec{1}\tran
+  + \ldots + (\cos\theta \bvec{i} + \sin\theta \vec{j}) \bvec{i}\tran
+  \\
+&&
+  \quad
+  + \ldots + (-\sin\theta \bvec{i} + \cos\theta \vec{j}) \bvec{j}\tran
+  + \ldots + \bvec{n}\bvec{n}\tran
+\end{nedqn}
 
-I would like to know what happens to $f(\mtxQ\tran \mtxA \mtxQ)$ as we
-change $\theta$ near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$
-where $k_1, k_2 \not\in \{ i, j \}$:
+I would like to know what happens to $f(\mtxQtDQ)$ as we change $\theta$
+near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$ where $k_1, k_2
+\not\in \setof{i, j}$:
 
-\begin{equation*}
-  \begin{split}
+\begin{nedqn}
     \mtxA'_{k_1, k_2}(\theta)
-      ={}& \bvec{k_1}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{k_2} \\
-      ={}& \bvec{k_1}\tran \mtxA \bvec{k_2} \\
-      ={}& \mtxA_{k_1, k_2}
-  \end{split}
-\end{equation*}
+  & = &
+    \bvec{k_1}\tran (\mtxQtDQ) \bvec{k_2} \\
+  & = &
+    \bvec{k_1}\tran \mtxA \bvec{k_2} \\
+  & = &
+    \mtxA_{k_1, k_2}
+    \IEEEyesnumber \\
+\end{nedqn}
 
 As we see, the only changed elements should be in rows (and columns) $i$
-and $j$.
+and $j$. Let's next consider what happens to $\mtxA'_{k, i}(\theta)$
+where $k \not\in \setof{i, j}$.
 
-Let's next consider what happens to $\mtxA'_{k, i}(\theta)$ where $k
-\not\in \{i, j\}$.
-
-\begin{equation*}
-  \begin{split}
+\begin{nedqn}
     \mtxA'_{k, i}(\theta)
-      ={}& \bvec{k}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{i} \\
-      ={}& \bvec{k}\tran \mtxA \left(
-        \cos\theta \bvec{i} + \sin\theta \bvec{j}
-      \right) \\
-      ={}& \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-  \end{split}
-\end{equation*}
+  & = &
+    \bvec{k}\tran (\mtxQtDQ) \bvec{i} \\
+  & = &
+    \bvec{k}\tran \mtxA \left(
+      \cos\theta \bvec{i} + \sin\theta \bvec{j}
+    \right) \\
+  & = &
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+    \IEEEyesnumber \\
+\end{nedqn}
 
 Well, that makes sense! Naturally, because $\mtxA'(\theta)$ is
 symmetric, we know that $\mtxA'_{i, k}(\theta) = \mtxA'_{k, i}(\theta)$.
+Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
 
-We next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
-
-\begin{equation*}
-  \begin{split}
+\begin{nedqn}
     \mtxA'_{k, j}(\theta)
-      ={}& \bvec{k}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{j} \\
-      ={}& \bvec{k}\tran \mtxA \left(
-        -\sin\theta \bvec{i} + \cos\theta \bvec{j}
-      \right) \\
-      ={}& -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-  \end{split}
-\end{equation*}
+  & = &
+    \bvec{k}\tran (\mtxQtDQ) \bvec{j} \\
+  & = &
+    \bvec{k}\tran \mtxA \left(
+      -\sin\theta \bvec{i} + \cos\theta \bvec{j}
+    \right) \\
+  & = &
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+    \IEEEyesnumber \\
+\end{nedqn}
 
-Last, we have for $\mtxA'_{i, j}(\theta)$:
+Naturally, this is just the ``opposite'' of what is done for $\mtxA'_{k,
+i}$. Again, we know $\mtxA'_{k, j} = \mtxA'_{j, k}$. Last, we have for
+$\mtxA'_{i, j}(\theta)$:
 
-\begin{equation*}
-  \begin{split}
-    \mtxA'_{i, j}(\theta)
-      ={}& \bvec{i}\tran (\mtxQ\tran \mtxA \mtxQ) \bvec{j} \\
-      ={}&
-        \left( \cos\theta\bvec{i} + \sin\theta\bvec{j} \right)\tran
-        \mtxA
-        \left( -\sin\theta\bvec{i} + \cos\theta\bvec{j} \right)\\
-      ={}&
-        -\sin\theta\cos\theta \mtxA_{i, i}
-        + \cos^2\theta \mtxA_{i, j}
-        -\sin^2\theta \mtxA_{j, i}
-        +\sin\theta\cos\theta \mtxA_{j, j} \\
-      ={}&
-        (\sin\theta\cos\theta)(\mtxA_{j, j} - \mtxA_{i, i})
-        + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j}
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \mtxA'_{i, j}(\theta)
+& = &
+  \bvec{i}\tran (\mtxQtDQ) \bvec{j} \\
+& = &
+  \left( \cos\theta\bvec{i} + \sin\theta\bvec{j} \right)\tran
+  \mtxA
+  \left( -\sin\theta\bvec{i} + \cos\theta\bvec{j} \right)\\
+& = &
+  -\sin\theta\cos\theta \mtxA_{i, i}
+  + \cos^2\theta \mtxA_{i, j}
+  -\sin^2\theta \mtxA_{j, i}
+  +\sin\theta\cos\theta \mtxA_{j, j} \\
+& = &
+  (\sin\theta\cos\theta)(\mtxA_{j, j} - \mtxA_{i, i})
+  + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j}
+  \IEEEyesnumber \\
+\end{nedqn}
 
 \section{First Order Conditions}
 
