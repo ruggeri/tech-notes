@@ -1,5 +1,11 @@
-* To look at: The Latex Companion (lists many popular packages?)
-* To look at: AMS Latex documentation.
+* More docs to review:
+  * Latex For Beginners
+  * AMS Latex Docs
+  * Latex 2e Unofficial Manual
+  * Not So Short Introduction
+  * Mathmode
+  * Latex For Authors
+* IEEEeqnarray docs.
 
 ## Chapter 2: Typesetting Text
 
@@ -287,6 +293,8 @@ But again, `amsmath` has you with `\bmatrix`:
 * For a single equation `\begin{align}` is fine.
   * `\begin{equation}` is the most basic environment.
 * For multiple equations, prefer `IEEEeqnarray`.
+  * I think it's just more flexible than `array`?
+  * And gives you multiple equation numbers.
 * Use either `aligned` or `array` for complex stuff inside an equation.
 
 ## 3.7 Spacing in Math Mode
@@ -300,6 +308,105 @@ But again, `amsmath` has you with `\bmatrix`:
   * You could use `\int \!\!\! \int` to move it together.
   * Or more simply, use `\iint` from amsmath.
 
-TODO: Up to 3.8: Math fonts (p60).
+## 3.8 Fonts
 
-TODO: array vs IEEEeqnarray. Which one to choose?
+* `\mathcal \mathfrak \mathbb` are your basic math fonts.
+* In (math) text style, sums and limits are written small-style. This
+  also happens in `\frac`. You can force by using `\displaymode` to get
+  the big sigmas.
+* For bold symbols, there is `\mathbf`, but it (a) doesn't work on greek
+  letters and (b) makes them roman (vs italic).
+  * For that reason, you probably want `\boldsymbol` from `amsbsy`
+    (included by `amsmath`).
+
+## 3.9 Theorems
+
+```
+% PREAMBLE
+
+% `theoremstyle` is from amsthm. plain means roman naming, italic body.
+% `newtheorem` defines an *environment*. Here we define an environment
+% called `thm`. It will print the title `Theorem` at each use.
+
+\theoremstyle{plain} \newtheorem{thm}{Theorem}
+
+% This defines a lemma environment, but gives it the same counter as
+% theorems.
+
+\theoremstyle{plain} \newtheorem{lemma}[thm]{Lemma}
+
+% Another example. `remark` theorem style means italic title, roman
+% body.
+%
+% Environment is named `remark`, and text label is "Remark"
+
+\theoremstyle{remark} \newtheorem{remark}{Remark}
+
+% BODY
+
+\begin{thm}
+  This is my cool theorem.
+\end{thm}
+
+\begin{remark}
+  I can make a remark here.
+\end{remark}
+
+\begin{thm}{Ned's Theorem}
+  I can even name a theorem!
+\end{thm}
+```
+
+## Ch4: Specialties
+
+TODO
+
+## Ch5: Producing Mathematical Graphics
+
+TODO
+
+## Ch6: Customizing Latex
+
+Of course, you can define new commands:
+`\newcommand{cmdname}[argcount]{definition}`.
+
+But you can also define new environments:
+
+```
+\newenvironment{nthm}[1]{
+  The name of this this theorem is #1.
+}{
+  The end of the theorem is here.
+}
+
+\begin{nthm}{Cool Theorem}
+  Here is the theorem body.
+\end{nthm}
+```
+
+There is a command called `\ifthenelse`. How helpful!
+
+You should extract your macros to a `.sty` file, which can be loaded by
+`usepackage`. In the `.sty` file just have the macro definitions, but
+first write `\ProvidesPackage`. I believe if the `.sty` is in the same
+folder as the `.tex` file, you can load by name. Else you can give a
+path.
+
+Fonts:
+
+* `\textrm` (roman) `\texttt` (typewriter font)
+* `\textmd` (medium weight) `\textbf` (bold)
+* `\textup` (upright) `\textit` (italic) `\textsc` (small caps)
+* `\emph`
+* There are named font sizes (like `\small, \normalsize, \large`).
+
+## 6.3: Spacing
+
+* Use `\hspace{5cm}` to give an explicit blank horizontal space.
+* Use `\hspace{\stretch}` to stretch to fill available space.
+  * Use `x\hspace{\stretch{1}}x\hspace{3}x\stretch{5}x` to stretch in
+    proportions of `1:3:5`.
+
+## TODO
+
+* Done! Except glance through chapters 4 and 5.
