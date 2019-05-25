@@ -11,6 +11,8 @@
 \title{Every Real Symmetric Matrix Is Diagonalizable}
 \maketitle
 
+\section{abstract}
+
 This proof tries to correct my original ``proof.'' JRN pointed out the
 error in my proof to me and gave me an alternative one. His proof uses
 the extreme value theorem for a continuous function defined on a compact
@@ -27,19 +29,19 @@ true to the intuition/idea I had been pursuing.
   ``stretching'') matrix $\mtxD$ such that:
 
   \[
-    \mtxA = \mtxQ \mtxD \mtxQ\tran
+    \mtxA = \mtxQDQt
   \]
 
   Equivalently: any full-rank real symmetric matrix $\mtxA$ with
-  dimension $n$ possesses $n$ orthogonal (unit) eigenvectors $\{
-  \vec{u_1}, \ldots \vec{u_n} \}$. That is, for suitable $\lambda_i$:
+  dimension $n$ possesses $n$ orthogonal (unit) eigenvectors $\setof{
+  \vecu[1], \ldots \vecu[n] }$. That is, for suitable $\lambda_i$:
 
   \[
-    \mtx{A} \vec{u_i} = \lambda_i \vec{u_i}
+    \mtxA \vecu[i] = \lambda_i \vecu[i]
   \]
 
-  Note that if we have $\mtxQ$, we can obtain a set $\vec{u_i}$ by
-  extracting the columns. Alternatively, given $\vec{u_i}$ we can
+  Note that if we have $\mtxQ$, we can obtain a set $\vecu[i]$ by
+  extracting the columns. Alternatively, given $\vecu[i]$ we can
   produce $\mtxQ$ by writing them in as columns.
 \end{theorem}
 
@@ -56,14 +58,13 @@ So the problem then becomes to find even a single eigenvector of
 $\mtxA$. I suggested a process which doesn't quite work. I recall it
 here.
 
-Our goal will be to find a rotation of basis such that $\mtxA' \coloneqq
-\mtxQ\tran \mtxA \mtxQ$ has blank first row/column (excepting
-$\mtxA'_{1, 1}$, which cannot also be zero, by assumption that $\mtxA$
-is full-rank).
+Our goal will be to find a rotation of basis such that $\mtxA' \defeq
+\mtxQtDQ$ has blank first row/column (excepting $\mtxA'_{1, 1}$, which
+cannot also be zero, by assumption that $\mtxA$ is full-rank).
 
 First, find a rotation of basis vectors $\bvec{1}, \bvec{2}$ such that
-has a zero at $\mtxA'_{2, 1}$. I tacitly assume here that $\mtxA_{2, 2}
-\ne 0$.
+we have a zero at $\mtxA'_{2, 1}$. I tacitly assume here that $\mtxA_{2,
+2} \ne 0$.
 
 Having done this, I want to repeat. I want to find a rotation of
 $\bvec{1}, \bvec{3}$ to zero out $\mtxA'_{3, 1}$. Again, assuming that
@@ -79,8 +80,8 @@ property that, in any rotated basis, a symmetric matrix stays symmetric.
 That is, we'd also know that $\mtxA'_{1, k} = 0, \forall k\ne 1$.
 
 That would tell us that (1) $\bvec{1}$ is an eigenvector of $\mtxA'$,
-and (2) any eigenvector $\vec{u}'$ of $\mtxA'_{2:n, 2:n}$ is also an
-eigenvector of $\mtxA'$ (when you extend $\vec{u}'$ by prefixing with a
+and (2) any eigenvector $\vecu'$ of $\mtxA'_{2:n, 2:n}$ is also an
+eigenvector of $\mtxA'$ (when you extend $\vecu'$ by prefixing with a
 zero for the first coordinate).
 
 As near as I can tell, nothing is wrong with the proof, except that the
@@ -113,8 +114,8 @@ representation of $\mtxA$ in a rotated basis.
 
 There is a very similar approach that gives a different decomposition.
 Rather than trying to clear out above-diagonal entries in a row
-one-by-one, let's try to ``orthonormalize'' the columns of $\mtxA$. Here,
-we start by setting:
+one-by-one, let's try to ``orthonormalize'' the columns of $\mtxA$.
+Here, we start by setting:
 
 \[
   \mtxA'_{:, k} \minuseq \innerprod{\mtxA_{:, 1}}{\mtxA_{:,k}} \mtxA_{:, 1}

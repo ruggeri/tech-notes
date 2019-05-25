@@ -8,7 +8,7 @@
 \newcommand{\bvec}[1]{\vec{e}_{\mathbf{#1}}}
 
 % Common vector names
-\newcommand{\vecu}{\vec{u}}
+\newcommand{\vecu}[1][]{\vec{u_{\mathbf{#1}}}}
 \newcommand{\vecv}{\vec{v}}
 \newcommand{\vecw}{\vec{w}}
 
@@ -28,7 +28,8 @@
 
 \newcommand{\mtxLU}{\mtxL\mtxU}
 \newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
-\newcommand{\mtxQDQ}{\mtxQ\mtxD\mtxQ\tran}
+\newcommand{\mtxQDQt}{\mtxQ\mtxD\mtxQ\tran}
+\newcommand{\mtxQtDQ}{\mtxQ\tran\mtxD\mtxQ}
 \newcommand{\mtxQR}{\mtxQ\mtxR}
 
 %% Operations
