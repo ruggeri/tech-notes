@@ -1,3 +1,5 @@
+**Notes from the User’s Guide for the amsmath Package**
+
 ## Section 3: Displayed Equations
 
 * `equation` is for a single equation.
