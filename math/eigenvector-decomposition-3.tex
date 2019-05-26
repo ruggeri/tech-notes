@@ -226,8 +226,7 @@ $\bvec{i}, \bvec{j}$:
   \right)
   \bvec{i}\tran \\
 &&
-  \quad
-  %
+  \phantom{\bvec{1}}
   + \ldots
   %
   + \left(
@@ -365,14 +364,15 @@ don't cause any change in $f$. Next, let's look at:
       \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
     \right)^2
   \right]
-  \nedcomment{substitution from \eqref{change:k:j}}%
+  \nedcomment{substitution from \eqref{change:k:i}}%
   \\
 & = &
   2
   \left(
     \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
   \right)
-  % \\&&\phantom{2\big(}
+  \\&&
+  \phantom{2\big(}
   \tfptheta \bigl[
     \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
   \bigr]
@@ -382,7 +382,7 @@ don't cause any change in $f$. Next, let's look at:
   2 \left(
     \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
   \right)
-  % \\&&\phantom{2-}
+  \\&&\phantom{2\big(}
   \left(
     -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
   \right)
@@ -393,48 +393,72 @@ don't cause any change in $f$. Next, let's look at:
 We want to evaluate this derivative at $\theta = 0$, since we want to
 see what happens when we make small changes to $\mtxA$. Thus, we obtain:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ \left( \mtxA'_{k, i}(\theta) \right)^2 \right] \big(0\big)
-      ={}&
-        2
-        \left( \mtxA_{k, i} \right)
-        \left( \mtxA_{k, j} \right)
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, i}(\theta) \right)^2
+  \right]
+  % Move closer. Represents function application.
+  \!\!
+  \big(0\big)
+& = &
+  2
+  \left( \mtxA_{k, i} \right)
+  \left( \mtxA_{k, j} \right)
+\end{nedqn}
 
 Let us do the corresponding calculation for $\mtxA'_{k, j}$:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ \left( \mtxA'_{k, j}(\theta) \right)^2 \right]
-      ={}& \fptheta \left(
-          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-        \right)^2 \\
-      ={}& 2 \left(
-          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-        \right) \left[ \fptheta \left(
-          -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-        \right) \right] \\
-      ={}& 2 \left(
-        -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-      \right) \left(
-        -\cos\theta \mtxA_{k, i} - \sin\theta \mtxA_{k, j}
-      \right)
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, j}(\theta) \right)^2
+  \right]
+& = &
+  \fptheta \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)^2
+  \nedcommenthard{substitution from \eqref{change:k:j}}%
+  \\
+& = &
+  2
+  %
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  %
+  \\&&
+  \phantom{2(}
+  \tfptheta \left[
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right]
+  \\
+& = &
+  2
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  \\&&
+  \phantom{2(}
+  \left(
+    -\cos\theta \mtxA_{k, i} - \sin\theta \mtxA_{k, j}
+  \right)
+  \nednumber%
+  \\
+\end{nedqn}
 
 Again, substituting $\theta = 0$, we obtain:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ \left( \mtxA'_{k, j}(\theta) \right)^2 \right] \big(0\big)
-      ={}&
-        2
-        \left( \mtxA_{k, j} \right)
-        \left( -\mtxA_{k, i} \right)
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fptheta \left[
+      \left( \mtxA'_{k, j}(\theta) \right)^2
+  \right]
+  % Move closer: function application.
+  \!\!
+  \big(0\big)
+& = &
+  2
+  \left( \mtxA_{k, j} \right)
+  \left( -\mtxA_{k, i} \right)
+\end{nedqn}
 
 Do you see what has happened here? The change to $f$ due to change in
 $\mtxA'_{k, i}$ will be canceled out by the change to $f$ due to change
