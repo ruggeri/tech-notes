@@ -1,0 +1,56 @@
+\section{Conclusion}
+
+Let's recap what we have done.
+
+\begin{enumerate}
+  \item We proved (elsewhere, previously) that rotation of basis keeps
+  symmetric matrices symmetric.
+
+  \item We then defined an ``error'' function $f$ to minimize. The error
+  is minimal (zero) precisely when all off-diagonal entries are zeroed.
+
+  \item Since the space of rotations of $\mtxA$ is compact, and because
+  $f$ is continuous, we know it achieves a minimum in this space.
+
+  \item We were unsure whether the minimum of $f$ on the space of
+  rotations is actually zero.
+
+  \item We use the first derivative test to discover that for any
+  optimal $\mtxA$, either $\mtxA_{i, j} = \mtxA_{j, i} = 0$ (as desired)
+  OR $\mtxA_{i, i} = \mtxA_{j, j}$ (leaving open the possibility that
+  $\mtxA_{i, j} \ne 0$).
+
+  \item We then examined what the second derivative would be at a
+  first-order critical point, in the undesired case that $\mtxA_{i, j}
+  \ne 0$, and thus necessarily $\mtxA_{i, i} = \mtxA_{j, j}$.
+
+  \item The second derivative test showed us this must be a local
+  \emph{maximum}. Thus we can preclude this scenario at a global
+  minimum.
+
+  \item We have foreclosed any escape. A global minimum must have
+  $\mtxA_{i, j} = \mtxA_{j, i} = 0$, else it would be possible to
+  improve.
+\end{enumerate}
+
+Is this proof really any better than the much more succinct proof JRN
+gave me? For me, this proof accords with an intuition that you can
+always iteratively keep improving your matrix by doing little rotations.
+It shows that you can never get stuck. Indeed, you can use gradient
+descent if you want. So this proof is much more clearly tied to a notion
+of \textit{procedure}, which is certainly related to intuition.
+
+Second, the proof says that, if you believe things work in two
+dimensions, you can just keep picking pairs of basis vectors to fix, and
+do your best. Remember, you might ``disrupt'' previous work, but to the
+extent you disrupt previous work, you're helping other work. That's what
+we know from the cancelation of the $\mtxA_{k, i}, \mtxA_{k, j}$ terms.
+
+Probably that would have been a simpler proof right there. You have this
+iterative process now, and it must converge to an answer, so the answer
+must exist\dots
+
+One goal was to limit the magical use of symmetry. Here it is still used
+somewhat: you use symmetry when you presume that rotation of basis
+preserves symmetry. Likewise, you use symmetry when you assume that
+fixing things in one subspace won't have an overall negative impact.

@@ -1,0 +1,175 @@
+\section{An Example}
+
+As a quick check from our previous example: if you have $\mtxA_{i, j} =
+2$, then $\fpthetax \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right] =
+-32$. If you then double this (to account for both $\mtxA'_{i, j}$ and
+$\mtxA'_{j, i}$), you get back $-64$ as I calculated previously.
+
+Are we fucked? Presumably not. Let's just look at one matrix to make
+ourselves feel a little better:
+
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 2 \\
+    2 & 1
+  \end{bmatrix}
+\end{equation*}
+
+What happens when we try to rotate it?
+
+\begin{equation*}
+  \begin{split}
+      &\begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+      \end{bmatrix}\tran
+      \begin{bmatrix}
+        1 & 2 \\
+        2 & 1
+      \end{bmatrix}
+      \begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        \cos\theta  & \sin\theta \\
+        -\sin\theta & \cos\theta
+      \end{bmatrix}
+      \begin{bmatrix}
+        1\cos\theta + 2\sin\theta & -1\sin\theta + 2\cos\theta \\
+        2\cos\theta + 1\sin\theta & -2\sin\theta + 1\cos\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        1 \cos^2\theta + (2 + 2) \cos\theta \sin\theta + 1 \sin^2\theta
+        &
+        2 \cos^2\theta + (-1 + 1) \cos\theta \sin\theta - 2\sin^2\theta
+        \\
+        2 \cos^2\theta + (-1 + 1) \cos\theta \sin\theta - 2\sin^2\theta
+        &
+        1\cos^2\theta + (-2 - 2) \cos\theta\sin\theta + 1\sin^2\theta
+      \end{bmatrix}
+    \\
+    ={}&
+      \begin{bmatrix}
+        1 + 4\cos\theta\sin\theta
+        &
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+        \\
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+        &
+        1 - 4\cos\theta\sin\theta
+      \end{bmatrix}
+    \end{split}
+\end{equation*}
+
+Okay let's calculate $\fptheta f$ for this matrix!
+
+\begin{equation*}
+  \begin{split}
+      \fptheta \left[f(\theta)\right]
+    ={}&
+      \fptheta \left[
+        \left( \mtxA'_{2, 1}(\theta) \right)^2
+        + \left( \mtxA'_{1, 2}(\theta) \right)^2
+      \right]
+    \\
+    ={}&
+      4
+      \mtxA'_{2, 1}(\theta)
+      \fptheta \left[ \mtxA'_{2, 1}(\theta) \right] \\
+    \\
+      \mtxA'_{2, 1}(\theta)
+    ={}&
+      2 \left( \cos^2\theta - \sin^2\theta \right) \\
+      \mtxA'_{2, 1}(0)
+    ={}&
+        2 \left( \cos^2 0 - \sin^2 0 \right) \\
+    ={}&
+      2 \\
+    \\
+      \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+    ={}&
+      \fptheta \left[
+        2 \left( \cos^2\theta - \sin^2\theta \right)
+      \right] \\
+    ={}&
+      2 \big( -2\cos\theta \sin\theta - 2\sin\theta\cos\theta \big) \\
+    ={}&
+      -8 \cos\theta \sin\theta \\
+      \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+    ={}&
+      -8 \cos 0 \sin 0 \\
+    ={}&
+      0 \\
+    \\
+      \fptheta \left[f(0)\right]
+    ={}&
+      4
+      \mtxA'_{2, 1}(0)
+      \fptheta \left[ \mtxA'_{2, 1}(0) \right] \\
+    ={}&
+      4 \cdot 2 \cdot 0 \\
+    ={}& 0
+  \end{split}
+\end{equation*}
+
+All our calculations check out with what we've done before. And we know
+that, because this is a 2-by-2 real symmetric matrix, it must be
+diagonalizable. And still the first partial is zero\dots
+
+Well, the solution is clear: what is the story with the \textit{second}
+partial?
+
+\begin{equation*}
+  \begin{split}
+      \fpthetax \left[f(\theta)\right]
+    ={}&
+      \fptheta \Big[ \fptheta \left[f(\theta)\right] \Big] \\
+    ={}&
+      \fptheta \Big[
+        4
+        \mtxA'_{2, 1}(\theta)
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+      \Big] \\
+    ={}&
+      4 \Big[
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+        \fptheta \left[ \mtxA'_{2, 1}(\theta) \right]
+        +
+        \mtxA'_{2, 1}(\theta)
+        \fpthetax \left[ \mtxA'_{2, 1}(\theta) \right]
+      \Big] \\
+    \\
+      \fpthetax \left[ \mtxA'_{2, 1}(\theta) \right]
+    &=
+      \fptheta \Big[ -8 \cos\theta \sin\theta \Big] \\
+    &= -8 \left( \cos^2\theta - \sin^2\theta \right) \\
+      \fpthetax \left[ \mtxA'_{2, 1}(0) \right]
+    &= -8 \left( \cos^2 0 - \sin^2 0 \right) \\
+    &= -8 \\
+    \\
+      \fpthetax \left[f(0)\right]
+    ={}&
+      4 \Big[
+        \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+        \fptheta \left[ \mtxA'_{2, 1}(0) \right]
+        +
+        \mtxA'_{2, 1}(0)
+        \fpthetax \left[ \mtxA'_{2, 1}(0) \right]
+      \Big] \\
+    ={}&
+      4 \Big[
+        \left(0 \cdot 0\right)
+        +
+        \left(2 \cdot -8\right)
+      \Big] \\
+    ={}& -64
+  \end{split}
+\end{equation*}
+
+Wonderful. In conclusion, we see that indeed the second partial is
+negative, which means that we are at a local maximum.
