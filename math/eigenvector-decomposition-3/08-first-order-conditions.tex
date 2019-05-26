@@ -1,0 +1,137 @@
+\section{First Order Conditions}
+
+Let us now begin examining $\fptheta f(\mtxQtDQ)$. Why? Because, at a
+minimum, we know that these partials must be zero. We hope to show that
+a minimum can only occur if only all off-diagonal entries are zero.
+
+First, let's look at:
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k_1, k_2}(\theta) \right)^2
+  \right]
+& = &
+  \fptheta \left[ \left( \mtxA_{k_1, k_2} \right)^2 \right]
+=
+  0
+  \nedcomment{substitution from \eqref{change:k1:k2}}%
+\end{nedqn}
+
+As expected: those elements don't change regardless of $\theta$, so they
+don't cause any change in $f$. Next, let's look at:
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, i}(\theta) \right)^2
+  \right]
+& = &
+  \fptheta \left[
+    \left(
+      \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+    \right)^2
+  \right]
+  \nedcomment{substitution from \eqref{change:k:i}}%
+  \\
+& = &
+  2
+  \left(
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \right)
+  \\&&
+  \phantom{2\big(}
+  \tfptheta \bigl[
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \bigr]
+  \nedcommenthard{chain rule}%
+  \\
+& = &
+  2 \left(
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \right)
+  \\&&\phantom{2\big(}
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  \nednumber%
+\end{nedqn}
+
+We want to evaluate this derivative at $\theta = 0$, since we want to
+see what happens when we make small changes to $\mtxA$. Thus, we obtain:
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, i}(\theta) \right)^2
+  \right]
+  % Move closer. Represents function application.
+  \!\!
+  \big(0\big)
+& = &
+  2
+  \left( \mtxA_{k, i} \right)
+  \left( \mtxA_{k, j} \right)
+  \nednumber\label{change:at:zero:k:i:}
+\end{nedqn}
+
+Let us do the corresponding calculation for $\mtxA'_{k, j}$:
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, j}(\theta) \right)^2
+  \right]
+& = &
+  \fptheta \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)^2
+  \nedcommenthard{substitution from \eqref{change:k:j}}%
+  \\
+& = &
+  2
+  %
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  %
+  \\&&
+  \phantom{2(}
+  \tfptheta \left[
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right]
+  \\
+& = &
+  2
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  \\&&
+  \phantom{2(}
+  \left(
+    -\cos\theta \mtxA_{k, i} - \sin\theta \mtxA_{k, j}
+  \right)
+  \nednumber%
+\end{nedqn}
+
+Again, substituting $\theta = 0$, we obtain:
+
+\begin{nedqn}
+  \fptheta \left[
+      \left( \mtxA'_{k, j}(\theta) \right)^2
+  \right]
+  % Move closer: function application.
+  \!\!
+  \big(0\big)
+& = &
+  2
+  \left( \mtxA_{k, j} \right)
+  \left( -\mtxA_{k, i} \right)
+  \nednumber\label{change:at:zero:k:j:}
+\end{nedqn}
+
+Do you see what has happened here? The change to $f$ due to change in
+$\mtxA'_{k, i}$ (equation \ref{change:at:zero:k:i:}) be canceled out by
+the change to $f$ due to change in $\mtxA'_{k, j}$ (equation
+\ref{change:at:zero:k:j:}). (And likewise for $\mtxA'_{i, k}$ and
+$\mtxA'_{j, k}$.)
+
+Thus, when rotating between $\bvec{i}, \bvec{j}$, the only meaningful
+difference (if any) to $f$ is going to come from change at positions
+$\mtxA'_{i, j}, \mtxA'_{j, i}$.

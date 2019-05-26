@@ -1,0 +1,41 @@
+\section{Original Attempt}
+
+My original ``proof'' was inductive. I first proved a base case: that a
+full-rank symmetric matrix in $\mtxspace{2}$ has two orthogonal
+eigenvectors. I next showed that, if we find even a single eigenvector
+for $\mtxA \in \mtxspace{n}$, we can reduce the problem to finding $n-1$
+orthogonal eigenvectors for a corresponding full-rank symmetric of
+$\mtxspace{(n-1)}$. So far, this is correct.
+
+So the problem then becomes to find even a single eigenvector of
+$\mtxA$. I suggested a process which doesn't quite work. I recall it
+here.
+
+Our goal will be to find a rotation of basis such that $\mtxA' \defeq
+\mtxQtDQ$ has blank first row/column (excepting $\mtxA'_{1, 1}$, which
+cannot also be zero, by assumption that $\mtxA$ is full-rank).
+
+First, find a rotation of basis vectors $\bvec{1}, \bvec{2}$ such that
+we have a zero at $\mtxA'_{2, 1}$. I tacitly assume here that $\mtxA_{2,
+2} \ne 0$.
+
+Having done this, I want to repeat. I want to find a rotation of
+$\bvec{1}, \bvec{3}$ to zero out $\mtxA'_{3, 1}$. Again, assuming that
+$\mtxA_{3, 3} \ne 0$, this can be done.
+
+The mistake was here though. By zeroing out $\mtxA'_{3, 1}$, we may
+disrupt the zeroing out that was previously performed for $\mtxA'_{2,
+1}$. That happens exactly if $\mtxA'_{2, 3} \ne 0$.
+
+Ideally this wouldn't happen. If it didn't, and we could find a rotated
+basis in which $\mtxA'_{k, 1} = 0, \forall k\ne 1$, then we can invoke a
+property that, in any rotated basis, a symmetric matrix stays symmetric.
+That is, we'd also know that $\mtxA'_{1, k} = 0, \forall k\ne 1$.
+
+That would tell us that (1) $\bvec{1}$ is an eigenvector of $\mtxA'$,
+and (2) any eigenvector $\vecu'$ of $\mtxA'_{2:n, 2:n}$ is also an
+eigenvector of $\mtxA'$ (when you extend $\vecu'$ by prefixing with a
+zero for the first coordinate).
+
+As near as I can tell, nothing is wrong with the proof, except that the
+elimination procedure I describe doesn't work.

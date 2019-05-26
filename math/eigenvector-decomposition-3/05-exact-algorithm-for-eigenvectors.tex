@@ -1,0 +1,37 @@
+\section{Exact Algorithm For Eigenvectors?}
+
+Each column operation in the $\mtxLDU$ algorithm ``fixes'' (that is,
+clears out) exactly one position in $\mtxA$. Once fixed, no subsequent
+step disturbs that position.
+
+Likewise, each column operation in the $\mtxQR$ algorithm fixes one
+column in $\mtxA$. That is, we make a column $\mtxA_{:, i}$ orthogonal
+to another column $\mtxA_{:, j}$. Again, no subsequent step disturbs
+this.
+
+Because each step moves us one ``unit'' of the way toward the final
+result, the runtime of these algorithms is a function of the number of
+``units'': that is, the number of elements (or columns) in $\mtxA$.
+
+Our problem for zeroing-out the first column of $\mtxA$ with rotations
+is this. If we try to use rotating operations instead of shearing
+operations, subsequent operations will always disturb prior operations.
+
+Let's look at a rotated basis which rotates only $\bvec{i}, \bvec{j}$;
+other basis vectors are left alone. But the problem is that $\mtxA'$,
+the new representation of $\mtxA$, will see
+\emph{both} the columns $\mtxA'_{:, i}, \mtxA'_{:, j}$ \emph{and}
+the corresponding rows $\mtxA'_{i, :}, \mtxA'_{j, :}$ changed.
+
+How can we proceed then? One possibility is to explore an iterative
+procedure that \emph{converges} to the solution, even if it never
+terminates. In practice we'll need something like that. Because
+compactness, an iterative procedure should also imply the existence of
+an exact solution.
+
+A second possibility (which I will pursue here), is to merely prove the
+\emph{existence} of a solution. But, rather than be too abstract, I
+will do this by showing that there always exists a series of steps that
+monotonically ``improve'' your matrix $\mtxA$. I won't show exactly to
+find those steps, but my approach is suggestive of an iterative
+procedure.

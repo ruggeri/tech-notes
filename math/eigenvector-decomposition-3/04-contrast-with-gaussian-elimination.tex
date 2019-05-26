@@ -1,0 +1,48 @@
+\section{Contrast With Gaussian Elimination}
+
+Let's contrast with Gaussian elimination. In Gaussian elimination, our
+first task is to eliminate the off-diagonal entries of the first row.
+One-by-one we eliminate $\mtxA_{1, k}, \forall k \ne 1$. For each $k \ne
+1$, we subtract an appropriate amount of the first column $\mtxA_{:, 1}$
+from every other column $\mtxA_{:, k}$.
+
+Each \define{elementary (column) operation} corresponds to a shearing
+operation, and shearing preserves determinant. That's why Gaussian
+elimination is useful for calculation of the determinant.
+
+If you repeat this row-by-row, you can turn the matrix into an
+upper-triangular matrix. Collecting the operations that undo this gives
+you the $\mtxLU$ decomposition of $\mtxA$. If one scales the
+rows/columns of $\mtxL, \mtxU$ appropriately so that the diagonal
+entries are all $1$, collecting these factors as $\mtxD$, then we get
+the $\mtxLDU$ decomposition. The determinant of $\mtxA$ is simply the
+determinant of $\mtxD$. That is: the product of the diagonal entries of
+$\mtxD$.
+
+Of course, the $\mtxLDU$ decomposition doesn't give us information about
+the eigenvectors, because none of these matrices corresponds to a
+representation of $\mtxA$ in a rotated basis.
+
+There is a very similar approach that gives a different decomposition.
+Rather than trying to clear out above-diagonal entries in a row
+one-by-one, let's try to ``orthonormalize'' the columns of $\mtxA$.
+Here, we start with $\mtxA' \defeq \mtxA$ and one-by-one reassign:
+
+\begin{nedqn}
+  \mtxA'_{:, k}
+& \minuseq &
+  \innerprod{
+    \mtxA'_{:, 1}
+  }{
+    \mtxA'_{:,k}
+  }
+  \mtxA'_{:, 1}
+\end{nedqn}
+
+Such an approach gives us the $\mtxQR$ decomposition of $\mtxA$. Note:
+we should also normalize the columns of $\mtxQ$, combining the extracted
+diagonal matrix with $\mtxR$. Again, the determinant may be calculated
+by multiplying the diagonal entries of $\mtxR$.
+
+As with the $\mtxLDU$ decomposition before, the $\mtxQR$ doesn't give us
+access to the eigenvectors.

@@ -1,0 +1,28 @@
+\section{The Corrected Proof: Optimization Goal}
+
+At last, let us begin. We will cast our search for a diagonal matrix
+$\mtxA' \defeq \mtxQtDQ$ as an optimization problem. Define:
+
+\begin{nedqn}
+  f(\mtxA')
+& = &
+  \sum_{i \ne j} \left(A_{i, j}\right)^2
+\end{nedqn}
+
+That is, $f(\mtxA')$ is the sum of squares of off-diagonal elements. Of
+course, $f(\mtxA') = 0$ iff $\mtxA'$ is diagonal. So $f$ is a measure of
+``badness'' that I want to minimize. To show that $\mtxA$ is always
+diagonalizable is to show that $f$ achieves a minimum of exactly zero on
+the space of rotated representations $\mtxA'$.
+
+Instead of writing $f$ as a function of $\mtxA'$, we could write $f$ as
+a function of $\mtxQ$. Or even less redundantly, as a function of
+$\frac{n(n-1)}{2}$ angles $\theta_{i, j}, \forall i \ne j$.
+
+This last view helps: the space of $\theta_{i, j}$ is really just points
+on the surface of a unit hypersphere, which is a compact set. (TODO: JRN
+informs me this intuition is not quite correct.) We can apply the
+extreme value theorem since $f$ is continuous. That is: $f$ achieves a
+minimum somewhere.
+
+The only question remains: is $\min_{\mtxA'} f(\mtxA') = 0$?

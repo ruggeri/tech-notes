@@ -1,0 +1,27 @@
+\section{Proposition}
+
+\begin{theorem}[Finite Dimensional Spectral Theorem]
+  For any full-rank real symmetric matrix $\mtxA$, there exists an
+  orthogonal (aka ``rotation'') matrix $\mtxQ$ and a diagonal (aka
+  ``stretching'') matrix $\mtxD$ such that:
+
+  \begin{nedqn}
+    \mtxA
+  & = &
+    \mtxQDQt
+  \end{nedqn}
+
+  Equivalently: any full-rank real symmetric matrix $\mtxA$ with
+  dimension $n$ possesses $n$ orthogonal (unit) eigenvectors $\setof{
+  \vecu[1], \ldots \vecu[n] }$. That is, for suitable $\lambda_i$:
+
+  \begin{nedqn}
+    \mtxA\vecu[i]
+  & = &
+    \lambda_i \vecu[i]
+  \end{nedqn}
+
+  Note that if we have $\mtxQ$, we can obtain a set $\vecu[i]$ by
+  extracting the columns. Alternatively, given $\vecu[i]$ we can
+  produce $\mtxQ$ by writing them in as columns.
+\end{theorem}
