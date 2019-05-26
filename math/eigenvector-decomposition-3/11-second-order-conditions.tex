@@ -1,114 +1,208 @@
 \section{Second Order Conditions}
 
-Having verified that things work out in an example, let's return to the
-general setting. We want to show that the second partial must always be
-negative if $A_{j, j} - A_{i, i} = 0$ but $A_{i, j} \ne 0$.
+To check out what is happening we should investigate the second order
+conditions. In particular: we know that $f$ has a maximum, for the same
+reason it has a minimum: the extreme value theorem!
 
-\begin{equation*}
-  \begin{split}
-      \fpthetax \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]
-    ={}&
-      \fptheta \Big[
-        \fptheta \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]
-      \Big] \\
-    ={}&
-      \fptheta \Big[
-        2
+So let's go ahead and examine the second partial.
+
+\begin{nedqn}
+  % Second derivative
+  \fpthetax \left[
+    \left( \mtxA'_{i, j}(\theta) \right)^2
+  \right]
+& = &
+  % Derivative of derivative
+  \fptheta \biggl[
+    \fptheta \left[
+      \left( \mtxA'_{i, j}(\theta) \right)^2
+    \right]
+  \biggl]
+  \\
+& = &
+  % Chain rule.
+  \fptheta \biggl[
+    2
+    \mtxA'_{i, j}(\theta)
+    \fptheta \left[
+      \mtxA'_{i, j}(\theta)
+    \right]
+  \biggl]
+  \nedcomment{chain rule}%
+  \\
+& = &
+  % Product rule
+  2
+  \biggl[
+    % Squared first derivative
+    \left(
+      \fptheta \left[
         \mtxA'_{i, j}(\theta)
-        \fptheta \left[ \mtxA'_{i, j}(\theta) \right]
-      \Big] \\
-    ={}&
-      2 \Big[
-        \left( \fptheta \left[ \mtxA'_{i, j}(\theta) \right] \right)^2
-        +
-        \mtxA'_{i, j}(\theta)
-        \fpthetax \left[ \mtxA'_{i, j}(\theta) \right]
-      \Big] \\
-    ={}&
-      2 \Big[
-        \mtxA'_{i, j}(\theta)
-        \fpthetax \left[ \mtxA'_{i, j}(\theta) \right]
-      \Big]
-  \end{split}
-\end{equation*}
+        \right]
+    \right)^2
+    +
+    % Present value times second derivative
+    \mtxA'_{i, j}(\theta)
+    \fpthetax \left[
+      \mtxA'_{i, j}(\theta)
+    \right]
+  \biggl]
+  \nedcommenthard{product rule}%
+  \\
+& = &
+  2 \Big[
+    \mtxA'_{i, j}(\theta)
+    \fpthetax \left[
+      \mtxA'_{i, j}(\theta)
+    \right]
+  \Big]
+  \nednumber\label{second:derivative:squared}%
+\end{nedqn}
 
 The last step is justified because we wouldn't bother with the second
 order test unless $\fptheta \left[ \mtxA'_{i, j}(\theta) \right] = 0$.
 We've already calculated $\mtxA'_{i, j}(\theta)$ previously, so let's
-focus on $\fpthetax \left[ \mtxA'_{i, j}(\theta) \right]$.
+focus on the second derivative: $\fpthetax \left[ \mtxA'_{i, j}(\theta)
+\right]$.
 
-\begin{equation*}
-  \begin{split}
-      \fpthetax \left[ \mtxA'_{i, j}(\theta) \right]
-    &=
-      \fptheta \Big[ \fptheta \left[ \mtxA'_{i, j}(\theta) \right] \Big] \\
-    &=
-      \fptheta \Big[
-        (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
-        - 4 \cos\theta\sin\theta \mtxA_{i, j}
-      \Big] \\
-    &=
-      \fptheta \Big[
-        -4\cos\theta\sin\theta \mtxA_{i, j}
-      \Big]
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  % Second derivative.
+  \fpthetax \left[
+    \mtxA'_{i, j}(\theta)
+  \right]
+& = &
+  % Derivative of derivative.
+  \fptheta \Big[
+    \fptheta \left[
+      \mtxA'_{i, j}(\theta)
+    \right]
+  \Big]
+  \\
+& = &
+  \fptheta \Big[
+    {
+      (\cos^2\theta - \sin^2\theta)
+      (\mtxA_{j, j} - \mtxA_{i, i})
+    }
+    -
+    {
+      4
+      \cos\theta
+      \sin\theta
+      \mtxA_{i, j}
+    }
+  \Big]
+  \nedcommenthard{formula \ref{partial:i:j}}%
+  \\
+& = &
+  \fptheta \Big[
+    -4
+    \cos\theta
+    \sin\theta
+    \mtxA_{i, j}
+  \Big]
+  \nedcomment{by presumption $\mtxA_{i, i} = \mtxA_{j, j}$}%
+  \nednumspace%
+  \nednumber%
+\end{nedqn}
 
-Notice that I've used our presumption that $\mtxA_{j, j} = \mtxA_{i,
-i}$, since otherwise the first-order condition would have already
-ensured that the off-diagonal $\mtxA_{i, j}$ were zero). We continue:
+Notice that I've used our presumption that $\mtxA_{i, i} = \mtxA_{j,
+j}$, since otherwise the first-order condition would have already
+ensured that an off-diagonal partial is zero. We continue:
 
-\begin{equation*}
-  \begin{split}
-      \fpthetax \left[ \mtxA'_{i, j}(\theta) \right]
-    &=
-      \fptheta \Big[ -4\cos\theta\sin\theta \mtxA_{i, j} \Big] \\
-    &=
-      -4 \left( \cos^2\theta - \sin^2\theta \right) \mtxA_{i, j}
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fpthetax \left[
+    \mtxA'_{i, j}(\theta)
+  \right]
+&=
+  \fptheta \Big[
+    -4
+    \cos\theta
+    \sin\theta
+    \mtxA_{i, j}
+  \Big]
+  \\
+&=
+  -4
+  \left(
+    \cos^2\theta - \sin^2\theta
+  \right)
+  \mtxA_{i, j}
+  \nednumber%
+  \nednumber\label{second:derivative}%
+\end{nedqn}
 
-And we may now plug this in:
+And we may now plug formula \ref{second:derivative} into formula
+\ref{second:derivative:squared}.
 
-\begin{equation*}
-  \begin{split}
-      \fpthetax \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]
-    ={}&
-      2 \Big[
-        \mtxA'_{i, j}(\theta)
-        \fpthetax \left[ \mtxA'_{i, j}(\theta) \right]
-      \Big] \\
-    ={}&
-      2 \mtxA'_{i, j}(\theta) \Big(
-        -4 \left( \cos^2\theta - \sin^2\theta \right) \mtxA_{i, j}
-      \Big) \\
-    ={}&
-      -8 \mtxA'_{i, j}(\theta)
-      \left( \cos^2\theta - \sin^2\theta \right) \mtxA_{i, j} \\
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fpthetax \left[
+    \left(
+      \mtxA'_{i, j}(\theta)
+    \right)^2
+  \right]
+& = &
+  2
+  \Big[
+    \mtxA'_{i, j}(\theta)
+    \fpthetax \left[
+      \mtxA'_{i, j}(\theta)
+    \right]
+  \Big]
+  \\
+& = &
+  2
+  \mtxA'_{i, j}(\theta)
+  \Big(
+    -4
+    \left(
+      \cos^2\theta - \sin^2\theta
+    \right)
+    \mtxA_{i, j}
+  \Big)
+  \\
+& = &
+  -8 \mtxA'_{i, j}(\theta)
+  \left(
+    \cos^2\theta - \sin^2\theta
+  \right)
+  \mtxA_{i, j}
+  \nednumber%
+\end{nedqn}
 
 There is nothing left to do but evaluate at $\theta = 0$:
 
-\begin{equation*}
-  \begin{split}
-      \fpthetax \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
-    ={}&
-      -8 \mtxA'_{i, j}(0)
-      \left( \cos^2 0 - \sin^2 0 \right) \mtxA_{i, j} \\
-    ={}&
-      -8 \mtxA'_{i, j} \mtxA_{i, j} \\
-    ={}&
-      -8 \left( \mtxA'_{i, j} \right)^2 \\
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fpthetax \left[
+    \left(
+      \mtxA'_{i, j}(0)
+    \right)^2
+  \right]
+& = &
+  -8
+  \left(
+    \mtxA'_{i, j}(0)
+  \right)
+  \left(
+    \cos^2 0 - \sin^2 0
+  \right)
+  \mtxA_{i, j}
+  \\
+& = &
+  -8
+  \mtxA_{i, j}
+  \mtxA_{i, j}
+  \\
+& = &
+  -8
+  \left(
+    \mtxA_{i, j}
+  \right)^2
+  \nednumber
+\end{nedqn}
 
 And there you have it. This second derivative must always be negative,
 since it is $-8$ (always negative) times $\left( \mtxA_{i, j} \right)^2$
-(always positive). (Note that we assumed $\mtxA_{i, j} \ne 0$, otherwise
-there was no reason to go down this road.)
-
-As a quick check from our previous example: if you have $\mtxA_{i, j} =
-2$, then $\fpthetax \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right] =
--32$. If you then double this (to account for both $\mtxA'_{i, j}$ and
-$\mtxA'_{j, i}$), you get back $-64$ as I calculated previously.
+(always positive). Note that we assumed $\mtxA_{i, j} \ne 0$, otherwise
+there was no reason to go down this road. That saves us from any further
+derivative testing.
