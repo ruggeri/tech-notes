@@ -1,0 +1,53 @@
+\ProvidesPackage{nedqn}
+
+% Weird patch to fix intertext and IEEEeqnarray.
+% Source: https://tex.stackexchange.com/questions/303542/is-there-an-intertext-equivalent-for-ieeeeqnarray
+\makeatletter
+\patchcmd{\@IEEEeqnarray}{\relax}{\relax\intertext@}{}{}
+\makeatother
+
+% nedqn has the format: RHS & = & LHS & comment
+
+\newenvironment{nedqn}{
+  \begin{IEEEeqnarray*}{+rCl+u-}
+}{
+  \end{IEEEeqnarray*}
+}
+
+% Possible helper to do a "negative phantom".
+% \newcommand{\nhphantom}[1]{\sbox0{#1}\hspace{-\the\wd0}}
+
+% This is like IEEEeqnarraynumspace. It's so you can push over a little.
+\newcommand{\nednumspace}{%
+  \IEEEeqnarraynumspace
+}
+
+% Default command for a comment.
+%
+% You must trail nedcomment with a %-sign. This is to avoid adding an
+% end-of-line space. AND you must also have an *explicit* \\ if you want
+% alignment to work properly.
+\newcommand{\nedcomment}[1]{
+  % Start the comment column for user.
+  &
+
+  % pretend you take no space, so that we don't needlessly push over
+  % equations
+  \llap{[#1]}%
+}
+
+% nedcomment takes no width. But sometimes I need to force space to the
+% left lest the comment be overrun by the equation.
+\newcommand{\nedcommenthard}[1]{
+  % Start the comment column for the user.
+  &
+
+  % print the content
+  [#1]%
+}
+
+% Default is not to number equations until asked. Notice how careful we
+% are about not introducing spaces (oh. my. god.).
+\def\nednumber{%
+  \IEEEyesnumber%
+}

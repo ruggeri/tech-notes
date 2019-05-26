@@ -252,7 +252,8 @@ near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$ where $k_1, k_2
   \bvec{k_1}\tran \mtxA \bvec{k_2} \\
 & = &
   \mtxA_{k_1, k_2}
-  \IEEEyesnumber \\
+  \nednumber
+  \label{change:k1:k2}
 \end{nedqn}
 
 As we see, the only changed elements should be in rows (and columns) $i$
@@ -269,7 +270,8 @@ where $k \not\in \setof{i, j}$.
   \right) \\
 & = &
   \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-  \IEEEyesnumber \\
+  \nednumber
+  \label{change:k:i}
 \end{nedqn}
 
 Well, that makes sense! Naturally, because $\mtxA'(\theta)$ is
@@ -286,7 +288,8 @@ Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
   \right) \\
 & = &
   -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-  \IEEEyesnumber \\
+  \nednumber
+  \label{change:k:j}
 \end{nedqn}
 
 Naturally, this is just the ``opposite'' of what is done for $\mtxA'_{k,
@@ -324,7 +327,8 @@ $\mtxA'_{i, j}(\theta)$:
     \cos^2\theta - \sin^2\theta
   \right)
   \mtxA_{i, j}
-  \IEEEyesnumber \\
+  \nednumber
+  \label{change:i:j}
 \end{nedqn}
 
 \section{First Order Conditions}
@@ -339,33 +343,52 @@ First, let's look at:
   \fptheta \left[
     \left( \mtxA'_{k_1, k_2}(\theta) \right)^2
   \right]
-=
+& = &
   \fptheta \left[ \left( \mtxA_{k_1, k_2} \right)^2 \right]
-=
+  \nedcomment{substitution from \eqref{change:k1:k2}}%
+  \\
+& = &
   0
+  \nednumber
 \end{nedqn}
 
-As expected: those elements don't change, so they don't cause any change
-in $f$. Next, let's look at:
+As expected: those elements don't change regardless of $\theta$, so they
+don't cause any change in $f$. Next, let's look at:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ \left( \mtxA'_{k, i}(\theta) \right)^2 \right]
-      ={}& \fptheta \left[\left(
-          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-        \right)^2\right] \\
-      ={}& 2 \left(
-          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-        \right) \left( \fptheta \left[
-          \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-        \right] \right) \\
-      ={}& 2 \left(
-        \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
-      \right) \left(
-        -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-      \right)
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{k, i}(\theta) \right)^2
+  \right]
+& = &
+  \fptheta \left[
+    \left(
+      \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+    \right)^2
+  \right]
+  \nedcomment{substitution from \eqref{change:k:j}}%
+  \\
+& = &
+  2
+  \left(
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \right)
+  % \\&&\phantom{2\big(}
+  \tfptheta \bigl[
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \bigr]
+  \nedcommenthard{chain rule}%
+  \\
+& = &
+  2 \left(
+    \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
+  \right)
+  % \\&&\phantom{2-}
+  \left(
+    -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
+  \right)
+  \nedcomment{trig identity}\nednumspace\nednumber%
+  \\
+\end{nedqn}
 
 We want to evaluate this derivative at $\theta = 0$, since we want to
 see what happens when we make small changes to $\mtxA$. Thus, we obtain:

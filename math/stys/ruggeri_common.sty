@@ -11,6 +11,7 @@
 % For IEEEeqnarray
 \usepackage{IEEEtrantools}
 \usepackage{mathtools}
+\usepackage{nedqn}
 
 %% Binary Operators
 
@@ -20,9 +21,14 @@
 %% Calculus
 
 % Partial derivatives.
+
 \newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\fptheta}{\fpartial{}{\theta}}
 \newcommand{\fpthetax}{\fpartial{}{\theta^2}}
+
+% Text style partial derivatives
+\newcommand{\tfpartial}[2]{\tfrac{\partial #1}{\partial #2}}
+\newcommand{\tfptheta}{\tfpartial{}{\theta}}
 
 %% Common Sets
 
@@ -32,22 +38,6 @@
 %% Misc
 
 \newcommand{\define}[1]{\textit{#1}}
-
-% Weird patch to fix intertext and IEEEeqnarray.
-% Source: https://tex.stackexchange.com/questions/303542/is-there-an-intertext-equivalent-for-ieeeeqnarray
-\makeatletter
-\patchcmd{\@IEEEeqnarray}{\relax}{\relax\intertext@}{}{}
-\makeatother
-
-% nedqn is a wrapper for IEEEeqnarray, which is too long for me to %
-% bother typing... But of course one can always fall back in more
-% complicated scenarios.
-
-\newenvironment{nedqn}{
-  \begin{IEEEeqnarray*}{rCl}
-}{
-  \end{IEEEeqnarray*}
-}
 
 %% Theorem Environments
 
