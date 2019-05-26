@@ -1,3 +1,23 @@
-CMD="pdflatex --file-line-error --synctex=1 --halt-on-error"
+#!/bin/sh
 
-gfind . -regex ".*\.tex$" | parallel -P 1 $CMD
+FILES="
+  $PWD/math/eigenvector-decomposition-3/eigenvector-decomposition-3.tex
+"
+
+CMD="\
+  TEXINPUTS=\"$PWD/math/stys:{//}:\" \
+  max_print_line=100000 \
+  pdflatex \
+  --file-line-error \
+  --synctex=1 \
+  --halt-on-error \
+  --output-directory {//} \
+  {.}\
+"
+
+echo $FILES | \
+  parallel -P 1 $CMD | \
+  grep -v "texlive" | \
+  grep --context=5 "^l"
+
+./bin/clean-latex
