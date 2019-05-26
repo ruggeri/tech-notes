@@ -26,7 +26,10 @@
 %
 % You must trail nedcomment with a %-sign. This is to avoid adding an
 % end-of-line space. AND you must also have an *explicit* \\ if you want
-% alignment to work properly.
+% alignment of comments + eqn number to work properly. But if you don't
+% need that a trailing \\ isn't needed.
+%
+% TODO: Fix this!
 \newcommand{\nedcomment}[1]{
   % Start the comment column for user.
   &

@@ -224,7 +224,8 @@ $\bvec{i}, \bvec{j}$:
   + \left(
     \cos\theta \bvec{i} + \sin\theta \vec{j}
   \right)
-  \bvec{i}\tran \\
+  \bvec{i}\tran
+  \\
 &&
   \phantom{\bvec{1}}
   + \ldots
@@ -246,13 +247,14 @@ near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$ where $k_1, k_2
 \begin{nedqn}
   \mtxA'_{k_1, k_2}(\theta)
 & = &
-  \bvec{k_1}\tran (\mtxQtDQ) \bvec{k_2} \\
+  \bvec{k_1}\tran (\mtxQtDQ) \bvec{k_2}
+  \\
 & = &
-  \bvec{k_1}\tran \mtxA \bvec{k_2} \\
+  \bvec{k_1}\tran \mtxA \bvec{k_2}
+  \\
 & = &
   \mtxA_{k_1, k_2}
-  \nednumber
-  \label{change:k1:k2}
+  \nednumber\label{change:k1:k2}%
 \end{nedqn}
 
 As we see, the only changed elements should be in rows (and columns) $i$
@@ -262,11 +264,13 @@ where $k \not\in \setof{i, j}$.
 \begin{nedqn}
   \mtxA'_{k, i}(\theta)
 & = &
-  \bvec{k}\tran (\mtxQtDQ) \bvec{i} \\
+  \bvec{k}\tran (\mtxQtDQ) \bvec{i}
+  \\
 & = &
   \bvec{k}\tran \mtxA \left(
     \cos\theta \bvec{i} + \sin\theta \bvec{j}
-  \right) \\
+  \right)
+  \\
 & = &
   \cos\theta \mtxA_{k, i} + \sin\theta \mtxA_{k, j}
   \nednumber
@@ -280,15 +284,16 @@ Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
 \begin{nedqn}
   \mtxA'_{k, j}(\theta)
 & = &
-  \bvec{k}\tran (\mtxQtDQ) \bvec{j} \\
+  \bvec{k}\tran (\mtxQtDQ) \bvec{j}
+  \\
 & = &
   \bvec{k}\tran \mtxA \left(
     -\sin\theta \bvec{i} + \cos\theta \bvec{j}
-  \right) \\
+  \right)
+  \\
 & = &
   -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
-  \nednumber
-  \label{change:k:j}
+  \nednumber\label{change:k:j}%
 \end{nedqn}
 
 Naturally, this is just the ``opposite'' of what is done for $\mtxA'_{k,
@@ -298,7 +303,8 @@ $\mtxA'_{i, j}(\theta)$:
 \begin{nedqn}
   \mtxA'_{i, j}(\theta)
 & = &
-  \bvec{i}\tran (\mtxQtDQ) \bvec{j} \\
+  \bvec{i}\tran (\mtxQtDQ) \bvec{j}
+  \\
 & = &
   \left(
     \cos\theta\bvec{i} + \sin\theta\bvec{j}
@@ -308,12 +314,14 @@ $\mtxA'_{i, j}(\theta)$:
   %
   \left(
     -\sin\theta\bvec{i} + \cos\theta\bvec{j}
-  \right) \\
+  \right)
+  \\
 & = &
   - \sin\theta \cos\theta \mtxA_{i, i}
   + \cos^2\theta \mtxA_{i, j}
   - \sin^2\theta \mtxA_{j, i}
-  + \sin\theta \cos\theta \mtxA_{j, j} \\
+  + \sin\theta \cos\theta \mtxA_{j, j}
+  \\
 & = &
   \left(
     \sin\theta \cos\theta
@@ -326,8 +334,7 @@ $\mtxA'_{i, j}(\theta)$:
     \cos^2\theta - \sin^2\theta
   \right)
   \mtxA_{i, j}
-  \nednumber
-  \label{change:i:j}
+  \nednumber\label{change:i:j}%
 \end{nedqn}
 
 \section{First Order Conditions}
@@ -344,11 +351,9 @@ First, let's look at:
   \right]
 & = &
   \fptheta \left[ \left( \mtxA_{k_1, k_2} \right)^2 \right]
-  \nedcomment{substitution from \eqref{change:k1:k2}}%
-  \\
-& = &
+=
   0
-  \nednumber
+  \nedcomment{substitution from \eqref{change:k1:k2}}%
 \end{nedqn}
 
 As expected: those elements don't change regardless of $\theta$, so they
@@ -386,8 +391,7 @@ don't cause any change in $f$. Next, let's look at:
   \left(
     -\sin\theta \mtxA_{k, i} + \cos\theta \mtxA_{k, j}
   \right)
-  \nedcomment{trig identity}\nednumspace\nednumber%
-  \\
+  \nednumber%
 \end{nedqn}
 
 We want to evaluate this derivative at $\theta = 0$, since we want to
@@ -404,6 +408,7 @@ see what happens when we make small changes to $\mtxA$. Thus, we obtain:
   2
   \left( \mtxA_{k, i} \right)
   \left( \mtxA_{k, j} \right)
+  \nednumber\label{change:at:zero:k:i:}
 \end{nedqn}
 
 Let us do the corresponding calculation for $\mtxA'_{k, j}$:
@@ -442,7 +447,6 @@ Let us do the corresponding calculation for $\mtxA'_{k, j}$:
     -\cos\theta \mtxA_{k, i} - \sin\theta \mtxA_{k, j}
   \right)
   \nednumber%
-  \\
 \end{nedqn}
 
 Again, substituting $\theta = 0$, we obtain:
@@ -458,124 +462,228 @@ Again, substituting $\theta = 0$, we obtain:
   2
   \left( \mtxA_{k, j} \right)
   \left( -\mtxA_{k, i} \right)
+  \nednumber\label{change:at:zero:k:j:}
 \end{nedqn}
 
 Do you see what has happened here? The change to $f$ due to change in
-$\mtxA'_{k, i}$ will be canceled out by the change to $f$ due to change
-in $\mtxA'_{k, j}$. (And likewise for $\mtxA'_{i, k}$ and $\mtxA'_{j,
-k}$.)
+$\mtxA'_{k, i}$ (equation \ref{change:at:zero:k:i:}) be canceled out by
+the change to $f$ due to change in $\mtxA'_{k, j}$ (equation
+\ref{change:at:zero:k:j:}). (And likewise for $\mtxA'_{i, k}$ and
+$\mtxA'_{j, k}$.)
 
 Thus, when rotating between $\bvec{i}, \bvec{j}$, the only meaningful
 difference (if any) to $f$ is going to come from change at positions
 $\mtxA'_{i, j}, \mtxA'_{j, i}$.
 
-\section{Calculation Of $\fptheta \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]$}
+\section{
+  Calculation Of
+  $
+    \fptheta \left[
+      \left( \mtxA'_{i, j}(\theta) \right)^2
+    \right]
+  $
+}
 
-Let's do this:
+Let's do this. First we simply apply the chain rule.
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ \left( \mtxA'_{i, j}(\theta) \right)^2 \right]
-      ={}&
-        2
-        \mtxA'_{i, j}(\theta)
-        \fptheta \left[ \mtxA'_{i, j}(\theta) \right] \\
-    \\
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(\theta) \right)^2
+  \right]
+& = &
+  2
+  \mtxA'_{i, j}(\theta)
+  \fptheta \left[ \mtxA'_{i, j}(\theta) \right]
+  \nednumber\label{partial:i:j:error}%
+\end{nedqn}
+
+Next, let's recall our formula for $\mtxA'_{i, j}$.
+
+\begin{nedqn}
+  \mtxA'_{i, j}(\theta)
+& = &
+  {
+    (\sin\theta\cos\theta)
+    (\mtxA_{j, j} - \mtxA_{i, i})
+    +
+    (\cos^2\theta - \sin^2\theta)
+    \mtxA_{i, j}
+  }
+  \nedcommenthard{i.e., formula \eqref{change:i:j}}%
+\end{nedqn}
+
+The chain rule wants us to calculate the derivative for this:
+
+\begin{nedqn}
+  \fptheta \left[
     \mtxA'_{i, j}(\theta)
-      ={}&
-        (\sin\theta\cos\theta) (\mtxA_{j, j} - \mtxA_{i, i})
-        + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j} \\
+  \right]
+& = &
+  \fptheta \Bigl[
+    (\sin\theta \cos\theta)
+    (\mtxA_{j, j} - \mtxA_{i, i})
+    +
+    (\cos^2\theta - \sin^2\theta)
+    \mtxA_{i, j}
+  \Bigr]
+  \\
+& = &
+  (\cos^2\theta - \sin^2\theta)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \\&&
+  \phantom{(}
+  +
+  (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta)
+  \mtxA_{i, j}
+  \\
+& = &
+  (\cos^2\theta - \sin^2\theta)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  -
+  4
+  \cos\theta \sin\theta
+  \mtxA_{i, j}
+  \nednumber\label{partial:i:j}%
+\end{nedqn}
+
+Next, we must evaluate $\mtxA'_{i, j}(0)$ and $\fptheta \mtxA'_{i,
+j}(0)$.
+
+\begin{nedqn}
+  \mtxA'_{i, j}(0)
+& = &
+  (\sin0 \cos0)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  +
+  (\cos^2 0 - \sin^2 0) \mtxA_{i, j}
+  \\
+& = &
+  \mtxA_{i, j}
+  \nednumber%
+  \label{aprime:i:j:at:zero}%
+  %
+\shortintertext{and}
+  %
+  \fptheta \left[
     \mtxA'_{i, j}(0)
-      ={}&
-        (\sin0 \cos0) (\mtxA_{j, j} - \mtxA_{i, i})
-        + (\cos^2 0 - \sin^2 0) \mtxA_{i, j} \\
-      ={}& \mtxA_{i, j} \\
-    \\
-    \fptheta \left[ \mtxA'_{i, j}(\theta) \right]
-      ={}&
-        \fptheta \left[
-          (\sin\theta\cos\theta)(\mtxA_{j, j} - \mtxA_{i, i})
-          + (\cos^2\theta - \sin^2\theta) \mtxA_{i, j}
-        \right] \\
-      ={}&
-        (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
-        + (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta) \mtxA_{i, j} \\
-      ={}&
-        (\cos^2\theta - \sin^2\theta) (\mtxA_{j, j} - \mtxA_{i, i})
-        - 4 \cos\theta\sin\theta \mtxA_{i, j} \\
-    \fptheta \left[ \mtxA'_{i, j}(0) \right]
-      ={}&
-        (\cos^2 0 - \sin^2 0) (\mtxA_{j, j} - \mtxA_{i, i})
-        - 4 \cos 0 \sin 0 \mtxA_{i, j} \\
-      ={}&
-        (\mtxA_{j, j} - \mtxA_{i, i}) \\
-    \\
-    \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
-      ={}&
-        2
-        \mtxA'_{i, j}(0)
-        \fptheta \left[ \mtxA'_{i, j}(0) \right] \\
-      ={}&
-        2
-        \mtxA_{i, j}
-        (\mtxA_{j, j} - \mtxA_{i, i}) \\
-  \end{split}
-\end{equation*}
+  \right]
+& = &
+  (\cos^2 0 - \sin^2 0)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  -
+  4
+  \left( \cos 0 \sin 0 \right) \mtxA_{i, j}
+  \\
+& = &
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumber%
+  \label{partial:i:j:at:zero}%
+\end{nedqn}
 
-Wow, this lets us finally write:
+We may now evaluate the partial for $(\mtxA'_{i, j})^2$ at $\theta = 0$
+by substitution:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ f(0) \right]
-      ={}&
-        \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right]
-        + \fptheta \left[ \left( \mtxA'_{j, i}(0) \right)^2 \right] \\
-      ={}&
-        2 \fptheta \left[ \left( \mtxA'_{i, j}(0) \right)^2 \right] \\
-      ={}&
-        2 \big( 2 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i}) \big) \\
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+& = &
+  2
+  \mtxA'_{i, j}(0)
+  \fptheta \left[ \mtxA'_{i, j}(0) \right]
+  \\
+& = &
+  2
+  \mtxA_{i, j}
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumspace%
+  \nednumber%
+\end{nedqn}
 
-I used these facts: (a) there is no change to entries outside the $i$th
-and $j$th rows/columns, (b) changes at positions $(k, i)$ cancel with
-$(k, j)$ (for $k \not\in \{ i, j \}$), (c) likewise changes at positions
-$(i, k)$ cancel with changes at positions $(j, k)$, (d) changes at $(i,
-i)$ and $(j, j)$ never count because they are on-diagonal, (e) that
-leaves only positions $(i, j)$ and $(j, i)$.
+Of course, we may use this to evaluate $\fptheta f(0)$, as has been
+our goal:
+
+\begin{nedqn}
+  \fptheta \left[ f(\theta) \right]
+  \!
+  (0)
+& = &
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+  +
+  \fptheta \left[
+    \left( \mtxA'_{j, i}(0) \right)^2
+  \right]
+  \\
+& = &
+  2 \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+  \\
+& = &
+  4
+  \mtxA_{i, j}
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumber%
+\end{nedqn}
+
+Let's sum up. We used these facts:
+
+\begin{itemize}
+  \item there is no change to entries outside the $i$th and $j$th
+  rows/columns,
+
+  \item the effect on $f$ of changes at positions $(k, i)$ cancel with
+  the effect of changes at $(k, j)$ (for $k \not\in \setof{i, j}$),
+
+  \item likewise for positions $(i, k)$ and $(j, k)$,
+
+  \item changes at $(i, i)$ and $(j, j)$ never count toward the error
+  because they are on-diagonal,
+
+  \item that leaves only positions to consider $(i, j)$ and $(j, i)$.
+\end{itemize}
 
 We may finally say that if $\mtxA$ minimizes $f$, then:
 
-\begin{equation*}
-  \begin{split}
-    \fptheta \left[ f(0) \right]
-      ={}& 0 \\
-    2 \big( 2 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i}) \big)
-      ={}& 0 \\
-    \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
-      ={}& 0 \\
-  \end{split}
-\end{equation*}
+\begin{IEEEeqnarray*}{rrCl}
+  &
+  \fptheta \left[ f(0) \right]
+  =
+  0
+\\
+  \Rightarrow{} &
+  4 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
+  & = &
+  0
+\\
+  \Rightarrow{} &
+  \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
+  & = &
+  0
+  \nednumber%
+\end{IEEEeqnarray*}
 
 Which of course implies:
 
-\begin{equation*}
-  \begin{split}
-    \mtxA_{i, j} = 0
-    \quad \text{or} \quad
-    (\mtxA_{j, j} - \mtxA_{i, i}) = 0
-  \end{split}
-\end{equation*}
+\begin{nedqn}
+  \mtxA_{i, j} = 0
+& \quad\text{or}\quad &
+  (\mtxA_{j, j} - \mtxA_{i, i}) = 0
+\end{nedqn}
 
-The first condition is what we want: it would impose a requirement that
-the matrix $\mtxA$ must have zero elements off the diagonal in order to
-minimize $f$. That is: $f$ would achieve a minimum only at a diagonal
-matrix. Since we know $f$ indeed achieves a minimum, it must be that
-$\mtxA$ is diagonalizable.
+The first condition is exactly what we want: it would impose a
+requirement that the matrix $\mtxA$ have zero elements off the diagonal
+in order to minimize $f$. That is: $f$ would achieve a minimum only for
+a diagonal matrix. Since we know $f$ indeed achieves a minimum, it must
+be that $\mtxA$ is diagonalizable.
 
 But the second condition is an ``escape hatch.'' It says that the entry
 off the diagonal needn't be zero so long as $\mtxA_{j, j} = \mtxA_{i,
 i}$. Uh-oh?
+
+% TODO: Up to here in my review.
 
 \section{An Example}
 
