@@ -1,0 +1,58 @@
+\section{Summary Thus Far}
+
+Let's sum up. We used these facts:
+
+\begin{itemize}
+  \item there is no change to entries outside the $i$th and $j$th
+  rows/columns,
+
+  \item the effect on $f$ of changes at positions $(k, i)$ cancel with
+  the effect of changes at $(k, j)$ (for $k \not\in \setof{i, j}$),
+
+  \item likewise for positions $(i, k)$ and $(j, k)$,
+
+  \item changes at $(i, i)$ and $(j, j)$ never count toward the error
+  because they are on-diagonal,
+
+  \item that leaves only positions to consider $(i, j)$ and $(j, i)$.
+\end{itemize}
+
+We may finally say that if $\mtxA$ minimizes $f$, then:
+
+\begin{IEEEeqnarray*}{rrCl}
+  &
+  \fptheta \left[ f(0) \right]
+  =
+  0
+\\
+  \Rightarrow{} &
+  4 \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
+  & = &
+  0
+\\
+  \Rightarrow{} &
+  \mtxA_{i, j} (\mtxA_{j, j} - \mtxA_{i, i})
+  & = &
+  0
+  \nednumber%
+\end{IEEEeqnarray*}
+
+Which of course implies:
+
+\begin{nedqn}
+  \mtxA_{i, j} = 0
+& \quad\text{or}\quad &
+  (\mtxA_{j, j} - \mtxA_{i, i}) = 0
+\end{nedqn}
+
+The first condition is exactly what we want: it would impose a
+requirement that the matrix $\mtxA$ have zero elements off the diagonal
+in order to minimize $f$. That is: $f$ would achieve a minimum only for
+a diagonal matrix. Since we know $f$ indeed achieves a minimum, it must
+be that $\mtxA$ is diagonalizable.
+
+But the second condition is an ``escape hatch.'' It says that the entry
+off the diagonal needn't be zero so long as $\mtxA_{j, j} = \mtxA_{i,
+i}$. Uh-oh?
+
+% TODO: Up to here in my review.

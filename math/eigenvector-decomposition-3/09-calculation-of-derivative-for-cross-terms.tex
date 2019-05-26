@@ -1,0 +1,152 @@
+\section{
+  Calculation Of
+  $
+    \fptheta \left[
+      \left( \mtxA'_{i, j}(\theta) \right)^2
+    \right]
+  $
+}
+
+Let's do this. First we simply apply the chain rule.
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(\theta) \right)^2
+  \right]
+& = &
+  2
+  \mtxA'_{i, j}(\theta)
+  \fptheta \left[ \mtxA'_{i, j}(\theta) \right]
+  \nednumber\label{partial:i:j:error}%
+\end{nedqn}
+
+Next, let's recall our formula for $\mtxA'_{i, j}$.
+
+\begin{nedqn}
+  \mtxA'_{i, j}(\theta)
+& = &
+  {
+    (\sin\theta\cos\theta)
+    (\mtxA_{j, j} - \mtxA_{i, i})
+    +
+    (\cos^2\theta - \sin^2\theta)
+    \mtxA_{i, j}
+  }
+  \nedcommenthard{i.e., formula \eqref{change:i:j}}%
+\end{nedqn}
+
+The chain rule wants us to calculate the derivative for this:
+
+\begin{nedqn}
+  \fptheta \left[
+    \mtxA'_{i, j}(\theta)
+  \right]
+& = &
+  \fptheta \Bigl[
+    (\sin\theta \cos\theta)
+    (\mtxA_{j, j} - \mtxA_{i, i})
+    +
+    (\cos^2\theta - \sin^2\theta)
+    \mtxA_{i, j}
+  \Bigr]
+  \\
+& = &
+  (\cos^2\theta - \sin^2\theta)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \\&&
+  \phantom{(}
+  +
+  (-2\cos\theta\sin\theta - 2\sin\theta\cos\theta)
+  \mtxA_{i, j}
+  \\
+& = &
+  (\cos^2\theta - \sin^2\theta)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  -
+  4
+  \cos\theta \sin\theta
+  \mtxA_{i, j}
+  \nednumber\label{partial:i:j}%
+\end{nedqn}
+
+Next, we must evaluate $\mtxA'_{i, j}(0)$ and $\fptheta \mtxA'_{i,
+j}(0)$.
+
+\begin{nedqn}
+  \mtxA'_{i, j}(0)
+& = &
+  (\sin0 \cos0)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  +
+  (\cos^2 0 - \sin^2 0) \mtxA_{i, j}
+  \\
+& = &
+  \mtxA_{i, j}
+  \nednumber%
+  \label{aprime:i:j:at:zero}%
+  %
+\shortintertext{and}
+  %
+  \fptheta \left[
+    \mtxA'_{i, j}(0)
+  \right]
+& = &
+  (\cos^2 0 - \sin^2 0)
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  -
+  4
+  \left( \cos 0 \sin 0 \right) \mtxA_{i, j}
+  \\
+& = &
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumber%
+  \label{partial:i:j:at:zero}%
+\end{nedqn}
+
+We may now evaluate the partial for $(\mtxA'_{i, j})^2$ at $\theta = 0$
+by substitution:
+
+\begin{nedqn}
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+& = &
+  2
+  \mtxA'_{i, j}(0)
+  \fptheta \left[ \mtxA'_{i, j}(0) \right]
+  \\
+& = &
+  2
+  \mtxA_{i, j}
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumspace%
+  \nednumber%
+\end{nedqn}
+
+Of course, we may use this to evaluate $\fptheta f(0)$, as has been
+our goal:
+
+\begin{nedqn}
+  \fptheta \left[ f(\theta) \right]
+  \!
+  (0)
+& = &
+  \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+  +
+  \fptheta \left[
+    \left( \mtxA'_{j, i}(0) \right)^2
+  \right]
+  \\
+& = &
+  2 \fptheta \left[
+    \left( \mtxA'_{i, j}(0) \right)^2
+  \right]
+  \\
+& = &
+  4
+  \mtxA_{i, j}
+  (\mtxA_{j, j} - \mtxA_{i, i})
+  \nednumber%
+\end{nedqn}
