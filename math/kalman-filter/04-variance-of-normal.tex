@@ -44,8 +44,12 @@ $\nnormal$. I will once again replace with $x \mapsto \parens{\sigma y +
     }^2
     %
     \nnormalc
-    \normalexpsq{
-      \parens{\sigma y + \mu} - \mu
+    \normalexpf{
+      \parens{
+        \parens{\sigma y + \mu}
+        -
+        \mu
+      }^2
     }{2\sigma^2}
     \dy
   \\
@@ -82,8 +86,8 @@ Let's do a further change of variables: $y \mapsto \sqrt{2} z$:
   \sqrttwo
   \int_\reals
     \parens{\sqrttwo z}^2
-    \normalexpsq{
-      \sqrt{2} z
+    \normalexpf{
+      \parens{\sqrt{2} z}^2
     }{2}
     \dz
   \\
@@ -102,13 +106,13 @@ integration by parts.
 
 \begin{nedqn}
   \fderivx \Bigl[
-    z \gaussianexps[z]
+    z \gaussianexp[z]
   \Bigr]
 & = &
-  \gaussianexps[z]
+  \gaussianexp[z]
   -
   2z^2
-  \gaussianexps[z]
+  \gaussianexp[z]
   \\
   %
 \shortintertext{which implies that:}
@@ -116,21 +120,21 @@ integration by parts.
   2
   \int_\reals
     z^2
-    \gaussianexps[z]
+    \gaussianexp[z]
     \dz
 & = &
   \int_\reals
-    \gaussianexps[z]
+    \gaussianexp[z]
     \dz
   -
   \Bparens{
-    z \gaussianexps[z]
+    z \gaussianexp[z]
   }
   \intevalbar{-\infty}{\infty}
   \\
 & = &
   \int_\reals
-    \gaussianexps[z]
+    \gaussianexp[z]
     \dz
   -
   \bparens{0 - 0}
@@ -147,7 +151,7 @@ integration by parts.
 \IEEEeqnarraymulticol{3}{c}{
   \int_\reals
     z^2
-    \gaussianexps[z]
+    \gaussianexp[z]
     \dz
 =
   \frac{\sqrtpi}{2}
@@ -164,7 +168,7 @@ We can now plug this back in:
   \frac{2}{\sqrtpi}
   \int_\reals
     z^2
-    \gaussianexps[z]
+    \gaussianexp[z]
     \dy
   \\
 & = &

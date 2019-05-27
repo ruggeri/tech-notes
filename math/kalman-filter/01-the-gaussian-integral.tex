@@ -17,7 +17,7 @@ We will use a trick. Let's consider the \emph{square} of this function:
   \\
 & = &
   \iint_{\reals, \reals}
-    \nedexp{-\parens{x^2 + y^2}}
+    \nexpB{-\parens{x^2 + y^2}}
     \dx\dy
   \nedcomment{Fubini}\nednumspace\nednumber
 \end{nedqn}
@@ -29,12 +29,12 @@ We may now perform a change of variables:
 
 \begin{nedqn}
   \iint_{\reals, \reals}
-    \nedexp{-\parens{x^2 + y^2}}
+    \nexpB{-\parens{x^2 + y^2}}
     \dx\dy
 & = &
   \nediint{_0^{\infty}}{_0^{\twopi}}
     r
-    \nedexp{
+    \nexp{
       -r^2 \cos^2 \theta
       -r^2 \sin^2 \theta
     }
@@ -44,7 +44,7 @@ We may now perform a change of variables:
 & = &
   \nediint{_0^{\infty}}{_0^{\twopi}}
     r
-    \gaussianexps[r]
+    \gaussianexp[r]
     \dtheta
     \dr
   \nednumber
@@ -61,13 +61,13 @@ continue:
 \begin{nedqn}
   \nediint{_0^{\infty}}{_0^{\twopi}}
     r
-    \gaussianexps[r]
+    \gaussianexp[r]
     \dtheta
     \dr
 & = &
   \nediint{_0^{\twopi}}{_0^{\infty}}
     r
-    \gaussianexps[r]
+    \gaussianexp[r]
     \dr
     \dtheta
   \\
@@ -75,14 +75,14 @@ continue:
   \twopi
   \int_0^{\infty}
     r
-    \gaussianexps[r]
+    \gaussianexp[r]
     \dr
   \\
 & = &
   \twopi
   \parens{
     -\half
-    \gaussianexps[r]
+    \gaussianexp[r]
   }
   \intevalbar{0}{\infty}
   \nedcomment{chain rule}
@@ -91,12 +91,12 @@ continue:
   \twopi
   \parens{
     -\half
-    \gaussianexps[
+    \gaussianexp[
       \parens{-\infty}
     ]
     +
     \half
-    \gaussianexps[0]
+    \gaussianexp[0]
   }
   \\
 & = &

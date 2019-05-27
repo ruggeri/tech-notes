@@ -19,10 +19,7 @@
 %% Gaussian Integral
 
 \newcommand{\gaussianexp}[1][x]{
-  \nedexp{-{#1}^2}
-}
-\newcommand{\gaussianexps}[1][x]{
-  \nedexps{-{#1}^2}
+  \nexp{-{#1}^2}
 }
 \newcommand{\gaussianint}[1][x]{
   \int_\reals \gaussianexp[#1] \diff{#1}
@@ -31,23 +28,21 @@
 %% Normal Distribution
 
 % Parameterizable normal distribution
-\newcommand{\normal}[2]{\mathcal{N}(#1, #2)}
-\newcommand{\normalc}[1]{\frac{1}{\sqrt{\twopi #1}}}
+\newcommand{\normal}[2]{
+  \mathcal{N}\parens{#1, #2}
+}
+\newcommand{\normalc}[1]{
+  \frac{1}{\sqrt{\twopi #1}}
+}
 \newcommand{\normaleq}[2]{
   \normalc{#2}
-  \normalexpsq{x - #1}{2 #2}
-}
-\newcommand{\normalexpsq}[2]{
   \normalexpf{
-      \left( {#1} \right)^2
-  }{
-    #2
-  }
+    \parens{x - #1}^2
+  }{2 #2}
 }
 \newcommand{\normalexpf}[2]{
-  \nedexpb{
-    -
-    \frac{#1}{#2}
+  \nexp{
+    -\frac{#1}{#2}
   }
 }
 
@@ -61,11 +56,8 @@
 \newcommand{\nnormaleq}{
   \normaleq{\mu}{\var}
 }
-% \newcommand{\nnormalexp}{
-%   \normalexpf{\mu}{\var}
-% }
 
-% Standard normal distribution
+% Unit normal distribution
 \newcommand{\snormal}{\normal{0}{1}}
 \newcommand{\snormalc}{\invsqrttwopi}
 \newcommand{\snormaleq}[1][x]{
@@ -73,7 +65,9 @@
   \snormalexp[#1]
 }
 \newcommand{\snormalexp}[1][x]{
-  \normalexpf{{#1}^2}{2}
+  \nexp{
+    -\frac{{#1}^2}{2}
+  }
 }
 
 %% Symbols
