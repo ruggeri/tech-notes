@@ -35,6 +35,8 @@ Because we are integrating over the whole range, we may replace $x$ with
 $x \mapsto \sigma y + \mu$.
 
 \begin{nedqn}
+  \expectation{\nnormal}
+& = &
   \sigma
   \int_\reals
     \parens{\sigma y + \mu}
@@ -47,6 +49,7 @@ $x \mapsto \sigma y + \mu$.
       \mu
     }{2\var}
     \dy
+  \\
 & = &
   \int_\reals
     \parens{\sigma y + \mu}
@@ -66,6 +69,8 @@ $\frac{1}{\sigma}$ if we didn't do anything. Or think: $\sigma\dy =
 Continuing,
 
 \begin{nedqn}
+  \expectation{\nnormal}
+& = &
   \int_\reals
     \parens{\sigma y + \mu}
     %
@@ -73,6 +78,7 @@ Continuing,
     %
     \snormalexp[y]
     \dy
+  \\
 & = &
   \sigma
   \int_\reals
@@ -93,6 +99,8 @@ times $\snormal$ integrated over the entire range. That's $\mu$ times
 $1$. We proceed:
 
 \begin{nedqn}
+  \expectation{\nnormal}
+& = &
   \mu
   +
   \sigma
@@ -100,6 +108,7 @@ $1$. We proceed:
     y
     \snormaleq[y]
     \dy
+  \\
 & = &
   \mu
   +
