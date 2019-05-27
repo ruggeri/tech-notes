@@ -1,0 +1,53 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ruggeri_common}
+\usepackage{ruggeri_linear_algebra}
+
+\newcommand{\diff}[1]{\mathrm{d}#1}
+\newcommand{\dx}{\diff{x}}
+\newcommand{\dr}{\diff{r}}
+\newcommand{\dtheta}{\diff{\theta}}
+\newcommand{\dy}{\diff{y}}
+\newcommand{\dz}{\diff{z}}
+\newcommand{\fderiv}[1]{\frac{\mathrm{d}}{\diff{#1}}}
+\newcommand{\fderivx}{\frac{\mathrm{d}}{\diff{x}}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\intevalbar}[2]{\Bigg|_{#1}^{#2}}
+\newcommand{\nediint}[2]{\int#1 \!\!\! \int#2}
+\newcommand{\var}{\sigma^2}
+\newcommand{\nedexp}[1]{\exp \Bigl( #1 \Bigr)}
+\newcommand{\nedexpb}[1]{\exp \biggl( #1 \biggr)}
+\newcommand{\nedexps}[1]{\exp \! \left( #1 \right)}
+\newcommand{\normal}[2]{\mathcal{N}(#1, #2)}
+\newcommand{\normalc}[1]{\frac{1}{\sqrt{2\pi #1}}}
+\newcommand{\normaleq}[2]{
+  \normalc{#2}
+  \nedexpb{
+    -
+    \frac{ \left(x - #1\right)^2 }{ 2 #2 }
+  }
+}
+\newcommand{\snormalc}{\frac{1}{\sqrt{2\pi}}}
+\newcommand{\snormal}{\normal{0}{1}}
+\newcommand{\snormaleq}{
+  \snormalc
+  \nedexpb{
+    -
+    \frac{x^2}{2}
+  }
+}
+
+\begin{document}
+
+\title{The Normal Distribution}
+\maketitle
+
+\input{01-the-gaussian-integral}
+\input{02-definition-of-normal}
+\input{03-mean-of-normal}
+\input{04-variance-of-normal}
+
+\end{document}

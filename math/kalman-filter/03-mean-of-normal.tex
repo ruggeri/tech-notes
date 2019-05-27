@@ -1,0 +1,127 @@
+\section{The Mean of $\normal{\mu}{\var}$}
+
+It is clear that if $\snormal$ has finite mean, it must be $\mu = 0$. We
+see this because $\snormal$ is symmetric across the point $x = 0$.
+Likewise we can make a translation argument that $\mu$ will always be
+the mean.
+
+But let's check the math as a warmup:
+
+\begin{nedqn}
+  \int_\reals
+  x
+  \normaleq{\mu}{\var}
+  \dx
+\end{nedqn}
+
+Because we are integrating over the whole range, we may replace $x$ with
+$x \mapsto \sigma y + \mu$.
+
+\begin{nedqn}
+  \sigma
+  \int_\reals
+    \left(
+      \sigma y + \mu
+    \right)
+    %
+    \normalc{\var}
+    %
+    \nedexp{
+      -\frac{
+        \left(
+          \sigma y + \mu - \mu
+        \right)^2
+      }{2\var}
+    }
+    \dy
+& = &
+  \int_\reals
+    \left(
+      \sigma y + \mu
+    \right)
+    %
+    \snormalc
+    %
+    \nedexp{
+      -\frac{y^2}{2}
+    }
+    \dy
+\end{nedqn}
+
+Notice the leading correction coefficient of $\sigma$ we added. When
+doing this replacement, we are moving $\sigma$ times faster through the
+range, so the mean would be scaled by $\frac{1}{\sigma}$ if we didn't do
+anything. Or think: $\sigma\dy = \dx$.
+
+Let's finish this off:
+
+\begin{nedqn}
+  \int_\reals
+    \left(
+      \sigma y + \mu
+    \right)
+    %
+    \snormalc
+    %
+    \nedexp{
+      -\frac{y^2}{2}
+    }
+    \dy
+& = &
+  \int_\reals
+    \sigma y
+    \snormalc
+    \nedexp{-\frac{y^2}{2}}
+    \dy
+  +
+  \mu
+  \int_\reals
+    \snormalc
+    \nedexp{-\frac{y^2}{2}}
+    \dy
+\end{nedqn}
+
+Note the second term is just $\mu$ times $\snormal$ integrated over the
+entire range. That's $\mu$ times $1$. We proceed:
+
+\begin{nedqn}
+  \mu
+  +
+  \int_\reals
+    \sigma y
+    \snormalc
+    \nedexp{-\frac{y^2}{2}}
+    \dy
+& = &
+  \mu
+  +
+  \frac{\sigma}{\sqrt{2\pi}}
+  \left(
+    -\half
+    \nedexp{-\frac{y^2}{2}}
+  \right)
+  \intevalbar{-\infty}{\infty}
+  \\
+& = &
+  \mu
+  +
+  \frac{\sigma}{\sqrt{2\pi}}
+  \left(
+    -\half
+    \nedexp{-\frac{\infty^2}{2}}
+    +
+    -\half
+    \nedexp{-\frac{\left(-\infty\right)^2}{2}}
+  \right)
+  \\
+& = &
+  \mu
+  +
+  \frac{\sigma}{\sqrt{2\pi}}
+  \left(0 + 0\right)
+  \\
+& = &
+  \mu
+\end{nedqn}
+
+Done!
