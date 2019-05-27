@@ -25,6 +25,24 @@
   \int_\reals \gaussianexp[#1] \diff{#1}
 }
 
+%% Likelihood
+
+\newcommand{\lhood}[2]{
+  \mathcal{L}\parens{
+    #1
+    ;
+    #2
+  }
+}
+
+\newcommand{\llhood}[2]{
+  \log\lhood{#1}{#2}
+}
+
+\newcommand{\nllhood}[2]{
+  -\llhood{#1}{#2}
+}
+
 %% Normal Distribution
 
 % Parameterizable normal distribution
@@ -34,13 +52,14 @@
 \newcommand{\normalc}[1]{
   \frac{1}{\sqrt{\twopi #1}}
 }
-\newcommand{\normaleq}[2]{
-  \normalc{#2}
-  \normalexpf{
-    \parens{x - #1}^2
-  }{2 #2}
+\newcommand{\normaleq}[3][x]{
+  \normalc{#3}
+  \nexpf{
+    \parens{#1 - #2}^2
+  }{2 #3}
 }
-\newcommand{\normalexpf}[2]{
+% This function is more general than the normal distribution.
+\newcommand{\nexpf}[2]{
   \nexp{
     -\frac{#1}{#2}
   }
@@ -53,8 +72,8 @@
 \newcommand{\nnormalc}{
   \normalc{\var}
 }
-\newcommand{\nnormaleq}{
-  \normaleq{\mu}{\var}
+\newcommand{\nnormaleq}[1][x]{
+  \normaleq[#1]{\mu}{\var}
 }
 
 % Unit normal distribution
@@ -65,9 +84,7 @@
   \snormalexp[#1]
 }
 \newcommand{\snormalexp}[1][x]{
-  \nexp{
-    -\frac{{#1}^2}{2}
-  }
+  \nexpf{{#1}^2}{2}
 }
 
 %% Symbols
@@ -80,4 +97,5 @@
 \newcommand{\sqrttwopi}{\sqrt{\twopi}}
 \newcommand{\twopi}{2\pi}
 
+\newcommand{\dset}{\mathcal{D}}
 \newcommand{\var}{\sigma^2}

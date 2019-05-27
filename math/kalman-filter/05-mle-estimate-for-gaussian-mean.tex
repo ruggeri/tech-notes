@@ -1,0 +1,87 @@
+\section{Maximum Likelihood Estimate for $\mu$}
+
+Let's turn our attention to learning the parameters of a normal
+distribution from a series of observations. We can quickly find the
+maximum likelihood estimate for the parameter $\mu$.
+
+\begin{nedqn}
+  \lhood{\dset}{\mu, \var}
+& = &
+  \prod_{x_i \in \dset}
+    \nnormaleq[x_i]
+\\
+  \nllhood{\dset}{\mu, \var}
+& = &
+  -
+  \sum_{x_i \in \dset}
+    \log
+    \nnormaleq[x_i]
+\\
+& = &
+  n
+  \log{
+    \sqrt{\twopi\var}
+  }
+  +
+  \sum_{x_i \in \dset}
+    \frac{
+      \parens{x_i - \mu}^2
+    }{
+      2\var
+    }
+\\
+& = &
+  n
+  \log{
+    \sqrt{\twopi\var}
+  }
+  +
+  \frac{1}{2\var}
+  \sum_{x_i \in \dset}
+    \parens{x_i - \mu}^2
+\end{nedqn}
+
+Since we want to minimize $\nllhood{\dset}{\mu, \var}$, we see that the
+constant term and even the coefficient $\invf{2\var}$ are irrelevant. It
+is easy to calculate:
+
+\begin{nedqn}
+  \fpartial{\mu}
+  \sum_{x_i \in \dset}
+    \parensq{x_i - \mu}
+& = &
+  -
+  \sum_{x_i \in \dset}
+    2
+    \parens{x_i - \mu}
+  \\
+  %
+\shortintertext{setting equal to zero we find}
+  %
+  2
+  \sum_{x_i \in \dset}
+    \mu
+& = &
+  2
+  \sum_{x_i \in \dset}
+    x_i
+  \\
+  \mu
+& = &
+  \invf{n}
+  \sum_{x_i \in \dset}
+    x_i
+\end{nedqn}
+
+This says that setting $\mu$ to the sample mean maximizes the
+probability of the observed data. To verify that $\mu$ \emph{minimizes}
+$\nllhood{\dset}{\mu, \var}$, observe:
+
+\begin{nedqn}
+  \fpartial{\mu^2} \parensq{x_i - \mu}
+& = &
+  2
+\end{nedqn}
+
+Since the second partial is positive everywhere, the function can have
+at most one minimum, no maxima, and no saddle points.
