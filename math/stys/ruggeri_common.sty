@@ -11,33 +11,29 @@
 % For IEEEeqnarray
 \usepackage{IEEEtrantools}
 \usepackage{mathtools}
-\usepackage{nedqn}
+
+\usepackage{ruggeri_nedqn}
 
 %% Binary Operators
 
 \newcommand{\defeq}{\coloneqq}
 \newcommand{\minuseq}{\mathrel{-}=}
 
-%% Calculus
-
-% Partial derivatives.
-
-\newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
-\newcommand{\fptheta}{\fpartial{}{\theta}}
-\newcommand{\fpthetax}{\fpartial{}{\theta^2}}
-
-% Text style partial derivatives
-\newcommand{\tfpartial}[2]{\tfrac{\partial #1}{\partial #2}}
-\newcommand{\tfptheta}{\tfpartial{}{\theta}}
-
 %% Common Sets
 
 \newcommand{\setof}[1]{\left\{ #1 \right\}}
 \newcommand{\reals}{\mathbb{R}}
 
+% Exponent macros
+
+\newcommand{\nedexp}[1]{\exp \Bigl( #1 \Bigr)}
+\newcommand{\nedexpb}[1]{\exp \biggl( #1 \biggr)}
+\newcommand{\nedexps}[1]{\exp \! \left( #1 \right)}
+
 %% Misc
 
 \newcommand{\define}[1]{\textit{#1}}
+\newcommand{\half}{\frac{1}{2}}
 
 %% Theorem Environments
 

@@ -1,0 +1,36 @@
+\ProvidesPackage{ruggeri_calculus}
+
+%% Derivatives
+
+\newcommand{\fderiv}[1]{\frac{\mathrm{d}}{\diff{#1}}}
+
+% Named derivatives
+\newcommand{\fderivx}{\frac{\mathrm{d}}{\diff{x}}}
+
+%% Differentials
+
+\newcommand{\diff}[1]{\mathrm{d}#1}
+
+% Named differentials
+\newcommand{\dx}{\diff{x}}
+\newcommand{\dr}{\diff{r}}
+\newcommand{\dtheta}{\diff{\theta}}
+\newcommand{\dy}{\diff{y}}
+\newcommand{\dz}{\diff{z}}
+
+%% Integrals
+
+\newcommand{\intevalbar}[2]{\Bigg|_{#1}^{#2}}
+\newcommand{\nediint}[2]{\int#1 \!\!\! \int#2}
+
+%% Partial derivatives.
+
+\newcommand{\fpartial}[2]{\frac{\partial #1}{\partial #2}}
+
+% Text style partial derivatives
+\newcommand{\tfpartial}[2]{\tfrac{\partial #1}{\partial #2}}
+\newcommand{\tfptheta}{\tfpartial{}{\theta}}
+
+% Named Partial derivatives
+\newcommand{\fptheta}{\fpartial{}{\theta}}
+\newcommand{\fpthetax}{\fpartial{}{\theta^2}}

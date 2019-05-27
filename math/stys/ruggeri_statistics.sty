@@ -1,0 +1,29 @@
+\ProvidesPackage{ruggeri_statistics}
+
+%% Normal Distribution
+
+% Parameterizable normal distribution
+\newcommand{\normal}[2]{\mathcal{N}(#1, #2)}
+\newcommand{\normalc}[1]{\frac{1}{\sqrt{2\pi #1}}}
+\newcommand{\normaleq}[2]{
+  \normalc{#2}
+  \nedexpb{
+    -
+    \frac{ \left(x - #1\right)^2 }{ 2 #2 }
+  }
+}
+
+% Standard normal distribution
+\newcommand{\snormal}{\normal{0}{1}}
+\newcommand{\snormalc}{\frac{1}{\sqrt{2\pi}}}
+\newcommand{\snormaleq}{
+  \snormalc
+  \nedexpb{
+    -
+    \frac{x^2}{2}
+  }
+}
+
+%% Symbols
+
+\newcommand{\var}{\sigma^2}
