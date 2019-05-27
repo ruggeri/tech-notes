@@ -9,14 +9,14 @@
   \nedexps{-{#1}^2}
 }
 \newcommand{\gaussianint}[1][x]{
-  \int_\reals \gaussianexp{#1} \diff{#1}
+  \int_\reals \gaussianexp[#1] \diff{#1}
 }
 
 %% Normal Distribution
 
 % Parameterizable normal distribution
 \newcommand{\normal}[2]{\mathcal{N}(#1, #2)}
-\newcommand{\normalc}[1]{\frac{1}{\sqrt{2\pi #1}}}
+\newcommand{\normalc}[1]{\frac{1}{\sqrt{\twopi #1}}}
 \newcommand{\normaleq}[2]{
   \normalc{#2}
   \normalexpsq{x - #1}{2 #2}
@@ -67,6 +67,7 @@
 \newcommand{\invsqrttwopi}{\frac{1}{\sqrttwopi}}
 \newcommand{\sqrtpi}{\sqrt{\pi}}
 \newcommand{\sqrttwo}{\sqrt{2}}
-\newcommand{\sqrttwopi}{\sqrt{2\pi}}
+\newcommand{\sqrttwopi}{\sqrt{\twopi}}
+\newcommand{\twopi}{2\pi}
 
 \newcommand{\var}{\sigma^2}
