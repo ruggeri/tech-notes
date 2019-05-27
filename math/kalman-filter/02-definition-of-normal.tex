@@ -1,24 +1,24 @@
 \section{Definition of Normal Distribution}
 
-The normal distribution with mean $\mu$ and variance $\var$ is defined
-as:
+The \define{normal distribution} with mean $\mu$ and variance $\var$ is
+defined as:
 
 \begin{nedqn}
-  \normal{\mu}{\var}
+  \nnormal
 & \defeq &
-  \normaleq{\mu}{\var}
-\end{nedqn}
-
-And the standard normal is simply:
-
-\begin{nedqn}
+  \nnormaleq
+  \\
+  %
+\shortintertext{And the \define{standard normal} is simply:}
+  %
   \snormal
 & \defeq &
   \snormaleq
 \end{nedqn}
 
 We ought to show this alleged probability distribution integrates to 1.
-Let's do a change of variables $x \mapsto (\sqrt{2}\sigma y + \mu)$:
+Let's do a change of variables $x \mapsto \parens{\sqrt{2}\sigma y +
+\mu}$:
 
 \begin{nedqn}
   \int_\reals
@@ -45,7 +45,7 @@ Let's do a change of variables $x \mapsto (\sqrt{2}\sigma y + \mu)$:
   \\
 & = &
   \invsqrtpi
-  \sqrt{\pi}
+  \sqrtpi
   \nedcomment{Gaussian integral}
   \\
 & = &

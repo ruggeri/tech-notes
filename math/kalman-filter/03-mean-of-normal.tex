@@ -3,15 +3,17 @@
 It is clear that if $\snormal$ has finite mean, it must be $\mu = 0$. We
 see this because $\snormal$ is symmetric across the point $x = 0$.
 Likewise we can make a translation argument that $\mu$ will always be
-the mean.
+the mean even if $\mu \ne 0$.
 
-But let's check the math as a warmup:
+But let's do the math. I got a lot of practice through this warm-up.
 
 \begin{nedqn}
+  \expectation{\nnormal}
+& = &
   \int_\reals
-  x
-  \nnormaleq
-  \dx
+    x
+    \nnormaleq
+    \dx
 \end{nedqn}
 
 Because we are integrating over the whole range, we may replace $x$ with
@@ -20,21 +22,19 @@ $x \mapsto \sigma y + \mu$.
 \begin{nedqn}
   \sigma
   \int_\reals
-    \left(
-      \sigma y + \mu
-    \right)
+    \parens{\sigma y + \mu}
     %
-    \normalc{\var}
+    \nnormalc
     %
     \normalexpsq{
-          \sigma y + \mu - \mu
+      \parens{\sigma y + \mu}
+      -
+      \mu
     }{2\var}
     \dy
 & = &
   \int_\reals
-    \left(
-      \sigma y + \mu
-    \right)
+    \parens{\sigma y + \mu}
     %
     \snormalc
     %
@@ -48,19 +48,20 @@ faster through the range, so the mean would be scaled by
 $\frac{1}{\sigma}$ if we didn't do anything. Or think: $\sigma\dy =
 \dx$.
 
+Continuing,
+
 \begin{nedqn}
   \int_\reals
-    \left(
-      \sigma y + \mu
-    \right)
+    \parens{\sigma y + \mu}
     %
     \snormalc
     %
     \snormalexp[y]
     \dy
 & = &
+  \sigma
   \int_\reals
-    \sigma y
+    y
     \snormalc
     \snormalexp[y]
     \dy
@@ -71,43 +72,46 @@ $\frac{1}{\sigma}$ if we didn't do anything. Or think: $\sigma\dy =
     \dy
 \end{nedqn}
 
-Note the second term is just $\mu$ times $\snormal$ integrated over the
-entire range. That's $\mu$ times $1$. We proceed:
+The first term is $\sigma$ times the expectation of $\snormal$.
+Hopefully $\expectation{\snormal} = 0$. The second term is $\mu$
+times $\snormal$ integrated over the entire range. That's $\mu$ times
+$1$. We proceed:
 
 \begin{nedqn}
   \mu
   +
+  \sigma
   \int_\reals
-    \sigma y
+    y
     \snormaleq[y]
     \dy
 & = &
   \mu
   +
   \frac{\sigma}{\sqrttwopi}
-  \left(
-    -\half
+  \parens{
+    -2
     \snormalexp[y]
-  \right)
+  }
   \intevalbar{-\infty}{\infty}
   \\
 & = &
   \mu
   +
   \frac{\sigma}{\sqrttwopi}
-  \left(
-    -\half
+  \parens{
+    -2
     \snormalexp[\infty]
     +
-    -\half
+    -2
     \snormalexp[(-\infty)]
-  \right)
+  }
   \\
 & = &
   \mu
   +
   \frac{\sigma}{\sqrttwopi}
-  \left(0 + 0\right)
+  \parens{-2\cdot0 + -2\cdot0}
   \\
 & = &
   \mu
