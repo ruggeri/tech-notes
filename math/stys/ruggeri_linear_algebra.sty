@@ -2,13 +2,19 @@
 
 %% Vectors
 
-\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\vec}[1]{
+  \mathbf{#1}
+}
 
 % Basis vector
-\newcommand{\bvec}[1]{\vec{e}_{\mathbf{#1}}}
+\newcommand{\bvec}[1]{
+  \vec{e}_{\mathbf{#1}}
+}
 
 % Common vector names
-\newcommand{\vecu}[1][]{\vec{u_{\mathbf{#1}}}}
+\newcommand{\vecu}[1][]{
+  \vec{u_{\mathbf{#1}}}
+}
 \newcommand{\vecv}{\vec{v}}
 \newcommand{\vecw}{\vec{w}}
 
@@ -34,10 +40,18 @@
 
 %% Operations
 
-\newcommand{\innerprod}[2]{\langle #1, #2 \rangle}
-\newcommand{\norm}[1]{\lVert #1 \rVert}
-\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+\newcommand{\innerprod}[2]{
+  \langle #1, #2 \rangle
+}
+\newcommand{\norm}[1]{
+  \lVert #1 \rVert
+}
+\newcommand*{\tran}{
+  ^{\mkern-1.5mu\mathsf{T}}
+}
 
 %% Spaces Of Matrices
 
-\newcommand{\mtxspace}[1]{\reals^{#1 \times #1}}
+\newcommand{\mtxspace}[1]{
+  \reals^{#1 \times #1}
+}

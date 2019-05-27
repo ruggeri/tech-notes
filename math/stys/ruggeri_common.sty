@@ -14,26 +14,31 @@
 
 \usepackage{ruggeri_nedqn}
 
-%% Binary Operators
+%% Definition Symbols
 
 \newcommand{\defeq}{\coloneqq}
 \newcommand{\minuseq}{\mathrel{-}=}
 
 %% Common Sets
 
-\newcommand{\setof}[1]{\left\{ #1 \right\}}
+\newcommand{\setof}[1]{
+  \left\{ #1 \right\}
+}
 \newcommand{\reals}{\mathbb{R}}
 
 % Exponent macros
 
-\newcommand{\nedexp}[1]{\exp \Bigl( #1 \Bigr)}
+\newcommand{\nedexp}[1]{\exp \Bparens{#1}}
 \newcommand{\nedexpb}[1]{\exp \biggl( #1 \biggr)}
-\newcommand{\nedexps}[1]{\exp \! \left( #1 \right)}
+\newcommand{\nedexps}[1]{\exp \! \parens{#1}}
 
 %% Misc
 
 \newcommand{\define}[1]{\textit{#1}}
 \newcommand{\half}{\frac{1}{2}}
+
+%% Parentheses
+
 \newcommand{\parens}[1]{\left({#1}\right)}
 \newcommand{\bparens}[1]{\bigl({#1}\bigr)}
 \newcommand{\Bparens}[1]{\Bigl({#1}\Bigr)}
