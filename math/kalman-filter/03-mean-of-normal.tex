@@ -1,4 +1,4 @@
-\section{The Mean of $\normal{\mu}{\var}$}
+\section{The Mean of $\nnormal$}
 
 It is clear that if $\snormal$ has finite mean, it must be $\mu = 0$. We
 see this because $\snormal$ is symmetric across the point $x = 0$.
@@ -10,7 +10,7 @@ But let's check the math as a warmup:
 \begin{nedqn}
   \int_\reals
   x
-  \normaleq{\mu}{\var}
+  \nnormaleq
   \dx
 \end{nedqn}
 
@@ -26,13 +26,9 @@ $x \mapsto \sigma y + \mu$.
     %
     \normalc{\var}
     %
-    \nedexp{
-      -\frac{
-        \left(
+    \normalexpsq{
           \sigma y + \mu - \mu
-        \right)^2
-      }{2\var}
-    }
+    }{2\var}
     \dy
 & = &
   \int_\reals
@@ -42,18 +38,15 @@ $x \mapsto \sigma y + \mu$.
     %
     \snormalc
     %
-    \nedexp{
-      -\frac{y^2}{2}
-    }
+    \snormalexp[y]
     \dy
 \end{nedqn}
 
-Notice the leading correction coefficient of $\sigma$ we added. When
-doing this replacement, we are moving $\sigma$ times faster through the
-range, so the mean would be scaled by $\frac{1}{\sigma}$ if we didn't do
-anything. Or think: $\sigma\dy = \dx$.
-
-Let's finish this off:
+Notice the leading correction coefficient of $\sigma$ we added (and
+canceled). When doing this replacement, we are moving $\sigma$ times
+faster through the range, so the mean would be scaled by
+$\frac{1}{\sigma}$ if we didn't do anything. Or think: $\sigma\dy =
+\dx$.
 
 \begin{nedqn}
   \int_\reals
@@ -63,21 +56,18 @@ Let's finish this off:
     %
     \snormalc
     %
-    \nedexp{
-      -\frac{y^2}{2}
-    }
+    \snormalexp[y]
     \dy
 & = &
   \int_\reals
     \sigma y
     \snormalc
-    \nedexp{-\frac{y^2}{2}}
+    \snormalexp[y]
     \dy
   +
   \mu
   \int_\reals
-    \snormalc
-    \nedexp{-\frac{y^2}{2}}
+    \snormaleq[y]
     \dy
 \end{nedqn}
 
@@ -89,35 +79,34 @@ entire range. That's $\mu$ times $1$. We proceed:
   +
   \int_\reals
     \sigma y
-    \snormalc
-    \nedexp{-\frac{y^2}{2}}
+    \snormaleq[y]
     \dy
 & = &
   \mu
   +
-  \frac{\sigma}{\sqrt{2\pi}}
+  \frac{\sigma}{\sqrttwopi}
   \left(
     -\half
-    \nedexp{-\frac{y^2}{2}}
+    \snormalexp[y]
   \right)
   \intevalbar{-\infty}{\infty}
   \\
 & = &
   \mu
   +
-  \frac{\sigma}{\sqrt{2\pi}}
+  \frac{\sigma}{\sqrttwopi}
   \left(
     -\half
-    \nedexp{-\frac{\infty^2}{2}}
+    \snormalexp[\infty]
     +
     -\half
-    \nedexp{-\frac{\left(-\infty\right)^2}{2}}
+    \snormalexp[(-\infty)]
   \right)
   \\
 & = &
   \mu
   +
-  \frac{\sigma}{\sqrt{2\pi}}
+  \frac{\sigma}{\sqrttwopi}
   \left(0 + 0\right)
   \\
 & = &

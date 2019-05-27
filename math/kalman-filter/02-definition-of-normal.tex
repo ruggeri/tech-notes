@@ -22,38 +22,29 @@ Let's do a change of variables $x \mapsto (\sqrt{2}\sigma y + \mu)$:
 
 \begin{nedqn}
   \int_\reals
-    \normalc{\var}
-    \nedexpb{
+    \nnormaleq
+& = &
+  \sqrttwo\sigma
+  %
+  \int_\reals
+    \nnormalc
+    %
+    \normalexpsq{
+      (\sqrt{2}\sigma y + \mu)
       -
-      \frac{
-        \left( x - \mu \right)^2
-      }{2\var}
-    }
-    \dx
-& = &
-  \sqrt{2}\sigma
-  \int_\reals
-    \normalc{\var}
-      \nedexpb{
-        -
-        \frac{
-          \left(
-            (\sqrt{2}\sigma y + \mu)
-            -
-            \mu
-          \right)^2
-        }{2\var}
-      }
+      \mu
+    }{2\var}
+    %
     \dy
   \\
 & = &
-  \frac{1}{\sqrt{\pi}}
+  \invsqrtpi
   \int_\reals
-    \nedexpb{-y^2}
+    \gaussianexp[y]
     \dy
   \\
 & = &
-  \frac{1}{\sqrt{\pi}}
+  \invsqrtpi
   \sqrt{\pi}
   \nedcomment{Gaussian integral}
   \\
@@ -61,5 +52,5 @@ Let's do a change of variables $x \mapsto (\sqrt{2}\sigma y + \mu)$:
   1
 \end{nedqn}
 
-Notice that factor of $\sqrt{2}$ that got introduced when we did the
-change of variables. That's because $\sqrt{2} \dy = \dx$.
+Notice that factor of $\sqrttwo$ that got introduced when we did the
+change of variables. That's because $\sqrttwo \dy = \dx$.

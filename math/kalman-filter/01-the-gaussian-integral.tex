@@ -4,21 +4,21 @@ Before we attack the normal distribution, we will need to find an
 important related integral: the \define{Gaussian Integral}.
 
 \begin{nedqn}
-  \int_\reals \nedexp{-x^2} \dx
+  \gaussianint
 \end{nedqn}
 
 We will use a trick. Let's consider the \emph{square} of this function:
 
 \begin{nedqn}
   \left(
-    \int_\reals \nedexp{-x^2} \dx
+    \gaussianint
   \right)^2
 & = &
   \left(
-    \int_\reals \nedexp{-x^2} \dx
+    \gaussianint
   \right)
   \left(
-    \int_\reals \nedexp{-y^2} \dy
+    \gaussianint[y]
   \right)
   \\
 & = &
@@ -50,9 +50,7 @@ We may now perform a change of variables:
 & = &
   \nediint{_0^{\infty}}{_0^{2\pi}}
     r
-    \nedexps{
-      -r^2
-    }
+    \gaussianexps[r]
     \dtheta
     \dr
   \nednumber
@@ -69,17 +67,13 @@ continue:
 \begin{nedqn}
   \nediint{_0^{\infty}}{_0^{2\pi}}
     r
-    \nedexps{
-      -r^2
-    }
+    \gaussianexps[r]
     \dtheta
     \dr
 & = &
   \nediint{_0^{2\pi}}{_0^{\infty}}
     r
-    \nedexps{
-      -r^2
-    }
+    \gaussianexps[r]
     \dr
     \dtheta
   \\
@@ -87,18 +81,14 @@ continue:
   2\pi
   \int_0^{\infty}
     r
-    \nedexps{
-      -r^2
-    }
+    \gaussianexps[r]
     \dr
   \\
 & = &
   2\pi
   \left(
     -\half
-    \nedexps{
-      -r^2
-    }
+    \gaussianexps[r]
   \right)
   \intevalbar{0}{\infty}
   \nedcomment{chain rule}
@@ -107,14 +97,12 @@ continue:
   2\pi
   \left(
     -\half
-    \nedexps{
-      \left(-\infty\right)^2
-    }
+    \gaussianexps[
+      \left(-\infty\right)
+    ]
     +
     \half
-    \nedexps{
-      0^2
-    }
+    \gaussianexps[0]
   \right)
   \intevalbar{0}{\infty}
   \\
@@ -133,7 +121,7 @@ We now know:
 
 \begin{nedqn}
   \left(
-    \int_\reals \nedexps{-x^2} \dx
+    \gaussianint
   \right)^2
 & = &
   \pi
@@ -142,10 +130,10 @@ We now know:
   %
 \intertext{so we may conclude that}
   %
-  \int_\reals \nedexps{-x^2} \dx
+  \gaussianint
   %
 & = &
-  \sqrt{\pi}
+  \sqrttwopi
   \nednumber
 \end{nedqn}
 

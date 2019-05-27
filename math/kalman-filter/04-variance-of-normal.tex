@@ -13,7 +13,7 @@ I will once again replace with $x \mapsto \sigma y + \mu$:
     \left(
       x - \mu
     \right)^2
-    \normaleq{\mu}{\var}
+    \snormaleq
     \dx
 & = &
   \sigma
@@ -23,17 +23,9 @@ I will once again replace with $x \mapsto \sigma y + \mu$:
     \right)^2
     %
     \normalc{\var}
-    \nedexp{
-      -\frac{
-        \left(
-          (\sigma y + \mu)
-          -
-          \mu
-        \right)^2
-      }{
-        2\sigma^2
-      }
-    }
+    \normalexpsq{
+      (\sigma y + \mu) - \mu
+    }{2\sigma^2}
     \dy
   \\
 & = &
@@ -41,9 +33,7 @@ I will once again replace with $x \mapsto \sigma y + \mu$:
   \snormalc
   \int_\reals
     y^2
-    \nedexp{
-      -\frac{y^2}{2}
-    }
+    \snormalexp[y]
     \dy
 \end{nedqn}
 
@@ -60,73 +50,83 @@ Let's do a further change of variables: $y \mapsto \sqrt{2} z$:
   \snormalc
   \int_\reals
     y^2
-    \nedexp{
-      -\frac{y^2}{2}
-    }
+    \snormalexp[y]
     \dy
 & = &
   \sigma^2
-  \snormalc
-  \sqrt{2}
+  \invsqrttwopi
+  \sqrttwo
   \int_\reals
-    \left(\sqrt{2} z\right)^2
-    \nedexp{
-      -\frac{
-        \left(\sqrt{2} z\right)^2
-      }{2}
-    }
+    \left(\sqrttwo z\right)^2
+    \normalexpsq{
+      \sqrt{2} z
+    }{2}
     \dz
   \\
 & = &
   \sigma^2
-  \frac{2}{\sqrt{\pi}}
+  \frac{2}{\sqrtpi}
   \int_\reals
     z^2
-    \nedexp{-z}
+    \gaussianexp[z]
     \dz
 \end{nedqn}
 
-Notice again the factor of $\sqrt{2}$ that was added because $\dy =
-\sqrt{2}\dz$. To proceed, let's drop the constants to focus, and use
+Notice again the factor of $\sqrttwo$ that was added because $\dy =
+\sqrttwo\dz$. To proceed, let's drop the constants to focus, and use
 integration by parts.
 
 \begin{nedqn}
   \fderivx \Bigl[
-    z \nedexps{-z^2}
+    z \gaussianexps[z]
   \Bigr]
 & = &
-  \nedexps{-z^2}
+  \gaussianexps[z]
   -
   2z^2
-  \nedexps{-z^2}
+  \gaussianexps[z]
   \\
   %
 \shortintertext{which implies that:}
   %
-  2\int_\reals z^2 \nedexps{-z^2} \dx
+  2
+  \int_\reals
+    z^2
+    \gaussianexps[z]
+    \dz
 & = &
-  \int_\reals \nedexps{-z^2} \dx
+  \int_\reals
+    \gaussianexps[z]
+    \dz
   -
   \bigl(
-    z \nedexps{-z^2}
-  \bigr) \intevalbar{-\infty}{\infty}
+    z \gaussianexps[z]
+  \bigr)
+  \intevalbar{-\infty}{\infty}
   \\
 & = &
-  \int_\reals \nedexps{-z^2} \dx
+  \int_\reals
+    \gaussianexps[z]
+    \dz
   -
   \bigl( 0 - 0 \bigr)
+  %
   \nedcomment{asymptotics}
   \\
 & = &
-  \sqrt{\pi}
+  \sqrtpi
+  %
   \nedcomment{Gaussian integral}
   \\
 \shortintertext{in conclusion:}
   %
 \IEEEeqnarraymulticol{3}{c}{
-  \int_\reals z^2 \nedexps{-z^2} \dx
-  =
-  \frac{\sqrt{\pi}}{2}
+  \int_\reals
+    z^2
+    \gaussianexps[z]
+    \dz
+=
+  \frac{\sqrtpi}{2}
 }
   \\
 \end{nedqn}
@@ -135,17 +135,15 @@ We can now plug this back in.
 
 \begin{nedqn}
   \sigma^2
-  \frac{2}{\sqrt{\pi}}
+  \frac{2}{\sqrtpi}
   \int_\reals
     y^2
-    \nedexp{
-      -\frac{y^2}{2}
-    }
+    \snormalexp[y]
     \dy
 & = &
   \sigma^2
-  \frac{2}{\sqrt{\pi}}
-  \frac{\sqrt{\pi}}{2}
+  \frac{2}{\sqrtpi}
+  \frac{\sqrtpi}{2}
   \\
 & = &
   \sigma^2
