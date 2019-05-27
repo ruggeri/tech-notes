@@ -1,5 +1,20 @@
 \section{The Mean of $\nnormal$}
 
+I will use the symbols $\expectation{X}$ and $\mu$ interchangeably, as
+well as the terms \define{mean}, \define{expectation} and
+\define{expected value}. The symbol $\mu$ is easier to read in formulas,
+and is useful to use as a \emph{parameter} for a distribution
+\emph{family} (like the family of normal distributions).
+
+If a variable $X$ has distribution defined by density function $f$, then
+the expectation is defined as:
+
+\begin{nedqn}
+  \expectation{X}
+& \defeq &
+  \int_\reals x f(x) \dx
+\end{nedqn}
+
 It is clear that if $\snormal$ has finite mean, it must be $\mu = 0$. We
 see this because $\snormal$ is symmetric across the point $x = 0$.
 Likewise we can make a translation argument that $\mu$ will always be
@@ -117,4 +132,4 @@ $1$. We proceed:
   \mu
 \end{nedqn}
 
-Done!
+Done! $\mu$ is indeed the mean.

@@ -1,30 +1,51 @@
 \section{The Variance of $\snormal$}
 
-The variance of a probability density function $f$ with mean $\mu$ is:
+The \define{variance} for a variable $X$ is defined as the squared
+expected difference from the variable's mean. It is the ``squared
+error'' you would get if you used $\mu$ as a constant predictor value
+for samples from $X$.
+
+Here is the formula for a variable $X$ with distribution defined by
+density function $f$:
 
 \begin{nedqn}
+  \Var{X}
+& \defeq &
+  \expectation{
+    \parens{
+      X - \expectation{X}
+    }^2
+  }
+\\
+& = &
   \int_\reals f(x) (x - \mu)^2 \dx
 \end{nedqn}
 
-I will once again replace with $x \mapsto \sigma y + \mu$:
+It is typical to denote the variance $\var$. Its square root, $\sigma$,
+is called the \define{standard deviation}.
+
+Let's prove that the parameter $\var$ is indeed the variance of
+$\nnormal$. I will once again replace with $x \mapsto \parens{\sigma y +
+\mu}$:
 
 \begin{nedqn}
+  \Var{\nnormal}
+& = &
   \int_\reals
-    \left(
-      x - \mu
-    \right)^2
+    \parens{x - \mu}^2
     \snormaleq
     \dx
+  \\
 & = &
   \sigma
   \int_\reals
-    \left(
+    \parens{
       (\sigma y  + \mu) - \mu
-    \right)^2
+    }^2
     %
-    \normalc{\var}
+    \nnormalc
     \normalexpsq{
-      (\sigma y + \mu) - \mu
+      \parens{\sigma y + \mu} - \mu
     }{2\sigma^2}
     \dy
   \\
@@ -46,18 +67,21 @@ the unit normal has variance one!
 Let's do a further change of variables: $y \mapsto \sqrt{2} z$:
 
 \begin{nedqn}
+  \Var{\nnormal}
+& = &
   \sigma^2
   \snormalc
   \int_\reals
     y^2
     \snormalexp[y]
     \dy
+  \\
 & = &
   \sigma^2
-  \invsqrttwopi
+  \snormalc
   \sqrttwo
   \int_\reals
-    \left(\sqrttwo z\right)^2
+    \parens{\sqrttwo z}^2
     \normalexpsq{
       \sqrt{2} z
     }{2}
@@ -99,9 +123,9 @@ integration by parts.
     \gaussianexps[z]
     \dz
   -
-  \bigl(
+  \Bparens{
     z \gaussianexps[z]
-  \bigr)
+  }
   \intevalbar{-\infty}{\infty}
   \\
 & = &
@@ -109,7 +133,7 @@ integration by parts.
     \gaussianexps[z]
     \dz
   -
-  \bigl( 0 - 0 \bigr)
+  \bparens{0 - 0}
   %
   \nedcomment{asymptotics}
   \\
@@ -131,15 +155,18 @@ integration by parts.
   \\
 \end{nedqn}
 
-We can now plug this back in.
+We can now plug this back in:
 
 \begin{nedqn}
+  \Var{\nnormal}
+& = &
   \sigma^2
   \frac{2}{\sqrtpi}
   \int_\reals
-    y^2
-    \snormalexp[y]
+    z^2
+    \gaussianexps[z]
     \dy
+  \\
 & = &
   \sigma^2
   \frac{2}{\sqrtpi}

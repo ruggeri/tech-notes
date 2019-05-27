@@ -1,9 +1,18 @@
 \ProvidesPackage{ruggeri_statistics}
 
+% Expectation/Variance
+
 \newcommand{\expectation}[1]{
   \mathbb{E}
   \left[
     {#1}
+  \right]
+}
+
+\newcommand{\Var}[1]{
+  \operatorname{Var}
+  \left[
+    #1
   \right]
 }
 
