@@ -1,10 +1,4 @@
-\newcommand{\pr}[1]{
-  p\parens{#1}
-}
-
-\newcommand{\tpr}[1]{
-  \tilde{p}\parens{#1}
-}
+%% Conditional Probability functions
 
 \newcommand{\condpr}[2]{
   \pr{#1 | #2}
@@ -14,8 +8,25 @@
   \tpr{#1 | #2}
 }
 
-\newcommand{\pmux}{\pr{\mux}}
+%% Unconditional Density Functions
+
+% Probability density function
+\newcommand{\pr}[1]{
+  p\parens{#1}
+}
+
+% Unnormalized density function
+\newcommand{\tpr}[1]{
+  \tilde{p}\parens{#1}
+}
+
+%% Named Helpers
+
+% x
 \newcommand{\px}{\pr{x}}
-\newcommand{\cpmuxx}{\condpr{\mux}{x}}
 \newcommand{\cpxmux}{\condpr{x}{\mux}}
+
+% mu_x
+\newcommand{\pmux}{\pr{\mux}}
+\newcommand{\cpmuxx}{\condpr{\mux}{x}}
 \newcommand{\tcpmuxx}{\tcondpr{\mux}{x}}
