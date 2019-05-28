@@ -1,1 +1,403 @@
+\newcommand{\mux}{\mu_x}
+\newcommand{\mumux}{\mu_{\mu_x}}
+\newcommand{\mumuxp}{
+  \mu'_{\mu_x}
+}
+\newcommand{\rhomux}{\rho_{\mu_x}}
+\newcommand{\rhox}{\rho_{x}}
+\newcommand{\varmux}{\var_{\mu_x}}
+\newcommand{\varmuxp}{
+  \sigma^{'2}_{\mu_x}
+}
+\newcommand{\varx}{\var_x}
+\newcommand{\pmux}{\pr{\mux}}
+\newcommand{\px}{\pr{x}}
+\newcommand{\cpmuxx}{\condpr{\mux}{x}}
+\newcommand{\cpxmux}{\condpr{x}{\mux}}
+\newcommand{\tcpmuxx}{\tcondpr{\mux}{x}}
+
+\newcommand{\sigmax}{\sigma_x}
+\newcommand{\sigmamux}{\sigma_{\mu_x}}
+
 \section{Maximum a Posteriori Estimate for $\mu$}
+
+\subsection{Definitions}
+
+We have found the maximum likelihood estimates for $\mux, \varx$, but
+how likely are they? Are there other values for $\mux, \varx$ that are
+nearly as good, but far away from the MLE estimates?
+
+Let's explore the \define{posterior} distribution on $\mux, \varx$ given
+a sample $x$. That is, we want to know:
+
+\begin{nedqn}
+  \cpmuxx
+\end{nedqn}
+
+This only makes sense if there is a \emph{joint} probability
+distribution over $\mux$ and $x$. We already know $\cpxmux$. What we are
+missing is the unconditional \define{prior} distribution $\pmux$. Once
+we have $\pmux$, we can then use Bayes' rule:
+
+\begin{nedqn}
+  \pr{\mux, x}
+& = &
+  \pr{\mux, x}
+  \\
+  \px
+  \cpmuxx
+& = &
+  \pmux
+  \cpxmux
+  \\
+  \cpmuxx
+& = &
+  \frac{
+    \pmux \cpxmux
+  }{
+    \px
+  }
+\end{nedqn}
+
+It is most convenient if the posterior distribution is of the same
+family as the prior distribution. We're going to work out a technique to
+update $\pmux$ to $\cpmuxx$ given a single datapoint. If the posterior
+$\cpmuxx$ has the same ``shape'' as the prior $\pmux$, then our
+technique can be simply re-applied if we observe a second datapoint and
+want to \emph{update our priors} a second time.
+
+When $\cpmuxx$ has the same shape as $\pmux$, we say that $\pmux$ is a
+\define{conjugate prior} for $\px$.
+
+\subsection{Choosing Our Prior}
+
+Since we're working with normal distributions, we've already defined:
+
+\begin{nedqn}
+  \cpxmux = \normaleq{\mux}{\varx}
+\end{nedqn}
+
+Let's try using a second normal distribution for our prior on $\mux$.
+
+\begin{nedqn}
+  \pmux = \normaleq[\mux]{\mumux}{\varmux}
+\end{nedqn}
+
+Then their product will be:
+
+\begin{nedqn}
+  \tcpmuxx
+& = &
+  \pmux \cpxmux
+  \\
+& = &
+  \Bbparens{\normaleq[\mux]{\mumux}{\varmux}}
+  \Bbparens{\normaleq{\mux}{\varx}}
+\\
+& = &
+  \parens{
+    \normalc{\varmux}
+    \normalc{\varx}
+  }
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+  \\
+& \sim &
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+\end{nedqn}
+
+We call $\tcpmuxx$ the \define{unnormalized} probability because we have
+ignored the constant denominator $\px$. $\px$ is a constant because it
+does not depend on choice of $\mux$ (though it does calculate an
+integrate over \emph{all} possible $\mux$ values).
+
+Notice that I drop the leading coefficient, because what matters is the
+\emph{shape} of the distribution. I will return to this point later.
+
+We should focus our attention on what's inside the exponent. If this can
+be written in the form
+
+\begin{nedqn}
+  -
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  -
+  \invf{2\varx}
+  \parensq{x - \mux}
+& = &
+  -
+  \frac{
+    \parensq{\mux - \mumuxp} + D
+  }{
+    2\varmuxp
+  }
+\end{nedqn}
+
+\noindent
+then we will have shown that that the posterior is
+
+\begin{nedqn}
+  \tcpmuxx
+& \sim &
+  \nexpf{
+    \parensq{\mux - \mumuxp} + D
+  }{
+    2\varmuxp
+  }
+  \\
+& = &
+  \nexp{-D}
+  \normal{\mumuxp}{\varmuxp}
+  \\
+& \sim &
+  \normal{\mumuxp}{\varmuxp}
+\end{nedqn}
+
+\subsubsection{First Exercise}
+
+Let's get away from all these symbols and just try to simplify something
+easy:
+
+\begin{nedqn}
+  \parensq{x - b_1} + \parensq{x - b_2}
+\end{nedqn}
+
+It's intuitive that this function is minimized at $x = \frac{b_1 +
+b_2}{2}$, because then:
+
+\begin{nedqn}
+  \parens{
+    \frac{b_1 + b_2}{2}
+    -
+    b_1
+  }
+& = &
+  \parens{
+    \frac{b_2 - b_1}{2}
+  }
+  \\
+  \parens{
+    \frac{b_1 + b_2}{2}
+    -
+    b_2
+  }
+& = &
+  \parens{
+    \frac{b_1 - b_2}{2}
+  }
+\end{nedqn}
+
+These have the same magnitude, so the competing objectives to minimize
+$\parensq{x - b_1}$ and $\parensq{x - b_2}$ are balanced. Of course, you
+may verify this yourself by taking the derivative.
+
+Once we have found the minimum, we know that
+
+\begin{nedqn}
+  \parensq{x - b_1}
+  +
+  \parensq{x - b_2}
+& = &
+  C
+  \parensq{x - \frac{b_1 + b_2}{2}}
+  +
+  D
+\end{nedqn}
+
+\noindent
+for constants $C, D$. We know that $C = 2$, because the two $x^2$ in the
+original sum together. What is the $D$ term? It is the ``error'' when we
+choose the best value for $x$: $\frac{b_1 + b_2}{2}$. So of course it
+makes sense that this is $D = 2\parensq{\frac{b_2 - b_1}{2}}$. That's
+the sum of the ``errors'' from each side, and the errors are both
+$\parensq{\frac{b_2 - b_1}{2}}$.
+
+\subsubsection{Second Exercise}
+
+Let's do one better. Let's try to simplify:
+
+\begin{nedqn}
+  a_1^2 \parensq{x - b_1}
+  +
+  a_2^2 \parensq{x - b_2}
+& = &
+  \parensq{a_1 x - a_1b_1}
+  +
+  \parensq{a_2 x - a_2 b_2}
+\end{nedqn}
+
+We can see what is happening here. Each error function has its own
+``stretched'' sense of distance. To achieve balance we still need:
+
+\begin{nedqn}
+  \parensq{a_1 x - a_1b_1}
+& = &
+  -\parensq{a_2 x - a_2 b_2}
+\end{nedqn}
+
+We can see that we want to take a weighted average to achieve the
+balance and minimize the error:
+
+\begin{nedqn}
+  x
+& = &
+  \frac{
+    a_1 b_1 + a_2 b_2
+  }{
+    a_1 + a_2
+  }
+\end{nedqn}
+
+Let us call this $b'$.
+
+As we know from last time, we have
+
+\begin{nedqn}
+  a_1^2 \parensq{x - b_1}
+  +
+  a_2^2 \parensq{x - b_2}
+& = &
+  C
+  \parensq{
+    x
+    -
+    b'
+  }
+  +
+  D
+\end{nedqn}
+
+Just as before, the constant is an ``error'' term. We can ignore it.
+
+We should look at $C$. As before, it should equal $a_1^2 + a_2^2$ so
+that the leading coefficient of the $x^2$ term is correct.
+
+\subsubsection{Wrapping Up}
+
+With what we've learned, let's look again at:
+
+\begin{nedqn}
+  \tcpmuxx
+& \sim &
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+\end{nedqn}
+
+We wanted to focus on simplifying
+
+\begin{nedqn}
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  +
+  \invf{2\varx}
+  \parensq{x - \mux}
+\end{nedqn}
+
+Now we have have just the formula to do so! But first, let's replace
+$\varmux, \varx$ with their inverses: $\rhomux, \rhox$. These are
+sometimes called the \define{precision}.
+
+\begin{nedqn}
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  +
+  \invf{2\varx}
+  \parensq{x - \mux}
+& = &
+  \half
+  \parens{
+    \rhomux
+    \parensq{\mux - \mumux}
+    +
+    \rhox
+    \parensq{\mux - x}
+  }
+\end{nedqn}
+
+(I've also taken the opportunity to swap $\mux, x$). We now can simply
+plug into our previous formulae to first get:
+
+\begin{nedqn}
+  \mumuxp
+& \defeq &
+  \frac{
+    \sqrt{\rhomux} \mumux
+    +
+    \sqrt{\rhox} x
+  }{
+    \sqrt{\rhomux} + \sqrt{\rhox}
+  }
+\end{nedqn}
+
+This makes total sense. The greater the precision value $\rhox$, the
+more important it is that $\mumuxp$ be closer to $\rhox$. Equivalently,
+the greater the precision $\rhox$, the more meaningful a new data
+point is.
+
+On the other hand, the greater the precision value of $\rhomux$, the
+more ``firm'' we are in our prior belief of $\mumux$. That means we
+won't want to change our opinion in $\mumux$ very much for just a single
+new datapoint. We'll want more ``evidence.''
+
+We can also state it in terms of $\varmux, \varx$:
+
+\begin{nedqn}
+  \mumuxp
+& \defeq &
+  \frac{
+    \sqrt{\rhomux} \mumux
+    +
+    \sqrt{\rhox} x
+  }{
+    \sqrt{\rhomux} + \sqrt{\rhox}
+  }
+  \\
+& = &
+  \frac{
+    \invf{\sigmamux} \mumux
+    +
+    \invf{\sigmax} x
+  }{
+    \invf{\sigmamux} + \invf{\sigmax}
+  }
+  \\
+& = &
+  \frac{
+    \invf{\sigmamux} \mumux
+    +
+    \invf{\sigmax} x
+  }{
+    \invf{\sigmamux} + \invf{\sigmax}
+  }
+  \\
+& = &
+  \frac{
+    \sigmax \mumux
+    +
+    \sigmamux x
+  }{
+    \sigmax + \sigmamux
+  }
+\end{nedqn}
+
+This last result just tells us the same thing in reverse terms, of
+course.

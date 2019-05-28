@@ -65,7 +65,11 @@
 \newcommand{\Bbparens}[1]{\biggl({#1}\biggr)}
 
 % Overboard? I really just don't want to type special characters...
-\newcommand{\parensq}[1]{\parens{#1}^2}
+\newcommand{\parensq}[1]{
+  \mathopen{}\left(
+    {#1}
+  \right)^{2}\mathclose{}
+}
 
 %% Theorem Environments
 

@@ -16,6 +16,21 @@
   \right]
 }
 
+\newcommand{\pr}[1]{
+  p\parens{#1}
+}
+
+\newcommand{\tpr}[1]{
+  \tilde{p}\parens{#1}
+}
+
+\newcommand{\condpr}[2]{
+  \pr{#1 | #2}
+}
+
+\newcommand{\tcondpr}[2]{
+  \tpr{#1 | #2}
+}
 %% Gaussian Integral
 
 \newcommand{\gaussianexp}[1][x]{
@@ -98,4 +113,6 @@
 \newcommand{\twopi}{2\pi}
 
 \newcommand{\dset}{\mathcal{D}}
+\newcommand{\muMLE}{\hat\mu_\text{MLE}}
 \newcommand{\var}{\sigma^2}
+\newcommand{\varMLE}{\hat{\sigma}^2_\text{MLE}}
