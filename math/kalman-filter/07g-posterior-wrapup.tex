@@ -1,0 +1,208 @@
+\subsection{Posterior Wrap-up}
+
+Let's wrap-up and see where we're at. Maybe let's also remember how we
+got here.
+
+\begin{nedqn}
+  \cpmuxx
+& = &
+  \frac{
+    \pmux \cpxmux
+  }{\px}
+  \\
+& \sim &
+  \pmux \cpxmux
+  \\
+& = &
+  \parens{
+    \normalc{\varmux}
+    \normalc{\varx}
+  }
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+  \\
+& \sim &
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+  \\
+& = &
+  \nexp{
+    -\half
+    \parens{
+      \rhomuxp
+      \parensq{\mux - \mumux}
+      +
+      \rhox
+      \parensq{\mux - x}
+    }
+  }
+  \\
+& = &
+  \nexp{
+    -\half
+    \parens{
+      \rhomuxp
+      \parensq{
+        \mux
+        -
+        \mumuxp
+      }
+      +
+      D
+    }
+  }
+  \\
+& \sim &
+  \nexp{
+    -\half
+    \rhomuxp
+    \parensq{
+      \mux
+      -
+      \mumuxp
+    }
+  }
+  \\
+& = &
+  \nexpf{
+    \parensq{
+      \mux
+      -
+      \mumuxp
+    }
+  }{
+    2 \varmuxp
+  }
+\end{nedqn}
+
+This final form is indeed the form of an improperly normalized gaussian
+with mean $\mumuxp$ and variance $\varmuxp$. I argue that the constants
+I drop must have been exactly the missing $\normalc{\varmuxp}$ I need to
+normalize my normal distribution.
+
+Here's why.
+
+\begin{nedqn}
+  \cpmuxx
+& = &
+  A
+  \nexpf{
+    \parensq{
+      \mux
+      -
+      \mumuxp
+    }
+  }{
+    2 \varmuxp
+  }
+  \nedcomment{for some $A$}
+\\
+  \cpmuxx
+& = &
+  A
+  \sqrt{\twopi \varmuxp}
+  \normalc{\varmuxp}
+  \nexpf{
+    \parensq{
+      \mux
+      -
+      \mumuxp
+    }
+  }{
+    2 \varmuxp
+  }
+\\
+  \cpmuxx
+& = &
+  A
+  \sqrt{\twopi \varmuxp}
+  \normal{\mumuxp}{\varmuxp}
+\\
+  \int_\reals
+    \cpmuxx \diff{\mux}
+& = &
+  A
+  \sqrt{\twopi \varmuxp}
+  \int_\reals
+    \normal{\mumuxp}{\varmuxp}
+    \diff{\mux}
+\\
+  1
+& = &
+  A
+  \sqrt{\twopi \varmuxp}
+  \cdot
+  1
+\\
+  A
+& = &
+  \normalc{\varmuxp}
+\end{nedqn}
+
+Boom. Done and done. $A$ has to be just the right normalizing value.
+
+In conclusion, we have calculated the posterior:
+$\normal{\mumuxp}{\varmuxp}$. Because the posterior has the same form as
+the prior distribution, we say they are \define{conjugate}. In the same
+way we calculated $\mumuxp, \varmuxp$ from the old values when we
+observed a datapoint $x$, we can do just the same with a next datapoint.
+We'll just use our updated prior parameters.
+
+We know the posterior has a maximum at $\mumuxp$, which means that
+$\mumuxp$ is our \define{maximum a posteriori} estimate of the true
+value of $\mu$.
+
+\subsubsection{MAP estimate of $\varmux$?}
+
+No. We have a prior probability distribution over the join space of
+$\mux, x$. That distribution is parameterized by $\mumux, \varmux,
+\varx$.
+
+When we calculate the posterior distribution $\cpmuxx$, we are
+describing it in terms of new parameters: $\mumuxp, \varmuxp$. But those
+parameters are exact values. They are exactly the values for the
+posterior distribution $\cpmuxx$.
+
+(Of course you can start to introduce meta-parameters into your prior
+distribution\ldots But the point is that you'll always have top-level
+parameters that you don't put a distribution on.)
+
+We treat $\varx$ as fixed. Could we also treat it as unknown? Yes, but
+then we'd have to consider a joint distribution of $\mux, \varx, x$. And
+indeed that can absolutely be done. Murphy has a long paper where he
+goes through the work of showing you the inverse normal gamma something
+something.
+
+For our purposes, we may assume that $\varx$ was established in the
+laboratory. We now wish to use it in the field where $\mu$ is unknown.
+
+\subsubsection{Final note: pseudocounts...}
+
+I will leave with a thought that relates the MAP estimate and the
+maximum likelihood estimate. We know that the maximum likelihood
+estimate is just the sample mean of our observed data points $x_i$.
+
+You can show that if you start with a prior of $\mumux = x_1$, $\varmux
+= 1$, assume that $\varx = 1$, and then one-by-one updated with data
+points $x_2, \ldots, x_n$, your MAP estimate will come out the same as
+your maximum likelihood estimate. In this sense, you can see that in the
+limit as your initial $\varmux \to 0$, MAP estimation becomes equivalent
+to maximum likelihood estimation.
+
+Alternatively, consider the method of \define{pseudocounts} where you
+bias a maximum likelihood estimate by ``pretending'' you observed
+$\alpha$ trials with mean result $\beta$. The ``principled'' version of
+this hack in the Bayesian world would be to set the initial $\varmux =
+\alpha$ and the initial $\mumux = \beta$.

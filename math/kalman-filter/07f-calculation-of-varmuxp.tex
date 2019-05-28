@@ -1,0 +1,57 @@
+\subsection{Calculation of $\varmuxp$}
+
+From before, we know that $C = a_1^2 + a_2^2$. Above, when I extracted a
+constant of $\half$ from the exponent, I ensured that $C = \rhomuxp$.
+
+That means:
+
+\begin{nedqn}
+  \rhomuxp
+& = &
+  \rhomux
+  +
+  \rhox
+\end{nedqn}
+
+That's pretty cool. It says that the precision increases by $\rhox$.
+That makes sense: the more ``precise'' we think samples of $x$ are, the
+more information they are telling us. One interesting fact: no matter
+how unexpected our sample $x$ is, our posterior precision will always go
+up.
+
+We may put this in variance terms:
+
+\begin{nedqn}
+  \rhomuxp
+& = &
+  \rhomux
+  +
+  \rhox
+  \\
+  \invf{\varmuxp}
+& = &
+  \invf{\varmux}
+  +
+  \invf{\varx}
+  \\
+  \varmux
+  \varx
+& = &
+  \varmuxp
+  \varx
+  +
+  \varmuxp
+  \varmux
+  \\
+  \varmuxp
+& = &
+  \frac{
+    \varmux
+    \varx
+  }{
+    \varmux + \varx
+  }
+\end{nedqn}
+
+It is hard for me to give a very clear interpretation of this formula.
+But here it is\ldots
