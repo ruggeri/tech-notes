@@ -6,6 +6,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+% The version of boldsymbol from bm apparently obsolesces the version
+% from amsmath
+\usepackage{bm}
 % Needed for \intertext in IEEE?
 \usepackage{etoolbox}
 % For IEEEeqnarray
@@ -25,6 +28,7 @@
   \left\{ #1 \right\}
 }
 \newcommand{\reals}{\mathbb{R}}
+\newcommand{\rn}{\reals^n}
 
 % Exponent macros
 

@@ -2,25 +2,33 @@
 
 %% Vectors
 
+% To get both bold and roman letters, the bm documentation describes
+% source: http://www.ctex.org/documents/packages/math/bm.pdf
+\newcommand{\mathrmbold}[1]{
+  \bm{\mathrm{#1}}
+}
+
 \renewcommand{\vec}[1]{
-  \mathbf{#1}
+  \mathrmbold{#1}
 }
 
 % Basis vector
 \newcommand{\bvec}[1]{
-  \vec{e}_{\mathbf{#1}}
+  \vec{e}_{\mathrmbold{#1}}
 }
 
 % Common vector names
+\newcommand{\vecmu}{\vec{\mu}}
 \newcommand{\vecu}[1][]{
-  \vec{u_{\mathbf{#1}}}
+  \vec{u_{\mathrmbold{#1}}}
 }
+\newcommand{\vecsigma}{\vec{\sigma}}
 \newcommand{\vecv}{\vec{v}}
 \newcommand{\vecw}{\vec{w}}
 
 %% Matrices
 
-\newcommand{\mtx}[1]{\mathbf{#1}}
+\newcommand{\mtx}[1]{\mathrmbold{#1}}
 
 % Common matrix names.
 \newcommand{\mtxA}{\mtx{A}}
