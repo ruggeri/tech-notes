@@ -1,0 +1,47 @@
+\subsection{Definitions}
+
+We have found the maximum likelihood estimate for $\mux$, but how likely
+is it? Are there other values for $\mux$ that are nearly as good, but
+far away from the MLE estimate?
+
+Let's explore the \define{posterior} distribution on $\mux$ given a
+sample $x$. That is, we want to know:
+
+\begin{nedqn}
+  \cpmuxx
+\end{nedqn}
+
+This only makes sense if there is a \emph{joint} probability
+distribution over $\mux$ and $x$. We already know $\cpxmux$. What we are
+missing is the unconditional \define{prior} distribution $\pmux$. Once
+we have $\pmux$, we can then use Bayes' rule:
+
+\begin{nedqn}
+  \pr{\mux, x}
+& = &
+  \pr{\mux, x}
+  \\
+  \px
+  \cpmuxx
+& = &
+  \pmux
+  \cpxmux
+  \\
+  \cpmuxx
+& = &
+  \frac{
+    \pmux \cpxmux
+  }{
+    \px
+  }
+\end{nedqn}
+
+It is most convenient if the posterior distribution is of the same
+family as the prior distribution. We're going to work out a technique to
+update $\pmux$ to $\cpmuxx$ given a single datapoint. If the posterior
+$\cpmuxx$ has the same ``shape'' as the prior $\pmux$, then our
+technique can be simply re-applied if we observe a second datapoint and
+want to \emph{update our priors} a second time.
+
+When $\cpmuxx$ has the same shape as $\pmux$, we say that $\pmux$ is a
+\define{conjugate prior} for the conditional distribution $\px$.

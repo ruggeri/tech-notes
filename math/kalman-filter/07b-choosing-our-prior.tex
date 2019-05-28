@@ -1,0 +1,101 @@
+\subsection{Choosing Our Prior}
+
+Since we're working with normal distributions, we've already chosen:
+
+\begin{nedqn}
+  \cpxmux = \normaleq{\mux}{\varx}
+\end{nedqn}
+
+Notice that I am assuming a \emph{fixed variance} $\varx$. I'm assuming
+this is both fixed and \emph{known}. When doing maximum likelihood
+estimation for $\mu$, we saw that the choice of $\varx$ doesn't matter.
+That is not the case in the Bayesian setting.
+
+Let's try using a second normal distribution for our prior on $\mux$.
+
+\begin{nedqn}
+  \pmux = \normaleq[\mux]{\mumux}{\varmux}
+\end{nedqn}
+
+Then their product will be:
+
+\begin{nedqn}
+  \tcpmuxx
+& = &
+  \pmux \cpxmux
+  \\
+& = &
+  \Bbparens{\normaleq[\mux]{\mumux}{\varmux}}
+  \Bbparens{\normaleq{\mux}{\varx}}
+\\
+& = &
+  \parens{
+    \normalc{\varmux}
+    \normalc{\varx}
+  }
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+  \\
+& \sim &
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+\end{nedqn}
+
+We call $\tcpmuxx$ the \define{unnormalized} probability because we have
+ignored the constant denominator $\px$. $\px$ is a constant because it
+does not depend on choice of $\mux$ (though to calculate it we would
+have to integrate $\cpxmux$ over \emph{all} possible $\mux$ values).
+
+Notice that I drop the leading coefficient, because what matters is the
+\emph{shape} of the distribution. I will return to this point later.
+
+We should focus our attention on what's inside the exponent. If this can
+be written in the form
+
+\begin{nedqn}
+  -
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  -
+  \invf{2\varx}
+  \parensq{x - \mux}
+& = &
+  -
+  \frac{
+    \parensq{\mux - \mumuxp} + D
+  }{
+    2\varmuxp
+  }
+\end{nedqn}
+
+\noindent
+then we will have shown that that the posterior is
+
+\begin{nedqn}
+  \tcpmuxx
+& \sim &
+  \nexpf{
+    \parensq{\mux - \mumuxp} + D
+  }{
+    2\varmuxp
+  }
+  \\
+& = &
+  \nexp{-D}
+  \normal{\mumuxp}{\varmuxp}
+  \\
+& \sim &
+  \normal{\mumuxp}{\varmuxp}
+\end{nedqn}

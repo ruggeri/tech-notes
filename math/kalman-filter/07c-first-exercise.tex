@@ -1,0 +1,54 @@
+\subsubsection{First Exercise}
+
+Let's get away from all these symbols and just try to simplify something
+easy:
+
+\begin{nedqn}
+  \parensq{x - b_1} + \parensq{x - b_2}
+\end{nedqn}
+
+It's intuitive that this function is minimized at $x = \frac{b_1 +
+b_2}{2}$, because then:
+
+\begin{nedqn}
+  x - b_1
+& = &
+  \frac{b_1 + b_2}{2}
+  -
+  b_1
+=
+  \frac{b_2 - b_1}{2}
+  \\
+  x - b_2
+& = &
+  \frac{b_1 + b_2}{2}
+  -
+  b_2
+=
+  \frac{b_1 - b_2}{2}
+\end{nedqn}
+
+These have the same magnitude, so the competing objectives to minimize
+$\parensq{x - b_1}$ and $\parensq{x - b_2}$ are balanced. Of course, you
+may verify this yourself by taking the derivative.
+
+Once we have found the minimum, we know that
+
+\begin{nedqn}
+  \parensq{x - b_1}
+  +
+  \parensq{x - b_2}
+& = &
+  C
+  \parensq{x - \frac{b_1 + b_2}{2}}
+  +
+  D
+\end{nedqn}
+
+\noindent
+for constants $C, D$. We know that $C = 2$, because the two $x^2$ in the
+original sum together. What is the $D$ term? It is the ``error'' when we
+choose the best value for $x$: $\frac{b_1 + b_2}{2}$. So of course it
+makes sense that this is $D = 2\parensq{\frac{b_2 - b_1}{2}}$. That's
+the sum of the ``errors'' from each side, and the errors are both
+$\parensq{\frac{b_2 - b_1}{2}}$.

@@ -1,0 +1,116 @@
+\subsubsection{Calculation of $\mumuxp$}
+
+With what we've learned, let's look again at:
+
+\begin{nedqn}
+  \tcpmuxx
+& \sim &
+  \nexp{
+    -
+    \invf{2\varmux}
+    \parensq{\mux - \mumux}
+    -
+    \invf{2\varx}
+    \parensq{x - \mux}
+  }
+\end{nedqn}
+
+We wanted to focus on simplifying
+
+\begin{nedqn}
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  +
+  \invf{2\varx}
+  \parensq{x - \mux}
+\end{nedqn}
+
+Now we have have just the formula to do so! But first, let's replace
+$\varmux, \varx$ with their inverses: $\rhomux, \rhox$. These are
+sometimes called the \define{precision}.
+
+\begin{nedqn}
+  \invf{2\varmux}
+  \parensq{\mux - \mumux}
+  +
+  \invf{2\varx}
+  \parensq{x - \mux}
+& = &
+  \half
+  \parens{
+    \rhomux
+    \parensq{\mux - \mumux}
+    +
+    \rhox
+    \parensq{\mux - x}
+  }
+\end{nedqn}
+
+(I've also taken the opportunity to swap $\mux, x$). We now can simply
+plug into our previous formulae to first get:
+
+\begin{nedqn}
+  \mumuxp
+& \defeq &
+  \frac{
+    \sqrt{\rhomux} \mumux
+    +
+    \sqrt{\rhox} x
+  }{
+    \sqrt{\rhomux} + \sqrt{\rhox}
+  }
+\end{nedqn}
+
+This makes total sense. The greater the precision value $\rhox$, the
+more important it is that $\mumuxp$ be closer to $\rhox$. Equivalently,
+the greater the precision $\rhox$, the more meaningful a new data
+point is.
+
+On the other hand, the greater the precision value of $\rhomux$, the
+more ``firm'' we are in our prior belief of $\mumux$. That means we
+won't want to change our opinion in $\mumux$ very much for just a single
+new datapoint. We'll want more ``evidence.''
+
+We can also state it in terms of $\varmux, \varx$:
+
+\begin{nedqn}
+  \mumuxp
+& \defeq &
+  \frac{
+    \sqrt{\rhomux} \mumux
+    +
+    \sqrt{\rhox} x
+  }{
+    \sqrt{\rhomux} + \sqrt{\rhox}
+  }
+  \\
+& = &
+  \frac{
+    \invf{\sigmamux} \mumux
+    +
+    \invf{\sigmax} x
+  }{
+    \invf{\sigmamux} + \invf{\sigmax}
+  }
+  \\
+& = &
+  \frac{
+    \invf{\sigmamux} \mumux
+    +
+    \invf{\sigmax} x
+  }{
+    \invf{\sigmamux} + \invf{\sigmax}
+  }
+  \\
+& = &
+  \frac{
+    \sigmax \mumux
+    +
+    \sigmamux x
+  }{
+    \sigmax + \sigmamux
+  }
+\end{nedqn}
+
+This last result just tells us the same thing in reverse terms, of
+course.

@@ -1,0 +1,60 @@
+\subsubsection{Second Exercise}
+
+Let's do one better. Let's try to simplify:
+
+\begin{nedqn}
+  a_1^2 \parensq{x - b_1}
+  +
+  a_2^2 \parensq{x - b_2}
+& = &
+  \parensq{a_1 x - a_1b_1}
+  +
+  \parensq{a_2 x - a_2 b_2}
+\end{nedqn}
+
+We can see what is happening here. Each error function has its own
+``stretched'' sense of distance. To achieve balance we still need:
+
+\begin{nedqn}
+  \parens{a_1 x - a_1b_1}
+& = &
+  -\parens{a_2 x - a_2 b_2}
+\end{nedqn}
+
+We can see that we want to take a weighted average to achieve the
+balance and minimize the error:
+
+\begin{nedqn}
+  x
+& = &
+  \frac{
+    a_1 b_1 + a_2 b_2
+  }{
+    a_1 + a_2
+  }
+\end{nedqn}
+
+\noindent
+Let us call this $b'$.
+
+As we know from last time, we have
+
+\begin{nedqn}
+  a_1^2 \parensq{x - b_1}
+  +
+  a_2^2 \parensq{x - b_2}
+& = &
+  C
+  \parensq{
+    x
+    -
+    b'
+  }
+  +
+  D
+\end{nedqn}
+
+Just as before, the constant is an ``error'' term. We can ignore it.
+
+We should look at $C$. As before, it should equal $a_1^2 + a_2^2$ so
+that the leading coefficient of the $x^2$ term is correct.
