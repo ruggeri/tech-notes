@@ -1,0 +1,46 @@
+%% Gaussian Integral
+
+\newcommand{\gaussianexp}[1][x]{
+  \nexp{-{#1}^2}
+}
+\newcommand{\gaussianint}[1][x]{
+  \int_\reals \gaussianexp[#1] \diff{#1}
+}
+
+%% Normal Distribution
+
+% Parameterizable normal distribution
+\newcommand{\normal}[2]{
+  \mathcal{N}\parens{#1, #2}
+}
+\newcommand{\normalc}[1]{
+  \frac{1}{\sqrt{\twopi #1}}
+}
+\newcommand{\normaleq}[3][x]{
+  \normalc{#3}
+  \nexpf{
+    \parens{#1 - #2}^2
+  }{2 #3}
+}
+
+% Normals with standard parameters.
+\newcommand{\nnormal}{
+  \normal{\mu}{\var}
+}
+\newcommand{\nnormalc}{
+  \normalc{\var}
+}
+\newcommand{\nnormaleq}[1][x]{
+  \normaleq[#1]{\mu}{\var}
+}
+
+% Unit normal distribution
+\newcommand{\snormal}{\normal{0}{1}}
+\newcommand{\snormalc}{\invsqrttwopi}
+\newcommand{\snormaleq}[1][x]{
+  \snormalc
+  \snormalexp[#1]
+}
+\newcommand{\snormalexp}[1][x]{
+  \nexpf{{#1}^2}{2}
+}

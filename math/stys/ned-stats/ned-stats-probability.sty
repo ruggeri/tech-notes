@@ -1,0 +1,21 @@
+\newcommand{\pr}[1]{
+  p\parens{#1}
+}
+
+\newcommand{\tpr}[1]{
+  \tilde{p}\parens{#1}
+}
+
+\newcommand{\condpr}[2]{
+  \pr{#1 | #2}
+}
+
+\newcommand{\tcondpr}[2]{
+  \tpr{#1 | #2}
+}
+
+\newcommand{\pmux}{\pr{\mux}}
+\newcommand{\px}{\pr{x}}
+\newcommand{\cpmuxx}{\condpr{\mux}{x}}
+\newcommand{\cpxmux}{\condpr{x}{\mux}}
+\newcommand{\tcpmuxx}{\tcondpr{\mux}{x}}

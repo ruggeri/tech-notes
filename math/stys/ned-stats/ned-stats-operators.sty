@@ -1,0 +1,33 @@
+% Expectation/Variance
+
+\newcommand{\expectation}[1]{
+  \mathbb{E}
+  \left[
+    {#1}
+  \right]
+}
+
+\newcommand{\Var}[1]{
+  \operatorname{Var}
+  \left[
+    #1
+  \right]
+}
+
+%% Likelihood
+
+\newcommand{\lhood}[2]{
+  \mathcal{L}\parens{
+    #1
+    ;
+    #2
+  }
+}
+
+\newcommand{\llhood}[2]{
+  \log\lhood{#1}{#2}
+}
+
+\newcommand{\nllhood}[2]{
+  -\llhood{#1}{#2}
+}
