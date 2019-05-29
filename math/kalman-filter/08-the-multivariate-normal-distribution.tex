@@ -1,0 +1,245 @@
+\newcommand{\mnormalc}[1][\covmtx]{
+  \invf{
+    \sqrt{
+      \parens{\twopi}^n
+      \norm{{#1}}
+    }
+  }
+}
+
+
+\section{The Multivariate Normal Distribution}
+
+\subsubsection{Definition}
+
+We will now extend our normal distribution to vectors over $\rn$. The
+simplest thing is to consider the product of independent normal
+distributions:
+
+\begin{nedqn}
+  \normal{\vecmu}{\vecvar}
+& \defeq &
+  \prod_i
+    \normal{\vecmu_i}{\vecvar_i}
+  \\
+& = &
+  \prod_i
+    \normaleq[\vecx_i]{\vecmu_i}{\vecvar_i}
+\end{nedqn}
+
+This definition doesn't use any vector operations; it's written in terms
+of scalar operations. Let's start to vectorize. I'll use a
+\define{covariance matrix}, which in this case is simple and diagonal:
+
+\begin{nedqn}
+  \covmtx
+& = &
+  \diagonal{\vecvar_1}{\vecvar_2}{\vecvar_n}
+\end{nedqn}
+
+Note that the covariance matrix $\covmtx$ contains the squared
+variances, even though $\covmtx$ itself doesn't have the customary
+square written in. Thanks, stats community.
+
+We continue,
+
+\begin{nedqn}
+  \normal{\vecmu}{\vecvar}
+& = &
+  \prod_i
+    \normaleq[\vecx_i]{\vecmu_i}{\vecvar_i}
+  \\
+& = &
+  \mnormalc
+  \nexp{
+    -
+    \half
+    \sum_i
+    \parensq{
+      \frac{
+        \vecx_i - \vecmu_i
+      }{
+        \vecsigma_i
+      }
+    }
+  }
+\end{nedqn}
+
+Now, if you consider the vector of $\frac{\vecx_i -
+\vecmu_i}{\vecsigma_i}$, this is simply $\covmtx^{-1/2} \parens{\vecx -
+\vecmu}$. And we are taking the sum of the squares, which is simply the
+square of the norm. So we may write:
+
+\begin{nedqn}
+  \normal{\vecmu}{\vecvar}
+& = &
+  \mnormalc
+  \nexp{
+    -\half
+    \norm{
+      \covmtx^{-1/2}
+      \parens{\vecx - \vecmu}
+    }^2
+  }
+\end{nedqn}
+
+\subsubsection{Interpretation}
+
+To understand what is happening, let's consider a simpler multivariate
+normal with $\vecmu = \veczero$ and $\covmtx = \mtxI$. This is sometimes
+called the \define{standard spherical normal}:
+
+\begin{nedqn}
+  \normal{\veczero}{\mtxI}
+& = &
+  \invf{\sqrt{\parens{\twopi}^n}}
+  \nexp{
+    -\half
+    \norm{
+      \vecx
+    }^2
+  }
+\end{nedqn}
+
+Let's consider transformations on this distribution. If $\vecx$ is
+distributed like this, what is the distribution on $\vecy = \vecx +
+\vecmu$?  It's simple to do the change of variables:
+
+\begin{nedqn}
+  \invf{\sqrt{\parens{\twopi}^n}}
+  \nexp{
+    -\half
+    \norm{
+      \vecx
+    }^2
+  }
+& \mapsto &
+  \invf{\sqrt{\parens{\twopi}^n}}
+  \nexp{
+    -\half
+    \norm{
+      \vecy
+      -
+      \vecmu
+    }^2
+  }
+  \\
+& = &
+  \normal{\vecmu}{\mtxI}
+\end{nedqn}
+
+No surprise! The role of the parameter $\vecmu$ is to shift the center
+of the normal distribution from $\veczero$ to $\vecmu$.
+
+What we see here is that the value of $\vecy$ doesn't really matter.
+It's all about the (squared) \emph{distance} of $\vecy$ from the center
+$\vecmu$.
+
+We can shift the center, but can we shift the very notion of distance?
+
+Consider a transformation $\mtxA$ that orthogonally stretches each basis
+vector. Let's investigate the distribution over $\vecz = \mtxA\vecy$.
+Again, we change variables.
+
+\begin{nedqn}
+  \invf{\sqrt{\parens{\twopi}^n}}
+  \nexp{
+    -\half
+    \norm{
+      \vecy
+      -
+      \vecmu
+    }^2
+  }
+& \mapsto &
+  \invf{\norm{\mtxA}}
+  \invf{\sqrt{\parens{\twopi}^n}}
+  \nexp{
+    -\half
+    \norm{
+      \inv\mtxA
+      \vecz
+      -
+      \vecmu
+    }^2
+  }
+  \\
+& = &
+  \mnormalc[\mtxA^2]
+  \nexp{
+    -\half
+    \norm{
+      \inv\mtxA
+      \parens{
+        \vecz - \mtxA\vecmu
+      }
+    }^2
+  }
+  \nednumber\label{Ax:distribution}
+\end{nedqn}
+
+Note that I don't quite say equals. I \emph{am} changing the density of
+(by dividing by $\norm{\mtxA}$). This change in density is due to
+stretching the same total probability of $1$ over a space that's been
+scaled by $\norm{\mtxA}$. Basically: we'll need this correction when
+integrating.
+
+We see that the center of the distribution has moved to $\mtxA\vecmu$,
+which makes total sense.
+
+What is $\inv\mtxA$ doing? To my mind, its role is to change the notion
+of distance. It changes the notion of distance from $\vecz$ terms back
+into $\vecx$ terms. And that's all the normal distribution really wants:
+give me a sense of distance, and that determines how much to decay from
+the central peak density.
+
+\subsubsection{Relation of $\mtxA$ to $\covmtx$}
+
+When $\mtxA$ is diagonal, we can simply set $\covmtx = \mtxA^2$ and then
+the distribution $\normal{\mtxA\vecmu}{\covmtx}$ is exactly what you get
+when you shift the standard multivariate normal and then stretch by
+$\mtxA$: because $\mtxA = \sqrt{\covmtx}$.
+
+Let's consider if you transformed by $\mtxQ\mtxA$ instead of just
+$\mtxA$. Would the distribution change? (For simplicity let's assume
+that $\mtxA\vecmu = \veczero$ so it doesn't move to $\mtxQ\mtxA\vecmu$).
+
+The algebra says the distribution doesn't change: $\norm{\mtxQ\mtxA} =
+\norm{\mtxA}$ because the additional $\mtxQ$ does no extra stretching.
+Likewise, $\norm{\mtxQ\mtxA \vecx} = \norm{\mtxA \vecx}$, for the same
+reason.
+
+It seems a little odd. Using formula \ref{Ax:distribution} is
+``technically'' incorrect if the transformation was by $\mtxQ\mtxA$
+rather than $\mtxA$! Is there an intuitive reason why it is okay if we
+drop the $\mtxQ$?
+
+Here is why: rotation by $\mtxQ$ does not change the \emph{notion of
+distance}, and that's all the normal distribution cares about. That's
+why we can ignore $\mtxQ$. Correspondingly, that's why covariance
+matrices for $\mtxA$ and $\mtxQ\mtxA$ are the same:
+
+\begin{nedqn}
+  \covmtx_{\mtxQ\mtxA}
+& = &
+  \parens{\mtxQ\mtxA}\tran \parens{\mtxQ\mtxA}
+  \\
+& = &
+  \mtxA\tran \mtxQ\tran \mtxQ \mtxA
+  \\
+& = &
+  \mtxA\tran \mtxA
+  \\
+& = &
+  \covmtx_{\mtxA}
+\end{nedqn}
+
+I'll add this: it doesn't matter that $\inv{\mtxA} \vecz$ will not map
+back to $\vecz$ when we apply $\mtxQ\mtxA$. What matters is that the
+proper inversion would have the same norm.
+
+\subsubsection{Other Choices of $\mtxA$}
+
+Let's consider choices of $\mtxA$ that don't simply stretch the basis
+vectors and then rotate. A key choice could be matrices that first
+rotate and then stretch in the new basis.

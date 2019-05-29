@@ -25,21 +25,38 @@
 \newcommand{\vecsigma}{\vec{\sigma}}
 \newcommand{\vecv}{\vec{v}}
 \newcommand{\vecw}{\vec{w}}
+\newcommand{\vecx}{\vec{x}}
+\newcommand{\vecy}{\vec{y}}
+\newcommand{\vecz}{\vec{z}}
+\newcommand{\veczero}{\vec{0}}
 
-%% Matrices
+%% Literal Matrices
+
+% Would be great if this worked for n-dimensional matrices right?
+\newcommand{\diagonal}[3]{
+  \begin{bmatrix}
+    #1 \\
+      &#2 \\
+      &  &\ddots \\
+      &  & & #3
+  \end{bmatrix}
+}
+
+%% Named Matrices
 
 \newcommand{\mtx}[1]{\mathrmbold{#1}}
 
 % Common matrix names.
 \newcommand{\mtxA}{\mtx{A}}
 \newcommand{\mtxD}{\mtx{D}}
+\newcommand{\mtxI}{\mtx{I}}
 \newcommand{\mtxL}{\mtx{L}}
 \newcommand{\mtxQ}{\mtx{Q}}
 \newcommand{\mtxR}{\mtx{R}}
 \newcommand{\mtxU}{\mtx{U}}
 \newcommand{\mtxX}{\mtx{X}}
 
-% Common Matrix Decompositions
+%% Common Matrix Decompositions
 
 \newcommand{\mtxLU}{\mtxL\mtxU}
 \newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
