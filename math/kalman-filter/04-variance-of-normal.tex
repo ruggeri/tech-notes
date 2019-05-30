@@ -12,13 +12,13 @@ density function $f$:
   \Var{X}
 & \defeq &
   \expectation{
-    \parens{
+    \parensq{
       X - \expectation{X}
-    }^2
+    }
   }
 \\
 & = &
-  \int_\reals f(x) (x - \mu)^2 \dx
+  \intR f(x) \parensq{x - \mu} \dx
 \end{nedqn}
 
 It is typical to denote the variance $\var$. Its square root, $\sigma$,
@@ -31,32 +31,32 @@ $\nnormal$. I will once again replace with $x \mapsto \parens{\sigma y +
 \begin{nedqn}
   \Var{\nnormal}
 & = &
-  \int_\reals
-    \parens{x - \mu}^2
+  \intR
+    \parensq{x - \mu}
     \snormaleq
     \dx
   \\
 & = &
   \sigma
-  \int_\reals
-    \parens{
-      (\sigma y  + \mu) - \mu
-    }^2
+  \intR
+    \parensq{
+      \parens{\sigma y  + \mu} - \mu
+    }
     %
     \nnormalc
     \nexpf{
-      \parens{
+      \parensq{
         \parens{\sigma y + \mu}
         -
         \mu
-      }^2
+      }
     }{2\sigma^2}
     \dy
   \\
 & = &
   \sigma^2
   \snormalc
-  \int_\reals
+  \intR
     y^2
     \snormalexp[y]
     \dy
@@ -75,7 +75,7 @@ Let's do a further change of variables: $y \mapsto \sqrt{2} z$:
 & = &
   \sigma^2
   \snormalc
-  \int_\reals
+  \intR
     y^2
     \snormalexp[y]
     \dy
@@ -84,17 +84,17 @@ Let's do a further change of variables: $y \mapsto \sqrt{2} z$:
   \sigma^2
   \snormalc
   \sqrttwo
-  \int_\reals
-    \parens{\sqrttwo z}^2
+  \intR
+    \parensq{\sqrttwo z}
     \nexpf{
-      \parens{\sqrt{2} z}^2
+      \parensq{\sqrt{2} z}
     }{2}
     \dz
   \\
 & = &
   \sigma^2
   \frac{2}{\sqrtpi}
-  \int_\reals
+  \intR
     z^2
     \gaussianexp[z]
     \dz
@@ -118,12 +118,12 @@ integration by parts.
 \shortintertext{which implies that:}
   %
   2
-  \int_\reals
+  \intR
     z^2
     \gaussianexp[z]
     \dz
 & = &
-  \int_\reals
+  \intR
     \gaussianexp[z]
     \dz
   -
@@ -133,7 +133,7 @@ integration by parts.
   \intevalbar{-\infty}{\infty}
   \\
 & = &
-  \int_\reals
+  \intR
     \gaussianexp[z]
     \dz
   -
@@ -149,7 +149,7 @@ integration by parts.
 \shortintertext{in conclusion:}
   %
 \IEEEeqnarraymulticol{3}{c}{
-  \int_\reals
+  \intR
     z^2
     \gaussianexp[z]
     \dz
@@ -166,7 +166,7 @@ We can now plug this back in:
 & = &
   \sigma^2
   \frac{2}{\sqrtpi}
-  \int_\reals
+  \intR
     z^2
     \gaussianexp[z]
     \dy

@@ -12,7 +12,7 @@ the expectation is defined as:
 \begin{nedqn}
   \expectation{X}
 & \defeq &
-  \int_\reals x f(x) \dx
+  \intR x f(x) \dx
 \end{nedqn}
 
 It is clear that if $\snormal$ has finite mean, it must be $\mu = 0$. We
@@ -25,7 +25,7 @@ But let's do the math. I got a lot of practice through this warm-up.
 \begin{nedqn}
   \expectation{\nnormal}
 & = &
-  \int_\reals
+  \intR
     x
     \nnormaleq
     \dx
@@ -38,7 +38,7 @@ $x \mapsto \sigma y + \mu$.
   \expectation{\nnormal}
 & = &
   \sigma
-  \int_\reals
+  \intR
     \parens{\sigma y + \mu}
     %
     \nnormalc
@@ -53,7 +53,7 @@ $x \mapsto \sigma y + \mu$.
     \dy
   \\
 & = &
-  \int_\reals
+  \intR
     \parens{\sigma y + \mu}
     %
     \snormalc
@@ -73,7 +73,7 @@ Continuing,
 \begin{nedqn}
   \expectation{\nnormal}
 & = &
-  \int_\reals
+  \intR
     \parens{\sigma y + \mu}
     %
     \snormalc
@@ -83,14 +83,14 @@ Continuing,
   \\
 & = &
   \sigma
-  \int_\reals
+  \intR
     y
     \snormalc
     \snormalexp[y]
     \dy
   +
   \mu
-  \int_\reals
+  \intR
     \snormaleq[y]
     \dy
 \end{nedqn}
@@ -106,7 +106,7 @@ $1$. We proceed:
   \mu
   +
   \sigma
-  \int_\reals
+  \intR
     y
     \snormaleq[y]
     \dy

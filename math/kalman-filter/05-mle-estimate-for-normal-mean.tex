@@ -7,7 +7,7 @@ maximum likelihood estimate for the parameter $\mu$.
 \begin{nedqn}
   \lhood{\dset}{\mu, \var}
 & = &
-  \prod_{x_i \in \dset}
+  \prod_{\xinD}
     \nnormaleq[x_i]
 \\
   \nllhood{\dset}{\mu, \var}
@@ -23,9 +23,9 @@ maximum likelihood estimate for the parameter $\mu$.
     \sqrt{\twopi\var}
   }
   +
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     \frac{
-      \parens{x_i - \mu}^2
+      \parensq{x_i - \mu}
     }{
       2\var
     }
@@ -37,8 +37,8 @@ maximum likelihood estimate for the parameter $\mu$.
   }
   +
   \frac{1}{2\var}
-  \sum_{x_i \in \dset}
-    \parens{x_i - \mu}^2
+  \sum_{\xinD}
+    \parensq{x_i - \mu}
 \end{nedqn}
 
 Since we want to minimize $\nllhood{\dset}{\mu, \var}$, we see that the
@@ -47,11 +47,11 @@ is easy to calculate:
 
 \begin{nedqn}
   \fpartial{\mu}
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     \parensq{x_i - \mu}
 & = &
   -
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     2
     \parens{x_i - \mu}
   \\
@@ -59,17 +59,17 @@ is easy to calculate:
 \shortintertext{setting equal to zero we find}
   %
   2
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     \mu
 & = &
   2
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     x_i
   \\
   \mu
 & = &
   \invf{n}
-  \sum_{x_i \in \dset}
+  \sum_{\xinD}
     x_i
 \end{nedqn}
 
