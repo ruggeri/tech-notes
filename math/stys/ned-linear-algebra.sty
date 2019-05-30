@@ -48,6 +48,7 @@
 
 % Common matrix names.
 \newcommand{\mtxA}{\mtx{A}}
+\newcommand{\mtxB}{\mtx{B}}
 \newcommand{\mtxD}{\mtx{D}}
 \newcommand{\mtxI}{\mtx{I}}
 \newcommand{\mtxL}{\mtx{L}}
@@ -63,6 +64,35 @@
 \newcommand{\mtxQDQt}{\mtxQ\mtxD\mtxQ\tran}
 \newcommand{\mtxQtDQ}{\mtxQ\tran\mtxD\mtxQ}
 \newcommand{\mtxQR}{\mtxQ\mtxR}
+\newcommand{\mtxQDUt}{\mtxQ\mtxD\mtxU\tran}
+\newcommand{\mtxUDQt}{\mtxU\mtxD\mtxQ\tran}
+
+%% Common Matrix Combinations
+
+\newcommand{\mtxAtA}{\mtxA\tran\mtxA}
+\newcommand{\mtxAAt}{\mtxA\mtxA\tran}
+\newcommand{\mtxAB}{\mtxA\mtxB}
+\newcommand{\mtxBA}{\mtxB\mtxA}
+\newcommand{\mtxQD}{\mtxQ\mtxD}
+\newcommand{\mtxDQ}{\mtxD\mtxQ}
+\newcommand{\mtxUD}{\mtxU\mtxD}
+
+%% Transposed Matrices
+
+\newcommand{\mtxAt}{\mtxA\tran}
+\newcommand{\mtxBt}{\mtxB\tran}
+\newcommand{\mtxQt}{\mtxQ\tran}
+\newcommand{\mtxUt}{\mtxU\tran}
+
+%% Inverted Matrices
+
+\newcommand{\mtxAinv}{\inv{\mtxA}}
+\newcommand{\mtxDinv}{\inv{\mtxD}}
+
+%% Subscript Matrices
+
+\newcommand{\submA}{_{\mtxA}}
+\newcommand{\submB}{_{\mtxB}}
 
 %% Operations
 
@@ -70,10 +100,14 @@
   \langle #1, #2 \rangle
 }
 \newcommand{\norm}[1]{
-  \lVert #1 \rVert
+  \left\Vert #1 \right\Vert
 }
 \newcommand*{\tran}{
   ^{\mkern-1.5mu\mathsf{T}}
+}
+% Feels dumb, but otherwise you get "double superscript" problems.
+\newcommand*{\ptran}{
+  ^{\prime\mkern-1.5mu\mathsf{T}}
 }
 
 %% Spaces Of Matrices

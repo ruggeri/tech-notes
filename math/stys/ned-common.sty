@@ -52,6 +52,8 @@
 \newcommand{\half}{\frac{1}{2}}
 \newcommand{\inv}[1]{{#1}^{-1}}
 \newcommand{\invf}[1]{\frac{1}{#1}}
+% There is probably little reason to prefer \inv to \invx...
+\newcommand{\invx}{^{-1}}
 
 %% Parentheses
 
@@ -65,7 +67,12 @@
 \newcommand{\Bparens}[1]{\Bigl({#1}\Bigr)}
 \newcommand{\Bbparens}[1]{\biggl({#1}\biggr)}
 
-% Overboard? I really just don't want to type special characters...
+\newcommand{\parensinv}[1]{
+  \mathopen{}\left(
+    {#1}
+  \right)^{-1}\mathclose{}
+}
+
 \newcommand{\parensq}[1]{
   \mathopen{}\left(
     {#1}

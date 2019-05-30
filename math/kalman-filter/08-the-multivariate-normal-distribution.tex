@@ -7,239 +7,306 @@
   }
 }
 
-
-\section{The Multivariate Normal Distribution}
-
-\subsubsection{Definition}
-
-We will now extend our normal distribution to vectors over $\rn$. The
-simplest thing is to consider the product of independent normal
-distributions:
-
-\begin{nedqn}
-  \normal{\vecmu}{\vecvar}
-& \defeq &
-  \prod_i
-    \normal{\vecmu_i}{\vecvar_i}
-  \\
-& = &
-  \prod_i
-    \normaleq[\vecx_i]{\vecmu_i}{\vecvar_i}
-\end{nedqn}
-
-This definition doesn't use any vector operations; it's written in terms
-of scalar operations. Let's start to vectorize. I'll use a
-\define{covariance matrix}, which in this case is simple and diagonal:
-
-\begin{nedqn}
-  \covmtx
-& = &
-  \diagonal{\vecvar_1}{\vecvar_2}{\vecvar_n}
-\end{nedqn}
-
-Note that the covariance matrix $\covmtx$ contains the squared
-variances, even though $\covmtx$ itself doesn't have the customary
-square written in. Thanks, stats community.
-
-We continue,
-
-\begin{nedqn}
-  \normal{\vecmu}{\vecvar}
-& = &
-  \prod_i
-    \normaleq[\vecx_i]{\vecmu_i}{\vecvar_i}
-  \\
-& = &
-  \mnormalc
-  \nexp{
-    -
-    \half
-    \sum_i
-    \parensq{
-      \frac{
-        \vecx_i - \vecmu_i
-      }{
-        \vecsigma_i
-      }
-    }
-  }
-\end{nedqn}
-
-Now, if you consider the vector of $\frac{\vecx_i -
-\vecmu_i}{\vecsigma_i}$, this is simply $\covmtx^{-1/2} \parens{\vecx -
-\vecmu}$. And we are taking the sum of the squares, which is simply the
-square of the norm. So we may write:
-
-\begin{nedqn}
-  \normal{\vecmu}{\vecvar}
-& = &
+\newcommand{\mnormaleq}{
   \mnormalc
   \nexp{
     -\half
     \norm{
       \covmtx^{-1/2}
-      \parens{\vecx - \vecmu}
-    }^2
+      \vecx
+    }
   }
-\end{nedqn}
+}
 
-\subsubsection{Interpretation}
+\section{The Multivariate Normal Distribution}
 
-To understand what is happening, let's consider a simpler multivariate
-normal with $\vecmu = \veczero$ and $\covmtx = \mtxI$. This is sometimes
-called the \define{standard spherical normal}:
+\subsection{Standard Spherical Normal}
+
+We will now extend our normal distribution to vectors over $\rn$. The
+simplest thing is to consider the product of independent normal
+distributions. We'll first consider the \define{standard spherical
+normal}:
 
 \begin{nedqn}
   \normal{\veczero}{\mtxI}
+& \defeq &
+  \prod_i
+    \snormaleq[\vecx_i]
+  \\
 & = &
-  \invf{\sqrt{\parens{\twopi}^n}}
-  \nexp{
-    -\half
-    \norm{
-      \vecx
-    }^2
+  \invf{
+    \sqrt{\parens{\twopi}^n}
   }
-\end{nedqn}
-
-Let's consider transformations on this distribution. If $\vecx$ is
-distributed like this, what is the distribution on $\vecy = \vecx +
-\vecmu$?  It's simple to do the change of variables:
-
-\begin{nedqn}
-  \invf{\sqrt{\parens{\twopi}^n}}
   \nexp{
     -\half
-    \norm{
-      \vecx
-    }^2
-  }
-& \mapsto &
-  \invf{\sqrt{\parens{\twopi}^n}}
-  \nexp{
-    -\half
-    \norm{
-      \vecy
-      -
-      \vecmu
-    }^2
+    \sum_i
+      \vecx_i^2
   }
   \\
 & = &
-  \normal{\vecmu}{\mtxI}
+  \invf{
+    \sqrt{\parens{\twopi}^n}
+  }
+  \nexp{
+    -\half
+    \norm{\vecx}^2
+  }
 \end{nedqn}
 
-No surprise! The role of the parameter $\vecmu$ is to shift the center
-of the normal distribution from $\veczero$ to $\vecmu$.
+This standard spherical normal is not so different than the
+one-dimensional standard normal. The only thing that has changed is that
+we take a multidimensional vector $\vecx$ and map it to its scalar norm
+before squaring. Really, the multivariate normal is just like its
+univariate counterpart, in that it really only cares about the distance
+of a point $\vecx$ from the distribution's center.
 
-What we see here is that the value of $\vecy$ doesn't really matter.
-It's all about the (squared) \emph{distance} of $\vecy$ from the center
-$\vecmu$.
+\subsection{Stretching $\vecx$ by a Diagonal Matrix $\mtxD$}
 
-We can shift the center, but can we shift the very notion of distance?
+Imagine that that $X$ is distributed per standard spherical normal. We
+have the equation for density of points $x$. Next question: what is the
+density for a variable $Y = \mtxD X$? We're restricting ourself to just
+considering a diagonal matrix $\mtxD$. That is, what is the density at a
+point $\vecy = \mtxD\vecx$?
 
-Consider a transformation $\mtxA$ that orthogonally stretches each basis
-vector. Let's investigate the distribution over $\vecz = \mtxA\vecy$.
-Again, we change variables.
+This involves a simple change of variables. Replace $\vecx_i$ with
+$\frac{\vecy_i}{\mtxD_{i, i}}$.
 
 \begin{nedqn}
-  \invf{\sqrt{\parens{\twopi}^n}}
+  \invf{
+    \sqrt{\parens{\twopi}^n}
+  }
   \nexp{
     -\half
-    \norm{
-      \vecy
-      -
-      \vecmu
-    }^2
+    \sum_i
+      \vecx_i^2
   }
 & \mapsto &
-  \invf{\norm{\mtxA}}
-  \invf{\sqrt{\parens{\twopi}^n}}
-  \nexp{
-    -\half
-    \norm{
-      \inv\mtxA
-      \vecz
-      -
-      \vecmu
-    }^2
+  \invf{
+    \prod_i
+      \mtxD_{i, i}
   }
-  \\
-& = &
-  \mnormalc[\mtxA^2]
+  \invf{
+    \sqrt{\parens{\twopi}^n}
+  }
   \nexp{
     -\half
-    \norm{
-      \inv\mtxA
+    \sum_i
       \parens{
-        \vecz - \mtxA\vecmu
-      }
+        \frac{
+          \vecy_i
+        }{
+          \mtxD_{i, i}
+        }
+      }^2
+  }
+  \\
+& = &
+  \invf{
+    \sqrt{
+      \parens{\twopi}^n
+      \norm{\mtxD}^2
+    }
+  }
+  \nexp{
+    -\half
+    \sum_i
+    \norm{
+      \mtxDinv
+      \vecy
     }^2
   }
-  \nednumber\label{Ax:distribution}
 \end{nedqn}
 
-Note that I don't quite say equals. I \emph{am} changing the density of
-(by dividing by $\norm{\mtxA}$). This change in density is due to
-stretching the same total probability of $1$ over a space that's been
-scaled by $\norm{\mtxA}$. Basically: we'll need this correction when
-integrating.
+Notice that because I want a \emph{density}, which must change because
+the entire space is being stretched by $\mtxD$, I have multiplied by
+$\norm{\mtxD}\invx$. Again, note how I have vectorized here. What is the
+role of $\mtxDinv$? Yes, it does map $\vecy$ back to $\vecx$. But
+because we only need $\vecx$ in order to take its norm, the real point
+is in mapping $\vecy$ back to a vector (any vector!) with length
+$\norm{\vecx}$. Again, the normal distribution is all about distance.
 
-We see that the center of the distribution has moved to $\mtxA\vecmu$,
-which makes total sense.
+\subsection{Stretching $\vecx$ by $\mtxDQ$}
 
-What is $\inv\mtxA$ doing? To my mind, its role is to change the notion
-of distance. It changes the notion of distance from $\vecz$ terms back
-into $\vecx$ terms. And that's all the normal distribution really wants:
-give me a sense of distance, and that determines how much to decay from
-the central peak density.
+If $\vecx$ is distributed per $\normal{\veczero}{\mtxI}$, then the
+density for $\mtxDQ \vecx$ is exactly equal to the distribution over
+$\mtxD \vecx$.
 
-\subsubsection{Relation of $\mtxA$ to $\covmtx$}
-
-When $\mtxA$ is diagonal, we can simply set $\covmtx = \mtxA^2$ and then
-the distribution $\normal{\mtxA\vecmu}{\covmtx}$ is exactly what you get
-when you shift the standard multivariate normal and then stretch by
-$\mtxA$: because $\mtxA = \sqrt{\covmtx}$.
-
-Let's consider if you transformed by $\mtxQ\mtxA$ instead of just
-$\mtxA$. Would the distribution change? (For simplicity let's assume
-that $\mtxA\vecmu = \veczero$ so it doesn't move to $\mtxQ\mtxA\vecmu$).
-
-The algebra says the distribution doesn't change: $\norm{\mtxQ\mtxA} =
-\norm{\mtxA}$ because the additional $\mtxQ$ does no extra stretching.
-Likewise, $\norm{\mtxQ\mtxA \vecx} = \norm{\mtxA \vecx}$, for the same
-reason.
-
-It seems a little odd. Using formula \ref{Ax:distribution} is
-``technically'' incorrect if the transformation was by $\mtxQ\mtxA$
-rather than $\mtxA$! Is there an intuitive reason why it is okay if we
-drop the $\mtxQ$?
-
-Here is why: rotation by $\mtxQ$ does not change the \emph{notion of
-distance}, and that's all the normal distribution cares about. That's
-why we can ignore $\mtxQ$. Correspondingly, that's why covariance
-matrices for $\mtxA$ and $\mtxQ\mtxA$ are the same:
+The reason is simple:
 
 \begin{nedqn}
-  \covmtx_{\mtxQ\mtxA}
+  \parensinv{\mtxDQ} \vecy
 & = &
-  \parens{\mtxQ\mtxA}\tran \parens{\mtxQ\mtxA}
+  \mtxQt \mtxDinv \vecy
+  \\
+\Rightarrow
+  \norm{
+    \parensinv{\mtxDQ} \vecy
+  }
+& = &
+  \norm{\mtxQt \mtxDinv \vecy}
   \\
 & = &
-  \mtxA\tran \mtxQ\tran \mtxQ \mtxA
-  \\
-& = &
-  \mtxA\tran \mtxA
-  \\
-& = &
-  \covmtx_{\mtxA}
+  \norm{\mtxDinv \vecy}
 \end{nedqn}
 
-I'll add this: it doesn't matter that $\inv{\mtxA} \vecz$ will not map
-back to $\vecz$ when we apply $\mtxQ\mtxA$. What matters is that the
-proper inversion would have the same norm.
+It makes sense. Once we apply $\mtxDinv$ to $\vecy$ to shrink it back
+to original norm, it no longer matters for us to rotate back by
+$\mtxQt$. The \emph{spherical} normal doesn't care about that!
 
-\subsubsection{Other Choices of $\mtxA$}
+\subsection{Stretching $\vecx$ by $\mtxA$}
 
-Let's consider choices of $\mtxA$ that don't simply stretch the basis
-vectors and then rotate. A key choice could be matrices that first
-rotate and then stretch in the new basis.
+Let's now consider stretching $\vecx$ by a general matrix $\mtxA$. Every
+matrix $\mtxA$ can be written in singular value decomposition form:
+$\mtxUD \mtxQt$.
+
+We've already argued why we can ignore the initial rotation by $\mtxQt$.
+So really all that matters is inverting $\mtxUD$. For our purposes,
+$\norm{\parensinv{\mtxUD} \vecy}$ is as good as $\norm{\mtxAinv \vecy}$.
+
+\subsection{Covariance Matrix}
+
+We've seen that lots of transformations ``mutate'' the sense of distance
+in the same way. Specifically: take any two transformations $\mtxA$,
+$\mtxA'$ that are equivalent except for an initial rotation. They result
+in the same sense of distance transformation when we go to invert them.
+That is:
+
+\begin{nedqn}
+  \norm{
+    \parensinv{\mtxUDQt}
+    \vecy
+  }
+& = &
+  \norm{
+    \parensinv{\mtxUD \mtxQ\ptran}
+    \vecy
+  }
+\end{nedqn}
+
+We want to collect up all the stretchings of $\vecx$, by any matrix
+$\mtxA$, and call this the family of normal distributions. How should we
+notate them? In particular, two different $\mtxA$s might result in the
+same distribution. How do we capture what matters, and disregard
+redundancy?
+
+If $\mtxA = \mtxUDQt$, then what matters is how to ``unrotate'' the
+$\mtxU$ part and how to ``unshrink'' the $\mtxD$ part. We want to
+parameterize by something like
+
+\begin{nedqn}
+  \mtxDinv \mtxUt
+\end{nedqn}
+
+But how can we find this given just $\mtxA$? We can use the following
+fact:
+
+\begin{nedqn}
+  \mtxA\mtxAt
+& = &
+  \parens{
+    \mtxUDQt
+  }
+  \parens{
+    \mtxUDQt
+  }\tran
+  \\
+& = &
+  \parens{
+    \mtxUDQt
+  }
+  \mtxQ \mtxD \mtxUt
+  \\
+& = &
+  \mtxU \mtxD^2 \mtxUt
+\end{nedqn}
+
+We name this quantity the \define{covariance matrix}: $\covmtx$. It is
+almost exactly what we want. Multiplication by $\mtxUt$ rotates from the
+$y$ coordinate system back to the coordinate system after the initial
+rotation by $\mtxQt$. We don't particularly care which $\mtxQ$, so long
+as we have returned to it. Next, we ``double stretch.'' This does the
+stretching along the same axes that $\mtxA$ did the original stretching.
+Last, we rotate back to the $y$ coordinate system As noted, this hardly
+matters (for now). For now, it is a convenient and more importantly
+unique choice.
+
+As explained, this will take a vector in $\vecy$ space and double
+stretch along the stretching axis defined by $\mtxQt$. But we don't want
+to do that. We want to instead \emph{unstretch}. But the solution is
+simple: take $\covmtx^{-1/2}$. This is equal to:
+
+\begin{nedqn}
+  \covmtx^{-1/2}
+& = &
+  \mtxU \mtxDinv \mtxUt
+\end{nedqn}
+
+For this reason, if we take a spherical normal and stretch by the matrix
+$\mtxA$, we notate this as $\normal{\veczero}{\mtxAAt}$. Or more simply:
+
+\begin{nedqn}
+  \normal{\veczero}{\covmtx}
+& \defeq &
+  \mnormaleq
+\end{nedqn}
+
+\subsection{Series of Linear Transformations}
+
+Consider if we have $\vecx \sim \normal{\veczero}{\mtxI}$, and we want
+to find the distribution on $\mtxBA \vecx$. As ever, we'll use the SVD
+notation:
+
+\begin{nedqn}
+  \mtxA
+& \defeq &
+  \mtxU\submA \mtxD\submA\invx \mtxQt\submA
+  \\
+  \mtxB
+& \defeq &
+  \mtxU\submB \mtxD\submB\invx \mtxQt\submB
+\end{nedqn}
+
+
+From the above work, finding $\covmtxBA$ is simple. We simply calculate
+the covariance matrix for $\mtxBA$ in the usual way:
+
+\begin{nedqn}
+  \covmtxBA
+& = &
+  \parens{\mtxBA}
+  \parens{\mtxBA}\tran
+  \\
+& = &
+  \mtxB \covmtxA \mtxBt
+\end{nedqn}
+
+Notice that you don't get $\covmtxBA$ through some combination of
+$\covmtxA$ and $\covmtxB$. Why? Consider the series of steps
+
+\begin{nedqn}
+  \vecx
+\mapsto
+  \parens{\vecy = \mtxA\vecx}
+\mapsto
+  \parens{\vecz = \mtxB\vecy = \mtxBA\vecx}
+\end{nedqn}
+
+First, we know that $\covmtxA^{-1/2} \vecy$ unstretches along the axes
+$\mtxQt\submA$ (without explicitly remembering what that was), and is
+otherwise careful not to spuriously rotate $\vecy$. That's what is nice
+about $\covmtxA^{-1/2} = \mtxU\submA \mtxD\submA\invx \mtxUt\submA$,
+versus any other rotation $\mtxU' \mtxD\submA\invx \mtxUt\submA$.
+
+Specifically, it makes it possible to calculate $\covmtxBA$ from just
+$\mtxB$ and $\covmtxA$. TODO: the algebra of this is very clear, but is
+there a more intuitive explanation for what it means to multiply on both
+sides by $\mtxB, \mtxBt$?
+
+Just as we must not forget the final rotation by $\mtxU\submA$ in
+$\covmtxA$, we must not forget $\mtxQt\submB$. It's okay to forget
+$\mtxQt\submA$ since there we are just rotating $\vecx$, and the density
+at $\mtxQ' \vecx$ is the same for any rotation $\mtxQ'$.
+
+But it is \emph{not} okay to forget $\mtxQt\submB$. This controls
+rotation in $\vecy$ space, and in that space not all $\mtxQ' \vecy$ have
+the same density.
