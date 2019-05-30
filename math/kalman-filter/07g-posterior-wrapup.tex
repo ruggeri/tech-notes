@@ -166,7 +166,7 @@ value of $\mu$.
 
 \subsubsection{MAP estimate of $\varmux$?}
 
-No. We have a prior probability distribution over the join space of
+No. We have a prior probability distribution over the joint space of
 $\mux, x$. That distribution is parameterized by $\mumux, \varmux,
 \varx$.
 
@@ -197,9 +197,10 @@ estimate is just the sample mean of our observed data points $x_i$.
 You can show that if you start with a prior of $\mumux = x_1$, $\varmux
 = 1$, assume that $\varx = 1$, and then one-by-one updated with data
 points $x_2, \ldots, x_n$, your MAP estimate will come out the same as
-your maximum likelihood estimate. In this sense, you can see that in the
-limit as your initial $\varmux \to 0$, MAP estimation becomes equivalent
-to maximum likelihood estimation.
+your maximum likelihood estimate. Similarly, even if you set the initial
+$\mumux = 0$, you can see that in the limit as your initial $\varmux \to
+0$, MAP estimation becomes equivalent to maximum likelihood estimation.
+In fact, the posterior becomes the Dirac delta at the MLE estimate.
 
 Alternatively, consider the method of \define{pseudocounts} where you
 bias a maximum likelihood estimate by ``pretending'' you observed

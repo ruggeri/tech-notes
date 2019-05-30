@@ -27,7 +27,8 @@ We wanted to focus on simplifying
 
 Now we have have just the formula to do so! But first, let's replace
 $\varmux, \varx$ with their inverses: $\rhomux, \rhox$. These are
-sometimes called the \define{precision}.
+sometimes called the \define{precision}. (Great, precision is not
+conventionally written square-style like $\var$ is.)
 
 \begin{nedqn}
   \invf{2\varmux}
@@ -47,18 +48,18 @@ sometimes called the \define{precision}.
 \end{nedqn}
 
 (I've also taken the opportunity to swap $\mux, x$, and extract a factor
-of $\half$). We now can simply plug into our previous formulae to first
-get:
+of $\half$). We now can simply plug into our previous formula
+\ref{weightedsum} to first get:
 
 \begin{nedqn}
   \mumuxp
 & \defeq &
   \frac{
-    \sqrt{\rhomux} \mumux
+    \rhomux \mumux
     +
-    \sqrt{\rhox} x
+    \rhox x
   }{
-    \sqrt{\rhomux} + \sqrt{\rhox}
+    \rhomux + \rhox
   }
 \end{nedqn}
 
@@ -78,38 +79,29 @@ We can also state it in terms of $\varmux, \varx$:
   \mumuxp
 & \defeq &
   \frac{
-    \sqrt{\rhomux} \mumux
+    \rhomux \mumux
     +
-    \sqrt{\rhox} x
+    \rhox x
   }{
-    \sqrt{\rhomux} + \sqrt{\rhox}
+    \rhomux + \rhox
   }
   \\
 & = &
   \frac{
-    \invf{\sigmamux} \mumux
+    \invf{\varmux} \mumux
     +
-    \invf{\sigmax} x
+    \invf{\varx} x
   }{
-    \invf{\sigmamux} + \invf{\sigmax}
+    \invf{\varmux} + \invf{\varx}
   }
   \\
 & = &
   \frac{
-    \invf{\sigmamux} \mumux
+    \varx \mumux
     +
-    \invf{\sigmax} x
+    \varmux x
   }{
-    \invf{\sigmamux} + \invf{\sigmax}
-  }
-  \\
-& = &
-  \frac{
-    \sigmax \mumux
-    +
-    \sigmamux x
-  }{
-    \sigmax + \sigmamux
+    \varx + \varmux
   }
 \end{nedqn}
 

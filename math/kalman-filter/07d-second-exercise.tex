@@ -16,9 +16,13 @@ We can see what is happening here. Each error function has its own
 ``stretched'' sense of distance. To achieve balance we still need:
 
 \begin{nedqn}
+  2
   \parens{a_1 x - a_1b_1}
+  a_1
 & = &
-  -\parens{a_2 x - a_2 b_2}
+  -2
+  \parens{a_2 x - a_2 b_2}
+  a_2
 \end{nedqn}
 
 We can see that we want to take a weighted average to achieve the
@@ -28,10 +32,11 @@ balance and minimize the error:
   x
 & = &
   \frac{
-    a_1 b_1 + a_2 b_2
+    a_1^2 b_1 + a_2^2 b_2
   }{
-    a_1 + a_2
+    a_1^2 + a_2^2
   }
+  \nednumber\label{weightedsum}
 \end{nedqn}
 
 \noindent

@@ -12,7 +12,7 @@
   \nexp{
     -\half
     \norm{
-      \covmtx^{-1/2}
+      \covmtx\tonhalf
       \vecx
     }
   }
@@ -226,17 +226,17 @@ $y$ coordinate system back to the coordinate system after the initial
 rotation by $\mtxQt$. We don't particularly care which $\mtxQ$, so long
 as we have returned to it. Next, we ``double stretch.'' This does the
 stretching along the same axes that $\mtxA$ did the original stretching.
-Last, we rotate back to the $y$ coordinate system As noted, this hardly
-matters (for now). For now, it is a convenient and more importantly
-unique choice.
+Last, we rotate back to the $\vecy$ coordinate system As noted, this
+hardly matters (for now). For now, it is a convenient and more
+importantly unique choice.
 
 As explained, this will take a vector in $\vecy$ space and double
 stretch along the stretching axis defined by $\mtxQt$. But we don't want
 to do that. We want to instead \emph{unstretch}. But the solution is
-simple: take $\covmtx^{-1/2}$. This is equal to:
+simple: take $\covmtx\tonhalf$. This is equal to:
 
 \begin{nedqn}
-  \covmtx^{-1/2}
+  \covmtx\tonhalf
 & = &
   \mtxU \mtxDinv \mtxUt
 \end{nedqn}
@@ -259,11 +259,11 @@ notation:
 \begin{nedqn}
   \mtxA
 & \defeq &
-  \mtxU\submA \mtxD\submA\invx \mtxQt\submA
+  \mtxU\submA \mtxD\submA \mtxQt\submA
   \\
   \mtxB
 & \defeq &
-  \mtxU\submB \mtxD\submB\invx \mtxQt\submB
+  \mtxU\submB \mtxD\submB \mtxQt\submB
 \end{nedqn}
 
 
@@ -280,33 +280,13 @@ the covariance matrix for $\mtxBA$ in the usual way:
   \mtxB \covmtxA \mtxBt
 \end{nedqn}
 
-Notice that you don't get $\covmtxBA$ through some combination of
-$\covmtxA$ and $\covmtxB$. Why? Consider the series of steps
+Notice that you don't get $\covmtxBA$ simply through some combination of
+$\covmtxA$ and $\covmtxB$. Why? The same $\mtxB$ will affect different
+covariance matrices $\covmtxA$ in different ways.
 
-\begin{nedqn}
-  \vecx
-\mapsto
-  \parens{\vecy = \mtxA\vecx}
-\mapsto
-  \parens{\vecz = \mtxB\vecy = \mtxBA\vecx}
-\end{nedqn}
-
-First, we know that $\covmtxA^{-1/2} \vecy$ unstretches along the axes
-$\mtxQt\submA$ (without explicitly remembering what that was), and is
-otherwise careful not to spuriously rotate $\vecy$. That's what is nice
-about $\covmtxA^{-1/2} = \mtxU\submA \mtxD\submA\invx \mtxUt\submA$,
-versus any other rotation $\mtxU' \mtxD\submA\invx \mtxUt\submA$.
-
-Specifically, it makes it possible to calculate $\covmtxBA$ from just
-$\mtxB$ and $\covmtxA$. TODO: the algebra of this is very clear, but is
-there a more intuitive explanation for what it means to multiply on both
-sides by $\mtxB, \mtxBt$?
-
-Just as we must not forget the final rotation by $\mtxU\submA$ in
-$\covmtxA$, we must not forget $\mtxQt\submB$. It's okay to forget
-$\mtxQt\submA$ since there we are just rotating $\vecx$, and the density
-at $\mtxQ' \vecx$ is the same for any rotation $\mtxQ'$.
-
-But it is \emph{not} okay to forget $\mtxQt\submB$. This controls
-rotation in $\vecy$ space, and in that space not all $\mtxQ' \vecy$ have
-the same density.
+This makes sense. In particular, $\covmtxB$ no longer contains any
+information about $\mtxQt\submB$. And $\mtxQt\submB$ now does matter.
+Why? Because in $\vecy = \mtxA\vecx$ space, not all rotations of $\vecy$
+have equal density. We need to make sure we do rotate by $\mtxQ\submB$,
+so that we can properly continue the process by applying $\covmtxA$ in
+the middle of the $\mtxB, \mtxBt$ ``sandwich.''
