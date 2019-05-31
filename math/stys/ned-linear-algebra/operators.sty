@@ -1,0 +1,30 @@
+%% Inner Product
+
+\newcommand{\innerprod}[2]{
+  \langle #1, #2 \rangle
+}
+
+%% Norm
+
+\newcommand{\norm}[1]{
+  \left\Vert #1 \right\Vert
+}
+\newcommand{\normsq}[1]{
+  \left\Vert #1 \right\Vert^2
+}
+
+%% Transpose
+
+\newcommand*{\tran}{
+  ^{\mkern-1.5mu\mathsf{T}}
+}
+
+% Feels dumb, but otherwise you get "double superscript" problems.
+\newcommand*{\ptran}{
+  ^{\prime\mkern-1.5mu\mathsf{T}}
+}
+
+\newcommand{\vectransvec}[1]{
+  \parenstrans{#1}
+  \parens{#1}
+}

@@ -1,0 +1,63 @@
+\newcommand{\mtx}[1]{
+  \mathrmbold{#1}
+}
+
+% Would be great if this worked for n-dimensional matrices right?
+\newcommand{\diagonal}[3]{
+  \begin{bmatrix}
+    #1 \\
+      &#2 \\
+      &  &\ddots \\
+      &  & & #3
+  \end{bmatrix}
+}
+
+%% Spaces Of Matrices
+
+\newcommand{\mtxspace}[1]{
+  \reals^{#1 \times #1}
+}
+
+%% Common Matrices
+
+\newcommand{\mtxA}{\mtx{A}}
+\newcommand{\mtxB}{\mtx{B}}
+\newcommand{\mtxD}{\mtx{D}}
+\newcommand{\mtxI}{\mtx{I}}
+\newcommand{\mtxL}{\mtx{L}}
+\newcommand{\mtxQ}{\mtx{Q}}
+\newcommand{\mtxR}{\mtx{R}}
+\newcommand{\mtxU}{\mtx{U}}
+\newcommand{\mtxX}{\mtx{X}}
+
+%% Common Inverted Matrices
+
+\newcommand{\mtxAinv}{\inv{\mtxA}}
+\newcommand{\mtxDinv}{\inv{\mtxD}}
+
+%% Common Transposed Matrices
+
+\newcommand{\mtxAt}{\mtxA\tran}
+\newcommand{\mtxBt}{\mtxB\tran}
+\newcommand{\mtxQt}{\mtxQ\tran}
+\newcommand{\mtxUt}{\mtxU\tran}
+
+%% Common Matrix Products
+
+\newcommand{\mtxAtA}{\mtxAt\mtxA}
+\newcommand{\mtxAAt}{\mtxA\mtxAt}
+\newcommand{\mtxAB}{\mtxA\mtxB}
+\newcommand{\mtxBA}{\mtxB\mtxA}
+\newcommand{\mtxDQ}{\mtxD\mtxQ}
+\newcommand{\mtxQD}{\mtxQ\mtxD}
+\newcommand{\mtxUD}{\mtxU\mtxD}
+
+%% Common Matrix Decompositions
+
+\newcommand{\mtxLU}{\mtxL\mtxU}
+\newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
+\newcommand{\mtxQDQt}{\mtxQ\mtxD\mtxQt}
+\newcommand{\mtxQtDQ}{\mtxQt\mtxD\mtxQ}
+\newcommand{\mtxQDUt}{\mtxQ\mtxD\mtxUt}
+\newcommand{\mtxQR}{\mtxQ\mtxR}
+\newcommand{\mtxUDQt}{\mtxU\mtxD\mtxQt}
