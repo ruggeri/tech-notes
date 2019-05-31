@@ -4,7 +4,7 @@
   \pr{#1 | #2}
 }
 
-% unnormalized conditioal probability
+% unnormalized conditional probability
 \newcommand{\tcondpr}[2]{
   \tpr{#1 | #2}
 }
@@ -27,13 +27,16 @@
 \newcommand{\px}{\pr{x}}
 % conditional prob of x given mu_x
 \newcommand{\cpxmux}{\condpr{x}{\mux}}
+% conditional prob of vector x given mu_x
 \newcommand{\cpvxmux}{\condpr{\vecx}{\vmux}}
 
 % mu_x
 \newcommand{\pmux}{\pr{\mux}}
+% vector mu_x
 \newcommand{\pvmux}{\pr{\vmux}}
 % conditional probability of mu_x given x
 \newcommand{\cpmuxx}{\condpr{\mux}{x}}
+% conditional probability of vector mu_x given x
 \newcommand{\cpvmuxx}{\condpr{\vmux}{\vecx}}
 % unnormalized conditional probability of mu_x given x.
 \newcommand{\tcpmuxx}{\tcondpr{\mux}{x}}

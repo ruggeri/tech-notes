@@ -1,7 +1,8 @@
 %% Dataset
 
 \newcommand{\dset}{\mathcal{D}}
-% For iteration
+
+% Helper for iteration over dataset
 \newcommand{\xinD}{x_i \in \dset}
 
 %% Mu
@@ -13,16 +14,16 @@
 % mu mu_x
 \newcommand{\mumux}{\mu_{\mu_x}}
 \newcommand{\mumuxp}{
-  \mu'_{\mu_x}
+  \mu'_{\mux}
 }
 \newcommand{\vmumux}{\vmu_{\vmux}}
 \newcommand{\vmumuxp}{\vmup_{\vmux}}
 
-% Rho
+%% Rho
 
 % rho mu_x
-\newcommand{\rhomux}{\rho_{\mu_x}}
-\newcommand{\rhomuxp}{\rho^\prime_{\mu_x}}
+\newcommand{\rhomux}{\rho_{\mux}}
+\newcommand{\rhomuxp}{\rho^\prime_{\mux}}
 
 % rho x
 \newcommand{\rhox}{\rho_{x}}
@@ -33,28 +34,35 @@
 \newcommand{\sigmax}{\sigma_x}
 % sigma mu_x
 \newcommand{\sigmamux}{\sigma_{\mux}}
-\newcommand{\sigmamuxp}{\sigma'_{\mux}}
+\newcommand{\sigmamuxp}{\sigma^{\prime}_{\mux}}
 
-%% var
+%% Variance
 
-\newcommand{\covmtx}{\mtx{\Sigma}}
-\newcommand{\covmtxp}{\mtx{\Sigma}^{\prime}}
 \newcommand{\var}{\sigma^2}
 \newcommand{\vecvar}{\vecsigma^{2}}
 
-% Named covariance matrices
+%% Covariance matrix
 
-\newcommand{\covmtxA}{\covmtx_{\mtxA}}
-\newcommand{\covmtxB}{\covmtx_{\mtxB}}
+\newcommand{\covmtx}{\mtx{\Sigma}}
+\newcommand{\covmtxp}{\mtx{\Sigma}^{\prime}}
+
+%% Named covariance matrices
+
+% Covariance for operations.
+\newcommand{\covmtxA}{\covmtx\submA}
+\newcommand{\covmtxB}{\covmtx\submB}
 \newcommand{\covmtxBA}{\covmtx_{\mtxBA}}
 
+% Covariance for variables.
 \newcommand{\covmtxmux}{\covmtx\subvmux}
 \newcommand{\covmtxx}{\covmtx\subvx}
 
+%% Named variances
+
 % var mu_x
-\newcommand{\varmux}{\var_{\mu_x}}
+\newcommand{\varmux}{\var_{\mux}}
 \newcommand{\varmuxp}{
-  \sigma^{'2}_{\mu_x}
+  \sigma^{'2}_{\mux}
 }
 
 % var x
