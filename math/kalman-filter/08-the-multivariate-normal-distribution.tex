@@ -12,7 +12,7 @@
   \nexp{
     -\half
     \norm{
-      \covmtx\tonhalf
+      \covmtx\negsqrt
       \vecx
     }
   }
@@ -227,10 +227,10 @@ convenient and more importantly unique choice.
 As explained, this will take a vector in $\vecy$ space and double
 stretch along the stretching axis defined by $\mtxQt$. But we don't want
 to do that. We want to instead \emph{unstretch}. But the solution is
-simple: take $\covmtx\tonhalf$. This is equal to:
+simple: take $\covmtx\negsqrt$. This is equal to:
 
 \begin{nedqn}
-  \covmtx\tonhalf
+  \covmtx\negsqrt
 & = &
   \mtxU \mtxDinv \mtxUt
 \end{nedqn}
