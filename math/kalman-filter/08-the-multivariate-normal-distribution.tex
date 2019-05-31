@@ -2,7 +2,7 @@
   \invf{
     \sqrt{
       \parens{\twopi}^n
-      \norm{{#1}}
+      \norm{{#1}}^2
     }
   }
 }
@@ -63,13 +63,13 @@ of a point $\vecx$ from the distribution's center.
 \subsection{Stretching $\vecx$ by a Diagonal Matrix $\mtxD$}
 
 Imagine that that $X$ is distributed per standard spherical normal. We
-have the equation for density of points $x$. Next question: what is the
-density for a variable $Y = \mtxD X$? We're restricting ourself to just
-considering a diagonal matrix $\mtxD$. That is, what is the density at a
-point $\vecy = \mtxD\vecx$?
+have the equation for density of points $\vecx$. Next question: what is
+the density for a variable $Y = \mtxD X$? We're restricting ourself to
+just considering a diagonal matrix $\mtxD$. That is, what is the density
+at a point $\vecy = \mtxD\vecx$?
 
 This involves a simple change of variables. Replace $\vecx_i$ with
-$\frac{\vecy_i}{\mtxD_{i, i}}$.
+$\frac{\vecy_i}{\mtxD\subii}$.
 
 \begin{nedqn}
   \invf{
@@ -83,7 +83,7 @@ $\frac{\vecy_i}{\mtxD_{i, i}}$.
 & \mapsto &
   \invf{
     \prod_i
-      \mtxD_{i, i}
+      \mtxD\subii
   }
   \invf{
     \sqrt{\parens{\twopi}^n}
@@ -91,25 +91,19 @@ $\frac{\vecy_i}{\mtxD_{i, i}}$.
   \nexp{
     -\half
     \sum_i
-      \parens{
+      \parensq{
         \frac{
           \vecy_i
         }{
-          \mtxD_{i, i}
+          \mtxD\subii
         }
-      }^2
+      }
   }
   \\
 & = &
-  \invf{
-    \sqrt{
-      \parens{\twopi}^n
-      \norm{\mtxD}^2
-    }
-  }
+  \mnormalc[\mtxD]
   \nexp{
     -\half
-    \sum_i
     \norm{
       \mtxDinv
       \vecy
@@ -157,7 +151,7 @@ $\mtxQt$. The \emph{spherical} normal doesn't care about that!
 
 Let's now consider stretching $\vecx$ by a general matrix $\mtxA$. Every
 matrix $\mtxA$ can be written in singular value decomposition form:
-$\mtxUD \mtxQt$.
+$\mtxUDQt$.
 
 We've already argued why we can ignore the initial rotation by $\mtxQt$.
 So really all that matters is inverting $\mtxUD$. For our purposes,
@@ -214,7 +208,7 @@ fact:
   \parens{
     \mtxUDQt
   }
-  \mtxQ \mtxD \mtxUt
+  \parens{\mtxQDUt}
   \\
 & = &
   \mtxU \mtxD^2 \mtxUt
@@ -222,13 +216,13 @@ fact:
 
 We name this quantity the \define{covariance matrix}: $\covmtx$. It is
 almost exactly what we want. Multiplication by $\mtxUt$ rotates from the
-$y$ coordinate system back to the coordinate system after the initial
-rotation by $\mtxQt$. We don't particularly care which $\mtxQ$, so long
-as we have returned to it. Next, we ``double stretch.'' This does the
-stretching along the same axes that $\mtxA$ did the original stretching.
-Last, we rotate back to the $\vecy$ coordinate system As noted, this
-hardly matters (for now). For now, it is a convenient and more
-importantly unique choice.
+$\vecy$ coordinate system back to the coordinate system after the
+initial rotation of $\vecx$ by $\mtxQt$. We don't particularly care
+which $\mtxQ$, so long as we have returned to it. Next, we ``double
+stretch.'' This does the stretching along the same axes that $\mtxA$ did
+the original stretching. Last, we rotate back to the $\vecy$ coordinate
+system As noted, this hardly matters (for now). For now, it is a
+convenient and more importantly unique choice.
 
 As explained, this will take a vector in $\vecy$ space and double
 stretch along the stretching axis defined by $\mtxQt$. But we don't want
