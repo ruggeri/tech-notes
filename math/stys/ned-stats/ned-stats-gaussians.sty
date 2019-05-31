@@ -14,15 +14,16 @@
   \int_\reals \gaussianexp[#1] \diff{#1}
 }
 
-%% Normal Distribution
+%% Parameterizable Univariate Normal Distribution
 
-% Parameterizable normal distribution
 \newcommand{\normal}[2]{
   \mathcal{N}\parens{#1, #2}
 }
+
 \newcommand{\normalc}[1]{
   \frac{1}{\sqrt{\twopi #1}}
 }
+
 \newcommand{\normaleq}[3][x]{
   \normalc{#3}
   \nexpf{
@@ -30,40 +31,81 @@
   }{2 #3}
 }
 
-% Normals with standard parameters.
+%% Univariate Normals with Standard Parameters
+
 \newcommand{\nnormal}{
   \normal{\mu}{\var}
 }
+
 \newcommand{\nnormalc}{
   \normalc{\var}
 }
+
 \newcommand{\nnormaleq}[1][x]{
   \normaleq[#1]{\mu}{\var}
 }
 
-% Unit normal distribution
+%% Unit Univariate Normals
+
 \newcommand{\snormal}{\normal{0}{1}}
+
 \newcommand{\snormalc}{\invsqrttwopi}
+
 \newcommand{\snormaleq}[1][x]{
   \snormalc
   \snormalexp[#1]
 }
+
+% TODO: Rename this helper "snormalexpf?"
 \newcommand{\snormalexp}[1][x]{
   \nexpf{{#1}^2}{2}
 }
 
-% Multivariate normal
+%% MVN
+
 \newcommand{\mnormalc}[1][\covmtx]{
   % TODO: Could we make it so that it does norm{#1} only if #1!=""?
   % Could use that a number of places...
   \invf{
     \sqrt{
       \parens{\twopi}^n
-      \norm{{#1}}^2
+      \normsq{{#1}}
     }
   }
 }
 
+% General MVN but centered at zero.
+\newcommand{\mcenterednormaleq}[2]{
+  \mnormalc{#2}
+  \nexp{
+    -\half
+    \normsq{
+      {#2}\negsqrt
+      {#1}
+    }
+  }
+}
+
+% Squared distance from center with given covariance.
+\newcommand{\mnormaldistance}[3]{
+  \normsq{
+    {#3}\negsqrt
+    \parens{
+      {#1} - {#2}
+    }
+  }
+}
+
+% General MVN.
+\newcommand{\mnormaleq}[3]{
+  \mnormalc[#3]
+  \nexp{
+    -\half
+    \mnormaldistance{#1}{#2}{#3}
+  }
+}
+
+% TODO: do these belong here?
 \newcommand{\vmuxdiff}[0]{
   \parens{
     \vmux - \vmumux
@@ -73,34 +115,6 @@
 \newcommand{\vxdiff}[0]{
   \parens{
     \vx - \vmux
-  }
-}
-
-\newcommand{\mcenterednormaleq}[2]{
-  \mnormalc{#2}
-  \nexp{
-    -\half
-    \norm{
-      {#2}\negsqrt
-      {#1}
-    }^2
-  }
-}
-
-\newcommand{\mnormaldist}[3]{
-  \norm{
-    {#3}\negsqrt
-    \parens{
-      {#1} - {#2}
-    }
-  }^2
-}
-
-\newcommand{\mnormaleq}[3]{
-  \mnormalc[#3]
-  \nexp{
-    -\half
-    \mnormaldist{#1}{#2}{#3}
   }
 }
 
