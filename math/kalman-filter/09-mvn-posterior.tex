@@ -1,1 +1,232 @@
 \section{Multivariate Normal Posterior Calculation}
+
+Let's bring our posterior calculation for $\vecmu$ into the multivariate
+world!
+
+First, we assume a multivariate normal prior on $\vecmu$. That is:
+
+\begin{nedqn}
+  \pvmux
+& \sim &
+  \normal{\vmumux}{\covmtx\subvmux}
+\end{nedqn}
+
+Next, we assume a multivariate normal observation model for $\vecx$:
+
+\begin{nedqn}
+  \cpvxmux
+& \sim &
+  \normal{\vmux}{\covmtx\subvx}
+\end{nedqn}
+
+We now want to calculate the posterior density:
+
+\begin{nedqn}
+  \cpvmuxx
+& \sim &
+  \pvmux
+  \cpvxmux
+  \\
+& = &
+  \mnormaleq{\vmux}{\vmumux}{\covmtx\subvmux}
+  \\&&
+  \quad\quad \mnormaleq{\vx}{\vmux}{\covmtx\subvx}
+\end{nedqn}
+
+As ever, we may simply focus on what's inside the exponent, disregarding
+leading constants.
+
+\begin{nedqn}
+  \log \cpvmuxx
+& \sim &
+  \mnormaldist{\vmux}{\vmumux}{\covmtx\subvmux}
+  +
+  \mnormaldist{\vx}{\vmux}{\covmtx\subvx}
+  \\
+& = &
+  \vmuxdiff\tran
+  \covmtx\subvmux\invx
+  \vmuxdiff
+  +
+  \vxdiff\tran
+  \covmtx\subvx\invx
+  \vxdiff
+  \\
+& = &
+    \vmux\tran \covmtx\subvmux\invx \vmux
+  -
+    2 \vmumux\tran \covmtx\subvmux\invx \vmux
+  +
+    \vmumux\tran \covmtx\subvmux\invx \vmumux
+  \\&&\quad\quad
+  +
+    \vx\tran \covmtx\subvx\invx \vx
+  -
+    2 \vmux\tran \covmtx\subvx\invx \vx
+  +
+    \vmux\tran \covmtx\subvx\invx \vmux
+  \nedcomment{note use of symmetry}%
+  \\
+\simcol
+    \vmux\tran \covmtx\subvmux\invx \vmux
+  -
+    2 \vmumux\tran \covmtx\subvmux\invx \vmux
+  -
+    2 \vmux\tran \covmtx\subvx\invx \vx
+  +
+    \vmux\tran \covmtx\subvx\invx \vmux
+  \\
+  &&\nedcomment{ignore terms without $\vmux$}%
+  \\
+\eqcol
+    \vmux\tran
+    \parens{
+      \covmtx\subvmux\invx
+      +
+      \covmtx\subvx\invx
+    }
+    \vmux
+  -
+    2
+    \vmux\tran
+    \parens{
+      \covmtx\subvmux\invx \vmux
+      +
+      \covmtx\subvx\invx \vx
+    }
+  \nedcomment{collect like terms}
+\end{nedqn}
+
+Wow. This looks like our favorite problem: completing the square. We
+want to rewrite in this form:
+
+\begin{nedqn}
+  \vectransvec{
+    \parensqrt{
+      \covmtxmux\invx + \covmtxx\invx
+    }
+    \vmux
+    -
+    X
+  }
+\end{nedqn}
+
+And to do this, we must have:
+
+\begin{nedqn}
+  \vmux
+  \parensqrt{
+    \covmtxmux\invx + \covmtxx\invx
+  }
+  X
+\eqcol
+  \vmux\tran
+  \parens{
+    \covmtxmux\invx \vmux
+    +
+    \covmtxx\invx \vx
+  }
+  \\
+  X
+\eqcol
+  \parensnegsqrt{
+    \covmtxmux\invx + \covmtxx\invx
+  }
+  \vmux\invx
+  %
+  \vmux\tran
+  \parens{
+    \covmtxmux\invx \vmux
+    +
+    \covmtxx\invx \vx
+  }
+  \\
+  X
+\eqcol
+  \parensnegsqrt{
+    \covmtxmux\invx + \covmtxx\invx
+  }
+  \parens{
+    \covmtxmux\invx \vmux
+    +
+    \covmtxx\invx \vx
+  }
+\end{nedqn}
+
+This completes the square, and so we have:
+
+\begin{nedqn}
+  \log \cpvmuxx
+\simcol
+  \vectransvec{
+    \parensqrt{
+      \covmtxmux\invx + \covmtxx\invx
+    }
+    \vmux
+    -
+    X
+  }
+  \\
+\eqcol
+  \normsq{
+    \parensqrt{
+      \covmtxmux\invx + \covmtxx\invx
+    }
+    \vmux
+    -
+    {
+      \parensnegsqrt{
+        \covmtxmux\invx + \covmtxx\invx
+      }
+      \parens{
+        \covmtxmux\invx \vmux
+        +
+        \covmtxx\invx \vx
+      }
+    }
+  }
+  \\
+\eqcol
+  \normsq{
+    \parensqrt{
+      \covmtxmux\invx + \covmtxx\invx
+    }
+    %
+    \sqbrackets{
+      \vmux
+      -
+      {
+        \parensinv{
+          \covmtxmux\invx + \covmtxx\invx
+        }
+        \parens{
+          \covmtxmux\invx \vmux
+          +
+          \covmtxx\invx \vx
+        }
+      }
+    }
+  }
+\end{nedqn}
+
+Wow oh wow. This is indeed in proper form! Let's write down our new
+values:
+
+\begin{nedqn}
+  \covmtxp\subvmux
+\eqcol
+  \parensinv{
+    \covmtxmux\invx
+    +
+    \covmtxx\invx
+  }
+\\
+  \vmumuxp
+\eqcol
+  \covmtxp\subvmux
+  \parens{
+    \covmtxmux\invx \vmux
+    +
+    \covmtxx\invx \vx
+  }
+\end{nedqn}

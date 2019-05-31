@@ -36,7 +36,8 @@
 
   % pretend you take no space, so that we don't needlessly push over
   % equations
-  \llap{[#1]}%
+  \llap{[#1]}
+  \ignorespaces
 }
 
 % nedcomment takes no width. But sometimes I need to force space to the
@@ -59,3 +60,7 @@
 %
 % When doing multi-line equations, keep in mind that you can use
 % `\phantom'. This can often get a *very* pleasing indent level.
+
+% Write fewer ampersands!
+\newcommand{\eqcol}{& = &}
+\newcommand{\simcol}{& \sim &}

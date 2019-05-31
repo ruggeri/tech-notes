@@ -1,23 +1,3 @@
-\newcommand{\mnormalc}[1][\covmtx]{
-  \invf{
-    \sqrt{
-      \parens{\twopi}^n
-      \norm{{#1}}^2
-    }
-  }
-}
-
-\newcommand{\mnormaleq}{
-  \mnormalc
-  \nexp{
-    -\half
-    \norm{
-      \covmtx\negsqrt
-      \vecx
-    }
-  }
-}
-
 \section{The Multivariate Normal Distribution}
 
 \subsection{Standard Spherical Normal}
@@ -241,7 +221,7 @@ $\mtxA$, we notate this as $\normal{\veczero}{\mtxAAt}$. Or more simply:
 \begin{nedqn}
   \normal{\veczero}{\covmtx}
 & \defeq &
-  \mnormaleq
+  \mcenterednormaleq{\vx}{\covmtx}
 \end{nedqn}
 
 \subsection{Series of Linear Transformations}

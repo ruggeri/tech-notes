@@ -19,6 +19,8 @@
 
 % Common vector names
 \newcommand{\vecmu}{\vec{\mu}}
+\newcommand{\vmu}{\vecmu}
+\newcommand{\vmup}{\vecmu^{\prime}}
 \newcommand{\vecu}[1][]{
   \vec{u_{\mathrmbold{#1}}}
 }
@@ -26,6 +28,7 @@
 \newcommand{\vecv}{\vec{v}}
 \newcommand{\vecw}{\vec{w}}
 \newcommand{\vecx}{\vec{x}}
+\newcommand{\vx}{\vec{x}}
 \newcommand{\vecy}{\vec{y}}
 \newcommand{\vecz}{\vec{z}}
 \newcommand{\veczero}{\vec{0}}
@@ -92,6 +95,9 @@
 %% Subscripts
 
 \newcommand{\subii}{_{i, i}}
+\newcommand{\subvmu}{_{\vmu}}
+\newcommand{\subvmux}{_{\vmux}}
+\newcommand{\subvx}{_{\vecx}}
 \newcommand{\submA}{_{\mtxA}}
 \newcommand{\submB}{_{\mtxB}}
 
@@ -103,12 +109,19 @@
 \newcommand{\norm}[1]{
   \left\Vert #1 \right\Vert
 }
+\newcommand{\normsq}[1]{
+  \left\Vert #1 \right\Vert^2
+}
 \newcommand*{\tran}{
   ^{\mkern-1.5mu\mathsf{T}}
 }
 % Feels dumb, but otherwise you get "double superscript" problems.
 \newcommand*{\ptran}{
   ^{\prime\mkern-1.5mu\mathsf{T}}
+}
+\newcommand{\vectransvec}[1]{
+  \parenstrans{#1}
+  \parens{#1}
 }
 
 %% Spaces Of Matrices
