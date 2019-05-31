@@ -7,25 +7,25 @@ easy:
   \parensq{x - b_1} + \parensq{x - b_2}
 \end{nedqn}
 
-It's intuitive that this function is minimized at $x = \frac{b_1 +
-b_2}{2}$, because then:
+It's intuitive that this function is minimized at $x = \otwo{b_1 +
+b_2}$, because then:
 
 \begin{nedqn}
   x - b_1
 & = &
-  \frac{b_1 + b_2}{2}
+  \otwo{b_1 + b_2}
   -
   b_1
 =
-  \frac{b_2 - b_1}{2}
+  \otwo{b_2 - b_1}
   \\
   x - b_2
 & = &
-  \frac{b_1 + b_2}{2}
+  \otwo{b_1 + b_2}
   -
   b_2
 =
-  \frac{b_1 - b_2}{2}
+  \otwo{b_1 - b_2}
 \end{nedqn}
 
 These have the same magnitude, so the competing objectives to minimize
@@ -40,7 +40,7 @@ Once we have found the minimum, we know that
   \parensq{x - b_2}
 & = &
   C
-  \parensq{x - \frac{b_1 + b_2}{2}}
+  \parensq{x - \otwo{b_1 + b_2}}
   +
   D
 \end{nedqn}
@@ -48,7 +48,7 @@ Once we have found the minimum, we know that
 \noindent
 for constants $C, D$. We know that $C = 2$, because the two $x^2$ in the
 original sum together. What is the $D$ term? It is the ``error'' when we
-choose the best value for $x$: $\frac{b_1 + b_2}{2}$. So of course it
-makes sense that this is $D = 2\parensq{\frac{b_2 - b_1}{2}}$. That's
+choose the best value for $x$: $\otwo{b_1 + b_2}$. So of course it
+makes sense that this is $D = 2\parensq{\otwo{b_2 - b_1}}$. That's
 the sum of the ``errors'' from each side, and the errors are both
-$\parensq{\frac{b_2 - b_1}{2}}$.
+$\parensq{\otwo{b_2 - b_1}}$.

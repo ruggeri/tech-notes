@@ -54,6 +54,8 @@
 
 % Multivariate normal
 \newcommand{\mnormalc}[1][\covmtx]{
+  % TODO: Could we make it so that it does norm{#1} only if #1!=""?
+  % Could use that a number of places...
   \invf{
     \sqrt{
       \parens{\twopi}^n

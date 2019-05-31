@@ -8,7 +8,7 @@ First, we assume a multivariate normal prior on $\vecmu$. That is:
 \begin{nedqn}
   \pvmux
 & \sim &
-  \normal{\vmumux}{\covmtx\subvmux}
+  \normal{\vmumux}{\covmtxmux}
 \end{nedqn}
 
 Next, we assume a multivariate normal observation model for $\vecx$:
@@ -16,7 +16,7 @@ Next, we assume a multivariate normal observation model for $\vecx$:
 \begin{nedqn}
   \cpvxmux
 & \sim &
-  \normal{\vmux}{\covmtx\subvx}
+  \normal{\vmux}{\covmtxx}
 \end{nedqn}
 
 We now want to calculate the posterior density:
@@ -28,9 +28,9 @@ We now want to calculate the posterior density:
   \cpvxmux
   \\
 & = &
-  \mnormaleq{\vmux}{\vmumux}{\covmtx\subvmux}
+  \mnormaleq{\vmux}{\vmumux}{\covmtxmux}
   \\&&
-  \quad\quad \mnormaleq{\vx}{\vmux}{\covmtx\subvx}
+  \quad\quad \mnormaleq{\vx}{\vmux}{\covmtxx}
 \end{nedqn}
 
 As ever, we may simply focus on what's inside the exponent, disregarding
@@ -39,58 +39,58 @@ leading constants.
 \begin{nedqn}
   \log \cpvmuxx
 & \sim &
-  \mnormaldist{\vmux}{\vmumux}{\covmtx\subvmux}
+  \mnormaldist{\vmux}{\vmumux}{\covmtxmux}
   +
-  \mnormaldist{\vx}{\vmux}{\covmtx\subvx}
+  \mnormaldist{\vx}{\vmux}{\covmtxx}
   \\
 & = &
   \vmuxdiff\tran
-  \covmtx\subvmux\invx
+  \covmtxmux\invx
   \vmuxdiff
   +
   \vxdiff\tran
-  \covmtx\subvx\invx
+  \covmtxx\invx
   \vxdiff
   \\
 & = &
-    \vmux\tran \covmtx\subvmux\invx \vmux
+    \vmux\tran \covmtxmux\invx \vmux
   -
-    2 \vmumux\tran \covmtx\subvmux\invx \vmux
+    2 \vmumux\tran \covmtxmux\invx \vmux
   +
-    \vmumux\tran \covmtx\subvmux\invx \vmumux
+    \vmumux\tran \covmtxmux\invx \vmumux
   \\&&\quad\quad
   +
-    \vx\tran \covmtx\subvx\invx \vx
+    \vx\tran \covmtxx\invx \vx
   -
-    2 \vmux\tran \covmtx\subvx\invx \vx
+    2 \vmux\tran \covmtxx\invx \vx
   +
-    \vmux\tran \covmtx\subvx\invx \vmux
+    \vmux\tran \covmtxx\invx \vmux
   \nedcomment{note use of symmetry}%
   \\
 \simcol
-    \vmux\tran \covmtx\subvmux\invx \vmux
+    \vmux\tran \covmtxmux\invx \vmux
   -
-    2 \vmumux\tran \covmtx\subvmux\invx \vmux
+    2 \vmumux\tran \covmtxmux\invx \vmux
   -
-    2 \vmux\tran \covmtx\subvx\invx \vx
+    2 \vmux\tran \covmtxx\invx \vx
   +
-    \vmux\tran \covmtx\subvx\invx \vmux
+    \vmux\tran \covmtxx\invx \vmux
   \\
   &&\nedcomment{ignore terms without $\vmux$}%
   \\
 \eqcol
     \vmux\tran
     \parens{
-      \covmtx\subvmux\invx
+      \covmtxmux\invx
       +
-      \covmtx\subvx\invx
+      \covmtxx\invx
     }
     \vmux
   -
     2
     \vmux\tran
     \parens{
-      \covmtx\subvmux\invx \vmux
+      \covmtxmux\invx \vmux
       +
       \covmtx\subvx\invx \vx
     }
