@@ -1,0 +1,62 @@
+\subsection{Innovation Update}
+
+Just a quick note. If we are calculating an update for $\vmu$:
+
+\begin{nedqn}
+  \vmu_t
+\eqcol
+  \parensinv{\mXinv + \mYinv}
+  \parens{
+    \mXinv
+    \vmu_{t-1}
+    +
+    \mYinv
+    \vx
+  }
+\\
+\intertext{then note}
+\coleq
+  \parensinv{\mXinv + \mYinv}
+  \parens{
+    \mXinv
+    \vmu_{t-1}
+    +
+    \mYinv
+    \parens{
+      \vmu_{t-1}
+      +
+      \Delta\vx
+    }
+  }
+\\
+\coleq
+  \parensinv{\mXinv + \mYinv}
+  \parens{
+    \parens{
+      \mXinv
+      +
+      \mYinv
+    }
+    \vmu_{t-1}
+    +
+    \mYinv
+    \Delta\vx
+  }
+\\
+\coleq
+  \vmu_{t-1}
+  +
+  \parensinv{\mXinv + \mYinv}
+  \mYinv
+  \Delta\vx
+\\
+  \Delta\vmu
+\coleq
+  \parensinv{\mXinv + \mYinv}
+  \mYinv
+  \Delta\vx
+\end{nedqn}
+
+We say that $\Delta\vx$ is the \define{innovation}. It's the difference
+from the prior predicted mean. This format makes the update
+``incremental.''

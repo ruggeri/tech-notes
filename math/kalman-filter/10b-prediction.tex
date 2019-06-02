@@ -1,0 +1,73 @@
+\subsection{Prediction}
+
+Our goal will eventually be to calculate $\condpr{\vz_t}{\vy_{1:t}}$.
+Before we try to fit a posterior, let's calculate the ``prior''
+distribution $\condpr{\vz_t}{\vy_{1:t-1}}$.
+
+We will work recursively. Thus we assume that we already have available:
+
+\begin{nedqn}
+  \condpr{\vz_{t-1}}{\vy_{1:t-1}}
+\eqcol
+  \normal{\vmu_{t-1}}{\covmtx_{t-1}}
+\end{nedqn}
+
+Likewise, the definition of the transition model is:
+
+\begin{nedqn}
+  \condpr{\vz_t}{\vz_{t-1}}
+\simcol
+  \normal{\mA \vz_{t-1}}{\mQ}.
+\end{nedqn}
+
+We now combine:
+
+\begin{nedqn}
+  \condpr{\vz_t}{\vy_{1:t-1}}
+\eqcol
+  \condpr{\vz_{t-1}}{\vy_{1:t-1}}
+  \condpr{\vz_t}{\vz_{t-1}}
+\\
+\simcol
+  \normal{\vmu_{t-1}}{\covmtx_{t-1}}
+  \normal{
+    \mA \vmu_{t-1}
+  }{\mQ}
+\\
+\eqcol
+  \normal{
+    \mA
+    \vmu_{t-1}
+  }{
+    \mA
+    \covmtx_{t-1}
+    \mAt
+    +
+    \mQ
+  }
+\\
+\eqcol
+  \normal{
+    \vmu_{t | t-1}
+  }{
+    \covmtx_{t | t-1}
+  }
+  \nednumber\label{zt:cond:ztm1}
+\intertext{where}
+\\
+  \vmu_{t | t - 1}
+\eqcol
+  \mA
+  \vmu_{t-1}
+\\
+  \covmtx_{t | t - 1}
+& \defeq &
+  \mA
+  \covmtx_{t-1}
+  \mAt
+  +
+  \mQ
+\end{nedqn}
+
+Those are our prior predicted mean and covariance for the distribution
+of $\condpr{\vz_t}{\vy_{1:t-1}}$.

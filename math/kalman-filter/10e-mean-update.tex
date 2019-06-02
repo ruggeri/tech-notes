@@ -1,0 +1,91 @@
+\subsection{Mean Calculation}
+
+Using this innovation format, we may write:
+
+\begin{nedqn}
+  \vmu_t - \vmu_{t-1}
+\eqcol
+  \parensinv{
+    \covmtx_{t | t-1}\invx
+    +
+    \mCt
+    \mRinv
+    \mC
+  }
+  \parens{
+    \mCt
+    \mRinv
+    \mC
+  }
+  \parens{
+    \mCinv
+    \Delta\vy_t
+  }
+\end{nedqn}
+
+Notice the use of $\mCinv \Delta\vy_t$ because we need to transform $Y$
+space back to $Z$ space.
+
+\begin{nedqn}
+  \vmu_t - \vmu_{t-1}
+\eqcol
+  \parensinv{
+    \covmtx_{t | t-1}\invx
+    +
+    \mCt
+    \mRinv
+    \mC
+  }
+  \parens{
+    \mCt
+    \mRinv
+    \mC
+  }
+  \Bparens{
+    \mCinv
+    \Delta\vy_t
+  }
+\\
+\eqcol
+  \parensinv{
+    \covmtx_{t | t-1}\invx
+    +
+    \mCt
+    \mRinv
+    \mC
+  }
+  \Bparensinv{
+    \mR
+    \parensinv{\mCt}
+  }
+  \Bbparens{
+    \Delta\vy_t
+  }
+\\
+\eqcol
+  \parensinv{
+    \mR
+    \parensinv{\mCt}
+    \covmtx_{t | t-1}\invx
+    +
+    \mC
+  }
+  \Bbparens{
+    \Delta\vy_t
+  }
+\\
+  \mK
+\defeqcol
+  \parensinv{
+    \mR
+    \parensinv{\mCt}
+    \covmtx_{t | t-1}\invx
+    +
+    \mC
+  }
+\end{nedqn}
+
+We call this the \define{Kalman gain matrix} and there are lots of
+equivalent definitions.
+
+And there you have it!

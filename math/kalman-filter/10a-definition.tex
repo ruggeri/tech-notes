@@ -1,0 +1,38 @@
+\subsection{Definition}
+
+Because of all our preparation, the final work on the Kalman filter is
+quite simple. The Kalman filter is very similar to a hidden Markov
+model, except the conditional probability distributions are linear
+Gaussian, rather than discrete.
+
+First, we have an unobserved variable $\vz_t$. The state evolves in the
+following simple way:
+
+\begin{nedqn}
+  \vz_t
+\eqcol
+  \mA \vz_{t-1}
+  +
+  \vepsilon\subvz
+  \\
+\intertext{where}
+  \vepsilon\subvz
+\simcol
+  \normal{\veczero}{\mQ}
+\end{nedqn}
+
+Our insight into the unobserved state is via $\vy_t$. The observation
+model is:
+
+\begin{nedqn}
+  \vy_t
+\eqcol
+  \mC \vx_t
+  +
+  \vepsilon\subvy
+\intertext{where}
+  \vepsilon\subvy
+\simcol
+  \normal{\veczero}{\mR}
+\end{nedqn}
+

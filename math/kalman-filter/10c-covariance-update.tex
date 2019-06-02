@@ -1,0 +1,59 @@
+\subsection{Covariance Update}
+
+We now want to incorporate a new observation: $\vy_t$. We want to
+calculate:
+
+\begin{nedqn}
+  \condpr{\vz_t}{\vy\seqt}
+\simcol
+  \condpr{\vz_{t - 1}}{\vy_{1:t-1}}
+  \condpr{\vz_t}{\vz_{t-1}}
+  \condpr{\vy_t}{\vz_t}
+\end{nedqn}
+
+Great! We've already analyzed the first parts above, so we just need to
+attack $\condpr{\vy_t}{\vz_t}$. We can almost apply our MVN posterior
+calculation technique, except the conditional distribution here is over
+$Y$ space rather than $Z$ space. But that's easy to fix:
+
+\begin{nedqn}
+  \condpr{
+    \vy_t
+  }{
+    \vz_t
+  }
+\simcol
+  \normal{\mC \vz_t}{\mR}
+\\
+  \condpr{
+    \mC\invx
+    \vy_t
+  }{
+    \vz_t
+  }
+\simcol
+  \normal{\vz_t}{\mC\invx \mR \parenstrans{\mC\invx}}
+  \nednumber\label{yt:cond:zt}
+\end{nedqn}
+
+Combining equations \ref{yt:cond:zt} and \ref{zt:cond:ztm1}, we can
+start our normal calculations:
+
+\begin{nedqn}
+  \covmtx_t\invx
+\eqcol
+  \covmtx_{t | t-1}\invx
+  +
+  \parensinv{
+    \mCinv
+    \mR
+    \parenstrans{\mCinv}
+  }
+\\
+\eqcol
+  \covmtx_{t | t-1}\invx
+  +
+  \mCt
+  \mRinv
+  \mC
+\end{nedqn}
