@@ -1,8 +1,5 @@
 **Reviewed 2019-04-25**
 
-* Kalman Filtering.
-  * Normal distribution parameter estimation.
-* Read Latex manual.
 * Read up on Docker. Finish TypeGraphQL exploration.
 * Writeup how reverse image search works. Text search/info retrieval.
 * Zero knowledge proof. Interactive proofs? Zcash?
