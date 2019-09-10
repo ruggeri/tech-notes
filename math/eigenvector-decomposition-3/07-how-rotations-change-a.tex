@@ -31,14 +31,14 @@ $\bvec{i}, \bvec{j}$:
   + \bvec{n}\bvec{n}\tran
 \end{nedqn}
 
-I would like to know what happens to $f(\mtxQtDQ)$ as we change $\theta$
+I would like to know what happens to $f(\mtxQtAQ)$ as we change $\theta$
 near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$ where $k_1, k_2
 \not\in \setof{i, j}$:
 
 \begin{nedqn}
   \mtxA'_{k_1, k_2}(\theta)
 & = &
-  \bvec{k_1}\tran (\mtxQtDQ) \bvec{k_2}
+  \bvec{k_1}\tran (\mtxQtAQ) \bvec{k_2}
   \\
 & = &
   \bvec{k_1}\tran \mtxA \bvec{k_2}
@@ -55,7 +55,7 @@ where $k \not\in \setof{i, j}$.
 \begin{nedqn}
   \mtxA'_{k, i}(\theta)
 & = &
-  \bvec{k}\tran (\mtxQtDQ) \bvec{i}
+  \bvec{k}\tran (\mtxQtAQ) \bvec{i}
   \\
 & = &
   \bvec{k}\tran \mtxA \left(
@@ -68,6 +68,8 @@ where $k \not\in \setof{i, j}$.
   \label{change:k:i}
 \end{nedqn}
 
+\textbf{TODO}: we really ought to prove that rotation preserves symmetry?
+
 Well, that makes sense! Naturally, because $\mtxA'(\theta)$ is
 symmetric, we know that $\mtxA'_{i, k}(\theta) = \mtxA'_{k, i}(\theta)$.
 Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
@@ -75,7 +77,7 @@ Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
 \begin{nedqn}
   \mtxA'_{k, j}(\theta)
 & = &
-  \bvec{k}\tran (\mtxQtDQ) \bvec{j}
+  \bvec{k}\tran (\mtxQtAQ) \bvec{j}
   \\
 & = &
   \bvec{k}\tran \mtxA \left(
@@ -127,3 +129,6 @@ $\mtxA'_{i, j}(\theta)$:
   \mtxA_{i, j}
   \nednumber\label{change:i:j}%
 \end{nedqn}
+
+Note: we don't consider $\mtxA'_{i, i}$ or $\mtxA'_{j, j}$ because
+those are on diagonal.

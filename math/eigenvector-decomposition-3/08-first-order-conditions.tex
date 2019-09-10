@@ -1,10 +1,10 @@
 \section{First Order Conditions}
 
-Let us now begin examining $\fptheta f(\mtxQtDQ)$. Why? Because, at a
+Let us now begin examining $\fptheta f(\mtxQtAQ)$. Why? Because, at a
 minimum, we know that these partials must be zero. We hope to show that
 a minimum can only occur if only all off-diagonal entries are zero.
 
-First, let's look at:
+First, let's consider $\mtxA'_{k_1, k_2}$, where $k_1, k_2 \ne i, j$:
 
 \begin{nedqn}
   \fptheta \left[
@@ -18,7 +18,8 @@ First, let's look at:
 \end{nedqn}
 
 As expected: those elements don't change regardless of $\theta$, so they
-don't cause any change in $f$. Next, let's look at:
+don't cause any change in $f$. Next, let's look at $\mtxA'_{k, i}$,
+where $k \ne i, j$:
 
 \begin{nedqn}
   \fptheta \left[
@@ -55,8 +56,15 @@ don't cause any change in $f$. Next, let's look at:
   \nednumber%
 \end{nedqn}
 
-We want to evaluate this derivative at $\theta = 0$, since we want to
-see what happens when we make small changes to $\mtxA$. Thus, we obtain:
+Now, for a given $\mtxA$, the minimum may occur at any $\theta$. It's
+simpler if we assume the minimum occurs at $\theta = 0$. We may do this,
+because we could always consider minimizing $f$ for rotations of
+$\mtxA'$, instead of minimizing $f$ for rotations of $\mtxA$. Because
+both matrices are simply rotations of each other, the problem would be
+the same. Since by definition $\mtxA'$ minimizes $f$ in the rotation
+space, the minimum occurs at $\theta = 0$.
+
+Anyway, by evaluating the derivative at $\theta = 0$, we obtain:
 
 \begin{nedqn}
   \fptheta \left[
@@ -72,7 +80,8 @@ see what happens when we make small changes to $\mtxA$. Thus, we obtain:
   \nednumber\label{change:at:zero:k:i:}
 \end{nedqn}
 
-Let us do the corresponding calculation for $\mtxA'_{k, j}$:
+Last, let us do the corresponding calculation for $\mtxA'_{k, j}$ ($k
+\ne i, j$):
 
 \begin{nedqn}
   \fptheta \left[
@@ -127,8 +136,8 @@ Again, substituting $\theta = 0$, we obtain:
 \end{nedqn}
 
 Do you see what has happened here? The change to $f$ due to change in
-$\mtxA'_{k, i}$ (equation \ref{change:at:zero:k:i:}) be canceled out by
-the change to $f$ due to change in $\mtxA'_{k, j}$ (equation
+$\mtxA'_{k, i}$ (equation \ref{change:at:zero:k:i:}) will be canceled
+out by the change to $f$ due to change in $\mtxA'_{k, j}$ (equation
 \ref{change:at:zero:k:j:}). (And likewise for $\mtxA'_{i, k}$ and
 $\mtxA'_{j, k}$.)
 
