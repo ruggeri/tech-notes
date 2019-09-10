@@ -1,6 +1,8 @@
 **Reviewed 2019-04-25**
 
 * Read up on Docker. Finish TypeGraphQL exploration.
+  * Repository vs ActiveRecord: what's the diff?
+* Learn how lowpass filter circuit works.
 * Writeup how reverse image search works. Text search/info retrieval.
 * Zero knowledge proof. Interactive proofs? Zcash?
 * Return to notes on Prisoner's Dilemma from computability standpoint?
@@ -8,9 +10,6 @@
 * Might be nice to get Deep Q Network to actually work...
   * Neural Turing Machine, Monte-Carlo Tree Search.
 * Continue DB project? Bitcoin project?
-
-I think I want to resume studying AI/ML maybe. Now that I understand
-SVD, I think understanding Kalman filtering is within my reach.
 
 There isn't much I'm interested in with regard to algorithms. I am
 still interested in recalling how things like reverse image search and
