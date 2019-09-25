@@ -72,9 +72,9 @@ the half cells; it allows anion movement (but not cation movement).
 
 When an anion migrates from the copper sulfate side to the zinc sulfate
 side, two electrons will travel from the zinc electrode to the copper
-electrode. The zinc electrode will dissolve (gaining electrons is called
-*reduction*), while the copper side will plate out (removing electrons
-is called *oxidization*).
+electrode. The zinc electrode will dissolve (losing electrons is called
+*oxidization*), while the copper side will plate out (adding electrons
+is called *reduction*).
 
 The reason this is preferred is because of the thermodynamic equation
 above:
@@ -94,9 +94,9 @@ anions (by releasing zinc cations) is called the *anode*.
 We've seen above that it's important for an SO_4^-2 anion to be able to
 travel from the copper sulfate half cell to the zinc sulfate half cell.
 If the half cells were kept totally separate, anions could not move. In
-that case, as reduction and oxidization proceeded, the half cells would
+that case, as oxidization and reduction proceeded, the half cells would
 not maintain electrical neutrality. The buildup of charge would
-eventually resist the reduction/oxidization reactions. The energy
+eventually resist the oxidization/reduction reactions. The energy
 released by the reaction would drop (because resisted by charge buildup
 in the half cells), eventually dropping to zero.
 
@@ -141,9 +141,9 @@ happen at *either* electrode. The reason is that the interior Zn no
 longer desires to dissolve into Zn^+2, because it cannot be dissolved
 into the solution (it's trapped by the copper plating). If it *did*,
 then the interior of the copper-plated zinc electrode would simply
-become more and more negative. Since the reduction half reaction no
-longer is desirable, the corresponding oxidization cannot occur at
-either electrode.
+become more and more negative. Since the oxidization half reaction no
+longer is desirable, the corresponding reduction cannot occur at either
+electrode.
 
 Basically: SO_4^-2 anion movement between half cells is okay, and even
 Zn^+2 cation movement is okay. But Cu^+2 cation movement from the copper
@@ -190,12 +190,12 @@ dissolves into K^+1 and NO_3^-1.
 Now, when a Zn^+2 cation pushed out of the zinc sulfate half cell, it
 can push out a corresponding amount of K^+1. Via a chain of pushing,
 that K^+1 will get pushed into the copper sulfate half cell. Here the
-K^+1 does work in pushing the oxidization reaction forward.
+K^+1 does work in pushing the reduction reaction forward.
 
 Likewise, when a SO_4^-2 anion is pushed out of the copper sulfate half
 cell, it displaces some NO_3^-1. This pushes a whole chain, pushing
 NO_3^-1 into the zinc sulfate half cell. The NO_3^-1 now does work
-pushing the reduction reaction forward.
+pushing the oxidization forward.
 
 We have achieved something good. There is no buildup of charge at the
 junctions. Yes mass (the K^+ and the NO_3^-1 ions) needs to be moved,
@@ -214,3 +214,78 @@ Sources:
 * https://chemistry.stackexchange.com/questions/19540/why-the-salts-in-a-salt-bridge
 * https://chemistry.stackexchange.com/questions/5477/why-is-it-important-to-use-a-salt-bridge-in-a-voltaic-cell-can-a-wire-be-used
 * https://chemistry.stackexchange.com/questions/97409/what-is-the-purpose-of-the-electrolyte-in-the-half-cell-where-oxidation-is-takin
+
+## Amount of energy stored in a cell
+
+If you double the system (double the amount of sulfate solutions, double
+the size of the electrodes), you should double the amount of energy that
+the battery can release (equivalently: the amount of energy it stores).
+
+I want to make a few notes:
+
+* A large anode means more Zn to oxidize,
+* It's sufficient if a cathode has just enough surface area to plate
+  efficiently,
+* You want to match the amount of copper sulfate in the cathode half
+  cell to the amount of zinc that will be oxidized in the anode half
+  cell,
+* I don't think it totally matters what kind (or how much) of
+  electrolyte is in the anode half cell.
+
+This last point basically says: zinc sulfate is not really involved in
+the anode reaction. It doesn't super matter what electrolyte cation is
+pushed out of the anode half cell. Likewise, it doesn't super matter
+what electrolyte anion is there to match the Zn^+2 that is dissolving.
+
+I think there are maybe some technical reasons for preferring zinc
+sulfate still. I could return to this later.
+
+Source:
+
+* https://chemistry.stackexchange.com/questions/97409/what-is-the-purpose-of-the-electrolyte-in-the-half-cell-where-oxidation-is-takin
+
+## Voltage
+
+Doubling the size of the cell will not increase the *voltage*. The
+voltage measures how much energy can be harnessed per electron that is
+moved. The voltage is determined directly from the chemistry of the
+cell.
+
+To achieve higher voltages, we need to *pile* cells into batteries.
+To stack three cells, we have
+
+    Anode   1
+    ---------
+    Cathode 1
+    ---------
+    Anode   2
+    ---------
+    Cathode 2
+    ---------
+    Anode   3
+    ---------
+    Cathode 3
+
+Imagine, now, that I took 2 electrons from anode 1 and "magically" moved
+them through a circuit and to cathode 3. That would reduce Cu^+2 to Cu
+in cathode 3. If I did that, the cathode 3 half cell would become net
+negative. That could be counteracted by anode 3 pushing some Zn^+2 into
+the bridge and some electrolyte cation into the anode 3 half cell.
+Alternatively, some SO_4^-2 from cathode 3 half cell could be pushed
+into the bridge, pushing some electrolyte anion out.
+
+Either way, this will now make the solution in the anode 3 half cell net
+negative charge. This could be balanced by oxidization of Zn to Zn^+2 in
+the anode 3 half cell. But where would those electrons go?
+
+Into cathode 2, of course! The situation repeats. Cu^+2 is reduced to
+copper in in cathode 2, while Zn is oxidized to Zn^+2 in anode 2.
+Electrons are now moved to cathode 1.
+
+In cathode 1, again we have reduction of Cu^+2. A corresponding
+oxidization of Zn to Zn^+2 is desired in the anode. And this is just
+perfect: the two electrons we initially removed is exactly this
+oxidization that was desired!
+
+We now see that the amount of energy that can be harnessed per electron
+sent through the circuit is tripled by the stacking of the cells!
