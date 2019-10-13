@@ -147,6 +147,34 @@ This is the amount of energy that would have been required to maintain a
 force long enough to accelerate the mass from rest to the stated
 velocity.
 
+## Power
+
+Power measures
+
+**Whoa**. Need to reflect that:
+
+* Kind of amazing that force affects *acceleration* and not *jerk*. Why
+  would this be?
+* *Gravitational potential energy* is in a sense a "made up idea."
+  * It simply means: how much ability is there to *accelerate* the
+    object.
+      * You can see that it isn't "intrinsic" to the object, since it
+        arrises from interaction between two objects via gravity.
+      * If remove second object, "potential" goes away...
+  * Anyway, how much ability you have to accelerate is proportional to
+    distance. It just is definitionally.
+  * Likewise, kinetic energy is meaningless. It is simply implied by
+    definitions.
+    * If you accelerate an object at rest for a given distance (), you will get an object
+    * Since energy is how much ability to accelerate the object
+
+**TODO**: Return to me!
+
+  * In what "sense" is energy stored in an object that is up high?
+  * Relationship between velocity and kinetic energy is no more than
+    what is implied by definition of force.
+  * That is: if energy is
+
 ## TODO
 
 * Angular momentum
@@ -154,7 +182,6 @@ velocity.
 * Inertia
 * Moment of Inertia
 * Momentum
-* Power
 * Simple machines:
   * Lever
   * Wheel and axle

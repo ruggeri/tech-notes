@@ -1,0 +1,24 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+
+% TODO: Move these definitions elsewhere?
+\usepackage[free-standing-units=true]{siunitx}
+\newcommand{\mps}{\meter / \s}
+\newcommand{\mpss}{\meter / \s^2}
+
+\begin{document}
+
+\title{Introductory Mechanics}
+\maketitle
+
+\input{00-gravitation}
+\input{01-momentum}
+\input{02-energy}
+
+\end{document}
