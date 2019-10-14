@@ -1,3 +1,174 @@
 \section{Energy}
 
 \subsection{Kinetic Energy}
+
+We've already discussed momentum. This talks about how much force an
+object can sustain, and for how long, before it comes to rest.
+
+We can also ask for what \emph{distance} will an object be able to
+sustain a force before coming to rest. This is called \emph{kinetic
+energy}. The measure of kinetic energy is naturally the Newton meter:
+\si{Nm}. This unit is also called the \emph{Joule}: \si{J}.
+
+When calculating kinetic energy, the relevant factors are: (1) the mass
+of the object, and (2) the velocity of the object. The kinetic energy
+ought to be proportional to the mass: if we double the mass of the
+object, we must double the force exerted to maintain the same
+deceleration.
+
+How do kinetic energy and velocity relate? Well, imagine that it takes a
+constant force of $F$ exerted for $d$ meters to stop an object with mass
+$m$ and velocity $v$. We now ask, for what distance must $F$ be exerted
+to stop the same object with velocity $\alpha v$?
+
+We know that it must now take $\alpha t$ seconds to stop the object. We
+know that from our discussion of momentum. But how much distance is
+that?
+
+\begin{nedqn}
+  \int_0^t v - \frac{F}{m} t' \dtp
+\eqcol
+  d
+\\
+  vt - \frac{F}{2m} t^2
+\eqcol
+  d
+\end{nedqn}
+
+But now we're starting with velocity $\alpha v$, and decelerating for
+$\alpha t$ seconds:
+
+\begin{nedqn}
+  \int_0^{\alpha t} \alpha v - \frac{F}{m} t' \dtp
+\eqcol
+  \alpha^2 vt - \frac{F}{2m} (\alpha t)^2
+\\\eqcol
+  \alpha^2
+  \left(
+    vt - \frac{F}{2m}t^2
+  \right)
+\\\eqcol
+  \alpha^2 d
+\end{nedqn}
+
+From this we may write that:
+
+\begin{nedqn}
+  KE
+\defeqcol
+  \frac{1}{2} m v^2
+\end{nedqn}
+
+\subsection{Kinetic Energy Is Well Defined}
+
+We've shown how kinetic energy changes when the mass or velocity change.
+But we haven't yet shown that kinetic energy is constant for all choices
+of $F$ and $d$ that would stop the object.
+
+We'll start with two constant forces $F_1$ and $F_2$ that stop the
+object within distances of $d_1$ and $d_2$. Because both forces need to
+arrest the same momentum, we have:
+
+\begin{nedqn}
+  F_1 t_1
+\eqcol
+  F_2 t_2
+\\
+  \frac{F_1}{F_2}
+\eqcol
+  \frac{t_2}{t_1}
+\end{nedqn}
+
+Let's now recall the relation between time to stop and stopping distance:
+
+\begin{nedqn}
+  \int_0^{t_1} \left(
+    \int_0^{t'} \frac{F_1}{m} \dtpp
+  \right) \dtp
+\eqcol
+  d_1
+\\
+  \frac{1}{2}
+  \frac{F_1}{m}
+  t_1^2
+\eqcol
+  d_1
+\end{nedqn}
+
+And of course also:
+
+\begin{nedqn}
+  \frac{1}{2}
+  \frac{F_2}{m}
+  t_2^2
+\eqcol
+  d_2
+\end{nedqn}
+
+We may now note:
+
+\begin{nedqn}
+  \frac{d_1}{d_2}
+\eqcol
+  \frac{
+    \frac{1}{2}
+    \frac{F_1}{m}
+    t_1^2
+  }{
+    \frac{1}{2}
+    \frac{F_2}{m}
+    t_2^2
+  }
+\\\eqcol
+  \frac{F_1}{F_2}
+  \parensq{
+    \frac{t_1}{t_2}
+  }
+\\\eqcol
+  \frac{t_2}{t_1}
+  \parensq{
+    \frac{t_1}{t_2}
+  }
+\\\eqcol
+  \frac{t_1}{t_2}
+\end{nedqn}
+
+Which now leads us to:
+
+\begin{nedqn}
+  \frac{F_1 d_1}{F_2 d_2}
+\eqcol
+  \frac{F_1}{F_2}
+  \frac{d_1}{d_2}
+\\\eqcol
+  \frac{t_2}{t_1}
+  \frac{t_1}{t_2}
+\\\eqcol
+  1
+\end{nedqn}
+
+This shows that kinetic energy is indeed well-defined no matter the
+force. We should really extend this to \emph{any} force $F_1(d)$,
+$F_2(d)$. I will do this faster, appealing to a series of changes of
+variables:
+
+\begin{nedqn}
+  \int_0^{d_0} F(d) \dd
+\eqcol
+  \int_0^{d_0} m a(d) \dd
+  \nedcomment{definition of force}
+\\\eqcol
+  m \int_0^{t_0} a(t) d'(t) \dt
+  \nedcomment{change variables to time}
+\\\eqcol
+  m \int_0^{t_0} v'(t) v(t) \dt
+  \nedcomment{write in terms of velocity}
+\\\eqcol
+  m \int_0^v v \dv
+  \nedcomment{change of variables to velocity}
+\\\eqcol
+  \frac{1}{2} m v^2
+\end{nedqn}
+
+Wonderful! We've now shown that kinetic energy is a well-defined
+quantity! Next question: why should we care about it?

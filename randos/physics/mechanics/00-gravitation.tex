@@ -2,9 +2,9 @@
 
 \subsection{Weight}
 
-We observe that objects have \emph{weight}. Heavier objects are harder
-to lift. A little more precisely, if you balance two objects on a scale,
-objects with the same weight will balance out.
+We observe that objects appear to have \emph{weight}. Heavier objects
+are harder to lift. A little more precisely, if you balance two objects
+on a scale, objects with the same weight will balance out.
 
 How is this so? We might imagine that objects are pulled toward the
 earth. Objects are ``heavier'' because they are pulled harder toward the
@@ -16,63 +16,49 @@ If an object is not supported - that is, dropped - it will fall toward
 the earth. Objects \emph{accelerate} toward the earth; they start out
 falling slowly, then gather speed.
 
-Why don't they immediately start falling at a given speed? One might
-presume: nature wants to vary physical quantities continuously.
-Therefore, smooth acceleration seems natural. (Side note: one presumes
-that the gravitational ``force'' of the earth on the object has always
-existed. ``Dropping'' didn't discontinuously create the force. We simply
-removed the support.)
-
-Why does the rate of acceleration not change over the course of the
-dropping? Perhaps it might change as the object approaches the earth? In
-fact: it does! Objects accelerate faster the closer they are to the
-Earth's surface. But this is hard to observe when working close to the
-Earth's surface.
-
-Should the rate of acceleration vary given an object's velocity? Maybe
-an object should accelerate to a ``terminal velocity?'' Because of
-\emph{drag} (later!) this is actually the case. In an ideal world
-without drag?
-
-Perhaps because of some relativistic effect acceleration might vary with
-velocity. I am unsure. Certainly this is not what we appear to observe.
-On the other hand, I can't think of some simple principle that would
-suggest that velocity is irrelevant to the ``strength'' of gravitational
-acceleration.
-
-Also, it is not clear to me that gravity ought not affect the
-\emph{jerk} of an object (the change in the acceleration).
-
-Anyway, we may set these questions aside and move on. Perhaps this is
-``just the way the universe works.''
-
-\subsection{Constant Acceleration and Force}
-
 It is observed that the acceleration of an object does not depend on its
 weight. No matter the weight, we observe a constant acceleration of
 \SI{9.8}{\mpss}.
 
 Here we face a little contradiction. If the ``force'' of gravity were
 simply acceleration, then we would not expect that objects of different
-weights would fail to balance.
+weights would fail to balance. Gravity \emph{does} appear to ``pull
+harder'' on heavier objects (that's what makes them heavier). But the
+observed effect of acceleration is always the same...
 
-Consider a 1 pound weight tied to one end of a pulley, while a 2 pound
-weight is tied to the other end of the pulley. This does not balance, of
-course. The weights accelerate, \emph{but not at the rate of
-\SI{9.8}{\mpss}!} The weights accelerate at something closer to
-\emph{half} the typical rate of acceleration.
+\subsection{The Concept Of Force}
 
-(This analysis is not exactly correct. It is not as if there is a
-\SI{1}{N} net force on \emph{both} the 2 pound and 1 pound weights. If
-that were the case, they would accelerate at different rates.)
+How does gravitational ``pulling'' relate to acceleration? We can
+experiment.
 
-What does the experiment suggest? It suggests that the \emph{strength}
-of gravitational attraction \emph{is} proportional to an object's mass.
-It's simply that the ability of a ``force'' to accelerate an object is
-\emph{inversely proportional} to the object's mass.
+Let's attach a \SI{1}{N} weight to one end of a pulley, and a \SI{2}{N}
+weight to the other end. We expect that gravity will ``pull harder'' on
+the \SI{2}{N} weight, overcoming the pulling of the \SI{1}{N} weight.
 
-This suggests to us that we should be talking about a gravitational
-\emph{force}, not simply gravitational acceleration. We may write:
+Let's assume that the ``forces'' of pulling are \emph{additive}. That would
+kind of make sense: two \SI{1}{N} weights can balance a single \SI{2}{N}
+weight. In that case, we expect the overall ``pulling'' on our pulley
+apparatus to be equivalent to the gravitational pulling performed on a
+\SI{1}{N} weight.
+
+However, more ``stuff'' is being pulled upon. We observe that the pulley
+will accelerate at a rate of:
+
+\begin{nedqn}
+  a
+\eqcol
+  \frac{
+    9.8 \si{\mpss}
+  }{
+    3
+  }
+\end{nedqn}
+
+We may infer that (1) gravity is a ``force'' (not merely acceleration),
+(2) the gravitational force is proportional to the \emph{mass} of the
+object acted upon, and (3) acceleration of an object (or set of objects)
+is proportional to the net force and inversely proportional to the total
+\emph{mass}. Which is to say:
 
 \begin{nedqn}
   F
@@ -80,20 +66,30 @@ This suggests to us that we should be talking about a gravitational
   ma
 \end{nedqn}
 
+and
+
+\begin{nedqn}
+  F_g
+\simcol
+  gm
+\end{nedqn}
+
+Where $g \defeq \si{9.8}{\mpss}$.
+
+When an object is subject only to the gravitational force, we therefore
+observe constant acceleration.
+
 \subsection{Symmetry of Gravitational Force}
 
-The gravitational force must be proportional to the mass of the object
-acted upon. That follows from our observation of constant acceleration.
-
 We know that the Earth exerts a gravitational force on objects, but is
-the Earth special? Any object should exert a gravitational force on any
-other object. It doesn't make sense that the Earth would be ``special.''
+the Earth special? Shouldn't every object exert a gravitational force on
+every other object?
 
 If that is the case, we might ask why objects fall to the ground instead
 of into each other. One presumes that there is indeed a force between
 each pair of objects, but that the force is proportional not only to the
 mass of the attracted object, but also proportional to the mass of the
-attracting object.
+\emph{attracting} object.
 
 Assuming this is the case, we have:
 
@@ -104,19 +100,19 @@ Assuming this is the case, we have:
   m_B
 \end{nedqn}
 
-Note that we expect the gravitational force exerted by A on B to be
-equal but opposite to the gravitational force exerted by B on A. As an
-intuition check: if A is the Earth while B is a \SI{10}{kg} object, we
-expect the object to accelerate much faster than the Earth. This follows
-from forces being equal in magnitude, but the masses being so different.
+This suggests that the gravitational force exerted by A upon B should
+equal the gravitational force exerted by B upon A. As an intuition
+check: if A is the Earth while B is a \SI{10}{kg} object, we expect the
+object to accelerate much faster than the Earth. This follows from
+forces being equal in magnitude, but the masses being so different.
 
 \subsection{Gravitational Force Inversely Proportional To Squared Distance}
 
 There are many objects that are much more massive than the Earth. Why do
-we predominately accelerate toward the Earth and not the Sun? Presumably
-\emph{distance} has something to do with it!
+we humans predominately accelerate toward the Earth and not into the
+Sun? Presumably \emph{distance} has something to do with it!
 
-We find that the force of gravity is inversely proportional to the
+We observe that the force of gravity is inversely proportional to the
 \emph{square} of the distance between the two objects. Why the
 \emph{square}?
 
@@ -167,3 +163,27 @@ Here $G$ is the gravitational constant. By experiment we determine that:
 \end{nedqn}
 
 Lovely.
+
+\subsection{Acceleration versus Jerk}
+
+Before moving on, we may ask: why does the force of gravity
+\emph{accelerate} an object, rather than \emph{accelerate the
+acceleration}? The second derivative of velocity is called \emph{jerk}.
+
+I don't exactly know why!
+
+Here is one thought though. There is no way to ``discontinuously''
+create a gravitational force. To ``create'' a gravitational force on
+object A, you must first build up mass at point B. Building up the mass
+at point B will build up the gravitational force continuously, thus
+building up the acceleration.
+
+Perhaps what is relevant here is that we see \emph{mass} as a static
+property that exists at a point in time, while the process of
+accumulation of mass appears to us as having a duration.
+
+Anyway, I think this may simply be an example of ``how the universe
+works.'' I'm not sure how to analyze further. Hopefully, though, we have
+seen some justification for $F = ma$ in experiment. It's not as if force
+is itself visible or tangible; it is \emph{imputed}. But it seems to be
+a simple explanation of our observation.
