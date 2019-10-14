@@ -26,11 +26,15 @@ know that from our discussion of momentum. But how much distance is
 that?
 
 \begin{nedqn}
-  \int_0^t v - \frac{F}{m} t' \dtp
+  \int_0^t v(t') \dtp
 \eqcol
   d
 \\
-  vt - \frac{F}{2m} t^2
+  \int_0^t v_0 - \frac{F}{m} t' \dtp
+\eqcol
+  d
+\\
+  v_0t - \frac{F}{2m} t^2
 \eqcol
   d
 \end{nedqn}
@@ -39,13 +43,14 @@ But now we're starting with velocity $\alpha v$, and decelerating for
 $\alpha t$ seconds:
 
 \begin{nedqn}
-  \int_0^{\alpha t} \alpha v - \frac{F}{m} t' \dtp
+\\
+  \int_0^{\alpha t} \alpha v_0 - \frac{F}{m} t' \dtp
 \eqcol
-  \alpha^2 vt - \frac{F}{2m} (\alpha t)^2
+  \alpha^2 v_0 t - \frac{F}{2m} (\alpha t)^2
 \\\eqcol
   \alpha^2
   \left(
-    vt - \frac{F}{2m}t^2
+    v_0 t - \frac{F}{2m}t^2
   \right)
 \\\eqcol
   \alpha^2 d
@@ -55,19 +60,53 @@ From this we may write that:
 
 \begin{nedqn}
   KE
-\defeqcol
+\simcol
   \frac{1}{2} m v^2
 \end{nedqn}
 
 \subsection{Kinetic Energy Is Well Defined}
 
 We've shown how kinetic energy changes when the mass or velocity change.
-But we haven't yet shown that kinetic energy is constant for all choices
-of $F$ and $d$ that would stop the object.
+Now we want to give an exact formula. We also want to prove (like we did
+for momentum), that you can use any force $F$ and any distance $d$ just
+as long as the product works out correctly. More: we want to prove that
+for any $F(d)$ and $d_0$, so long as $\int_0^{d_0} F(d') \ddp$ is equal
+to the kinetic energy, the force will stop the moving object over that
+distance.
 
-We'll start with two constant forces $F_1$ and $F_2$ that stop the
-object within distances of $d_1$ and $d_2$. Because both forces need to
-arrest the same momentum, we have:
+The cleanest way to show this is via a series of changes of variables:
+
+\begin{nedqn}
+  \int_0^{d_0} F(d) \dd
+\eqcol
+  \int_0^{d_0} m a(d) \dd
+  \nedcomment{definition of force}
+\\\eqcol
+  m \int_0^{t_0} a(t) d'(t) \dt
+  \nedcomment{change variables to time}
+\\\eqcol
+  m \int_0^{t_0} v'(t) v(t) \dt
+  \nedcomment{write in terms of velocity}
+\\\eqcol
+  m \int_0^v v \dv
+  \nedcomment{change of variables to velocity}
+\\\eqcol
+  \frac{1}{2} m v^2
+\end{nedqn}
+
+Note where we presume that the force over the specified distance is
+sufficient to stop the velocity: that the bounds $(0, t_0)$ correspond
+to velocity $(0, v)$. Note: I've done this derivation using acceleration
+rather than deceleration. Because equivalently the kinetic energy is the
+force times the distance required to get an object of mass $m$ up to
+speed $v^2$.
+
+\subsection{Less Fancy Derivation}
+
+In case that change of variables was too slick, we can do a simpler
+version. Here I'll assume two constant forces $F_1$ and $F_2$ that stop
+the object within distances of $d_1$ and $d_2$. Because both forces need
+to arrest the same momentum, we have:
 
 \begin{nedqn}
   F_1 t_1
@@ -82,6 +121,10 @@ arrest the same momentum, we have:
 Let's now recall the relation between time to stop and stopping distance:
 
 \begin{nedqn}
+  \int_0^{t_1} v(t') \dtp
+\eqcol
+  d_1
+\\
   \int_0^{t_1} \left(
     \int_0^{t'} \frac{F_1}{m} \dtpp
   \right) \dtp
@@ -147,28 +190,11 @@ Which now leads us to:
   1
 \end{nedqn}
 
-This shows that kinetic energy is indeed well-defined no matter the
-force. We should really extend this to \emph{any} force $F_1(d)$,
-$F_2(d)$. I will do this faster, appealing to a series of changes of
-variables:
+Great! This derivation isn't fancy like the change-of-variables way, and
+it doesn't fully prove things for the variable $F(d)$ force possibility,
+but it does use less fancy math.
 
-\begin{nedqn}
-  \int_0^{d_0} F(d) \dd
-\eqcol
-  \int_0^{d_0} m a(d) \dd
-  \nedcomment{definition of force}
-\\\eqcol
-  m \int_0^{t_0} a(t) d'(t) \dt
-  \nedcomment{change variables to time}
-\\\eqcol
-  m \int_0^{t_0} v'(t) v(t) \dt
-  \nedcomment{write in terms of velocity}
-\\\eqcol
-  m \int_0^v v \dv
-  \nedcomment{change of variables to velocity}
-\\\eqcol
-  \frac{1}{2} m v^2
-\end{nedqn}
+\subsection{Why Kinetic Energy}
 
 Wonderful! We've now shown that kinetic energy is a well-defined
 quantity! Next question: why should we care about it?
