@@ -1,17 +1,11 @@
-## Euler's Totient Theorem
+## Note: not every element is invertible mod `n`
 
-Euler's totient theorem says:
-
-    a^{phi(n)} = 1 (mod n)
-
-Here `phi(n)` is the number of coprime numbers `<=n`. Note of course
-that `phi(p) = p-1`. So this generalizes Fermat's little theorem.
-
-## Not every element is invertable mod `n`
+Consider the chain: `x, x^2, x^3, ...`. By process of elimination, we
+know that the chain must eventually cycle back to `x`, or go to zero.
 
 Every element must eventually cycle back to itself or to zero, if
 continuously exponentiated. If `n=pq`, then `x**i` can never be
-divisble by `n`. But if `n=p**2` then `x**i` can end up at zero.
+divisible by `n`. But if `n=p**2` then `x**i` can end up at zero.
 
 Regardless, even if `x**i` cycles back to `x`, this does *not* mean
 `x` is invertable. Indeed, consider any `x` dividing `n`. Then we
@@ -114,3 +108,33 @@ the total number of elements in the group is:
     \prod n_i p_i**k_i
 
 Which would mean that the `p_i**k_i` must divide `phi(n)`.
+
+
+
+
+
+
+
+
+
+## Note: not every element is invertible mod `n`
+
+Consider the chain: `x, x^2, x^3, ...`. By process of elimination, we
+know that the chain must eventually cycle back to `x`, or go to zero.
+
+Every element must eventually cycle back to itself or to zero, if
+continuously exponentiated. If `n=pq`, then `x**i` can never be
+divisible by `n`. But if `n=p**2` then `x**i` can end up at zero.
+
+Regardless, even if `x**i` cycles back to `x`, this does *not* mean
+`x` is invertable. Indeed, consider any `x` dividing `n`. Then we
+have:
+
+    xk = 0
+
+So if we were able to invert `x`, we could multiply by `x**-1` to get:
+
+    k = 0
+
+Note that no element `x` not coprime with `n` is invertable. Since the
+"missing" factors of `n` from `x` are `<n`.
