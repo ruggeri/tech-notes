@@ -1,121 +1,235 @@
-## Basic Idea
+\section{RSA}
 
-The idea is to choose three numbers:
+Now we finally begin to define RSA. The idea is to choose three numbers:
 
-1. Encryption key `e`.
-2. Decryption key `d`.
-3. Modulus `n`.
+\begin{itemize}
+  \item
+    The encryption exponent $e$.
+  \item
+    The decryption exponent $d$.
+  \item
+    The modulus $n$.
+\end{itemize}
 
-Such that:
+We want to select $e, d, n$ such that:
 
-    (m**e)**d = m (mod n)
+\begin{nedqn}
+  \parens{m^e}^d
+\eqcol
+  m \mod n
+\end{nedqn}
 
-## Choosing `p, q, n`
+\subsection{Choosing $p, q, n$}
 
-You choose big primes `p` and `q`. These can be randomly sampled, and
-then you use Fermat's theorem to do primality testing (basically check
-that `a**p = a mod p` for some choices of `a`. After that you can do
-Miller-Rabin (I don't know how that is done) to get even more assurance.
-They also "preselect" numbers by filtering out all those divided by
-common small prime factors.
+You choose big primes $p$ and $q$. These can be randomly sampled. How do
+you know a random choice of $p$ or $q$ is prime? It is slow to test
+conclusively (though it is polytime).
 
-You then let your modulus `n=pq`.
+Faster is to use an application of Fermat's little theorem. If $p$ is
+prime, then for every random choice of $a$, we must have that $a^p = a
+\mod p$. Selecting lots of choices of $a$ gives us confidence that $p$
+is prime.
 
-## Euler's theorem
+There is also the Miller-Rabin test; I don't know exactly how that is
+done. It is again a randomized Monte Carlo algorithm with a probability
+of failure.
+
+It is also suggested that you can first quickly pre-filter non-primes by
+testing with division by common small prime factors. Then you move on to
+Fermat, then to Miller-Rabin.
+
+Once you have selected $p, q$ that are almost certainly prime, you
+then let your modulus be $n = pq$.
+
+\subsection{Criteria for selecting $e, d$}
 
 Euler's totient theorem says:
 
-    m ** phi(n) = 1 (mod n)
+\begin{nedqn}
+  m^{\varphi(n)}
+\eqcol
+  1 \mod n
+\end{nedqn}
 
-We want to choose decryption keys `e` and `d` such that:
+Recall that we want to choose decryption exponents $e, d$ such that:
 
-    (m**e)**d = m (mod n)
+\begin{nedqn}
+  \parens{m^e}^d
+\eqcol
+  m \mod n
+\end{nedqn}
 
-Therefore, we would like that `ed = k phi(n) + 1` (for any `k`). Put
-another way, we want:
+Therefore, we would like that $ed = k \varphi(n) + 1$ (for whatever
+integer $k$). Put another way, we want:
 
-    ed = 1 (mod phi(n))
+\begin{nedqn}
+  ed
+\eqcol
+  1 \mod \varphi(n)
+\end{nedqn}
 
-## `phi(nq)`
+\subsection{Calculating $\varphi(n)$ when $p, q$ are known}
 
-We know `phi(n) = (p - 1) (q - 1)`. Phi is Euler's totient function: the
-number of coprime numbers `<= n`.
+\begin{lemma}
+  \begin{nedqn}
+    \varphi(n)
+  \eqcol
+    (p - 1) (q - 1)
+  \end{nedqn}
+\end{lemma}
 
-Let's consider numbers that are *not* coprime to `n`. Then they must be
-either:
+\begin{proof}
+  Let's consider numbers that are \emph{not} coprime to $n$. They must
+  be:
 
-    1p, 2p, ..., (q - 1)p
-    1q, 2q, ..., (p - 1)q
+  \begin{IEEEeqnarray*}{c}
+    1p, 2p, \ldots, (q - 1)p
+  \\
+    1q, 2q, \ldots, (p - 1)q
+  \\
     pq
+  \end{IEEEeqnarray*}
 
-Let's think about this. First, if we cancel out all the multiples of `p`
-(including `pq`), then we have `p(q - 1)` numbers. But some of these are
-multiples of `q`. There are `q - 1` of them (because we should not
-include `pq`; already done that). Subtracting out `q - 1` gives `(p -
-1)(q - 1)`.
+  Let's think about this. We start with $pq$ numbers $1, \ldots, n$. We
+  remove the multiples of $p$ (including $pq$). There are $q$ of these.
+  That leaves us with $(p - 1)q$ candidate coprime numbers less than
+  $n$.
 
-Note that we can now rephrase our requirement for `e, d` more precisely.
-We want:
+  Next we remove the multiples of $q$. There are $p - 1$ of them; this
+  time we do not remove $pq$. We've already removed that one.
 
-    ed = 1 (mod (p - 1)(q - 1))
+  Thus a total of $(p - 1) (q - 1)$ numbers remain. All these are
+  coprime to $n$.
 
-## Choosing `e`
+  Thus $\varphi(n) = (p - 1)(q - 1)$.
+\end{proof}
 
-First, choose any `e` coprime to `(p - 1) (q - 1)`. `e = 3` is a common
-choice for fast encryption. Because `e = 3` could be a factor of `(p -
-1)(q - 1)`, you might need to start over.
+\begin{remark}
+  Note that we can now rephrase our requirement for $e, d$ more
+  precisely. We want:
 
-Sometimes you might now want `e = 3` because it might not "wrap `m`
-around" `n` enough. If you view exponentiation as "scrambling," a large
-`e` does more "scrambling." For that reason, `e = 65,537` is also a
-common choice.
+  \begin{nedqn}
+    ed
+  \eqcol
+    1 \mod (p - 1) (q - 1)
+  \end{nedqn}
+\end{remark}
 
-## Finding `d`
+\begin{remark}
+  Note that we have shown how it is easy to calculate $\varphi(n)$ when
+  the factors $p, q$ are known. Calculating $\varphi(n)$ when $p, q$ are
+  \emph{not} known could be very challenging!
+\end{remark}
 
-We must next choose `d` to be the inverse of `e` mod `(p - 1) (q - 1)`.
+\subsection{Choosing $e$}
 
-How do we invert `e`? This is an application of the extended Euclidean
-algorithm. I describe it in another document. It's easy to do.
+First, choose any $e$ coprime to $(p - 1) (q - 1)$. We need $e$ to be
+coprime to $\varphi(n)$ since we will also want to find a $d = \inv{e}$.
 
-## RSA Security
+$e = 3$ is a common choice for fast encryption. Because $e = 3$ could be
+a factor of $(p - 1)(q - 1)$, you might need to start over.
 
-It is not necessary to remember `p, q`. We only need `(e, n)` and `(d,
-n)`.
+Sometimes you might now want $e = 3$ because it might not ``wrap $m$
+around'' $n$ enough. If you view exponentiation as ``scrambling,'' a
+large $e$ does more ``scrambling.'' For that reason, $e = 65,537$ is
+also a common choice.
 
-If we know how to factor `n`, we know how to calculate `phi(n)`, and it
-is easy to invert `e mod phi(n)`. But if we don't know how to factor
-`n`, then we don't know how to calculate `phi(n)`. In that case, we
-don't know what to invert `e` with respect to.
+\subsection{Calculating $d$}
 
-Important point: the following is *not* true:
+We must next choose $d$ to be the inverse of $e$ mod $(p - 1) (q - 1)$.
 
-    g^{x} mod a, AND y = x mod a THEN
-    g^{x} = g^{y}. WRONG
+How do we invert $e$? This is an application of the extended Euclidean
+algorithm. I describe that algorithm in another document. The extended
+Euclidean algorithm is efficient and fast.
 
-Basically, mods don't work in exponents. Here's an example (`a = 123`):
+\subsection{Security assumptions}
 
-    101 ^ 8 % 123 = 109
-    101 ^ {246 + 8} % 123 = 32
+\begin{remark}
+  After generation of $n, e, d$, there is no need to retain $p, q$. We
+  will want to destroy those. To encrypt $m^e \bmod n$, the encryptor
+  needs only the pair $(e, n)$. To decrypt $\parens{m^e}^d \bmod n$, the
+  decryptor needs the pair $(d, n)$.
+\end{remark}
 
-The point is: it doesn't help to invert `e mod n`. That would be easy
-(again, extended Euclidean algorithm), but it's not what you need. You
-need to invert `mod phi(n)`, and it's hard to find `phi(n)` without the
-factors of `n`.
+\begin{remark}
+  We want to make sure that $d$ cannot be recovered easily if we only
+  know the public key $(e, n)$.
 
-Does finding `d` mean that you must be able to factor `n`? I believe
-this is unknown. Therefore breaking the private key of RSA may be easier
-than factoring.
+  We saw that if we know how to factor $n$, we know how to calculate
+  $\varphi(n)$, and thus it is easy to invert $e \bmod \varphi(n)$ (via
+  the extended Euclidean algorithm) to find $d$. Indeed, that is exactly
+  how we derived $d$ when generating the keypair.
 
-## Notes
+  Therefore, the security of RSA presumes the difficulty of factoring
+  $n$.
+\end{remark}
 
-Note: we can't encrypt any message `m` that is not in the multiplicative
-group of `Z mod n`. But the number of such messages is tiny relative to
-`n`. Anyway the tester can always easily find `gcd(m, n)` to verify they
-are relatively prime.
+\begin{remark}
+  If we don't know how to factor $n$, then we presume that it is hard to
+  calculate $\varphi(n)$ any other way. The security of RSA presumes
+  this.
 
-Euler's `phi(n)` is not always the least number where `m**x = m mod n`
-for all `m` values (in the multiplicative group). That value is called
-*Carmichael's lambda function*. It is smaller and more specific. But we
-don't have to discuss this.
+  Likewise, we presume that it is hard to find $d$ without calculating
+  $\varphi(n)$.
 
-**TODO**: Move euclidean algorithm docs here.
+  Last, we assume that it is hard to calculate $m$ from $m^e \bmod n$
+  without calculating $d$.
+\end{remark}
+
+\begin{remark}
+  It is worth noting: inverting $e \bmod n$ (using $n$ instead of
+  $\varphi(n)$) does not help you calculate $m$ from $m^e \bmod n$.
+
+  That is, say you calculate $d'$ such that $e d' = 1 \mod n$. Then it
+  is \emph{not} true that you can argue:
+
+  \begin{nedqn}
+    \parens{m^e}^{d'}
+  \eqcol
+    m^{ed'}
+    \mod n
+  \\
+  \eqcol
+    m^{ed' \bmod n}
+    \mod n
+    \nedcomment{wrong!}
+  \\
+  \eqcol
+    m^1
+  \end{nedqn}
+
+  The point is: it doesn't help to invert $e \bmod n$. That would be
+  easy given the public key $(e, n)$ (by the extended Euclidean
+  algorithm), but it's not what you need. You need to invert with
+  respect to $\varphi(n)$, and the point is that it's supposed to be
+  hard to calculate $\varphi(n)$ without the factors of $n$.
+
+  % Basically, mods don't work in exponents. Here's an example ($a = 123$):
+
+  %     101 ^ 8 % 123 = 109
+  %     101 ^ {246 + 8} % 123 = 32
+\end{remark}
+
+\begin{remark}
+  Note: we can't encrypt any message $m$ that is not in the
+  multiplicative group of $\Zmodn$ (because otherwise Euler's totient
+  theorem doesn't apply). But the number of such messages $n -
+  \varphi(n)$ is tiny relative to $n$. Anyway the tester can always
+  easily find $\gcd(m, n)$ to verify they are relatively prime.
+\end{remark}
+
+\begin{remark}
+  Euler's $\varphi(n)$ is not always the least number $x$ such that $m^x
+  = 1 \mod n$ for all $m$ values (in the multiplicative group). That
+  value is called \define{Carmichael's lambda function}. It is smaller
+  and more specific. Of course, we must always have that $\varphi(n)$ is
+  always a multiple of $\lambda(n)$ (because Euler's totient theorem
+  always applies).
+
+  If it were commonly the case that $\lambda(n)$ were significantly
+  smaller than $\varphi(n)$, that would have security implications for
+  RSA. It would mean a brute-force search for $\lambda(n)$ would be more
+  likely to succeed, if we expected to search in a much smaller range.
+
+  However, I think almost always $\lambda(n) = \varphi(n)$.
+\end{remark}
