@@ -1,0 +1,89 @@
+\section{Lagrange's Theorem}
+
+\begin{definition}
+  The \define{order} of a group $A$ (denoted $\order{A}$) is the number
+  of elements in $A$.
+\end{definition}
+
+\begin{theorem}[Lagrange's Theorem]
+  In any group $G$ (not just $\Z \bmod p$), the order of every subgroup
+  $A$ divides the order of the group $G$.
+\end{theorem}
+
+\begin{definition}
+  Consider a subgroup $A$ of a group $G$. The \define{coset} $bA$ is
+  the set of all elements $ba$.
+
+  Note that most cosets are \emph{not} subgroups. For instance, given
+  any $b \not\in A$, the coset $bA$ does not contain the identity
+  element $1$ ($\inv{b} \not\in A$ because a group is closed under
+  inverses).
+
+\end{definition}
+
+\begin{lemma}
+  All cosets $bA$ of a group $G$ have the same size.
+\end{lemma}
+
+\begin{proof}
+  I say that the size of $bA$ is equal to $A$. Why?
+
+  Since $G$ is a group, the inverse $\inv{b}$ exists. Therefore, we know
+  that:
+
+  \begin{nedqn}
+    \inv{b} bA
+  \eqcol
+    A
+  \end{nedqn}
+
+  If two $b a_0, b a_1$ mapped to the same value, they could not invert
+  back to the separate values $a_0, a_1$.
+\end{proof}
+
+\begin{lemma}
+  Cosets are either disjoint or identical.
+\end{lemma}
+
+\begin{proof}
+  Consider two distinct $b_0 A$ and $b_1 A$. I say that they
+  must either be identical, or completely disjoint. If they are not
+  disjoint, then there are $a_0, a_1$ such that:
+
+  \begin{nedqn}
+    b_0 a_0
+  \eqcol
+    b_1 a_1
+  \\
+    b_1
+  \eqcol
+    b_0 a_0 \inv{a_1}
+  \end{nedqn}
+
+  Note that $a_0 \inv{a_1}$ is guaranteed to be in the subgroup $A$
+  (subgroups have inverses, are closed under multiplication).
+
+  Now, for any $b_1 a$ in $b_1 A$, we have:
+
+  \begin{nedqn}
+    b_1 a
+  \eqcol
+    (b_0 a_0 a_1^{-1}) a = b_0 (a_0 a_1^{-1} a)
+  \end{nedqn}
+
+  Thus every element of $b_1 A$ is also in $b_0 A$. And vice-versa.
+  Therefore, if $b_0 A, b_1 A$ have any elements in common, they are
+  identical.
+\end{proof}
+
+We may now complete our proof of Lagrange's Theorem.
+
+\begin{proof}
+  The union of the set of cosets $b A$ is $G$ (since $1 \in A$, and $b$
+  can be any element of $G$). Each coset has the same size, and they are
+  non-overlapping. Therefore, the \emph{distinct} cosets
+  \emph{partition} the group $G$.
+
+  Say there are $k$ distinct cosets. Then the order of the subgroup $A$
+  must be $\frac{\order{G}}{k}$. Thus $\order{A}$ divides $\order{G}$.
+\end{proof}

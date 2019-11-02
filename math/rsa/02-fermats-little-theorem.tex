@@ -1,0 +1,51 @@
+\section{Fermat's Little Theorem}
+
+\begin{theorem}[Fermat's Little Theorem]
+  For any $a \ne 0$:
+
+  \begin{nedqn}
+    a^p = a \mod p
+  \end{nedqn}
+
+  Equivalently:
+
+  \begin{nedqn}
+    a^{p-1} = 1 \mod p
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  Fermat's little theorem is simply a special case of Lagrange's
+  theorem.
+
+  As mentioned in the last section, we already showed that the series
+  $1, a, a^2, \ldots$ generates a subgroup of $\Zmodpx$ (the
+  multiplicative subgroup of $\Zmodp$).
+
+  By applying Lagrange's theorem, we showed that the order of the
+  generated subgroup divides $p - 1$ (the size of the multiplicative
+  subgroup).
+
+  But then we have that if $k \order{a} = p - 1$ (for some $k$), then:
+
+  \begin{nedqn}
+    a^{p - 1}
+  \eqcol
+    a^{k\order{a}}
+  \\
+  \eqcol
+    \parens{
+      a^{\order{a}}
+    }^k
+  \\
+  \eqcol
+    1^k
+  \\
+  \eqcol
+    1
+  \end{nedqn}
+
+  Again, we note that the order of $a$ may well be less than $p - 1$ (in
+  which case $k > 1$). Regardless, we will still have that $a^{p - 1} =
+  1$.
+\end{proof}

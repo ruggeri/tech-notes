@@ -1,0 +1,34 @@
+\section{Euler's Totient Theorem}
+
+\begin{definition}
+  We define \define{Euler's totient function} $\varphi(n)$ to be the
+  number of numbers less than $n$ that are relatively prime to $n$. Note
+  that of course $\varphi(p) = p - 1$.
+\end{definition}
+
+\begin{theorem}[Euler's Totient Theorem]
+  For any $a$ that is \emph{relatively prime} to $n$, we have:
+
+  \begin{nedqn}
+    a^{\varphi(n)}
+  \eqcol
+    1 \mod n
+  \end{nedqn}
+\end{theorem}
+
+\begin{remark}
+  I emphasize again that $a$ must be \emph{relatively prime} to $n$.
+
+  Note that Euler's totient theorem generalizes Fermat's little theorem.
+\end{remark}
+
+\begin{proof}
+  We already discussed that the multiplicative subgroup of $\Zmodn$
+  consists exactly of those elements $a$ that are relatively prime to
+  $n$. So of course the size of the multiplicative subgroup is
+  $\varphi(n)$.
+
+  But then the theorem is trivial. It is simply an application of
+  Lagrange's theorem within the multiplicative subgroup $\Zmodnx$. It
+  mimics what we did for Fermat's little theorem in $\Zmodpx$.
+\end{proof}
