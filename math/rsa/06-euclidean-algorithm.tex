@@ -1,59 +1,132 @@
-## Euclid's Algorithm
+\section{The Extended Euclidean Algorithm}
 
-The idea is simple. If `a < b`, and you want to find the greatest common
-divisor, it must divide both `a` and `b`. But that means it must divide
-`b - a`. Therefore you can just recursively apply to `a, b - a`.
+\subsection{Euclid's Algorithm}
 
-Of course, you might as well recursively apply to `a, b mod a`.
+Euclid's Algorithm gives a procedure to compute $\gcd(a, b)$. We assume
+that $a < b$. The key insight is that any number that divides $a, b$
+must also divide $b - a$. Indeed, we have:
 
-Finally, when `b mod a` is zero, you know that `a` is the GCD.
+\begin{nedqn}
+  \gcd(a, b)
+\eqcol
+  \gcd(a, b - a)
+\end{nedqn}
 
-## Bezout's Identity
+Better still, we know that a divisor of both $a, b$ must also divide $b
+\bmod a$. So we can have:
 
-There exists `x, y` such that:
+\begin{nedqn}
+  \gcd(a, b)
+\eqcol
+  \gcd(a, b \bmod a)
+\end{nedqn}
 
-    xa + yb = GCD(a, b)
+The process continues until $b \bmod a$ is zero. In that case, you know
+that $a$ evenly divides $b$, and thus it $\gcd(a, b) = a$.
 
-I believe this is called *Bézout's identity*. Let's prove this. First,
-let:
+\subsection{Bezout's Identity}
 
-    z = GCD(a, b)
-    a = k_a z
-    b = k_b z
+\begin{theorem}[Bezout's Identity]
 
-So:
+  For any $a, b$, there exists $x, y$ such that:
 
-    x k_a z + y k_b z = z
+  \begin{nedqn}
+    xa + yb
+  \eqcol
+    \gcd(a, b)
+  \end{nedqn}
+\end{theorem}
 
-So the question is:
+\begin{proof}
+  Let $z = \gcd(a, b)$. Then there exists $k_a, k_b$ such that $a = k_a
+  z$ and $b = k_b z$. Thus we desire to find $x, y$ such that:
 
-    x k_a + y k_b = 1
+  \begin{nedqn}
+    x k_a z + y k_b z
+  \eqcol
+    z
+  \end{nedqn}
 
-Now, assume `k_a < k_b` for a second.
+  We may now simplify the question. Does there exist $x, y$ such that:
 
-We know that `k_a, k_b` are relatively prime. So consider `k_a` in `Z
-mod k_b`. If we consider powers of `k_a`, we know this never becomes
-zero, since it will never be divisible by `k_b`. Thus `k_a` is
-invertible. Which means there is an `x` such that `x k_a = 1 mod k_b`.
-Which means there is a `y k_b` such that `x k_a - y k_b = 1`. So if you
-just flip the `y` around, you get the desired number above.
+  \begin{nedqn}
+    x k_a + y k_b
+  \eqcol
+    1
+  \end{nedqn}
 
-## Extended Euclidean Algorithm
+  Why do I prefer this form? Because $k_a, k_b$ are \emph{relatively
+  prime}. They have to be relatively prime, else the common factor
+  should have been included as part of $z = \gcd(a, b)$.
 
-Here's how you do it. Let's say we want to find `x, y` for prime numbers
-139, 71.
+  Anyway, if we can prove Bezout's identity for $k_a, k_b$ relatively
+  prime, then we have proven it for all $a, b$.
 
-    139   1   0 (139 = 1*139   +   0*71)
-    71    0   1 ( 71 = 0*139   +   1*71)
-    68    1  -1 ( 68 = 1*139   +  -1*71)
-    3    -1   2 (  3 = -1*139  +   2*71)
-    2    23 -45 (  2 = 23*139  + -45*71)
-    1   -24  47 (  1 = -24*139 +  47*71)
+  To prove this, first assume that $k_a < k_b$. Now, since $k_a$ is
+  relatively prime to $k_b$, we know that $k_a$ has an inverse in $\Z
+  \bmod k_b$. Denote this inverse as $x$.
 
-This basically just keeps track of how to get the smaller and smaller
-residual value.
+  Since $x k_a = 1 \bmod k_a$, this implies that there exists $y$ such
+  that $x k_a = 1 + y k_b$. But (flipping the sign of $y$), this gives
+  us exactly the $x, y$ we have been searching for!
+\end{proof}
 
-Now, note that the inverse of `71 mod 139` is `47`. That's because if
-you subtract `24*139`, you are left with a residual of 1.
+\subsection{Extended Euclidean Algorithm}
 
-This shows you can quickly invert numbers for any modulus.
+Let's see an algorithm for finding $x, y$ for any $a, b$. Note that $x$
+is the inverse of $a$ in $\Z \bmod b$, while $y$ is the inverse of $b$
+in $\Z \bmod a$.
+
+Let's assume that $a < b$. Then we know:
+
+\begin{nedqn}
+  b
+\eqcol
+  0a + 1b
+\\
+  a
+\eqcol
+  1a + 0b
+\end{nedqn}
+
+Starting from these two initial equations, let's derive a third.
+Calculate $k, c$ (via integer division, modulus operations) such that:
+
+\begin{nedqn}
+  b
+\eqcol
+  ka + c
+\end{nedqn}
+
+Using this, subtract $k$ times $1a + 0b$ from $0a + 1b$. We obtain:
+
+\begin{nedqn}
+  c
+\eqcol
+  -ka + 1b
+\end{nedqn}
+
+Note of course that $c$ is smaller than $b, a$. We may repeat this
+process with our equations for $a, c$ (similar to how we did for the
+Euclidean algorithm).
+
+Note that a common divisor of $a, b$ will always divide the left hand
+side of the equations. If $a, b$ are relatively prime, then eventually
+we will obtain $1$ on the left side, at which point we will have
+obtained the appropriate $x, y$ to satisfy $1 = xa + yb$.
+
+
+\begin{example}
+  Let's invert $a = 71, b = 139$, each with respect to the other.
+
+  \begin{IEEEeqnarray*}{rCrClCrCl}
+    139 & = &   0 & \cdot & 71 & + &   1 & \cdot & 139 \\
+    71  & = &   1 & \cdot & 71 & + &   0 & \cdot & 139 \\
+    68  & = &  -1 & \cdot & 71 & + &   1 & \cdot & 139 \\
+     3  & = &   2 & \cdot & 71 & + &  -1 & \cdot & 139 \\
+     2  & = & -45 & \cdot & 71 & + &  23 & \cdot & 139 \\
+     1  & = &  47 & \cdot & 71 & + & -24 & \cdot & 139 \\
+  \end{IEEEeqnarray*}
+
+  This says that the inverse of $71$ in $\Z \bmod 139$ is $47$.
+\end{example}
