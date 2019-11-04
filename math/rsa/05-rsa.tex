@@ -118,7 +118,7 @@ integer $k$). Put another way, we want:
 \begin{remark}
   Note that we have shown how it is easy to calculate $\varphi(n)$ when
   the factors $p, q$ are known. Calculating $\varphi(n)$ when $p, q$ are
-  \emph{not} known could be very challenging!
+  \emph{not} known could (indeed, should) be very challenging!
 \end{remark}
 
 \subsection{Choosing $e$}
@@ -139,7 +139,7 @@ also a common choice.
 We must next choose $d$ to be the inverse of $e$ mod $(p - 1) (q - 1)$.
 
 How do we invert $e$? This is an application of the extended Euclidean
-algorithm. I describe that algorithm in another document. The extended
+algorithm. I describe that algorithm in the next section. The extended
 Euclidean algorithm is efficient and fast.
 
 \subsection{Security assumptions}
@@ -180,8 +180,8 @@ Euclidean algorithm is efficient and fast.
   It is worth noting: inverting $e \bmod n$ (using $n$ instead of
   $\varphi(n)$) does not help you calculate $m$ from $m^e \bmod n$.
 
-  That is, say you calculate $d'$ such that $e d' = 1 \mod n$. Then it
-  is \emph{not} true that you can argue:
+  To be clear: say you calculate $d'$ such that $e d' = 1 \mod n$. The
+  following argument is fallacious:
 
   \begin{nedqn}
     \parens{m^e}^{d'}
@@ -203,19 +203,34 @@ Euclidean algorithm is efficient and fast.
   algorithm), but it's not what you need. You need to invert with
   respect to $\varphi(n)$, and the point is that it's supposed to be
   hard to calculate $\varphi(n)$ without the factors of $n$.
-
-  % Basically, mods don't work in exponents. Here's an example ($a = 123$):
-
-  %     101 ^ 8 % 123 = 109
-  %     101 ^ {246 + 8} % 123 = 32
 \end{remark}
 
+\begin{example}
+  Here's an example to prove that it is invalid to try to move a mod
+  inside an exponent:
+
+  \begin{nedqn}
+    101^8
+  \eqcol
+    37 \mod 123
+  \\
+    101^{123 + 8}
+  \eqcol
+    116 \mod 123
+  \end{nedqn}
+\end{example}
+
 \begin{remark}
-  Note: we can't encrypt any message $m$ that is not in the
-  multiplicative group of $\Zmodn$ (because otherwise Euler's totient
-  theorem doesn't apply). But the number of such messages $n -
-  \varphi(n)$ is tiny relative to $n$. Anyway the tester can always
-  easily find $\gcd(m, n)$ to verify they are relatively prime.
+  Euler's totient theorem only applies if $m$ is relatively prime to
+  $n$. Since $p, q$ are so large, the vast majority of messages are
+  relatively prime to these. Of course, an encryptor could always test
+  (using the Euclidean algorithm) to ensure that $m$ is coprime to $n$
+  (even without knowing the factorization of $n$).
+
+  However, I am told that there is some argument from the Chinese
+  Remainder Theorem that you can still uniquely recover $m$ from $m^e$.
+  I haven't really looked into the details of that, but I'm not too
+  worried about it\ldots
 \end{remark}
 
 \begin{remark}
