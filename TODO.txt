@@ -1,15 +1,22 @@
 **Reviewed 2019-04-25**
 
-* Read up on Docker. Finish TypeGraphQL exploration.
-  * Repository vs ActiveRecord: what's the diff?
-* Learn how lowpass filter circuit works.
-* Writeup how reverse image search works. Text search/info retrieval.
+* Physics:
+  * I think I want to learn all intro physics.
+  * Especially electronics!
+  * Feynman lectures?
 * Zero knowledge proof. Interactive proofs? Zcash?
+  * Is there a book that covers this?
 * Return to notes on Prisoner's Dilemma from computability standpoint?
+  * What Prisoner's Dilemma books exist?
+* Writeup how reverse image search works. Text search/info retrieval.
 * Compiler project.
 * Might be nice to get Deep Q Network to actually work...
   * Neural Turing Machine, Monte-Carlo Tree Search.
-* Continue DB project? Bitcoin project?
+  * Attention.
+  * GPT-2 type stuff?
+  * That cooperation paper.
+
+* Are there any *skills* that I want to build up? Like, say, carpentry.
 
 There isn't much I'm interested in with regard to algorithms. I am
 still interested in recalling how things like reverse image search and
@@ -32,5 +39,4 @@ others.
 * Typeset notes on Newton's method.
 * Typeset notes on Fourier transform.
 * Typeset notes on Quantum (Simon's and Grover's algos).
-* Typeset notes on RSA (including Lagrange's theorem type stuff).
 * Typeset linear algebra notes (maybe too much work...).
