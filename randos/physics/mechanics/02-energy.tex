@@ -59,9 +59,10 @@ $\alpha t$ seconds:
 From this we may write that:
 
 \begin{nedqn}
-  KE
+  % TODO: Find uses of KE and do mathit on them.
+  \mathit{KE}
 \simcol
-  \frac{1}{2} m v^2
+  m v^2
 \end{nedqn}
 
 \subsection{Kinetic Energy Is Well Defined}
@@ -194,7 +195,73 @@ Great! This derivation isn't fancy like the change-of-variables way, and
 it doesn't fully prove things for the variable $F(d)$ force possibility,
 but it does use less fancy math.
 
-\subsection{Why Kinetic Energy}
+\subsection{Potential Energy}
 
 Wonderful! We've now shown that kinetic energy is a well-defined
-quantity! Next question: why should we care about it?
+quantity! Next question: why should we care about it? It feels like
+\emph{momentum} is a much more commonsense way of measuring the
+``energy'' in a moving object. When would the concept of kinetic energy
+be more relevant than momentum?
+
+I believe the answer relates to \emph{potential energy}. Potential
+basically means ``stored.'' \emph{Gravitational} potential energy is one
+example. Say that a \SI{1}{N} object A is suspended on a pulley
+\SI{1}{m} above the ground. Attached to the other end of the pulley is a
+second \SI{1}{N} object B. Object B sits on the ground.
+
+The net force on the two objects are both zero. They can each sustain
+\SI{1}{N} of force on the other (via the pulley) indefinitely. But let
+us now assume that I give a little impulse upward to object B. It starts
+moving upward.
+
+How long can object A sustain the force on object B? In terms of \si{Ns}
+this is undefined. Why? Because object A can sustain the force until it
+hits the ground. If I imparted only a very small velocity to B (and thus
+A), then the force can be sustained for a very long duration of time. If
+I imparted a greater velocity, the force cannot be sustained for a very
+long time.
+
+Time is not fundamentally the limiting factor. The limiting factor is
+the \emph{distance} that object A can travel through. There is only a
+finite distance that it can move through. No matter how long the force
+is sustained, it can only be sustained through the given distance.
+
+Note: even when object A hits the ground, it is still sustaining the
+force on B. It still has more \emph{time} to sustain the force, but no
+more \emph{distance}.
+
+\subsection{Gravitational Potential Energy}
+
+Say objects A and B are gravitationally attracted to each other. How
+much potential energy is stored gravitationally?
+
+\begin{nedqn}
+  \int_0^{d} G \frac{m_A m_B}{d'^2} \ddp
+\eqcol
+  G m_A m_B \int_0^d {d'}^{-2} \ddp
+\\\eqcol
+  G m_A m_B
+  \left(
+    -d'^{-1}
+  \right)
+  \intevalbar{0}{d}
+\end{nedqn}
+
+Oops! This makes it look like an \emph{infinite} amount of gravitational
+energy can be harnessed from the gravitational attraction between two
+objects. But that is not true. As the objects become very close, we will
+have to expend some of the energy we are extracting in overcoming
+\emph{other} forces. In particular: the electrical force will want to
+keep the objects apart.
+
+For this reason, it's probably meaningless to talk about gravitational
+potential energy without reference to a reference distance.
+
+\subsection{Can You Trade Force and Distance?}
+
+A key question to the concept of potential energy would be: can you use
+the stored energy to harness any amount of force, if only for the
+appropriate distance?
+
+For instance, can you use a \SI{1}{N} object suspended at a height of
+\SI{10}{m} to lift a \SI{10}{N} object up \SI{1}{m}?
