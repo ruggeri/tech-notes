@@ -1,0 +1,65 @@
+\section{Newton's Laws of Dynamics}
+
+\begin{enumerate}
+
+  \item Newton's first law is Galileo's observation: that if no force is
+  applied to an object, it will keep moving without change.
+
+  \item Newton's second law tells how velocity can change. Specifically,
+  it says that the change in momentum is proportional to the force.
+
+  \item He defines momentum as velocity times \emph{inertia}. Here
+  \emph{mass} is really just a way of measuring inertia.
+
+  \item He mentions that velocity is three-dimensional, and that speed
+  is the norm of velocity.
+
+  \item Next he considers a spring. He doesn't say how a spring works,
+  but he says that the force it exerts on a hanging weight is
+  proportional to the length of the spring. Say that the force pulling
+  upward is $F = -kx$.
+
+  \item For an object with mass $m$, the force pulling downward is $gm$.
+  Thus we are in equilibrium when $kx = gm$, implying $x =
+  \frac{gm}{k}$.
+
+  \item Now, let's use this equilibrium position as our reference point;
+  let's make it position zero. The \emph{excess} force if we pull the
+  object down by $x$ is now $-kx$. Feynman says: assume that $k = m$. In
+  that case, we have that the acceleration is $a = -x$.
+
+  \item He now wants to describe the position of the object \emph{as a
+  function of time}. What we have here is a \emph{differential
+  equation}. That's because $x$ is really a function of $t$ itself!
+
+  \item Of course we know that the acceleration is zero when $x = 0$,
+  but that's not very relevant here. In reality we expect oscillation
+  between $-x$ and $x$.
+
+  \item He shows how we can numerically approximate the solution. Low
+  and behold, the solution is $-x \cos t$.
+
+  \item That makes total sense. When an object follows circular motion,
+  its velocity is always perpindicular to its position. In fact, the
+  velocity vector is at a $90\deg$ angle to the position vector. And
+  further, the \emph{acceleration} must be at a $90\deg$ angle to the
+  velocity. Which of course means that the acceleration is just a
+  reflection through the origin! That gives us our $a = -x$!
+
+  \item He then does a similar numerical approximation to show that the
+  orbit of a planet around a stationary sun is elliptical. TODO: can I
+  derive this exactly through mathematics?
+
+  \item I'll note his differential equations. Consider $x, y$ are offsets
+  from the sun. Then note that we have that $v = \frac{F}{m} =
+  \frac{GM}{r^2}$. To put this in terms of $x, y$, he notes that
+  $\frac{v_x}{v} = \frac{x}{r}$ (and likewise for $v_y$). This follows
+  because of similar triangles. Thus we have $v_x = \frac{GMx}{r^3}$
+  (and likewise for $v_y$). With the constraint that $r = \sqrt{x^2 +
+  y^2}$, we can now solve the differential equation.
+
+  \item Last, he shows that in principle, by doing a numerical
+  approximation we can calculate all planetary motion with as many
+  planets as we wish.
+
+\end{enumerate}
