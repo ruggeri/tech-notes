@@ -11,10 +11,14 @@
 * Writeup how reverse image search works. Text search/info retrieval.
 * Compiler project.
 * Might be nice to get Deep Q Network to actually work...
+  * Alpha Go.
   * Neural Turing Machine, Monte-Carlo Tree Search.
   * Attention.
   * GPT-2 type stuff?
   * That cooperation paper.
+* JRN mentioned quintic insolvability.
+* Wavelet transform?
+* ODEs came up in describing spring harmonic motion.
 
 * Are there any *skills* that I want to build up? Like, say, carpentry.
 
