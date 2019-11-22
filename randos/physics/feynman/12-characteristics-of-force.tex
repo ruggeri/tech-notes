@@ -1,0 +1,208 @@
+\section{Characteristics of Force}
+
+\begin{enumerate}
+
+  \item Question: what \emph{is} force? Is it just definitional? What
+  makes the concept useful, presumably, is that we have laws for
+  calculating forces and thus predicting the acceleration that a mass
+  will experience.
+
+  \item Next he considers the drag force on an airplane. At moderate
+  speeds this is found to be proportional to $F \sim v^2$. He points out
+  this is a different kind of law than $F = ma$, because the drag force
+  is really an approximation for the aggregation of a lot of
+  \emph{fundamental} forces. One hint that this is not a fundamental law
+  is that our approximation for the drag force as proportional to $v^2$
+  breaks down at very low $v$. In that case, the drag is more directly
+  proportional to $v$.
+
+  \item He next discusses \emph{dry friction}. He mentions that the
+  force arrises from bumps on the surfaces being deformed and snapped as
+  the sliding occurs. This causes vibration and heat and loss of energy.
+  In aggregate, we can empirically find a coefficient of friction $\mu$
+  such that $F = \mu N$, where $F$ is the friction force and $N$ is the
+  normal force to the surface.
+
+  \item One way to verify this is to take a block and tilt the surface
+  it lies on by $\theta$ radians until it slides. No matter the mass of
+  the block, you'll always get the same $\theta$.
+
+  \item He notes: friction of ``copper on copper'' is meaningless: pure
+  copper placed on pure copper will adhere perfectly! The two pieces
+  won't know they are separate! It's \emph{impurities} that cause
+  friction to be less than the force required to tear apart copper.
+
+  \item You can verify this with a tumbler on a glass table. Dragging
+  the tumbler won't scratch the table, \emph{unless} you ``polish'' the
+  table by cleaning it and the tumbler with water. That will greatly
+  increase the adhesion, and you'll scratch the table as you drag the
+  tumbler. You need more force, and the force is used to tear apart the
+  glass...
+
+  \item He now talks about \emph{molecular forces}. He first mentions
+  that polar molecules (one where the centers of the positive and
+  negative charges do not coincide) are a little complicated.
+
+  \item But consider non-polar molecules. That includes symmetric
+  \ce{O2}. At larger distances they attract each other (presumably
+  because gravity), whereas at closer distances they start to repel each
+  other (presumably because electrostatics).
+
+  \item A maybe important note. At long distances you can pretend that
+  nonpolar molecules have no charge. But as you get closer this breaks
+  down. It's not like it was every truly valid to find the ``center of
+  charge'' and try to calculate the net force just from this. The reason
+  is that the force exerted is \emph{not directly proportional} to
+  distance, but instead proportional to the square! The problem is just
+  presumably greater in polar molecules.
+
+  \item I think a special case would be if you had a spherical shell of
+  mass and were considering the gravitational field inside the shell.
+
+  \item Anyway, intermolecular repulsion explains intermolecular
+  distance in a substance. It also explains how force is transferred by
+  impacts of objects. And it explains friction. It explains why we don't
+  fall through the floor.
+
+  \item It also explains \emph{Hooke's law}. That's the force in
+  springs. Basically, as you pull on a material and try to pull its
+  atoms apart, a force is exerted against you (because attraction). For
+  small distances of pulling apart, the force is roughly linear to the
+  stretch.
+
+  \item Again, the elastic force (if you want to call it that) is an
+  approximation of a complicated aggregate of fundamental forces. The
+  approximation will break down if you stretch the spring too much.
+  Eventually you'll even just tear the spring apart and it won't be
+  restored.
+
+  \item He notes: the more turns of a spring you have per centimeter of
+  length, the more stretch you're going to get out of the spring.
+
+  \item But note: the intermolecular force is not \emph{fundamental}
+  still.
+
+  \item He now moves on to the next fundamental force (after gravity):
+  the \emph{electrostatic force}. It is given by:
+
+  \begin{nedqn}
+    \vF
+  \eqcol
+    \frac{
+      q_1 q_2
+    }{
+      4\pi \epsilon_0
+      \normsq{\vr}
+    }
+    \vecu[r]
+  \end{nedqn}
+
+  $\vF$ is the force exerted by charge one on charge two. Here (1) $q_1,
+  q_2$ are the charges (in coulombs), (2) $\vr$ is the displacement from
+  charge one to charge two, (3) $\vecu[r]$ is simply
+  $\frac{\vr}{\norm{\vr}}$ (the direction).
+
+  Oh yeah, $4 \pi \epsilon_0$ is just the name of a constant. It's
+  historical he says.
+
+  \item He introduces the idea of a \emph{field of force}. The
+  \emph{electric field} is simply:
+
+  \begin{nedqn}
+    \vE
+  \eqcol
+    \frac{
+      q_1
+    }{
+      4\pi \epsilon_0
+      \normsq{\vr}
+    }
+    \vecu[r]
+  \end{nedqn}
+
+  Note that $\vE$ is a function of location $\vr$ (that's what makes it
+  a ``field'').  Now you can easily find the force that would be exerted
+  on a second charge $q_2$ at position $\vr$ (offset from the first
+  charge) by multiplying $q_2 \vE(\vr)$.
+
+  You can likewise define a \emph{gravitational field}.
+
+  \item Of course, the net field can be found simply via summation. This
+  is a principle of \emph{superposition}. However, while superposition
+  appears to be exactly true for electrical fields, there is some
+  breakdown (because relativity) when doing superposition for
+  gravitational fields. Of course, you need really great gravities for
+  this.
+
+  \item He now begins talking about \emph{magnetic} force. He talks
+  about shooting electrons out of an ``electron gun'' to a fluorescent
+  screen, but bending the the electrons with a magnet.
+
+  \item He thus introduces a new field; the \emph{magnetic field}
+  $\vB$. At present we won't talk about \emph{where} this field comes
+  from. But he \emph{does} talk about \emph{how} the magnetic field
+  \emph{affects} moving electrons.
+
+  The force caused by the magnetic field upon the electron is normal to
+  both the direction of travel and the direction of the magnetic field.
+  A ``right hand rule'' is used to determine the direction of the force.
+
+  Clearly this definition would degenerate if the magnetic field is
+  directed in the same direction as the velocity of the electron. Thus,
+  unsurprisingly, the magnitude of the force is proportional to (a) the
+  magnitude of the magnetic field, (b) the magnitude of the velocity,
+  and (c) $\sin \theta$ (where $\theta$ is the angle between the two).
+  Note that this magnitude is sort of the ``opposite'' of the dot
+  product.
+
+  Anyway, we've just described the \emph{cross product}.
+
+  To summarize, the \emph{Lorentz force} (the combined force of
+  the electric and magnetic fields) on a moving electron is:
+
+  \begin{nedqn}
+    F
+  \eqcol
+    q \vE
+    +
+    q \vv \times \vB
+  \end{nedqn}
+
+  Anyway, this is all very interesting because it's one of the first
+  times we've seen that a force depends not on the \emph{position} of
+  things, but their \emph{relative velocity}.
+
+  \item He repeats the demonstration translation/rotation doesn't change
+  the fundamental laws. He further shows (very simply of course) that
+  observing while traveling at a fixed velocity changes nothing. This
+  completes Galilean invariance.
+
+  \item But now he considers what happens when you are
+  \emph{accelerating}. This makes everything look as if there was a
+  force acting opposite your acceleration! Feynman calls this a ``pseudo
+  force.'' The \emph{centrifugal force} is an example of a pseudo force.
+
+  \item He gives a second example of pseudo forces. Imagine accelerating
+  a glass of water on the table. The water will slosh backward as if
+  pulled against your acceleration.
+
+  \item When you are in an accelerating frame of reference, it will look
+  like there is a net force in the universe that you can't explain. It
+  will look like there's some kind of gravity, for instance, pulling
+  everything down against the direction of your acceleration.
+
+  \item Einstein noticed: could our perception of gravity be caused
+  simply by an accelerating reference frame? But that wouldn't work: if
+  we think we're experiencing gravity from the earth because the Earth
+  is accelerating us, why wouldn't people \emph{on the other side} just
+  fall off?
+
+  \item To preserve this idea, Einstein then wondered what might happen
+  if the geometry of the universe was a little weird...
+
+  \item Last he mentions the nuclear forces. I don't even know what was
+  known of these forces. He doesn't use the words \emph{strong} or
+  \emph{weak} forces. Anyway, these are forces that hold together the
+  nucleus.
+
+\end{enumerate}
