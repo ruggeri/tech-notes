@@ -1,0 +1,152 @@
+\section{Work and Potential Energy (A)}
+
+\begin{enumerate}
+
+  \item He starts by examining gravitational potential energy. He
+  defines this as $mgh$. He defines kinetic energy as $\half m v^2$.
+
+  \item If you take the derivative of kinetic energy with respect to
+  time, you get $mv \fpartial[v]{t} = mav = Fv$. Note this works
+  vectorwise too:
+
+  \begin{nedqn}
+    \half m \normsq{\vv}
+  \eqcol
+    \half m (\vv \cdot \vv)
+  \\
+    \fpartial{t} \left(
+      \half m (\vv \cdot \vv)
+    \right)
+  \eqcol
+    \half m \vv \cdot \va
+    +
+    \half m \va \cdot \vv
+  \\
+  \eqcol
+    m \va \cdot \vv
+  \\
+  \eqcol
+    \vF \cdot \vv
+  \end{nedqn}
+
+
+  \item Now imagine we are an object that is moving through a field of
+  force. As we move through time our position $\vs$ is changing. I
+  define that the \define{work} done to move the object through the
+  field is equal to $\int \vF \cdot \diff{\vs}$.
+
+  How is the total work changing with time? This is equal to $\vF \cdot
+  \fpartial[\vs]{t} = \vF \cdot \vv$.
+
+  We thus see that, at any time $t$, the rate of change in work
+  performed exactly equals the rate of change in kinetic energy.
+
+  \item We can define a \define{change in potential energy} that is
+  caused by moving an object from point A to point B as the integral
+  $-\int_A^B \vF \cdot \diff{\vs}$. Of course, we see that a change in
+  potential energy exactly offsets the change in the kinetic energy.
+
+  \item What is this \define{potential energy}? From a fixed starting
+  point A, we say that the object's potential energy is the supremum of
+  $\int \vF \cdot \diff{\vs}$ when integrated over any path (finite or
+  infinite).
+
+  Of course, the potential energy could be infinite. For instance, if we
+  are considering a gravitational field, the field gets very strong as
+  you approach a point mass, so the potential energy blows up.
+
+  On the other hand, if you consider (repulsive) electrostatics, even if
+  you integrate out to infinity, because the force is dropping
+  proportional the square of the distance, you only get a finite
+  potential energy...
+
+  \item By the nature of the definition of potential, I think it is
+  clear that there can be no change of total energy. Consider the
+  potential at point A. We know that it can be \emph{no greater} than
+  the potential at point B plus the change in potential when moving from
+  point B to point A. We can make the symmetric argument, so that the
+  change in potential really is the integral of $\int \vF \cdot
+  \diff{\vs}$ from A to B. But moving from A to B changes kinetic energy
+  by precisely that amount.
+
+  \item I believe this ``proves'' conservation of energy. But it
+  basically comes down to the definition of potential energy.
+
+  \item In another document I've explored why \emph{energy} is a better
+  measure of ability to do ``work'' than \emph{momentum}. One hint is
+  that energy can be stored even in things that are not moving (momentum
+  cannot). A second is that kinetic energy and potential energy are
+  interchangeable.
+
+  It is confused to think: ``if I am holding up a weight via a pulley,
+  and I am pulley on the rope, am I not expending energy? Aren't I
+  getting tired because I am expending energy on holding the heavy
+  object via the rope?''
+
+  But you can see something is wrong with this thinking if you simply
+  tie your end of the rope to a bolt on the ground and walk away. Is the
+  earth expending ``energy'' to hold the suspended object?
+
+  The perceived energy that is expended by the human comes from the
+  chemical energy that is consumed in order to apply an electrical
+  current (or whatever) to contract your muscles. A side product is
+  lactic acid which you feel as fatigue.
+
+  Note of course that the bolt can hold the object forever. So it seems
+  wrong to think that \emph{time} would be a factor in energy
+  dissipation, because the bolt can suspend the object for
+  \emph{infinite time} while expending \emph{zero energy}.
+
+  On the other end, imagine the amount of work that can be performed by
+  dropping a weight from $h_1$ to $h_2$. If you tie a rope to
+  the weight, you can lift a second object as the weight drops. You can
+  lift it quickly or slowly (it for instance depends on the initial
+  velocity of the lifting weight - that doesn't need to be zero). But
+  regardless, but no matter what, $\int \vF \cdot \diff{\vs}$ will
+  always be constant.
+
+  \item Now, another question is: can you drop a weight of \SI{10}{N} a
+  distance of \SI{1}{m} to lift a weight a weight of \SI{1}{N} a
+  distance of \SI{10}{m}?  More important, could we life the \SI{10}{N}
+  weight with just a \SI{1}{N} weight??
+
+  That would make energy truly \emph{fungible}. It would mean that we
+  could transform any energy storeage A to perform any work B.
+
+  We can start to see the answer in pulleys, but I won't go further into
+  this.
+
+  \item Back to the book. He mentions that we \define{Joule} is
+  preferred to the synonymous \define{Newton meter}.
+
+  \item Last, he works some examples. First, imagine a charged planar
+  plate extending outward to infinity. What electric field does it
+  produce? He notes that by symmetry, it is everywhere perpindicular to
+  the plane. He also notes that it is everywhere constant in magnitude.
+  That is maybe surprising: why doesn't it change when we are ``closer''
+  to the plane?
+
+  I think you can see this by examining the absurdity of ``closer to the
+  plane.'' If the plane extends infinitely, how could you ever ``see''
+  that you were closer to it? By moving closer, everything looks the
+  same as before, maybe only the units of distance have changed.
+
+  He considers two parallel infinite plates with opposite charge. Note
+  that the electric field is (a) zero ouside the plates, and (b) doubled
+  inside the plates.
+
+  \item He also considers the gravitational field induced by a thin
+  spherical shell on a point outside the shell. He shows we can
+  simplify and just assume all the mass is at the center of gravity.
+
+  By showing this for a shell of infinitesimal width, he can extend the
+  argument to a sphere, justifying our treatment of planets as point
+  masses.
+
+  He also notes that the field is exactly zero \emph{within} a spherical
+  shell. Thus a Dyson sphere has no gravitational impact on anyone
+  inside.
+
+  I might note: you can't do the same thing to cancel out the effect of
+  charges. We discussed that in a previous chapter.
+\end{enumerate}
