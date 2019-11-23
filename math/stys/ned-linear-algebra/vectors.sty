@@ -12,26 +12,31 @@
 
 %% Common named vectors
 
-\newcommand{\vecB}{\vec{B}}
-\newcommand{\vB}{\vecB}
-\newcommand{\vecE}{\vec{E}}
-\newcommand{\vE}{\vecE}
-\newcommand{\vecF}{\vec{F}}
-\newcommand{\vF}{\vecF}
-\newcommand{\vecr}{\vec{r}}
-\newcommand{\vr}{\vecr}
+% Macro to make vector macros!
+%
+% TODO: understand expandafter and csname better!
+\newcommand{\newvec}[1]{
+  \expandafter\newcommand\csname vec#1\endcsname{\vec{#1}}
+  \expandafter\newcommand\csname v#1\endcsname{\vec#1}
+}
+
+\newvec{a}
+\newvec{B}
+\newvec{d}
+\newvec{E}
+\newvec{F}
+\newvec{r}
+\newvec{s}
+
 \newcommand{\vecu}[1][]{
   \vec{u_{\mathrmbold{#1}}}
 }
-\newcommand{\vecv}{\vec{v}}
-\newcommand{\vv}{\vecv}
-\newcommand{\vecw}{\vec{w}}
-\newcommand{\vecx}{\vec{x}}
-\newcommand{\vx}{\vec{x}}
-\newcommand{\vecy}{\vec{y}}
-\newcommand{\vy}{\vecy}
-\newcommand{\vecz}{\vec{z}}
-\newcommand{\vz}{\vecz}
+
+\newvec{v}
+\newvec{w}
+\newvec{x}
+\newvec{y}
+\newvec{z}
 
 %% Common named greek vectors
 
