@@ -1,0 +1,148 @@
+\section{Work and Potential Energy (conclusion)}
+
+\begin{enumerate}
+
+  \item He mentions the example of holding a weight, and how that
+  \emph{feels} like work. But that's because of the nature of how
+  muscles work.
+
+  \item He gives an example use of conservation of energy. Imagine a
+  frictionless track. It undulates, but the start is \SI{5}{m} higher
+  than the end. What's the velocity of a car on the track at the end?
+  It's trivially found by converting the change in gravitational
+  potential energy into kinetic energy.
+
+  \item He talks about \define{conservative} forces. These are one where
+  the same work is done to move an object from A to B no matter the path
+  taken.
+
+  \item He right away defines \define{potential energy} from this. He
+  basically says: pick any point A as your reference point. Call
+  potential energy the work done to get to B. Now, your choice of A will
+  determine potential energy \emph{up to a constant}. But that doesn't
+  matter, especially when you talk about conservation of energy.
+
+  You just need a relative point! You don't need somewhere with the
+  ``lowest'' energy.
+
+  \item He next asks what escape velocity should be. He says: at the
+  start, an object has a velocity (kinetic energy) plus a gravitational
+  potential energy (we can put this in terms of the radius of the
+  earth). At the end, if the object is just escaped, the velocity should
+  be zero, and the distance out will approach infinity so the
+  gravitational potential energy should be zero.
+
+  We start with a definition of gravitational potential energy:
+
+  \begin{nedqn}
+    U(r)
+  \eqcol
+    -\frac{G M m}{r}
+  \end{nedqn}
+
+  Why? Because to move someone from $a$ to $b$, we find:
+
+  \begin{nedqn}
+    \int_a^{b} \frac{G M m}{r^2} \dr
+  \eqcol
+    \left(
+      - \frac{G M m}{r}
+    \right)
+    \intevalbar{a}{b}
+  \\
+  \eqcol
+    -\frac{G M m}{b}
+    -
+    \left(
+      -\frac{G M m}{a}
+    \right)
+  \end{nedqn}
+
+  Anyway, let's assume the Earth's radius is $r_0$. Recall that we said
+  that initial kinetic energy must equal initial potential energy.
+  Therefore:
+
+  \begin{nedqn}
+    \half mv^2
+  \eqcol
+    \frac{G M m}{r_0}
+  \\
+    v^2
+  \eqcol
+    2 \frac{G M}{r_0}
+  \\
+  \eqcol
+    2gr_0
+    \nedcomment{$g = \frac{G M}{r_0^2}$}
+  \end{nedqn}
+
+  I want to note: you can pick a different reference point for your
+  gravitational potential energy. In that case, everything is translated
+  by a constant and in fact nothing changes overall!
+
+  \item He mentions that in a system with many planets, we should be
+  able to work things out by breaking down into pairwise potential
+  energies, and then just summing up for needed results.
+
+  He mentions that this breaks down at molecular levels, which I find
+  \emph{very unexpected}. I don't know if he means in terms of some kind
+  of quantum situation. He does say you can do this superposition
+  approach toward potential energies as an approximation...
+
+  He hints that maybe there's something where the line between kinetic
+  and potential energies may blur at the molecular level?
+
+  \item He says that electrical and gravitational forces are both
+  conservative. And he says that all known forces are conservative.
+
+  He mentions that nothing from Newton suggests that forces \emph{must}
+  be conservative.
+
+  \item He mentions that friction looks like energy loss until we notice
+  the heat is causes.
+
+  \item \TODO{The reasoning here is a work in progress!}
+
+  It's maybe worth mentioning part of what makes energy weird.
+  You'd think that expending $X$ units of energy would always yield a
+  constant change of $Y$ in the velocity. But that isn't what happens.
+
+  Alternate example: burning fuel to make your rocketship go? How does
+  that get explained?
+
+  Alternate example: How do cars respect conservation of momentum? Earth
+  gets pushed backward.
+
+  Note, you don't need to eject material. You use energy that is densely
+  stored to rotate a wheel and thus push back on the earth.
+
+  If no gas is being burned and the pistons are just rotating freely,
+  you don't need to push them. But to accelerate them you need to inject
+  more gas, and it's harder and harder to push on something that's
+  already moving really fast.
+
+  Is that true? I mean, I think that RPM in the engine is mediated by
+  the gearbox... But regardless when the gears are meshed, that mediates
+  how much force is needed to further accelerate?
+
+  For rockets... Why does burning another gallon of fuel not result in
+  the same acceleration? Imagine you store energy in terms of electrical
+  plates. The plates are paired with equal charges. To accelerate, you
+  release a plate, and you push yourself away from that plate.
+
+  I guess that to accelerate your large spacecraft an appreciable
+  amount, you need to eject a bunch of mass. That is conservation of
+  momentum. I guess each kilogram of mass you eject, you gain more
+  velocity per ejected kilogram (because the mass of the rocket is
+  decreasing).
+
+  I guess it also depends on the velocity of the ejected plate. I guess
+  if the ship is accelerating more easily, then the time that it takes
+  for a constant energy of $Fd$ to be expended will be less, reducing
+  efficiency.
+
+  Nailed it.
+
+  \item \TODO{I feel like I should work an example of a pulley, and
+  especially with a focus on tension}.
+\end{enumerate}
