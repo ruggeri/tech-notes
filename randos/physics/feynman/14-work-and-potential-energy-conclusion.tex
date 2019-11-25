@@ -160,4 +160,193 @@
 
   \item \TODO{I feel like I should work an example of a pulley, and
   especially with a focus on tension}.
+
+  \item We know about \emph{fields} from algebra. It's the thing with
+  addition, multiplication, inverses\dots
+
+  Another use of the term field is in \emph{scalar field} and
+  \emph{vector field}. Here field just means ``space.'' A scalar field
+  assigns a scalar to each point in space. A vector field assigns a
+  vector to each point in space.
+
+  The \emph{gravitational force field} is a vector field which assigns a
+  force vector to each point in the space. Here, the field describes the
+  resultant force if we put an object of mass of \SI{1}{kg} at each
+  position in the space.
+
+  Feynman wants to denote the gravitational force field as $\vC$ and
+  write $\vF = m \vC$. He calls $\vF$ the resultant force, and $\vC$ the
+  force field. The force field is induced by objects in the space, and
+  $m \vC$ describes the force that would be acted upon an object with
+  mass $m$ at a given position.
+
+  He next talks about the \emph{gravitational potential field}. This is
+  a \emph{scalar field}. It assigns a (scalar) gravitational potential
+  energy $U$ to each point in the space. Again, it is relative to a
+  reference mass of \SI{1}{kg}.
+
+  Feynman will denote the gravitational potential energy of a mass $m$
+  object as $U$. He will denote the gravitational potential as $\Psi$.
+  We have the relationship: $U = m \Psi$.
+
+  To summarize, the graviational potential (field) at a position $\vx$
+  is the amount of work \emph{per unit mass} to move an object from a
+  reference point to the position $\vx$.
+
+  \item We may summarize the relationship between our various
+  definitions. Consider the potential energy of an object with mass $m$
+  at $\vx$: $U(\vx)$. Then that means:
+
+  \begin{nedqn}
+    U(\vx)
+  \eqcol
+    -\int_P \vF \cdot \diff{\vs}
+  \end{nedqn}
+
+  Here $P$ is a path from the reference point $\vx_0$ to $\vx$. Also:
+
+  \begin{nedqn}
+    \int_P \vF \cdot \diff{\vs}
+  \eqcol
+    -m \int_P \vC \cdot \diff{\vs}
+  \end{nedqn}
+
+  This just writes things in terms of the gravitational force field. We
+  can also write things in terms of the gravitational potential field:
+
+  \begin{nedqn}
+    U(\vx)
+  \eqcol
+    m \Psi(\vx)
+  \end{nedqn}
+
+  \item Isn't this just notation? Yes, and no. The potential can be
+  easier to work with. Consider first the gravitational potential at a
+  point $\vx$ induced by several masses of mass $m_i$ at positions
+  $\vx_i$:
+
+  \begin{nedqn}
+    \Psi(\vx)
+  \eqcol
+    \sum_i
+    -
+    \frac{
+      G m_i
+    }{
+      \norm{\vx - \vx_i}
+    }
+  \end{nedqn}
+
+  This is potentially (haha!) an easier formula to use in that you don't
+  need to sum a bunch of force field vectors. You do need the distances
+  between $\vx$ and the mass centered at $\vx_i$, though.
+
+  Notice: the potential will still be valid, even though there is not an
+  explicitly common reference point amongst the summed potentials. I
+  mean, I suppose a common reference point is anywhere infinitely far
+  away from each of the masses...
+
+  Anyway! The point is that we can recover the (vector) force field from
+  the (scalar) potential field! Yes it is very easily done! It is
+  simply:
+
+  \begin{nedqn}
+    \vC(\vx)
+  \eqcol
+    -
+    \gradient
+    \Psi(\vx)
+  \end{nedqn}
+
+  This is very simple. What is the amount of work done by moving a small
+  distance $\diff(\vx)$? It is $\Psi(\vx + \diff(\vx)) - \Psi(\vx)$.
+  This is equal to the product of $\vC \diff(\vx)$. If we divide both of
+  these by $\diff(\vx)$, we find that $\vC$ is equal to the slope of the
+  gradient.
+
+  Note that I use $\vC$ instead of $\vF$ only because $\Psi$ is with
+  respect to a reference unit of mass. Of course we could write:
+
+  \begin{nedqn}
+    \vF(\vx)
+  \eqcol
+    -
+    \gradient
+    U(\vx)
+  \end{nedqn}
+
+  \item Of course everything carries over to electric fields. We write
+  the electric field as $\vE$ (this is the force per coulumb of charge),
+  and we write the electric potential as $\phi$. As before, we have:
+
+  \begin{nedqn}
+    U(\vx)
+  \eqcol
+    q
+    \phi(\vx)
+  \\
+    \vE(\vx)
+  \eqcol
+    -
+    \grad
+    \phi(\vx)
+  \\
+    \vF(\vx)
+  \eqcol
+    q
+    \grad
+    \phi(\vx)
+  \end{nedqn}
+
+  I might add that:
+
+  \begin{nedqn}
+    U(\vx)
+  \eqcol
+    -
+    \int_P
+    \vF(\vx')
+    \cdot
+    \diff{\vx'}
+  \\
+    \phi(\vx)
+  \eqcol
+    -
+    \int_P
+    \vE(\vx')
+    \cdot
+    \diff{\vx'}
+  \end{nedqn}
+
+  Here again $P$ is a path from some $\vx_0$ to $\vx$. Again, we always
+  have negative signs because doing work means converting potential
+  energy into velocity (kinetic energy).
+
+  I should further note: the work done by the magnetic field on the
+  moving charge is zero. That is because the force due to the magnetic
+  field is always perpindicular to the velocity so therefore no work is
+  done by the magnetic field.
+
+  \item We've discussed electric potential $\phi$. The difference
+  $\phi(\vy) - \phi(\vx)$ is the work that must be performed to move a
+  unit of \emph{positive} charge from $\vx$ to $\vy$. This
+  \define{electric potential difference} is called the \define{voltage}.
+
+  Therefore, moving from a positive charge from high potential to low
+  potential releases potential energy. Positive charges will tend to
+  flow from high to low potential. Thus positive charges will tend to
+  flow across positive potentials.
+
+  Conversely, negative charges will tend to flow from low to high
+  potential. Thus negative charges will tend to flow across negative
+  potentials.
+
+  The units of voltage are of course \SI{1}{J/C}, which is defined as
+  \SI{1}{V} (volt).
+
+  Technically speaking, there is no such thing as voltage \emph{at a
+  single location}. There is only voltage \emph{across} two locations!
+  Voltage is a \emph{difference} in electric potential. The term
+  \emph{voltage difference} is redundant/confusing.
+
 \end{enumerate}
