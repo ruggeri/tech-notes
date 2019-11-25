@@ -101,47 +101,62 @@
   \item He mentions that friction looks like energy loss until we notice
   the heat is causes.
 
-  \item \TODO{The reasoning here is a work in progress!}
+  \item I want to copy a proof I did elsewhere about the relationship
+  between kinetic energy and work:
 
-  It's maybe worth mentioning part of what makes energy weird.
-  You'd think that expending $X$ units of energy would always yield a
-  constant change of $Y$ in the velocity. But that isn't what happens.
+  \begin{nedqn}
+    \int_0^{d_0} F(d) \dd
+  \eqcol
+    \int_0^{d_0} m a(d) \dd
+    \nedcomment{definition of force}
+  \\\eqcol
+    m \int_0^{t_0} a(t) d'(t) \dt
+    \nedcomment{change variables to time}
+  \\\eqcol
+    m \int_0^{t_0} v'(t) v(t) \dt
+    \nedcomment{write in terms of velocity}
+  \\\eqcol
+    m \int_0^v v \dv
+    \nedcomment{change of variables to velocity}
+  \\\eqcol
+    \frac{1}{2} m v^2
+  \end{nedqn}
 
-  Alternate example: burning fuel to make your rocketship go? How does
-  that get explained?
+  I guess this proof is unnecessary because Feynman already gave a proof
+  earlier that work equals the change in kinetic energy.
 
-  Alternate example: How do cars respect conservation of momentum? Earth
-  gets pushed backward.
+  \item I want to resolve a confusion about the relation between stored
+  energy and kinetic energy. Basically: if I expend half my rocket fuel,
+  I get to a velocity $v_0$. But if I expend the next half, I only get
+  to velocity $\sqrt{2}v_0$. Why?
 
-  Note, you don't need to eject material. You use energy that is densely
-  stored to rotate a wheel and thus push back on the earth.
+  We know this holds for gravitational energy. Since the acceleration
+  due to gravity is $g$, then the distance traveled over a time $t$ is
+  $\half t^2$. Which means that if we double the height we drop from, we
+  only increase the time by a factor of $\sqrt{2}$.
 
-  If no gas is being burned and the pistons are just rotating freely,
-  you don't need to push them. But to accelerate them you need to inject
-  more gas, and it's harder and harder to push on something that's
-  already moving really fast.
+  Let's consider a rocket ship that will be boosted in two stages. It is
+  powered by electrostatics. In stage one, it drops a negatively charged
+  plate on the launch pad. This causes a force to be exerted on the ship
+  pushing it upward.
 
-  Is that true? I mean, I think that RPM in the engine is mediated by
-  the gearbox... But regardless when the gears are meshed, that mediates
-  how much force is needed to further accelerate?
+  After that force dies out, the ship is moving at constant velocity. It
+  drops a second negatively charged plate, giving it a new push. I will
+  imagine that this second plate, rather than flying backward in space,
+  lands on a nearby planet. It thus mirrors the first plate's action,
+  except the rocket ship is already moving at a given velocity.
 
-  For rockets... Why does burning another gallon of fuel not result in
-  the same acceleration? Imagine you store energy in terms of electrical
-  plates. The plates are paired with equal charges. To accelerate, you
-  release a plate, and you push yourself away from that plate.
+  We can now see why we are not going to get double the change in
+  velocity from the second stage. The reason is that the rocket ship is
+  already moving quickly out of the range of the second stage plate.
+  Thus, there is less \emph{time} during which the rocket ship is within
+  an effective range to receive further pushing.
 
-  I guess that to accelerate your large spacecraft an appreciable
-  amount, you need to eject a bunch of mass. That is conservation of
-  momentum. I guess each kilogram of mass you eject, you gain more
-  velocity per ejected kilogram (because the mass of the rocket is
-  decreasing).
+  Okay I didn't do all the math but I think the idea is clear.
 
-  I guess it also depends on the velocity of the ejected plate. I guess
-  if the ship is accelerating more easily, then the time that it takes
-  for a constant energy of $Fd$ to be expended will be less, reducing
-  efficiency.
-
-  Nailed it.
+  \TODO{I still feel like I should do a math proof to show the change in
+  velocity given an input of energy \emph{when there is already an
+  initial velocity!}}
 
   \item \TODO{I feel like I should work an example of a pulley, and
   especially with a focus on tension}.
