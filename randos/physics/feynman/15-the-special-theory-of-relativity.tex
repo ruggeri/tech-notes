@@ -262,9 +262,29 @@
   their ``true'' lifespan. This has been done at various muon
   velocities.
 
-  \item \TODO{Simultaneity}
+  \item Simultaneity also breaks down. Imagine a space traveler has a
+  light-meter clock at both the front and back of their spaceship. They
+  send a pulse to the clocks from the exact center of the spaceship. It
+  should arrive at both locations at the same moment in time.
 
-  \item \TODO{Four vectors}
+  This is \emph{not} what a ``stationary'' observer would observe. The
+  foreward signal will take a longer amount of time to reach the front
+  of the ship (speeding away from the signal) while the backward signal
+  takes less time (the back is racing toward the signal). The two
+  signals do not arrive at the same time.
+
+  I want to make a note. All $x$ space is stretched uniformly. I
+  initially worried that the distance from center to back might not be
+  stretched as much as from center to front, thus fixing the timem
+  problem. But that doesn't happen, as space is stretched uniformly. So
+  the timing argument does work.
+
+  \item It is noted that if you treat $(x, y, z, t)$ as a four vector
+  (or even just $(x, y)$ as space time with one space dimension), you
+  should find that $(x', t')$ is simply a rotation of the original
+  coordinates. But I actually don't get my math to quite wokr out like
+  this. But I think that is fine for this chapter - I believe the next
+  chapter will examine this space time concept in greater detail.
 
   \item We now get to Einstein. Consider a force acting on an object.
   We've traditionally assumed that this implies a constant acceleration
@@ -318,11 +338,12 @@
     \frac{m_0}{\sqrt{1 - v^2/c^2}}
   \end{nedqn}
 
-  He notes that through an application of the binomial theorem, this is:
+  Here $v$ is the speed of the gas molecules. He notes that through an
+  application of the binomial theorem, this is:
 
   \begin{nedqn}
     m
-  \approxcol
+  \eqcol
     m_0 \parens{
       1 + \frac{1}{2} v^2 / c^2 + \frac{3}{8} v^4/c^4 + \cdots
     }
@@ -451,9 +472,22 @@ Presumably that happens in the next chapter.
 He does a final confusing thing: he ``derives'' the relativistic mass
 formula from the concept of total energy $mc^2$. But this assumes that
 total energy ``is a thing'' and incorporates both rest energy and
-kinetic energy. Where does total energy come from? The relativistic mass
-formula! We literally have no intuition for this concept of total energy
-except that it is implied by the relativistic mass formula. So how can
-it build our intuition for the relativistic mass formula??
+kinetic energy. Where did this total energy concept come from? An
+exploration of gas behavior with the relativistic mass formula! We
+literally have no intuition for this concept of total energy except that
+it is implied by the relativistic mass formula. So how can it build our
+intuition for the relativistic mass formula??
 
 I think the student is justified to be frustrated by this chapter.
+
+\begin{enumerate}
+
+  \item \TODO{Derive Lorentz transform of $x$ via Michelson-Morley (thought) experiment.}
+
+  \item \TODO{Derive Lorentz time dilation (at a fixed location) via spaceship clock.}
+
+  \item \TODO{Derive Lorentz transform of $t$ at different locations via back-front spaceship clocks.}
+
+  \item \TODO{Can I show that relativistic mass formula fits the bill?}
+
+\end{enumerate}
