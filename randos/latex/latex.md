@@ -5,6 +5,11 @@ TODOS:
 * graphicx
 * bibtex
 
+I think also that a *TeX* resource is also important. Stuff like
+`\expandafter` and `\csname` come from TeX, not LaTeX.
+
+I believe the proper resource for this is the TeX book!
+
 ## Randos
 
 * I saw the `\rlap{xyz}` command. It basically puts `xyz` in a
