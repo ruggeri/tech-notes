@@ -1,0 +1,104 @@
+\subsection{Michelson-Morley Experiment}
+
+\begin{enumerate}
+
+  \item Let's describe the Michelson-Morley experiment. They decided to
+  do an experiment that would use the invariant speed of light in aether
+  to detect the velocity in an inertial reference frame. They were
+  assuming that a moving body experiences a Galilean transformation of
+  its coordinate space.
+
+  Here's what they did. They would shine a light on a partially
+  reflective mirror angled at 45 degrees. Some light would pass through
+  the mirror, and some would reflect off. In both cases, there are
+  (fully reflective) mirrors to reflect the light \emph{back at the
+  mirror}. The mirrors are set at an equal distance $L$ from the initial
+  partially-reflective mirror.
+
+  When the light returns to the partially reflective mirror, it has
+  traveled a distance $2L$. It doesn't matter which path. Therefore we
+  expect the two beams of light to be ``in phase.'' I think they
+  invented the interferometer to detect this.
+
+  \item The key to the experiment comes next. They next put the aparatus
+  at a velocity $u$. The velocity is straight at one of the mirrors, but
+  orthogonal to the other. The distance traveled by the light is no
+  longer $2L$ (for either beam).
+
+  BTW: they didn't move the aparatus. Rather, they aligned it with the
+  Earth's direction of travel about the Sun. They did the experiment and
+  recorded the interference pattern. They then rotated the experiment
+  90\degree and repeated. They expected to find a change in interference
+  pattern. These are historical details; they're irrelevant to the
+  thought experiment.
+
+  \item The beam reflected orthogonally needs to travel a distance not
+  only $L$, but also some transverse distance. If the hypotenuse of the
+  corresponding right triangle is $y$, and the transverse distance is
+  $x$, then we have:
+
+  \begin{nedqn}
+    2\frac{y}{c}
+  \eqcol
+    2\frac{x}{u}
+  \\
+    x
+  \eqcol
+    \frac{yu}{c}
+  \end{nedqn}
+
+  And now we can substitute into the Pythagorean formula:
+
+  \begin{nedqn}
+    y^2
+  \eqcol
+    x^2 + L^2
+  \\
+  \eqcol
+    \parens{\frac{yu}{c}}^2 + L^2
+  \\
+    \parens{1 - u^2/c^2}y^2
+  \eqcol
+    L^2
+  \\
+    2y
+  \eqcol
+    \frac{2L}{\sqrt{1 - u^2/c^2}}
+  \end{nedqn}
+
+  \item On the other hand, consider the light traveling along the path
+  of the velocity. The first part of its journey takes time $\frac{L}{c
+  - u}$, while the second part takes time $\frac{L}{c + u}$. We find:
+
+  \begin{nedqn}
+    c\parens{\frac{L}{c - u} + \frac{L}{c + u}}
+  \eqcol
+    c\frac{
+      L(c + u) + L(c - u)
+    }{
+      (c + u)(c - u)
+    }
+  \\
+  &&
+  \nedcomment{factor of $c$ because we want distance not time}
+  \\
+  \eqcol
+    c\frac{2Lc}{c^2 - u^2}
+  \\
+  \eqcol
+    \frac{2L}{1 - u^2/c^2}
+  \end{nedqn}
+
+  \item We now see that the distance traveled by the light is different
+  in the two scenarios. Thus we expect that the light will be out of
+  phase when it returns to the half-mirrored plate. \emph{But that is
+  not what was observed.} Michelson and Morley found that the light
+  remained in phase. This is a null result: it was \emph{not} what would
+  have been expected from Maxwell's laws under a Galilean
+  transformation.
+
+  \item This failure to detect a change in the interference pattern was
+  a \emph{preservation} of the principle of relativity. But it didn't
+  make much sense with respect to their interpretation of Maxwell.
+
+\end{enumerate}

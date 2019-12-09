@@ -1,0 +1,121 @@
+\subsection{Relativistic Energy}
+
+\begin{enumerate}
+
+  \item Feynman asks us to consider a gas. Heat the gas. The mass is:
+
+  \begin{nedqn}
+    m
+  \eqcol
+    \frac{m_0}{\sqrt{1 - v^2/c^2}}
+  \end{nedqn}
+
+  Here $v$ is the speed of the gas molecules. He notes that through an
+  application of the binomial theorem, this is:
+
+  \begin{nedqn}
+    m
+  \eqcol
+    m_0 \parens{
+      1 + \frac{1}{2} v^2 / c^2 + \frac{3}{8} v^4/c^4 + \cdots
+    }
+  \end{nedqn}
+
+  Dropping all the smallest terms, we have:
+
+  \begin{nedqn}
+    m
+  \approxcol
+    m_0 + \half m_0 v^2 / c^2
+  \end{nedqn}
+
+  But this is
+
+  \begin{nedqn}
+    m
+  \approxcol
+    m_0 + \mathit{KE} / c^2
+  \end{nedqn}
+
+  Which is to say: the change in the mass is equal to the change in
+  kinetic energy (divided by $c^2$). Or:
+
+  \begin{nedqn}
+    \Delta \mathit{KE}
+  \approxcol
+    \Delta m c^2
+  \end{nedqn}
+
+  \item Instead of speaking in terms of mass, Eistein started talking in
+  terms of energy. He said that if $m_0$ is the \define{rest mass}, then
+  $m_0 c^2$ is the \define{rest energy}. Likewise we have:
+
+  \begin{nedqn}
+    mc^2
+  \eqcol
+    m_0 c^2 + \half m_0 v^2 + \cdots
+  \end{nedqn}
+
+  Here we have the \define{total energy} of the body being equal to its
+  (a) rest energy, (b) its kinetic energy, (c) some other junk.
+
+  Feynman does some math. He says: let's say that $mc^2$ is the total
+  energy. Then if we do work on the object, the rate of change in energy
+  is $\vF \cdot \vv$. So:
+
+  \begin{nedqn}
+    \fpartial[E]{t}
+  \eqcol
+    \vF \cdot \vv
+  \nedcomment{definition of work}
+  \\
+    \fpartial[m c^2]{t}
+  \eqcol
+    \vv \cdot \fpartial[m \vv]{t}
+  \\
+  &&
+  \nedcomment{assuming that change in energy changes $mc^2$}
+  \\
+    c^2
+    2m
+    \fpartial[m]{t}
+  \eqcol
+    2m
+    \vv \cdot \fpartial[m \vv]{t}
+  \nedcomment{trick}
+  \\
+    c^2
+    \fpartial[m^2]{t}
+  \eqcol
+    \fpartial[(mv)^2]{t}
+  \nedcomment{de-vectorize}
+  \\
+    c^2 m^2
+  \eqcol
+    m^2 v^2 + C
+  \nedcomment{integrage}
+  \\
+    c^2 m^2
+  \eqcol
+    m^2 v^2 + m^2_0 c^2
+  \nedcomment{define $m_0$ appropriately}
+  \\
+    m
+  \eqcol
+    \frac{
+      m_0
+    }{
+      \sqrt{1 - v^2 / c^2}
+    }
+  \end{nedqn}
+
+  What does this show? It says that if the so-called ``total energy''
+  $mc^2$ of a body incorporates both its rest energy and its kinetic
+  energy, then the mass of the object must evolve (in response to
+  chagnges to velocity) in the way that Einstein describes.
+
+  \item This furthermore says: if there is any question of mass being
+  ``anhiliated,'' then that must imply that the reduced body will lose
+  (aka emit) energy. A lot of energy.
+
+\end{enumerate}
