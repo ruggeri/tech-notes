@@ -1,0 +1,316 @@
+\section{Relativistic Energy and Momentum}
+
+\begin{enumerate}
+
+  \item He notes a potential paradox. Imagine Alice and Bob. Bob flies
+  away, and returns. He is younger than Alice now.
+
+  But couldn't Bob imagine that he is still, and it was \emph{Alice} who
+  flew away? Why did she come back older? Doesn't this violate symmetry?
+
+  The reason: we need to do accelerations to make this experiment work.
+  Bob experiences accelerations, but Alice does not. That breaks the
+  symmetry and explains the difference.
+
+  \item We next explore transformations of velocities. Let's first
+  recall the equations to translate deltas in $x'$ and $t'$:
+
+  \begin{nedqn}
+    \Delta x'
+  \eqcol
+    \frac{
+      \parens{x_1 - ut_1} - \parens{x_0 - ut_0}
+    }{
+      \sqrt{1 - u^2/c^2}
+    }
+  \\
+  \eqcol
+    \frac{\Delta x - u \Delta t}{
+      \sqrt{1 - u^2/c^2}
+    }
+  \\
+    \Delta t'
+  \eqcol
+    \frac{
+      \parens{t_1 - ux/c^2} - \parens{t_0 - ux/c^2}
+    }{
+      \sqrt{1 - u^2/c^2}
+    }
+  \\
+  \eqcol
+    \frac{
+      \Delta t - u\Delta x/c^2
+    }{
+      \sqrt{1 - u^2/c^2}
+    }
+  \end{nedqn}
+
+  \item Let's consider an object A traveling at $v_y$ with no $x$
+  velocity. Let's now consider observing it from a spaceship travelling
+  with a velocity $u$ along the $x$ axis:
+
+  \begin{nedqn}
+    v_y'
+  \eqcol
+    \frac{\Delta y'}{\Delta t'}
+  \\
+  \eqcol
+    \Delta y
+    \frac{
+      \sqrt{1 - u^2/c^2}
+    }{
+      \Delta t - u\Delta x/c^2
+    }
+  \\
+  \eqcol
+    v_y \sqrt{1 - u^2/c^2}
+  \end{nedqn}
+
+  This scenario is somewhat somewhat simple. Dilation of $x$ space is
+  irrelevant, so the only factor involved is the time dilation effect.
+
+  The new velocity $v_x'$ is also easy to analyze. It's easy beacuse
+  $\Delta x = 0$.
+
+  \begin{nedqn}
+    v_x'
+  \eqcol
+    \frac{\Delta x'}{\Delta t'}
+  \\
+  \eqcol
+    \frac{
+      \Delta x - u \Delta t
+    }{
+      \Delta t - u \Delta x /c^2
+    }
+  \\
+  \eqcol
+    \frac{-u \Delta t}{\Delta t}
+  \\
+  \eqcol
+    -u
+  \end{nedqn}
+
+  \item We can consider the change in velocity if the object A was
+  travelling parallel to the $x$ axis:
+
+  \begin{nedqn}
+    v_x'
+  \eqcol
+    \frac{\Delta x'}{\Delta t'}
+  \\
+  \eqcol
+    \frac{
+      \Delta x - u \Delta t
+    }{
+      \Delta t - u \Delta x / c^2
+    }
+  \\
+  \eqcol
+    \frac{
+      v_x - u
+    }{
+      1 - u v_x / c^2
+    }
+  \end{nedqn}
+
+  Again that seems reasonable. If we match $u$ to equalize $v_x$ we find
+  no more velocity $v_x'$. Likewise, if $v_x$ started out as zero, then
+  as expected we find $v_x' = -u$. Notice that $v_x'$ can never be
+  greater than $c$ (provided that $u, v_x$ are both less than $c$).
+
+  Our finding for $v_y'$ is also reasonable:
+
+  \begin{nedqn}
+    v_y'
+  \eqcol
+    \frac{
+      \Delta y'
+    }{
+      \Delta t'
+    }
+  \\
+  \eqcol
+    \frac{0}{\Delta t'}
+  \\
+  \eqcol
+    0
+  \end{nedqn}
+
+  Which is as expected.
+
+  \item Let's next examine what happens when neither $v_x, v_y$ are
+  zero. Can we use our equations as before to treat these separately? It
+  turns out not exactly. The math for $v_x'$ will work out as before.
+  But let's next consider $v_y'$:
+
+  \begin{nedqn}
+    v_y'
+  \eqcol
+    \frac{
+      \Delta y'
+    }{
+      \Delta t'
+    }
+  \\
+  \eqcol
+    \Delta y
+    \frac{
+      \sqrt{1 - u^2/c^2}
+    }{
+      \Delta t - u\Delta x/c^2
+    }
+  \\
+  \eqcol
+    v_y
+    \frac{
+      \sqrt{1 - u^2/c^2}
+    }{
+      1 - uv_x/c^2
+    }
+  \end{nedqn}
+
+  We can see that when $v_x = 0$, this is just the same equation we had
+  found before.
+
+  \item Next Feynman wants to derive the formula for relativistic mass.
+  He considers two identical particles that approach each other and then
+  deflect at an angle. We may orrient axes such that: (a) particle A
+  approaches with velocity $\vv$, (b) after approach, particle A
+  maintains horizontal velocity $\vv_x$, (c) after approach,
+  particle A reverses vertical velocity $\vv_y$ to $-\vv_y$.
+
+
+  Particle B does just like particle A, except its velocity is always
+  exactly opposite to A's.
+
+  The masses are always the same, and the velocities are always
+  opposite, so net momentum is always zero.
+
+  \item He now imagines changing the frame by moving at $\vv_x$
+  horizontally. We know from the above work that the velocity of
+  particle A transforms to:
+
+  \begin{nedqn}
+    v'_{y, A}
+  \eqcol
+    v_y \frac{
+      \sqrt{1 - v_x^2/c^2}
+    }{
+      1 - v_x^2/c^2
+    }
+  \\
+    v'_{x, A}
+  \eqcol
+    \frac{
+      v_x - v_x
+    }{
+      1 - v_x^2/c^2
+    }
+  \\
+  \eqcol
+    0
+  \end{nedqn}
+
+  With regard to particle B, we have:
+
+  \begin{nedqn}
+    v'_{y, B}
+  \eqcol
+    v_y \frac{
+      \sqrt{1 - v_x^2/c^2}
+    }{
+      1 + v_x^2/c^2
+    }
+  \\
+    v'_{x, B}
+  \eqcol
+    \frac{
+      -v_x - v_x
+    }{
+      1 - (v_x)(-v_x)/c^2
+    }
+  \\
+  \eqcol
+    \frac{-2v_x}{1 + v_x^2/c^2}
+  \end{nedqn}
+
+  Therefore:
+
+  \begin{nedqn}
+    \frac{v'_{y, B}}{v'_{y, A}}
+  \eqcol
+    \frac{
+      1 - v_x^2/c^2
+    }{
+      1 + v_x^2/c^2
+    }
+  \end{nedqn}
+
+  \item This is correct, but rather than write this in terms of $v_x$,
+  Feynman wants to write this in terms of $v'_{x, B}$. The easiest way
+  to do so is through a trick.
+
+  Note that if we change the \emph{new} frame of reference by the
+  velocity $v'_{x, B}$, then the vertical velocity $v'_{y, B}$ becomes
+  exactly $-v'_{y, A}$. Basically, particle A would become just like
+  particle B, and vice versa.
+
+  But then this means:
+
+  \begin{nedqn}
+    -v'_{y, A}
+  \eqcol
+    v'_{y, B}
+    \frac{
+      \sqrt{1 - \parensq{v'_{x, B}}/c^2}
+    }{
+      1 - \parensq{v'_{x, B}}/c^2
+    }
+  \\
+    v'_{y, B}
+  \eqcol
+    -
+    v'_{y, A}
+    \sqrt{1 - \parensq{v'_{x, B}}/c^2}
+  \\
+    \frac{
+      v'_{y, B}
+    }{
+      v'_{y, A}
+    }
+  \eqcol
+    -\sqrt{1 - \parensq{v'_{x, B}}/c^2}
+  \end{nedqn}
+
+  \item Now, if we assume that momentum is conserved, this means that:
+
+  \begin{nedqn}
+    \frac{
+      m'_A
+    }{
+      m'_B
+    }
+  \eqcol
+    \sqrt{1 - \parensq{v'_{x, B}}/c^2}
+  \end{nedqn}
+
+  Feynman wants us to now consider letting $v'_{y, A} \to 0$. If we do
+  this, then $m'_A \to m_0$. At the same time, $m'_B$, which is the mass
+  of the particle at velocity $v'_B$ will tend toward $v'_{x, B}$, since
+  the $v'_{y, B}$ component will tend toward zero. In which case:
+
+  \begin{nedqn}
+    m(v'_{x, B})
+  \eqcol
+    \frac{
+      m_0
+    }{
+      \sqrt{1 - v'_{x, B}}
+    }
+  \end{nedqn}
+
+  And now we see that this is the relativistic mass formula we've been
+  looking for!
+
+\end{enumerate}
