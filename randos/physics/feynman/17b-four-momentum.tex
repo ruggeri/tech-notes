@@ -1,0 +1,95 @@
+\subsection{Four Momentum}
+
+\begin{enumerate}
+
+  \item Under rotation in 3D space, the momentum vector \emph{will}
+  change (direction; not magnitude). But the momentum is in a sense
+  ``invariant'' in that it will undergo an \emph{opposite} rotation to
+  that which was applied to the space.
+
+  We say that the three-momentum is \define{contravariant} under
+  rotations of Euclidean three-space.
+
+  \item Three-momentum doesn't tell you mass or velocity; it tells you a
+  mix of those things. For instance: an object with zero momentum
+  certainly has no velocity, but we don't have enough information to
+  know the mass of the object.
+
+  Therefore, it is obvious that three-momentum doesn't have enough
+  information for you to know how it will transform if you change the
+  velocity of the reference frame. This is true even if you are ignoring
+  any special relativistic effects.
+
+  \item The relativistic version of momentum is called
+  \define{four-momentum}. It is: $(p_x, p_y, p_z, m)$.
+
+  They sometimes say that the ``mass'' component of this vector is
+  really an ``energy'' component. This follows from $E = mc^2$. So
+  really if we correct by a factor of $c^2$ we can consider the mass as
+  energy. In which case the vector represents momentum and energy.
+
+  \item No matter the frame, the Minkowski norm of the four-momentum is
+  always invariant:
+
+  \begin{nedqn}
+    \normsq{
+      \parens{p_x, p_y, p_z, m c^2}
+    }
+  \eqcol
+    m^2 c^4 - \parensq{m \norm{v}}
+  \\
+  \eqcol
+    \parens{c^2 - \normsq{v}}
+    m^2 c^2
+  \\
+  \eqcol
+    \parens{c^2 - \normsq{v}}
+    \parensq{
+      \frac{m_0 c}{\sqrt{1 - \normsq{v} / c^2}}
+    }
+  \\
+  \eqcol
+    \parens{c^2 - \normsq{v}}
+    \parensq{
+      \frac{
+        m_0 c^2
+      }{
+        c\sqrt{1 - \normsq{v} / c^2}
+      }
+    }
+  \\
+  \eqcol
+    \parens{c^2 - \normsq{v}}
+    \parensq{
+      \frac{
+        m_0 c^2
+      }{
+        \sqrt{c^2 - \normsq{v}}
+      }
+    }
+  \\
+  \eqcol
+    \parensq{m_0 c^2}
+  \\
+  \eqcol
+    E_0^2
+  \end{nedqn}
+
+  Thus we see that the Minkowski norm of the four-momentum is always
+  equal to the rest energy, no matter the frame we have used to express
+  the four-momentum. And of course, this is always constant.
+
+  Unsurprisingly, neither total energy nor momentum are invariant under
+  changes of inertial reference frame. But we've just shown: $E^2 - p^2
+  = E_0^2$.
+
+  \item Note that energy and momentum are still \emph{conserved} by
+  interactions within a fixed reference frame. In a fixed reference
+  frame mass is neither destroyed, nor is energy ever lost.
+
+  \item Last, I ought to show that the four-momentum vector is
+  contravariant to Lorentz transformations applied to space-time. Having
+  done that, we can conclude that four-momentum is more ``real'' than
+  three-momentum or energy alone.
+
+\end{enumerate}
