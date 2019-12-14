@@ -1,0 +1,133 @@
+\subsection{Proper Time}
+
+\begin{enumerate}
+
+  \item Consider a \define{world line} through space time. The simplest
+  kind of world line is one where we stay at a fixed location,
+  experience no acceleration, and just live for a given time. That is:
+  our world line corresponds to a single fixed inertial frame of
+  reference.
+
+  \item Consider the Minkowski norm between two points $\vmu_0 = (0, 0,
+  0, 0)$ and $\vmu_1 = (0, 0, 0, \ttilde_1)$. Then $\norm{\vmu_1 -
+  \vmu_0} = \ttilde_1$. Therefore the Minkowski norm corresponds to the
+  time difference $\Delta \ttilde = \ttilde_1$.
+
+  \item We already showed that the Minkowski norm is invariant under
+  Lorentz transform. So consider a Lorentz transformation whereby
+
+  \begin{nedqn}
+    \vmu_0
+  \eqcol
+    \parens{0, 0, 0, 0}
+  \\
+  & \mapsto &
+    \vmu'_0 = \parens{0, 0, 0, 0}
+  \\
+    \vmu_1
+  \eqcol
+    \parens{x_1, y_1, z_1, \ttilde_1}
+  \\
+  & \mapsto &
+    \vmu'_1 = \parens{0, 0, 0, \ttilde'_1}
+  \end{nedqn}
+
+  \item The Minkowski norm $\norm{\vmu_1 - \vmu_0} = \norm{\vmu'_1 -
+  \vmu'_0}$. Clearly the norm in the new coordinate system is the time
+  $\ttilde'_1$ a traveler experiences on their journey to $(x, y, z)$ at
+  uniform speed $\norm{\parens{x, y, z}} / \ttilde_1$.
+
+  Note: the traveler does not experience that they have ``gone''
+  anywhere. Note that when the traveler ``arrives'' they would disagree
+  with the duration of the ``journey'' when comparing notes with someone
+  who has stayed at space position $(0, 0, 0)$ (in the original
+  coordinate system).
+
+  \item What is going on here? Perhaps at $\vmu_0$ Earth Twin's friend
+  (Space Twin) left Earth. Later, Earth Twin receives a radio
+  transmission from Space Twin. The transmission says: ``I'm turning
+  around.'' Earth Twin calculates from (a) the direction of the signal,
+  (b) the time it was received, and (c) the invariant speed of light in
+  a vacuum that the signal was broadcast from $\vmu_1 = \parens{x_1,
+  y_1, z_1, \ttilde_1}$.
+
+  \item Space Twin has a somewhat different experience. She started at
+  Earth with $\vmu'_0 = \parens{0, 0, 0, 0}$. That is, she ``zero-ed''
+  her position and time reading to the same moment in space-time that
+  Earth Twin has.
+
+  Space Tiwn left Earth with a velocity $\vv = \parens{x_1 / \ttilde_1,
+  y_1 / \ttilde_1, z_1 / \ttilde_1}$. Note: this is Space Twin's
+  velocity \emph{as observed by Earth Twin}. As far as Space Twin is
+  concerned, Earth Twin was the one moving away. Space Twin considers
+  her velocity to be zero: $\vv' = (0, 0, 0)$.
+
+  \item Space Twin will ``travel'' for a while before sending her signal
+  to Earth Twin. She decides to ``travel'' for time equal to
+  $\ttilde'_1$. Thus she travels to a point in space-time $\vmu_1' =
+  \parens{0, 0, 0, \ttilde'_1}$.
+
+  \item When Space Twin sends her signal, she claims that $\ttilde'_1$
+  time has passed, whereas Earth Twin believes that it must have taken
+  her time $\ttilde_1$ to get to the point $(x_1, y_1, z_1)$ to send her
+  signal. The contradiction in their calculations is explained entirely
+  by relativistic effects.
+
+  \item Note that despite the ``contradiction,'' Earth Twin can
+  calculate that
+
+  \begin{nedqn}
+    \norm{\parens{x_1, y_1, z_1, \ttilde_1}}
+  \ltcol
+    \ttilde_1
+  \end{nedqn}
+
+  In fact it equals $\ttilde'_1$. Thus we call the Minkowski norm of
+  this vector the \define{proper time}. It is the time that a traveler
+  along the straight-line path from $\vmu'_0$ to $\vmu'_1$ would observe
+  when travelling between those points in space-time.
+
+  Note that the proper time of a straight-line world path is invariant
+  in every frame of reference.
+
+  \item Space Twin may decide to return to Earth (perhaps to settle the
+  matter of the differing clocks). She just reverses her journey. In her
+  series of frames, this has taken time equal to $2\ttilde'_1$, whereas
+  to the Earth observer it has taken time $2\ttilde_1$.
+
+  \item Where has the symmetry been broken? The reason is that Earth
+  Twin has taken a \emph{straight line path through space-time}. Space
+  Twin has taken a \emph{broken line path through space-time}.
+
+  Earth Twin \emph{knows} that they have taken a straight line path
+  because they felt no acceleration. Space Twin \emph{knows} they have
+  taken a broken line path because they \emph{did} feel an acceleration.
+  Their circumstances are \emph{not} symmetric.
+
+  \item Analogue: consider if Alice walks straight up Valencia Street
+  from 24th Street to 16th Street. Bob leaves the same time, but he
+  walks a block east to Mission Street first, up 8 blocks, and then one
+  block west to Valencia again.
+
+  Alice is already waiting for Bob. Bob says: how could you have beaten
+  me? Alice says: I \emph{knew} I couldn't have gotten here after you,
+  because I took a straight line path. No one could have beaten me.
+
+  \item The Minkowski norm is ``weird'' in the sense that it assigns
+  \emph{lesser norm} to broken line paths through space-time than to
+  straight line paths connecting their endpoints (in space-time).
+
+  \item Consider the ``arc length'' of a path through space-time. Here
+  the arc length is of course measured with respect to the Minkowski
+  norm. The arc length is of course equal in all inertial reference
+  frames: that follows from our proof that the Minkowski norm is
+  invariant under a change of inertial reference frame.
+
+  \item Further, we may approximate a path through space-time with a
+  series of line segments. An observer who follows each segment at
+  uniform speed will observe that the proper time (equal to the arc
+  length) of that segment has passed. Thus, in the limit, the arc length
+  of the path is exactly equal to the proper time experienced by the
+  traveler along the path.
+
+\end{enumerate}
