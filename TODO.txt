@@ -1,34 +1,57 @@
-**Reviewed 2019-11-25**
+**Reviewed 2019-12-19**
 
 * Physics:
   * I think I want to learn all intro physics.
   * Especially electronics!
-  * Feynman lectures?
+  * The Feynman lectures have been a great guide!
 * Zero knowledge proof. Interactive proofs? Zcash?
   * Is there a book that covers this?
+  * Also I'd like to understand homomorphic encryption!
 * Return to notes on Prisoner's Dilemma from computability standpoint?
   * What Prisoner's Dilemma books exist?
+  * In particular: I'd like to understand the Freeman Dyson paper.
 * Writeup how reverse image search works. Text search/info retrieval.
-* Compiler project.
+  * Com'on this should be easy!
 * Might be nice to get Deep Q Network to actually work...
   * Alpha Go.
   * Neural Turing Machine, Monte-Carlo Tree Search.
   * Attention.
   * GPT-2 type stuff?
   * That cooperation paper.
-* JRN mentioned quintic insolvability.
-* Wavelet transform?
-* ODEs came up in describing spring harmonic motion.
+* Quintic unsolvability
+  * JRN re-interested me in this.
+* Wavelet transform
+  * I understand the Fourier transform so let's take it one more step!
+* Ordinary Differential Equations
+  * This came up in Feynman when we studied springs.
+  * I think at least for some simple ones it wouldn't be so hard?
+* Compiler project.
 
-* Are there any *skills* that I want to build up? Like, say, carpentry.
+## Explanation
 
 I think I've satiated my interest in algorithms, databases, distributed
-systems.
+systems. Those were fun mental games/playgrounds, but I don't feel
+motivated to go deeper into the minutia of them. There are a few tiny
+exceptions (reverse image search, building a compiler).
 
-Most of the things I want to know relate to physics and mathematics. I
-also would like to some cryptography stuff.
+I seem to be more focused on physical science (physics, electronics,
+even chemistry!). I think this relates to wanting to learn how to
+control/manipulate "meatspace." This is also taking me into some applied
+math.
 
-**Typesetting**
+I can still be interested from time-to-time in crypto stuff. It
+definitely feels "magical" that we can do certain things. And it does
+feel powerful and fit in with some of my anti-corporatist sentiment.
+
+I can always keep half an eye on ML to see if anything interesting or
+exciting comes up. Since I'm not focused on ends, my interest depends
+primarily on whether there are fundamentally new and interesting
+techniques.
+
+Pure mathematics doesn't much motivate me. But for reasons of personal
+history, I would enjoy revisiting quintic unsolvability!
+
+## Typesetting
 
 I want to try to writeup a lot of old math notes in Latex. Here I list
 some documents to start with. Note: I may already *understand* these,
