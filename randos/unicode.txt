@@ -1,3 +1,5 @@
+## ASCII, Latin-1, Windows-1252
+
 In the beginning there was ASCII.
 
 Then they wanted to add more Latin characters. This is "Latin-1" AKA
@@ -11,6 +13,8 @@ aren't true Latin-1 characters. For this reason, HTML5 standard says
 that if a website says that something is in Latin-1, browsers should
 treat it as Windows-1252.
 
+## Unicode, Graphemes, Code Points
+
 Unicode then came around. Every "grapheme" gets a "code point." A code
 point is a number. A series of numbers thus describes a
 string. Graphemes are not necessarily characters: they can be
@@ -19,40 +23,105 @@ code points in succession. This is called a "grapheme cluster." So
 even given a sequence of code points, it's a parsing problem to get
 individual "characters."
 
+For most programming languages, you can't rely that `charAt(idx)` will
+give you the *grapheme cluster* at position `idx`. You'll be lucky to
+get the *unicode code point* at position `idx`. You may well just get
+the *byte* at idx.
+
 For backward compatibility, the ASCII characters get the same Unicode
 code points. That is, characters in the range 0-127 are the same
 whether ASCII or Unicode.
 
 For now, the highest Unicode codepoints reserved are 21 bits long.
 
+## UTF-32
+
 The next question is how to encode the code points to bytes. The
 simplest format is probably UTF-32. It is fixed width, and each code
 point is encoded as a 32-bit number. (UTF-32 assumes that max code
 point is 21 bit long).
 
+**Byte Order Mark**
+
+Question: should the 32-bit UTF-32 representation be stored
+*little-endian* or *big-endian*? This is the purpose of the *byte order
+mark* (BOM). The BOM has codepoint U+FEFF. You store the BOM at the
+start of a file. If the file starts with the bytes 0000FEFF, you know it
+is big-endian. If it starts FFFE0000, then you know it is little-endian.
+
+Note: we're relying on the implicit assumption that U+FFFE is invalid.
+Of course, for exactly this reason Unicode declares U+FFFE invalid.
+
+## UTF-8
+
 The most common format is UTF-8. Here, each code point is encoded with
-1, 2, 3 or 4 bytes. This is biased toward Latin characters: ASCII
-characters have codepoints in the range 0-127, so they are always
-1-byte encoded, and UTF-8 is the same as ASCII if only encoding ASCII
-text.
+1, 2, 3 or 4 bytes. Code points are stored like so:
 
-At present, worst-case, UTF-8 is equally space-inefficient to
-UTF-32. This is because UTF-8 encodes 21-bit quantities with at most
-32-bits. That is: UTF-32 has built-in inefficiency. But if we added
-enough Unicode characters, then sometimes UTF-8 would need 5 bytes, in
-which case UTF-32 could in theory be more space efficient.
+  0xxxxxxx (code points 0-127)
+  110xxxxx 10xxxxxx (code points requiring two bytes)
+  1110xxxx 10xxxxxx 10xxxxxx (code points requiring three bytes...)
+  11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 
-UTF-16 is like UTF-8, but uses one or two 16bit quantities. It
-*cannot* be treated like ASCII. It can be more efficient if there were
-a lot of 3 byte UTF-8 codes that can now be represented with 2 bytes
-(less overhead). I think that is the case for CJK text.
+Basically: basic ASCII characters are marked with a leading zero. Higher
+code points have their first byte describe how many bytes are needed.
+"Continuation bytes" start with "10". This allows for
+"self-synchronization" if a byte is dropped in transmission. Else
+everything could be garbled by the loss of one byte.
 
-I think UTF-16 came from an earlier time of UCS-2. UCS-2 was a
-fixed-width 2byte format when we thought we only needed 2**16
-codepoints. People invested in UCS-2, but then got angry later about
-the idea of UTF-32. I guess UTF-16 is equal to UCS-2 if you only use
-characters from the "Basic Multilingual Plane" (which consists of
-codepoints up to 2**16).
+**Byte Order Mark**
+
+There is no need for the BOM in UTF-8. UTF-8 describes how a code point
+is crammed into a multi-byte sequence. It is basically big-endian: the
+most significant bits get crammed into the first byte, and the less
+significant bits in the next.
+
+The Unicode Standard does not recommend storing the BOM in a UTF-8 file.
+This would break backward compatibility with ASCII. But it is not
+forbidden. Windows apparently does store a BOM. A BOM might represent
+that a file is stored in UTF rather than ASCII. But it is recommended to
+signal this in other ways...
+
+**Efficiency**
+
+UTF-8 is biased toward Latin characters: ASCII characters have
+codepoints in the range 0-127, so they are always 1-byte encoded, and
+UTF-8 is the same as ASCII if only encoding ASCII text.
+
+Unicode has restricted itself to 21 bits worth of code points. That
+means that all code points can be represented in UTF-8 with at most four
+bytes (3bits + 6bits + 6bits + 6bits). This means that UTF-8 is always
+as efficient as UTF-32.
+
+If Unicode were to go back on its word and allow more than 21 bits worth
+of code points, then sometimes UTF-32 might be more efficient.
+
+## UCS-2 and UTF-16
+
+UCS-2 was a fixed-width two byte format from when we thought we only
+needed 2**16 codepoints. Java and JavaScript are prominent users of
+UTF-16.
+
+When Unicode added more characters, it broke UCS-2. UTF-16 is the
+evolution of UCS-2. It is a variable-width format of two or four bytes.
+If you use only characters from the "Basic Multilingual Plane," then
+UCS-2 encodes every character with exactly 2 bytes. But for higher code
+points, four bytes will be needed.
+
+**Byte Order Mark**
+
+UTF-16 representations consist of either one or two "code units" (16bit
+values). The Byte Order Mark describes whether a code unit is stored big
+or little endian. So files will either start 0xFEFF (big endian byte
+order mark) or the invalid 0xFFFE (little endian byte order mark).
+
+**Efficiency**
+
+UTF-16 is like UTF-8, but uses one or two 16bit quantities. Like UTF-32
+it *cannot* be treated like ASCII. It can be more efficient if there
+were a lot of 3 byte UTF-8 codes that can now be represented with 2
+bytes (less overhead). I think that is the case for CJK text.
+
+## UTF-7
 
 UTF-7 is an interesting case: it is a *7 bit* encoding for
 Unicode. The idea is to map every character to a valid ASCII
@@ -60,6 +129,8 @@ character. This means that UTF-7 is safe for use with software that
 may not be "8-bit clean." There may be software that thinks it can use
 the top bit of an ASCII character however it likes. This would garble
 a text sent in a format that needed all 8 bits.
+
+## Base64
 
 Another example could be Base64 encoding. This encodes everything to a
 *printing* ASCII character. It works in 6bit chunks: it maps every
@@ -70,6 +141,8 @@ Base64 could be used to encode UTF-8, -16, or -32 to be 8-bit
 clean. But it can also be used of course for binary files. It is the
 common format used to convert binary files to text, for upload in an
 HTTP post request.
+
+## Base64 and URLs
 
 Base64 uses some ASCII characters like "+", "=", "/" that aren't safe
 for use in URLs. Imagine if you want to use a 128-bit id in a
@@ -82,18 +155,48 @@ Alternatively there is the base64url format, which avoids the problem
 by replacing using "-" instead of "+" and "_" instead of "/". There is
 still the problem with "="...
 
-# Python
+# Python2 and Python3 ASCII and Unicode Strings
+
+**Python2**
 
 Python2 has two string types: `str` and `unicode`. Methods like `len`
-aren't going to work if you put some UTF-8 character codes in a
-string. For instance, "Ô" needs two bytes in UTF-8, and you'll get len
-2 of this as an `str`, vs len 1 as a `unicode`. You get that by
-prefixing `u"Ô"` vs just `"Ô"`.
+aren't going to work if you put some unicode character codes in a
+string. For instance, "Ô" needs two bytes in UTF-8, and you'll get len 2
+of this as an `str`, vs len 1 as a `unicode`. You get that by prefixing
+`u"Ô"` vs just `"Ô"`.
 
-On the other hand, Python default expects files to be in UTF-8
-format. This is fine even if the file is in ASCII. But if the file is
-in either Latin-1 or Windows-1252, this is not compatible with UTF-8
-and will cause a parsing error.
+    len("Ô") == 2
+    len(u"Ô") == 1
+
+    "Ô" == '\xc3\x94'
+    "Ô".decode("UTF-8") == u"Ô"
+    u"Ô".encode("UTF-8") == '\xc3\x94'
+
+It appears that Python2 assumes UTF-8 encoding?
+
+**Python3**
+
+In Python3, there is no more `unicode`; `str` is already by default
+`unicode`. To replace the old kind of `str`, there is a class called
+`bytes`. In Python2, `bytes` was just an alias for `str`.
+
+    len("Ô") == 1
+    "Ô".encode("UTF-8") == b'\xc3\x94'
+    b'\xc3\x94'.decode("UTF-8") == "Ô"
+
+**Python File Formats**
+
+Python2 will read all files as binary, whether you write "b" or not.
+File contents will be read in as an `str` regardless, since `str` is
+both how strings are stored and how bytes are stored. If you want to
+decode a non-ASCII file to `unicode`, you must do this yourself
+explicitly.
+
+On the other hand, Python3 will try to read a `str` (versus a `bytes`)
+from a file unless the "b" flag is given. Python3 expects the file to be
+in UTF-8 format. This is fine even if the file is in ASCII. But if the
+file is in either Latin-1 or Windows-1252, this is not compatible with
+UTF-8 and will cause a parsing error.
 
 A few ways you can handle this:
 
@@ -102,7 +205,58 @@ A few ways you can handle this:
 Or you can open as binary:
 
    bs = open("file.txt", "rb").read()
+   s = bs.decode("latin-1")
 
-Then you read, you'll get a `bytes` object. You can then say
-`bs.decode("latin-1")`. That transcodes from Latin-1 to a unicode
-object.
+## JavaScript
+
+JavaScript strings are stored as UTF-16 strings.
+
+As expected, `charAt(idx)` will *not* give you the grapheme cluster at
+position `idx`. It won't even give you the code point at position `idx`.
+That kinda makes sense: finding a code point requires parsing the
+string.
+
+Great. Then surely `charAt(idx)` gives you the *byte* at position `idx`?
+Wrong!
+
+Instead, `charAt(idx)` will give you the "code unit" (not "code point")
+at position `idx`. A code unit is a 16bit quantity. Recall that UTF-16
+is a variable length encoding where most characters are encoded with 16
+bits, but higher valued code points are encoded with 32 bits.
+
+Basically: JavaScript must come from the time of UCS-2. In UCS-2, it was
+assumed that all Unicode code points would fit in a 16bit fixed width
+encoding. When that was the case, `charAt` did exactly the right thing.
+But now that strings are encoded in variable-length UTF-16, `charAt`
+will sometimes "go inside" a 2-unit Unicode character and grab one of
+the code units.
+
+**Example**
+
+This happens with the fire emoji. The fire emoji has a code point
+0x1F525 which is 128293 in decimal. This is greater than 2**16 so
+naturally this requires two code units in UTF-16.
+
+Let me give an example in Python:
+
+    len("🔥") == 1
+    x = "🔥".encode("UTF-16le")
+    x == b'=\xd8%\xdd'
+    len(x) == 4
+
+Note that I chose to use UTF-16le. Look what would happen if I just used
+UTF-16 without specifying the byte order:
+
+    x = "🔥".encode("UTF-16")
+    x == b'\xff\xfe=\xd8%\xdd'
+    len(x) == 6
+
+See what happened? It chose a default of little-endian, and it stored
+the byte order mark! But note what happens when I store *two* fire
+emojis:
+
+    x = "🔥🔥".encode("UTF-16")
+    x == b'\xff\xfe=\xd8%\xdd=\xd8%\xdd'
+    len(x) == 10
+
+lol, see how this is *not* twice the length of a single fire emoji!!
