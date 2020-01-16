@@ -23,6 +23,10 @@ code points in succession. This is called a "grapheme cluster." So
 even given a sequence of code points, it's a parsing problem to get
 individual "characters."
 
+The red heart ❤️ is a good example. It combines two code points: heart
+and "colorful." (BTW other colored hearts just have their own code
+points; they don't do combining).
+
 For most programming languages, you can't rely that `charAt(idx)` will
 give you the *grapheme cluster* at position `idx`. You'll be lucky to
 get the *unicode code point* at position `idx`. You may well just get
@@ -260,3 +264,29 @@ emojis:
     len(x) == 10
 
 lol, see how this is *not* twice the length of a single fire emoji!!
+
+**Red Heart**
+
+Let's look at the red heart momentarily:
+
+    x = "❤️".encode("UTF-16le")
+    x == b"d'\x0f\xfe"
+    len(x) == 4
+
+And now in UTF-8:
+
+    x = "❤️".encode("UTF-8")
+    x == b'\xe2\x9d\xa4\xef\xb8\x8f'
+    len(x) == 6
+
+WTF? Well, let's see:
+
+  b'\xe2\x9d\xa4'.decode("utf-8") == '❤'
+
+Ahh, you can see that this is two three-byte UTF-8 representations:
+heart and "colorful." So the red heart is an example where UTF-16 wins
+big!
+
+## Sources
+
+* https://blog.jonnew.com/posts/poo-dot-length-equals-two
