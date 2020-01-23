@@ -456,10 +456,30 @@ ordering that is consistent with causality. But they lose information
 about what operations were concurrent. The advantage of Lamport is that
 it is more compact.
 
-What about conflicting concurrent operations? For instance, what about
-claiming a username? Using Lamport timestamps you can accept the first
-write and fail the second. But that doesn't help: if you promised
-two users a username you already fucked up.
+I think that Lamport clocks give a numbering and order to messages. But
+what about "read" or "write" operations? A read operation would need to
+know all previous write events. But a concurrent write event may not
+have propagated yet. It sounds like a node should *wait* until it has
+all the prior events from all the other nodes.
+
+(This should not create deadlocks, since you are waiting for events *in
+the past*.)
+
+Of course, waiting still wouldn't allow CAS. Reason a CAS won't work: a
+conflicting CAS can be performed concurrently. You *could* try to wait
+to insert the CAS operation only after hearing that other nodes have
+moved past without modifying the underlying variable. But that would
+introduce the possibility of deadlock.
+
+Let's say you would accept the CAS, but just won't say whether it
+succeeded. In time, if you shut down the system and wait for all nodes
+to sync, a winner will be apparent.
+
+Could something like this work? Basically: a CAS such that all queries
+are in an indeterminate state until enough messages pass to determine
+the winner. Then
+
+Example of when we want CAS: claiming a username.
 
 This brings us to *total order broadcast*. Here, we need to know when
 all operations to a record have finished being applied. Total order
