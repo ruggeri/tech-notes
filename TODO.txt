@@ -4,12 +4,14 @@
   * I think I want to learn all intro physics.
   * Especially electronics!
   * The Feynman lectures have been a great guide!
+  * Endothermic/exothermic reactions.
 * Zero knowledge proof. Interactive proofs? Zcash?
   * Is there a book that covers this?
   * Also I'd like to understand homomorphic encryption!
 * Return to notes on Prisoner's Dilemma from computability standpoint?
   * What Prisoner's Dilemma books exist?
   * In particular: I'd like to understand the Freeman Dyson paper.
+  * Other equilibria concepts besides Nash Equilibrium.
 * Writeup how reverse image search works. Text search/info retrieval.
   * Com'on this should be easy!
 * Might be nice to get Deep Q Network to actually work...
@@ -26,6 +28,12 @@
   * This came up in Feynman when we studied springs.
   * I think at least for some simple ones it wouldn't be so hard?
 * Compiler project.
+* React Hook Notes
+* TSP algorithms?
+* Voting systems. Condorcet methods.
+* Maybe extend/improve understanding of symmetric matrices?
+  * Writing up notes on eigenvector decomposition, SVD would help.
+* Chaos
 
 ## Explanation
 
