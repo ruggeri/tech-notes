@@ -197,7 +197,7 @@
 * Something rando about template literals?
 * Source: http://2ality.com/2017/02/ecmascript-2018.html
 
-## ECMAScript 10 (still a draft for 2019)
+## ECMAScript 10 (Published 2019)
 
 * Conveniences like `Array.flat`, `Array.flatMap`, `Object.fromEntries`.
 * `Array.prototype.sort` required to be stable.
@@ -208,8 +208,10 @@
 * I list here some Stage 3 proposals. None are finalized though.
 * No rest parameters for functions.
   * `function example(arg1, ...others) {}`.
+  * Wait. What? Hasn't this existed for a long time??
 * Dynamic import
   * Gives you an `import` function to dynamically load a module.
+  * I think this is going to be in ES2020?
 * Numeric separators `const x = 1_000_000;`.
 * Private methods.
 * A proposal for "class fields."
@@ -217,6 +219,7 @@
   * `class XYZ { x = 0; increment() { this.x += 1; } };`
   * You can make these "private" by just adding a hash in front: `#x`.
 * There's also a proposal for static fields.
+* Top level await.
+* Weak references.
 * Other Stage 2 Proposals:
   * Decorators. https://github.com/tc39/proposal-decorators
-  * Weak references.
