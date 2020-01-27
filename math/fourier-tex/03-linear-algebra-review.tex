@@ -1,0 +1,78 @@
+\section{Linear Algebra Review}
+
+Breaking something apart into its constituents is something we do in
+\define{linear algebra}. In linear algebra, we have some vectors $\ve_1,
+\ldots, \ve_n$ which are our \define{basis} for an $n$ dimensional
+space. Every vector in the space can be written as:
+
+\begin{nedqn}
+  \vv
+\eqcol
+  \sum_{i = 1}^n
+  a_i \ve_i
+\end{nedqn}
+
+We say that the basis vectors $\ve_i$ \define{span} the $n$ dimensional
+space.
+
+We remember the \define{dot product} $\vu \cdot \vv$. The dot product is
+like the ``correlation'' between two vectors. For instance, if the
+lengths of $\vu, \vv$ are both 1, then $\vu \cdot \vv$ is equal to $\cos
+\theta$, where $\theta$ is the angle between $\vu$ and $\vv$.
+
+That is, if $\vu = \vv$, then $\vu \cdot \vv$ is equal to 1.0. Which
+makes sense, because $\theta = 0$, and thus $\cos\theta = 1$.
+
+We say that two vectors are \define{orthogonal} if they are completely
+uncorrelated. That is: if their inner product is zero. We will expect
+that our basis $\ve_i$ is an \define{orthogonal basis}. That means that
+$\ve_i \cdot \ve_j = 0$ for all $i, j$.
+
+In fact, we expect our basis to be an \define{orthonormal basis}. That
+means that the length of every vector $\ve_i$ is equal to 1.0. The
+length, or \define{norm} of a vector $\ve_i$ is written $\norm{\ve_i}$.
+
+Above, when we talked about the angle between two vectors $\vu, \vv$, we
+assumed that the two vectors had length 1.0. When the lengths could be
+different than 1.0, we still know:
+
+\begin{nedqn}
+  \vu \cdot \vv
+\eqcol
+  \norm{\vu} \norm{\vv} \cos\theta
+\end{nedqn}
+
+A vital property of the dot product (also often called the \define{inner
+product}) is \define{linearity}. By this, we mean:
+
+\begin{nedqn}
+  \parens{\vu + \vv} \cdot \vw
+\eqcol
+  \vu \cdot \vw
+  + \vv \cdot \vw
+\end{nedqn}
+
+So let's return to breaking up a vector $\vv$ into a weighted sum of
+consituent vectors $\ve_i$. That is: $\vv = \sum_i a_i \ve_i$ and we
+want to find all $a_i$.
+
+This is now trivial:
+
+\begin{nedqn}
+  \vv \cdot \ve_j
+\eqcol
+  \parens{
+    \sum_i a_i \ve_i
+  }
+  \cdot \ve_j
+\\\eqcol
+  \sum_i a_i \ve_i \cdot \ve_j
+\\\eqcol
+  a_j
+\end{nedqn}
+
+This occurs because $\ve_i \cdot \ve_j = 1$ precisely when $i = j$.
+Otherwise the dot product is zero.
+
+So what we see is that the dot product will let us break up a vector
+into a weighted sum of orthogonal vectors.

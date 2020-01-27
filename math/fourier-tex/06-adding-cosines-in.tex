@@ -1,0 +1,93 @@
+\section{Adding Cosines In}
+
+Let's start considering
+
+\begin{nedqn}
+  f(t)
+\eqcol
+  \sum_{k = 1}^{\infty}
+  a_k \sin kt + b_k \cos kt
+\end{nedqn}
+
+That is: we now want to extend our basis from just $\frac{1}{\sqrt{\pi}}
+\sin k t$ to also include $\frac{1}{\sqrt{\pi}} \cos k t$.
+
+This is fine, so long as our inner product still ensures that two
+different basis vectors are orthogonal. By analagous arguments to what
+has preceeded, we know:
+
+\begin{nedqn}
+  \innerprod{\cos k t}{\cos k t}
+\eqcol
+  \pi
+\\
+  \innerprod{\cos k t}{\cos k' t}
+\eqcol
+  0
+\end{nedqn}
+
+This is simple because $\cos kt$ is merely a phase shift of $\sin kt$.
+But we must consider one new possibility:
+
+\begin{nedqn}
+  \innerprod{\cos kt}{\sin k't}
+\end{nedqn}
+
+Note that $\cos kt$ is an ``odd'' function where $\cos -kt = -\cos kt$.
+Also note that $\sin k't$ is an ``even'' function where $\sin -k't =
+\sin k't$. That means that, overall, $\cos kt \sin k't$ is an odd
+function.
+
+Note that the integral over $\parens{0, 2\pi}$ is the same as
+$\parens{-\pi, \pi}$. This is true for any function $f$ with a period
+dividing $2\pi$. In the specific case of $\cos kt \sin k't$, we are
+integrating an odd function. This integrates to zero, since:
+
+\begin{nedqn}
+  \int_0^{\pi}
+  \cos kt \sin k' t \dt
+\eqcol
+  -\int_0^{\pi}
+  \cos -kt \sin -k' t \dt
+\\\eqcol
+  -\int_{-\pi}^{0}
+    \cos kt \sin k' t \dt
+\end{nedqn}
+
+We therefore see that there is no harm in adding the $\cos t$ in.
+
+\subsection{How $\sin t$ and $\cos t$ Interact}
+
+Consider a weighted combination: $b \cos t + a \sin t$. Note that we can
+always write $(b, a)$ in polar coordinates. That is: as $r(\cos \phi,
+\sin \phi)$. Let's simplify and assume that $r = 1$ for the moment.
+Thus, we are working with:
+
+\begin{nedqn}
+  \cos \varphi \cos t + \sin \varphi \sin t
+\end{nedqn}
+
+We can see that this is the projection of a vector rotated by $t$
+radians onto a vector rotated by $\varphi$ radians. That is the same as:
+
+\begin{nedqn}
+  \cos\parens{t - \varphi}
+\end{nedqn}
+
+That is: a linear combination of $\sin t$ and $\cos t$ is a
+\define{phase shift} of $\cos t$. (Equivalently we could see this as a
+phase shift of $\sin t$, since $\cos$ and $\sin$ are phase shifts of
+each other.)
+
+I say this makes sense. The linear combination of two orthogonal vectors
+is always (1) some homogenous scaling (via $r$), and (2) some mixing
+(via $\cos\varphi, \sin\varphi$). The mixing can be seen as a \emph{pure
+rotation} of one vector toward (or away) from the other.
+
+Here there is a happy match-up because the original basis vectors are
+themselves sinusoids. At every time $t$, you are rotating an $x$ length
+$\cos t$ by $\varphi$ radians toward the $y$ length $\sin t$. This
+corresponds exactly to the $x$ length of the vector $\cos t - \varphi$.
+
+Thus by adding in just $\cos t$, our space of $f$ functions are the sum
+of sinusoidals with (1) period dividing $2\pi$ and, (2) any phase-shift.

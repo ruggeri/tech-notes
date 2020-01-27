@@ -1,0 +1,34 @@
+\section{Purpose}
+
+Many phenomena can be described using sinusoids. For instance, when a
+note on a guitar is plucked, the pressure on your eardrum due to the
+vibration of the string varies through time proportionally to a
+sinusoidal function of a given frequency. For instance, the ``concert
+A'' pitch is one which vibrates at a frequency of 440 times per second.
+
+That means that when a violinist plays an open A string, the sound
+causes a oscillating change in pressure on your eardrum. 440 oscilations
+happen every second.
+
+How great is the peak change in pressure? This is called the
+\define{amplitude}, which we will denote $a$. The magnitude of $a$ will
+correspond to the \emph{volume} you hear. The change in pressure on your
+eardrum from a concert A is $a \sin\parens{2\pi \cdot 440 \cdot t}$.
+
+What if \emph{multiple} strings are plucked simultaneously? Say each of
+$k$ strings has frequency $f_i$ and is plucked with amplitude $a_i$.
+Then the \emph{aggregate} change in your eardrum pressure is denoted
+$f$. And we know:
+
+\begin{nedqn}
+  f(t)
+\eqcol
+  \sum_{i = 1}^k
+  a_i \sin\parens{2\pi f_i t}
+\end{nedqn}
+
+Experimentally, we could measure $f$ with a pressure sensor, and record
+our readings. But from the measurements of $f$, how could we find out
+which strings were plucked (and at what amplitude)? Basically, we want
+to \emph{decompose} $f$ into the constituent sinusoidal waves, but how
+do we do that? The answer is the \define{Fourier transform}.

@@ -1,0 +1,140 @@
+\section{Our Inner Product}
+
+So now we must find an appropriate inner product for our function space.
+An ``obvious'' analogue to the dot product is:
+
+\begin{nedqn}
+  \innerprod{f}{g}
+\eqcol
+  \int_{t \in \reals}
+  f(t)g(t)
+  \dt
+\end{nedqn}
+
+This won't exactly work. First of all, integration over the entire real
+domain is a little tricky. It must involve a limit. Setting this aside,
+there is another problem. Consider $\innerprod{\sin t}{\sin t}$. We want
+this to be 1.0. But is that true? Consider just:
+
+\begin{nedqn}
+  \int_0^{2\pi} \sin^2 t \dt
+\end{nedqn}
+
+Note that $\sin t$ is periodic with period $2\pi$. Thus:
+
+\begin{nedqn}
+  \int_{k2\pi}^{(k+1)2\pi} \sin^2 t \dt
+\eqcol
+  \int_{k'2\pi}^{(k'+1)2\pi} \sin^2 t \dt
+\end{nedqn}
+
+no matter which choice of $k, k'$. But this is trouble, since if
+
+\begin{nedqn}
+  \int_0^{2\pi} \sin^2 t \dt
+& > &
+  0
+\end{nedqn}
+
+then we would have that the integral over the entire real domain is
+infinite.
+
+But let's look more closely on the integration from just 0 to $2\pi$.
+Integrating over this domain gives us all the information we need.
+Integrating over any other period would simply be the same and is thus
+redundant. But does the integral come out correctly? Note:
+
+\begin{nedqn}
+  \int_0^{2\pi} \sin^2 t + \cos^2 t \dt
+\eqcol
+  \int_0^{2\pi} 1 \dt
+=
+  2\pi
+\end{nedqn}
+
+But note that:
+
+\begin{nedqn}
+  \int_0^{2\pi} \sin^2 t \dt
+\eqcol
+  \int_0^{2\pi} \cos^2 t \dt
+\end{nedqn}
+
+since one is merely a phase-shifted version of the other. Thus we see
+that:
+
+\begin{nedqn}
+  \int_0^{2\pi} \sin^2 t \dt
+\eqcol
+  \pi
+\end{nedqn}
+
+That isn't exactly what we want, but it's a start. Another way to see
+this is to remember that $\parens{\cos t, \sin t}$ is the position on
+the circle at angle $t$. The square of the length of that vector is
+always $1.0$, because the radius is always $1.0$. If you integrate all
+the way around the circle, you should get $2\pi$. Of that, $\sin^2 t$ is
+only half the story.
+
+Note that the same argument holds for any $\sin kt$, so we know that
+$\norm{\sin kt} = \pi$ for all $k$.
+
+Anyway, to ``fix'' this problem, we should \emph{keep} our inner
+product, but simply scale down our basis vectors to be
+$\frac{1}{\sqrt{\pi}} \sin kt$.
+
+The next important question: are two sinusoidals $\sin kt$ and $\sin k'
+t$ orthogonal?
+
+\subsection{Orthogonality of $\sin kt$ and $\sin k' t$}
+
+Here's how I see it. Say the first of these waves is traveling faster
+than the second (one has to be if $k1 \ne k2$). Then for every rotation
+that the first makes, the second falls $\theta$ radians behind (for
+whatever theta).
+
+So consider each time when the first wave is at phase $\phi$. The
+question is: what is the sum of the second wave's values at these times?
+
+We know that these angles are all $\theta$ radians apart, and that they
+create an entire circuit. Let $\theta$ correspond to some complex number
+$c$. We're basically asking: what is
+
+\begin{nedqn}
+  1 + c + c^2 .. + c^{n - 1}
+\end{nedqn}
+
+when $c^n$ would again equal $1.0$.
+
+The answer is zero. Why? Well, you can see by multiplying everything by
+$c$. The original $1.0$ becomes $c$, and note that the final $c^{n-1}$
+becomes 1. So you get the same thing. What does that mean? It means,
+whatever the sum is, when rotated, it stays the same. And unless $c =
+1$, that means that the sum must be zero.
+
+If the sum is zero, both the real and the imaginary parts are zero. Thus
+$\sin(kt)$ is orthonormal to $\sin(k't)$.
+
+\subsection{Linearity}
+
+The projection operation is clearly linear, because:
+
+\begin{nedqn}
+  \int_0^{2\pi}
+  \parens{f(t) + g(t)}
+  \cdot
+  h(t)
+  \dt
+\eqcol
+  \int_0^{2\pi}
+  f(t) \cdot h(t) \dt
+  +
+  \int_0^{2\pi}
+  g(t) \cdot h(t) \dt
+\end{nedqn}
+
+So we now see that we have a nice inner product. It is linear in the
+correct way, and it declares our chosen basis to be orthonormal. Thus we
+can use it for decomposing a sinusoidal into the basis.
+
+% Inspiration: https://math.stackexchange.com/questions/891875/

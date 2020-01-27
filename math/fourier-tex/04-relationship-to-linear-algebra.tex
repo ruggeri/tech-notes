@@ -1,0 +1,60 @@
+\section{Relationship to Linear Algebra}
+
+So let's return to our problem of breaking up $f$ into a weighted sum of
+sinusoidals. That is: we want to find the amplitude $a_i$ for each
+frequency $\omega_i$.
+
+To keep things simple, we will only consider angular frequencies $k$
+that are an integer multiple of $\omega = 1$. That is, we will want to
+break up $f$ into:
+
+\begin{nedqn}
+  f(t)
+\eqcol
+  \sum_{k = 0}^\infty
+  a_k \sin k t
+\end{nedqn}
+
+We will call the collection of sinusoidals $\sin kt$ our \define{basis}.
+That is, we'll treat the sinusoidal functions like vectors. Likewise,
+we'll call $f$ a vector. So we're returning to the problem of breaking a
+vector into a weighted sum of basis vectors.
+
+To do the breaking up, we'll need to define a new \define{inner product}
+for our ``function-vectors.'' We will need the following properties to
+hold:
+
+\begin{nedqn}
+  \innerprod{\sin k t}{\sin k' t}
+\eqcol
+  0
+  \nedcomment{whenever $k \ne k'$}
+\\
+  \innerprod{\sin k t}{\sin k t}
+\eqcol
+  1
+  \nedcomment{for every $k$}
+\\
+  \innerprod{\va + \vb}{\sin k t}
+\eqcol
+  \innerprod{\va}{\sin k t} + \innerprod{\vb}{\sin k t}
+\end{nedqn}
+
+Keep in mind that $\va, \vb$ are ``function-vectors.''
+
+\subsection{Notes about our function space}
+
+First, please note that every $f$ we are decomposing will be periodic
+with an angular frequency that is an exact multiple of the base angular
+frequency $\omega = 1$. That's because every \emph{constituent} of $f$
+has that same property.
+
+Second, please note that $f$ does not consist of any weighted part $\cos
+k t$. In particular, please note that $f(t) = 0$ at every $t = k 2\pi$.
+We will fix this later and consider ``phase-shifted'' functions $f$.
+This will not be too hard.
+
+Third, note that the basis $\sin kt$ is \emph{infinite}. To start, let
+us assume that $a_k = 0$ for all but a finite number of $k$. That is:
+$f$ is made up of a finite number of sinusoidals. Later we can
+generalize this property, too.
