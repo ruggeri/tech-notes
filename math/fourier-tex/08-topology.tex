@@ -1,0 +1,106 @@
+\section{Topology}
+
+Up to now I have assumed that a function $f$ is a linear combination of
+a \emph{finite} number of $\expf{i\omega t}$. I've also assumed that
+$\omega$ is an integer.
+
+This would give us a terminating procedure for finding the decomposition
+of $f$. We calculate:
+
+\begin{nedqn}
+  \innerprod{f}{\expf{it}},
+  \innerprod{f}{\expf{-it}},
+  \innerprod{f}{\expf{i2t}},
+  \innerprod{f}{\expf{i2t}},
+  \ldots
+\end{nedqn}
+
+We do this until we find all of $f$.
+
+We are assuming that $f$ is in the \define{algebraic closure} of the
+basis. The algebraic closure consists of those vectors that are
+\emph{finite} linear combinations of the basis vectors.
+
+We also want to consider functions which might be \emph{infinite} linear
+combinations of the basis vectors. To take an infinite sum, we must have
+a notion of \define{topology}. To define an infinite sum we need the
+concept of a \define{limit}. A limit means ``the series gets very close
+to its limit.'' But what does ``close'' mean?
+
+When we include functions $f$ that are infinite linear combinations, we
+will be talking about the \define{topological closure} of the basis.
+
+\subsection{The $L^2$ Norm}
+
+We are used to the typical $L^2$ norm. This is the one which defines:
+
+\begin{nedqn}
+  \norm{\vv}
+\eqcol
+  \sqrt{\vv \cdot \vv}
+\end{nedqn}
+
+We shall say that a sequence of vectors $\vv_1, \vv_2, \ldots$ converges
+to $\vv$ if $\norm{\vv - \vv_i}$ converges to zero.
+
+Why should we define the norm this way? Recall that $\frac{\vv \cdot
+\vu}{\norm{\vu}}$ is the amount of $\vu$ that you would want to use in a
+reconstruction of $\vv$. In that case, $\frac{\vv \cdot
+\vv}{\norm{\vv}}$ is how much of $\vv$ you would want to use in the
+reconstruction of itself. The ``correct'' answer you want is
+$\norm{\vv}$.
+
+Now, let us assume that any notion of norm should scale linearly as we
+scale $\vv$. Likewise, any notion of projection should scale linearly.
+From this alone, we know that $\norm{\vv} = \sqrt{\vv \cdot \vv}$.
+
+This makes sense. Consider
+
+You may be aware that there are other norms. However, it turns out that
+$L^2$ is the only norm which has a compatible inner product. A
+\define{complete} inner-product space is called a \define{Hilbert
+space}.
+
+Returning to $\norm{\vv - \vv_i}$. This is a measure of ``residual
+error'' left by trying to approximate $\vv$ with $\vv_i$. The best
+measure of residual error is: how much of exactly the residual vector
+$\vv - \vv_i$ is needed to finish the reconstruction of $\vv$? How do we
+find that? Exactly through the projection operation.
+
+\subsection{What is the topological span?}
+
+Is the topological span greater than the algebraic span? Do we get
+anything from this extended notion of span?
+
+It turns out that the topological span is all periodic square-integrable
+functions that have a period dividing $2\pi$. The way to show this would
+be to show that you can construct an indicator function on $(0,
+\frac{2\pi}{k})$. We then know that all phase shifts can be spanned.
+
+Then we know that all square-integrable functions are spanned, since any
+square-integrable function can be reconstructed by a finer-and-finer
+piecewise function.
+
+Note something interesting! Just because an indicator function is
+(topologically) spanned by \emph{the $L^2$ norm}, does not mean that
+there is a sequence that \emph{pointwise converges} to it. Consider an
+indicator function $I_{[0, \frac{2\pi}{k}]}$. We might want there to
+be a sequence of linear combinations $f_1, f_2, \ldots$ such that:
+
+\begin{nedqn}
+  I_{[0, \frac{2\pi}{k}]}(t)
+\eqcol
+  \lim_{i\to\infty} f_i(t)
+\end{nedqn}
+
+However, this will never be the case at $t = 0, t = \frac{2\pi}{k}$. The
+reason is that any approximation will ``overjump'' at these endpoints,
+and the overjumping does not get better with greater approximation. This
+is called the \define{Gibbs phenomenon}. The overjump will stabilize at
+about 9\%.
+
+Luckily the overjump is only at the endpoints. The function will
+pointwise converge everywhere else. Nearly everywhere pointwise
+convergence does not always imply convergence in norm. But in this case,
+the norm of the error, taken across all points, will in fact converge to
+zero.

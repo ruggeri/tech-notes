@@ -20,51 +20,6 @@
 \input{05-our-inner-product}
 \input{06-adding-cosines-in}
 \input{07-complex-sinusoidals}
+\input{08-topology}
 
 \end{document}
-
-% We want not only finite linear combinations of basis vectors, but we
-% also want *infinite linear combinations*. We want to consider the basis
-% as a *topological basis*, rather than merely an *algebraic basis*. But
-% we'll consider that later...
-
-% In conclusion, the basis is orthonormal. The projection operation
-% continues to be linear. Therefore, we have that the basis is
-% algebraically independent. (Even better, if we consider the topology
-% induced by the inner product, the basis is topologically independent,
-% too).
-
-% ## L2 Inner Product Intuition
-
-% Let me try to give some intuitive pictures for why the integral inner
-% product is natural.
-
-% Recall that the standard inner product in `R^n` (the dot product) is
-% correct if you want to decompose a vector `u` into (1) a component along
-% `v`, and (2) a component in the rank `n-1` space "orthogonal" to `v`.
-% This "orthogonal" notion presupposes the concept of rotation of basis
-% vectors.
-
-% We can see functions on `R` as an extension to this. Especially if we
-% restrict to functions that are the (pointwise?) convergence of step
-% functions.
-
-% One could say: in `R^n` we had the notion that we could always "keep
-% rotating" and eventually end up back at the starting vector. So that
-% suggests that our basis vectors ought to be all "translates" of each
-% other, with respect to rotation. But that is also a little odd: in `R^n`
-% there are `n-1` angles that define a unit vector, whereas if we choose
-% the Fourier basis for functions on `R` there is only one continuous
-% variable of rotation...
-
-% A "statistics" view is that you are asking for the "correlation" between
-% `u` and `v`. In that setting, the inner product makes sense.
-
-% **TODO**: clarify these random, still un-unified and incomplete thoughts
-% into a more coherent story.
-
-% Note that now we have the possibility of infinite sums. This is an
-% *infinite dimensional vector space*. This brings in a *topological*
-% question. As in: what does it mean for an infinite series to converge?
-% But let's just stick to finite linear combinations of the basis vectors
-% to start. We'll get back to topology later.
