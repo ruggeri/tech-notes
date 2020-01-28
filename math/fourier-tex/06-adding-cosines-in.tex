@@ -12,7 +12,7 @@ Let's start considering
 That is: we now want to extend our basis from just $\frac{1}{\sqrt{\pi}}
 \sin k t$ to also include $\frac{1}{\sqrt{\pi}} \cos k t$.
 
-This is fine, so long as our inner product still ensures that two
+This is fine, so long as our inner product still ensures that any two
 different basis vectors are orthogonal. By analagous arguments to what
 has preceeded, we know:
 
@@ -31,6 +31,8 @@ But we must consider one new possibility:
 
 \begin{nedqn}
   \innerprod{\cos kt}{\sin k't}
+&&
+  \nedcomment{$k$ may equal $k'$}
 \end{nedqn}
 
 Note that $\cos kt$ is an ``odd'' function where $\cos -kt = -\cos kt$.
@@ -91,3 +93,5 @@ corresponds exactly to the $x$ length of the vector $\cos t - \varphi$.
 
 Thus by adding in just $\cos t$, our space of $f$ functions are the sum
 of sinusoidals with (1) period dividing $2\pi$ and, (2) any phase-shift.
+Thus our space is the (algebraic) closure of \emph{all} sinusoidal
+functions.

@@ -1,0 +1,196 @@
+\section{Complex Sinusoidals}
+
+We know that $e^x$ is defined so that this function has itself as its
+own derivative. More generally: $\expf{\alpha x}$ has derivative
+$\alpha \expf{\alpha x}$. If you interpret $\alpha$ as an
+interest rate, that's how we talk about continuously compounding
+interest.
+
+$\alpha$ is telling you how to scale your current position to calculate
+your velocity. When $\alpha = 1$, your position is equal to your
+velocity.
+
+What about $\expf{it}$? How will we \emph{choose} to define that?
+Well, we want our same property to hold. We want the velocity to equal
+$i\expf{it}$.
+
+That says: we want velocity always to be perpendicular to the position,
+with equal magnitude. We start with $t = 0$ and $\expf{i0} = 1$.
+
+We know what happens when velocity is always exactly orthogonal to
+angle. That describes a counter-clockwise rotation around the unit
+circle with constant speed equal to $1.0$. A rotation takes $2\pi$
+seconds. And the position at any time $t$ is given by:
+
+\begin{nedqn}
+  \cos(t) + i\sin(t)
+\end{nedqn}
+
+And that's what $\expf{it}$ will be defined as. This is
+\define{Euler's formula}.
+
+Note that therefore:
+
+\begin{nedqn}
+  \expf{i \pi}
+\eqcol
+  \cos(\pi) + i \sin(\pi)
+\\\eqcol
+  -1
+\end{nedqn}
+
+This is \define{Euler's identity}.
+
+\subsection{Complex Sinusoidal Function Space}
+
+We've been considering a space with basis vectors such as $\sin \omega
+t, \cos \omega' t$. I want to begin to explore the space spanned by
+$\expf{i \omega t}$. These are complex valued functions, but
+restricted to just their real component they are simply $\cos \omega t$.
+
+Our life would be less rich if we only considered linear combinations of
+the $\expf{i \omega t}$ with real weights. In particular: we'd lose
+functions where the real part corresponded to $\sin \omega t$. That is:
+no two basis vectors would be phase-shifts of each other.
+
+Well, there's an easy way to fix that! A phase shift is simply a
+rotation by a complex number $c$. So we should allow linear combinations
+with \emph{complex weights}.
+
+Note that even though we are now allowing complex amplitudes that
+phase-shift the basis sinusoidal, we do \emph{not} allow complex
+$\omega$. Our $\omega$ will continue to be real, else the velocity would
+not always be tangent to the position, and the motion described would
+not be circular.
+
+Note though that $\omega$ may be \emph{negative}. A negative $\omega$
+corresponds to a clockwise rotation, whereas a positive $\omega$
+corresponds to a counter-clockwise rotation. We previously did not need
+to consider negative frequencies, because these (1) only would have
+affected $\sin$ waves, and (2) were already handled by negative
+amplitudes. Basically: a real valued wave $\sin -t$ looked like an out
+of phase version of $\sin t$. With appropriate amplitudes on $\cos t$
+and $\sin t$ we could construct $\sin -t$. But that is no longer the
+case with complex-valued $\expf{it}$. No two counter-clockwise-rotating
+sinusoidals can add up to a clockwise-rotating sinusoidal. A complex
+clockwise-rotating is not merely an out-of-phase version of a complex
+counter-clockwise-rotating sinusoidal.
+
+\subsection{Inner Product In Complex Vector Space}
+
+Consider if we are given $c \expf{\omega t}$ and want to recover $c$. If
+$\omega, t$ are known, then we can multiply by $\expf{-\omega t}$.
+
+There is a way to see this. Multiplying $c$ by $\expf{\omega t}$ rotates
+$c$ counter-clockwise by $\omega t$ radians. To return to $c$, we can
+rotate \emph{clockwise} by $\omega t$ radians. That corresponds to
+multiplication by $\expf{-\omega t}$.
+
+Consider if we don't know $\omega$. For most choices of $\omega'$
+$\expf{\parens{\omega - \omega'} t} \ne 1$. But the solution is to
+consider $\expf{\omega t}$ not at one point in time, but across its
+period:
+
+\begin{nedqn}
+  \int_0^{2\pi} c \expf{\omega t} \expf{-\omega t} \dt
+\eqcol
+  c \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
+\end{nedqn}
+
+Again, assuming that $\omega, \omega'$ are integers, then all our old
+arguments hold when $\omega \ne \omega'$. In fact, we can see them more
+easily. We're saying that there is a non-zero $k = \omega - \omega'$,
+and thus:
+
+\begin{nedqn}
+  \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
+\eqcol
+  \int_0^{2\pi} \expf{k t} \dt
+\end{nedqn}
+
+This is clearly zero. Through the period the function $\expf{k t}$ will
+make one (or more) rotations counter-clockwise (or clockwise) through
+the unit circle. But it will end where it started. So the total
+displacement is zero.
+
+Naturally things are different when $\omega = \omega'$. Then:
+
+\begin{nedqn}
+  \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
+\eqcol
+  \int_0^{2\pi} 1 \dt
+\\\eqcol
+  2\pi
+\end{nedqn}
+
+Ah, notice the slight difference from before! The ``correction'' factor
+we should apply is not $\frac{1}{\sqrt\pi}$, but now
+$\frac{1}{\sqrt{2\pi}}$! The reason is that when we worked with
+real-valued sinusoidals, we were ignoring half the story: the imaginary
+part!
+
+\subsection{Conjugation}
+
+In general, to do a projection of $f$ onto $g$, we write:
+
+\begin{nedqn}
+  \innerprod{f}{g}
+\eqcol
+  \int f(t) \conj{g(t)} \dt
+\end{nedqn}
+
+Why use the conjugate? Isn't that different from when we worked with
+projections with a real scalar field? Not exactly: we wouldn't have
+``noticed'' conjugation in our original dot-product projection because
+reals never had any imaginary part.
+
+Of course, we can see the conjugate as a clockwise rotation vs a
+counter-clockwise rotation. We can also see it as an ``unnormalized''
+inverse of $g(t)$ that removes any imaginary/rotational component.
+
+\subsection{And Real-Valued Sinusoidals?}
+
+What of real-valued sinusoidals like $\cos t$? Are they spanned by our
+basis of complex sinusoidals $\expf{i\omega t}$? Yes!
+
+\begin{nedqn}
+  \cos t
+\eqcol
+  \half \expf{i\omega t}
+  +
+  \half \expf{-i\omega t}
+\\\eqcol
+  \half
+  \parens{\cosf{\omega t} + i\sinf{\omega t}}
+  +
+  \half
+  \parens{\cosf{\omega t} - i\sinf{\omega t}}
+\\\eqcol
+  \cosf{\omega t}
+\end{nedqn}
+
+This shows that our basis of complex sinusoidals is strictly more
+expressive than our original basis of real-valued sinusoidals!
+
+\subsection{Some Last Intuitions}
+
+Let's think a little more about $f(t)\conj{g(t)}$. This is now not only
+collecting amplitude information: it is collecting \emph{phase}
+information. It is recording how many \emph{radians} $f(t)$ is ahead of
+$g(t)$.
+
+The inner product, which integrates this, is giving us the
+\emph{average} phase difference between $f(t)$ and $g(t)$. As we've
+mentioned before: if $f(t)$ and $g(t)$ have different periods, then for
+every time that $f(t)$ is $\varphi$ radians ahead of $g(t)$, there is a
+corresponding time when it is $\varphi$ radians \emph{behind} $g(t)$.
+
+If you treat the $\varphi$ as complex numbers $c$ and average, you will
+get zero. There is a net-zero correlation.
+
+The only time the average phase-difference will be \emph{non-zero} is if
+the two waves move in lock-step. Then $c$ is \emph{always the same}.
+
+Last, consider two sinusoidals $\expf{i\omega t}, \expf{-i\omega t}$.
+These should have zero correlation, because they are rotating in
+opposite directions.

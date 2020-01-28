@@ -89,31 +89,82 @@ t$ orthogonal?
 \subsection{Orthogonality of $\sin kt$ and $\sin k' t$}
 
 Here's how I see it. Say the first of these waves is traveling faster
-than the second (one has to be if $k1 \ne k2$). Then for every rotation
-that the first makes, the second falls $\theta$ radians behind (for
-whatever theta).
+than the second (one has to be if $k \ne k'$). Then for every rotation
+that the first sine wave makes, the second sine wave falls $\theta$
+radians behind (for some $\theta$).
 
-So consider each time when the first wave is at phase $\phi$. The
-question is: what is the sum of the second wave's values at these times?
+Let's start at $t_0 = 0$. Let's consider each the set of times $t_i$ at
+which the first wave crosses zero again. In fact, let's consider
+$\parens{\cos kt_i, \sin kt_i}$ as a pair. We'll consider the points
+$t_i$ where $\parens{\cos kt_i, \sin kt_i} = \parens{1, 0}$.
 
-We know that these angles are all $\theta$ radians apart, and that they
-create an entire circuit. Let $\theta$ correspond to some complex number
-$c$. We're basically asking: what is
+Now, let's consider the corresponding $\parens{\cos k't_i, \sin k't_i}$.
+We know this starts at $\parens{1, 0}$ for $t_0$, but subsequent $t_i$
+will differ. As we said: each $\parens{\cos k't_i, \sin k't_i}$ falls
+behind by a fixed angle $\theta$. Specifically, we know:
 
 \begin{nedqn}
-  1 + c + c^2 .. + c^{n - 1}
+  \parens{\cos k't_m, \sin k't_m}
+\eqcol
+  \parens{\cos m\theta, \sin m\theta}
 \end{nedqn}
 
-when $c^n$ would again equal $1.0$.
+Now, I claim the following:
 
-The answer is zero. Why? Well, you can see by multiplying everything by
-$c$. The original $1.0$ becomes $c$, and note that the final $c^{n-1}$
-becomes 1. So you get the same thing. What does that mean? It means,
-whatever the sum is, when rotated, it stays the same. And unless $c =
-1$, that means that the sum must be zero.
+\begin{nedqn}
+  \sum_{m = 0}^n
+  \parens{\cos m\theta, \sin m\theta}
+\eqcol
+  \parens{0, 0}
+\end{nedqn}
 
-If the sum is zero, both the real and the imaginary parts are zero. Thus
-$\sin(kt)$ is orthonormal to $\sin(k't)$.
+\subsection{An Aside About Complex Numbers}
+
+To see this, let's move to complex numbers. Complex numbers of norm 1.0
+represent positions on the circle. The real part is along the $x$-axis,
+and the imaginary part is along the $y$-axis.
+
+Multiplication by a complex number corresponds to \emph{rotation}.
+Consider $c = \parens{\cos \varphi, \sin \varphi}$ It's easy to see that
+multiplying $1$ by $c$ maps $1$ to $c$. $1$ originally lived at
+zero-degrees CCW from the $x$-axis. Now it corresponds to $\varphi$
+degrees CCW from the $x$-axis.
+
+Likewise one can consider $i$. $ci$ maps the $x$-coordinate of $c$ to
+the $y$-coordinate. And the $y$-coordinate is mapped to the
+$x$-coordinate, but in the opposite direction. This is exactly
+corresponding to a CCW rotation of $i$.
+
+\subsection{Completing Our Proof}
+
+So repeated rotation of $\parens{1, 0}$ by $\theta$ can be expressed as:
+
+\begin{nedqn}
+  1, c, c^2 + \ldots, c^{n - 1}
+\end{nedqn}
+
+Now consider what would happen if we summed all these terms. We would
+get zero. Why? Consider multiplying everything by $c$. The original $1$
+becomes $c$, and note that the final $c^{n-1}$ becomes $1$. So you get
+the same thing as you started with.
+
+When does a $cx = x$? Either when $c = 1$ (no rotation), or when $x = 0$
+(rotation does nothing to the zero vector).
+
+We thus know that the sum is zero (since $c$ corresponds to a rotation
+by $\varphi > 0$).
+
+Thus the sum for of $\sin k't \cos k't$ at points $t_0, \ldots, t_n$ is
+zero. And in fact this holds regardless of starting point $t_0 \ne 0$.
+Thus:
+
+\begin{nedqn}
+  \int \sin kt \sin k't \dt
+\eqcol
+  0.0
+\end{nedqn}
+
+Thus the two are orthogonal.
 
 \subsection{Linearity}
 
