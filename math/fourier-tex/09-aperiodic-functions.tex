@@ -1,0 +1,120 @@
+\section{Aperiodic Functions}
+
+We've seen how to handle a function with period $T$. It is as follows:
+
+\begin{nedqn}
+  \hat{f}(\omega)
+\eqcol
+  \int_0^{T} f(t) \expf{-i \omega t} \dt
+\end{nedqn}
+
+We do this for every $\omega = \frac{k}{T}$ where $k\in\mathbb{Z}$. If
+$f$ is a finite sum of sinusoidals, then we eventually recover all of
+$f$. If $f$ is an \emph{infinite} sum, then eventually we recover
+\emph{almost all} of $f$ (judged by difference in norm).
+
+We know what to do if $f$ is real-valued and we want to recover only
+real coefficients. We simply find the coefficients for $\omega, -\omega$
+and add them together.
+
+We now want to turn our attention to \emph{aperiodic} functions. Since
+aperiodic functions never repeat, the constituent frequencies cannot all
+be multiples of a single base frequency. We will want to consider
+$\omega$ which could be \emph{any} real number.
+
+By letting $\omega$ range over all of $\reals$, we now have an
+\define{uncountably infinite} basis. This basis is incomparably larger
+than our old countable basis. For now, we will still only consider
+\emph{countable linear combinations} of basis vectors (which can still
+be aperiodic). Eventually we will consider ``uncountable linear
+combinations'', though we will need to be precise about what that even
+means.
+
+\subsection{Our New Inner Product}
+
+What could generalize our inner prodcut. One could propose:
+
+\begin{nedqn}
+  \int_{-\infty}^\infty f(t) \conj{g(t)} \dt
+\end{nedqn}
+
+But this wouldn't work! Consider if $f(t) = g(t) = \expf{it}$. In that
+case we would be integrating 1.0 over the entire real line, which would
+be infinite.
+
+But we forgot something. Previously, I scaled our basis vectors down by
+a factor of $\frac{1}{\sqrt{\pi}}$ or $\frac{1}{\sqrt{2\pi}}$. But maybe
+I should have put those factors in the inner product itself, leaving the
+basis vectors as exactly $\expf{i\omega t}$.
+
+If I did that, a more natural analogue might be:
+
+\begin{nedqn}
+  \frac{1}{\sqrt{\norm{g}}}
+  \int_{-\infty}^\infty f(t) \conj{g(t)} \dt
+\end{nedqn}
+
+But this introduces a problem. What is the norm of $\expf{it}$? It ought
+to be infinite! So let's try again:
+
+\begin{nedqn}
+  \innerprod{f}{g}
+\eqcol
+  \lim_{T\to\infty}
+  \frac{
+    \int_{-T}^T f(t) \conj{g(t)} \dt
+  }{
+    \int_{-T}^T g(t) \conj{g(t)} \dt
+  }
+\end{nedqn}
+
+If $f(t) = g(t)$, this will obviously give you exactly one.
+
+Next, consider the case when $f(t) = \expf{i\omega_1 t}, g(t) =
+\expf{i\omega_2 t}$. Note that whenever $T =
+\parensinv{\omega_1\omega_2}$, then both functions fully complete a
+certain number of cycles. In this case, the result is exactly correct,
+by all of our preceding work about periodic functions. So the result is
+exactly zero.
+
+What about at other values of $T$? Well, you can note that as $T$
+increases, the functions make more-and-more \emph{full} cycles (which
+give perfect results), with a little period left over where the result
+is inexact (that is: wrong). But the ``worst'' error over that last
+little period of time is bounded. Meanwhile, as we ``average'' over a
+greater-and-greater domain, the error becoming less significant relative
+to the ``correct'' answer computed on the many full cycles.
+
+Thus, we know that our $\innerprod{f}{g}$ limit must converge to 0.0 in
+this case.
+
+Thus it is clear that if $f$ is a finite linear combination of basis
+vectors, we may decompose $f$ into basis vectors in our standard way.
+Well, provided we know which $\omega$ to search for (since the space of
+basis vectors is no longer enumerable)! Anyway, this isn't so special,
+since a finite linear combination of basis vectors is periodic!
+
+What about countable linear combinations? Everything should still work
+since the basis vectors are orthogonal. But I have a question: in what
+sense does the sequence of approximations $f_i$ converge to $f$?
+Remember: the norm of $f$ is infinite! Thus $\norm{f - f_i}$ is always
+infinite. So by what measure is $f_i$ getting ``close'' to $f$?
+
+I could suggest this sense. A sequence $f_k$ converges to $f$ if:
+
+\begin{nedqn}
+  \lim_{k\to\infty}
+  \parens{
+    \lim_{T\to\infty}
+    \frac{
+      \int_{-T}^T (f - f_k)(t) \conj{(f-f_k)(t)}
+    }{
+      \int_{-T}^T f(t) \conj{f(t)} \dt
+    }
+  }
+\eqcol
+  0
+\end{nedqn}
+
+This sense would be saying: the ``norm'' of the residual, when compared
+to the norm of what we started with, is tending toward zero.
