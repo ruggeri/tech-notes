@@ -5,6 +5,7 @@
   * Especially electronics!
   * The Feynman lectures have been a great guide!
   * Endothermic/exothermic reactions.
+  * Want to understand why some materials are transparent.
 * Zero knowledge proof. Interactive proofs? Zcash?
   * Is there a book that covers this?
   * Also I'd like to understand homomorphic encryption!
@@ -24,6 +25,7 @@
   * JRN re-interested me in this.
 * Wavelet transform
   * I understand the Fourier transform so let's take it one more step!
+  * Also: Laplace transform?
 * Ordinary Differential Equations
   * This came up in Feynman when we studied springs.
   * I think at least for some simple ones it wouldn't be so hard?
@@ -66,9 +68,12 @@ some documents to start with. Note: I may already *understand* these,
 but I may still want to present them more clearly and accessibly for
 others.
 
-* Typeset SVD notes.
-* Typeset notes on Lagrange constrained optimization.
-* Typeset notes on Newton's method.
-* Typeset notes on Fourier transform.
-* Typeset notes on Quantum (Simon's and Grover's algos).
-* Typeset linear algebra notes (maybe too much work...).
+* Linear Algebra:
+  * Typeset SVD notes.
+  * Cleanup/consolidate various remaining eigenvector decomposition
+    notes.
+  * Typeset Strang notes (eventually).
+* Optimization:
+  * Typeset notes on Lagrange constrained optimization.
+  * Typeset notes on Newton's method.
+* Typeset notes on quantum computing (Simon's and Grover's algos).
