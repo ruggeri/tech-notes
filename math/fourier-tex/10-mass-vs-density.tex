@@ -1,0 +1,33 @@
+\section{Mass vs Density}
+
+As we've just been saying, all the basis vectors have infinite $L^2$
+norm. Thus all functions that are spanned by the Fourier basis must also
+have infinite $L^2$ norm.
+
+But what about aperiodic functions with \emph{finite} norm? It's obvious
+that using our current version of the Fourier transform, we would assign
+zero weight to every frequency $\omega$. This follows because our inner
+product has a denominator that is ever increasing, versus a numerator
+that has a finite upper bound.
+
+Up to now, we've really been talking about \emph{mass}: how much mass to
+assign each frequency. Instead, we could talk about \emph{density}. We
+could say that indeed there is zero mass contributed by any one
+frequency $\omega$. But we could also say that \emph{intervals} of
+frequency can contibute mass in aggregate. Here we're talking density.
+
+Here's how we can use the density:
+
+\begin{nedqn}
+  f(t)
+\eqcol
+  \int_{-\infty}^{\infty}
+  \hat{f}(\omega)
+  \expf{i\omega t}
+  \domega
+\end{nedqn}
+
+We could speak even more generally still. We could do a Lebesgue
+integration relative to any measure on the real space of $\omega$
+values. That would allow us to put mass in some places (via Dirac
+deltas), but have density elsewhere.
