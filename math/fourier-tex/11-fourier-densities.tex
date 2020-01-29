@@ -1,0 +1,108 @@
+\section{Fourier Densities}
+
+We've started to gesture at \define{spectral density}. This allows us to
+explore different measures on the space $\expf{i\omega t}$. The measures
+we'll explore will be described by densities, so our goal is to find
+$\hat{f}(\omega)$ such that:
+
+\begin{nedqn}
+  f(t)
+\eqcol
+  \int
+  \hat{f}(\omega)
+  \expf{i\omega t}
+  \domega
+\end{nedqn}
+
+Let's consider. Consider a windowed version of $f$ that clips it to zero
+outside the range $(-T/2, T/2)$. Then note that we can get the
+\emph{exact} Fourier masses (for the restricted-domain $f$) by
+calculating:
+
+\begin{nedqn}
+  \int_{-T/2}^{T/2}
+  \frac{
+    f(t)
+    \expf{-i\omega t}
+  }{T}
+  \dt
+\end{nedqn}
+
+This works for any $\omega = \frac{2\pi}{T}k$.
+
+As we increase the window size by scaling $T$, we will get a more and
+more accurate mass. Unfortunately, we know that mass will go to zero if
+$f$ has finite $L^2$ norm.
+
+But, what if we only care about the \emph{density}? Let's try shmearing
+the calculated masses through the $\omega$ space. For instance, we
+shmear the mass for $\omega$ uniformly through the interval
+$\parens{\omega - \frac{\pi}{T}, \omega + \frac{\pi}{T}}$.
+
+If we divide the mass by the interval width $\frac{2\pi}{T}$, we'll find
+that the density is:
+
+\begin{nedqn}
+  \frac{1}{2\pi}
+  \int_{-T/2}^{T/2}
+    f(t)
+    \expf{-i\omega t}
+  \dt
+\end{nedqn}
+
+So what we do next is simple. We simply consider the limit of this
+quantity.
+
+We now have a notational choice. We may write:
+
+\begin{nedqn}
+  \hat{f}(\omega)
+\eqcol
+  \frac{1}{2\pi}
+  \int_{-\infty}^\infty
+    f(t) \expf{-i\omega t}
+  \dt
+\\
+  f(t)
+\eqcol
+  \int_{-\infty}^\infty
+  \hat{f}(t) \expf{i\omega t}
+  \domega
+\end{nedqn}
+
+Alternatively and equivalently, we could write:
+
+\begin{nedqn}
+  \hat{f}(\omega)
+\eqcol
+  \frac{1}{\sqrt{2\pi}}
+  \int_{-\infty}^\infty
+    f(t) \expf{-i\omega t}
+  \dt
+\\
+  f(t)
+\eqcol
+  \frac{1}{\sqrt{2\pi}}
+  \int_{-\infty}^\infty
+  \hat{f}(t) \expf{i\omega t}
+  \domega
+\end{nedqn}
+
+Last, we could avoid the problem by not using angular frequencies:
+
+\begin{nedqn}
+  \hat{f}(\xi)
+\eqcol
+  \int_{-\infty}^\infty
+    f(t) \expf{-2\pi i \xi t}
+  \dt
+\\
+  f(t)
+\eqcol
+  \int_{-\infty}^\infty
+  \hat{f}(t) \expf{2\pi i \xi t}
+  \domega
+\end{nedqn}
+
+Physicists seem to like the second convention for symmetry. Engineers
+like the last because they'd rather work with normal frequencies.
