@@ -104,3 +104,30 @@ things. Abstraction can be very frustrating.
       information to be associated with a variable or return type,
       which allows the compiler to check and verify more sophisticated
       invariants.
+
+## Recent Appraisal
+
+I updated my spreadsheet with some new notes and some new stats on most
+popular languages. Results remain the same.
+
+* Scripting:
+  * Typescript is easy and pleasant but safe.
+    * No sum types though. No destructuring.
+    * Weird debugging a little. Not first class from ground up.
+  * Python is not perfect but best of non-JS "scripting" choices.
+    * Ruby has no obvious advantage.
+* Performance w/o GC:
+  * Rust is safe. Has many nice features.
+  * But doing things safely sometimes requires a lot of work.
+  * Sometimes it would be nicer if you could just trust the GC...
+  * And also not worry about mutability.
+* Performance w/ GC:
+  * Want to choose Haskell, but too damaged by tragic mistakes.
+    * Unfortunately F# and OCaml are not well enough supported...
+    * And not clear that they are less bizarre.
+  * Want to choose Go, but feature set sucks.
+    * Some recent improvement w/ generics? But no sum types...
+  * *Kotlin* -- should I learn more??
+    * It looks promising. But a major problem is startup time?
+    * Not really any sum types?
+    * Tried out - startup time wasn't so bad?
