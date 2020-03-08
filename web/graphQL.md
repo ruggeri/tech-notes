@@ -182,3 +182,39 @@ that Relay is going to manage your store for you.
 * It will translate these to GraphQL and query the server.
 * Basically, Relay is moving you toward more declarative programming,
   and less imperative.
+
+## Data Loader
+
+Queries/mutations/resolvers need to load data from the DB. They can do
+this (1) directly via SLQ, (2) via an ORM (an extra layer of
+abstraction), (3) via data-loader (another extra layer of abstraction).
+
+Data loader is basically an in-memory cache. You create a data loader
+instance like so:
+
+```js
+const usersLoader = new DataLoader(keys => {
+  // some sql that fetches users with those keys and returns them.
+});
+
+const catsLoader = new DataLoader(keys => {
+  // some sql that fetches cats with those keys and returns them.
+});
+```
+
+How could this help? Basically, say you ask to load 100 users. Then you
+ask to load the friends of these users. There may be great overlap with
+the initially loaded users. More: unloaded X may be friends to initially
+loaded A and B - we do not need to load them twice.
+
+Data loader coallesces requests to bulk things up and make batch
+requests. It does in-memory caching.
+
+For proper serializability, I think that (1) a data loader instance must
+be created each request, (2) everything should be run in a transaction
+(so that cache never goes stale). Remember, cache is thrown away at end
+of the request (the data loader instance).
+
+Not sure how to bust the cache if you mutate an object.
+
+Source: https://github.com/graphql/dataloader
