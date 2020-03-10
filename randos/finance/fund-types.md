@@ -149,6 +149,30 @@ fund makes little difference.
   responsible for almost all the appreciation in an index. So it's
   important to buy them all.
 
+## Bond Funds
+
+Any fund type can invest in bonds or equities. However, because bonds
+trade with much less liquidity than equities, bond funds can have a
+harder time meeting redepemption requests than equity funds. The logic
+is that if you dump a bunch of stocks, you'll have an easier time
+getting fair value (not paying a huge liquidity premium) than if you
+dump a bunch of bonds.
+
+There is a claim that bond ETFs have less liquidity risk than bond
+mutual funds. The idea is that you get out of the bond fund ETF by
+selling into the market for ETF shares. That doesn't ipso facto cause
+any trading in the underlying bonds. Yes, authorized parties can
+ultimately reclaim the underlying bonds and try to sell them themselves.
+
+Eventually, if the public sells a bond ETF hard enough, there will start
+to be a liquidity premium that must be paid to liquidate more. But the
+ride may be smoother than with a bond mutual fund.
+
+Apparently this is all mostly a hypothesized concern. As of yet, bond
+fund sell pressure hasn't been high enough to entail big liquidity
+premiums. But some people speculate this may be a problem someday down
+the road.
+
 ## Sources
 
 * Wikipedia
