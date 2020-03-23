@@ -27,7 +27,6 @@ that $a$ evenly divides $b$, and thus it $\gcd(a, b) = a$.
 \subsection{Bezout's Identity}
 
 \begin{theorem}[Bezout's Identity]
-
   For any $a, b$, there exists $x, y$ such that:
 
   \begin{nedqn}
@@ -36,6 +35,9 @@ that $a$ evenly divides $b$, and thus it $\gcd(a, b) = a$.
     \gcd(a, b)
   \end{nedqn}
 \end{theorem}
+
+Note: if $gcd(a, b) = 1$, then Bezout is saying that $\inv{a} = x \bmod
+b$, $\inv{b} = -y \bmod a$.
 
 \begin{proof}
   Let $z = \gcd(a, b)$. Then there exists $k_a, k_b$ such that $a = k_a
@@ -75,7 +77,7 @@ that $a$ evenly divides $b$, and thus it $\gcd(a, b) = a$.
 
 Let's see an algorithm for finding $x, y$ for any $a, b$. Note that $x$
 is the inverse of $a$ in $\Z \bmod b$, while $y$ is the inverse of $b$
-in $\Z \bmod a$.
+in $\Z \bmod a$. (Assuming $a, b$ are relatively prime).
 
 Let's assume that $a < b$. Then we know:
 
@@ -89,14 +91,8 @@ Let's assume that $a < b$. Then we know:
   1a + 0b
 \end{nedqn}
 
-Starting from these two initial equations, let's derive a third.
-Calculate $k, c$ (via integer division, modulus operations) such that:
-
-\begin{nedqn}
-  b
-\eqcol
-  ka + c
-\end{nedqn}
+Starting from these two initial equations, let's derive a third. First
+calculate $k = b // a, c = b \bmod a$.
 
 Using this, subtract $k$ times $1a + 0b$ from $0a + 1b$. We obtain:
 
@@ -114,7 +110,6 @@ Note that a common divisor of $a, b$ will always divide the left hand
 side of the equations. If $a, b$ are relatively prime, then eventually
 we will obtain $1$ on the left side, at which point we will have
 obtained the appropriate $x, y$ to satisfy $1 = xa + yb$.
-
 
 \begin{example}
   Let's invert $a = 71, b = 139$, each with respect to the other.
