@@ -1,8 +1,11 @@
 \newcommand{\order}[1]{|#1|}
 
-\newcommand{\Zmodn}{\Z \bmod n}
-\newcommand{\Zmodnx}{\Z_n^\times}
-\newcommand{\Zmodp}{\Z \bmod p}
-\newcommand{\Zmodpx}{\Z_p^\times}
+\newcommand{\Zmod}[1]{\Z / #1\Z}
+\newcommand{\Zmodx}[1]{\parens{\Z / #1\Z}^\times}
+
+\newcommand{\Zmodn}{\Zmod{n}}
+\newcommand{\Zmodnx}{\Zmodx{n}}
+\newcommand{\Zmodp}{\Zmod{p}}
+\newcommand{\Zmodpx}{\Zmodx{p}}
 
 \newcommand{\subgroup}{\leq}
