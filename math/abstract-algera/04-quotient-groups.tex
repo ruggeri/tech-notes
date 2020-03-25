@@ -1,0 +1,163 @@
+\section{Quotient Groups}
+
+\subsection{Fibers and Quotient Groups}
+
+\begin{definition}
+  Let $\varphi: G \to H$ be a homomorphism. For each $h\in H$, the
+  \define{fiber} of $G$ mapping to $h$ is the set of $g$ such that
+  $\varphi(g) = h$. We will often denote fiber of $G$ mapping to $h$ as
+  $G_h$.
+
+  We call $G_1$ the \define{kernel} of the $\varphi$. This is denoted
+  $\ker \varphi$.
+\end{definition}
+
+\begin{proposition}
+  It is clear that $\ker \varphi$ is a subgroup of $G$.
+
+  It is also clear that for every fiber $G_h$ and $g \in G_h$, $g G_1
+  \subset G_h$.
+
+  In fact, for any $g \in G_h$, $g G_1 = G_h$. Thus any $g \in G_h$ is a
+  ``representative'' of $G_h$.
+\end{proposition}
+
+\begin{proof}
+  Let us say that $a, b \in G_h$. I claim that $a, b$ differ by a
+  factor $x \in \ker\varphi$. Consider $x = a \inv{b}$. Then:
+
+  \begin{nedqn}
+    \varphi(x)
+  \eqcol
+    \varphi(a) \varphi\parens{\inv{b}}
+  \\
+  \eqcol
+    \varphi(a) \inv{\varphi(b)}
+    \nedcomment{a simple fact of homomorphisms}
+  \\
+  \eqcol
+    h \inv{h}
+  \\
+  \eqcol
+    1
+  \end{nedqn}
+
+  Thus every fiber $G_h$ is equal to $g_h G_1$ for some $g_h$ (you can
+  choose any member of $G_h$ to be the representative).
+\end{proof}
+
+\begin{definition}
+  Consider the set of fibers $G_h$. We can make this a group by using
+  the operation $G_a G_b \mapsto G_{ab}$. This is called the
+  \define{quotient group}.
+\end{definition}
+
+\begin{remark}
+  By construction, the quotient group is isomorphic to the \emph{image}
+  of $\varphi: G \to H$. Each fiber is in one-to-one relationship with
+  each element $h$ in the image.
+
+  The image of $\varphi$ is of course a subgroup of $H$.
+\end{remark}
+
+\subsection{(Normal) Subgroups and Quotient Groups}
+
+\begin{theorem}
+  For any (normal) subgroup $K$ of $G$, there exists a homomorphism
+  $\varphi$ of $G$ such that $K = \ker\varphi$.
+
+  Since $\varphi$ is somewhat irrelevant, we may denote the quotient
+  group $G/K$, referencing only the kernel.
+\end{theorem}
+
+\begin{remark}
+  Let $\varphi$ map elements of $G$ to corresponding \define{cosets} of
+  $K$ $gK$.
+
+  Define this product on cosets: $(aK)(bK) = (ab)K$. Since a
+  coset has many non-unique representatives $a, a'$, is this operation
+  well-defined? You can easily prove yes. (Wait! Only if $K$ is
+  \emph{normal}!)
+
+  We've thus defined a coset group, and $\varphi$ is a homomorphism (in
+  fact, isomorphism!) from $G$ to the coset space. The kernel of
+  $\varphi$ is exactly $K$.
+
+  Thus we see that the concept of quotient groups is really about
+  subgroups and cosets, rather than about homomorphisms.
+
+  The homomorphism $\varphi$ we've defined is sometimes called the
+  \define{natural projection} of $G$ onto $G/K$.
+\end{remark}
+
+\begin{remark}
+  Not so fast! We've implicitly relied on the fact that $K$ is a
+  \define{normal} subgroup of $G$. A normal subgroup has $gN = Ng$ for
+  all $g \in G$. Of course, in an \emph{abelian} group every subgroup is
+  normal.
+
+  If the subgroup is normal, then the multiplication of cosets we're
+  talking about is well-defined. Because:
+
+  \begin{nedqn}
+    (aK)(bK)
+  \eqcol
+    (aKb)K
+  \\
+  \eqcol
+    (ab)KK
+  \\
+  \eqcol
+    (ab)K
+  \end{nedqn}
+\end{remark}
+
+\begin{definition}
+  An element $gn\inv{g}$ is a \define{conjugate} of $g$. The set
+  $gA\inv{g}$ is a \define{conjugate} of $A$.
+
+  An element $g$ \define{normalizes} $A$ if $gA\inv{g} = A$. That is,
+  $g$ is in the \emph{normalizer} of $A$ (denoted $N_G(A)$).
+
+  A set $N$ is \define{normal} if every element of $G$ normalizes $N$.
+  In this case, the normalizer of $N$ is all of $G$.
+\end{definition}
+
+\begin{remark}
+  \TODO{We should explore non-abelian groups to find some subgroups that
+  are not normal!}
+
+  \TODO{We should explore examples of how non-normal subgroups would
+  fail to give a well-defined definition of coset multiplication.}
+\end{remark}
+
+\subsection{Lagrange's Theorem}
+
+\begin{theorem}[Lagrange's Theorem]
+
+  For a subgroup $H$ of $G$, every coset $gH$ is disjoint
+  from every other distinct coset $g'H$. Also, every coset $gH$ has
+  exactly $|H|$ elements.
+
+  Presuming $|G|$ is finite, there are thus $|G|/|H|$ distinct, disjoint
+  cosets.
+
+  Thus, $|H|$ divides $|G|$. Likewise, the quotient group has size
+  $|G|/|H|$ which also divides $|G|$.
+\end{theorem}
+
+\begin{remark}
+  If $G$ is infinite, then things could be more sophisticated. In that
+  case, if $H$ is finite, then of course $G/H$ must be infinite.
+
+  If $H$ is infinite, $G/H$ may or may not be infinite. For instance,
+  consider $G = \Z \otimes \Z$. Alternatively, consider $G =
+  \bigotimes_{i \in \mathbb{N}} \Z$.
+\end{remark}
+
+\begin{corollary}[Fermat's Little Theorem]
+
+  $g^{|G|} = 1$ for all $g \in G$.
+\end{corollary}
+
+% **TODO**: Up to section 3.2 p91.

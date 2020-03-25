@@ -1,0 +1,147 @@
+\section{Subgroups}
+
+\begin{definition}
+  $H$ is a \define{subgroup} of $G$ (written $H \subgroup G$) if $H$ is
+  closed under multiplication and inverses (and, by implication,
+  contains $1$).
+\end{definition}
+
+\begin{proposition}[The Subgroup Criterion]
+  $H$ is a subgroup of $G$ if for all $a, b \in H$, we have $a\inv{b}
+  \in H$ too.
+\end{proposition}
+
+\begin{proof}
+  Clearly this implies that $1 \in H$. But then this implies that $1
+  \inv{b} \in H$. And therefore $a\parensinv{\inv b} = ab$ must be in
+  $H$, too.
+\end{proof}
+
+\subsection{Centralizers, Normalizers}
+
+\begin{remark}
+  I'm not sure I care too much about these concepts.
+\end{remark}
+
+\begin{definition}
+  The \define{centralizer} of a subset $A$ (written: $C_G(A)$) is the
+  set of elements $g$ such that $ga = ag$. These are the elements that
+  \emph{commute} with elements of $A$.
+
+  Another (annoying?) way to write this: $ga\inv{g} = a$.
+\end{definition}
+
+\begin{proposition}
+  $C_G(A)$ is a subgroup of $G$.
+\end{proposition}
+
+\begin{proof}
+  Simple:
+
+  \begin{nedqn}
+    g_1 g_2 a
+  \eqcol
+    g_1 a g_2 \nedcomment{Because $g_2$ in $C_G(A)$}
+  \\
+  \eqcol
+    a g_1 g_2 \nedcomment{Because $g_1$ in $C_G(A)$}
+  \end{nedqn}
+
+  It's similarly trivial to show inverses are contained.
+\end{proof}
+
+\begin{remark}
+  Note that $C_G(\setof{1})$ is all of $G$. In general, if $A \subset
+  B$, then $C_G(B) \subset C_G(A)$.
+\end{remark}
+
+\begin{definition}
+  The \emph{center} of $G$ (denote $Z(G)$) consists of all elements $x$
+  such that for all elements $g$ we have: $gx = xg$.
+
+  The center is equal to $C_G(G)$.
+
+  Alternatively: it is the intersection of all centralizers. It is only
+  those elements that would commute with every other element.
+
+  Alternatively: the center is the \emph{largest} subset of $G$ such
+  that $C_G(Z(G)) = G$. It is \emph{all} the elements that commute with
+  every other element.
+\end{definition}
+
+\begin{definition}
+  The \define{normalizer} of $A$ (denoted $N_G(A)$) consists of all $g$
+  such that $gA = Ag$.
+\end{definition}
+
+\begin{remark}
+  This is a generalization of the centralizer. The centralizer is very
+  specific: it says that $ga = ag$. But it appears that the normalizer
+  allows some shuffling around of the elements of $A$.
+
+  That is: if $g \cdot a$ is seen as a left group action, it corresponds
+  to one permutation. If $a \cdot g$ is seen as a \emph{right} group
+  action, it may correspond to a \emph{second} group action.
+
+  Basically: the normalizer consists of those elements $g$ that, when
+  acting on either the left or the right, permute the elements of $A$.
+\end{remark}
+
+\begin{remark}
+  The normalizer is a subgroup of $G$. It's easy to see why. If $g_1$
+  permutes the elements of $A$, and $g_2$ does likewise, then $g_1 g_2$
+  does as well.
+\end{remark}
+
+\begin{remark}
+  Note that $N_G(\setof{1}) = G$. But \emph{also} note that $N_G(G) =
+  G$. As we increase $S$, $N_G(S)$ must handle more elements, but it may
+  shuffle them amongst a larger set. So containment is not
+  straightforward.
+\end{remark}
+
+\begin{remark}
+  In summary: $C_G(A) \subgroup N_G(A) \subgroup G$.
+\end{remark}
+
+\subsection{Stabilizers, Kernels}
+
+\begin{definition}
+  Consider a group $G$ acting on a set $S$. The \define{stabilizer}
+  $G_s$ is the set of $g$ such that $g \cdot s = s$.
+\end{definition}
+
+\begin{remark}
+  Notice right away that $G_s$ is a subgroup of $G$.
+\end{remark}
+
+\begin{definition}
+  The intersection of all stabilizers is called the \define{kernel} of
+  $S$. These are the $g$ such that $g \cdot s = s$ for all $s \in S$.
+\end{definition}
+
+\begin{remark}
+  Clearly the kernel is a subgroup of every stabilizer.
+\end{remark}
+
+\subsection{Relation of Centralizers/Normalizers and Stabilizers/Kernels}
+
+\begin{remark}
+  Consider $G$ acting on the powerset $\powerset{G}$ by $g \cdot S
+  \mapsto gS\inv{g}$. Then the normalizer of $S$ is equivalent to the
+  \emph{stabilizer} of $S$. It is every element of $G$ that merely
+  permutes $S$.
+\end{remark}
+
+\begin{remark}
+  Next, consider just the normalizer $N_G(S)$. Consider the action $g
+  \cdot s \mapsto g s \inv{g}$.
+
+  The kernel of this action are exactly those elements that commute with
+  every element of $S$. It is the \emph{centralizer} $Z_G(S)$.
+\end{remark}
+
+\begin{remark}
+  Lastly, if we set $S = G$, then the center $Z(G)$ is equal to the
+  kernel of $g \cdot s \mapsto g s \inv{g}$.
+\end{remark}

@@ -1,0 +1,122 @@
+\section{Basic Group Definitions And Properties}
+
+\begin{remark}
+  These notes follow Dummit and Foote's Abstract Algebra textbook.
+\end{remark}
+
+\subsection{Definitions and Propositions}
+
+\begin{definition}
+  A \define{group} is a set with a binary operation. The binary
+  operation must be \define{associative}. There must be an
+  \define{identity element}. (The identity must be both a left and right
+  identity. That is, the identity must commute.) And there must be
+  \define{inverses}.
+
+  An \define{abelian group} is \define{commutative}. That is: $ab = ba$.
+  If not abelian, then every non-identity element might not commute.
+\end{definition}
+
+\begin{proposition} Each of the following is true:
+  \begin{enumerate}
+    \item The identity $1$ element is unique.
+    \item Each inverse $\inv{a}$ is unique.
+    \item $\parensinv{ab} = \inv{b} \inv{a}$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  Say that $a$ was also an identity element. Then what would be $a1$? Is
+  it $1$ or is it $a$?
+
+  Say that both $x$ and $y$ were inverses of $a$. Then what is $xay$? Is
+  it $x$ or is it $y$?
+
+  It is clear that $\inv{b}\inv{a}$ will invert $ab$.
+\end{proof}
+
+\begin{proposition}
+  Both left and right cancelation hold. That is $ab = ac$ implies $b =
+  c$.
+\end{proposition}
+
+\begin{proof}
+  Say not. Then multiply on the right by $\inv{b}$ and the left by
+  $\inv{a}$. We get $1 = c \inv{b}$. But we've already shown that
+  because inverses are unique we must have $b = c$.
+\end{proof}
+
+\subsection{Permutations, Homomorphisms, and Isomorphisms}
+
+\begin{definition}
+  The \define{symmetric group} on $A$ $S_A$ is the group of all
+  bijections $\sigma: A \to A$. The operation for $S_A$ is function
+  composition. Elements of the symmetric group are also called
+  \define{permutations}.
+\end{definition}
+
+\begin{proposition}
+  We can always decompose an element of $S_A$ into disjoint
+  \define{cycles}.
+\end{proposition}
+
+\begin{definition}
+  A \define{homomorphism} is a map $\varphi: A \to B$ such that
+  $\varphi(xy) = \varphi(x) \varphi(y)$.
+
+  An \define{isomorphism} is a homomorphism that is bijective.
+\end{definition}
+
+\begin{proposition}
+  The inverse of an isomorphism $\inv{\varphi}$ is itself an
+  isomorphism.
+\end{proposition}
+
+\begin{proof}
+  I prove only that it is a homomorphism. It is clearly bijective.
+
+  \begin{nedqn}
+    \varphi(ab)
+  \eqcol
+    \varphi(a) \varphi(b)
+  \\
+    \inv{\varphi}\parens{\varphi(ab)}
+  \eqcol
+    \inv{\varphi}\parens{\varphi(a) \varphi(b)}
+  \\
+    \alpha \beta
+  \eqcol
+    \inv{\varphi}\parens{\alpha \beta}
+  \end{nedqn}
+
+  \noindent
+  Here I've introduced $\alpha, \beta$ defined as $\inv{\varphi}(a),
+  \inv{\varphi}(b)$. The new notation demonstrates that $\inv\varphi$ is
+  a homomorphism.
+\end{proof}
+
+\begin{remark}
+  All symmetric groups over the same number of elements can be put into
+  isomorphism in the obvious way. There are $n!$ such isomorphisms
+  (corresponding to $n!$ ways to match off corresponding elements).
+\end{remark}
+
+\subsection{Group Actions}
+
+\begin{definition}
+  A \define{group action} $\cdot$ of a group $G$ on a set $A$ satisfies:
+
+  \begin{enumerate}
+    \item $g_1 \cdot (g_2 \cdot a) = (g_1 g_2) \cdot a$,
+    \item $1 \cdot a = a$.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  Each element $g$ implies a permutation $\sigma_g$ on $A$. Why must
+  $\sigma_g$ be bijective? Because it must have an inverse
+  $\inv\sigma = \sigma_{\inv{g}}$!
+
+  Thus any group action implicitly defines a \emph{homomorphism} from
+  $G$ into $S_A$.
+\end{remark}
