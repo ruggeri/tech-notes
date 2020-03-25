@@ -3,14 +3,21 @@
 \newcommand{\defeq}{\coloneqq}
 \newcommand{\minuseq}{\mathrel{-}=}
 
-%% Theorem Environments
+%% Theorem Environments.
 
-\theoremstyle{plain} \newtheorem{theorem}{Theorem}
-% Lemmas should use same count as theorems.
-\theoremstyle{plain} \newtheorem{lemma}[theorem]{Lemma}
-\theoremstyle{definition} \newtheorem{definition}{Definition}
-\theoremstyle{remark} \newtheorem{example}{Example}
-\theoremstyle{remark} \newtheorem{remark}{Remark}
+% Theorems should be numbered based on subsection. In fact, everything
+% should be numbered equally.
+%
+% Italics environments.
+\theoremstyle{plain} \newtheorem{theorem}{Theorem}[subsection]
+\theoremstyle{plain} \newtheorem{corollary}{Corollary}[subsection]
+\theoremstyle{plain} \newtheorem{lemma}{Lemma}[theorem]
+\theoremstyle{plain} \newtheorem{proposition}[theorem]{Proposition}
+
+% Plain text environments.
+\theoremstyle{definition} \newtheorem{definition}[theorem]{Definition}
+\theoremstyle{definition} \newtheorem{example}[theorem]{Example}
+\theoremstyle{definition} \newtheorem{remark}[theorem]{Remark}
 
 %% Sinusoidals
 
