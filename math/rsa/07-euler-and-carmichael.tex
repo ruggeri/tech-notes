@@ -24,20 +24,68 @@
 \end{remark}
 
 \begin{remark}
-  Next consider $\varphi(ab)$ for $a, b$ coprime. We know by Fundamental
-  Theorem of Finite Abelian Groups that $\Zmod{ab}$ factors into a
-  direct product of two subgroups $G_a, G_b$ of sizes $a, b$.
+  Next consider $\varphi(ab)$ for $a, b$ coprime.
 
-  Moreover, because $\Zmod{ab}$ is cyclic, we know that both $G_a, G_b$
-  are cyclic. Thus they are isomorphic to $\Zmod{a}, \Zmod{b}$. There
-  are $\varphi(a), \varphi(b)$ units in each of these.
+  I claim $a, b$ generate the group $\Zmod{ab}$. Why? Just consider $a +
+  b$. This is coprime to both $a, b$. Thus $a + b$ must have additive
+  order $ab$ in $\Zmod{ab}$. So indeed $a + b$ generates $\Zmod{ab}$.
 
-  Any product of a unit of $G_a, G_b$ is a unit of $\Zmod{ab}$. Thus
-  there are $\varphi(a)\varphi(b)$ units for $\Zmod{ab}$.
+  Great. So consider all values of the form: $ak_a + bk_b$. $k_a, k_b$
+  range over $0,\ldots, b-1$ and $0,\ldots, a-1$. It should be clear
+  that there is a unique choice of $k_a, k_b$ for each element of
+  $\Zmod{ab}$.
+
+  Great. Now, consider any $k_a$ coprime to $b$. I claim that $ak_a +
+  bk_b$ is coprime to $b$. Why? First note that $bk_b$ is just a
+  multiple of $b$. So $\gcd\parens{ak_a + bk_b, b} = \gcd\parens{ak_a,
+  b}$. But both $a, k_a$ are coprime with $b$ so this is one.
+
+  If I also want to insure that $ak_a + bk_b$ is coprime to $a$, I must
+  likewise choose $k_b$ coprime with $a$.
+
+  This shows that there are $\varphi(b)$ choices for $k_a$, and
+  $\varphi(a)$ choices for $k_b$. Thus there are $\varphi(a)\varphi(b)$
+  choices for $k_a, k_b$ such that $ak_a + bk_b$ is a unit.
+\end{remark}
+
+\begin{remark}
+  Here is an alternate, more group theoreticy proof. It amounts to the
+  same thing.
+
+  Consider $\Zmod{ab}$ ($a, b$ coprime). This is isomorphic to $\Zmod{a}
+  \oplus \Zmod{b}$ by the Fundamental Theorem of Finite Abelian Groups.
+
+  We know that $\Zmodx{a}, \Zmodx{b}$ have $\varphi(a), \varphi(b)$
+  multiplicative units respectively.
+
+  For each \emph{pair} of multiplicative units $u_a, u_b$ in $\Zmod{a},
+  \Zmod{b}$, there is a corresponding \emph{single} element of $u$ of
+  $\Zmod{ab}$. That is, $u$ corresponds to $u_a \oplus u_b$.
+
+  By definition of isomorphism, repeated addition of $u$ in $\Zmod{ab}$
+  corresponds exactly to repeated addition of $u_a \oplus u_b$ in
+  $\Zmod{a} \otimes \Zmod{b}$.
+
+  Multiplication is just repeated addition. Since $u_a, u_b$ are
+  multiplicative units, that precisely means that there is some $k$ such
+  that $ku_a \oplus ku_b = 1 \oplus 1$.
+
+  What element of $\Zmod{ab}$ corresopnds to $1 \oplus 1$? It must be a
+  generatorof $\Zmod{ab}$. In fact, we might as well assume that $1$
+  maps to $1 \oplus 1$.  Because any isomorphism that maps a non-$1$
+  unit to $1 \oplus 1$ can be replaced by an isomorphism that
+  \emph{does}. With this presumption, we've shown that $ku = 1$.
+
+  We can likewise demonstrate that if $u$ is a unit, the corresponding
+  $u_a \oplus u_b$ must also be a unit, and thus $u_a, u_b$ must
+  individually be units.
+
+  This shows that there are $\varphi(a)\varphi(b)$ units.
 \end{remark}
 
 \begin{theorem}
-  In conclusion:
+  Since we can break any $n$ into a prime power factorization, we know
+  that:
 
   \begin{nedqn}
     \varphi\parens{\prod p_i^{k_i}}
@@ -50,7 +98,7 @@
 
 \begin{definition}
   \define{Carmichael's totient function} $\lambda(n)$ maps $n$ to the
-  smallest number such that $x^{\lambda(n)} = x \pmod{n}$ for all units
+  smallest number such that $x^{\lambda(n)} = 1 \pmod{n}$ for all units
   $x \in \Zmodnx$.
 \end{definition}
 
@@ -99,3 +147,18 @@
   An element $g$ is a \define{primitive root} of $1$ if it has order
   $|G|$. A group has a primitive root of unity iff it is cyclic.
 \end{definition}
+
+\begin{proposition}
+  Because $\Zmodnx$ into a direct product of $\Zmod{p_i^{k_i}}$, we
+  have:
+
+  \begin{nedqn}
+    \lambda\parens{\prod p_i^{k_i}}
+  \eqcol
+    \lcm\parens{
+      \lambda\parens{p_1^{k_1}},
+      \ldots
+      \lambda\parens{p_n^{k_n}}
+    }
+  \end{nedqn}
+\end{proposition}
