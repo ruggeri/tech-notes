@@ -22,7 +22,7 @@ So we can say:
 
    (a + 1)^p = a^p + 1 (mod p)
 
-But here we use the inductive hypothesis, that `a^p = 1 (mod p)`.
+But here we use the inductive hypothesis, that `a^p = a (mod p)`.
 
 So we have
 
