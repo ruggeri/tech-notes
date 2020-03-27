@@ -20,25 +20,26 @@
 
 %% Common Matrices
 
-\newcommand{\mtxA}{\mtx{A}}
-\newcommand{\mA}{\mtxA}
-\newcommand{\mtxB}{\mtx{B}}
-\newcommand{\mtxC}{\mtx{C}}
-\newcommand{\mC}{\mtxC}
-\newcommand{\mtxD}{\mtx{D}}
-\newcommand{\mtxI}{\mtx{I}}
-\newcommand{\mtxL}{\mtx{L}}
-\newcommand{\mtxK}{\mtx{K}}
-\newcommand{\mK}{\mtxK}
-\newcommand{\mtxQ}{\mtx{Q}}
-\newcommand{\mQ}{\mtxQ}
-\newcommand{\mtxR}{\mtx{R}}
-\newcommand{\mR}{\mtxR}
-\newcommand{\mtxU}{\mtx{U}}
-\newcommand{\mtxX}{\mtx{X}}
-\newcommand{\mX}{\mtxX}
-\newcommand{\mtxY}{\mtx{Y}}
-\newcommand{\mY}{\mtxY}
+% Macro to make matrix macros!
+%
+% TODO: understand expandafter and csname better!
+\newcommand{\newmtx}[1]{
+  \expandafter\newcommand\csname mtx#1\endcsname{\mtx{#1}}
+  \expandafter\newcommand\csname m#1\endcsname{\mtx#1}
+}
+
+\newmtx{A}
+\newmtx{B}
+\newmtx{C}
+\newmtx{D}
+\newmtx{I}
+\newmtx{K}
+\newmtx{L}
+\newmtx{Q}
+\newmtx{R}
+\newmtx{U}
+\newmtx{X}
+\newmtx{Y}
 
 %% Common Inverted Matrices
 
