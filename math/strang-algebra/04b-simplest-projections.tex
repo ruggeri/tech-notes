@@ -1,0 +1,18 @@
+We'll start talking about \define{projection matrices}. This projects a
+point into a subspace spanned by some vectors $\va_i$.
+
+The simplest projection matrices project onto a single vector $\va$. To
+do this, we know that $\vat \vx$ just takes the inner product of $\va$
+and $\vx$, which is how much we want to scale $\va$ to get the "closest"
+point to $\vx$ along $\va$.
+
+Let's take a quick note. We know that $\iprod{\vx - \iprod{x}{a}}{a} =
+0$. That is, the error is perpindicular to $\va$. Note that this will
+*always* be part of the error of $\vx - r\va$, for any scalar $r$. So
+all we can do is eliminate the component of the error along $\va$, which
+minimizes the distance to $\vx$.
+
+Okay. So there needs to be a matrix for this projection operation,
+because $\vproj{a}{u+v}=\vproj{a}{u}+\vproj{a}{v}$. I don't prove this.
+Instead, I will just show you the matrix: it is $\va \vat$. That
+describes exactly the operations I've described above.

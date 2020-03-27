@@ -1,0 +1,169 @@
+However, I want to be able to describe a projection *without* having an
+orthonormal basis. For instance, say I have a $n$-by-$k$ matrix, with
+full row rank and column rank, but $k<n$. This matrix embeds $\R^k$ into
+$\R^n$. My goal is to project an arbitrary $y$ onto the image of the
+transformation.
+
+First, let's assume that $y$ is *in* the subspace. I would like simply
+to find $x$ such that $\vy = \mA\vx$.
+
+Now, we know that $\vx' := \mAt \vy$ will not be correct if the columns
+of $\mA$ are not orthonormal. So what I would like to do is find $x$
+from $\vx'$.
+
+We don't know what $x$ is yet, but we do know that $\mA\vx=\vy$.
+Therefore, $\vx' = \mAt \vy = \mAt(\mA\vx)$. Therefore, we know that:
+
+\begin{nedqn}
+  \vx = \parensinv{\mAt\mA} x' = \parensinv{\mAt\mA} \parens{\mAt \vy}
+\end{nedqn}
+
+What is this mysterious $\mAt\mA$? We know that this is a $k$-by-$k$
+matrix, since it maps $\R^k$ to $\R^n$ and back again. Our next question
+is: is it invertible? This is important because we know that $\mA\mAt$
+is generally *not* inveritble.
+
+\subsection{Invertibility of $\mAt\mA$}
+
+Yes; $\mAt\mA$ is inveritble. First, note that $\mA$ has zero null-space.
+We assumed that $\mA$ had full column-rank, which means that the $k$
+columns are linearly independent. Having zero null-space means that $\mA$
+is *injective*. Of course, $\mA$ is *not surjective*, because there aren't
+enough columns ($k$) to fill the entire target space ($\R^n$, for `n>k`).
+
+Next, note that $\mAt$ is just the opposite. We know that $\mAt$
+is *not injective*, because it maps a higher-dimensionality space to a
+lower dimensionality-space. Therefore, by definition, the columns of
+$\mAt$ cannot be linearly independent, because there are simply too
+many of them.
+
+On the other hand, $\mAt$ is *surjective*. Remember how I said that
+(1) because the columns of $\mA$ were independent, (2) the nullspace of
+$\mA$ was zero? Well, remember that the nullspace is always the space
+perpindicular to the rowspace. This shows that the rows of $\mA$ span
+$\R^k$. Likewise, the columns of $\mAt$ span $\R^k$.
+
+Another way to see the same thing. If the columns of $\mA$ are
+independent, that means the *rows* of $\mAt$ are independent. That
+means that for every row of $\mAt$ there is a vector perpindicular
+to every other row besides this one. (The proof of that statement
+could come from orthogonaliztion of the basis). A vector $\vv_i$ in
+$\R^n$ that is not perpindicular to row `i` but is perpindicular to all
+other rows of $\mAt$ maps to a multiple of $\ve_i$ in $\R^k$; so these
+$\vv_i$ form a basis of $\R^k$.
+
+(In general, the nullspace of $\mM$ is orthogonal to the columnspace of
+$\mMt$.)
+
+Next I'll show that $\mAt$ is injective on `Im(A)`. I'll prove this
+more generally: any matrix $\mM$ is injective on the rowspace of $\mM$. If
+two vectors map to the same value, then their difference is in the
+nullspace. As we know, the nullspace is perpindicular to the rowspace
+of $\mM$. Therefore, there is only one vector in the rowspace that hits
+a value in the image of the transformation: the one with exactly zero
+component when projected into the nullspace.
+
+(Note that showing that $\mAt$ is injective on `Im(A)` would be
+enough to establish surjectivity in this case, because the image of $\mA$
+has rank $k$, and thus the injectivity of $\mAt$ implies its image
+still has rank $k$, which is the rank of the entire target space).
+
+This was an exhaustive proof of a relatively simple fact: $\mAt\mA$
+is invertible.
+
+**If the columns of A are orthogonal**
+
+In that case, no unskewing is needed. Then $\mAt\mA=I$.
+
+**Projecting Points Outside the Subspace**
+
+Okay. I gave you a proof that if $\vy=\mA\vx$, then:
+
+\begin{nedqn}
+  \vx = \parensinv{\mAt \mA} \parens{\mAt \vy}
+\end{nedqn}
+
+But that's sort-of useless. What I wanted to do was project points *off
+the subspace*. But note that projection onto the subspace means given
+$y$, finding a $\vy'$ such that $\vy = \vy' + \vq$, where $\vq$ is a
+vector perpindicular to the subspace.
+
+In that case, we need only note that:
+
+\begin{nedqn}
+  \mAt \vy = \mAt (\vy' + \vq) = \mAt \vy' + 0 = \mAt \vy'
+\end{nedqn}
+
+The reason is that the `q` part is perpindicular to the columnspace of
+$\mA$, and therefore is in the nullspace of $\mAt$.
+
+This once-and-for-all establishes that to perform the projection, you
+can find the corresponding $x$ by:
+
+\begin{nedqn}
+  \vx = \parensinv{\mAt \mA} \parens{\mAt \vy}
+\end{nedqn}
+
+And from here you can find the corresponding $\vy'$ via $\mA\vx$,
+meaning:
+
+\begin{nedqn}
+  \vy' = \mA \parensinv{\mAt \mA} \parens{\mAt \vy}
+\end{nedqn}
+
+\subsection{Pseudo-Inverse}
+
+The matrix $\mAt \mA$ is called a *Gramian matrix* (as in Gram-Schmidt).
+It maps $\ve_i$ to their image under decomposition into rows of $\mA$
+and reconstruction by $\mAt$. The error is seen by attempting to put a
+row $\va_i$ through this process. $\mA \va_i$ will be a vector of dot
+products:
+
+\begin{nedqn}
+  \parens{\va_1 \cdot \va_i, \va_2 \cdot \va_i, \ldots, \va_k \cdot \va_i}
+\end{nedqn}
+
+\noindent
+Then, when we apply $\mAt$ to reconstruct $\va_i$, we will get:
+
+\begin{nedqn}
+  \sum \va_j \parens{\va_j \cdot \va_i}
+\end{nedqn}
+
+The reconstruction depends on the extent to which the rows of $\mA$ are
+not orthonormal. It makes sense that $\ve_i$ maps to $(a_1 \cdot a_i,
+a_2 \cdot a_i, ..., a_n \cdot a_i)$.
+
+You can note especially $\mA \va_i$: the action of $\mA$ on a row
+$\va_i$. This maps $\va_i$ to $(\va_1 \cdot \va_i,$.
+
+Basically, the matrix $\parensinv{\mAt \mA} \mAt$ is a *pseudo-inverse*
+for $\mA$. I say pseudo-inverse because since $\mA$ is not surjective, it
+doesn't have a true inverse. But $\mA$ is injective on its image, so
+this matrix is an inverse on this image.
+
+You can think of the action $\mA$ on $\vv$ as: decompose $\vv$ into rows
+of $\mA$; this is an alternative way to view any linear transformation.
+Subsequently applying $\mAt$ to $\mA\vv$ attempts to reassemble $\vv$
+from the decomposition.
+
+But the reassembly is not quite right. This is what $\parensinv{\mAt
+\mA}$ is fixing.
+
+Brain storm: for any matrix $\mA$ where you want to invert, $\mAinv =
+\parensinv{\mAt \mA} \mAt$; for orthogonal matrices the $\mAt \mA$ part
+is already the identity. But for other matrices it is vital and does the
+unmixing.
+
+Note! All the hardness of doing inversion is exactly in inverting a
+matrix $\mAt \mA$. That means: the difficulty of inversion is in
+performing *unskewing*.
+
+**Mixing Matrix**
+
+The matrix $\parensinv{\mAt \mA}$ undoes this. It takes that vector
+$(\va_1 \cdot \va_i, ..., \va_n \cdot \va_i)$ and maps it back to
+$\ve_i$.
+
+In sum, we can talk about the matrix $\parensinv{\mAt \mA} \mAt$. This
+matrix in sum does

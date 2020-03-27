@@ -1,0 +1,55 @@
+Let's talk projections into subspaces spanned by $\setof{\va_i}$. First,
+let's note that $\mP\mP=\mP$. That's because, once you project into the
+subspace, you stay there.
+
+Some very simple projection matrices are $\mI$, and $\mI$ but with some
+of the diagonal zeroed-out (we drop that coordinate).
+
+Okay. Say you want to project into a given subspace. Give me an
+orthonormal basis for that subspace. Note that while (1) multiplying
+by a matrix can be seen as a mapping from a linear combination of
+basis vectors to a linear combination of matrix columns, you can (2)
+also see it as the projection of the vector onto each of the rows.
+
+Therefore, we can write the basis vectors into matrix rows: let's call
+this $\mAt$. Then we know that once we've (1) done this projection, we
+need to (2) now map this vector of projection lengths to the linear
+combination of those original vectors. Therefore, if we've written the
+basis vectors as columns of $\mA$, we can do this by multiplying $\mAt
+\vy$ by $\mA$. Thus the matrix that does this entire thing is $\mA\mAt$.
+
+\subsection{One vector at a time}
+
+Another way to approach this was to take our approach of projection
+onto an individual basis vector, and then combine these
+projections. That is, we could take the sum:
+
+\begin{nedqn}
+  \sum_i
+  \parens{\va_i \va_i\tran}
+  \vx
+\end{nedqn}
+
+It's (at least a little) hard to see, but this is \emph{exactly}
+$\mA\mAt$. I will give a few reasons.
+
+I've described matrix application in two ways. First, you can see an
+input vector as describing how to do a linear combination of the
+matrix columns. Another way is to see the rows as defining a linear
+functional for one coordinate; you apply each row to calculate each
+coordinate (this is the traditional approach).
+
+Matrix multiplication is just a generalization of these mental models.
+The typical way I think of $\mA\mB$ is: $\ve_1$ maps to the first column
+of $\mB$; I then take the inner product with each of the rows of $\mA$
+to determine what the first column of $\mB$ maps to. However, I could
+still think of this as a linear combination of the columns of $\mA$.
+That would actually be more consistent with my normal view of $\mA\vv$.
+
+Let me propose a new way of seeing matrix multiplication $\mA\mB$. Apply
+the first row of $\mB$ to an input vector. This is the amount of the
+first coordinate in $\mB\vv$. Now, scale the first column of $\mA$ by
+this amount. Repeat and sum.
+
+If we view matrix multiplication this way, then $\mA\mAt$ is computed
+exactly as the sum given above!
