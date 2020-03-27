@@ -46,7 +46,7 @@
 
 \newcommand{\newMtxInverse}[1]{
   \expandafter\newcommand\csname mtx#1inv\endcsname{\inv{\mtx#1}}
-  \expandafter\newcommand\csname m#1inv\endcsname{\inv{mtx#1}}
+  \expandafter\newcommand\csname m#1inv\endcsname{\inv{\mtx#1}}
 }
 
 \newMtxInverse{A}
@@ -89,10 +89,23 @@
 
 %% Common Matrix Decompositions
 
+\newcommand{\mLU}{\mtxL\mtxU}
 \newcommand{\mtxLU}{\mtxL\mtxU}
+
+\newcommand{\mLDU}{\mtxL\mtxD\mtxU}
 \newcommand{\mtxLDU}{\mtxL\mtxD\mtxU}
+
+\newcommand{\mQDQt}{\mtxQ\mtxD\mtxQt}
 \newcommand{\mtxQDQt}{\mtxQ\mtxD\mtxQt}
+
+\newcommand{\mQtDQ}{\mtxQt\mtxD\mtxQ}
 \newcommand{\mtxQtDQ}{\mtxQt\mtxD\mtxQ}
+
+\newcommand{\mQDUt}{\mtxQ\mtxD\mtxUt}
 \newcommand{\mtxQDUt}{\mtxQ\mtxD\mtxUt}
+
+\newcommand{\mQR}{\mtxQ\mtxR}
 \newcommand{\mtxQR}{\mtxQ\mtxR}
+
+\newcommand{\mUDQt}{\mtxU\mtxD\mtxQt}
 \newcommand{\mtxUDQt}{\mtxU\mtxD\mtxQt}

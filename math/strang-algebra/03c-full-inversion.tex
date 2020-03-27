@@ -1,0 +1,24 @@
+Okay. So we saw previously how to invert a matrix. The way we did this
+was like so:
+
+\begin{enumerate}
+  \item Decompose into $\mLU$, but be computing $\mLinv$ by performing
+  the inverse operations to $\mI$.
+
+  \item Now you have want to turn $\mU$ into $\mI$ step by step,
+  performing the opposite action on $\mLinv$.
+
+  \item That is the same as trying to get to reduced row-ecehlon form.
+
+  \item If $\mA$ was invertible, then you have built $\mAinv$. But if
+  $\mA$ was singular, you weren't quite able to turn $\mU$ into $\mI$.
+  You turned it into something that isn't of full-rank.
+
+  \item What we can do is apply the matrix we've built up to a vector
+  $\vy$. If the result lies in the columnspace of $\mR$ (the row reduced
+  echelon form), then this is the inverse image. If not, then $\vy$ is
+  outside the columnspace of $\mA$.
+
+  \item Note that since $\mR$ makes calculation of the nullspace simple.
+  The subspace of solutions has rank equal to the rank of the nullspace.
+\end{enumerate}
