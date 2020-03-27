@@ -1,0 +1,33 @@
+\section{Inverting A Matrix}
+
+How do we "undo" a linear transformation? That is, given a vector $\vv$
+in terms of $B$, how do we find the vector $\vu$ such that $\vv=\mA\vu$?
+
+This is easy if we decompose $\vv$ into a linear combination of the
+columns of $\mA$. If the columns of $\mA$ are orthogonal in the geometry
+implied by `B`, we can do this by using the dot product. If, as is
+typical, `B` is not orthogonal, then we must do more work.
+
+So let's take a moment to consider a matrix that maps the basis to
+another orthonormal basis. To invert an element $\vv$, we need to
+decompose it into columns of $\mA$. But since the columns are
+orthonormal, we can use the dot product just as we said. So $\ve_1$
+should map to a vector which is $\parens{\iprod{\ve_1}{\mA_1},
+\iprod{\ve_1}{\mA_2}, \ldots}$; that is, we project $\ve_1$ onto each
+column of $\mA$. Of course, this is just the first row of $\mA$.
+
+By definition of how a linear transformation is represented, we write
+this vector of projects as the first column. Thus, the first row has
+become the first column.
+
+This demonstrates that any orthogonal matrix (which represents
+rotations + flips) always has its inverse equal to its transpose! Thus
+we write:
+
+\begin{nedqn}
+  \mQ
+\eqcol
+  \mQt
+\end{nedqn}
+
+Since, $\mQ$ is often used for an orthogonal matrix.

@@ -61,13 +61,17 @@
 
 %% Common Transposed Matrices
 
-\newcommand{\mtxAt}{\mtxA\tran}
-\newcommand{\mAt}{\mtxAt}
-\newcommand{\mtxBt}{\mtxB\tran}
-\newcommand{\mtxCt}{\mtxC\tran}
-\newcommand{\mCt}{\mtxCt}
-\newcommand{\mtxQt}{\mtxQ\tran}
-\newcommand{\mtxUt}{\mtxU\tran}
+% TODO: Technically I want \mAt to call \mtxAt...
+\newcommand{\newMtxTranspose}[1]{
+  \expandafter\newcommand\csname mtx#1t\endcsname{\mtx#1\tran}
+  \expandafter\newcommand\csname m#1t\endcsname{\mtx#1\tran}
+}
+
+\newMtxTranspose{A}
+\newMtxTranspose{B}
+\newMtxTranspose{C}
+\newMtxTranspose{Q}
+\newMtxTranspose{U}
 
 %% Common Matrix Products
 
