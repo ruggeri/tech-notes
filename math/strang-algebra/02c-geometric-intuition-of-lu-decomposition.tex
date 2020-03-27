@@ -1,0 +1,24 @@
+\subsection{Geometric Intutition Of $\mL\mU$ Decomposition}
+
+Geometrically, what we are doing is this. We are saying: I want $\ve_1$
+to only impact the first coordinate of $\vb$; I want to eliminate its
+effect on the other coordinates. Then we say: good, now I want $\ve_2$
+to only involve itself with the second coordinate in the image space.
+
+What is the idea of such a transformation? Well, it is this: to write
+a matrix as a pair of matrices, the first of which sends
+
+\begin{nedqn}
+  \ve_i
+& \mapsto &
+  \sum_{j \leq i} \ve_j
+\end{nedqn}
+
+\noindent
+and the second which sends
+
+\begin{nedqn}
+  \ve_i
+& \mapsto &
+  \sum_{j \geq i} \ve_j
+\end{nedqn}

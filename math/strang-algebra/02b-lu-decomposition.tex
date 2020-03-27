@@ -1,0 +1,18 @@
+\subsection{$\mL\mU$ Decomposition}
+
+Performing "half" of this elimination can be seen to build the $\mL\mU$
+decomposition. Here, what we do is we start with $\mI\mA$. Then, when we
+add a row, we do the row operation on $\mA$, but the opposite operation
+on $\mI$. Here, we \emph{only} try to eliminate in $\mA$ below the
+diagonal. This results in transforming $\mA$ to an upper triangular
+matrix, while $\mI$ becomes lower triangular.
+
+Note that $\mA = \mL\mU$ has $\mL$ with 1s along the diagonal, while
+$\mU$ has non-one diagonal. Sometimes we therefore factor to
+$\mL\mD\mU$. $\mL$ is the same as before, but rows of $\mU$ are scaled
+so that diagonal is one. The scaling is performed by $\mD$, which is a
+diagonal matrix with just the scaling values.
+
+Notice that because we may have needed to do pivots, in order to
+decompose any matrix we may have to decompose to $\mP\mA = \mL\mU$ or
+$\mP\mA=\mL\mD\mU$.

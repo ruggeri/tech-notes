@@ -35,6 +35,7 @@
 \newmtx{I}
 \newmtx{K}
 \newmtx{L}
+\newmtx{P}
 \newmtx{Q}
 \newmtx{R}
 \newmtx{U}
@@ -43,17 +44,19 @@
 
 %% Common Inverted Matrices
 
-\newcommand{\mtxAinv}{\inv{\mtxA}}
-\newcommand{\mAinv}{\mtxAinv}
-\newcommand{\mtxBinv}{\inv{\mtxB}}
-\newcommand{\mBinv}{\mtxBinv}
-\newcommand{\mtxCinv}{\inv{\mtxC}}
-\newcommand{\mCinv}{\mtxCinv}
-\newcommand{\mtxDinv}{\inv{\mtxD}}
-\newcommand{\mtxRinv}{\inv{\mtxR}}
-\newcommand{\mRinv}{\mtxRinv}
-\newcommand{\mXinv}{\inv{\mX}}
-\newcommand{\mYinv}{\inv{\mY}}
+\newcommand{\newMtxInverse}[1]{
+  \expandafter\newcommand\csname mtx#1inv\endcsname{\inv{\mtx#1}}
+  \expandafter\newcommand\csname m#1inv\endcsname{\inv{mtx#1}}
+}
+
+\newMtxInverse{A}
+\newMtxInverse{B}
+\newMtxInverse{C}
+\newMtxInverse{D}
+\newMtxInverse{L}
+\newMtxInverse{R}
+\newMtxInverse{X}
+\newMtxInverse{Y}
 
 %% Common Matrix Rotations
 
@@ -71,6 +74,7 @@
 \newMtxTranspose{B}
 \newMtxTranspose{C}
 \newMtxTranspose{Q}
+\newMtxTranspose{R}
 \newMtxTranspose{U}
 
 %% Common Matrix Products
