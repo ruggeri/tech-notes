@@ -1,0 +1,142 @@
+I've already told you about how to fit a linear least squares model:
+
+\begin{nedqn}
+  \hat{\theta}
+\eqcol
+  \parensinv{\mXt \mX} \mXt \mY
+\end{nedqn}
+
+The reason we need $\parensinv{\mXt \mX}$ is because columns of $\mX$
+are not necessarily orthogonal, and thus $\mXt$ doesn't properly invert
+$\mY$. The reason is because of the "correlations" and "double-counting."
+
+You can view $\mXt \mX$ as a mapping from "original coordinate
+system" (in terms of columns of $\mX$) to "mixed up coordinate system".
+
+Of course, if $\mX$ didn't do any mixing up, then $\mXt \mY$ would be
+just fine. You can just project onto each column of $\mX$ independently.
+
+So another approach might be: can we transform $\mX$ itself so that
+$\mXt \mY$ simply works?
+
+We can. We will want to find a *whitening matrix* $\mW$ such that
+$\mX\mW$ has unit variance and zero covariances. Note: $\mW$ is
+num-features by num-features; it is a full rank transformation of the
+feature space.
+
+Great, so what can $\mW$ be? Well, we must have:
+
+\begin{nedqn}
+  \parenstrans{\mX\mW} \mX\mW
+\eqcol
+  \mI
+\\
+  \mWt (\mXt \mX) \mW
+\eqcol
+  \mI
+\\
+  \mW \mWt (\mXt X) \mW
+\eqcol
+  \mW
+\\
+  \parens{\mW \mWt} \parens{\mXt \mX} \mI
+\eqcol
+  \mI
+\\
+  \parens{\mW \mWt}
+\eqcol
+  \parensinv{\mXt \mX}
+\end{nedqn}
+
+Okay, well $\mW \mWt$ looks a little weird. But if we assume $\mW$ is
+symmetric, then no worries.
+
+There are many choices for $\mW$, but I'll show PCA whitening. We'll
+later see that any real symmetric matrix can be written as:
+
+\begin{nedqn}
+  \mXt \mX
+\eqcol
+  \mQ \mD \mQt
+\end{nedqn}
+
+This is the eigen-decomposition, and the spectral theorem says you
+have to have one if you are real symmetric.
+
+Therefore, we may set $\mW = \mQ \mD^{-1/2} \mQt$. This basically says,
+shrink the eigenvectors of $\mXt \mX$ by the appropriate amount.
+
+In that case, we have:
+
+\begin{nedqn}
+  \mW \mWt
+\eqcol
+  \mWt \mW
+  \nedcomment{because $\mW$ symmetric}
+\\
+\eqcol
+  \parens{\mQ \mD^{-1/2} \mQt}
+  \parens{\mQ \mD^{-1/2} \mQt}
+\\
+\eqcol
+  \mQ \mD^{-1} \mQt
+\end{nedqn}
+
+Great!
+
+I guess whitening isn't so bad: we need to keep $n$ angles (for the
+$\mQ$ matrix) and $\mD$ diagonal coefficients. That's $\bigof{n}$
+information. We can then transform any incoming $\vx$` values pretty
+easily.
+
+Note that in this world, we are projecting `Y` onto $\mX\mW$ to get our
+$\theta$. We then write:
+
+% \begin{nedqn}
+%   \parenstrans{\mX\mW}theta =
+% \eqcol
+%   \mhat
+% \\
+
+% \end{nedqn}
+
+But let's break this out:
+
+% \begin{nedqn}
+%   \parenstrans\mX\mW ((\mW)\trans
+% \eqcol
+%   \m)
+% \\
+
+% \end{nedqn}
+%     X (\mWt W) (\mXt Y)
+
+And we know that $\mWt \mW = \parensinv{\mXt \mX}$. So we are really
+just back where we started. Instead of keeping $\mW$ around in any form,
+we can just do $\mW \theta$ now and we can use this like an original
+$\theta$ for the unwhitened $\mX$.
+
+\subsection{ZCA vs PCA Whitening}
+
+There's an Arxiv paper called "Optimal Whitening and
+Decorrelation". It explains that my choice of $\mW$ is called *ZCA
+whitening*.
+
+An alternative is simply $\mW = \mQ \mD^{-1/2}$. Note that we still
+have:
+
+\begin{nedqn}
+  \mW \mWt
+\eqcol
+  \mQ \mD^{-1/2} \mD^{-1/2} \mQt
+\\
+\eqcol
+  \mQ \mD^{-1} \mQt
+\end{nedqn}
+
+**TODO**: Maybe explore why $\mW \mWt$ instead of $\mWt \mW$? The
+first is correlation in rows vs the second is correlation in columns?
+They're not the same if $\mW$ is not symmetric (as in PCA whitening).
+
+**TODO**: Any geometric understanding of the SVD of $\mXt \mX$ to
+help us understand what is going on here?

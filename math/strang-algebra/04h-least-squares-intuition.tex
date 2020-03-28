@@ -1,0 +1,228 @@
+We showed using algebra that the best $\theta$ is found by:
+
+\begin{nedqn}
+  \parensinv{\mXt \mX} \mXt \vy
+\end{nedqn}
+
+I want to explore the meaning of this equation more deeply.
+
+**Decomposing $\vx$ into $\mX$**
+
+We can see the problem of prediction as a problem of
+*interpolation*. We want to describe a point $\vx$ in terms of
+previously observed $\vx_i$ and then do the appropriate weighted sum of
+$\vy_i$.
+
+If your $\vx_i$ are an orthonormal basis for the input space, then you
+can uniquely decompose $\vx$ by $\mX\vx$, where the rows of $\mX$ are
+the $\vx_i$. Note, importantly, that $\mX\vx_i=\ve_i$. Since we want to
+use this decomposition to predict the response value, we can do set
+$\theta = \vyt \mX$.
+
+Let us say that the $\vx_i$ are linearly independent and span the space
+(i.e., they are a basis), but are not orthonormal. In that case the
+decomposition $\vx' = \mX\vx$ does not give us $\vx = \mXt \vx'$
+exactly.
+
+We assume there is indeed an $\vx'$ such that $\vx = \mXt \vx'$. Then we
+can consider $\vx'' = \mX\vx = \mX \mXt \vx'$. So $\vx''$ won't be
+right; it won't be $\vx'$, and thus $\mX\vx''$ won't be $\vx$. So the
+answer is to multiply by $\parensinv{\mX \mXt}$.
+
+So the overall action on $\vx$ is described by:
+
+\begin{nedqn}
+  \parensinv{\mX \mXt} \mX
+\end{nedqn}
+
+Now, using this matrix, we can decompose $\vx$ into the $\vx_i$. At that
+point we need only apply $\vy$.
+
+\begin{nedqn}
+  \hat{\vy}
+\eqcol
+    \vyt \parensinv{\mX \mXt} \mX\vx
+\end{nedqn}
+
+Therefore, we can set:
+
+\begin{nedqn}
+  \theta
+\eqcol
+    \vyt \parensinv{\mX \mXt} \mX
+\end{nedqn}
+
+This says:
+
+1. Project $\vx$ onto the examples which are rows of $\mX$.
+2. Oops. The examples weren't orthogonal. Fix the projection with
+   $\parensinv{\mX \mXt}$.
+3. Okay, now perform the interpolation! Take the appropriate weighted
+   sum of the $\vy$.
+
+**Does this Work?**
+
+The main thing to check is that $\parensinv{\mX \mXt}$ exists and that
+$\parensinv{\mX \mXt} \mX$ yields a proper decomposition. That is: if we set:
+
+\begin{nedqn}
+  \vx'
+\eqcol
+  \parensinv{\mX \mXt} \mX\vx
+\end{nedqn}
+
+Then:
+
+\begin{nedqn}
+  \vx
+\eqcol
+  \mXt \vx'
+\end{nedqn}
+
+
+Assuming $\parensinv{\mXt \mX}$ exists, we already proved above that
+this works. As ever, the matrix $\mXt \mX$ means: map $\vx$ to the
+skewed version of $\vx$ if we try to naively decompose into $\vx_i$ and
+reassemble. $\parensinv{\mXt \mX}$ means: undo the skewing.
+
+The question is whether $\parensinv{\mXt \mX}$
+
+This approach works if the following conditions are met:
+
+1.
+
+In that case:
+
+\begin{nedqn}
+  \vx'
+\eqcol
+  \parensinv{\mXt \mX} \mX\vx
+\end{nedqn}
+
+We know that $\mXt \mX$ is invertible. First, $\mX$ is surjective
+because, since the $\vx_i$ are linearly independent, for each $\vx_i$
+there is a vector not perpindicular to $\vx_i$ but perpindicular to all
+the rest. It is injective because since the $\vx_i$ span the space,
+there is no nullspace to $\mX$.
+
+Likewise, $\mXt$ has no nullspace, because the columns are
+independent; therefore $\mXt$ is injective. And, since the $\vx_i$
+span, $\mXt$ must be surjective.
+
+Thus, we may set:
+
+
+**When \mX doesn't span**
+
+If the $\vx_i$ don't span the input space, then $\mX$ is not injective. In
+that case, we cannot invert the transformation, since information is
+lost in the process of projecting onto $\mX$.
+
+Basically, the $\vx_i$ don't specify the action on the whole input
+space. We can avoid this problem if we could just ignore the part of
+the input space not spanned by the $\vx_i$. It isn't illogical to try to
+decompose $\vx$ into the $\vx_i$; it's just that we can't quite use
+$\parensinv{\mXt \mX}$ to undo the skewing.
+
+**When $\mX$ is not linearly independent**
+
+If the $\vx_i$ are not linearly independent, then $\mX$ cannot be
+surjective. Let us say that $\vx_i$ is a linearly combination of the
+other basis vectors. In that case, if you tell me the projections of
+$\vx$ onto the other basis vectors, I can compute the projection onto
+$\vx_i$. That means that $\vx_i$ is determined by the others and cannot
+take on just any value if the others are fixed.
+
+In other words, if the $\vx_i$ are not linearly independent, there is
+more than one way to deconstruct a vector $\vx$, and we don't yet have a
+way to choose here. In particular, there is more than one way to
+deconstruct each of the $\vx_i$; we know for sure it isn't possible to
+map each $\vx_i$ to $\ve_i$, the number of $\vx_i$ is greater than the
+length of $\vx_i$.
+
+This feels like a somewhat tougher problem, because we need to choose
+which linear decomposition is "correct" for our purposes.
+
+**Choosing A Decomposition**
+
+We saw that if the $\vx_i$ were numerous, there are many ways to
+decompose $\vx$ into a linear combination of the $\vx_i$.
+
+Why do you want to decompose a vector $\vv$ into rows of $\mA$? It's
+probably because you have a $\vy_i$ for each row $\va_i$, and you want
+to calculate $\vy_{\vv}$, which is the same linear combination of $\vy_i$ as
+$\vv$ is of the $\va_i$.
+
+The obvious example is if $\mX$ is a data matrix, where rows are
+observations. Then you want to decompose a new $\vx$ into the rows, so
+that you can perform the appropriate *interpolation* by doing a
+weighted sum of the response variables.
+
+Now, your rows $\vx_i$ are not orthogonal, so the reconstruction is not
+quite right. That is, your $\mXt \mX\vx$ decomposes $\vx$ into
+previously seen data points, then would reconstruct $\vx$. But because
+of the skewing, your decomposition didn't work.
+
+You can try to fix your reconstruction by applying $\parensinv{\mX
+\mXt}$. Here's why. Say that $\vx'$ is the proper deconstruction of
+$\vx$. Then $\vx = \parens{\mXt \vx'}$. In that case, $\mX\parens{\mXt
+\vx'}$ isn't properly re-deconstructing $\vx$ into $\vx'$, so it won't
+properly be *reconstructed* into $\vx$.
+
+A couple problems. If $\mX$ doesn't span the space, then there never was
+an $\vx'$ that mapped to $\vx$ anyway. That's not a major problem; the
+application $\mX\vx$ just drops any information orthogonal to rows of
+$\mX$.
+
+The bigger problem is if the rows $\vx_i$ are not independent, in which
+case $\mXt$ is not injective. This is quite likely, because there
+are probably more datapoints than there are dimensions.
+
+In that case, the inverse of $\mX \mXt$ cannot exist, because the
+function is not injective.
+
+Effectively this means: there are many ways to perform the
+interpolation, and we don't know which one is correct.
+
+This follows from the work we did before, we just have to view $\theta
+\mapsto \hat{\vy}$ as a linear transformation defined by $\mX$. But
+let's try to gain \emph{even more} intuition.
+
+Let's say that all $\vx_i$ were orthonormal. Then the problem would be
+exactly solved by saying "the gradient in direction $\vx_i$ is exactly
+$\vy_i$. But we can't have the $\vx_i$ orthogonal because there are too
+many of them.
+
+\subsection{What is $\mXt \mX$ Represent?}
+
+I made this part up myself.
+
+A good question is what is $\mXt \mX$. Then $\mXt \mX$ is the matrix of
+inner products of the $\vx_i$ across the examples with the $\vx_j$. This
+tells us how many units of $\vx_j$ to predict for each unit of $\vx_i$
+that we see. This is just another meaning of the projection operation,
+and is the one-dimensional version of what we're trying to do overall.
+
+So this "mutual-information" (speaking loosely) of $\vx_i$ and $\vx_j$
+is exactly what we need to back-out. A simple model that projects $\vy$
+onto $\vx_i$ will double-count effects that are captured by other
+variables. Thus we need to remove that with this matrix $\mXt \mX$.
+
+Another note. This matrix $\mXt \mX$ is like a mixing matrix that mixes
+an orthogonal basis together. By inverting this matrix we can undo the
+mixing. This is exactly what needs to be performed on $\mXt \mY$.
+
+**TODO**: I think I could make this argument stronger if I knew more
+about covariance. I think $\mXt \mX$ might be related to the empirical
+covariance. I am even more sure of that when I look at the wiki page on
+estimation of covariance matrix.
+
+**TODO**: I think this section is well intended: it is good to have an
+intuitive understanding of what this projection of the data onto
+itself means. But this isn't a comprehensive understanding yet; I
+haven't really truly internalized this, or expressed this properly. I
+should revisit this in time.
+
+Finally, Strang notes that you can fit any kind of model, not just a
+line, this way, so long as it is linear in a transform of each of the
+predictor variables.
