@@ -2,62 +2,82 @@
 
 \subsection{Euler's Totient Function Formula}
 
-\begin{remark}
-  We know that $\vphif{p} = p - 1$.
-\end{remark}
+\begin{proposition}
+  $\vphif{p} = p - 1$
+\end{proposition}
 
-\begin{remark}
-  We know that
+\begin{proof}
+  This is the definition of being prime.
+\end{proof}
+
+\begin{proposition}
+  \begin{nedqn}
+    \vphif{p^k}
+  \eqcol
+    p^{k-1} \parens{p - 1}
+  \end{nedqn}
+\end{proposition}
+
+\begin{proof}
+  A number is coprime to $p^k$ iff it does not contain $p$ as a factor.
+  There are $p^{k-1}$ multiples of $p$ up to and including $p^k$. Thus:
 
   \begin{nedqn}
     \vphif{p^k}
   \eqcol
-    p^k - p^k/p
+    p^k - p^{k-1}
   \\
   \eqcol
     p^{k-1} \parens{p - 1}
   \end{nedqn}
+\end{proof}
 
-  \noindent
-  Why? Because a number is coprime to $p^k$ iff it does not contain $p$
-  as a factor.
-\end{remark}
+\begin{proposition}
+  If $a, b$ are coprime, then
 
-\begin{remark}
-  Next consider $\vphif{ab}$ for $a, b$ coprime.
+  \begin{nedqn}
+    \vphif{ab}
+  \eqcol
+    \vphif{a} \vphif{b}
+  \end{nedqn}
+\end{proposition}
 
-  I claim $a, b$ generate the group $\Zmod{ab}$. Why? Just consider $a +
-  b$. This is coprime to both $a, b$. Thus $a + b$ must have additive
-  order $ab$ in $\Zmod{ab}$. So indeed $a + b$ generates $\Zmod{ab}$.
+\begin{proof}
+  Consider all values of the form: $ak_a + bk_b$. $k_a, k_b$ range over
+  $0,\ldots, b-1$ and $0,\ldots, a-1$. I claim that distinct sums of
+  $ak_a + bk_b$ are in bijection with pairs $k_a, k_b$.
 
-  Great. So consider all values of the form: $ak_a + bk_b$. $k_a, k_b$
-  range over $0,\ldots, b-1$ and $0,\ldots, a-1$. It should be clear
-  that there is a unique choice of $k_a, k_b$ for each element of
-  $\Zmod{ab}$.
+  I won't belabor why, but you can recall the Fundamental Theorem of
+  Finite Abelian Groups that $\Zmod{ab} \cong \Zmod{a} \oplus \Zmod{b}$.
+  More concretely: consider sums of elements from the disjoint cyclic
+  subgroups $\anglef{b}, \anglef{a}$.
 
   Great. Now, consider any $k_a$ coprime to $b$. I claim that $ak_a +
   bk_b$ is coprime to $b$. Why? First note that $bk_b$ is just a
   multiple of $b$. So $\gcd\parens{ak_a + bk_b, b} = \gcd\parens{ak_a,
   b}$. But both $a, k_a$ are coprime with $b$ so this is one.
 
-  If I also want to insure that $ak_a + bk_b$ is coprime to $a$, I must
-  likewise choose $k_b$ coprime with $a$.
+  If I choose $k_a$ \emph{not} coprime with $b$, then $ak_a + bk_b$ will
+  \emph{not} be coprime with $b$ either. So I have exactly $\vphif{b}$
+  choices for $k_a$ if I want the sum $ak_a + bk_b$ coprime with $b$.
 
-  This shows that there are $\vphif{b}$ choices for $k_a$, and
-  $\vphif{a}$ choices for $k_b$. Thus there are $\vphif{a}\vphif{b}$
-  choices for $k_a, k_b$ such that $ak_a + bk_b$ is a unit.
-\end{remark}
+  Likewise I have exactly $\vphif{a}$ choices for $k_b$ if I want the
+  sum $ak_a + bk_b$ to be coprime with $a$. Thus there are
+  $\vphif{a}\vphif{b}$ choices for $k_a, k_b$ such that $ak_a + bk_b$ is
+  a unit.
+\end{proof}
 
-\begin{remark}
-  Here is an alternate, more group theoreticy proof. It amounts to the
-  same thing.
+Here is an alternate, more group theoretic proof. It amounts to the same
+thing.
+
+\begin{proof}
 
   Consider $\Zmod{ab}$ ($a, b$ coprime). This is isomorphic to $\Zmod{a}
   \oplus \Zmod{b}$ by the Fundamental Theorem of Finite Abelian Groups.
 
   Take a \emph{pair} of multiplicative units $u_a, u_b$ in $\Zmod{a},
   \Zmod{b}$. We know this means there exist $k_a, k_b$ such that
-  $u_a^{k_a} \equiv 1 \pmod{p}, u_b^{k_b} \equiv 1 \pmod{q}$.
+  $u_a^{k_a} \equiv 1 \pmod{a}, u_b^{k_b} \equiv 1 \pmod{b}$.
 
   Note that the concept of ``multiplication'' is precisely repeated
   addition. So we can talk about multiplication (and exponentiation) on
@@ -107,7 +127,7 @@
   \end{nedqn}
 
   Thus there are $\vphif{a}\vphif{b}$ units of $\Zmodx{ab}$.
-\end{remark}
+\end{proof}
 
 \begin{remark}
   Don't be fooled by the isomorphism into thinking that if $\Zmodx{a},
@@ -120,8 +140,8 @@
 \end{remark}
 
 \begin{theorem}
-  Since we can break any $n$ into a prime power factorization, we know
-  that:
+  Since we can break any integer $n$ into a prime power factorization,
+  we know that:
 
   \begin{nedqn}
     \vphif{\prod p_i^{k_i}}
@@ -129,6 +149,22 @@
     \prod p_i^{k_i-1} \parens{p_i - 1}
   \end{nedqn}
 \end{theorem}
+
+\begin{proof}
+  Note that any two $p_i^{k_i}$ are coprime for distinct primes $p_i$.
+  So we know that:
+
+  \begin{nedqn}
+    \vphif{\prod p_i^{k_i}}
+  \eqcol
+    \prod \vphif{p_i^{k_i}}
+  %
+  \intertext{and by our earlier formula we can then conclude}
+  %
+  \eqcol
+    \prod p_i^{k_i-1} \parens{p_i - 1}
+  \end{nedqn}
+\end{proof}
 
 \subsection{Carmichael's Totient Function}
 

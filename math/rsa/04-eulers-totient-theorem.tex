@@ -6,8 +6,8 @@
   that of course $\vphif{p} = p - 1$.
 \end{definition}
 
-\begin{theorem}[Euler's Totient Theorem]
-  For any $a$ that is \emph{relatively prime} to $n$, we have:
+\begin{theorem}[Euler's Totient Theorem] For any $a$ that is relatively
+  prime to $n$, we have:
 
   \begin{nedqn}
     a^{\vphif{n}}
@@ -17,18 +17,16 @@
 \end{theorem}
 
 \begin{remark}
-  I emphasize again that $a$ must be \emph{relatively prime} to $n$.
-
   Note that Euler's totient theorem generalizes Fermat's little theorem.
+  They are both corollarys of Lagrange's theorem.
 \end{remark}
 
 \begin{proof}
-  We already discussed that the multiplicative subgroup of $\Zmodn$
-  consists exactly of those elements $a$ that are relatively prime to
-  $n$. So of course the size of the multiplicative subgroup is
-  $\varphi(n)$.
+  We already discussed that $\Zmodx{n}$ consists exactly of those
+  elements $a$ that are relatively prime to $n$. It contains all
+  $\vphif{n}$ integers relatively prime to $n$ (including $a$).
 
   But then the theorem is trivial. It is simply an application of
-  Lagrange's theorem to the multiplicative subgroup $\Zmodnx$. It mimics
-  what we did for Fermat's little theorem in $\Zmodpx$.
+  Lagrange's theorem to the multiplicative subgroup $\Zmodx{n}$. It
+  mimics what we did for Fermat's little theorem in $\Zmodx{p}$.
 \end{proof}
