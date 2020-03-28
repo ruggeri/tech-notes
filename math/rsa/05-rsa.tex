@@ -15,8 +15,8 @@ We want to select $e, d, n$ such that:
 
 \begin{nedqn}
   \parens{m^e}^d
-\eqcol
-  m \mod n
+\equivcol
+  m \pmod{n}
 \end{nedqn}
 
 \subsection{Choosing $p, q, n$}
@@ -26,9 +26,9 @@ you know a random choice of $p$ or $q$ is prime? It is slow to test
 conclusively (though it is polytime).
 
 Faster is to use an application of Fermat's little theorem. If $p$ is
-prime, then for every random choice of $a$, we must have that $a^p = a
-\mod p$. Selecting lots of choices of $a$ gives us confidence that $p$
-is prime.
+prime, then for every random choice of $a$, we must have that $a^p
+\equiv a \pmod{p}$. Selecting lots of choices of $a$ gives us confidence
+that $p$ is prime.
 
 There is also the Miller-Rabin test; I don't know exactly how that is
 done. It is again a randomized Monte Carlo algorithm with a probability
@@ -46,40 +46,40 @@ then let your modulus be $n = pq$.
 Euler's totient theorem says:
 
 \begin{nedqn}
-  m^{\varphi(n)}
-\eqcol
-  1 \mod n
+  m^{\vphif{n}}
+\equivcol
+  1 \pmod{n}
 \end{nedqn}
 
 Recall that we want to choose decryption exponents $e, d$ such that:
 
 \begin{nedqn}
   \parens{m^e}^d
-\eqcol
-  m \mod n
+\equivcol
+  m \pmod{n}
 \end{nedqn}
 
-Therefore, we would like that $ed = k \varphi(n) + 1$ (for whatever
+Therefore, we would like that $ed = k \vphif{n} + 1$ (for whatever
 integer $k$). Put another way, we want:
 
 \begin{nedqn}
   ed
-\eqcol
-  1 \mod \varphi(n)
+\equivcol
+  1 \pmod{\vphif{n}}
 \end{nedqn}
 
-\subsection{Calculating $\varphi(n)$ when $p, q$ are known}
+\subsection{Calculating $\vphif{n}$ when $p, q$ are known}
 
 \begin{lemma}
   \begin{nedqn}
-    \varphi(n)
+    \vphif{pq}
   \eqcol
     (p - 1) (q - 1)
   \end{nedqn}
 \end{lemma}
 
 \begin{proof}
-  Let's consider numbers that are \emph{not} coprime to $n$. They must
+  Let's consider numbers that are \emph{not} coprime to $pq$. They must
   be:
 
   \begin{IEEEeqnarray*}{c}
@@ -90,18 +90,19 @@ integer $k$). Put another way, we want:
     pq
   \end{IEEEeqnarray*}
 
-  Let's think about this. We start with $pq$ numbers $1, \ldots, n$. We
+  Let's think about this. We start with $pq$ numbers $1, \ldots, pq$. We
   remove the multiples of $p$ (including $pq$). There are $q$ of these.
   That leaves us with $(p - 1)q$ candidate coprime numbers less than
   $n$.
 
-  Next we remove the multiples of $q$. There are $p - 1$ of them; this
-  time we do not remove $pq$. We've already removed that one.
+  Next we remove the multiples of $q$. There are $p$ of them, but this
+  time we do not remove $pq$. We've already removed that one. So we
+  remove $p-1$ multiples of $q$.
 
   Thus a total of $(p - 1) (q - 1)$ numbers remain. All these are
-  coprime to $n$.
+  coprime to $pq$.
 
-  Thus $\varphi(n) = (p - 1)(q - 1)$.
+  Thus $\vphif{pq} = (p - 1)(q - 1)$.
 \end{proof}
 
 \begin{remark}
@@ -110,21 +111,21 @@ integer $k$). Put another way, we want:
 
   \begin{nedqn}
     ed
-  \eqcol
-    1 \mod (p - 1) (q - 1)
+  \equivcol
+    1 \pmod{(p - 1) (q - 1)}
   \end{nedqn}
 \end{remark}
 
 \begin{remark}
-  Note that we have shown how it is easy to calculate $\varphi(n)$ when
-  the factors $p, q$ are known. Calculating $\varphi(n)$ when $p, q$ are
+  Note that we have shown how it is easy to calculate $\vphif{n}$ when
+  the factors $p, q$ are known. Calculating $\vphif{n}$ when $p, q$ are
   \emph{not} known could (indeed, should) be very challenging!
 \end{remark}
 
 \subsection{Choosing $e$}
 
 First, choose any $e$ coprime to $(p - 1) (q - 1)$. We need $e$ to be
-coprime to $\varphi(n)$ since we will also want to find a $d = \inv{e}$.
+coprime to $\vphif{n}$ since we will also want to find a $d = \inv{e}$.
 
 $e = 3$ is a common choice for fast encryption. Because $e = 3$ could be
 a factor of $(p - 1)(q - 1)$, you might need to start over.
@@ -136,7 +137,8 @@ also a common choice.
 
 \subsection{Calculating $d$}
 
-We must next choose $d$ to be the inverse of $e$ mod $(p - 1) (q - 1)$.
+We must next choose $d$ to be the inverse of $e$ in $\Zmodx{pq}$: $d
+\equiv \inv{e} \pmod{(p - 1) (q - 1)}$.
 
 How do we invert $e$? This is an application of the extended Euclidean
 algorithm. I describe that algorithm in the next section. The extended
@@ -156,7 +158,7 @@ Euclidean algorithm is efficient and fast.
   know the public key $(e, n)$.
 
   We saw that if we know how to factor $n$, we know how to calculate
-  $\varphi(n)$, and thus it is easy to invert $e \bmod \varphi(n)$ (via
+  $\vphif{n}$, and thus it is easy to invert $e \bmod \vphif{n}$ (via
   the extended Euclidean algorithm) to find $d$. Indeed, that is exactly
   how we derived $d$ when generating the keypair.
 
@@ -166,11 +168,11 @@ Euclidean algorithm is efficient and fast.
 
 \begin{remark}
   If we don't know how to factor $n$, then we presume that it is hard to
-  calculate $\varphi(n)$ any other way. The security of RSA presumes
+  calculate $\vphif{n}$ any other way. The security of RSA presumes
   this.
 
   Likewise, we presume that it is hard to find $d$ without calculating
-  $\varphi(n)$.
+  $\vphif{n}$.
 
   Last, we assume that it is hard to calculate $m$ from $m^e \bmod n$
   without calculating $d$.
@@ -178,31 +180,30 @@ Euclidean algorithm is efficient and fast.
 
 \begin{remark}
   It is worth noting: inverting $e \bmod n$ (using $n$ instead of
-  $\varphi(n)$) does not help you calculate $m$ from $m^e \bmod n$.
+  $\vphif{n}$) does not help you calculate $m$ from $m^e \bmod n$.
 
-  To be clear: say you calculate $d'$ such that $e d' = 1 \mod n$. The
-  following argument is fallacious:
+  To be clear: say you calculate $d'$ such that $e d' \equiv 1
+  \pmod{n}$. The following argument is fallacious:
 
   \begin{nedqn}
     \parens{m^e}^{d'}
-  \eqcol
+  \equivcol
     m^{ed'}
-    \mod n
   \\
-  \eqcol
+  \equivcol
     m^{ed' \bmod n}
-    \mod n
     \nedcomment{wrong!}
   \\
-  \eqcol
+  \equivcol
     m^1
+    \pmod{n}
   \end{nedqn}
 
   The point is: it doesn't help to invert $e \bmod n$. That would be
   easy given the public key $(e, n)$ (by the extended Euclidean
   algorithm), but it's not what you need. You need to invert with
-  respect to $\varphi(n)$, and the point is that it's supposed to be
-  hard to calculate $\varphi(n)$ without the factors of $n$.
+  respect to $\vphif{n}$, and the point is that it's supposed to be
+  hard to calculate $\vphif{n}$ without the factors of $n$.
 \end{remark}
 
 \begin{example}
@@ -211,12 +212,12 @@ Euclidean algorithm is efficient and fast.
 
   \begin{nedqn}
     101^8
-  \eqcol
-    37 \mod 123
+  \equivcol
+    37 \pmod{123}
   \\
     101^{123 + 8}
-  \eqcol
-    116 \mod 123
+  \equivcol
+    116 \pmod{123}
   \end{nedqn}
 \end{example}
 
@@ -234,17 +235,18 @@ Euclidean algorithm is efficient and fast.
 \end{remark}
 
 \begin{remark}
-  Euler's $\varphi(n)$ is not always the least number $x$ such that $m^x
-  = 1 \mod n$ for all $m$ values (in the multiplicative group). That
-  value is called \define{Carmichael's lambda function}. It is smaller
-  and more specific. Of course, we must always have that $\varphi(n)$ is
-  always a multiple of $\lambda(n)$ (because Euler's totient theorem
-  always applies).
+  Euler's $\vphif{n}$ is not always the least number $x$ such that $m^x
+  \equiv 1 \pmod{n}$ for all $m$ values (in the multiplicative group).
+  That value is called \define{Carmichael's lambda function}. It is
+  smaller and more specific. Of course, we must always have that
+  $\vphif{n}$ is a multiple of $\lambdaf{n}$ (because Lagrange's theorem
+  and Euler's totient theorem both always apply).
 
-  If it were commonly the case that $\lambda(n)$ were significantly
-  smaller than $\varphi(n)$, that would have security implications for
-  RSA. It would mean a brute-force search for $\lambda(n)$ would be more
-  likely to succeed, if we expected to search in a much smaller range.
+  If it were commonly the case that $\lambdaf{n}$ were significantly
+  smaller than $\vphif{n}$, that would probably have security
+  implications for RSA. It would mean a brute-force search for
+  $\lambdaf{n}$ would be more likely to succeed, if we expected to
+  search in a much smaller range.
 
-  However, I think almost always $\lambda(n) = \varphi(n)$.
+  However, I think almost always $\lambdaf{n} = \vphif{n}$.
 \end{remark}

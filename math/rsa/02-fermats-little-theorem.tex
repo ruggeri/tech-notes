@@ -4,13 +4,13 @@
   For any $a \ne 0$:
 
   \begin{nedqn}
-    a^p = a \mod p
+    a^p \equiv a \pmod{p}
   \end{nedqn}
 
   Equivalently:
 
   \begin{nedqn}
-    a^{p-1} = 1 \mod p
+    a^{p-1} \equiv 1 \pmod{p}
   \end{nedqn}
 \end{theorem}
 
@@ -30,19 +30,19 @@
 
   \begin{nedqn}
     a^{p - 1}
-  \eqcol
+  \equivcol
     a^{k\order{a}}
   \\
-  \eqcol
+  \equivcol
     \parens{
       a^{\order{a}}
     }^k
   \\
-  \eqcol
+  \equivcol
     1^k
   \\
-  \eqcol
-    1
+  \equivcol
+    1 \pmod{p}
   \end{nedqn}
 
   Again, we note that the order of $a$ may well be less than $p - 1$ (in

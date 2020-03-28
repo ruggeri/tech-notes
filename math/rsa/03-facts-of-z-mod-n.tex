@@ -9,7 +9,7 @@ be prime. We will contrast with the scenario of $\Zmodp$.
 
 \begin{proof}
   Since $n$ is not prime, there exist $a, b$ (possibly equal) such that
-  $n = ab$. Then we have that $ab = 0 \mod n$.
+  $n = ab$. Then we have that $ab \equiv 0 \pmod{n}$.
 \end{proof}
 
 \begin{lemma}
@@ -21,11 +21,11 @@ be prime. We will contrast with the scenario of $\Zmodp$.
 
   \begin{nedqn}
     a 1
-  \eqcol
-    a (b + 1) \mod n
+  \equivcol
+    a (b + 1) \pmod{n}
   \end{nedqn}
 
-  This can happen even though $1 \ne b + 1$. Therefore it is not safe to
+  This happens even though $1 \ne b + 1$. Therefore it is not safe to
   cancel $a$.
 \end{proof}
 
@@ -48,8 +48,8 @@ be prime. We will contrast with the scenario of $\Zmodp$.
 
     \begin{nedqn}
       ba
-    \neqcol
-      0 \mod n
+    & \not\equiv &
+      0 \pmod{n}
     \end{nedqn}
 
   The reason is: how could $ba$ possibly be a multiple of $n$? For that
@@ -57,10 +57,10 @@ be prime. We will contrast with the scenario of $\Zmodp$.
   the correct multiplicity). If $a$ is relatively prime to $n$, then we
   would need that $b$ contains all the factors (with the correct
   multiplicity) of $n$. But in that case $b$ would be a multiple of $n$,
-  in which case $b = 0 \mod n$.
+  in which case $b \equiv 0 \pmod{n}$.
 
-  Therefore we see that $ba \ne 0 \mod n$ whenever $\gcd(a, n) = 1$ and
-  $b \ne 0$.
+  Therefore we see that $ba \not\equiv 0 \pmod{n}$ whenever $\gcd(a, n)
+  = 1$ and $b \ne 0$.
 
   Note that we have already previously explained (when talking about
   $\Zmodp$) that when $ba$ never is equal to zero, it must be that:
@@ -88,19 +88,19 @@ be prime. We will contrast with the scenario of $\Zmodp$.
 
   \begin{nedqn}
     ba
-  \eqcol
+  \equivcol
     n
   \\
-  \eqcol
-    0 \mod n
+  \equivcol
+    0 \pmod{n}
   \end{nedqn}
 
   Of course this immediately implies that $a$ is not invertible.
 \end{proof}
 
 \begin{definition}
-  The multiplicative subgroup of $\Zmodn$ consists of all invertible
-  elements of the ring. We denote this $\Zmodnx$.
+  The \define{multiplicative subgroup} of $\Zmodn$ consists of all
+  invertible elements of the ring. We denote this $\Zmodnx$.
 
   We've just said that this consists of exactly those elements $a$ where
   $\gcd(a, n) = 1$. That is: exactly those $a$ that are relatively prime
