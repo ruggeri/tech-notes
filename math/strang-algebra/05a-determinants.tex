@@ -1,0 +1,116 @@
+The determinant is the volume of the the unit box's image under the
+transformation. That is: if you consider the columns, one by one,
+collecting the product of the norm of the column, minus its projection
+into the space spanned by the prior columns, this is the determinant.
+
+**TODO**: When should we flip the signs?
+
+\subsection{Obvious Properties}
+
+\begin{enumerate}
+  \item Determinant of identity is one.
+  \item Scaling a column scales the determinant (scales the component of
+    this column orthogonal to all other columns).
+  \item Adding a column $i$ to another column $j$ doesn't change
+    determinant, because column $i$ won't contribute to the orthogonal
+    component of column j.
+  \item If two columns are equal, determinant must be zero because they
+    have no orthogonal component to the other rows.
+\end{enumerate}
+
+\subsection{Triangular Matrix}
+
+Determinant of a triangular matrix is simple; it's the product of the
+diagonal. That's easy to see, start with the row with one entry, and
+then work your way through the other rows; all but the entry on the
+diagonal is parallel to the dimension already defined.
+
+\subsection{Singular Matrix}
+
+A matrix is singular (that is, not injective) iff the determinant is
+zero. The determinant is zero if some row lies in the span of the other
+rows, which is the definition of not invertible.
+
+\subsection{Calculation by Pivots}
+
+This recommends a practical way of calculating the determinant. We do
+elimination, which doesn't change the determinant (except pivoting), and
+then multiply the pivots.
+
+Actually, everything I said about rows is also true of columns. In
+fact, it makes more sense to me as colunns.
+
+\subsection{Big Formula}
+
+Here's the idea. The determinant is *linear* in the sense that you can
+break up a column. For instance, say $\mA$ has column vectors $\va_1,
+\va_2, \va_3$. Further, say that $\va_1 = \va_{1,1} + \va_{1,2} +
+\va_{1,3}$. Then:
+
+    % det([a_1, a_2, a_3]) = det([a_11, a_2, a_3]) + det([a_12, a_2, a_3]) + det([a_13, a_2, a_3])
+
+Here, I'm trying to indicate replacing $\va_{1, 1}$ with a vector that
+has $\va_{1, i}$ in the ith position and otherwise zeros.
+
+The linearity of the determinant is obvious. The amount of $\va_1$
+orthogonal to $\va_2, \va_3$ is merely distributed to the three
+sub-calculations.
+
+Further, we can pull out the $\va_{1, i}$:
+
+    % a_11det([1, a_2, a_3]) + a_12det([1, a_2, a_3]) + a_13det([1, a_2, a_3])
+
+We can continue this, in which case the sum looks like:
+
+    % \Sum a_1i * a_2j * a3k * det(matrix with ones @ 1i, 2j, 3k)
+
+The sum needs to happen with $i \ne j \ne k$; that is, we have a term
+per sequence in $S_n$ (n is the dimension of the matrix).
+
+Note that the determinant we have left is just a pivot matrix, so this
+has determinant `+/-1`.
+
+\subsection{Cofactor Formula}
+
+This is sort of a simplification of the big formula. Let's return to this:
+
+    % a_11det([1, a_2, a_3]) + a_12det([1, a_2, a_3]) + a_13det([1, a_2, a_3])
+
+Note that in the first term, we can ignore $\va_{2, 1}, \va{3, 1}$;
+these will add nothing to the volume. In that case, we might as well
+just find the volume of the 2-D submatrix left.
+
+This is kinda like saying "I've pulled out the height, and I'll multiply
+this by the area of base times width." One trick to remember is that
+since we're talking about signed area, we have to keep in mind any
+swapping we do. So, the cofactor is the determinant of the eliminated
+matrix, times $-1^{1+i}$, where $1+i$ is the number of row swaps needed
+to bring `a1i` up to the top row but leave everything else in order.
+
+\subsection{Cramer's Rule}
+
+Cramer's rule says that to solve $\mA\vx=\vb$, you introduce matrices
+$\mB_i$ which replace the $i$-th column of $\mA$ with $\vb$. Then you
+set
+
+\begin{nedqn}
+  \vx_i
+\eqcol
+  \detf{\mB_i}/\detf{\mA}
+\end{nedqn}
+
+I think the idea is this. This is basically saying: $\va_i$ contributes
+to $\detf{\mA}$ insomuch as it is orthogonal to the other rows. Now, if
+we replace it with $\vb$, the part of $\vb$ that lies in the space of
+the other rows stays ignored. But there is a part of $\vb$ orthogonal to
+the other rows; this can only be accounted for by using $\va_i$. How
+much of $\va_i$? Well, if replacing $\va_i$ by $\vb$ scaled the
+determinant by yea much, that means that $\vb$ is that many times longer
+than $\va_i$ in the orthogonal direction. Thus we must use $\vb$ this
+many times.
+
+The book makes clear that this isn't a practical way to solve a system
+of equations.
+
+**TODO**: He defined the cross product in terms of cofactors. I
+haven't had a reason to care about this particularly.
