@@ -15,55 +15,35 @@
 \end{theorem}
 
 \begin{proof}
-  Recall our previous argument that multiplication and exponentiation
-  are really notational conveniences for repeated addition. Thus
-  isomorphism with respect to addition entails corresponding isomorphism
-  with respect to multiplication/exponentiation. We showed that:
+  We've previously shown that $\Zmod{ab}$ is ring isomorphic to
+  $\Zmod{a} \oplus \Zmod{b}$. We've showed this implies an isomorphism
+  between the groups $\Zmodx{ab}$ and $\Zmodax \oplus \Zmodbx$.
+
+  So take any $u_a, u_b$ in $\Zmodax, \Zmodbx$ such that $\order{u_a},
+  \order{u_b}$ are maximum. That is: $\order{u_a} = \lambdaf{a},
+  \order{u_b} = \lambdaf{b}$.
+
+  Now consider powers $\parens{u_a \oplus u_b}^i$. These equal $u_a^i
+  \oplus u_b^i$. We know this equals $1 \oplus 1$ iff $i$ is a common
+  multiple of $\lambdaf{a}, \lambdaf{b}$. That implies:
 
   \begin{nedqn}
-    \Zmodx{ab}
-  & \cong &
-    \Zmodx{a} \otimes \Zmodx{b}
-  \end{nedqn}
-
-  \TODO{I don't think you need this isomorphism to make this argument?}
-
-  So consider any $u$ in $\Zmodx{ab}$ and a pair of corresponding $u_a,
-  u_b$ in $\Zmodx{a}, \Zmodx{b}$. We previously showed that $|u|$ must
-  divide $|u_a||u_b|$. But we also discussed in a remark that $|u|$ can
-  properly divide $|u_a||u_b|$. We identified that this happens exactly
-  when $|\Zmodx{a}|$ and $|\Zmodx{b}|$ fail to be coprime.
-
-  We can get more concrete. Corresponding to powers of $u$ are the
-  powers of $u_a \otimes u_b$:
-
-  \begin{nedqn}
-    \parens{
-      u_a \otimes u_b
-    }^i
+    \order{u_a \oplus u_b}
   \eqcol
-    u_a^i \otimes u_b^i
+    \lcmf{\lambdaf{a}, \lambdaf{b}}
   \end{nedqn}
 
-  \noindent
-  How long until this is equal to $1 \otimes 1$? It is exactly:
+  Also: since every other $u_a', u_b'$ have orders dividing
+  $\lambdaf{a}, \lambdaf{b}$, $u_a \oplus u_b$ has maximum order in
+  $\Zmodax \oplus \Zmodbx$.
+
+  By isomorphism we know that $\order{u} = \lcmf{\lambdaf{a},
+  \lambdaf{b}}$. Thus we conclude:
 
   \begin{nedqn}
-    \lcm\parens{
-      \lambdaf{a},
-      \lambdaf{b}
-    }
-  \end{nedqn}
-
-  \noindent
-  This proves that $\lambdaf{ab} = \lcmf{\lambdaf{a}, \lambdaf{b}}$. But
-  this can be trivially extended by successive decomposition to the full
-  result:
-
-  \begin{nedqn}
-    \lambdaf{\prod p_i^{k_i}}
+    \lambdaf{ab}
   \eqcol
-    \lcm\parens{\lambdaf{p_1^{k_1}}, \ldots, \lambdaf{p_n^{k_n}}}
+    \lcmf{\lambdaf{a}, \lambdaf{b}}
   \end{nedqn}
 \end{proof}
 
