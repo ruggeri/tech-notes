@@ -1,4 +1,4 @@
-\section{Factors of $\Zmodn$}
+\section{Facts of $\Zmodn$}
 
 Let's now consider the finite \emph{ring} $\Zmodn$, where $n$ need not
 be prime. We will contrast with the scenario of $\Zmodp$.
@@ -39,34 +39,29 @@ be prime. We will contrast with the scenario of $\Zmodp$.
 \end{proof}
 
 \begin{lemma}
-  $a$ is invertible if $\gcd(a, n) = 1$.
+  If $\gcd(x, n) = 1$, then $xy \not\equiv 0 \pmod{n}$ for any
+  $y\not\equiv 0 \pmod{n}$.
 \end{lemma}
 
 \begin{proof}
-  Consider an element $a$ such that $\gcd(a, n) = 1$. Then for any $b
-  \ne 0$ in $\Zmodn$, we know that:
+  How could $xy$ possibly be a multiple of $n$? For that to be so, $xy$
+  would have to contain all prime factors of $n$ (with the correct
+  multiplicity). If $x$ is relatively prime to $n$, then we would need
+  that $y$ contains all the factors (with the correct multiplicity) of
+  $n$. But in that case $y$ would be a multiple of $n$, in which case $y
+  \equiv 0 \pmod{n}$.
+\end{proof}
 
-    \begin{nedqn}
-      ba
-    & \not\equiv &
-      0 \pmod{n}
-    \end{nedqn}
+\begin{theorem}
+  $x$ is invertible if $\gcd(x, n) = 1$.
+\end{theorem}
 
-  The reason is: how could $ba$ possibly be a multiple of $n$? For that
-  to be so, $ba$ would have to contain all prime factors of $n$ (with
-  the correct multiplicity). If $a$ is relatively prime to $n$, then we
-  would need that $b$ contains all the factors (with the correct
-  multiplicity) of $n$. But in that case $b$ would be a multiple of $n$,
-  in which case $b \equiv 0 \pmod{n}$.
-
-  Therefore we see that $ba \not\equiv 0 \pmod{n}$ whenever $\gcd(a, n)
-  = 1$ and $b \ne 0$.
-
+\begin{proof}
   Note that we have already previously explained (when talking about
-  $\Zmodp$) that when $ba$ never is equal to zero, it must be that:
+  $\Zmodp$) that when $xy$ never is equal to zero, it must be that:
 
   \begin{nedqn}
-    1a, 2a, ... (n - 1)a
+    1x, 2x, ... (n - 1)x
   \end{nedqn}
 
   \noindent
@@ -77,19 +72,20 @@ be prime. We will contrast with the scenario of $\Zmodp$.
   \end{nedqn}
 
   \noindent
-  And we previously explained that this means that $a$ invertible.
+  And we previously explained that this means that $x$ invertible.
+  Reason: some $yx$ must have multiplied to 1.
 \end{proof}
 
-\begin{lemma}
-  $a$ is \emph{not} invertible whenever $\gcd(a, n) > 1$.
-\end{lemma}
+\begin{theorem}
+  $x$ is \emph{not} invertible whenever $\gcd(x, n) > 1$.
+\end{theorem}
 
 \begin{proof}
-  Consider $b = \frac{n}{\gcd(a, n)}$. Note that $0 < b < n$. We now
+  Consider $y = \frac{n}{\gcd(x, n)}$. Note that $0 < x < n$. We now
   have:
 
   \begin{nedqn}
-    ba
+    yx
   \equivcol
     n
   \\
@@ -97,17 +93,19 @@ be prime. We will contrast with the scenario of $\Zmodp$.
     0 \pmod{n}
   \end{nedqn}
 
-  Of course this immediately implies that $a$ is not invertible.
+  Of course this immediately implies that $x$ is not invertible.
 \end{proof}
 
 \begin{definition}
   The \define{multiplicative subgroup} of $\Zmodn$ consists of all
   invertible elements of the ring. We denote this $\Zmodnx$.
+\end{definition}
 
-  We've just said that this consists of exactly those elements $a$ where
-  $\gcd(a, n) = 1$. That is: exactly those $a$ that are relatively prime
-  to $n$.
+\begin{remark}
+  We've proven that $\Zmodnx$ consists of exactly those elements $x$
+  where $\gcd(x, n) = 1$. That is: exactly those $x$ that are relatively
+  prime to $n$.
 
   This generalizes our previous definition of $\Zmodpx$, since all
   non-zero elements of $\Zmodp$ are relatively prime to $p$.
-\end{definition}
+\end{remark}

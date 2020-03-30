@@ -41,106 +41,53 @@
 \end{proposition}
 
 \begin{proof}
-  Consider all values of the form: $ak_a + bk_b$. $k_a, k_b$ range over
-  $0,\ldots, b-1$ and $0,\ldots, a-1$. I claim that distinct sums of
-  $ak_a + bk_b$ are in bijection with pairs $k_a, k_b$.
-
-  I won't belabor why, but you can recall the Fundamental Theorem of
-  Finite Abelian Groups that $\Zmod{ab} \cong \Zmod{a} \oplus \Zmod{b}$.
-  More concretely: consider sums of elements from the disjoint cyclic
-  subgroups $\anglef{b}, \anglef{a}$.
-
-  Great. Now, consider any $k_a$ coprime to $b$. I claim that $ak_a +
-  bk_b$ is coprime to $b$. Why? First note that $bk_b$ is just a
-  multiple of $b$. So $\gcd\parens{ak_a + bk_b, b} = \gcd\parens{ak_a,
-  b}$. But both $a, k_a$ are coprime with $b$ so this is one.
-
-  If I choose $k_a$ \emph{not} coprime with $b$, then $ak_a + bk_b$ will
-  \emph{not} be coprime with $b$ either. So I have exactly $\vphif{b}$
-  choices for $k_a$ if I want the sum $ak_a + bk_b$ coprime with $b$.
-
-  Likewise I have exactly $\vphif{a}$ choices for $k_b$ if I want the
-  sum $ak_a + bk_b$ to be coprime with $a$. Thus there are
-  $\vphif{a}\vphif{b}$ choices for $k_a, k_b$ such that $ak_a + bk_b$ is
-  a unit.
-\end{proof}
-
-Here is an alternate, more group theoretic proof. It amounts to the same
-thing.
-
-\begin{proof}
-
   Consider $\Zmod{ab}$ ($a, b$ coprime). This is isomorphic to $\Zmod{a}
   \oplus \Zmod{b}$ by the Fundamental Theorem of Finite Abelian Groups.
 
-  Take a \emph{pair} of multiplicative units $u_a, u_b$ in $\Zmod{a},
-  \Zmod{b}$. We know this means there exist $k_a, k_b$ such that
-  $u_a^{k_a} \equiv 1 \pmod{a}, u_b^{k_b} \equiv 1 \pmod{b}$.
-
-  Note that the concept of ``multiplication'' is precisely repeated
-  addition. So we can talk about multiplication (and exponentiation) on
-  \emph{any} additive group. That is: multiplication and exponentiation
-  are \emph{notational}.
-
-  We know that $(u_a^{k_a}) \oplus (u_b^{k_b}) = 1 \oplus 1$, which is
-  good. But that doesn't directly relate to repeated addition of $u_a
-  \oplus u_b$. So consider $k = k_a k_b$. We now know that:
+  Consider any $u\in\Zmod{ab}$ and corresponding $u_a \oplus u_b$ in
+  $\Zmoda \oplus \Zmodb$. Consider the sequence of sums
 
   \begin{nedqn}
-    \parens{u_a \oplus u_b}^{k}
-  \eqcol
-    (u_a^{k_a k_b}) \oplus (u_b^{k_a k_b})
-  \\
-  \eqcol
-    (1^{k_b}) \oplus (1^{k_a})
-  \\
-  \eqcol
-    1 \oplus 1
+    & u, u + u, u + u + u, \ldots &
+  %
+  \intertext{and the corresponding sequence of sums}
+  %
+  &
+  u_a \oplus u_b,
+  (u_a + u_a) \oplus (u_b + u_b),
+  (u_a + u_a + u_a) \oplus (u_b + u_b + u_b)
+  \ldots
+  &
   \end{nedqn}
 
-  What element of $\Zmod{ab}$ corresponds to $1 \oplus 1$? It must be a
-  generator of $\Zmod{ab}$. In fact, we might as well assume that $1$
-  maps to $1 \oplus 1$.  Because any isomorphism that maps $x$ unit to
-  $1 \oplus 1$ can be ``fixed'' by first multiplying everything by
-  $\inv{x}$.
+  Denote the $k$-th term of the first sequence as $ku$, and the $k$-th
+  term of the second sequence as $k\parens{u_a \oplus u_b}$. Note that
+  this is \emph{notation}.
 
-  Thus, we've shown that for $u$ corresponding to $u_a \oplus u_b$, $u^k
-  = 1$. Thus $u$ is a unit.
+  I claim that a group isomorphism always fixes the identity, so 0
+  always corresponds with $0 \oplus 0$. Therefore $ku = 0$ exactly when
+  $k\parens{u_a \oplus u_b} = 0 \oplus 0$.
 
-  Since $\Zmod{a}, \Zmod{b}$ have $\vphif{a}, \vphif{b}$ multiplicative
-  units respectively, there are at least $\vphif{a}\vphif{b}$
-  multiplicative units of $\Zmod{ab}$. It's simple to finish things by
-  showing that if $u$ in $\Zmod{ab}$ is a mulitpicative unit, the
-  corresponding $u_a, u_b$ are multiplicative units of $\Zmod{a},
-  \Zmod{b}$.
+  Define $\order{u_a \oplus u_b}$ as the minimum $k > 0$ such that
+  $k\parens{u_a \oplus u_b} = 0 \oplus 0$. Likewise define $\order{u}$.
+  And note that $\order{u} = \order{u_a \oplus u_b}$.
 
-  The multiplicative units of $\Zmod{ab}$ are thus in bijection with
-  pairs of multiplicative units of $\Zmod{a}, \Zmod{b}$. In fact, we
-  have:
+  Consider the orders $\order{u_a}, \order{u_b}$ in $\Zmoda, \Zmodb$. I
+  claim that $\order{u_a \oplus u_b} = \lcmf{\order{u_a}, \order{u_b}}$.
 
-  \begin{nedqn}
-    \Zmodx{ab}
-  & \cong &
-    \Zmodx{a} \otimes \Zmodx{b}
-  \end{nedqn}
+  Because $\order{u_a}, \order{u_b}$ always divide $a, b$ (Lagrange's
+  theorem), we know that the only way $\order{u_a \oplus u_b} = ab$ is
+  if $\order{u_a} = a, \order{u_b} = b$. We also know $\order{u_a} = a$
+  iff $u_a$ is coprime with $a$. Likewise $\order{u_b} = b$ iff $u_b$ is
+  coprime with $b$. So there are exactly $\vphif{a}\vphif{b}$ distinct
+  $u_a \oplus u_b$ with order equal to $ab$.
 
-  Thus there are $\vphif{a}\vphif{b}$ units of $\Zmodx{ab}$.
+  Thus there are exactly $\vphif{a}\vphif{b}$ corresponding $u$ with
+  order equal to $ab$. Which are exactly those $u$ which are coprime
+  with $ab$.
 \end{proof}
 
-\begin{remark}
-  Don't be fooled by the isomorphism into thinking that if $\Zmodx{a},
-  \Zmodx{b}$ are cyclic, then this implies that $\Zmodx{a} \otimes
-  \Zmodx{b}$ is cyclic! We've seen when characterizing finite abelian
-  groups that this is not necessarily true!
-
-  We know that this is only true when $|\Zmodx{a}|, |\Zmodx{b}|$ are
-  coprime!
-\end{remark}
-
 \begin{theorem}
-  Since we can break any integer $n$ into a prime power factorization,
-  we know that:
-
   \begin{nedqn}
     \vphif{\prod p_i^{k_i}}
   \eqcol
@@ -163,3 +110,139 @@ thing.
     \prod p_i^{k_i-1} \parens{p_i - 1}
   \end{nedqn}
 \end{proof}
+
+\begin{remark}
+  We appealed to the Fundamental Theorem of Finite Abelian Groups to
+  insist a group isomorphism exists between the additive groups
+  $\Zmod{ab}$ and $\Zmoda \oplus \Zmodb$. Let me be more concrete by
+  supplying such an isomorphism:
+
+  \begin{nedqn}
+    \ff{x}
+  & \mapsto &
+    \parens{x \bmod a} \oplus \parens{x \bmod b}
+  \end{nedqn}
+
+  We verify this is a group isomorphism:
+
+  \begin{nedqn}
+    \ff{x + y}
+  & \mapsto &
+    \parens{x + y \bmod a} \oplus \parens{x + y \bmod b}
+  \\
+  \eqcol
+    \parens{x \bmod a} \oplus \parens{x \bmod b}
+    +
+    \parens{y \bmod a} \oplus \parens{y \bmod b}
+  \\
+  \eqcol
+    \ff{x} + \ff{y}
+  \end{nedqn}
+
+  I should show that $f$ is bijective. Consider the (additive) subgroups
+  $\anglef{a}, \anglef{b}$ of $\Zmod{ab}$. These map to the subgroups
+  $\setof{0} \oplus \Zmodb$ and $\Zmoda \oplus \setof{0}$ of $\Zmoda
+  \oplus \Zmodb$. By closure, all of $\Zmoda \oplus \Zmodb$ is spanned
+  by $f$. Since both $\Zmod{ab}$ and $\Zmoda \oplus \Zmodb$ have $ab$
+  elements, they are in bijection.
+\end{remark}
+
+\begin{theorem}
+  $\Zmod{ab}$ is \define{ring isomorphic} to $\Zmoda \oplus \Zmodb$.
+
+  That is, we have both:
+
+  \begin{nedqn}
+    f(x + y)
+  \eqcol
+    f(x) + f(y)
+  \intertext{and}
+    f(xy)
+  \eqcol
+    f(x) f(y)
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  Consider the previously provided group isomorphism
+
+  \begin{nedqn}
+    f(x)
+  & \mapsto &
+    \parens{x \bmod a} \oplus \parens{y \bmod b}
+  \end{nedqn}
+
+  Consider $f(xy) = \parens{xy \bmod a} \oplus \parens{xy \bmod b}$. It
+  will suffice to show that for any $k$
+
+  \begin{nedqn}
+    xy \bmod k
+  & \equiv &
+    \parens{x \bmod k}\parens{y \bmod k}
+    \pmod{k}
+  \end{nedqn}
+
+  Denote $x \bmod k, y \bmod k$ as $b_x, b_y$. There exists $a_x, b_y$
+  such that:
+
+  \begin{nedqn}
+    x
+  \eqcol
+    a_xk + b_x
+  \\
+    y
+  \eqcol
+    a_yk + b_y
+  \end{nedqn}
+
+  Thus the product $xy$ is:
+
+  \begin{nedqn}
+    xy
+  \eqcol
+    \parens{a_xk + b_x} \parens{a_yk + b_y}
+  \\
+  \eqcol
+    a_x a_y k^2
+    + a_x b_y k
+    + b_x a_y k
+    + b_x b_y
+  \\
+  \equivcol
+    b_x b_y
+    \pmod{k}
+  \\
+  \equivcol
+    \parens{x \bmod k}\parens{y \bmod k}
+    \pmod{k}
+  \end{nedqn}
+\end{proof}
+
+\begin{theorem}
+  We may thus conclude that for any coprime $a, b$:
+
+  \begin{nedqn}
+    \Zmodx{ab}
+  & \cong &
+    \Zmodx{a} \oplus \Zmodx{b}
+  \end{nedqn}
+
+  More generally, if $n = \prod p_i^{k_i}$, then:
+
+  \begin{nedqn}
+    \Zmod{n}
+  & \cong &
+    \bigoplus \Zmod{p_i^{k_i}}
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  Our theorem about ring isomorphism has this exact implication for the
+  multiplicative subgroup.
+\end{proof}
+
+\begin{remark}
+  Note that $\Zmodax, \Zmodbx$ may not be cyclic. Even when these are
+  cyclic, note that $\Zmodx{ab}$ may not be. $\Zmodx{ab}$ will never be
+  cyclic when $\order{\Zmodax}$ and $\order{\Zmodbx}$ are not coprime.
+\end{remark}
