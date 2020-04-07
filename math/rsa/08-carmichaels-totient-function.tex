@@ -57,4 +57,33 @@
   $n$}.
 \end{remark}
 
-% TODO: Want to prove Carmichael's Theorem.
+% TODO:
+%
+% Fundamental theorem says G is isomorphic to some direct sum of cyclic
+% groups with order p_i^k_i. However, not all p_i need be distinct.
+%
+% With Zmodn, because it is cyclic, we do need all p_i to be distinct.
+% Else the direct sum would not be cyclic because some factor would be
+% "aligned."
+%
+% Multiplication is effectively a notation for repeated addition. Thus
+% it is unsurprising that the group isomorphism between Zmodn and its
+% factors is in fact a *ring* isomorphism.
+%
+% But this leaves a question. If we care only about the multiplication
+% operation on the units, can we *further* factor the factors of Zmodn?
+%
+% So we need to explore \Zmodx{p^k}. But even before doing so, we can
+% note that the various $\Zmodx{p_i^k_i}$ no longer sum to a cyclic
+% group. The reason is that we already know the *size* of these groups.
+% They are $\phi(p_i^k_i)$. But for odd primes $p_i$ we know that
+% $\phi(p_i^k_i)$ is always even. And thus we know that there are some
+% cyclic factors that must be aligned.
+%
+% That synthetic direction isn't my focus. I'd rather focus on breaking
+% down $\Zmodx{p_k}$ further.
+%
+% An excellent start would be to prove that \Zmodpx is cyclic. I believe
+% there is a proof here:
+%
+% https://pi.math.cornell.edu/~mathclub/Media/mult-grp-cyclic-az.pdf
