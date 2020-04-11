@@ -1,0 +1,127 @@
+\section{Characterization of $\Zmodnx$}
+
+\begin{theorem}
+  For any coprime $a, b$:
+
+  \begin{nedqn}
+    \Zmodx{ab}
+  & \cong &
+    \Zmodx{a} \times \Zmodx{b}
+  \end{nedqn}
+
+  More generally, if $n = \prod p_i^{k_i}$, then:
+
+  \begin{nedqn}
+    \Zmodx{n}
+  & \cong &
+    \Zmodx{p_1^{k_1}} \times \cdots \times \Zmodx{p_n^{k_n}}
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  Our theorem about ring isomorphism has this exact implication for the
+  multiplicative subgroup.
+\end{proof}
+
+\begin{remark}
+  To understand the structure of $\Zmodnx$ it be useful to understand
+  $\Zmodx{p^k}$. $\Zmodnx$ is just a direct product of these.
+
+  We can explore a little those $\Zmodnx$ that \emph{can} be factorized,
+  though.
+\end{remark}
+
+\begin{proposition}
+  For odd primes $p, q$, $\Zmodx{pq}$ is never cyclic.
+\end{proposition}
+
+\begin{proof}
+  Note that $\Zmodx{p}, \Zmodx{q}$ have $p-1, q-1$ elements
+  respectively. Both $p-1, q-1$ are even, so both are divisible by 2.
+  We've previously shown that if a group $G$ can be factored into
+  subgroups with cocomposite order, then the group $G$ cannot be cyclic.
+
+  Note that it really doesn't matter whether $\Zmodx{p}, \Zmodx{q}$ are
+  cyclic (they are).
+\end{proof}
+
+\begin{proposition}
+  If $n = 2^k p^m$ with $k_2 > 1$ and $p$ an odd prime, then $\Zmodnx$
+  cannot be cyclic.
+\end{proposition}
+
+\begin{proof}
+  It suffices to show that $\Zmodx{2^k}$ has even order. Knowing that,
+  the prior proof will apply. Note that $\vphif{2^k} = 2^{k-1}(2 - 1) =
+  2^{k-1}$, so $\Zmodx{2^k}$ has $2^{k-1}$ elements. Since $k>1$, this
+  is divisible by 2.
+\end{proof}
+
+\begin{remark}
+  These propositions can be trivially extended to any $n$ which is
+  divisible by two distinct odd prime powers, or by one odd prime power
+  and $2^k$ (with $k > 1$).
+\end{remark}
+
+\begin{proposition}
+  If $n = 2 p^k$, then $\Zmodnx$ is isomorphic to $\Zmodx{p^k}$.
+\end{proposition}
+
+\begin{proof}
+  This is trivial since $\Zmodx{2}$ has just the identity element.
+\end{proof}
+
+\begin{corollary}
+  $\Zmodx{2 p^k}$ is cyclic iff $\Zmodx{p^k}$ is cyclic.
+\end{corollary}
+
+\begin{proposition}
+  $\Zmodx{2}$ and $\Zmodx{4}$ are both cyclic.
+\end{proposition}
+
+\begin{proof}
+  $\Zmodx{2}$ contains just a single element: 1. It is trivially cyclic.
+  $\Zmodx{4}$ contains just two elements: $1, 3$. $3$ must be its own
+  inverse. So this is also cyclic.
+\end{proof}
+
+\begin{proposition}
+  $\Zmodx{2^k}$ is never cyclic for $k>2$.
+\end{proposition}
+
+\begin{proof}
+  It suffices to show that $\Zmodx{8}$ is not cyclic. It contains the
+  elements $\setof{1, 3, 5, 7}$. Note that:
+
+  \begin{nedqn}
+    & 3^2 \equiv 5^2 \equiv 7^2 \equiv 1 \pmod{8} &
+  \end{nedqn}
+
+  Now consider $\Zmodx{2^k}$. Assume it were cyclic. Then it would have
+  a generator $g$ of order $2^{k-1}$. But then note that $g \mod 2^3$ is
+  a generator for $\Zmodx{8}$, which we just saw is acyclic.
+\end{proof}
+
+\begin{remark}
+  To conclude for now, we've seen how to factor $\Zmodnx$ into a direct
+  product of $\Zmodx{p_i^{k_i}}$. We've seen that many $\Zmodnx$ are
+  acyclic - whenever $\Zmodnx$ can be factored into two disjoint
+  subgroups.
+
+  We've seen that $\Zmodx{2^k}$ is cyclic iff $k \in \setof{1, 2}$. We
+  haven't yet seen how to factor $\Zmodx{2^k}$ when $k > 2$!
+
+  We haven't examined $\Zmodx{p^k}$ for odd primes $p$. We shall soon
+  see that these are always cyclic and thus isomorphic to
+  $\Zmod{\vphif{p^k}}$.
+\end{remark}
+
+%   We will see that often $\Zmodx{p^k}$ is cyclic. But even when these
+%   factors are are cyclic, their direct
+% \end{remark}
+
+% \begin{remark}
+%   Note that $\Zmodax, \Zmodbx$ may not be cyclic. Even when these are
+%   cyclic, note that $\Zmodx{ab}$ may not be. $\Zmodx{ab}$ will never be
+%   cyclic when $\order{\Zmodax}$ and $\order{\Zmodbx}$ are not coprime.
+% \end{remark}
