@@ -1,5 +1,13 @@
 \section{Characterization of $\Zmodnx$}
 
+\subsection{Factorizing $\Zmodnx$ Into Subgroups}
+
+\begin{remark}
+  When $\vphif{n}$ has distinct prime power factors $p_1^{k_1},
+  p_2^{k_2}$, then $\Zmodnx$ can be factored because the Fundamental
+  Theorem of Finite Abelian Groups. But into what factor subgroups?
+\end{remark}
+
 \begin{theorem}
   For any coprime $a, b$:
 
@@ -9,7 +17,7 @@
     \Zmodx{a} \times \Zmodx{b}
   \end{nedqn}
 
-  More generally, if $n = \prod p_i^{k_i}$, then:
+  More generally, if $n = \prod p_i^{k_i}$ (for distinct $p_i$), then:
 
   \begin{nedqn}
     \Zmodx{n}
@@ -23,17 +31,9 @@
   multiplicative subgroup.
 \end{proof}
 
-\begin{remark}
-  To understand the structure of $\Zmodnx$ it be useful to understand
-  $\Zmodx{p^k}$. $\Zmodnx$ is just a direct product of these.
-
-  We can explore a little those $\Zmodnx$ that \emph{can} be factorized,
-  though.
-\end{remark}
-
-\begin{proposition}
+\begin{corollary}
   For odd primes $p, q$, $\Zmodx{pq}$ is never cyclic.
-\end{proposition}
+\end{corollary}
 
 \begin{proof}
   Note that $\Zmodx{p}, \Zmodx{q}$ have $p-1, q-1$ elements
@@ -42,13 +42,13 @@
   subgroups with cocomposite order, then the group $G$ cannot be cyclic.
 
   Note that it really doesn't matter whether $\Zmodx{p}, \Zmodx{q}$ are
-  cyclic (they are).
+  cyclic (we'll later show that they are).
 \end{proof}
 
-\begin{proposition}
-  If $n = 2^k p^m$ with $k_2 > 1$ and $p$ an odd prime, then $\Zmodnx$
+\begin{corollary}
+  If $n = 2^k p^m$ with $k > 1$ and $p$ an odd prime, then $\Zmodnx$
   cannot be cyclic.
-\end{proposition}
+\end{corollary}
 
 \begin{proof}
   It suffices to show that $\Zmodx{2^k}$ has even order. Knowing that,
@@ -60,12 +60,12 @@
 \begin{remark}
   These propositions can be trivially extended to any $n$ which is
   divisible by two distinct odd prime powers, or by one odd prime power
-  and $2^k$ (with $k > 1$).
+  and $2^k$ (with $k > 1$). No such $\Zmodnx$ can be cyclic.
 \end{remark}
 
-\begin{proposition}
+\begin{corollary}
   If $n = 2 p^k$, then $\Zmodnx$ is isomorphic to $\Zmodx{p^k}$.
-\end{proposition}
+\end{corollary}
 
 \begin{proof}
   This is trivial since $\Zmodx{2}$ has just the identity element.
@@ -74,6 +74,18 @@
 \begin{corollary}
   $\Zmodx{2 p^k}$ is cyclic iff $\Zmodx{p^k}$ is cyclic.
 \end{corollary}
+
+\subsection{Examining $\Zmodx{2^k}$}
+
+\begin{remark}
+  We've just examined $\Zmodnx$ when $n$ factors into distinct prime
+  powers. This is exactly when $\Zmodnx$ factors into a direct product
+  of $\Zmodx{p_i^{k_i}}$.
+
+  Having examined a little what this product might look, we now focus on
+  the factors. We want to know about the structure of $\Zmodx{p^k}$.
+  We'll start when $p = 2$.
+\end{remark}
 
 \begin{proposition}
   $\Zmodx{2}$ and $\Zmodx{4}$ are both cyclic.
@@ -86,42 +98,29 @@
 \end{proof}
 
 \begin{proposition}
-  $\Zmodx{2^k}$ is never cyclic for $k>2$.
+  $\Zmodx{8}$ is acyclic.
 \end{proposition}
 
 \begin{proof}
-  It suffices to show that $\Zmodx{8}$ is not cyclic. It contains the
-  elements $\setof{1, 3, 5, 7}$. Note that:
+  This contains the elements $\setof{1, 3, 5, 7}$. Note that:
 
   \begin{nedqn}
     & 3^2 \equiv 5^2 \equiv 7^2 \equiv 1 \pmod{8} &
   \end{nedqn}
 
-  Now consider $\Zmodx{2^k}$. Assume it were cyclic. Then it would have
-  a generator $g$ of order $2^{k-1}$. But then note that $g \mod 2^3$ is
-  a generator for $\Zmodx{8}$, which we just saw is acyclic.
+  \noindent
+  Thus all non-1 element has degree 2.
+\end{proof}
+
+\begin{proposition}
+  $\Zmodx{2^k}$ is acyclic for all $k>3$.
+\end{proposition}
+
+\begin{proof}
+  \TODO{Must embed $\Zmodx{8}$ but how?}
 \end{proof}
 
 \begin{remark}
-  To conclude for now, we've seen how to factor $\Zmodnx$ into a direct
-  product of $\Zmodx{p_i^{k_i}}$. We've seen that many $\Zmodnx$ are
-  acyclic - whenever $\Zmodnx$ can be factored into two disjoint
-  subgroups.
-
-  We've seen that $\Zmodx{2^k}$ is cyclic iff $k \in \setof{1, 2}$. We
-  haven't yet seen how to factor $\Zmodx{2^k}$ when $k > 2$!
-
-  We haven't examined $\Zmodx{p^k}$ for odd primes $p$. We shall soon
-  see that these are always cyclic and thus isomorphic to
-  $\Zmod{\vphif{p^k}}$.
+  \TODO{We really ought to \emph{factor} the multiplicative group
+  $\Zmodx{2^k}$ for $k > 2$.}
 \end{remark}
-
-%   We will see that often $\Zmodx{p^k}$ is cyclic. But even when these
-%   factors are are cyclic, their direct
-% \end{remark}
-
-% \begin{remark}
-%   Note that $\Zmodax, \Zmodbx$ may not be cyclic. Even when these are
-%   cyclic, note that $\Zmodx{ab}$ may not be. $\Zmodx{ab}$ will never be
-%   cyclic when $\order{\Zmodax}$ and $\order{\Zmodbx}$ are not coprime.
-% \end{remark}
