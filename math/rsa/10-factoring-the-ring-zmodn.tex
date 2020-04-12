@@ -1,0 +1,118 @@
+\section{Factoring The Ring $\Zmodn$}
+
+\subsection{Ring Decomposition of $\Zmodn$}
+
+\begin{remark}
+  We've shown how to factor the \emph{group} $\Zmodn$ into a direct
+  product of cyclic group factors $\Zmod{p_i^{k_i}}$. But what about the
+  \emph{ring} structure of $\Zmodn$?
+\end{remark}
+
+\begin{theorem}
+  For any coprime $a, b$, then $\Zmod{ab}$ is \define{ring isomorphic}
+  to $\Zmoda \times \Zmodb$. That means there exists an bijective map
+  $f$ such that both:
+
+  \begin{nedqn}
+    f(x + y)
+  \eqcol
+    f(x) + f(y)
+  \intertext{and}
+    f(xy)
+  \eqcol
+    f(x) f(y)
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  We previously gave a group isomorphism:
+
+  \begin{nedqn}
+    f(x)
+  & \mapsto &
+    \parens{x \bmod a} \times \parens{y \bmod b}
+  \end{nedqn}
+
+  \noindent
+  We will prove that $f$ is a ring isomorphism. Consider $f(xy) =
+  \parens{xy \bmod a} \times \parens{xy \bmod b}$. To prove $f$
+  preserves multiplication, we will show that for any $k$:
+
+  \begin{nedqn}
+    xy \bmod k
+  & \equiv &
+    \parens{x \bmod k}\parens{y \bmod k}
+    \pmod{k}
+  \end{nedqn}
+
+  \noindent
+  Perhaps we ought to have already established this basic fact of
+  $\Zmod{k}$. We do so now. Denote $x \bmod k, y \bmod k$ as $b_x, b_y$.
+  Then there exist $a_x, b_y$ such that:
+
+  \begin{nedqn}
+    x
+  \eqcol
+    a_xk + b_x
+  \\
+    y
+  \eqcol
+    a_yk + b_y
+  \end{nedqn}
+
+  Thus the product $xy$ is:
+
+  \begin{nedqn}
+    xy
+  \eqcol
+    \parens{a_xk + b_x} \parens{a_yk + b_y}
+  \\
+  \eqcol
+    a_x a_y k^2
+    + a_x b_y k
+    + b_x a_y k
+    + b_x b_y
+  \\
+  \equivcol
+    b_x b_y
+    \pmod{k}
+  \\
+  \equivcol
+    \parens{x \bmod k}\parens{y \bmod k}
+    \pmod{k}
+  \end{nedqn}
+\end{proof}
+
+\begin{remark}
+  The $f$ provided is the \emph{only} ring isomorphism between $\Zmodn$
+  and the direct product of its factors. Why? Because it must fix
+
+  \begin{nedqn}
+    f(1)
+  \mapstocol
+    1 \times \cdots \times 1
+  \end{nedqn}
+
+  \noindent
+  But the multiplicative identity 1 is a generator of the ring $\Zmodn$.
+  Thus every
+
+  \begin{nedqn}
+    f(k) = f(1 + \cdots + 1) = f(1) + \cdots + f(1)
+  \end{nedqn}
+
+  \noindent
+  is determined. $f$ is not merely the \emph{natural} ring isomorphism:
+  it is the only one!
+\end{remark}
+
+\begin{remark}
+  A group isomorphism $g$ that fixes $g(1) = 1 \times\cdots\times 1$,
+  must be a ring isomorphism. If not there exists some $k = \inv{g(1)}$
+  such that $k g(x)$ is an isomorphism. Equivalently, there must exist
+  some corresponding $k'$ such that $g(k'x)$ is an isomorphism.
+
+  Thus we see that the group isomorphisms of $\Zmodn$ are really just
+  the (natural) ring isomorphism where we've first permuted the
+  elements.
+\end{remark}

@@ -1,23 +1,22 @@
-\section{Characterization of $\Zmodnx$}
+\section{Factoring $\Zmodnx$}
 
-\subsection{Factorizing $\Zmodnx$ Into Subgroups}
+\subsection{Factorizing $\Zmodnx$ Into A Product of $\Zmodx{p_i^{k_i}}$}
 
 \begin{remark}
-  When $\vphif{n}$ has distinct prime power factors $p_1^{k_1},
-  p_2^{k_2}$, then $\Zmodnx$ can be factored because the Fundamental
-  Theorem of Finite Abelian Groups. But into what factor subgroups?
+  We've factored $\Zmodn$. Let's focus on factoring $\Zmodnx$.
+
+  If we knew that $\Zmodnx$ had to be cyclic, then we would be done.
+  Because of the work that we just did in the prior sections! But is
+  $\Zmodnx$ always cyclic?
+
+  If $\Zmodnx$ is \emph{not} always cyclic, then how can it be factored?
+  The Fundamental Theorem of Finite Abelian Groups says that $\Zmodnx$
+  can be factored into a direct product of cyclic groups, but of
+  \emph{what order}?
 \end{remark}
 
 \begin{theorem}
-  For any coprime $a, b$:
-
-  \begin{nedqn}
-    \Zmodx{ab}
-  & \cong &
-    \Zmodx{a} \times \Zmodx{b}
-  \end{nedqn}
-
-  More generally, if $n = \prod p_i^{k_i}$ (for distinct $p_i$), then:
+  If $n = \prod p_i^{k_i}$ (for distinct $p_i$), then:
 
   \begin{nedqn}
     \Zmodx{n}
@@ -31,9 +30,14 @@
   multiplicative subgroup.
 \end{proof}
 
-\begin{corollary}
+\begin{remark}
+  We've immediately sharpened our question to: can/how do we factor a
+  cyclic group $\Zmodx{p^k}$. Stay tuned...
+\end{remark}
+
+\begin{proposition}
   For odd primes $p, q$, $\Zmodx{pq}$ is never cyclic.
-\end{corollary}
+\end{proposition}
 
 \begin{proof}
   Note that $\Zmodx{p}, \Zmodx{q}$ have $p-1, q-1$ elements
@@ -45,10 +49,10 @@
   cyclic (we'll later show that they are).
 \end{proof}
 
-\begin{corollary}
+\begin{proposition}
   If $n = 2^k p^m$ with $k > 1$ and $p$ an odd prime, then $\Zmodnx$
   cannot be cyclic.
-\end{corollary}
+\end{proposition}
 
 \begin{proof}
   It suffices to show that $\Zmodx{2^k}$ has even order. Knowing that,
@@ -63,29 +67,20 @@
   and $2^k$ (with $k > 1$). No such $\Zmodnx$ can be cyclic.
 \end{remark}
 
-\begin{corollary}
+\begin{proposition}
   If $n = 2 p^k$, then $\Zmodnx$ is isomorphic to $\Zmodx{p^k}$.
-\end{corollary}
+\end{proposition}
 
 \begin{proof}
-  This is trivial since $\Zmodx{2}$ has just the identity element.
+  This is trivial since $\Zmodx{2}$ has just the identity element. It is
+  the trivial group.
 \end{proof}
 
 \begin{corollary}
   $\Zmodx{2 p^k}$ is cyclic iff $\Zmodx{p^k}$ is cyclic.
 \end{corollary}
 
-\subsection{Examining $\Zmodx{2^k}$}
-
-\begin{remark}
-  We've just examined $\Zmodnx$ when $n$ factors into distinct prime
-  powers. This is exactly when $\Zmodnx$ factors into a direct product
-  of $\Zmodx{p_i^{k_i}}$.
-
-  Having examined a little what this product might look, we now focus on
-  the factors. We want to know about the structure of $\Zmodx{p^k}$.
-  We'll start when $p = 2$.
-\end{remark}
+\subsection{Factoring $\Zmodx{2^k}$}
 
 \begin{proposition}
   $\Zmodx{2}$ and $\Zmodx{4}$ are both cyclic.
