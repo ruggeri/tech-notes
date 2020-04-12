@@ -19,6 +19,9 @@
 \end{proposition}
 
 \begin{theorem}
+  \TODO{This should be generalized to using the true factorization of
+  $\Zmodnx$.}
+
   \begin{nedqn}
     \lambdaf{\prod p_i^{k_i}}
   \eqcol
@@ -60,25 +63,4 @@
   \end{nedqn}
 
   It's easy to extend our proof to more prime power factors.
-\end{proof}
-
-\begin{remark}
-  We've given a recursive definition of $\lambda$. We must now fill in
-  the base cases. When we have characterized $\Zmod{2^k}$ and
-  $\Zmod{p^k}$ as direct products of cyclic groups, we will immediately
-  know $\lambdaf{2^k}$ and $\lambdaf{p^k}$. The recursive definition
-  above will apply to any factorization of $\Zmodx{2^k}, \Zmodx{p^k}$.
-\end{remark}
-
-\begin{proposition}
-  Note that $\lambdaf{2} = 1$ and $\lambdaf{4} = 2$. $\lambdaf{2^k} <
-  \vphif{2^k}$ for $k > 2$.
-\end{proposition}
-
-\begin{proof}
-  We've previously shown that $\Zmodx{2}, \Zmodx{4}$ are cyclic groups.
-  So $\lambdaf{2} = \vphif{2} = 1$, $\lambdaf{4} = \vphif{4} = 2$.
-
-  We've shown that $\Zmodx{2^k}$ is \emph{acyclic} for $k > 2$. Thus we
-  know that $\lambdaf{2^k} < \vphif{2^k}$.
 \end{proof}
