@@ -1,0 +1,150 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+
+\begin{document}
+
+\title{Direct Sum vs Direct Product}
+\maketitle
+
+\begin{definition}
+  Given a set of groups $G_1, \ldots G_n$, their \define{direct product}
+  is a group defined on the Cartesian product $G_1 \times \cdots \times
+  G_n$. This \emph{set} needs a group operation. It is trivial:
+
+  \begin{nedqn}
+    \parens{g_1 \times\cdots\times g_n}
+    \cdot
+    \parens{g'_1 \times\cdots\times g'_n}
+  \defeqcol
+    \parens{g_1 g'_1 \times\cdots\times g_n g'_n}
+  \end{nedqn}
+
+  We may extend this to \emph{infinite} products of groups $G_i$.
+\end{definition}
+
+\begin{definition}
+  The \define{direct sum} of a set of groups $G_i$ is a \emph{subgroup}
+  of the direct product. It consists of only those elements $g$ which
+  are a \emph{finite product} of the underlying factors. That is where
+  all but \emph{finitely many} $g_i$ are 1.
+
+  We write:
+
+  \begin{nedqn}
+    G
+  \eqcol
+    G_1 \oplus G_2 \oplus \cdots
+  \end{nedqn}
+\end{definition}
+
+\begin{remark}
+  When the set of groups are finite, the direct product and direct sum
+  are identical. When the set of groups is countably infinite, the
+  direct product consists of all \emph{sequences} of $g_i$, while the
+  direct sum consists of all \emph{terminating sequences} of $g_i$.
+
+  Note: it makes no difference whether the underlying groups $G_i$ are
+  finite or infinite.
+\end{remark}
+
+\begin{remark}
+  This is all very analogous to the distinction between the box and
+  product topologies.
+\end{remark}
+
+\begin{remark}
+  Just as you can talk about the direct sum of groups, you can talk
+  about the direct sum of rings.
+\end{remark}
+
+\begin{remark}
+  In the context of a finite number of groups, we might prefer the
+  direct sum notation when talking about groups written with
+  \emph{additive} notation. We might prefer the direct product notation
+  when talking about groups written with \emph{multiplicative} notation.
+  None of this matters, because it's only notation.
+\end{remark}
+
+\begin{definition}
+  There is a (not totally precise) distinction between an
+  \define{external direct sum/product} and an \define{internal direct
+  sum/product}.
+
+  An external direct sum/product takes two existing objects and builds a new
+  one. For instance, we can take two copies of the real line $\R$ and
+  form the two dimensional space $\R \times \R$.
+
+  An internal direct sum/product breaks down an existing object into two
+  substructures. For instance, consider $\Zmod{6}$. This can be written
+  as a direct sum of two (internal) subgroups: $\setof{0, 2, 4},
+  \setof{0, 3}$.
+\end{definition}
+
+\begin{remark}
+  It is suggested that we always use the \define{direct product}
+  terminology when talking about \emph{rings}. Why?
+
+  Consider $X$ and $Y$ and a direct sum/product $Z$. If we say $Z = X
+  \oplus Y$, then consider the ring homomorphisms determined by:
+
+  \begin{nedqn}
+    \varphi_X(1_X)
+  \mapstocol
+    1 \oplus 0
+  \\
+  \varphi_Y(1_Y)
+  \mapstocol
+    0 \oplus 1
+  \end{nedqn}
+
+  If these two embeddings mapped $X$ and $Y$ into disjoint subrings,
+  then they would be compatible. Closing over summations of $x \oplus 0$
+  and $0 \oplus y$ would give a representation for every element of $Z$.
+
+  But these embeddings are \emph{incompatible}. Reason: any element $1
+  \oplus 0$ that is a multiplicative identity for the embedding of $X$
+  is \emph{also} a multiplicative identity for the embedding of $Y$.
+  Thus we must have that $1 \oplus 0 = 0 \oplus 1$. Thus we see that the
+  two embeddings do not agree on a representation for $1_Z$.
+
+  Thus the \emph{multiplicative} terminology is preferred. We consider
+  ring homomorphisms defined by:
+
+  \begin{nedqn}
+    \varphi_X(1_X)
+  \mapstocol
+    1 \times 1
+  \\
+  \varphi_Y(1_Y)
+  \mapstocol
+    1 \times 1
+  \end{nedqn}
+
+  Note that this makes it non-trivial to find what elements correspond
+  to $x \times 0$ and $0 \times y$! Note that those are \emph{not}
+  $0_Z$!
+\end{remark}
+
+\begin{remark}
+  Ultimately, this terminology preference has something to do with
+  category theory, and how a ``product'' of objects is supposed to imply
+  something about what embeddings/isomorphisms/homomorphisms exist
+  between the parts and the whole. Blah blah blah.
+\end{remark}
+
+% Useful sources:
+%
+% https://www.quora.com/What-are-the-differences-between-a-direct-sum-and-a-direct-product-of-two-groups
+%
+% https://en.wikipedia.org/wiki/Direct_sum
+%
+% TODO: Could consider looking into the \emph{tensor} product. Kind of
+% weird that the direct sum is written \oplus while the direct sum is
+% written merely as \times.
+
+\end{document}
