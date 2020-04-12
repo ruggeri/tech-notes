@@ -36,6 +36,7 @@
 * Maybe extend/improve understanding of symmetric matrices?
   * Writing up notes on eigenvector decomposition, SVD would help.
 * Chaos
+* Parity bits and encoding schemes
 
 ## Explanation
 
