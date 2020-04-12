@@ -36,6 +36,24 @@
   subgroup for each $d$ dividing $\order{G}$, then $G$ is cyclic.
 \end{proof}
 
+\begin{proof}
+  Here is an alternate proof. We know by Lagrange that the order of
+  every element $x \in \Zmodpx$ has order dividing $p-1$. So there are
+  $p-1$ roots to the equation:
+
+  \begin{nedqn}
+    x^{p-1} - 1
+  \equivcol
+    0
+    \pmod{p}
+  \end{nedqn}
+
+  The question is: is there any divisor $d$ of $p-1$ such that $x^d - 1
+  = 0$? But if $d < p-1$, then the (weak) Fundamental Theorem of Algebra
+  says that there are at most $d < p-1$ roots. Therefore there is an
+  element $g$ with order $p-1$ and thus $g$ generates $\Zmodpx$.
+\end{proof}
+
 \subsection{The (Weak) Fundamental Theorem Of Algebra}
 
 \begin{lemma}
