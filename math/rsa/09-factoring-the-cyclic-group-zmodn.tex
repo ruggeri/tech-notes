@@ -30,8 +30,25 @@
 
 \begin{remark}
   Oops, I kind of already used this at the outset of my proof that
-  $\varphi$ is multiplicative.
+  $\varphi$ is multiplicative. Anyway, this is a very simple corollary
+  of the Fundamental Theorem of Abelian Groups; there's nothing deep
+  here.
 \end{remark}
+
+\begin{corollary}
+  Whenever $G$ factors into a direct product of $\Zmod{p_i^{k_i}}$ with
+  all $p_i$ coprime, then $G$ is cyclic.
+\end{corollary}
+
+\begin{proof}
+  Set $n = \prod p_i^{k_i}$. We know that $\Zmodn$ factors into
+  $\Zmod{p_i^{k_i}}$. So $G$ is isomorphic to $\Zmodn$ and thus cyclic.
+\end{proof}
+
+\begin{corollary}
+  When factoring an acyclic group $G$ into $\Zmod{p_i^{k_i}}$, there are
+  always at least two factors where $p_i = p_j$.
+\end{corollary}
 
 \begin{theorem}
   The function
@@ -93,12 +110,23 @@
   that there is some $m$ such that $km \equiv n/d \pmod{n}$.
 \end{proof}
 
+\begin{remark}
+  This might ``feel'' obvious, but note this isn't a corollary of the
+  Fundamental Theorem of Algebra. The Fundamental Theorem is about
+  \emph{factorizations}, and if $G$ is cyclic is \emph{isn't}
+  factorable.
+\end{remark}
+
 \begin{proposition}
-  If a cyclic group $G$ contains no more than one subgroup of each
-  order $d$ dividing $\order{G}$, then $G$ is cyclic.
+  If an abelian group $G$ contains no more than one subgroup of each
+  order $d$ \emph{properly} dividing $\order{G}$, then $G$ is cyclic.
 \end{proposition}
 
 \begin{proof}
+  If we didn't restrict $d$ to only \emph{proper} divisors of
+  $\order{G}$, then then this would be tautological: just set $d =
+  \order{G}$.
+
   We'll prove this via the contrapositive. We know that if $G$ is
   \emph{acyclic}, then it has factors $\Zmod{p^k}$ and $\Zmod{p^m}$ with
   the same base $p$. But we know that both these factors contain
@@ -106,15 +134,20 @@
   subgroups of order $p$. Done.
 \end{proof}
 
+\begin{remark}
+  This direction \emph{is} obvious \emph{after} we've established the
+  first direction!
+\end{remark}
+
 \begin{theorem}
   $G$ is cyclic if and only if it contains exactly one cyclic subgroup
-  of order $d$ for each $d$ dividing $\order{G}$.
+  of order $d$ for each $d$ properly dividing $\order{G}$.
 \end{theorem}
 
 \begin{corollary}
   A group $G$ that has \emph{no more} than one subgroup of each order
-  $d$ dividing $\order{G}$ must in fact have \emph{exactly one} subgroup
-  of order $d$.
+  $d$ properly dividing $\order{G}$ must in fact have \emph{exactly one}
+  subgroup of order $d$.
 \end{corollary}
 
 \begin{proof}
@@ -153,9 +186,9 @@
 \end{corollary}
 
 \begin{proof}
-  Note that every element of $G$ is in \emph{some} subgroup (even if
-  this is all $G$). Thus when counting generators of subgroups, you
-  account for all elements in $G$.
+  Even if $G$ were acyclic, every element $g$ generates \emph{some}
+  cyclic subgroup. Thus, when counting generators of cyclic subgroups,
+  you account for all the elements in $G$.
 
   Since a cyclic group $G$ has exactly one subgroup of order $d$
   for each $d$ dividing $n$, the above formula works perfectly.
