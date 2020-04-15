@@ -1,4 +1,4 @@
-## Error Detection: Parity and Checksum
+## Error Detection: Parity
 
 First off, you have can just have parity bits per block. These do not
 allow you to correct errors. They will, however, allow you to detect
@@ -11,32 +11,101 @@ If you have two bits of parity, you give the last two bits of the
 count of ones in the message. This should give you ~75% error
 detection.
 
-Another way is the longitudinal parity check; this basically breaks
-the message into bytes, and then XORs the bytes. I think, under some
+Another way is the longitudinal redundancy check; this basically breaks
+the message into bytes, and then XORs the bytes. This is "longitudinal"
+in that it checks every 8th byte in the stream. I think, under some
 assumptions, it should be as good as above. Note that two bits will
 detect a single transposition.
 
-A generalization of parity is the *checksum*. This is any modular
-arithmetic of the "words" in a message. Parity is the simplest
-version.
+A suffix like this appended to a message is called a *checksum*. It is
+called *redundant* because derived data is being added to the message
+stream.
 
-However, note that these codes fail to detect reordering of the
-"words". This is addressed by using the position of a word, in
-addition to its contents. Addler-32 and CRC32 take into account the
-position.
+The IBM System/360 had a *9 track* recording medium. It had 8 data
+tracks and a 9th track for the XOR of the other 8 bits. This is a
+"transverse" in the sense that it was computing parity *across* several
+streams, one bit at each time point. Functionally this is the same idea
+as longitudinal parity.
 
-I think these schemes can't improve on detection of random errors, but
-can detect many common kinds of errors. Basically, the data would have
-to be scrambled *just right*.
+## Error Detection: CRC
 
-CRC32 works like this. Basically, your bitstring represents a
-polynomial with one-zero coefficients. You divide it by another
-polynomial, of length 32, with random coefficients. At the end, you
-get a remainder. This is your checksum.
+Cyclic Redundancy Checks work like this. Basically, your bitstring
+represents a polynomial with one-zero coefficients. You divide it by
+another polynomial, of length 33, with some specified coefficients. This
+divisor polynomial is called the *generator polynomial*. At the end, you
+get a (polynomial) remainder of length 32. This is your checksum.
 
-This can be done fast in hardware (it's just bitshifting and XOR,
-actually). And it is very positional, so that means a lot of common
-error types are ruled out.
+Note: you are working with polynomials over the finite field of two
+elements: Z/2Z.
+
+Example: parity is a CRC! It uses the generator polynomial x+1 (encoded
+11). So:
+
+* 0x + 0 => 0 (x + 1) + 0
+* 0x + 1 => 0 (x + 1) + 1
+* 1x + 0 => 1 (x + 1) + 1
+* 1x + 1 => 1 (x + 1) + 0
+
+**Calculation**
+
+Why is this called *cyclic*? The reason is because poly long division is
+cyclic. Imagine:
+
+11010011101100 <- msg
+1011           <- divisor
+--------------
+1 <- result
+01100011101100 <- remainder
+ 1011
+--------------
+ 1
+00111011101100 <- remainder
+  et cetera
+
+Basically, you keep shifting through the stream, XORing whenever the
+first bit is a one. You pad the stream by three bits to just keep the
+final remainder. (Hmm, can I explain that?)
+
+Choosing the generator polynomial involves balancing a number of
+concerns that I mostly don't understand/care about. But once you choose
+the number of bits to use, you'll still have a lot of generator choices.
+There are a number of choices for CRC-16, CRC-32, et cetera. The 16 only
+specifies that you'll use a degree 17 polynomial (leaving 16 bits for
+remainder).
+
+## Mathematics of CRC
+
+The math of CRC is basically just the ring of polynomials over Z/2Z,
+except it's the *quotient ring* where you mod out by the generator
+`p(x)`. I'll assume that `p` has degree `n`.
+
+So say you get the message, and you want to compare to the CRC. You'll
+detect an error exactly when the XOR of the message received and the
+true message is a multiple of `p(x)`. We write the error polynomial as
+`e(x)`.
+
+Say there is a one-bit error. Then `e(x) = x^k` (for some `k`). This is
+only divisible by `x^i` for `i < k`. Note that if `p(x)` has two bits
+popped, think about multiplying it by any `q(x)`. The two highest degree
+terms will always multiply together and survive (no one else can touch
+them) and the two lowest terms will also. So if `p(x)` has two bits
+popped, it cannot divide `x^k`.
+
+Next, we consider a *two bit* error. This has `e(x) = x^k_1 + x^k_2`.
+Which has the form `x^k_2 (x^{k_1 - k_2} + 1)`. We know that `p(x)`
+won't divide `x^k_2`, so can it divide `x^{k_1 - k_2} + 1`?
+
+This effectively asks: is `x^{k_1 - k_2}` equal to `1` mod `p(x)`. Put
+another way: what is the order of `x` in the quotient ring? If `x`
+generates the entire group, then it hits all `2^n - 1` elements. (Note
+I'm assuming that we are working in a quotient *field*. This happens
+exactly if `p` is irreducible!).
+
+If `x` generates the entire group, then `x^{2^n - 1}` is the first power
+of `x` that is equal to `1` mod `p`. So the CRC will detect any
+two bit error if they are separated by fewer than `2^n - 1` bits!
+
+Such a `p` that admits such an `x` is called a *primitive polynomial*.
 
 ## Protocols
 
@@ -126,3 +195,8 @@ their practical use.
 
 The math looks pretty hard on this, and I don't really care that
 much. Let's just say **Mission Accomplished**.
+
+# TODO
+
+* Rolling Hash
+* md5sum
