@@ -218,15 +218,86 @@ equivalent to zero.
 
 Thus any burst error of at most $n$ symbols is detected!
 
-% ## Protocols
+\section{Transmission Error Control}
 
-% * Automatic Request Repeat
-%     * Just detect errors and ask for retransmit.
-% * Forward Error Correction
-%     * Fix errors that you detect with what you deem most likely.
-% * Hybrid
-%     * Fix minor errors you detect, ask for retransmit of major errors
-%       you detect.
+\subsection{Automatic Repeat Request}
+
+ARQ means \define{automatic repeat request}. It is a protocol by which,
+when the receiver detects a message block with an error, they re-request
+that message block. Checksums are good for detecting errors. Here, there
+is no need for the receiver to \emph{correct} errors because they can
+simply re-request.
+
+Automatic repeat request also means that the sender expects to receive
+acknowledgments of blocks. If a block is unacknowledged for a timeout
+duration, the sender will \emph{automatically} re-send the block. This
+is typical of TCP packets.
+
+\subsection{Stop-and-Wait ARQ}
+
+There are a number of ARQ versions. The simplest is
+\define{stop-and-wait ARQ}. Here, the sender sends a single dataframe,
+waits for acknowledgment, and re-sends if a timeout expires. Only one
+dataframe is ``in-flight'' at a time. Of course, one needs to be careful
+if an ACK is lost. Then the receiver will be sent an \emph{second} copy
+of the same dataframe, and they must be able to recognize that this is a
+duplicate. Thus a \define{sequence number} is useful to embed in each
+message. In the case of stop-and-wait, \emph{if we assume messages may
+be lost but never re-ordered}, it is sufficient to use a \emph{one-bit}
+sequence number.
+
+\subsection{Go-Back-$n$ ARQ}
+
+To utilize the channel better, the sender can push up to $n$ packets,
+each with an incrementing sequence number. The receiver acknowledges
+each, ignoring duplicated packets or any that skip a missing packet. The
+sender, if they don't receive an ACK, will restart transmission from
+that packet.
+
+I believe the sequence number is incremented cyclically modulo $n$. If
+the sender reset the sequence number to zero when it retransmits, the
+receiver wouldn't know the last received ACK that got back to the
+sender. Thus the receiver wouldn't know from what point the sender was
+restarting.
+
+This still only works if packets are delivered in order (but possibly
+lost). It requires a buffer from the sender of $n$ packets.
+
+I believe TCP uses a variant of Go-Back-$n$ ARQ.
+
+\subsection{Selective Acknowledgment}
+
+In this protocol, the receiver \emph{buffers} received packets, even if
+an earlier packet has not been received. The receiver keeps track of the
+earliest unreceived packet, and sends this number along with each
+acknowledgment.
+
+I won't go into more detail about this for now.
+
+\subsection{Conclusion}
+
+All of these protocols are specific versions of the more general
+\define{sliding window protocol}. But I want to set this aside to move
+on to \define{forward error correction}.
+
+\section{Forward Error Correction}
+
+\define{Forward error correction} is useful when retransmission of data
+is either inconvenient or impossible. For instance: for data stored on
+disk; the ``transmitted'' data is immediately forgotten. Forward error
+correction is also useful for \define{broadcast transmission}, where the
+sender is sending to many people, and there is no \define{backchannel}
+by which receivers can send ACKs to the broadcaster (who presumably
+couldn't process them anyway).
+
+Low latency applications also may necessitate FEC because latency is
+introduced if the sender needs to wait for an ACK timeout window. Or if
+data cannot be buffered.
+
+There are two kinds of error-correcting codes, generally speaking. One
+set consists of the \define{convolutional codes}. These work on a
+bit-by-bit basis. We'll focus mostly on \define{block codes}, which
+operate per data block.
 
 % ## Error Correcting Codes
 
@@ -312,13 +383,16 @@ Thus any burst error of at most $n$ symbols is detected!
 % * Rolling Hash
 % * md5sum
 
+% Next: read about forward error correction and error correction code.
+
 % https://en.wikipedia.org/wiki/Convolutional_code
 % https://en.wikipedia.org/wiki/Error_correction_code
-% https://en.wikipedia.org/wiki/Error_detection_and_correction
 % https://en.wikipedia.org/wiki/Hamming_code
 % https://en.wikipedia.org/wiki/Hamming_distance
+% https://en.wikipedia.org/wiki/Noisy-channel_coding_theorem
 % https://en.wikipedia.org/wiki/Parchive
 % https://en.wikipedia.org/wiki/RAID
+% https://en.wikipedia.org/wiki/Repetition_code
 % https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
 
 \end{document}
