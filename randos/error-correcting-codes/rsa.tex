@@ -1,0 +1,324 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+
+\begin{document}
+
+\title{Error Correcting Codes}
+\maketitle
+
+\section{Parity}
+
+To \emph{detect} errors, you can store \define{parity} bits per block.
+These do not allow you to \emph{correct} errors. If this is a
+transmission, then you can re-request a block that fails the parity check.
+
+With a single detection bit, you can detect a single bit-flip 100\% of
+the time. The same holds for an odd number of bit flips. However, you
+cannot detect \emph{any} even number of bit flips.
+
+\subsection{Longitudinal and Transverse Redundancy Checks}
+
+To get more sensitivity to errors, you can store \emph{multiple} parity
+bits. One simple approach is to XOR the bytes of the file together. this
+gives one final byte to append to the file. This is called a
+\emph{longitudinal} redundancy check. The bytewise approach is sometimes
+called BIP-8.
+
+You may combine this with a \emph{transverse} redundancy check. This
+calculates one bit of parity per byte. In the old days, IBM had \emph{9
+track} recording media: eight data tracks and one parity track.
+
+By combining both longitudinal and transverse redundancy checks, you can
+\emph{correct} any one-bit flip. From the transverse check, you detect
+what byte is in error. From the longitudinal check you know exactly what
+\emph{bit} is in error.
+
+\section{Cyclic Redundancy Check}
+
+\subsection{Intro And Parity Example}
+
+Here is another way to look at parity bits. The message bitstring of $n$
+bits is actually a polynomial of $n-1$, with one-zero coefficients from
+$\Zmod{2}$. The parity result is the \emph{remainder} of dividing the
+message polynomial with an implementation specified \define{generator
+polynomial}. The significance of the word \emph{generator} will be more
+apparent soon.
+
+Let the generator be $g(x) = x + 1$. Consider encoding various two-bit
+messages 00, 01, 10, 11:
+
+\begin{nedqn}
+  0x + 0
+\mapstocol
+  0 (x + 1) + 0
+\\
+  0x + 1
+\mapstocol
+  0 (x + 1) + 1
+\\
+  1x + 0
+\mapstocol
+  1 (x + 1) + 1
+\\
+  1x + 1
+\mapstocol
+  1 (x + 1) + 0
+\end{nedqn}
+
+\noindent
+This is identical to our standard parity calculation. You get the
+remainder (i.e., the parity bit) by doing polynomial long-division and
+using the remainder. Notice the \emph{third} scenario of 10 represented
+as $x + 0$. Note how you will use 1 of $x + 1$ to eliminate the $x$
+term, leaving $-1 \equiv +1$ as the remainder.
+
+Note that by using a polynomial of degree 1 as your generator function,
+you are left with a remainder that can be represented with 1 bit. To
+create a 32 bit CRC \define{checksum}, you use a generator polynomial of
+degree 33. There are many possible choices of generator polynomial -
+each corresponds to a different implementation of CRC-32. There are a
+number of factors to consider when choosing the generator.
+
+\subsection{Calculation}
+
+Because we are working $\Zmod{2}$, subtracting two polynomials is really
+like doing an XOR of corresponding coefficients. For instance:
+
+\begin{nedqn}
+  &   & \parens{1x^5 + 0x^4 + 1x^3 + 1x^2 + 0x + 0}
+\\
+  & - & \parens{0x^5 + 1x^4 + 1x^3 + 0x^2 + 0x + 1}
+\\
+  & = & \parens{1x^5 + 1x^4 + 0x^3 + 1x^2 + 0x + 1}
+\end{nedqn}
+
+We can do polynomial long division to calculate a remainder by cycling
+through bits of the message and doing an XOR by the generator polynomial
+whenever we encounter a 1. Let's divide a polynomial by $x^3 + 1$.
+
+\begin{IEEEeqnarray*}{+CCCCCCCCCCCC+}
+         & 1x^5 & + & 0x^4 & + & 1x^3 & + & 1x^2 & + & 0x^1 & + & 0
+\\
+  \oplus & 1x^5 & + & 0x^4 & + & 0x^3 & + & 1x^2
+\\
+  \mapsto& 0x^5 & + & 0x^4 & + & 1x^3 & + & 0x^2 & + & 0x^1 & + & 0
+\\
+  \oplus &      &   &      &   & 1x^3 & + & 0x^2 & + & 0x^1 & + & 1
+\\
+  \mapsto& 0x^5 & + & 0x^4 & + & 0x^3 & + & 0x^2 & + & 0x^1 & + & 1
+\end{IEEEeqnarray*}
+
+\subsection{Error Polynomial}
+
+A message polynomial $m(x)$ and a corrupted version $m'(x)$ are
+indistinguishable modulo a generator polynomial $g(x)$ exactly when:
+
+\begin{IEEEeqnarray*}{+rCll+}
+  m(x) \equivcol m'(x) & \pmod{g(x)}
+\\
+  m(x) - m'(x) \equivcol 0 & \pmod{g(x)}
+\end{IEEEeqnarray*}
+
+\subsection{Detects All One Bit Errors}
+
+We call $m(x) - m'(x)$ the \define{error polynomial}. We want to analyze
+what kinds of $e(x)$ are equivalent to zero modulo $p(x)$. Consider
+one-bit errors. In this case $e(x) = x^k$ for some $k$ (depending on the
+position of the error in the message). When can $e(x)$ have $g(x)$ as a
+factor?
+
+I claim only when $g(x) = x^i$ for $i < k$. In particular, all one-bit
+errors are detected if $g(x)$ has at least two terms. For consider any
+$g(x)q(x)$. I claim this must always have at least two non-zero terms:
+the product of the leading terms in $g(x), q(x)$, and the product of the
+trailing terms in $g(x), q(x)$. These are two distinct terms, and thus
+$x^k$ can never be a multiple of $g(x)$.
+
+\subsection{Detects All Two Bit Errors Within A Window}
+
+Consider two flipped bit errors. Then $e(x) = x^{k_1} + x^{k_2} =
+x^{k_2} \parens{x^{k_1 - k_2} + 1}$. We've already proven that if $g(x)$
+is chosen to have at least two terms, it cannot divide $x^{k_2}$. Let's
+presume that $x^{k_2}$ and $g(x)$ share no common factors. That is
+guaranteed if the constant term of $g(x)$ is 1. Then, if $g(x)$ is to
+divide $e(x)$, it must divide $x^{k_1 - k_2} + 1$. Which is equivalent
+to saying:
+
+\begin{IEEEeqnarray*}{+rCll}
+  x^{k_1 - k_2} + 1 \equivcol 0 \pmod{g(x)}
+\\
+  x^{k_1 - k_2} \equivcol 1 \pmod{g(x)}
+\end{IEEEeqnarray*}
+
+This basically is asking: what is the \define{order} of the polynomial
+$x$ in the quotient field of polynomials over $\Zmod{2}$ modulo $g(x)$?
+The greater the order of $x$, the greater the distance $k_1 - k_2$ over
+which two bit flips can be detected. For good choices of $g(x)$ (called
+\define{primitive polynomials}), $x$ will generate the polynomial field
+entire multiplicative group. In this case, powers $x^i$ will cycle
+through every non-zero polynomial of length $n$: all $2^n - 1$ of them!
+
+Which means that $x^{k_1 - k_2} \equiv 1$ first when $k_1 - k_2 = 2^n -
+1$.
+
+Note: all primitive polynomials $g(x)$ must be \define{irreducible}.
+Else there are two elements of the quotient ring $a(x), b(x)$ such that
+$a(x)b(x) \equiv 0$. But then at least one of these must not be
+generated by powers of $x$ else $x$ would eventually map back to zero!
+
+\subsection{Detects All Odd Number Of Errors}
+
+If one is willing to halve the window of two bit error detection, one
+can detect all errors affecting an odd number of bits. Here we choose
+$g(x)$ that is the product of (1) an irreducible polynomial $g_1(x)$ of
+degree $n$ (not $n+1$ as usual) and (2) $g_2(x) = x + 1$.
+
+The important thing is that $g(x)$ ought to have an \emph{even} number
+of terms. A fact that I haven't proven are used: all irreducible
+polynomials (excepting $x+1$) have an odd number of terms. If we believe
+that, it's easy to see that $g(x) = g_1(x) (x+1)$ has an even number of
+terms. This says that $g(x)$ is the XOR of two polynomials with an odd
+number of terms. But if I flip an odd number of bits and then flip an
+odd number again, I must have flipped an even in total (regardless
+whether the two sets of flips overlap).
+
+Now, if $g(x)$ has an even number of terms, no matter how many times we
+XOR an error polynomial $e(x)$ with an odd number of terms, we'll still
+be left with an odd number of remainder terms.
+
+\subsection{Detects All Burst Errors Of Length At Most $n$}
+
+A \define{burst error} is a subsequence of received bits where (1) the
+first and last bits are in error, (2) no subsequence of $k$ bits in
+between are correct. The $k$ is a parameter called the \define{guard
+band} that can determine when you have \emph{one} or \emph{two} burst
+errors. For instance, the end of one burst error comes at least $k$ bits
+before the start of a next burst error. Note: burst errors can be of any
+length, regardless the chosen guard band $k$.
+
+If one chooses $k=1$, then burst errors are subsequences of received
+bits that are \emph{all} in error. Anyway, we'll let $k = \infty$, so
+that the entire corrupted range is treated as a single burst error.
+We'll want to detect the burst error provided it is not too long.
+
+This model of error is highly relevant to many communication and storage
+media.
+
+Consider an error polynomial for a burst. Then $e(x) = x^k e'(x)$. The
+$x^k$ factor represents the position the burst error, while $e'(x)$ is a
+polynomial representing the pattern of the error. We already know that
+$g(x)$ divides $e(x)$ precisely if it divides $e'(x)$. But so long as
+the degree of $e'(x)$ is less than the degree of $g(x)$, it cannot be
+equivalent to zero.
+
+Thus any burst error of at most $n$ symbols is detected!
+
+% ## Protocols
+
+% * Automatic Request Repeat
+%     * Just detect errors and ask for retransmit.
+% * Forward Error Correction
+%     * Fix errors that you detect with what you deem most likely.
+% * Hybrid
+%     * Fix minor errors you detect, ask for retransmit of major errors
+%       you detect.
+
+% ## Error Correcting Codes
+
+% You want to be able to correct codes without re-requesting. This is
+% important for disks (since the writer will forget the data), phones
+% (where the latency to re-request is too high).
+
+% A simple way is to send three versions of each bit. The user just
+% takes the majority vote. But this is pretty ineffecient for fixing a 1
+% bit error.
+
+% Hamming gives us a way to correct *any* 1 bit error. You transmit 4
+% bits of data, and 3 parity bits. Here's how:
+
+% ```
+% P1 = D1 XOR D2 XOR D4
+% P2 = D1 XOR D3 XOR D4
+% P3 = D2 XOR D3 XOR D4
+% ```
+
+% Let's say we know at most one bit is wrong. Let's show how to correct
+% this. Let's say we receive:
+
+% * 0000 000
+%     * We know immediately that no data bits could be wrong, since then
+%       one of the parity bits would have to be wrong, too.
+% * 0000 001
+%     * Since the parity bit is checked, then either it is wrong, or
+%       some data bit (D2, D3, or D4) is wrong.
+%     * But that would mean *other* parity bits should have been
+%       checked, so that is not possible.
+%     * So it's the *parity* bit that's wrong!
+%     * This logic holds for any of the other parity bits.
+% * 0001 111
+%     * We know immediately that none of the data bits can be wrong,
+%       since otherwise one of the parity bits is wrong.
+% * 0001 110
+%     * If the parity is right, then D2 or D3 should be checked, but
+%       this is not possible, since then other parity bits are wrong,
+%       too.
+% * So one bit errors in the parity don't cause mistakes.
+% * 0001 000
+%     * We can see here that the data bit must be wrong, else *two*
+%       parity bits are wrong.
+
+% So what we're seeing here is that all 1 bit errors can be
+% corrected. Another way of looking at it: the Hamming distance between
+% any valid Hamming codewords is 3. That's why you can detect two
+% errors, and correct one.
+
+% Hamming is widely used for ECC memory; Hamming codes are most useful
+% when the error rate is low. With high error rates, you're not going to
+% do that well.
+
+% Generalizations of Hamming codes can acheive higher data rates. You
+% can also extend Hamming to detect two bit errors, too, by including a
+% bit that xors all the Hamming bits.
+
+% ## Reed-Solomon
+
+% Reed-Solomon codes are widely used, they are error-correcting, and can
+% also detect missing data. Codes like this are called *erasure codes*.
+
+% Reed-Solomon, given `t` check symbols, can:
+
+% * Detect `t` erroneous symbols.
+% * Correct `FLOOR(t/2)` erroneous symbols.
+% * It can correct up to `t` erasures.
+
+% With larger symbols, you can handle burst errors well, since this
+% corrupts a single (or a few) symbols. This makes it useful for CDs,
+% DVDs, where burst errors are common (misaligned laser).
+
+% When Reed-Solomon codes were created, an *efficient* decoding scheme
+% did not exist. That came almost a decade later, which allowed for
+% their practical use.
+
+% The math looks pretty hard on this, and I don't really care that
+% much. Let's just say **Mission Accomplished**.
+
+% # TODO
+
+% * Rolling Hash
+% * md5sum
+
+% https://en.wikipedia.org/wiki/Convolutional_code
+% https://en.wikipedia.org/wiki/Error_correction_code
+% https://en.wikipedia.org/wiki/Error_detection_and_correction
+% https://en.wikipedia.org/wiki/Hamming_code
+% https://en.wikipedia.org/wiki/Hamming_distance
+% https://en.wikipedia.org/wiki/Parchive
+% https://en.wikipedia.org/wiki/RAID
+% https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
+
+\end{document}
