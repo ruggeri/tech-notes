@@ -299,62 +299,130 @@ set consists of the \define{convolutional codes}. These work on a
 bit-by-bit basis. We'll focus mostly on \define{block codes}, which
 operate per data block.
 
-% ## Error Correcting Codes
+\section{Repetition Codes}
 
-% You want to be able to correct codes without re-requesting. This is
-% important for disks (since the writer will forget the data), phones
-% (where the latency to re-request is too high).
+One of the simplest ECCs are the \define{repetition codes}. A basic
+example is to repeat every bit sent three times. If only one of the
+copies is corrupted, the receiver can correct the error. Repetition
+codes are very \define{adaptive}, in that you can easily scale
+up-or-down the error correcting ability based on how much noise is
+encountered in the channel. You simply change how many times you repeat
+the symbols.
 
-% A simple way is to send three versions of each bit. The user just
-% takes the majority vote. But this is pretty ineffecient for fixing a 1
-% bit error.
+Repetition codes are very inefficient.
 
-% Hamming gives us a way to correct *any* 1 bit error. You transmit 4
-% bits of data, and 3 parity bits. Here's how:
+\TODO{Why?}
 
-% ```
-% P1 = D1 XOR D2 XOR D4
-% P2 = D1 XOR D3 XOR D4
-% P3 = D2 XOR D3 XOR D4
-% ```
+\section{Hamming Notation and Concepts}
 
-% Let's say we know at most one bit is wrong. Let's show how to correct
-% this. Let's say we receive:
+Hamming categorized codes by $(\mathit{numTotalBits},
+\mathit{numDataBits})$. He assumes that all codewords will have the same
+length, and that they will all carry $\mathit{numDataBits}$ of data and
+$\parens{\mathit{numTotalBits} - \mathit{numDataBits}}$ bits of error
+control information. He also assumes that the code was fixed: the
+encoding of the next block does not depend on the data decoded in the
+prior blocks.
 
-% * 0000 000
-%     * We know immediately that no data bits could be wrong, since then
-%       one of the parity bits would have to be wrong, too.
-% * 0000 001
-%     * Since the parity bit is checked, then either it is wrong, or
-%       some data bit (D2, D3, or D4) is wrong.
-%     * But that would mean *other* parity bits should have been
-%       checked, so that is not possible.
-%     * So it's the *parity* bit that's wrong!
-%     * This logic holds for any of the other parity bits.
-% * 0001 111
-%     * We know immediately that none of the data bits can be wrong,
-%       since otherwise one of the parity bits is wrong.
-% * 0001 110
-%     * If the parity is right, then D2 or D3 should be checked, but
-%       this is not possible, since then other parity bits are wrong,
-%       too.
-% * So one bit errors in the parity don't cause mistakes.
-% * 0001 000
-%     * We can see here that the data bit must be wrong, else *two*
-%       parity bits are wrong.
+Thus the $(3, 1)$-repetition code uses three bits to send one data bit.
+ASCII is an $(8, 7)$ code. The \define{code rate} is the number of data
+bits that are transmitted per encoding bit. In the case of the $(3,
+1)$-repetition code this is $\frac{1}{3}$. Of course, it's always equal
+to the second number divided by the first.
 
-% So what we're seeing here is that all 1 bit errors can be
-% corrected. Another way of looking at it: the Hamming distance between
-% any valid Hamming codewords is 3. That's why you can detect two
-% errors, and correct one.
+The \define{Hamming distance} between two (equal length) bit strings is
+defined to be the number of bits that are different in the two strings.
+An encoding is $k-1$-error-detecting if the Hamming distance between any
+two valid \define{codewords} is at least $k$. That is: $k-1$ bit flip
+errors in a codeword will always be detected.
 
-% Hamming is widely used for ECC memory; Hamming codes are most useful
-% when the error rate is low. With high error rates, you're not going to
-% do that well.
+The ASCII code has a Hamming distance of as little as two between
+codewords. The $(3, 1)$-repetition code has a Hamming distance of
+exactly three (there are only two valid codewords). Therefore one-bit
+ASCII errors can always be detected, while up to two-bit $(3,
+1)$-repetition errors can be detected.
 
-% Generalizations of Hamming codes can acheive higher data rates. You
-% can also extend Hamming to detect two bit errors, too, by including a
-% bit that xors all the Hamming bits.
+We can also ask up to how many errors can be \emph{corrected}. This is
+$\floor{\frac{k-1}{2}}$. Once the number of errors has taken us at least
+half-way to another codeword, we lose the ability to correct. The
+corrupted codeword is now closer to the wrong codeword than the right
+one.
+
+Thus ASCII can correct no errors in a codeword, while $(3,
+1)$-repetition can correct one bit.
+
+\section{Hamming Codes}
+
+The question becomes: given the encoding constraints assumed by Hamming,
+what codes most efficiently provide single-error-correction (SEC) and
+double-error-detection (DED). These are the \define{Hamming codes}. They
+are the ones with the highest code-rate for a given
+$(\textit{numTotalBits}, \textit{numDataBits})$.
+
+The idea is this: we will use the bits at positions $1, 2, 4, \ldots$
+for parity bits (we are starting from index 1). All the other bits will
+be data bits. The parity bits each hold an XOR of other bits: both data
+and parity! The parity bit at position 1 is the XOR of the values at
+positions $1, 3, 5, \ldots$. The parity bit at position 2 is the XOR of
+the values at positions $2, 3, 6, 7, 10, 11, \ldots$. The parity bit at
+position 4 is the XOR of values at $4, 5, 6, 7, 12, 13, 14, 15, \ldots$.
+
+In general, the parity bit at position $2^k$ covers all bits whose
+position have bit $k$ popped. It is set to the parity of all the bits it
+covers (excepting itself).
+
+The following Hamming codes exist: Hamming(3, 1), Hamming(5, 2),
+Hamming(7, 4), Hamming(15, 11). In general, there is a Hamming code with
+code length $2^k - 1$ that requires $k$ bits of parity data, leaving
+$2^k - k - 1$ data bits. However, as $k$ increases, you become less
+resilient to failures. It gets harder and harder to send $2^k - 1$ bits
+with only a single error.
+
+\subsection{Single Error Correction}
+
+Consider if a single data bit has been flipped in transmission. Then the
+receiver will notice that some of the parity bits are wrong. The set of
+parity bits that are wrong correspond to the binary representation of
+the location with the flipped bit. We may correct that bit!
+
+Next, consider if an \emph{parity} bit is flipped. A flipped parity bit
+won't break any of the other parity bits, since they never cover this
+position. So we'll see that exactly the parity bit is broken. We can fix
+this error (or ignore it if we aren't worried about further errors
+accumulating).
+
+Another way of looking at it: the Hamming distance between two codewords
+is always at least three. If you want to change a data bit at any
+location, you must change at least \emph{two} parity bits. You may
+actually have to change more! Some positions are better covered by
+parity bits than others!
+
+\subsection{Achieving Double Error Detection}
+
+Right now, if two bits are flipped, then the Hamming code will correct
+to the \emph{wrong} value.
+
+So you can extend the Hamming code with one more parity bit that covers
+\emph{all} the values (both data and parity). The Hamming distance
+between any two words is now four. Double errors can be detected!
+
+To decode, first check the extended parity bit. If it is wrong, then you
+know that two bit flips could not have occurred. You may do standard
+decoding. BTW, if the standard decoding doesn't detect an error, then it
+was the extra parity bit that got flipped!
+
+If the parity bit looks good, then either zero or two flips occurred.
+Run the standard decoding. If the decoding detects no errors, then this
+shows every is okay. If the decoding detects one error (it can never
+detect two!), then that means that either: (1) two of the core bits were
+flipped, or (2) one of the core bits was flipped as well as the extra
+parity bit. In either case, we report failure.
+
+Hamming codes are most useful where the error rate is low. It is widely
+used for ECC memory. That kind of makes sense: Hamming codes can achieve
+high code rates, but only if it is reasonable that there will be no more
+than one or two errors per block.
+
+% https://en.wikipedia.org/wiki/Hamming_bound#Perfect_codes
 
 % ## Reed-Solomon
 
@@ -382,17 +450,16 @@ operate per data block.
 
 % * Rolling Hash
 % * md5sum
-
-% Next: read about forward error correction and error correction code.
-
-% https://en.wikipedia.org/wiki/Convolutional_code
-% https://en.wikipedia.org/wiki/Error_correction_code
-% https://en.wikipedia.org/wiki/Hamming_code
-% https://en.wikipedia.org/wiki/Hamming_distance
+%
+% Show Hamming codes are perfect.
+%
+% Reed-Solomon
+%
+% https://en.wikipedia.org/wiki/Block_code
+% https://en.wikipedia.org/wiki/Hamming_bound
+% https://en.wikipedia.org/wiki/Linear_code
 % https://en.wikipedia.org/wiki/Noisy-channel_coding_theorem
 % https://en.wikipedia.org/wiki/Parchive
 % https://en.wikipedia.org/wiki/RAID
-% https://en.wikipedia.org/wiki/Repetition_code
-% https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction
 
 \end{document}
