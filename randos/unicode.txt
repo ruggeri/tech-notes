@@ -6,7 +6,8 @@ Then they wanted to add more Latin characters. This is "Latin-1" AKA
 ISO 8859-1.
 
 There is a Windows superset of Latin-1 called "Windows-1252" (also
-called CP-1252). This includes some new printable
+called CP-1252). This includes all the Latin-1 printable characters, but
+repurposes some non-printing control characters as additional printable
 characters. Historically it has been common for websites to claim a
 content type of Latin-1, but include the Windows-1252 characters that
 aren't true Latin-1 characters. For this reason, HTML5 standard says
@@ -16,12 +17,12 @@ treat it as Windows-1252.
 ## Unicode, Graphemes, Code Points
 
 Unicode then came around. Every "grapheme" gets a "code point." A code
-point is a number. A series of numbers thus describes a
-string. Graphemes are not necessarily characters: they can be
-ligatures. Thus, the notion of a "character" can consist of multiple
-code points in succession. This is called a "grapheme cluster." So
-even given a sequence of code points, it's a parsing problem to get
-individual "characters."
+point is simply a number. A series of numbers thus describe a string.
+Graphemes are not necessarily characters: they can be ligatures. Thus,
+the notion of a "character" can consist of multiple code points in
+succession. This is called a "grapheme cluster." So even given a
+sequence of code points, it's a parsing problem to get individual
+"characters."
 
 The red heart ❤️ is a good example. It combines two code points: heart
 and "colorful." (BTW other colored hearts just have their own code
@@ -108,7 +109,7 @@ UTF-16.
 When Unicode added more characters, it broke UCS-2. UTF-16 is the
 evolution of UCS-2. It is a variable-width format of two or four bytes.
 If you use only characters from the "Basic Multilingual Plane," then
-UCS-2 encodes every character with exactly 2 bytes. But for higher code
+UTF-16 encodes every character with exactly 2 bytes. But for higher code
 points, four bytes will be needed.
 
 **Byte Order Mark**
@@ -146,7 +147,7 @@ clean. But it can also be used of course for binary files. It is the
 common format used to convert binary files to text, for upload in an
 HTTP post request.
 
-## Base64 and URLs
+## Base64, and URLs
 
 Base64 uses some ASCII characters like "+", "=", "/" that aren't safe
 for use in URLs. Imagine if you want to use a 128-bit id in a
@@ -158,6 +159,24 @@ values like %2B, %2F, et cetera.
 Alternatively there is the base64url format, which avoids the problem
 by replacing using "-" instead of "+" and "_" instead of "/". There is
 still the problem with "="...
+
+## uuencoding
+
+`uuencoding` (Unix-to-Unix encoding) is a format which predates Base64.
+It is very similar in spirit: it converts into a base 64 representation,
+and uses ASCII printing characters. However, it avoids the use of
+lowercase letters because in olden days some printers didn't print
+those!
+
+## yEnc
+
+In 2001 there came to be another encoding that tried to be as
+lightweight as possible but still work with Usenet and email.
+
+252 of 256 byte values are passed through unencoded. It is assumed that
+these will not have any special meaning to Usenet or email, and will be
+left unmolested. However, NUL, LF, CR, and = are escaped, as these do
+have special meaning.
 
 # Python2 and Python3 ASCII and Unicode Strings
 
@@ -176,7 +195,9 @@ of this as an `str`, vs len 1 as a `unicode`. You get that by prefixing
     "Ô".decode("UTF-8") == u"Ô"
     u"Ô".encode("UTF-8") == '\xc3\x94'
 
-It appears that Python2 assumes UTF-8 encoding?
+It appears that Python2 assumes UTF-8 encoding? It's probably more a
+question of how the terminal delivers bytes typed from a keyboard to the
+interpreter.
 
 **Python3**
 
