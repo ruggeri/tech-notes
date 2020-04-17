@@ -15,7 +15,8 @@
 
 To \emph{detect} errors, you can store \define{parity} bits per block.
 These do not allow you to \emph{correct} errors. If this is a
-transmission, then you can re-request a block that fails the parity check.
+transmission, then you can re-request a block that fails the parity
+check.
 
 With a single detection bit, you can detect a single bit-flip 100\% of
 the time. The same holds for an odd number of bit flips. However, you
@@ -343,86 +344,228 @@ ASCII errors can always be detected, while up to two-bit $(3,
 
 We can also ask up to how many errors can be \emph{corrected}. This is
 $\floor{\frac{k-1}{2}}$. Once the number of errors has taken us at least
-half-way to another codeword, we lose the ability to correct. The
-corrupted codeword is now closer to the wrong codeword than the right
-one.
+half-way to another codeword, we lose the ability to correct reliably.
+The corrupted codeword is now closer to the wrong codeword than the
+right one.
 
 Thus ASCII can correct no errors in a codeword, while $(3,
 1)$-repetition can correct one bit.
+
+Sometimes we notate codes as $(\textit{numTotalBits},
+\textit{numDataBits}, \textit{codeDistance})$. Here
+$\textit{codeDistance}$ means the minimum Hamming distance between two
+codepoints. In studying Hamming codes, we'll look at codes where
+$\textit{codeDistance} \geq 3$.
 
 \section{Hamming Codes}
 
 The question becomes: given the encoding constraints assumed by Hamming,
 what codes most efficiently provide single-error-correction (SEC) and
-double-error-detection (DED). These are the \define{Hamming codes}. They
+double-error-detection (DED)? These are the \define{Hamming codes}. They
 are the ones with the highest code-rate for a given
-$(\textit{numTotalBits}, \textit{numDataBits})$.
+$\textit{numDataBits}$.
 
-The idea is this: we will use the bits at positions $1, 2, 4, \ldots$
-for parity bits (we are starting from index 1). All the other bits will
-be data bits. The parity bits each hold an XOR of other bits: both data
-and parity! The parity bit at position 1 is the XOR of the values at
-positions $1, 3, 5, \ldots$. The parity bit at position 2 is the XOR of
-the values at positions $2, 3, 6, 7, 10, 11, \ldots$. The parity bit at
-position 4 is the XOR of values at $4, 5, 6, 7, 12, 13, 14, 15, \ldots$.
+Note this requirement: if we change one data bit, we want to ensure that
+this requires that we change \emph{at least} two parity bits.
 
-In general, the parity bit at position $2^k$ covers all bits whose
-position have bit $k$ popped. It is set to the parity of all the bits it
-covers (excepting itself).
+\subsection{Description One}
 
-The following Hamming codes exist: Hamming(3, 1), Hamming(5, 2),
-Hamming(7, 4), Hamming(15, 11). In general, there is a Hamming code with
-code length $2^k - 1$ that requires $k$ bits of parity data, leaving
-$2^k - k - 1$ data bits. However, as $k$ increases, you become less
-resilient to failures. It gets harder and harder to send $2^k - 1$ bits
-with only a single error.
+Let there be $2^k - 1$ bits in the codewords. Number them $1, 2, 3,
+\ldots, 2^k$ (one indexing!). Parity bits will live at each location
+$2^i$, while data bits will live everywhere else. There will be $k$
+parity bits. A parity bit at position $2^i$ covers all data bit
+locations where bit $i$ is popped (zero indexing of bits!). The parity
+bit stores the XOR of the data bit values.
+
+Since there are $k$ parity bits, they can number all data bit locations
+up to (and including) $2^k - 1$.
+
+It should be clear that the only locations that would be covered by only
+one parity bit are the parity bit locations themselves! Every data bit
+is covered by at least two parity bits.
+
+\subsection{Example: Hamming(7, 4)}
+
+Here is the Hamming code with codeword length 7 and number of data bits
+4:
+
+\begin{nedqn}
+  001 \mapstocol \textit{parityBit1} \text{ covers data bits } 011, 101, 111
+\\
+  010 \mapstocol \textit{parityBit2} \text{ covers data bits } 011, 110, 111
+\\
+  011 \mapstocol \textit{dataBit1}
+\\
+  100 \mapstocol \textit{parityBit3} \text{ covers data bits } 101, 110, 111
+\\
+  101 \mapstocol \textit{dataBit2}
+\\
+  110 \mapstocol \textit{dataBit3}
+\\
+  111 \mapstocol \textit{dataBit4}
+\end{nedqn}
+
+\subsection{Efficiency}
+
+The Hamming codes have Hamming type $(2^k - 1, 2^k - k - 1)$. Thus they
+have code rate:
+
+\begin{nedqn}
+  \frac{2^k - k - 1}{2^k - 1}
+\eqcol
+  1 - \frac{k - 1}{2^k - 1}
+\end{nedqn}
+
+Note that by increasing $k$ we can achieve high code rates (efficiency).
+But at the same time we tolerate only 1 error per $2^k - 1$ bits, so our
+reliability will go down. A good selection of $k$ will depend on the
+reliability of the channel.
+
+\subsection{Description Two}
+
+This whole one-indexing situation feels weird. Here is a second
+explanation of the code.
+
+Let there be $\textit{numDataBits}$ data bits. We will assign these bits
+names, which are unique bitstrings of length $\textit{numParityBits}$
+with \define{Hamming weight} no less than two. That is: at least two
+bits are popped in every name. A data bit's name will be used to
+identify which parity bits cover it.
+
+To name the data bits, we would typically use bitstrings with length
+$\textit{numDataBits}$. But we need to skip $00\ldots0$ and we need to
+skip every bitstring with exactly one bit popped (including
+$00\ldots01$). The first data bit must be labeled $00\ldots011$.
+
+If there are $\textit{numParityBits}$, then note that $numParityBits +
+1$ bit strings are eliminated. This leaves $2^{\textit{numParityBits}} -
+\parens{\textit{numParityBits} + 1}$ as eligible names. Thus we must
+have:
+
+\begin{nedqn}
+  \textit{numDataBits}
+\leqcol
+  2^{\textit{numParityBits}} - \parens{\textit{numParityBits} + 1}
+\end{nedqn}
+
+We achieve equality when $\textit{numDataBits} = 2^k - {k - 1}$. In this
+case, $\textit{numParityBits} = k$. Thus the we have $\textit{totalBits}
+= 2^k - 1$.
 
 \subsection{Single Error Correction}
 
 Consider if a single data bit has been flipped in transmission. Then the
-receiver will notice that some of the parity bits are wrong. The set of
-parity bits that are wrong correspond to the binary representation of
-the location with the flipped bit. We may correct that bit!
+receiver will notice that some of the parity bits look wrong. The set of
+parity bits that look wrong correspond to the ``name'' of the data
+location with the flipped bit. We may thus correct that bit!
 
-Next, consider if an \emph{parity} bit is flipped. A flipped parity bit
+Next, consider if a \emph{parity} bit is flipped. A flipped parity bit
 won't break any of the other parity bits, since they never cover this
-position. So we'll see that exactly the parity bit is broken. We can fix
-this error (or ignore it if we aren't worried about further errors
-accumulating).
-
-Another way of looking at it: the Hamming distance between two codewords
-is always at least three. If you want to change a data bit at any
-location, you must change at least \emph{two} parity bits. You may
-actually have to change more! Some positions are better covered by
-parity bits than others!
+position. The parity bit does not name any of the data bits. So we'll
+see that exactly the parity bit is broken. We can fix this error (or
+ignore it if we aren't worried about further errors accumulating).
 
 \subsection{Achieving Double Error Detection}
 
-Right now, if two bits are flipped, then the Hamming code will correct
-to the \emph{wrong} value.
+The minimum Hamming distance between codewords is three. Thus if two
+bits are flipped, we will be able to see that \emph{at least} one bit
+was flipped, but if we do bit correction we may correct to the
+\emph{wrong value}!
 
 So you can extend the Hamming code with one more parity bit that covers
 \emph{all} the values (both data and parity). The Hamming distance
 between any two words is now four. Double errors can be detected!
 
 To decode, first check the extended parity bit. If it is wrong, then you
-know that two bit flips could not have occurred. You may do standard
-decoding. BTW, if the standard decoding doesn't detect an error, then it
-was the extra parity bit that got flipped!
+can assume that two bit flips could not have occurred in the core
+encoding. You may do standard decoding. BTW, if the core decoding
+doesn't detect an error, then it was just the extra parity bit that got
+flipped!
 
 If the parity bit looks good, then either zero or two flips occurred.
 Run the standard decoding. If the decoding detects no errors, then this
-shows every is okay. If the decoding detects one error (it can never
-detect two!), then that means that either: (1) two of the core bits were
-flipped, or (2) one of the core bits was flipped as well as the extra
-parity bit. In either case, we report failure.
+shows every is okay. If the core decoding detects one error (by design
+it can never detect two!), then that means that either: (1) two of the
+core bits were flipped, or (2) one of the core bits was flipped as well
+as the extra parity bit. Since we can't eliminate the first case, we
+must report failure.
 
 Hamming codes are most useful where the error rate is low. It is widely
 used for ECC memory. That kind of makes sense: Hamming codes can achieve
 high code rates, but only if it is reasonable that there will be no more
 than one or two errors per block.
 
-% https://en.wikipedia.org/wiki/Hamming_bound#Perfect_codes
+\subsection{Hamming Bound and Perfect Codes}
+
+Are Hamming codes as efficient as possible? We prove yes.
+
+\begin{theorem}
+  Consider the space $\Zmod{2}^k$. We wish to designate
+  $\textit{numCodePoints}$ in the space, with the constraint that all
+  codepoints are no less than Hamming distance $3$ from each other.
+  Then:
+
+  \begin{nedqn}
+    \textit{numCodePoints}
+  \leqcol
+    \frac{2^k}{1 + k}
+  \end{nedqn}
+
+  This is called the \define{Hamming Bound}.
+\end{theorem}
+
+\begin{proof}
+  Consider a codepoint to be a \emph{ball} in the space with Hamming
+  radius 1. That is: it occupies a position $x$ (its center), plus every
+  adjacent location in the space. Each ball occupies $1 + k$ spots in
+  the space. One for its center, and $k$ for each adjacent location in
+  the $k$ dimensions.
+
+  But this exactly implies implies the bound we want.
+\end{proof}
+
+\begin{definition}
+  A code which corrects one failure and obtains the Hamming Bound is
+  called a \define{perfect} code.
+\end{definition}
+
+\begin{corollary}
+  Any Hamming code is perfect.
+\end{corollary}
+
+\begin{proof}
+  Let $k = \textit{numTotalBits} = 2^m - 1$. Then:
+
+  \begin{nedqn}
+    \textit{numCodePoints}
+  \leqcol
+    \frac{2^{2^m - 1}}{2^m}
+  \\
+    \logf{\textit{numCodePoints}}
+  \leqcol
+    2^m - 1 - m
+  \end{nedqn}
+
+  But we know that the Hamming code Hamming($2^m - 1$, $2^m - m - 1$)
+  meets exactly this bound.
+\end{proof}
+
+\subsection{Motivation}
+
+Block codes treat each chunk of message symbols equally. This would be
+inefficient if message chunks contained mutual information. However, we
+can assume that a compression algorithm has ensured that the mutual
+information between any two non-overlapping sets of bits is zero. In
+this case the method of encoding chunks of message bits makes sense.
+
+A second presumption is that it handles bit corruption and not insertion
+or deletion of bits. This probably makes sense in many contexts. If
+something is being transmitted, high/low amplitudes may be held for fix
+durations. So long as transmitting/receiving equipment uses synchronized
+clock rates, then no bits should be inserted/added.
+
+It is unnatural that Hamming codes cannot handle \emph{burst errors},
+which are expected to often be common.
 
 % ## Reed-Solomon
 
@@ -451,12 +594,9 @@ than one or two errors per block.
 % * Rolling Hash
 % * md5sum
 %
-% Show Hamming codes are perfect.
-%
 % Reed-Solomon
 %
 % https://en.wikipedia.org/wiki/Block_code
-% https://en.wikipedia.org/wiki/Hamming_bound
 % https://en.wikipedia.org/wiki/Linear_code
 % https://en.wikipedia.org/wiki/Noisy-channel_coding_theorem
 % https://en.wikipedia.org/wiki/Parchive
