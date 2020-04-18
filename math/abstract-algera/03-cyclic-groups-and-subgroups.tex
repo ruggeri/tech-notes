@@ -245,3 +245,23 @@
   The number of abelian groups of size $\prod_i p^{k_i}$ is thus equal
   to $\prod_i p(k_i)$.
 \end{remark}
+
+\begin{remark}
+  I want to jump ahead a moment and talk about finite \emph{fields}.
+  These are groups where every non-zero element has a multiplicative
+  inverse.
+
+  It's clear that $\Zmodp$ is a finite field. But $\Zmodp \times \Zmodp$
+  is more tricky. The identity is clearly $1 \times 1$. But note that $1
+  \times 0$ does not have an inverse! So this is not a finite field!
+
+  So does there exist a finite field of size $p^k$? Focus on the
+  multiplicative subgroup a moment. If this factors, then you can have
+  non-zero elements like $0 \times x$ which have no inverse. So I
+  presume that the multiplicative subgroup must itself be cyclic.
+
+  An example of a field that works is if you take polynomials modulo
+  $q(x)$, where $q$ is a $k+1$-degree irreducible polynomial. Then: (1)
+  every non-zero polynomial has an inverse, (2) the space consists of
+  all $k$-degree polynomials.
+\end{remark}
