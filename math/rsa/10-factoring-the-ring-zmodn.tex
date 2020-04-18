@@ -116,3 +116,22 @@
   the (natural) ring isomorphism where we've first permuted the
   elements.
 \end{remark}
+
+\begin{remark}
+  Keep in mind that the ring $\Zmodp \times \Zmodq$ is \emph{not} a
+  \define{field}! Obviously $pq \equiv 0$. This is similar to saying that
+  $1 \times 0$ and $0 \times 1$ both don't have an inverse. Notice how
+  powers of $1 \times 0$ never hits zero, but also never hits one.
+
+  Can finite fields of size $p^k$ exist? We know that examining any such
+  field strictly as an additive group will look like a product of copies
+  of $\Zmod{p_i^{k_i}}$. But what about their multiplicative group? This
+  will \emph{also} look like a product of $\Zmod{p_i^{k_i}}$. The
+  question then is: how do the additive and multiplicative operations
+  relate?
+
+  One way to create a finite field of size $p^k$ is to take polynomials
+  of degree $k$ over the finite field of $p$ elements. When we define
+  multiplication, we will mod out by an irreducible polynomial of degree
+  $k+1$.
+\end{remark}
