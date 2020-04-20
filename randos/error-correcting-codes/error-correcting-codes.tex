@@ -567,6 +567,22 @@ clock rates, then no bits should be inserted/added.
 It is unnatural that Hamming codes cannot handle \emph{burst errors},
 which are expected to often be common.
 
+\subsection{Handling More Errors Per Block}
+
+We've assumed that the tokens in our alphabet are \emph{bits}. However,
+we could also use use 8-bit bytes as our tokens. Hamming(7, 4) could use
+4 data bytes with 3 parity bytes. The code rate is the same regardless
+of the character bit width.
+
+Such a code will still only tolerate the corruption of one token in
+every block of seven: one byte. But this code will tolerate any number
+of bit flips \emph{within} the byte.
+
+A second approach is to \define{interlace} data. You could ``transpose''
+the encoded data by sending the first bit of every block first, then the
+second bit of every block, et cetera. By doing so, a burst error hits a
+lot of blocks, but only one bit worth!
+
 % ## Reed-Solomon
 
 % Reed-Solomon codes are widely used, they are error-correcting, and can
@@ -595,6 +611,8 @@ which are expected to often be common.
 % * md5sum
 %
 % Reed-Solomon
+% Erasure codes.
+% Interleaving (covered in ECC page, which I haven't full read.)
 %
 % https://en.wikipedia.org/wiki/Block_code
 % https://en.wikipedia.org/wiki/Linear_code
