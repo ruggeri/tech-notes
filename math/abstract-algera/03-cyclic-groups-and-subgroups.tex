@@ -442,8 +442,42 @@
   like functions. They are simply expressions in a syntactic sense. The
   notation $\Field[x]$ is really just meaning expressions written in a
   certain form. The $[x]$ part means ``adjoin'' an element to define a
-  richer set of expressions.
+  richer set of expressions. We could write $\Field[x, y]$ to define an
+  even fuller space of polynomials.
 \end{remark}
+
+\begin{proposition}
+  $\F[x]$ is a \define{cancellation ring}: whenever $xy = xz$, we may
+  infer $y = z$. However, $\F[x]$ is not a field.
+
+  A cancellation ring is also called an \define{integral domain}. That
+  name sounds dumb to me, though.
+\end{proposition}
+
+\begin{proof}
+  Consider $xy = xz$. Then $x \parens{y - z} = 0$ (distributive law).
+  But this clearly only happens if $x = 0$ or $y - z = 0$. So it is safe
+  to cancel when we know $x \ne 0$.
+
+  Even though $F[x]$ is a cancellation ring, it doesn't have inverses.
+  Multiplying by a polynomial can never result in a new polynomial of
+  lower degree. So \emph{no} polynomial (besides the integers) can have
+  an inverse.
+\end{proof}
+
+\begin{proposition}
+  A finite cancellation ring $R$ must be a field.
+\end{proposition}
+
+\begin{proof}
+  For every non-zero element $a$ and pair of distinct elements $b, c$,
+  we know $ab \ne bc$. Thus each $ab$ is distinct. There are $\order{R}$
+  distinct products, and exactly $\order{R}$ elements in the ring. So
+  there exists some $b$ such that $ab = 1$.
+
+  Note this proof doesn't work for \emph{infinite} cancellation rings
+  like the integers or polynomials.
+\end{proof}
 
 \begin{remark}
   It's clear that $\Zmodp$ is a finite field. But $\Zmodp \times \Zmodp$
