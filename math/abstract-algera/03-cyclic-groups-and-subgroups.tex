@@ -246,7 +246,10 @@
   to $\prod_i p(k_i)$.
 \end{remark}
 
-\subsection{Finite Fields}
+\clearpage
+\section{Finite Fields}
+
+\subsection{Definitions}
 
 \begin{remark}
   These notes are based off of:
@@ -297,6 +300,8 @@
   finite skew fields are in fact proper commutative fields. The only
   ``true'' skew fields are infinite.
 \end{definition}
+
+\subsection{Every field with $p$ elements is isomorphic to $\Zmodp$}
 
 \begin{theorem}
   $\Zmodn$ is a field exactly when $n$ is prime.
@@ -390,6 +395,60 @@
   in fact $p$, and thus $\Field \cong \GF{p}$.
 \end{proof}
 
+\subsection{Every finite field must have $p^k$ elements}
+
+\begin{theorem}
+  A finite field $\F$ must have $p^k$ elements (for some prime $p$ and
+  any $k > 0$).
+\end{theorem}
+
+\begin{proof}
+  Consider the additive group structure of $\F$. By the Fundamental
+  Theorem of Finite Abelian Groups, this is isomorphic to $\prod
+  \Zmod{p_i^{k_i}}$.
+
+  One of these subgroups represents the integers of the field. WLOG
+  presume this is $\Zmod{p_1^{k_1}}$. In fact, we've said the integers
+  must have prime order $p_1$ with $k_1 = 1$.
+
+  Now consider any other factor subgroup $\Zmod{p_i^{k_i}}$. I claim
+  that $i = p_1$ and $k = 1$. Why? Because take a generator $x$ of the
+  factor additive subgroup. We know that $\parens{1_1 + \ldots +
+  1_{p_1}} x = 0$, because $p_1$ is the characteristic of the field. But
+  then the (additive) order of $x$ must divide $p$. And because $p$ is
+  prime, this can only happen if the order is exactly $p_1$.
+
+  Thus all factor subgroups have the same order: $p$. Thus the field
+  overall has exactly $p^k$ elements.
+\end{proof}
+
+\begin{corollary}
+  No set of $ab$ elements (for $a, b$ coprime) can be a field.
+\end{corollary}
+
+\begin{remark}
+  We know that if a field $\F$ has $p^k$ elements, it must have additive
+  structure isomorphic to $x_0 \times \ldots \times x_{k-1}$. In fact,
+  we know that the $x_i$ are really just elements of $\Zmodp$, where $p$
+  is the characteristic of the finite field. We will write them as $f_0,
+  \ldots f_{k-1}$.
+
+  The question is what kind of multiplicative structures will be
+  compatible with the distributive law. This will determine what the
+  various fields of order $p^k$ are.
+
+  It turns out that for each pair $p, k$, there is exactly one field
+  with order $p^k$. That's what we will prove.
+\end{remark}
+
+\begin{remark}
+  \TODO{It seems that, because the integers must always have order $p$,
+  it's not possible to have a field of polynomials over a field of $p^k$
+  elements?}
+\end{remark}
+
+\subsection{Polynomial Rings}
+
 \begin{definition}
   A polynomial over $\Field$ is an expression $f_0 + f_1x + \ldots + f_m
   x^m$. The ``coefficients'' $f_i$ are taken from $\Field$. We can add
@@ -414,19 +473,17 @@
 \end{proposition}
 
 \begin{proof}
-  The space is a group with respect to addition. There are additive
-  inverses (the polynomial with coefficients $-f_0, \ldots, -f_m$). We
-  see that there is an additive identity (the polynomial with all zero
-  coefficients). A polynomial has a finite number of terms. A
-  \define{degree $n$} polynomial has $n+1$ terms.
+  The space is a commutative group with respect to addition. This is so
+  because the additive structure is isomorphic to $\F^k$.
 
   The space is a commutative monoid with respect to multiplication.
-  Multiplication is clearly commutative. Proving it is associative takes
-  just a little work that I won't bother with. The polynomial 1 is the
+  Multiplication is clearly commutative (since it is commutative in
+  $\F$). Proving polynomial multiplication is associative takes just a
+  little work that I won't bother with. The polynomial 1 is the
   multiplicative identity.
 
-  It is simple to verify that the distributive law holds, so this proves
-  that we have a ring.
+  It is simple to verify that the distributive law holds (again, because
+  it already holds in $\F$), so this proves that we have a ring.
 \end{proof}
 
 \begin{remark}
@@ -443,15 +500,13 @@
   notation $\Field[x]$ is really just meaning expressions written in a
   certain form. The $[x]$ part means ``adjoin'' an element to define a
   richer set of expressions. We could write $\Field[x, y]$ to define an
-  even fuller space of polynomials.
+  even fuller space of polynomials with $x^i y^j$ terms.
 \end{remark}
 
 \begin{proposition}
   $\F[x]$ is a \define{cancellation ring}: whenever $xy = xz$, we may
-  infer $y = z$. However, $\F[x]$ is not a field.
-
-  A cancellation ring is also called an \define{integral domain}. That
-  name sounds dumb to me, though.
+  infer $y = z$. However, $\F[x]$ is not a field. A cancellation ring is
+  more commonly called an \define{integral domain}.
 \end{proposition}
 
 \begin{proof}
@@ -459,19 +514,19 @@
   But this clearly only happens if $x = 0$ or $y - z = 0$. So it is safe
   to cancel when we know $x \ne 0$.
 
-  Even though $F[x]$ is a cancellation ring, it doesn't have inverses.
+  Even though $\F[x]$ is a cancellation ring, it doesn't have inverses.
   Multiplying by a polynomial can never result in a new polynomial of
   lower degree. So \emph{no} polynomial (besides the integers) can have
   an inverse.
 \end{proof}
 
 \begin{proposition}
-  A finite cancellation ring $R$ must be a field.
+  Any finite cancellation ring $R$ must be a field.
 \end{proposition}
 
 \begin{proof}
   For every non-zero element $a$ and pair of distinct elements $b, c$,
-  we know $ab \ne bc$. Thus each $ab$ is distinct. There are $\order{R}$
+  we know $ab \ne ac$. Thus each $ab$ is distinct. There are $\order{R}$
   distinct products, and exactly $\order{R}$ elements in the ring. So
   there exists some $b$ such that $ab = 1$.
 
@@ -479,6 +534,134 @@
   like the integers or polynomials.
 \end{proof}
 
+\subsection{Polynomial Division and Factorization}
+
+\begin{theorem}
+  For any two polynomials $f, g$, there is a unique choice of $q, r$
+  such that
+
+  \begin{nedqn}
+    f(x)
+  \eqcol
+    g(x)q(x) + r(x)
+  \end{nedqn}
+
+  \noindent
+  where $\deg r < \deg g$.
+\end{theorem}
+
+\begin{proof}
+  We can show this by considering the polynomial long division
+  algorithm.
+\end{proof}
+
+\begin{definition}
+  We may define polynomials \define{modulo} a polynomial $p(x)$ of
+  degree $n$. This consists of polynomials with degree less than $n$.
+  Addition and multiplication meet the requirements of a ring. Question:
+  when are there inverses? We will show this is when $p(x)$ is
+  \define{irreducible}.
+\end{definition}
+
+\begin{definition}
+  Polynomials with leading term 1 are called \define{monic} polynomials.
+
+  If a polynomial cannot be written as the product of two non-constant
+  polynomials, then the polynomial is called \define{irreducible}. A
+  monic, irreducible polynomial is called a \define{prime polynomial}.
+\end{definition}
+
+\begin{proposition}
+  Every monic polynomial has a unique factorization into prime
+  polynomials.
+\end{proposition}
+
+\begin{proof}
+  First: note that there is a single monic polynomial of degree zero
+  ($f(x) = 1$) and it has a unique factorization. Assume that every
+  monic polynomial of degree $n' < n$ has a unique factorization into
+  prime polynomials. Take a monic polynomial $f$ with degree $n$. Our
+  goal is to show that this, too, has a unique factorization into prime
+  polynomials.
+
+  We will show this by contradiction. Assume that $f$ factors into
+  $\prod_{i = 1}^{m_p} p_i$ and also $\prod_{j = 1}^{m_q} q_j$. Choose a
+  factor with the \emph{lowest degree}. We may assume that this is
+  $p_1$.
+
+  It is clear from the factorization of $f$ into $p_i$ that $f$ modulo
+  $p_1$ must be zero. Thus the product of $q_j$ modulo $p_1$ must also
+  be zero. This sounds suspicious. Let's rewrite each $q_j$ as $a_j p_1
+  + b_j$, where $b_j$ must have degree strictly less than $p_1$. Thus:
+
+  \begin{nedqn}
+    f
+  \equivcol
+    0 \pmod{p_1}
+  \\
+    \prod_j q_j
+  \equivcol
+    0 \pmod{p_1}
+  \\
+    \prod_j \parens{a_j p_1 + b_j}
+  \equivcol
+    0 \pmod{p_1}
+  \\
+    \prod_j b_j
+  \equivcol
+    0 \pmod{p_1}
+  \intertext{This tells us that there exists a polynomial $c$ such that:}
+    \prod_j b_j
+  \eqcol
+    c p_1
+  \end{nedqn}
+
+  Since all $b_j$ have degree strictly less than $p_1$, we know that
+  however $c$ might factor into $c_k$, we will have two distinct
+  factorizations of the same polynomial: $\prod_j b_j$ and $p_1 \prod_k
+  c_k$.
+
+  But note that the degree of $\prod_j b_j$ must be \emph{strictly less}
+  than the degree of $\prod_j q_j$. Why? The degree of $p_1$ is never
+  greater than the degree of $q_j$. The degree of the remainder $b_j$ is
+  always strictly less than $p_1$ and thus also $q_j$.
+
+  We have now found a contradiction to our induction hypothesis, and the
+  unique factorization theorem is thus proven.
+\end{proof}
+
+\subsection{Constructing of Field of Order $p^k$}
+
+\begin{theorem}
+  Polynomials over $\F$ modulo a polynomial $f(x)$ form a field if and
+  only if $f(x)$ is irreducible. If $\F$ has order $p$, and $f$ has
+  degree $k$, then the order of $\F[x] \bmod f$ is $p^k$.
+\end{theorem}
+
+\begin{proof}
+  We have already remarked $\F[x] \bmod f$ is a \emph{ring}.
+
+  If $f$ is reducible, note that non-zero factors $f_1, f_2$ multiply to
+  $f$. Then we know that $f_1 f_2 \equiv 0 \pmod{f}$. So we know that
+  $\F[x] \bmod f$ cannot be a cancellation ring, much less a field.
+
+  So consider any $f$ that is irreducible. Take any element $g \in \F[x]
+  \bmod f$. For every other $h \in \F[x] \bmod f$, consider the product
+  $g h$. We know these are unique, else $g \parens{h_1 - h_2} \equiv 0
+  \pmod{f}$. For distinct $h_1, h_2$, this would factor $f$, which was
+  presumed irreducible.
+\end{proof}
+
+\begin{theorem}
+  If $\F$ is a field, then its multiplicative group $\F^\times$ is
+  cyclic.
+\end{theorem}
+
+\begin{proof}
+  By Lagrange's theorem, we know that the ...
+\end{proof}
+
+% I think the following remark is junk?
 \begin{remark}
   It's clear that $\Zmodp$ is a finite field. But $\Zmodp \times \Zmodp$
   is more tricky. The identity is clearly $1 \times 1$. But note that $1
