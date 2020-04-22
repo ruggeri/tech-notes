@@ -110,23 +110,12 @@
   that there is some $m$ such that $km \equiv n/d \pmod{n}$.
 \end{proof}
 
-\begin{remark}
-  This might ``feel'' obvious, but note this isn't a corollary of the
-  Fundamental Theorem of Algebra. The Fundamental Theorem is about
-  \emph{factorizations}, and if $G$ is cyclic is \emph{isn't}
-  factorable.
-\end{remark}
-
 \begin{proposition}
   If an abelian group $G$ contains no more than one subgroup of each
-  order $d$ \emph{properly} dividing $\order{G}$, then $G$ is cyclic.
+  order $d$ dividing $\order{G}$, then $G$ is cyclic.
 \end{proposition}
 
 \begin{proof}
-  If we didn't restrict $d$ to only \emph{proper} divisors of
-  $\order{G}$, then then this would be tautological: just set $d =
-  \order{G}$.
-
   We'll prove this via the contrapositive. We know that if $G$ is
   \emph{acyclic}, then it has factors $\Zmod{p^k}$ and $\Zmod{p^m}$ with
   the same base $p$. But we know that both these factors contain
@@ -193,3 +182,11 @@
   Since a cyclic group $G$ has exactly one subgroup of order $d$
   for each $d$ dividing $n$, the above formula works perfectly.
 \end{proof}
+
+\begin{remark}
+  This can be used to give a second proof that a group $G$ with no more
+  than one cyclic subgroup of each order $d$ dividing $\order{G}$ must
+  in fact be cyclic. If it did not contain a subgroup of order
+  $\order{G}$, then counting the generators wouldn't account for all the
+  elements in $G$.
+\end{remark}
