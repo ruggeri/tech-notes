@@ -847,3 +847,93 @@
   Thus we know the finite field $\F$ is isomorphic to a quotient field
   $\parens{\Zmodp}[x]/(g)$ for some irreducible $g$.
 \end{proof}
+
+\begin{remark}
+  I have not yet shown that there is always a field of order $p^k$. To
+  do this it would suffice to show there always exists an irreducible
+  polynomial of degree $k$ over $\Zmodp$.
+
+  Nor have I shown that all fields with the same order are isomorphic.
+  To do this I could show that every field $\parens{\Zmodp}[x]/(g)$ is
+  isomorphic regardless the choice of irreducible, degree-$k$ $g$.
+\end{remark}
+
+\subsection{Minimal Polynomials}
+
+\begin{definition}
+  Consider a field $\F_q$ with $p^k$ elements. Let $\F_p$ be the prime
+  subfield of integers of $\F_q$. Note that polynomials over $\F_p[x]$
+  can also be viewed as polynomials over $\F_q[x]$. A polynomial
+  $g_\beta \in \F_p[x]$ is called a \define{minimal} polynomial for
+  $\beta \in \F_q$ if (1) $g_\beta(\beta) = 0$, and (2) there is no
+  other $h \in F_p[x]$ with lesser degree such that $h(\beta) = 0$.
+\end{definition}
+
+\begin{proposition}
+  If $f \in \F_p[x]$ satisfies $f(\beta) = 0$, then the minimal
+  polynomial $g_\beta$ must divide $f$.
+\end{proposition}
+
+\begin{proof}
+  Consider if $f = qg_\beta + r$. Then $r(\beta) = 0$. Since $g_\beta$
+  was presumed minimal, it must be that $r = 0$. In which case $f$ is a
+  multiple of $g$.
+\end{proof}
+
+\begin{corollary}
+  If $\deg f = \deg g_\beta$, then $f = g_\beta$.
+\end{corollary}
+
+\begin{proposition}
+  A minimal polynomial $g_\beta$ must be irreducible over $\F_p$.
+\end{proposition}
+
+\begin{proof}
+  Otherwise we could factor into $g_1, g_2$ (each with lesser degree
+  than $g_\beta$). But then at least one of $g_1(\beta), g_2(\beta)$
+  would have to equal zero.
+\end{proof}
+
+\begin{proposition}
+  For every $\beta \in \F_q$, there exists a minimal polynomial $g_\beta
+  \in \F_p[x]$.
+\end{proposition}
+
+\begin{proof}
+  It suffices to show that there exists \emph{any} polynomial $g \in
+  \F_p[x]$ satisfying $g(\beta)$. So long as there is at least
+  \emph{one}, then somebody must be minimal.
+
+  Consider the polynomial $x^{p^k} - 1$. Since this is a polynomial in
+  $\F_p[x]$, we may factor it into irreducible polynomials $g_i$ over
+  $\F_p$ st $x^{p^k} - 1 = \prod_i g_i$. At the same time, we may factor
+  it over $\F_q$. Over $\F_q$ this trivially factors into $x^{p^k} - 1 =
+  \prod_j (x - \beta_j)$.
+
+  This shows us that $(x - \beta_j)$ must be a factor of exactly one of
+  the $g_i$. Which shows us there is always a minimal polynomial for
+  $\beta_j$ in $\F_p$.
+\end{proof}
+
+\begin{theorem}
+  $\F_q$ is isomorphic to $F_p[x]/(g)$, for some $g$ irreducible over
+  $\F_p$.
+\end{theorem}
+
+\begin{proof}
+  This is basically identical to my earlier proof. Consider the map
+  $m_\beta: \F_p[x] \to \F_q$ defined by $m_\beta(f) = f(\beta)$. This
+  is a homomorphism from $\F_p[x]$ into $\F_q$.
+
+  If we restrict $m_\beta: \F_p[x]/(g_\beta) \to \F_q$, we have an
+  injective homomorphism. We've shown that any $f \in \F_p[x]$
+  satisfying $f(\beta) = 0$ is supposed to be a multiple of the minimal
+  polynomial $g_\beta$.
+
+  So $m_\beta$ is an isomorphism. We want to show it is surjective onto
+  all of $\F_q$ for the right $\beta$. So choose $\beta$ a generator of
+  the multiplicative group $\F^\times$. We then know that all elements
+  of $\F_q$ are equal to $\beta^i$ for some $i$. But if you take $f(x) =
+  x^i \bmod g_\beta$, then we will still have $f(\beta) = \beta^i$. Thus
+  $m_\beta$ is surjective onto all of $\F_q$.
+\end{proof}
