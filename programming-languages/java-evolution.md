@@ -51,3 +51,15 @@ C++'s learnings from the beginning.
           implementations of same method signature. That would cause
           an error.
         * I guess this makes them more like mixins.
+* And many more. Up to Java 14 today?
+
+## Java Ecosystem
+
+The OpenJDK project develops the primary Java
+implementation. Officially supported releases are called Java
+SE. These are based on OpenJDK and released by Oracle (used to be by
+Sun).
+
+Apparently Oracle no longer releases security updates for older
+versions of Java under a permissive license. Thus there exists
+AdoptOpenJDK which is a project that maintains older versions of Java.
