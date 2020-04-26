@@ -754,6 +754,10 @@
 
 \subsection{Finite Fields Are Isomorphic To Polynomial Quotient Fields}
 
+\begin{remark}
+  This approach is my own! With some help from JRN!
+\end{remark}
+
 \begin{lemma}
   Let $\F$ be a field with $p^k$ elements. Then it requires $k$ linearly
   independent $x_0, \ldots, x_{k-1}$ to span all of $\F$.
@@ -824,11 +828,11 @@
   injective.
 \end{proof}
 
-\begin{lemma}
+\begin{theorem}
   Let $\F$ be a finite field of order $p^k$. There exists an
   irreducible, degree-$k$ polynomial $g$ over $\Zmodp$ such that $\F$ is
   isomorphic to $\parens{\Zmodp}[x]/(g)$.
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
   How can we reduce polynomials with degree greater than $k-1$ to
@@ -860,19 +864,26 @@
 
 \subsection{Minimal Polynomials}
 
-\newcommand{\Fmodg}{\parens{\Zmodp}[x]/(g)}
+\begin{remark}
+  This approach will more closely follow the Stanford handout chapter I
+  was reading.
+\end{remark}
+
+\newcommand{\Fp}{\F_p}
+\newcommand{\Fq}{\F_q}
+\newcommand{\Fmodg}{\Fp[x]/(g)}
 
 \begin{definition}
-  Consider a field $\F_q$ with $p^k$ elements. Let $\F_p$ be the prime
-  subfield of integers of $\F_q$. Note that polynomials over $\F_p[x]$
-  can also be viewed as polynomials over $\F_q[x]$. A polynomial
-  $g_\beta \in \F_p[x]$ is called a \define{minimal} polynomial for
-  $\beta \in \F_q$ if (1) $g_\beta(\beta) = 0$, and (2) there is no
-  other $h \in F_p[x]$ with lesser degree such that $h(\beta) = 0$.
+  Consider a field $\Fq$ with $p^k$ elements. Let $\Fp$ be the prime
+  subfield of integers of $\Fq$. Note that polynomials over $\Fp[x]$ can
+  also be viewed as polynomials over $\Fq[x]$. A polynomial $g_\beta \in
+  \Fp[x]$ is called a \define{minimal} polynomial for $\beta \in \Fq$ if
+  (1) $g_\beta(\beta) = 0$, and (2) there is no other $h \in Fp[x]$ with
+  lesser degree such that $h(\beta) = 0$.
 \end{definition}
 
 \begin{proposition}
-  If $f \in \F_p[x]$ satisfies $f(\beta) = 0$, then the minimal
+  If $f \in \Fp[x]$ satisfies $f(\beta) = 0$, then the minimal
   polynomial $g_\beta$ must divide $f$.
 \end{proposition}
 
@@ -887,7 +898,7 @@
 \end{corollary}
 
 \begin{proposition}
-  A minimal polynomial $g_\beta$ must be irreducible over $\F_p$.
+  A minimal polynomial $g_\beta$ must be irreducible over $\Fp$.
 \end{proposition}
 
 \begin{proof}
@@ -897,56 +908,95 @@
 \end{proof}
 
 \begin{proposition}
-  For every $\beta \in \F_q$, there exists a minimal polynomial $g_\beta
-  \in \F_p[x]$.
+  For every $\beta \in \Fq$, there exists a minimal polynomial $g_\beta
+  \in \Fp[x]$.
 \end{proposition}
 
 \begin{proof}
   It suffices to show that there exists \emph{any} polynomial $g \in
-  \F_p[x]$ satisfying $g(\beta)$. So long as there is at least
+  \Fp[x]$ satisfying $g(\beta)$. So long as there is at least
   \emph{one}, then somebody must be minimal.
 
-  Consider the polynomial $x^{p^k} - 1$. Since this is a polynomial in
-  $\F_p[x]$, we may factor it into irreducible polynomials $g_i$ over
-  $\F_p$ st $x^{p^k} - 1 = \prod_i g_i$. At the same time, we may factor
-  it over $\F_q$. Over $\F_q$ this trivially factors into $x^{p^k} - 1 =
-  \prod_j (x - \beta_j)$.
+  Consider the polynomial $x^{p^k} - x$. Since this is a polynomial in
+  $\Fp[x]$, we may factor it into irreducible polynomials $g_i$ over
+  $\Fp$ st $x^{p^k} - x = \prod_i g_i$. At the same time, we may factor
+  it over $\Fq$. Over $\Fq$ this trivially factors into $x^{p^k} - x =
+  \prod_{\beta\in\Fq} (x - \beta)$ because Lagrange.
 
-  This shows us that $(x - \beta_j)$ must be a factor of exactly one of
-  the $g_i$. Which shows us there is always a minimal polynomial for
-  $\beta_j$ in $\F_p$.
+  This shows us that for any $\beta\in\Fq$, $(x - \beta)$ must be a
+  factor of (exactly) one of the $g_i$. Which shows us there is always a
+  minimal polynomial for $\beta_j$ in $\Fp$.
+\end{proof}
+
+\begin{proof}
+  To speak with fewer symbols...
+
+  We want to show there always exists \emph{some} non-zero polynomial in
+  $\Fp[x]$ where $\beta\in\Fq$ is a root. If so, then it follows
+  naturally that \emph{some} divisor polynomial must be minimal. Showing
+  there exists a polynomial with $\beta$ as a root amounts to saying:
+  there are at least \emph{two} ways to write each $\beta$ as linear
+  combinations of powers of $\beta$ with coefficients in $\Fp$. We'll
+  show this.
+
+  So just consider taking powers of $\beta$. We know that this must
+  eventually return to $\beta$ (e.g., by Lagrange, after $p^k$ steps).
+  So we have our two ways of writing $\beta$ ($x, x^{p^k}$) and they
+  only use $1, -1$ coefficients in $\Fp$. It follows that $x^{p^k} - x$
+  is a polynomial with $\beta$ as a root.
+
+  That suffices to prove our claim, but let us think less gratuitously.
+  Start taking powers of some $\beta$. When are we \emph{for sure} going
+  to get something that lies in the span of $\beta$? Wait: what do we
+  mean ``span'' of $\beta$? What coefficients should we use? It makes
+  sense to think of the span of $\beta^i$ as integer multiples
+  $k\beta^i$. This is exactly what you get from repeated addition of
+  $\beta^i$. So let's choose the integers of $\Fq$ as the coefficients.
+
+  The integers are $\Fp$, so the characteristic of $\Fq$ is $p$, so
+  there are $p$ multiplies of $\beta^0$. Likewise $p$ multiples of
+  $\beta^1$, et cetera. So there at most $k$ linearly independent powers
+  $\beta^i$. Once you let in $\beta^k$, you have something that is for
+  sure linearly dependent in the prior powers of $\beta$.
+
+  Such a polynomial of degree $k$ (or less, if $\beta$ generates a
+  subfield strictly smaller than all of $\Fq$) is called
+  \define{minimal} for $\beta$. It's a second way to write $\beta$. No
+  polynomial with degree less than $k$ will do.
+
+  This construction of the minimal polynomial exactly mimics what I did
+  in my own proof above that any $\F$ is isomorphic to some $\Fmodg$.
 \end{proof}
 
 \begin{theorem}
-  $\F$ of order $p^k$ is isomorphic to $\Fmodg$, for some
-  $k$-degree polynomial $g$ irreducible over $\Zmodp$.
+  $\F$ of order $p^k$ is isomorphic to $\Fmodg$, for some $k$-degree
+  polynomial $g$ irreducible over $\Zmodp$.
 \end{theorem}
 
 \begin{proof}
-  This is basically identical to my earlier proof. Consider the map
-  $m_\beta: \Zmodp[x] \to \F$ defined by $m_\beta(f) = f(\beta)$. This
-  is a homomorphism from $\Zmodp[x]$ into $\F$.
+  Again this is basically identical to my earlier proof. Consider the
+  map $m_\beta: \Zmodp[x] \to \F$ defined by $m_\beta(f) = f(\beta)$.
+  This is a homomorphism from $\Zmodp[x]$ into $\F$.
 
   If we restrict $m_\beta: \Zmodp[x]/(g_\beta) \to \F$, we have an
-  injective homomorphism. We've shown that any $f \in \Zmodp[x]$
-  satisfying $f(\beta) = 0$ is supposed to be a multiple of the minimal
-  polynomial $g_\beta$.
+  injective homomorphism. This follows from the fact (previously proven)
+  that any $f \in \Zmodp[x]$ satisfying $f(\beta) = 0$ is a multiple of
+  the minimal polynomial $g_\beta$.
 
   So $m_\beta$ is an isomorphism. We want to show it is surjective onto
   all of $\F$ for the right $\beta$. So choose $\beta$ a generator of
   the multiplicative group $\F^\times$. We then know that all elements
   of $\F$ are equal to $\beta^i$ for some $i$. We know that all powers
-  $\beta_i$ are hit by $f(x) = x^i \bmod g_\beta$ under the mapping
-  $m_\beta(f) = f(\beta)$. Thus $m_\beta$ is surjective onto all of
-  $\F$.
+  $\beta_i$ are hit by $m_\beta$ since $m_\beta\parens{x^i} = \beta^i$.
+  Thus $m_\beta$ is surjective onto all of $\F$.
 
   Since $\F$ has $p^k$ elements, we know that there must be $p^k$
   elements in $\Fmodg$, and thus we know that $g$ must have degree $k$.
 \end{proof}
 
 \begin{remark}
-  I have presented this approach taken by the PDF I have been studying.
-  I'm not sure I yet see its advantage to my approach.
+  In summary: we see that the Stanford chapter is really just a
+  retelling of my own story in terms of ``minimal polynomials.''
 \end{remark}
 
 \subsection{All Finite Fields of Order $p^k$ Are Isomorphic}
@@ -1052,6 +1102,13 @@
 \begin{corollary}
   All finite fields $\F$ with $p^k$ elements are isomorphic.
 \end{corollary}
+
+\begin{remark}
+  \TODO{This feels a bit messy and convoluted.} Is there a more
+  straightforward way to see that an irreducible polynomial $g$ must be
+  minimal for some $\beta \in \F_{p^k}$? Once you have that fact, then
+  you are of course home free.
+\end{remark}
 
 % Finished through 7.8.4! Page 22 of 26! Will try to power through
 % eventually to finish this off!
