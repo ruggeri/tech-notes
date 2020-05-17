@@ -4,147 +4,193 @@ They point out that two traditional approaches are (1) depth-limited,
 followed by a valuation function (like minimax with alpha-beta
 pruning), (2) Monte Carlo Tree Search, which limits breadth.
 
-**MCTS**
+## General Background
 
-Let's talk MCTS for a moment. MCTS is kinda like rollouts. In a
-rollout, you play the same position many times with a very simple
-strategy. From this, you can determine the "equity" of the position:
-its value. Empirically, this can be a good estimator of the estimator
-of the value.
+**Rollouts**
 
-Rollouts are used in backgammon, which are stochastic, where even if
-you know a generally pretty good strategy, the truly correct action
-will depend a lot on chance.
+Rollouts are used to evaluate Backgammon. Backgammon is *stochastic*,
+you roll the dice and then you move. So what they do is they play the
+entire game out, using a simple strategy (called a "policy"). You "roll"
+the game out: exploring all the way to the end over many simulations.
 
-MCTS is a tree search method. You evaluate moves "semi-randomly". You
-do a move ordering type thing. You explore a move, each time picking
-what looks like the best move until you get to the bottom.
+To get things to converge better, you should not randomly roll the first
+move, but do 1/36th of each trial for 1-1, 1-2, ..., 6-6. But you can't
+evenly weight all the way down, because you don't want to do 36^depth
+simulations.
 
-That tells you what would happen for one game, but maybe one of what
-you thought was the "best-move" was not? That's the whole point.
+You keep track of the win-loss ratio for each initial move. The chosen
+move is the one which won the highest percentage of games.
 
-So what you do is start again from the root. You keep track of how
-many times you've tried each next move, and also how many wins you had
-with that move. Your heuristic should assign each move a *prior
-probability*. This determines how promising it is. Now, you combine
-all this information.
+Presumably the result of the rollout method is better than would be
+achieved using a simple policy that did no tree search.
 
-That is, you favor (1) moves that you initially thought were good, (2)
-which resulted in you winning often, and (3) which haven't explored
-much yet.
+AlphaGo does not exactly use rollouts, but it uses MCTS, which is
+inspired by rollouts.
 
-Note: "pure" Monte Carlo Tree Search would just play random moves and
-pick the one that resulted in the most wins. That would be horrible at
-chess.
+**MCTS: Random Style**
 
-Another note: you'll have to balance exploration and exploitation.
+How can we use the idea of rollouts in a *deterministic* game like
+chess? Instead of using the policy to deterministically choose a move in
+response to a random event, we want to non-deterministically choose a
+move.
 
-MCTS, because it focuses on the most promising trees, is preferred in
-games with a high branching factor.
+In the most naive form: we could randomly choose a move each time,
+playing until the end. At the end of many simulations, we choose the
+move that gives us the most wins.
 
-**Policy Network**
+That is a silly idea though. We don't want to make the move that gives
+us the highest percentage of wins if our opponent chooses their moves
+randomly. We want the move that gives us the most wins if our opponent
+chooses their move *well*, and we respond with our own good moves.
 
-The choice of moves to make for MCTS is very important to its
-efficacy. So the typical approach is to train a network to predict
-expert player moves. The AlphaGo authors claim that earlier work used
-shallow nets or linear valuation functions. They use a 13-layer
-convolutional neural network.
+Thus, we do need a basic strategy: a policy. Our first improvement is to
+choose the opponent's moves using the policy. Our second improvement is
+to choose our own moves according to the policy. But that would only
+deterministically explore one tree. How do avoid that?
 
-**Four Networks**
+**MCTS: Nondeterminism**
 
-They train a supervised network to predict expert player moves. They
-also train a version which is very fast and can be used for rollouts.
+We will use the policy network not to deterministically choose a move,
+but to give us a probability distribution on the goodness of moves. This
+could be a softmax on a score it gives to each move. We will randomly
+choose a move according to this probability distribution.
 
-They then use the supervised network to initialize a reinforcement
-learner, that will play against itself. It will improve the network to
-improve its play against itself. This adjust the network away from
-predicting an expert's moves to playing good moves to win the game.
+There are two more bits we want to add: (a) we want to encourage
+exploration beyond simply what the policy thinks is a good move, and (b)
+if the tree search starts to say a move is good, we should explore it
+deeper.
 
-Last, they trained a valuation network that predicts the winner of
-games played by reinforcement learned network against itself.
+To incorporate (a), the AlphaGo people suggest we choose the move which
+is the argmax of a
 
-## SL Network and Fast Rollout Policy Network
+    P(move) / (1 + NUM_SAMPLES(move))
 
-Trained on state-action pairs of expert games. Job is to predict the
-action from the state. 13 layers of CNN, alternating convolution with
-rectifier nonlinearity. Predicts expert moves at 55% accuracy. They
-noted that small improvements in accuracy greatly improved AlphaGo's
-win rate.
+Where P(move) is the prior probability assigned by the policy network.
+This is a deterministic choice function, except eventually we'll explore
+the second best move after enough samples of the best move.
 
-They also trained a fast rollout policy network the same way, except
-it was a much simpler network. I believe it was just a linear
-softmax. This acheieved 25% accuracy, but took 2 microseconds rather
-than 3 milliseconds to evaluate.
+We'll see how to incorporate (b) in the next section.
 
-## Reinforcement Learning
+**MCTS: Converging Toward Best Play**
 
-They did policy gradient reinforcement learning to improve the SL
-policy network. It started out initialized to SL, but then updated
-itself as it played prior versions of itself. It played a sample of
-older versions of itself so that it didn't become just good at beating
-itself.
+Imagine we are playing through to the end. We record the wins/losses at
+each node. Eventually, we want to choose the initial node with the best
+win/loss ratio.
 
-They found the RL network beat the original SL network 80% of the
-time. They found that it won 85% of games against the strongest
-open-source Go program. NOTE: the RL network *does no search at
-all*. It's just playing based on what it thinks experts would do.
+Note that this *does not* converge to best play. This chooses the move
+that maximizes the probability of winning when moves are chosen with
+probability proportionate to the policy valuation.
 
-## Valuation Network
+We need to do (b) from above: we need to increase the probability of a
+move based on how good it appears to be from the tree search. We should
+choose the argmax of:
 
-They learn a network to value the probability of winning when the RL
-program plays itself. Their idea is that a good valuation function
-would assume perfect play, and the RL network is the best they have.
+    WIN_RATIO + \alpha P(move) / (1 + NUM_SAMPLES(move))
 
-Their valuation network has similar structure to the policy networks,
-but only outputs a single number: the value.
+The choice of \alpha will determine how fast we mix information learned
+from the tree search with our prior opinion on the goodness of the move.
+But eventually the win ratio will dominate. This is the "truer"
+information in the sense that it plays out the rest of the game. It will
+bias us toward truly better moves. So we should converge to best play.
 
-Important note: if they fed a whole game to this network to train on,
-it will just memorize the outcome and figure out that certain boards
-are from the same game. So instead they played 30MM games and just
-used one move from each.
+**MCTS: The Policy Considered**
 
-To compare. A uniform random rollout policy was very bad at predicting
-the winner of the game. Their fast rollout policy trained from expert
-moves was quite good. Better yet was doing rollout with a policy of
-the larger SL and RL networks.
+MCTS will converge (albeit slowly) no matter the policy you use. That's
+because over time the WIN_RATIO will dominate. But the better the
+policy, the faster the convergence.
 
-The value network did almost as good as the SL and RL rollout
-policies, and especially in the middle of games was *much* better than
-doing the fast rollouts.
+**MCTS: Valuation**
 
-Running the valuation network was 15k times faster than the RL policy
-network rollout, but nearly as good.
+You don't really want to play the game all the way out. That would tend
+to be slow to converge. Instead, you'd like to quit after a certain
+depth, using a valuation function. Instead of WIN_RATIO, you use
+AVG_VALUATION.
 
-## Searching with the Policy and Value Networks
+## AlphaGo Policy Network
 
-This describes MCTS a bit. They want to argmaximize:
+**Standard Learning Policy Network**
 
-    Q(s, a) + P(s, a)/(1 + N(s, a))
+First, they train a policy network to predict moves played by great
+chess players is good games. It apparently uses just CNN layers (13
+layers). They choose a random state action pair from an expert game,
+feed the state into the network, and the network tries to pick the
+expert chosen action. This is basic SGD.
 
-The `Q` is the value based on experience. `P` is the prior probability
-of that `(s, a)`. `(1 + N(s, a))` is how many times we have visited
-this already.
+The SL Policy Network picks the expert move as the most probable 55% of
+the time.
 
-Now, to evaluate `P`, they use their SL network trained to predict
-expert moves.
+**Fast Policy Network**
 
-Leaf nodes are evaluated first with the valuation network, and also
-with a rollout using the fast rollout policy. They are then mixed
-together linearly.
+They trained a very fast policy network which used just a subset of
+features. This had only a 24% accuracy, but took 2 microseconds to
+evaluate versus 3 milliseconds for the SL policy network.
 
-Now, everyone in the tree on this path has `N(s, a)` incremented. We
-also update `Q(s, a)` by adding the valuation of the newly tried leaf
-and dividing by `N(s, a)`.
+**Reinforcement Learning Policy Network**
 
-Note: we switch to the fast policy network when we evaluate a leaf. We
-use the slower, more thoughtful network to make decisions down to the
-leaf.
+They next play the policy network against itself. Actually, they
+randomly choose a previous iteration of itself to play against, so that
+it does not overtrain on itself.
 
-They note that the SL network does better than the RL network at
-choosing moves to try out. They note that there is perhaps a wider
-beam of moves that humans will consider. On the other hand, they found
-the value function derived from the RL network was better than the one
-derived from SL.
+They don't do any fancy attribution. As far as I can tell they just do
+gradient ascent, reinforcing all action choices in a winning game, and
+punishing all action choices in a losing game.
+
+The RL network eventually beat the SL network 80% of the time. It won
+85% of the games against Pachi, the best open source Go program.
+
+Reminder: both the SL and RL policy networks do no tree search at all.
+
+## AlphaGo Valuation Network
+
+They train a network to predict whether perfect play would win from a
+given position. They don't know perfect play, so we'll settle for the
+probability that the RL policy, if played against itself, would win.
+They approximate this probability function with a neural network.
+
+To train, they generated 30MM self-play games. They trained by using
+just a single position in each game. They didn't want to train on
+multiple positions in each game, since game states are highly
+correlated.
+
+**Valuation Network Evaluation**
+
+They compare the valuation network to four other ways of valuing:
+
+* Full rollouts with a random policy (very bad),
+* Full rollouts with a "fast" policy network (not quite as good as the
+  value network),
+* Full rollouts with the SL policy network (better),
+* Full rollouts with the RL policy network (better).
+
+We expect rollouts with the SL/RL policy networks to give a better idea
+of who wins. They're doing actual search! But it's impressive that the
+valuation network is better than rollouts with a "fast" policy network.
+
+They note that the valuation network was almost as good as the RL policy
+rollouts, but with 15,000x less computation.
+
+## MCTS In AlphaGo
+
+As discussed, they use the policy network to assign a prior probability
+on moves to explore. They adjust divide this by `1 + N(move)` to
+encourage exploration rather than just exploitation.
+
+However, we want to learn from our simulation experience also! So they
+also incorporate `Q(move)`. This is the average valuation of trials
+through this node.
+
+The leaf node valuation is a weighted average of (1) the valuation
+network result, and (2) a single random rollout using the fast policy.
+They used a 50/50 mixing.
+
+Note: the prior probability `P(move)` is based on the *SL* policy
+network. The SL network was the one trained on expert moves. Since
+experts vary in style, the SL network was less biased toward looking at
+just the one move the RL network feels sure is the very best. That is:
+the SL network encourages us to search a wider *beam* of good moves.
+
+The RL policy was still useful in training the valuation network,
+though!
 
 ## Relative Value of Networks
 
