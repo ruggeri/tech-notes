@@ -37,6 +37,16 @@
   * Writing up notes on eigenvector decomposition, SVD would help.
 * Chaos
 * Parity bits and encoding schemes
+* Elliptic Curve Crypto
+* Why is it that the normal distribution has a power of x^2?
+  * Also, why do we care about the normal distribution? It is specific
+    to convergence in L2 norm. But who cares about that?
+  * Note: is it that, if you used stricter notions of convergence, you
+    wouldn't get some other distribution, but just fewer distributions
+    would converge at all?
+  * This is basically a question about the central limit theorem? * Wait
+  but does CLT say that density function converges toward normal in L2
+  norm?
 
 ## Explanation
 
