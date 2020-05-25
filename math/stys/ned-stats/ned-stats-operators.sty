@@ -1,5 +1,8 @@
 %% Expectation/Variance
 
+\let\oldPr\Pr
+\renewcommand{\Pr}[1]{\oldPr\parens{#1}}
+
 \newcommand{\expectation}[1]{
   \mathbb{E}
   \left[

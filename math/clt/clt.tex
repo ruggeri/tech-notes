@@ -1,0 +1,220 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+\usepackage{ned-stats}
+
+\newcommand{\meanX}{\overline{X}}
+
+\begin{document}
+
+\title{Central Limit Theorem}
+\maketitle
+
+\section{Expected Value and Variance}
+
+\begin{definition}
+  The expected value for a real valued variable $X$ is defined like so:
+
+  \begin{nedqn}
+    \expectation{X}
+  \eqcol
+    \int_\Omega X(\omega) \diff{P(\omega)}
+  \end{nedqn}
+\end{definition}
+
+\begin{remark}
+  This is a very general/technical definition. $\Omega$ is the
+  \define{sample space}, while $P$ is a Lebesgue measure on $\Omega$
+  with $P(\Omega) = 1$. A random variable $X$ is treated as a function
+  $X: \Omega \to S$.
+\end{remark}
+
+\begin{definition}
+  Variance is defined like so:
+
+  \begin{nedqn}
+    \Var{X}
+  \eqcol
+    \expectation{\parens{X - \mu}^2}
+  \end{nedqn}
+\end{definition}
+
+\begin{proposition}
+  \begin{nedqn}
+    \Var{\alpha X}
+  \eqcol
+    \alpha^2 \Var{X}
+  \end{nedqn}
+\end{proposition}
+
+\begin{proposition}
+  For $X, Y$ independent with finite mean and variance:
+
+  \begin{nedqn}
+    \expectation{X + Y}
+  \eqcol
+    \expectation{X} + \expectation{Y}
+  \end{nedqn}
+\end{proposition}
+
+\begin{proof}
+  ...
+\end{proof}
+
+\begin{proposition}
+  For $X, Y$ independent with finite mean and variance:
+
+  \begin{nedqn}
+    \expectation{X + Y}
+  \eqcol
+    \expectation{X} + \expectation{Y}
+  \end{nedqn}
+
+  \begin{nedqn}
+    \Var{X + Y}
+  \eqcol
+    \Var{X} + \Var{Y}
+  \end{nedqn}
+\end{proposition}
+
+\begin{proof}
+
+
+  Since $X, Y$ have finite mean $\mu_x, \mu_y$, we know that
+
+  \begin{nedqn}
+    \mu_{X + Y} \eqcol \mu_x + \mu_y.
+  \end{nedqn}
+  \noindent
+
+
+\end{proof}
+
+\section{Inequalities}
+
+\begin{theorem}[Markov's Inequality]
+  Let $X$ be a \emph{non-negative} random variable. Then:
+
+  \begin{nedqn}
+    \Pr{X \geq a} \leqcol \frac{\expectation{X}}{a}
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  Consider a variable $Y$ with strictly smaller expectation than $X$:
+
+  \begin{nedqn}
+    \Pr{Y = 0} = \Pr{X < a}
+  \\
+    \Pr{Y = a} = \Pr{X = a}
+  \end{nedqn}
+  \noindent
+
+  Then:
+
+  \begin{nedqn}
+    \expectation{Y}
+  \eqcol
+    a \Pr{Y = a} = a \Pr{X \geq a}
+  \end{nedqn}
+  \noindent
+
+  Therefore:
+
+  \begin{nedqn}
+    a \Pr{X \geq a} \leq \expectation{X}
+  \\
+    \Pr{X \geq a} \leq \frac{\expectation{X}}{a}
+  \end{nedqn}
+\end{proof}
+
+\begin{theorem}[Chebyshev's Inequality] Consider a random variable $X$
+  with mean $\mu$ and finite variance $\sigma^2$. Then for any real
+  number $k$:
+
+  \begin{nedqn}
+    \Pr{\abs{X - \mu} \geq k\sigma} \leq \frac{1}{k^2}
+  \end{nedqn}
+\end{theorem}
+
+\begin{proof}
+  For simplicity, consider $X$ with mean zero and unit variance. We thus
+  want to bound:
+
+  \begin{nedqn}
+    \Pr{\abs{X} \geq k}
+  \end{nedqn}
+
+  Consider the variable $X^2$. This has expectation equal to 1, by our
+  assumption of $\mu = 0, \sigma^2 = 1$. Then, by Markov's inequality:
+
+  \begin{nedqn}
+    \Pr{X^2 \geq k} \leq \frac{1}{k}
+  \\
+    \Pr{\abs{X} \geq \sqrt{k}} \leq \frac{1}{k}
+  \\
+    \Pr{\abs{X} \geq k} \leq \frac{1}{k^2}
+  \end{nedqn}
+\end{proof}
+
+\begin{remark}
+  Both Markov and Chebyshev's inequalities say something about how fat
+  the tails of a distribution can be if it is to have finite expectation
+  or variance.
+\end{remark}
+
+\section{Weak Law Of Large Numbers}
+
+\begin{definition}
+  Let us define the \define{sample mean}. Take a series of identically
+  distributed, independent variables $X_i$. The sample mean of the first
+  $n$ samples is:
+
+  \begin{nedqn}
+    \meanX_n
+  \eqcol
+    \frac{1}{n} \parens{X_1 + X_2 + \ldots + X_n}
+  \end{nedqn}
+\end{definition}
+
+\begin{theorem}[Weak Law of Large Numbers]
+  Let $\mu = \expectation{X}$. Then for any $\epsilon$:
+
+  \begin{nedqn}
+    \lim_{n\to\infty} \Pr{\abs{\meanX_n - \mu} > \epsilon} = 0.
+  \end{nedqn}
+\end{theorem}
+
+\begin{remark}
+  Note: we have not assumed that $X$ has finite variance.
+
+  Specifically, the theorem is saying that for any $\epsilon'$, there
+  exists an $N$ such that for all $n> N$, the probability that
+  $\meanX_n$ deviates from $\mu$ by greater than $\epsilon$ is less than
+  $\epsilon'$.
+\end{remark}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Convergence}
+
+\begin{definition}
+  We say that a series of distributions $X_i$ \define{converges in
+  probability} to a variable $X$
+
+  \begin{nedqn}
+    \lim_{n\to\infty} \Pr{\abs{\meanX_n - X}} = 0
+  \end{nedqn}
+\end{definition}
+
+\begin{discussion}
+
+\end{discussion}
+
+\end{document}
