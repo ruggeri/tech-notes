@@ -1,0 +1,151 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+
+\begin{document}
+
+\title{Lockpicking}
+\maketitle
+
+\section{Definitions}
+
+\begin{definition}
+  The \define{cylinder} is the non-rotating part of the lock.
+\end{definition}
+
+\begin{definition}
+  The \define{plug} is the rotating part of the lock. The plug rotates
+  inside the cylinder.
+\end{definition}
+
+\begin{definition}
+  The \define{shear line} is the interface between the plug and the
+  cylinder.
+\end{definition}
+
+\begin{definition}
+  The \define{driver pins} are pins that cross the sheer line. They
+  naturally sit partway in the cylinder, and partway in the plug. If you
+  try to turn the plug without the key, the driver pins will bind.
+\end{definition}
+
+\begin{definition}
+  The \define{key pins} are pins that sit below the driver pins. They
+  sit entirely within the plug. When the key is inserted, the top of the
+  key pin is lifted to exactly the shear line. This implies that the
+  driver pin bottom is lifted to exactly the shear line. The plug can
+  rotate.
+\end{definition}
+
+\begin{remark}
+  When no key is inserted, springs drive the driver and key pins
+  downward toward the bottom of the \define{keyway}.
+\end{remark}
+
+\section{Picking}
+
+\begin{definition}
+  The \define{tension bar} is a strip of metal that tries to rotate/turn
+  the plug. The tension bar is shaped so that you can access the pins
+  with a pick.
+\end{definition}
+
+\begin{definition}
+  A \define{lock pick} is a tool that allows you to push a pin up or
+  down.
+\end{definition}
+
+\begin{proposition}
+  The basic technique is to apply tension to the plug. This will cause
+  the plug to bind. In particular: exactly one of the pins will be
+  bound. The other pins will be free to move up-and-down.
+
+  Push the bound pin upward slowly until it ``clicks.'' This happens
+  when the driver pin is now set correctly. You should feel the plug
+  rotate a little as the next pin is bound. Repeat.
+\end{proposition}
+
+\begin{proposition}
+  In the beginning a bound pin is \define{underset}. As you lift the pin
+  you try to set it. With an underset pin, you can push up on the key
+  pin, but when pressure is released the key pin falls again.
+
+  It can be hard to tell the difference between underset and
+  \define{set}. When a pin is set you should get some rotation out of
+  the lock.
+\end{proposition}
+
+\begin{proposition}
+  A pin can be \define{overset}. This is when the key pin crosses the
+  shear line. This is easy to detect, because the key pin will no longer
+  drop when pressure is released.
+\end{proposition}
+
+\section{Security Pins}
+
+\begin{proposition}
+  When a pin is bound, you push it until the bottom of the driver pin
+  reaches the shear line. You should feel a click and the plug will turn
+  a little.
+\end{proposition}
+
+\begin{definition}
+  A \define{spool pin} is one where the diameter of the pin is narrow
+  like a spool for yarn. If the pin binds, you can try to push it up as
+  usual. But when you get to the end of the spool, you cannot keep
+  pushing straightforwardly. The end of the spool cannot slide through.
+\end{definition}
+
+\begin{proposition}
+  The spool pin works because it gets caught at an angle. To defeat the
+  spool pin, push on the side of the pin that is opposite the direction
+  of rotation. This should be riding a little lower than the side that
+  is rotating.
+
+  Pressing on the opposite side should tend to reduce the angle of the
+  caught spool pin. As it straightens out, it will want to turn the plug
+  backward, so that the spool end can slide out. This is
+  \define{counter-rotation}.
+\end{proposition}
+
+\begin{proposition}
+  When you feel counter-rotation, ease up a little on the tension, and
+  let the spool slide out.
+\end{proposition}
+
+\begin{definition}
+  A \define{mushroom pin} is very much like a spool pin. However, it
+  gracefully tapers on one end. The lower end is still like a spool.
+  This is mushroom shaped.
+\end{definition}
+
+\begin{proposition}
+  The intent of the mushroom design is to make it a little less obvious
+  that you are dealing with a spool pin. With a spool pin, when the top
+  of the spool clears the shear line, you'll get an ``exaggerated''
+  rotation out of the plug. That's because the plug will turn ``too
+  far'' as the shear line falls into the narrow part of the spool.
+
+  That helps you know that you're dealing with a spool. The mushroom
+  just makes this less clear.
+\end{proposition}
+
+% https://www.art-of-lockpicking.com/security-pins/
+% http://lockpickernetwork.wikidot.com/security-pins
+
+\section{TODO}
+
+\begin{enumerate}
+  \item Serrated Pins.
+  % http://lockpickernetwork.wikidot.com/security-pins
+  \item Sidebar
+  % http://lockpickernetwork.wikidot.com/function-of-sidebars
+  \item Paracentric keyway
+  \item Rotating pins
+\end{enumerate}
+
+\end{document}
