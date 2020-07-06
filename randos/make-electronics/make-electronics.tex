@@ -129,7 +129,59 @@
   less-and-less. That is expected. Once the voltage available to the LED
   drops below a fixed amount, the current will stop entirely, though.
 
-  % Up to p25!
+  \item I guess that while a resistor consumes energy to push through
+  electrons at a rate, an LED consumes energy to push electrons across
+  \emph{at all}.
+
+  \item This is \emph{Ohm's Law}: $V = IR$.
+
+  \item Here is a thought. A resistor is like a crowded ballroom. If you
+  snake your way through it, not pushing anyone, you can get through
+  slowly with little energy. Or you can barrel through and push you way
+  by and get through faster. But the faster you want to go, you must use
+  more energy.
+
+  \item An LED, on the other hand, is like a staircase. You must expend
+  energy to travel up at all. But the speed of travel is irrelevant. An
+  LED then, has a nonlinear resistance. It appears infinite at low
+  voltage, but appears zero above the threshold voltage. Of course, it
+  is not ideal: as current rises, the energy needed to push through will
+  also rise.
+
+  \item When you wire two resisters in parallel, then the effective
+  resistance is halved. This is because to push a current of $I$ through
+  the parallel pair, only $\frac{I}{2}$ current must go through each
+  resistor. And thus only half the energy per charge must be used.
+
+  \item They do a useful calculation. Say you have an LED which is
+  specified to want a forward voltage of 2V, at which point it will pass
+  a current of 20mA. How big a resistor must you use with a 9V battery?
+
+  \item They say: the resistor should drop the voltage by 7V. It should
+  pass a current of 20mA. If you do the math, you want a resistance of
+  350 ohms.
+
+  \item They mention that even a low-resistance wire (say: 0.2 ohm) will
+  draw a lot of power if you run a large current (say 15A). This will
+  consume 3V of the voltage. If you're running a 12V battery,
+  approximately 1/4 of the energy is being lost to the wire!
+
+  \item We may make an observation about \emph{power}. Power is the
+  \emph{amount of energy released/consumed per second}. A high voltage
+  source attached to a high resistance component will use all its energy
+  to move a charge across the component. But the great resistance means
+  that a small amount of current will travel, so only a small amount of
+  energy will be consumed per second.
+
+  \item As in: $P = V I = I^2 R = V^2 / R$.
+
+  \item For reference: a car battery delivers \emph{hundreds of amps}!
+
+  \item BTW, resistors are rated by \emph{wattage}. This is implicitly a
+  measure of how much current they can allow to pass, so I don't know
+  why this isn't simply measured in amps?
+
+  % Up to p34!
 \end{enumerate}
 
 \end{document}
