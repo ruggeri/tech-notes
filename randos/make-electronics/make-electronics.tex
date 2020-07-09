@@ -4,7 +4,7 @@
 \geometry{letterpaper}
 
 \usepackage{ned-common}
-\usepackage{ned-abstract-algebra}
+\usepackage{ned-calculus}
 
 \begin{document}
 
@@ -255,7 +255,105 @@
   should be high, given there should not be much/any resistance to
   current flow.
 
-  % p66: experiment 8!
+  \item For Experiment 8 they have us build the relay circuit on the
+  breadboard. They have you make jumpers - you strip a little off a
+  hookup wire, cut and shift a bit of insulation so the length exposed
+  is good, and then clip. Use needle-nose pliers to bend the ends at
+  right angles.
+
+  \item I have a dual bus breadboard. The bus runs along the side of the
+  breadboard. It is used to distribute power. Each row is connected,
+  except for a break in the middle.
+
+  \item We get the relay to ``buzz'' by connecting the tactile switch
+  from the typical output to the inductor. Thus the inductor is only
+  activated when the button is depressed. But this cuts power to the
+  inductor. The oscillation between the two states causes the relay to
+  buzz.
+
+  \item To slow things down, we attach a capacitor in parallel with the
+  inductor. Now, when the switch is depressed, the voltage is used to
+  first charge the capacitor. As it charges, the resistance of the
+  capacitor rises, and thus current begins to run through the inductor.
+  This closes the switch.
+
+  \item Now no more charging of the capacitor happens. In fact, it
+  begins to \emph{discharge}. The inductor resists the discharging of
+  the capacitor. When the capacitor is drained, the gate closes again.
+
+  \item So let's think about the capacitor. It is effectively a
+  ``rechargeable battery.'' It is as if two big plates. You can push an
+  electron onto one plate. If uncharged, the plate accepts the excess
+  electron without too much trouble. To keep things net neutral, an
+  electron from the opposing plate. However, no electrons cross the
+  \emph{dielectric} separating the plates.
+
+  \item  If you connect a capacitor to the terminals of a battery, the
+  battery pushes electrons onto one plate, while the opposite plate
+  sends electrons to the other terminal of the battery. But as electrons
+  are pushed onto the capacitor plate, it requires more and more energy
+  to push another electron onto the plate. Remember: battery voltage
+  \emph{is} simply energy liberated by transfer of electrons. Thus: the
+  capacitor is gaining voltage as it charges (accepts electrons).
+
+  \item The charging will stop when the voltage of the capacitor reaches
+  the voltage of the battery. If the battery is too strong for the
+  capacitor, the buildup of electrons on one plate will become so great
+  that they will start to jump across the dielectric. This will destroy
+  the capacitor.
+
+  \item Consider the \emph{rate} of charging. As the capacitor accepts
+  more and more charge, it requires more and more energy to fit a next
+  electron onto the plate. The energy released by sending an electron
+  from the battery terminal to the plate is dropping. At the same time,
+  there is some \emph{resistance} in the circuit. Less and less energy
+  is available to barrel through a resistor. Thus, as the capacitor
+  charges, the current flowing into the capacitor is dropping.
+
+\newcommand{\vbat}{V_\text{bat}}
+\newcommand{\vcap}{V_\text{cap}}
+
+  \begin{nedqn}
+    \vbat - \vcap(t)
+  \eqcol
+    I(t) R
+  \\
+    \fpartial{q} \vcap
+  \eqcol
+    \inv{C}
+    \nedcomment{this is the capacitance}
+  \\
+    \fpartial{t} \vcap
+  \eqcol
+    \fpartial{t} q \inv{C}
+  \\\eqcol
+    I(t) \inv{C}
+  \\\eqcol
+    \frac{\vbat - \vcap(t)}{RC}
+  \end{nedqn}
+
+  \noindent
+  And now we see where the exponential charging of capacitors comes
+  from!
+
+  \item The unit $C$ is the \define{capacitance}. This means is the
+  amount of charge that a capacitor will store for a given voltage. It
+  is measured in \define{Farads}, which are coulombs of charge per volt.
+
+  \item What makes a capacitor dangerous is not necessarily the
+  capacitance. It is the \emph{voltage} that the capacitor can
+  withstand. Your body can take a large amount of charge passing through
+  it at a very slow rate. For instance, you could be connected to a 9V
+  battery for the rest of your (long) life. But your body \emph{cannot}
+  take being connected to 115V for even a short period of time. A
+  capacitor rated for high-wattage is dangerous!!
+
+  \item There are two kinds of capacitors: \emph{ceramic} and
+  \emph{electrolytic}. Electrolytics are the tin-can ones. Electrolytic
+  capacitors have polarity (long leg is positive!), ceramic capacitors
+  don't care. \TODO{How do elecrolytic capacitors work?}
+
+  % p74: read suggestions for checking circuits!
 \end{enumerate}
 
 \end{document}
