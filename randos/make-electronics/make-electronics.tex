@@ -330,6 +330,22 @@
     I(t) \inv{C}
   \\\eqcol
     \frac{\vbat - \vcap(t)}{RC}
+  \\
+    \fpartial{t} \parens{
+      \vbat - \vcap(t)
+    }
+  \eqcol
+    0 - \frac{\vbat - \vcap(t)}{RC}
+  \\
+    \Delta V
+  \eqcol
+    \alpha_0
+    \expf{-t/RC}
+    \nedcomment{solution of diffeq}
+  \\
+    \alpha_0
+  \eqcol
+    \vbat
   \end{nedqn}
 
   \noindent
@@ -339,6 +355,24 @@
   \item The unit $C$ is the \define{capacitance}. This means is the
   amount of charge that a capacitor will store for a given voltage. It
   is measured in \define{Farads}, which are coulombs of charge per volt.
+
+  \item Note: the time it takes to charge the capacitor to a given
+  percentage is based not on the voltage, but on the time constant $RC$.
+  The greater the $R$, the more electrons are delayed on their way into
+  the capacitor. The bigger the $C$, the more electrons are needed to
+  charge the capacitor by one volt.
+
+  \item It is interesting that the capacitance doesn't rise as more
+  electrons are moved into the capacitor. What \emph{does} change is the
+  voltage of the capacitor. So the electron pressure exerted by the
+  battery is reduced (relatively) as the capacitor voltage increases.
+
+  \item In other words: capacitance is like the volume of a room. The
+  volume of a room does not change as you fill it with air. The air
+  pressure does change. The change in room air pressure means that you
+  will need to blow harder (expend more energy) to move more air into
+  the room, because the air that it already inside is retarding further
+  air from entering.
 
   \item What makes a capacitor dangerous is not necessarily the
   capacitance. It is the \emph{voltage} that the capacitor can
