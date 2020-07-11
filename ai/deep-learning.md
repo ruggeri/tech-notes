@@ -931,6 +931,11 @@ This is a chapter of general advice.
       This can be measured by Kurtosis.
     * This is used as a technique for *blind signal separation*. In a
       sense, that is what we are trying to do.
+    * BUT WAIT A SECOND. ICA is applicable *when there is more than
+      one observation*. As in: two different mixes of the same pair of
+      signals. Otherwise the problem is underdetermined. You need that
+      the two signals, when appropriately weighted, can sum to two
+      different observations. Otherwise there is no constraint.
 * Slow Feature Analysis
     * Slow feature principle says that features should change little
       frame-to-frame. That implies adding a penalty to features that
