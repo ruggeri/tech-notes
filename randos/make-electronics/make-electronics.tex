@@ -270,12 +270,16 @@
   activated when the button is depressed. But this cuts power to the
   inductor. The oscillation between the two states causes the relay to
   buzz.
+\end{enumerate}
 
+\subsection{Capacitor}
+
+\begin{enumerate}
   \item To slow things down, we attach a capacitor in parallel with the
   inductor. Now, when the switch is depressed, the voltage is used to
-  first charge the capacitor. As it charges, the resistance of the
-  capacitor rises, and thus current begins to run through the inductor.
-  This closes the switch.
+  first charge the capacitor. As it charges, the ``resistance'' of the
+  capacitor rises (really the voltage difference drops), and thus
+  current begins to run through the inductor. This closes the switch.
 
   \item Now no more charging of the capacitor happens. In fact, it
   begins to \emph{discharge}. The inductor resists the discharging of
@@ -285,8 +289,8 @@
   ``rechargeable battery.'' It is as if two big plates. You can push an
   electron onto one plate. If uncharged, the plate accepts the excess
   electron without too much trouble. To keep things net neutral, an
-  electron from the opposing plate. However, no electrons cross the
-  \emph{dielectric} separating the plates.
+  electron from the opposing plate is ejected. However, no electrons
+  cross the \emph{dielectric} separating the plates.
 
   \item  If you connect a capacitor to the terminals of a battery, the
   battery pushes electrons onto one plate, while the opposite plate
@@ -352,27 +356,37 @@
   And now we see where the exponential charging of capacitors comes
   from!
 
-  \item The unit $C$ is the \define{capacitance}. This means is the
-  amount of charge that a capacitor will store for a given voltage. It
-  is measured in \define{Farads}, which are coulombs of charge per volt.
+  \item What I've described assumes a fixed \define{capacitance} $C$.
+  The capacitance is defined as the number of charges that will flow
+  into the capacitor if each coulomb of charge passing through the
+  battery liberates 1 joule. The unit is the \define{Farad}, which is
+  coulombs per volt.
+
+  \item The inverse is the \define{elastance}: the voltage required to
+  push one coulomb of charge into the capacitor. Note that volts are
+  joules per coulomb, so this is joules per coulomb per coulomb. This is
+  correct: the elastance is saying that the energy required to push a
+  coulomb increases as more coulombs are pushed.
 
   \item Note: the time it takes to charge the capacitor to a given
-  percentage is based not on the voltage, but on the time constant $RC$.
-  The greater the $R$, the more electrons are delayed on their way into
-  the capacitor. The bigger the $C$, the more electrons are needed to
-  charge the capacitor by one volt.
+  percentage of the battery voltage is based not on the battery voltage
+  itself, but on the time constant $RC$. The greater the $R$, the more
+  electrons are delayed on their way into the capacitor. The bigger the
+  $C$, the more electrons are needed to charge the capacitor by one
+  volt.
 
-  \item It is interesting that the capacitance doesn't rise as more
-  electrons are moved into the capacitor. What \emph{does} change is the
-  voltage of the capacitor. So the electron pressure exerted by the
-  battery is reduced (relatively) as the capacitor voltage increases.
+  \item Note that charging of a capacitor slows over time not because
+  capacitance drops, but rather because the voltage stored in the
+  capacitor drops.
 
-  \item In other words: capacitance is like the volume of a room. The
-  volume of a room does not change as you fill it with air. The air
-  pressure does change. The change in room air pressure means that you
-  will need to blow harder (expend more energy) to move more air into
-  the room, because the air that it already inside is retarding further
-  air from entering.
+  \item It is not immediately intuitive that capacitance would remain
+  fixed. But you could look at it this way: if there is potential energy
+  stored in the capacitor, then there is in a sense a ``pressure'' for
+  the electrons to escape the capacitor. That is, there is a force being
+  exerted for expansion. But the battery charging the capacitor is
+  exerting an opposite force: to compress more electrons in the
+  capacitor. Any work we do on compression is stored exactly as
+  potential energy to resist further compression.
 
   \item What makes a capacitor dangerous is not necessarily the
   capacitance. It is the \emph{voltage} that the capacitor can
@@ -387,7 +401,45 @@
   capacitors have polarity (long leg is positive!), ceramic capacitors
   don't care. \TODO{How do elecrolytic capacitors work?}
 
-  % p74: read suggestions for checking circuits!
+  \item The book has us do an experiment that experimentally verifies
+  our charging equation for an RC circuit.
+
+  \item Note: $RC$ is simply \emph{seconds}. $C$ (farads) is coulombs
+  per volt, while $R$ (ohms) is volts per amp. We may note that just as
+  resistance is volts per amp, so capacitance is volts per coulomb of
+  charge. In both cases: more and more energy per charge is needed as
+  (1) greater current is transmitted, (2) more charges are stored.
+
+\end{enumerate}
+
+\subsection{Filtering}
+
+\begin{enumerate}
+
+  \item We expect that capacitors will act as \emph{filters}. Let me
+  explain: imagine a slowly oscillating alternating current of 9V. As
+  the voltage is rising, the capacitor is charging. But the charge it
+  takes means the voltage passed through the capacitor is lower than the
+  9V. It is mostly quite small. When the voltage drops, the capacitor
+  starts releasing voltage. Again: the voltage out is low.
+
+  \item Things will happen the same way as the voltage drops to (and
+  below) 0V. It will just be the reverse of before. The lesser the
+  capacitance, the more quickly the capacitor will fill up and block the
+  voltage.
+
+  \item On the other hand, imagine an infinitely large capacitor. No
+  amount of charge can raise its voltage. So it will never act to resist
+  the incoming current.
+
+  \item The point is this: a capacitor acts as a high-pass filter. If an
+  alternating current is switching at a fast enough rate, the capacitor
+  won't attenuate it very much.
+
+  \item A capacitor intended to block DC but pass AC is called a
+  \define{coupling capacitor}.
+
+  % p84: transistors!!!
 \end{enumerate}
 
 \end{document}
