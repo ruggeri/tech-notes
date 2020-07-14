@@ -1,4 +1,5 @@
 \newcommand{\braket}[1]{|#1\rangle}
+\newcommand{\sqtot}{\frac{\sqrt{2}}{2}}
 
 \section{Basics}
 
@@ -271,14 +272,13 @@
   Thus the power of probabilistic computing (if any) comes from
   probabilistic gates.
 
-  In fact: the ``observation'' operation could give more power to the
-  probabilistic model, since we need to observe before doing a
-  conditional jump.
+  (In fact: the ``observation'' operation is needed for algorithms since
+  we need to observe before doing a conditional jump.)
 \end{remark}
 
 \begin{remark}
   In fact, the model with probabilistic gates is equivalent to having
-  deterministic gates except for a special unary gate that takes an
+  deterministic gates except for a special no-input gate that takes an
   input and outputs a coin flip.
 
   I suppose that I should be more careful. Not every discrete
@@ -430,10 +430,11 @@
 \end{remark}
 
 \begin{remark}
-  Quantum computing states are simple. They are vectors with respect to
-  the $L_2$ norm. Coordinates can have negative, or even complex,
-  values. (Aaronson assures us that only negative values are needed for
-  quantum computing purposes.)
+  So the quantum state is an extension of the notion of probabilistic
+  state. Quantum states are unit vectors with respect to the $L_2$ norm.
+  Coordinates can have negative, or even complex, values. (Aaronson
+  assures us that only negative values are needed for quantum computing
+  purposes.)
 
   The matrices that manipulate quantum states preserve $L_2$ norm. Each
   column consists of a vector with unit $L_2$ norm. Such matrices are
@@ -446,31 +447,32 @@
 \end{remark}
 
 \begin{remark}
-  If we measure a quantum state $x$ relative to a basis that includes
-  $b$, then the probability of observing $b$ is $\sqrt{x \cdot b}$
+  If we measure a quantum state $x$ relative to an orthogonal basis that
+  includes $b$, then the probability of observing $b$ is $\sqrt{x \cdot
+  b}$
 \end{remark}
 
 \begin{example}
-  A 50/50 state in quantum land is $\frac{\sqrt{2}}{2}
+  A 50/50 state in quantum land is $\sqtot
   \parens{\braket{0} + \braket{1}}$. This has norm zero, and each state
   is equiprobable. We can find the probability of measuring a
   $\braket{0}$ in the \define{computational basis} by:
 
   \begin{nedqn}
     \parensq{
-      \frac{\sqrt{2}}{2}
+      \sqtot
       \parens{\braket{0} + \braket{1}}
       \cdot
       \braket{0}
     }
   \eqcol
-    \parensq{\frac{\sqrt{2}}{2}}
+    \parensq{\sqtot}
   =
     \frac{1}{2}
   \end{nedqn}
 
   There are are many different ways to have a 50/50 variable. There are
-  other rotations of $\frac{\sqrt{2}}{2} \parens{\braket{0} +
+  other rotations of $\sqtot \parens{\braket{0} +
   \braket{1}}$, plus there are also flips of coordinates. There are an
   infinite number if you allow complex numbers!
 \end{example}
@@ -485,24 +487,68 @@
   is the conjugate transpose of the matrix.
 \end{remark}
 
-% **Quantum State**
+\begin{remark}
+  Observing collapses a quantum state into a basis state. It is
+  destructive and not invertible. With ``regular'' probabilistic
+  computing, observation of intermediate state could never ``harm'' our
+  algorithm. Not so with quantum computing!
 
-% In quantum, things are different. It is not at all the same to collapse
-% the quantum state at the beginning and then perform deterministic
-% operations.
+  Imagine rotating an unknown state $\braket{0}$ to $\sqtot
+  \parens{\braket{0} + \braket{1}}$. If you don't observe, you can
+  perform a CCW rotation to deterministically retrieve the original
+  state. But if you \emph{do} observe, the same CCW rotation will give
+  you either $\sqtot \parens{\braket{0} - \braket{1}}$ or $\sqtot
+  \parens{\braket{1} - \braket{0}}$ (depends on whether you observed
+  intermediate state of: $\braket{0}$ or $\braket{1}$).
+\end{remark}
 
-% It is the fact that amplitudes can be *negative* that makes things
-% different from probabilistic computing. For instance: you can apply a
-% 45deg counter-clockwise rotation to `|0>` to get `(1/\sqrt(2)) (|0> +
-% |1>)`, and then apply the same operation again to get `|1>` back. You've
-% applied a "randomizing" operation twice but gotten back something
-% deterministic!
+\begin{remark}
+  Note that if you don't observe, and apply a \emph{second} rotation by
+  45deg, you'll get the state $\braket{1}$. You've rotated by 90deg!
 
-% Note how everything would be different if you had observed after the
-% first rotation. You would have gotten `|0>` or `|1>` with equal
-% probability, and then your state would have evolved to `(1/\sqrt(2))
-% (|0> + |1>)` or `(1/\sqrt(2)) (-|0> + |1>)` with equal probability.
+  Let's examine this:
 
-% If we observe, these states look the same; the signs don't matter. It's
-% only the fact that by *not* observing we get the linear combination of
-% the two where the signs *do* matter.
+  \begin{nedqn}
+    \begin{bmatrix}
+      \sqtot & - \sqtot \\
+      \sqtot & \sqtot
+    \end{bmatrix}
+    \begin{bmatrix}
+      \sqtot \\ \sqtot
+    \end{bmatrix}
+  \eqcol
+    \sqtot
+    \begin{bmatrix}
+      \sqtot \\ \sqtot
+    \end{bmatrix}
+    +
+    \sqtot
+    \begin{bmatrix}
+      -\sqtot \\ \sqtot
+    \end{bmatrix}
+  \\
+  \eqcol
+    \begin{bmatrix}
+      \half \\ \half
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      -\half \\ \half
+    \end{bmatrix}
+  \\
+  \eqcol
+    \begin{bmatrix}
+      \half - \half \\ \half + \half
+    \end{bmatrix}
+  =
+    \braket{1}
+  \end{nedqn}
+
+  \noindent
+  Please note the \emph{destructive} interference at state $\braket{0}$
+  and the \emph{constructive} interference at state $\braket{1}$. This
+  is the glory of quantum computing: applying operations that have
+  destructive interference at some basis states (the ``wrong'' answers)
+  and constructive interference at other basis states (the ``right''
+  answers).
+\end{remark}
