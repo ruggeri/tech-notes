@@ -1,0 +1,467 @@
+\newcommand{\braket}[1]{|#1\rangle}
+
+\section{Basics}
+
+\subsection{Notation}
+
+\begin{remark}
+  In classical computing, machines apply deterministic operations on
+  deterministic registers. The registers store bits that have a value of
+  exactly zero or one. If the machine has $k$ bits of memory, then a
+  natural way to represent the current state of the machine is as a
+  bitstring of zeroes and ones in the space $\setof{0, 1}^k$, which has
+  $2^k$ distinct values.
+\end{remark}
+
+\begin{remark}
+  A less natural way to view the state of the machine is as a bitstring
+  of length $2^k$ with \emph{exactly one bit set to one}.
+\end{remark}
+
+\begin{example}
+  A computer with three bits of memory can be in any one of $2^3 = 8$
+  states. If the first and third bits are set to one, and the second is
+  set to zero, we could ``naturally'' represent the machine state as the
+  vector $\parens{1, 0 , 1}\tran$. However, I prefer to represent the
+  state as $\parens{0, 0, 0, 0, 0, 1, 0, 0}\tran$. Since this is a long
+  representation, I will write this long form as $\braket{101}$. Note
+  that $\braket{101}$ is an 8-dimensional vector, while $\parens{1, 0,
+  1}\tran$ is a 3-dimensional vector.
+
+  Just to keep things weird, I'll also write $\braket{5}_3$, which is
+  synonymous with $\braket{101}$.
+\end{example}
+
+\begin{remark}
+  Why write the state as a $2^k$ dimensional vector? A deterministic
+  machine must have exactly one position set to exactly one, so the use
+  of $2^k$ bits in the representation is redundant.
+
+  Imagine a three bit \define{probabilistic} machine. Imagine the
+  machine is configured such that it is in a ``superposition'' of two
+  states. If the machine is forced to ``collapse'' its state, there is a
+  50/50 chance that the machine will be found to be in state 000 and
+  state 101. We may represent this state as:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      0.5 \\ 0 \\ 0 \\ 0 \\
+      0 \\ 0.5 \\ 0 \\0
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  We may write this as: $0.5 \braket{000} + 0.5 \braket{101}$.
+  Equivalently: $0.5 \braket{0}_3 + 0.5 \braket{5}_3$.
+\end{remark}
+
+\begin{remark}
+  The ``natural'' representation of length-3 bitstrings is insufficient
+  to represent such a superposition. If we wrote $\parens{0.5, 0,
+  0.5}\tran$, would that not imply a 25\% chance of observing $000$, a
+  25\% chance of observing $001$, a 25\% chance of observing $100$, and
+  a 25\% chance of observing $101$?
+
+  Only the $2^k$ dimensional way allows us to have ``entangled'' bits.
+\end{remark}
+
+\begin{remark}
+  Let's take a step back from the probabilistic and consider only a
+  deterministic machine. Let's define an \define{operation} of the
+  deterministic machine. I say that an operation takes $m$ bits of state
+  and outputs $n$ bits of state. A deterministic operation is a function
+  defined for each of $2^m$ possible input bitstrings, outputting $n$
+  bit values. Even though a deterministic operation need only specify
+  $2^m n$ bit values, we will encode the output in our usual way. Thus
+  an operation is represented as a $2^n$-by-$2^m$ matrix.
+\end{remark}
+
+\begin{example}
+  Here is the
+  NOT operation:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      0 & 1 \\
+      1 & 0 \\
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  Let's apply it to the state $\braket{1}$:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      0 & 1 \\
+      1 & 0 \\
+    \end{bmatrix}
+    \braket{1}
+  \eqcol
+    \begin{bmatrix}
+      0 & 1 \\
+      1 & 0 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+      0 \\ 1
+    \end{bmatrix}
+  \\
+  \eqcol
+    \begin{bmatrix}
+      1 \\ 0
+    \end{bmatrix}
+  =
+    \braket{0}
+  \end{nedqn}
+\end{example}
+
+\begin{example}
+  Here is the matrix representing the AND operation:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      1 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}
+  \end{nedqn}
+
+  Lets apply the AND operation to the state $\braket{11}$:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      1 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}
+    \braket{11}
+  \eqcol
+    \begin{bmatrix}
+      1 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      0 \\ 0 \\ 0 \\ 1
+    \end{bmatrix}
+  \\
+  \eqcol
+    \begin{bmatrix}
+      0 \\ 1
+    \end{bmatrix}
+  =
+    \braket{1}
+  \end{nedqn}
+
+\end{example}
+
+\begin{remark}
+  We may summarize: deterministic operations that map $m$ input bits to
+  $n$ output bits are represented as $2^n$-by-$2^m$ matrices where there
+  is exactly one $1$ value per column. These are sometimes called
+  \define{deterministic transition matrices}.
+\end{remark}
+
+\begin{remark}
+  An operation is also called a \define{gate}. Any deterministic
+  transition matrix can be constructed through the appropriate
+  successive applications of NOT and AND gates. Or NOT and OR gates. Or
+  simply just NAND (NOT AND) gates!
+
+  This is to say: if we are allowed to successively apply NOT and AND
+  gates, we can construct any desired Boolean operation (also called a
+  \define{circuit}).
+\end{remark}
+
+\begin{remark}
+  Boolean circuits map a fixed, finite number of bits to a fixed, finite
+  number of bits. The notion of \define{algorithm} goes (just a little)
+  further than this. An algorithm defines (1) how to choose the next
+  input bits from the current state, (2) how to choose the next
+  operation to perform, (3) where to store the output bits in the
+  current state, and (4) when to halt and what to output as the final
+  result.
+\end{remark}
+
+\begin{remark}
+  We get Turing completeness as soon as we extend the notion of a fixed,
+  finite series of operations with a conditional jump operation.
+\end{remark}
+
+\begin{remark}
+  Extending our Boolean circuit concept with the algorithm concept lets
+  us define procedures that calculate (some) functions $f: \setof{0,
+  1}^* \to \setof{0, 1}^*$. These are functions with unbounded (but
+  finite) input size and unbounded (but finite) output size.
+
+  Of course, not all functions are computable by our algorithm over
+  boolean circuits. For instance, no algorithm over boolean circuits
+  will solve the halting problem (map $(x, y)$ to zero iff the program
+  represented by $x$ halts when fed $y$ as input).
+\end{remark}
+
+\subsection{Probabilistic Computing}
+
+\begin{remark}
+  We've defined our deterministic state and operations in such a way
+  that it is easily generalized to \define{probalistic} computing. Lets
+  start doing that!
+\end{remark}
+
+\begin{remark}
+  We already talked about how we could represent \define{probabilistic
+  state}. For instance: $0.5 \braket{000} + 0.5 \braket{101}$. Or more
+  generally for a $k$-bit state:
+
+  \begin{nedqn}
+    \sum_{i = 0}^{2^k} p_i \braket{i}_k
+  \end{nedqn}
+
+  \noindent
+  We call the states $\braket{i}_k$ (of which there are $2^k$)
+  \define{basis states}.
+\end{remark}
+
+\begin{remark}
+  As long as we have probabilistic states, why not have
+  \define{probabilistic} gates? For instance, imagine this gate that
+  flips a coin to decide whether to leave two input alone, or whether to
+  AND them and write the result in the second:
+
+  \begin{nedqn}
+    0.5
+    \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}
+    +
+    0.5
+    \begin{bmatrix}
+      1 & 0 & 1 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 1
+    \end{bmatrix}
+  \eqcol
+    \begin{bmatrix}
+      1 & 0 & 0.5 & 0 \\
+      0 & 1 & 0   & 0 \\
+      0 & 0 & 0.5 & 0 \\
+      0 & 0 & 0   & 1
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  Non-deterministic transition matrices like this are called
+  \define{stochastic} or \define{Markov} matrices.
+\end{remark}
+
+\begin{remark}
+  I claim that keeping the probabilistic state throughout a computation
+  is unnecessary. After each operation, I argue that you should just
+  observe the current state (collapsing the working state to a
+  deterministic basis state) before proceeding to the next observation.
+  There is no need to store superpositions of basis states. That is:
+
+  \begin{nedqn}
+    M \sum_{i = 0}^{2^k} \alpha_i \braket{i}_k
+  \eqcol
+    \sum_{i = 0}^{2^k} \alpha_i M \braket{i}_k
+  \end{nedqn}
+
+  \noindent
+  Thus the power of probabilistic computing (if any) comes from
+  probabilistic gates.
+
+  In fact: the ``observation'' operation could give more power to the
+  probabilistic model, since we need to observe before doing a
+  conditional jump.
+\end{remark}
+
+\begin{remark}
+  In fact, the model with probabilistic gates is equivalent to having
+  deterministic gates except for a special unary gate that takes an
+  input and outputs a coin flip.
+
+  I suppose that I should be more careful. Not every discrete
+  probability distribution can be constructed from such a gate, right?
+  But any discrete distribution can be arbitrarily closely approximated.
+\end{remark}
+
+\begin{remark}
+  We may ask: have we expanded what it means to be ``computable?''
+  Certainly all deterministic programs are also probabilistic programs
+  (that don't use any randomness). But can probabilistic programs
+  ``compute'' something (anything?) that a deterministic program cannot?
+
+  If we say a machine ``computes'' $f: \setof{0, 1}^* \to \setof{0,
+  1}^*$ if the machine \emph{always} produces $f(x)$ when fed $x$, then
+  probabilistic computing gives us no additional power.
+
+  That is: if you use a probabilistic machine to deterministically
+  compute a function, you didn't actually need any ``intermediate
+  randomness'' that you used.
+
+  I argue from simulation of the probabilistic machine. Remember that
+  after every probabilistic operation, we can/should simply collapse the
+  probabilistic state to one basis state. Eventually the probabilistic
+  algorithm should halt. So a deterministic machine can simulate
+  (perhaps slowly) a probabilistic machine simply by non-randomly
+  collapsing the simulated machine's probabilistic state to the
+  lexicographically first basis state with any positive probability on
+  it.
+\end{remark}
+
+\begin{remark}
+  We could be a little more precise. What if the probabilistic machine
+  loops forever while a $0.01 \braket{0} + 0.99 \braket{1}$ bit is not
+  zero?
+
+  To rectify this problem, we should have the deterministic machine
+  simulate, in parallel, all possible results of a series of
+  observations. This is similar to showing that NP is in PSPACE and
+  EXPTIME.
+\end{remark}
+
+\begin{remark}
+  We may propose alternate definitions of computability. For instance: a
+  function $f$ is probabilistically computable if a probabilistic
+  machine, when fed $x$, will produce the correct output $f(x)$ with
+  probability greater than the probability of producing any incorrect
+  $y'$.
+
+  By repeatedly using the machine and returning the most common result,
+  we can achieve a machine that computes the correct $f(x)$ with
+  arbitrarily high probability.
+
+  Are the probabilistic machines more powerful in this sense? Again no.
+  We may simply do our parallel simulation. Provided the expected
+  runtime of the probabilistic algorithm is finite, we will eventually
+  simulate 50\%, 75\%, 99\%, of all possible execution paths. Eventually
+  we should see that even if \emph{all} remaining execution paths lead
+  to the 2nd most popular (wrong) answer, the 1st most popular (right)
+  answer will still be in the lead.
+
+  My argument fails if the machine uses an expected infinite number of
+  random bits. (Though I think my argument still works when the machine
+  merely has an infinite expected runtime!)
+\end{remark}
+
+% Source: https://cstheory.stackexchange.com/questions/1263/truly-random-number-generator-turing-computable
+
+\begin{remark}
+  Having considered \emph{computability} in the probabilistic paradigm,
+  we can next investigate various \define{complexity classes} for
+  probabilistic machines. For instance: PP consists of those problems
+  where a probabilistic machine, in time polynomial with the size of the
+  input, will output the correct answer with probability greater than
+  50\%.
+
+  More strict is BPP, which says that the probability of the correct
+  answer must always be at least 50.1\%. If so, we can take a 50.1\%
+  algorithm and always ``amplify'' it to a 99\% algorithm.
+
+  Amplification doesn't work with PP necessarily, since the probability
+  of the correct answer may drop asymptotically toward 50\% fast enough
+  that larger problem sizes need more and more trials to amplify to a
+  higher probability.
+\end{remark}
+
+\begin{remark}
+  RP consists of decision problems where a polytime probabilistic
+  machine exists that (1) always gives a correct NO answer and (2) gives
+  a YES answer with probability at least 50\%.
+
+  Co-RP consists of the ``opposite'' problem: the algorithm always gives
+  a correct YES answer but can sometimes give a wrong NO answer.
+
+  ZPP consists of those problems that are in the intersection of RP and
+  Co-RP. There exists a polytime algorithm that always returns a correct
+  YES/NO answer, except for a less than 50\% chance of returning ``don't
+  know.''
+
+  Equivalently: the ZPP algorithm is always correct, and runs in
+  expected polytime.
+\end{remark}
+
+\begin{remark}
+  For a long time, we didn't have a polytime algorithm for primality
+  testing. But we had a simple BPP approach based on \define{Fermat
+  testing}. We know $x^p = x \pmod{p}$. So keep choosing random $x$
+  values, and if you never find a violation, then $p$ is probably a
+  prime! If $p$ is not prime, then there are at least $\sqrt{p}$ numbers
+  that are not coprime with $p$ and where $x^p \ne x \pmod{p}$.
+
+  This \emph{suggests} that BPP might be larger than P, but we don't
+  know. In fact (surprising to me), researchers do expect that P=BPP.
+
+  Since BPP already includes ZPP, we do not expect that a probabilistic
+  computer increases the bounds of what is \define{efficiently
+  computable} by either of those standards.
+\end{remark}
+
+% **Quantum State**
+
+% From above, I noted that probabilistic state is not necessarily very
+% interesting: you should collapse the L1 unit vector in `R^{2^k}`
+% immediately then do simple deterministic computation.
+
+% In quantum, things are different. It is not at all the same to collapse
+% the quantum state at the beginning and then perform deterministic
+% operations.
+
+% Each *qubit* of quantum state has a state of the form:
+
+%     (\alpha, \beta) where |\alpha|^2 + |\beta|^2 = 1
+
+% That is, the qubit state is a unit vector in `C^2`.
+
+% To indicate the *basis* vectors `e_0`, `e_1` (corresponding to zero and
+% one values of the qubit), we write  `|0>, |1>`, which is called *Dirac
+% notation*. Thus the quantum state can be written as:
+
+%     \alpha |0> + \beta |1>
+
+% You can **observe** or **measure** a qubit's value. It will become
+% either `|0>` or `|1>` with probability equal to `|alpha|^2` or
+% `|beta|^2`. Note that this means there are an infinite number of ways to
+% have a 50/50 probability distribution over a qubit. Here are sixteen of
+% them: `\alpha` can be `1/\sqrt{2}`, positive or negative, complex or
+% not, and the same applies for `\beta`.
+
+% The `\alpha, \beta` are called probability *amplitudes*. Why deal with
+% these amplitudes at all? Why not just use the L1 representation?
+
+% **Unitary Transformations**
+
+% The reason is that quantum state evolves through unitary transformations
+% of `C^2`, not just stochastic transformations of `R^2`. Unitary
+% transformation just means a norm preserving invertible function. Real
+% unitary transformations are the orthogonal matrices. Unitary
+% transformations basically spin you right round baby; they are all
+% rotations (and flips).
+
+% One thing to note is that since all transformations are unitary, they
+% are invertible, which means computing is reversible. That's
+% interesting...
+
+% (Note that the inverse of a unitary transformation is its conjugate
+% transpose. It's just like how an orthogonal matrix has its transpose as
+% its inverse.)
+
+% It is the fact that amplitudes can be *negative* that makes things
+% different from probabilistic computing. For instance: you can apply a
+% 45deg counter-clockwise rotation to `|0>` to get `(1/\sqrt(2)) (|0> +
+% |1>)`, and then apply the same operation again to get `|1>` back. You've
+% applied a "randomizing" operation twice but gotten back something
+% deterministic!
+
+% Note how everything would be different if you had observed after the
+% first rotation. You would have gotten `|0>` or `|1>` with equal
+% probability, and then your state would have evolved to `(1/\sqrt(2))
+% (|0> + |1>)` or `(1/\sqrt(2)) (-|0> + |1>)` with equal probability.
+
+% If we observe, these states look the same; the signs don't matter. It's
+% only the fact that by *not* observing we get the linear combination of
+% the two where the signs *do* matter.
+
+% Aaronson says that we don't need complex values for quantum computing;
+% he says that negative amplitudes are all we need.
