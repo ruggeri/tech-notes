@@ -398,54 +398,98 @@
   computable} by either of those standards.
 \end{remark}
 
-% **Quantum State**
+\subsection{Quantum State}
 
-% From above, I noted that probabilistic state is not necessarily very
-% interesting: you should collapse the L1 unit vector in `R^{2^k}`
-% immediately then do simple deterministic computation.
+\begin{remark}
+  Probabilistic machines operate on states which are \emph{unit vectors}
+  with respect to the $L_1$ norm. Markov matrices are exactly those
+  matrices that preserve $L_1$ norm.
+\end{remark}
+
+\begin{remark}
+  The coordinates of a state vector $v$ tell us how to decompose $v$
+  into a weighted sum of basis vectors $\sum_i v_i \braket{i}_k$.
+  However, this privileges the \define{standard basis} $\braket{i}$.
+  What about \emph{rotations} of the original basis?
+
+  If we want to ``decompose'' $v$ into ``rotations'' of an original
+  basis, we need to nail down a notion of \define{inner product}.
+
+  But there is exactly one kind of inner product for $\R^n$: the dot
+  product. And this is compatible with exactly one kind of norm: the
+  $L_2$ norm.
+\end{remark}
+
+\begin{remark}
+  If you ``rotate'' your state, you should be able to correspondingly
+  rotate your reference frame to observe the state. And the only notion
+  of measurement that can correspond to the concept of rotation is the
+  $L_2$ norm.
+
+  I'm being handwavy.
+\end{remark}
+
+\begin{remark}
+  Quantum computing states are simple. They are vectors with respect to
+  the $L_2$ norm. Coordinates can have negative, or even complex,
+  values. (Aaronson assures us that only negative values are needed for
+  quantum computing purposes.)
+
+  The matrices that manipulate quantum states preserve $L_2$ norm. Each
+  column consists of a vector with unit $L_2$ norm. Such matrices are
+  called \emph{unitary matrices}. When the matrix consists of only real
+  values these are \emph{orthogonal matrices} (also called
+  \emph{rotation} matrices).
+
+  The unitary matrices are all \emph{invertible}, and their inverses are
+  also unitary matrices.
+\end{remark}
+
+\begin{remark}
+  If we measure a quantum state $x$ relative to a basis that includes
+  $b$, then the probability of observing $b$ is $\sqrt{x \cdot b}$
+\end{remark}
+
+\begin{example}
+  A 50/50 state in quantum land is $\frac{\sqrt{2}}{2}
+  \parens{\braket{0} + \braket{1}}$. This has norm zero, and each state
+  is equiprobable. We can find the probability of measuring a
+  $\braket{0}$ in the \define{computational basis} by:
+
+  \begin{nedqn}
+    \parensq{
+      \frac{\sqrt{2}}{2}
+      \parens{\braket{0} + \braket{1}}
+      \cdot
+      \braket{0}
+    }
+  \eqcol
+    \parensq{\frac{\sqrt{2}}{2}}
+  =
+    \frac{1}{2}
+  \end{nedqn}
+
+  There are are many different ways to have a 50/50 variable. There are
+  other rotations of $\frac{\sqrt{2}}{2} \parens{\braket{0} +
+  \braket{1}}$, plus there are also flips of coordinates. There are an
+  infinite number if you allow complex numbers!
+\end{example}
+
+\begin{remark}
+  We call the coordinates of a quantum state \define{probability
+  amplitudes}.
+\end{remark}
+
+\begin{remark}
+  Unitary transformations are invertible, thus reversible. The inverse
+  is the conjugate transpose of the matrix.
+\end{remark}
+
+% **Quantum State**
 
 % In quantum, things are different. It is not at all the same to collapse
 % the quantum state at the beginning and then perform deterministic
 % operations.
-
-% Each *qubit* of quantum state has a state of the form:
-
-%     (\alpha, \beta) where |\alpha|^2 + |\beta|^2 = 1
-
-% That is, the qubit state is a unit vector in `C^2`.
-
-% To indicate the *basis* vectors `e_0`, `e_1` (corresponding to zero and
-% one values of the qubit), we write  `|0>, |1>`, which is called *Dirac
-% notation*. Thus the quantum state can be written as:
-
-%     \alpha |0> + \beta |1>
-
-% You can **observe** or **measure** a qubit's value. It will become
-% either `|0>` or `|1>` with probability equal to `|alpha|^2` or
-% `|beta|^2`. Note that this means there are an infinite number of ways to
-% have a 50/50 probability distribution over a qubit. Here are sixteen of
-% them: `\alpha` can be `1/\sqrt{2}`, positive or negative, complex or
-% not, and the same applies for `\beta`.
-
-% The `\alpha, \beta` are called probability *amplitudes*. Why deal with
-% these amplitudes at all? Why not just use the L1 representation?
-
-% **Unitary Transformations**
-
-% The reason is that quantum state evolves through unitary transformations
-% of `C^2`, not just stochastic transformations of `R^2`. Unitary
-% transformation just means a norm preserving invertible function. Real
-% unitary transformations are the orthogonal matrices. Unitary
-% transformations basically spin you right round baby; they are all
-% rotations (and flips).
-
-% One thing to note is that since all transformations are unitary, they
-% are invertible, which means computing is reversible. That's
-% interesting...
-
-% (Note that the inverse of a unitary transformation is its conjugate
-% transpose. It's just like how an orthogonal matrix has its transpose as
-% its inverse.)
 
 % It is the fact that amplitudes can be *negative* that makes things
 % different from probabilistic computing. For instance: you can apply a
@@ -462,6 +506,3 @@
 % If we observe, these states look the same; the signs don't matter. It's
 % only the fact that by *not* observing we get the linear combination of
 % the two where the signs *do* matter.
-
-% Aaronson says that we don't need complex values for quantum computing;
-% he says that negative amplitudes are all we need.
