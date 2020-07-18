@@ -23,65 +23,45 @@
 % Macro to make matrix macros!
 %
 % TODO: understand expandafter and csname better!
-\newcommand{\newmtx}[1]{
+\newcommand{\newMtx}[1]{
   \expandafter\newcommand\csname mtx#1\endcsname{\mtx{#1}}
   \expandafter\newcommand\csname m#1\endcsname{\mtx#1}
 }
-
-\newmtx{A}
-\newmtx{B}
-\newmtx{C}
-\newmtx{D}
-\newmtx{I}
-\newmtx{K}
-\newmtx{L}
-\newmtx{M}
-\newmtx{P}
-\newmtx{Q}
-\newmtx{R}
-\newmtx{U}
-\newmtx{W}
-\newmtx{X}
-\newmtx{Y}
-
-%% Common Inverted Matrices
-
 \newcommand{\newMtxInverse}[1]{
   \expandafter\newcommand\csname mtx#1inv\endcsname{\inv{\mtx#1}}
   \expandafter\newcommand\csname m#1inv\endcsname{\inv{\mtx#1}}
 }
-
-\newMtxInverse{A}
-\newMtxInverse{B}
-\newMtxInverse{C}
-\newMtxInverse{D}
-\newMtxInverse{L}
-\newMtxInverse{R}
-\newMtxInverse{W}
-\newMtxInverse{X}
-\newMtxInverse{Y}
-
-%% Common Matrix Rotations
-
-\newcommand{\mtxQtAQ}{\mtxQt\mtxA\mtxQ}
-
-%% Common Transposed Matrices
-
-% TODO: Technically I want \mAt to call \mtxAt...
 \newcommand{\newMtxTranspose}[1]{
   \expandafter\newcommand\csname mtx#1t\endcsname{\mtx#1\tran}
   \expandafter\newcommand\csname m#1t\endcsname{\mtx#1\tran}
 }
 
-\newMtxTranspose{A}
-\newMtxTranspose{B}
-\newMtxTranspose{C}
-\newMtxTranspose{M}
-\newMtxTranspose{Q}
-\newMtxTranspose{R}
-\newMtxTranspose{U}
-\newMtxTranspose{W}
-\newMtxTranspose{X}
+\newcommand{\newMtxs}[1]{
+  \newMtx{#1}
+  \newMtxInverse{#1}
+  \newMtxTranspose{#1}
+}
+
+\newMtxs{A}
+\newMtxs{B}
+\newMtxs{C}
+\newMtxs{D}
+\newMtxs{I}
+\newMtxs{K}
+\newMtxs{L}
+\newMtxs{M}
+\newMtxs{P}
+\newMtxs{Q}
+\newMtxs{R}
+\newMtxs{U}
+\newMtxs{W}
+\newMtxs{X}
+\newMtxs{Y}
+\newMtxs{Z}
+
+%% Common Matrix Rotations
+
+\newcommand{\mtxQtAQ}{\mtxQt\mtxA\mtxQ}
 
 %% Common Matrix Products
 
