@@ -40,7 +40,7 @@ before squaring. Really, the multivariate normal is just like its
 univariate counterpart, in that it really only cares about the distance
 of a point $\vecx$ from the distribution's center.
 
-\subsection{Stretching $\vecx$ by a Diagonal Matrix $\mtxD$}
+\subsection{Stretching \texorpdfstring{$\vecx$}{x} by a Diagonal Matrix \texorpdfstring{$\mtxD$}{D}}
 
 Imagine that that $X$ is distributed per standard spherical normal. We
 have the equation for density of points $\vecx$. Next question: what is
@@ -99,7 +99,7 @@ because we only need $\vecx$ in order to take its norm, the real point
 is in mapping $\vecy$ back to a vector (any vector!) with length
 $\norm{\vecx}$. Again, the normal distribution is all about distance.
 
-\subsection{Stretching $\vecx$ by $\mtxDQ$}
+\subsection{Stretching \texorpdfstring{$\vecx$}{x} by \texorpdfstring{$\mtxDQ$}{DQ}}
 
 If $\vecx$ is distributed per $\normal{\veczero}{\mtxI}$, then the
 density for $\mtxDQ \vecx$ is exactly equal to the distribution over
@@ -127,7 +127,7 @@ It makes sense. Once we apply $\mtxDinv$ to $\vecy$ to shrink it back
 to original norm, it no longer matters for us to rotate back by
 $\mtxQt$. The \emph{spherical} normal doesn't care about that!
 
-\subsection{Stretching $\vecx$ by $\mtxA$}
+\subsection{Stretching \texorpdfstring{$\vecx$}{x} by \texorpdfstring{$\mtxA$}{A}}
 
 Let's now consider stretching $\vecx$ by a general matrix $\mtxA$. Every
 matrix $\mtxA$ can be written in singular value decomposition form:

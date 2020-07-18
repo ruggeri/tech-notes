@@ -1,0 +1,46 @@
+Consider any transformation that is equivalent to a stretching of an
+orthogonal basis. Consider the 2d case. Then we have that the basis
+must look like:
+
+    (cos \theta, sin \theta)
+    # Here I have used orthogonality of the thetas
+    (-sin \theta, cos \theta)
+
+So we know that the projection matrix onto the first vector is:
+
+    |cos \theta cos \theta, sin \theta cos \theta|
+    |cos \theta sin \theta, sin \theta sin \theta|
+    =
+    |cos^2 \theta,        , cos \theta sin \theta|
+    |cos \theta sin \theta,          sin^2 \theta|
+
+Note that this is a symmetric matrix. Call it A.
+
+The situation flips a bit for the projection onto the orthogonal
+vector:
+
+    |-sin \theta -sin \theta, cos \theta -sin \theta|
+    |-sin \theta  cos \theta, cos \theta  cos \theta|
+    =
+    |sin^2 \theta,          -cos \theta sin \theta|
+    |-cos \theta sin\theta,           cos^2 \theta|
+
+Call this B.
+
+Therefore, any orthogonal stretching is equal to `alpha A + beta
+B`. The sum of two scaled symmetric matrices is still symmetric. Of
+course, if alpha = beta = 1 then we get the identity.
+
+Can any symmetric matrix be broken up like this? The answer must be
+yes...
+
+For a 2d matrix symmetric matrix, I can do the determinant of A -
+lambdaI, solve for lambda, and show that inside the radical can never
+be negative. That ensures that there are distinct eigenvectors, except
+if there is a homogenous scaling of the space.
+
+However, this doesn't really give me intuition of why symmetric
+matrices with more dimensions symmetric would have full rank
+eigenspace.
+
+I'll have to move on for today. But progress!
