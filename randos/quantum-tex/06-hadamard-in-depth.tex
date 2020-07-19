@@ -1,0 +1,55 @@
+\newcommand{\oket}{\braket{1}}
+\newcommand{\zket}{\braket{0}}
+
+\section{Hadamard Operation in Depth}
+
+\begin{remark}
+  (This reviews in a little more depth what I've already said about
+  the Hadamard elsewhere).
+
+  As we've seen, Hadamard on one qubit involves: reflecting the $y$
+  coordinate, then rotating 45deg CCW.
+
+  Hadamard moves a basis state to a uniform superposition. But unlike a
+  45deg rotation, it is also its own inverse. So it also maps a uniform
+  superposition back to a basis state.
+
+  I see this as: it can simultaneously be ``reassembling'' a split-up
+  quantum state while "exploding" a basis state. We'll see this help us
+  in Grover's algorithm.
+\end{remark}
+
+\begin{remark}
+  Let's recall think of what $\mtxH^{\otimes{n}}$ does to $\zket_n$ ($n$
+  qubits each with value $0$). $\mtxH$ maps this to every state
+  $\braket{x}$, where the amplitude is $\frac{1}{\sqrt{2^n}}$.
+
+  Now lets apply the Hadamard to try to go back. Then every input
+  $\braket{x}$ value contributes some amplitude to every output
+  $\braket{y}$ value. If we were just working with one qubit, then we
+  know that both inputs $\zket$ and $\oket$ gives positive amplitude to
+  output $\zket$ (constructive interference).
+
+  At the same time, while inputs $\zket$ and $\oket$ both give amplitude
+  to output $\oket$, these amplitudes are \emph{out of phase} and
+  \emph{destructively interfere}. The $\zket$ input provides
+  \emph{positive} amplitude, while the $\oket$ input provides
+  \emph{negative} amplitude.
+\end{remark}
+
+\begin{remark}
+  We can now consider applying the Hadamard operation iteratively to
+  each qubit of the $n$ qubits. If the first qubit is $\oket$, this
+  means it contributes an amplitude of $\sqtot$ to $\zket$ and of
+  $-\sqtot$ to $\oket$.
+
+  If the next qubit is also $\oket$, then we will multiply the first
+  amplitudes by $\sqtot$ and $-\sqtot$ again. And this is how we get the
+  equation that we get the equation that for each $y$, $\braket{x}
+  \mapsto \braket{y}$ with probability amplitude:
+
+  \begin{nedqn}
+    \parensexp{\sqtot}{n}
+    \sum (-1)^{\text{count of $1$s in common to both $x$ and $y$}} \braket{y}
+  \end{nedqn}
+\end{remark}

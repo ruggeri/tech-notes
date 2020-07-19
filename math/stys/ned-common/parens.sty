@@ -22,11 +22,15 @@
 % Various superscript operations look better "pulled in" to the macro
 % because of mathclose.
 
-%% Parentheses inverse
-\newcommand{\parensinv}[1]{
+\newcommand{\parensexp}[2]{
   \mathopen{}\left(
     {#1}
-  \right)^{-1}\mathclose{}
+  \right)^{#2}\mathclose{}
+}
+
+%% Parentheses inverse
+\newcommand{\parensinv}[1]{
+  \parensexp{#1}{-1}
 }
 \newcommand{\Bparensinv}[1]{
   \mathopen{}\Bigl(
@@ -36,16 +40,12 @@
 
 %% Parentheses squared
 \newcommand{\parensq}[1]{
-  \mathopen{}\left(
-    {#1}
-  \right)^{2}\mathclose{}
+  \parensexp{#1}{2}
 }
 
 %% Parentheses sqrt
 \newcommand{\parensqrt}[1]{
-  \mathopen{}\left(
-    {#1}
-  \right)^{1/2}\mathclose{}
+  \parensexp{#1}{1/2}
 }
 
 %% Parentheses negsqrt
