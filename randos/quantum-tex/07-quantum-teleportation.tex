@@ -1,0 +1,137 @@
+\newcommand{\zzket}{\braket{00}}
+\newcommand{\zoket}{\braket{01}}
+\newcommand{\ozket}{\braket{10}}
+\newcommand{\ooket}{\braket{11}}
+
+\newcommand{\zzzket}{\braket{000}}
+\newcommand{\zzoket}{\braket{001}}
+\newcommand{\zozket}{\braket{010}}
+\newcommand{\zooket}{\braket{011}}
+\newcommand{\ozzket}{\braket{100}}
+\newcommand{\ozoket}{\braket{101}}
+\newcommand{\oozket}{\braket{110}}
+\newcommand{\oooket}{\braket{111}}
+
+\section{Quantum Teleportation}
+
+\begin{remark}
+  Say I want to communicate my qubit $q$ with you, but I don't have a
+  quantum channel to you. I do have a classical channel on which I can
+  sends ones and zeroes.
+
+  If my qubit $q$ were in a basis state, everything would be easy (I'd
+  just send a one or two). But the point is that it might not be. It
+  might even be in a state I don't know!
+
+  If we share an EPR pair already, here's what we can do. First, let the
+  quantum state be notated:
+
+  \begin{nedqn}
+    \parens{
+      \alpha \zket + \beta \oket
+    }
+    \otimes
+    \sqtot
+    \parens{
+      \zzket + \ooket
+    }
+  \end{nedqn}
+
+  \noindent
+  (The first qubit is the one I wish to teleport, the second is my half
+  of the EPR pair, and the third is your half of the EPR pair).
+
+  First, I will apply a CX of my qubit with my half of the EPR pair.
+  This gives us:
+
+  \begin{nedqn}
+    \sqtot
+    \parens{
+      \alpha \zzzket
+      + \alpha \zooket
+      + \beta \oozket
+      + \beta \ozoket
+    }
+  \end{nedqn}
+
+  \noindent
+  Now imagine I measure \emph{my} half of the EPR pair. If I measure
+  zero, then the reduced state is:
+
+  \begin{nedqn}
+    \alpha \braket{000} + \beta \braket{101}
+  \end{nedqn}
+
+  \noindent
+  Now, if my friend measures their third qubit, they will get a zero/one
+  result with the correct probabilities $\norm{\alpha}, \norm{\beta}$.
+  However, they have not truly been sent my qubit. The reason is that
+  they cannot perform quantum operations on it with the expected result.
+
+  For instance: say I produced $\alpha \zket + \beta \oket$ by Hadamard
+  operation on $\zket$. That is, $\alpha = \beta = \sqtot$. Then, I
+  claim that after teleportation, I should be able to tell my friend to
+  apply $\mtxH$ to recover $\zket$.
+
+  But this won't work for them. The problem is the first qubit of state
+  that \emph{I} hold onto. I have entangled the first qubit with the
+  third. So when my friend applies $\mtxH$ to their third qubit, they
+  are performing:
+
+  \begin{nedqn}
+    \parens{\mtxI \otimes \mtxI \otimes \mtxH}
+    \parens{\sqtot \zzzket + \sqtot \ozoket}
+  \eqcol
+    \parens{
+      \sqtot \zzket
+      \otimes
+      \mtxH \zket
+    }
+    +
+    \parens{
+      \sqtot \ozket
+      \otimes
+      \mtxH \oket
+    }
+  \\
+  \eqcol
+    \half
+    \parens{\zzzket + \zzoket}
+    +
+    \half
+    \parens{\ozzket - \ozoket}
+  \end{nedqn}
+
+  \noindent
+  If only the states $\zzzket, \ozzket$ could \emph{constructively}
+  interfere! If only the states $\zzoket, \ozoket$ could
+  \emph{destructively} interfere!
+\end{remark}
+
+% Let me instead apply H to the qubit I'm trying to send. We then get:
+
+%     (1/sqrt(2))
+%     \alpha ((1/sqrt(2)) (|000> + |100>))
+%     + \alpha ((1/sqrt(2)) (|011> + |111>))
+%     + \beta ((1/sqrt(2)) (|010> - |110>))
+%     + \beta ((1/sqrt(2)) (|001> - |101>))
+
+% We may rearrange:
+
+%     1/2
+%     (\alpha |000> + \beta |001>)
+%     + (\beta |010> + \alpha |011>)
+%     + (\alpha |100> - \beta |101>)
+%     + (\beta |110> - \alpha |111>)
+
+% Now, we measure both of our qubits. There are four cases:
+
+% * 00 -> They have `\alpha |0> + \beta |1>`.
+% * 01 -> They have `\beta |0> + \alpha |1>`. Apply Pauli X NOT.
+% * 10 -> They have `\alpha |0> - \beta |1>`. Apply Pauli Z phase shift.
+% * 11 -> They have `\beta |0> - \alpha |1>`. Apply Pauli X NOT, then
+%   Pauli Z phase shift.
+
+% Note: there is no faster-than-light communication, because we need to
+% send the bits. Second: there is no cloning because we have destroyed our
+% copy of the EPR pair.
