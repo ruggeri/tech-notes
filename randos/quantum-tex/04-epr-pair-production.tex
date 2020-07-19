@@ -1,0 +1,22 @@
+\section{EPR Pair Production}
+
+\begin{example}
+  To produce an entangled EPR pair, start with $\braket{00}$. Then apply
+  $\mtxH$ to the first qubit to get a superposition:
+
+  \begin{nedqn}
+    \parens{\sqtot} \parens{\braket{0} + \braket{1}} \otimes \braket{0}
+  \end{nedqn}
+
+  \noindent
+  Next, do a CNOT operation from the first qubit to the second qubit.
+  This is the part that entangles them. You get:
+
+  \begin{nedqn}
+    \parens{\sqtot} \parens{\braket{00} + \braket{11}}
+  \end{nedqn}
+
+  \noindent
+  Done!
+\end{example}
+
