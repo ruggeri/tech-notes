@@ -1,0 +1,198 @@
+\section{Quantum Gates}
+
+\begin{remark}
+  In theory, any unitary transformation of $\C^{2^k}$ is a valid
+  transformation of a $k$-qubit quantum state. But just as boolean
+  circuits can be built out of AND, OR, NOT, et cetera gates, we only
+  need a limited number of gates in quantum computing. Here are the most
+  common:
+
+  \begin{nedqn}
+    \mtxI
+  \eqcol
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+    \nedcomment{Identity}
+  \\
+    \mtxX
+  \eqcol
+    \begin{bmatrix}
+      0 & 1 \\
+      1 & 0
+    \end{bmatrix}
+    \nedcomment{Pauli X (NOT gate)}
+  \\
+    \mtxY
+  \eqcol
+    \begin{bmatrix}
+      0 & -i \\
+      i & 0
+    \end{bmatrix}
+    \nedcomment{Pauli Y (haven't used this)}
+  \\
+    \mtxZ
+  \eqcol
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & -1
+    \end{bmatrix}
+    \nedcomment{Pauli Z (called phase flip gate)}
+  \end{nedqn}
+
+  \noindent
+  Perhaps the most useful gate of all:
+
+  \begin{nedqn}
+    \mtxH
+  \eqcol
+    \begin{bmatrix}
+      \sqtot & \sqtot \\
+      \sqtot & -\sqtot
+    \end{bmatrix}
+    \nedcomment{Hadamard gate}
+  \end{nedqn}
+
+  \noindent
+  The Hadamard gate flips the Y axis and then does a 45deg rotation.
+\end{remark}
+
+\begin{remark}
+  What about when we want to apply a single-qubit gate to one qubit of a
+  multi-qubit system? For instance, what matrix defines applying the
+  Pauli $\mtxX$ on qubit two while leaving qubit one untouched?
+
+  \begin{nedqn}
+    \mtxX \otimes \mtxI
+  \eqcol
+    \begin{bmatrix}
+      0 \mtxI & 1 \mtxI \\
+      1 \mtxI & 0 \mtxI
+    \end{bmatrix}
+  \\
+  \eqcol
+    \begin{bmatrix}
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 \\
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  Just like decomposable qubit states are products of single-qubit
+  states, so can matrices that affect only one qubit be decomposed into
+  two-by-two matrices.
+\end{remark}
+
+\begin{remark}
+  A common \define{product gate} is $\mtxH \otimes \mtxH$:
+
+  \begin{nedqn}
+    \mtxH \otimes \mtxH
+  \eqcol
+    \begin{bmatrix}
+       1/2 &  1/2 &  1/2 &  1/2 \\
+       1/2 & -1/2 &  1/2 & -1/2 \\
+       1/2 &  1/2 & -1/2 & -1/2 \\
+       1/2 & -1/2 & -1/2 &  1/2 \\
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  The Hadamard product moves the basis state $\braket{0}_k$ to a uniform
+  superposition over all basis states.
+
+  More generally, any basis state $\braket{i}_k$ gets moved to a uniform
+  superposition over all basis states, \emph{except} the polarity for
+  result state $j$ depends on the bitwise product of $i \cdot j \bmod
+  2$. That is: maintaining each 1 bit flips the polarity.
+\end{remark}
+
+\begin{remark}
+  Unsurprisingly, applying $\mtxI \otimes \mtxH$ to an unentangled system
+  like $\braket{0} \otimes \braket{1}$ is simple. The result is simply
+  $\mtxI \braket{0} \otimes \mtxH \braket{1}$.
+\end{remark}
+
+\begin{remark}
+  We can measure the entire system, but what happens if we measure just
+  one qubit of a multiple-qubit system? Then the probability of
+  observing a zero is equal to:
+
+  \begin{nedqn}
+    \sum_{i\,\text{with bit $x=0$}} \norm{\alpha_i}^2
+  \end{nedqn}
+
+  \noindent
+  We then zero out all states where bit $x$ was one. We must renormalize
+  in the obvious way. Note that there is no difference in measuring 5
+  qubits or simply measuring 5 qubits one-by-one.
+\end{remark}
+
+\begin{remark}
+  Let's start entangling the state of qubits. The first operation we'll
+  explore is CNOT. This will \emph{flip} the second bit iff the first
+  bit is one.
+
+  \begin{nedqn}
+    \mtx{CNOT}
+  \eqcol
+    \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0
+    \end{bmatrix}
+  \end{nedqn}
+
+  \noindent
+  Important note: \emph{no} quantum gate could unconditionally set the
+  second bit. That would destroy information and thus would not be
+  invertible!
+
+  Also note that our CNOT cannot be decomposed into a product of two
+  independent operations on different qubits. That's what makes it
+  entangling.
+
+  The CNOT is also called the CX gate.
+\end{remark}
+
+\begin{remark}
+  We can write a SWAP gate in the usual way. We use CX from qubit one to
+  qubit two. Then CX back from qubit two to qubit one. This has swapped
+  qubit two into qubit one. Last, we do a final CX to write qubit one
+  into qubit two.
+\end{remark}
+
+\begin{remark}
+  The CCNOT or CCX gate is similar, but only does a NOT operation on the
+  third gate if the first two are equal
+
+  \begin{nedqn}
+    \braket{00x} \mapsto \braket{00x} \\
+    \braket{01x} \mapsto \braket{01x} \\
+    \braket{10x} \mapsto \braket{10x} \\
+    \braket{11x} \mapsto \braket{11(\neg x)}
+  \end{nedqn}
+
+  \noindent
+  As ever, we cannot simply ``overwrite'' a qubit!
+\end{remark}
+
+\begin{remark}
+  Using the X (XOR) and CCX (AND) gates, we can build any boolean
+  circuit.
+
+  There are an uncountable number of unitary transformations, so no
+  finite or even countable basis set could generate all transformations
+  in finite circuits. But if you are okay with arbitrarily close
+  approximations, then you can approximate any unitary operation well.
+
+  The Solovay-Kitaev theorem says that any generating set is basically
+  equally good.
+
+  The CNOT and a rotation are good enough to approximate any unitary
+  operation.
+\end{remark}
