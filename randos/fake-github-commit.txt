@@ -1,0 +1,39 @@
+Okay okay okay.
+
+First, as we know, in the git log we record an *author* and a
+*committer* of every commit. We know that these can be set to anything
+you want - spoofed.
+
+The question is: how does GitHub present this information? For every
+GitHub user, GitHub builds an activity feed. The feed shows recent
+commits by the user. How does GitHub know which user wrote which
+commits? Answer: it matches the GitHub user's email address to the
+commit's author's email address.
+
+Question: if I author a commit as "Dan Abramov <dan.abramov@me.com>",
+will I trick GitHub into thinking this is actually by Dan Abramov? How
+can GitHub know whether Dan truly wrote this commit?
+
+One answer is that Dan can GPG **sign** his GitHub commits. GitHub will
+verify signatures if Dan also uploads his GPG pubkey to GitHub. GitHub
+will present Dan's commit with a "Verified" indicator.
+
+I've never signed a commit, and it looks like Dan might not either. :-\
+
+Otherwise, GitHub will display Dan's commit in the usual way. If you see
+a commit by Dan, don't trust it!
+
+If I make a repository called "github.com/ruggeri/evil-scam" and post to
+it as Dan Abramov, that's bad enough. People will come to evil-scam and
+think that Dan is involved. But it could be worse: will evil-scam start
+to show up on Dan's public user activity page??
+
+Answer: no. To prevent abuse, GitHub won't add to a user's activity feed
+unless the user has previously forked a repository. There are a number
+of other conditions. You can see the conditions here:
+
+  https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/why-are-my-contributions-not-showing-up-on-my-profile
+
+This greatly limits abuse because I can't hijack Dan's profile to
+promote myself. But it should make us all think twice about trusting
+unsigned commits...
