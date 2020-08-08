@@ -20,7 +20,7 @@
   sends ones and zeroes.
 
   If my qubit $q$ were in a basis state, everything would be easy (I'd
-  just send a one or two). But the point is that it might not be. It
+  just send a zero or one). But the point is that it might not be. It
   might even be in a state I don't know!
 
   If we share an EPR pair already, here's what we can do. First, let the
@@ -53,8 +53,9 @@
       + \beta \ozoket
     }
   \end{nedqn}
+\end{remark}
 
-  \noindent
+\begin{remark}
   Now imagine I measure \emph{my} half of the EPR pair. If I measure
   zero, then the reduced state is:
 
@@ -63,15 +64,16 @@
   \end{nedqn}
 
   \noindent
-  Now, if my friend measures their third qubit, they will get a zero/one
-  result with the correct probabilities $\norm{\alpha}, \norm{\beta}$.
-  However, they have not truly been sent my qubit. The reason is that
-  they cannot perform quantum operations on it with the expected result.
+  Now, if my friend measures the third qubit, they will get a zero/one
+  result with the correct probabilities $\norm{\alpha}^2,
+  \norm{\beta}^2$. However, they have not truly been sent my qubit. The
+  reason is that they cannot perform quantum operations on it with the
+  expected result.
 
   For instance: say I produced $\alpha \zket + \beta \oket$ by Hadamard
-  operation on $\zket$. That is, $\alpha = \beta = \sqtot$. Then, I
-  claim that after teleportation, I should be able to tell my friend to
-  apply $\mtxH$ to recover $\zket$.
+  operation on $\zket$. That is, $\alpha = \beta = \sqtot$. In that
+  case, after teleportation, I should be able to tell my friend to apply
+  $\mtxH$ to recover $\zket$.
 
   But this won't work for them. The problem is the first qubit of state
   that \emph{I} hold onto. I have entangled the first qubit with the
@@ -108,30 +110,43 @@
   \emph{destructively} interfere!
 \end{remark}
 
-% Let me instead apply H to the qubit I'm trying to send. We then get:
+\begin{remark}
+  We can fix the problem by applying $\mtxH$ to the first qubit. This
+  gives us:
 
-%     (1/sqrt(2))
-%     \alpha ((1/sqrt(2)) (|000> + |100>))
-%     + \alpha ((1/sqrt(2)) (|011> + |111>))
-%     + \beta ((1/sqrt(2)) (|010> - |110>))
-%     + \beta ((1/sqrt(2)) (|001> - |101>))
+  \begin{nedqn}
+    \parens{
+      \mtxH \otimes \mtxI \otimes \mtxI
+    }
+    \parens{
+      \alpha \zzzket + \beta \ozoket
+    }
+  \eqcol
+    \alpha \sqtot \zzzket
+    + \alpha \sqtot \ozzket
+    + \beta \sqtot \zzoket
+    - \beta \sqtot \ozoket
+  \end{nedqn}
 
-% We may rearrange:
+  We may now measure the first qubit. If we get zero, we know that the
+  final state is $\alpha \zzzket + \beta \zzoket$. We can send $00$ to
+  our friend so that they know that their qubit is good.
 
-%     1/2
-%     (\alpha |000> + \beta |001>)
-%     + (\beta |010> + \alpha |011>)
-%     + (\alpha |100> - \beta |101>)
-%     + (\beta |110> - \alpha |111>)
+  If we read one, then $\alpha \ozzket - \beta \ozoket$. We should send
+  $01$ to our friend so they know to correct their qubit by a $\mtxZ$
+  phase-flip gate.
+\end{remark}
 
-% Now, we measure both of our qubits. There are four cases:
+\begin{remark}
+  What if we had read a one first? Then our state would be $\alpha
+  \zooket + \beta \oozket$. We can send an initial one so that they do a
+  $\mtxX$ not operation on their qubit. That gives: $\alpha \zozket +
+  \beta \oooket$. Now we are in the same scenario as before.
+\end{remark}
 
-% * 00 -> They have `\alpha |0> + \beta |1>`.
-% * 01 -> They have `\beta |0> + \alpha |1>`. Apply Pauli X NOT.
-% * 10 -> They have `\alpha |0> - \beta |1>`. Apply Pauli Z phase shift.
-% * 11 -> They have `\beta |0> - \alpha |1>`. Apply Pauli X NOT, then
-%   Pauli Z phase shift.
-
-% Note: there is no faster-than-light communication, because we need to
-% send the bits. Second: there is no cloning because we have destroyed our
-% copy of the EPR pair.
+\begin{remark}
+  Note: there is no faster-than-light communication here. Without
+  sending the two classical bits, the other person does not know how to
+  correct their qubit. Also: we have not cloned our state -- we've
+  actually \emph{disentangled} the EPR pair.
+\end{remark}

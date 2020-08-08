@@ -37,3 +37,6 @@ of other conditions. You can see the conditions here:
 This greatly limits abuse because I can't hijack Dan's profile to
 promote myself. But it should make us all think twice about trusting
 unsigned commits...
+
+@anasassia-b was the one who suggested this attack vector to me (Dan
+Abramov).
