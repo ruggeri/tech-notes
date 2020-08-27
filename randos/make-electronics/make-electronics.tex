@@ -120,6 +120,23 @@
   But if the voltage is too high, the current will be too great to
   resist, and the LED will break down.
 
+  \item The LED won't let any current pass until you hit a voltage
+  floor. Then, it will allow current to pass with very little
+  resistance. If you run too much current, you'll burn out the LED. The
+  amount of light that is output by the LED depends on the amount of
+  current being pushed through.
+
+  % Note: I think that there is no real limit on the voltage applied to
+  % the LED, provided you use an appropriate resistor. I believe the
+  % voltage limit is really just: (1) the voltage floor, plus (2) the
+  % amount of voltage to push the max-safe current through the LED's
+  % intrinsic resistance.
+  %
+  % Source:
+  % https://electronics.stackexchange.com/questions/151627/why-does-an-led-have-a-maximum-voltage/151653
+
+  \item \TODO{How do LEDs actually work?}
+
   \item Note: if a potentiometer is in series with a fixed resistor, the
   voltage drop across the resistor will increase as we turn down the
   potentiometer. That's because the battery voltage is constant.
@@ -329,6 +346,11 @@
   \\
     \fpartial{t} \vcap
   \eqcol
+    \fpartial{t} q
+    \fpartial{q} \vcap
+    \nedcomment{chain rule}
+  \\
+  \eqcol
     \fpartial{t} q \inv{C}
   \\\eqcol
     I(t) \inv{C}
@@ -377,7 +399,7 @@
 
   \item Note that charging of a capacitor slows over time not because
   capacitance drops, but rather because the voltage stored in the
-  capacitor drops.
+  capacitor is rising as more coulombs are pushed into the capacitor.
 
   \item It is not immediately intuitive that capacitance would remain
   fixed. But you could look at it this way: if there is potential energy
@@ -389,12 +411,20 @@
   potential energy to resist further compression.
 
   \item What makes a capacitor dangerous is not necessarily the
-  capacitance. It is the \emph{voltage} that the capacitor can
+  capacitance. Capacitors can have high capacitance by simply having
+  huge plates. They can store a lot of charge.
+
+  \item The danger is the \emph{voltage} that the capacitor can
   withstand. Your body can take a large amount of charge passing through
   it at a very slow rate. For instance, you could be connected to a 9V
   battery for the rest of your (long) life. But your body \emph{cannot}
   take being connected to 115V for even a short period of time. A
-  capacitor rated for high-wattage is dangerous!!
+  capacitor rated for high-voltage is dangerous!!
+
+  \item The analogy is just like a gun. A very light bullet, at a high
+  enough speed/energy, can kill you if it is aimed at your heart.
+  Likewise, a small amount of charge, if passed through your heart very
+  quickly, can kill you.
 
   \item There are two kinds of capacitors: \emph{ceramic} and
   \emph{electrolytic}. Electrolytics are the tin-can ones. Electrolytic
@@ -416,30 +446,115 @@
 
 \begin{enumerate}
 
-  \item We expect that capacitors will act as \emph{filters}. Let me
-  explain: imagine a slowly oscillating alternating current of 9V. As
-  the voltage is rising, the capacitor is charging. But the charge it
-  takes means the voltage passed through the capacitor is lower than the
-  9V. It is mostly quite small. When the voltage drops, the capacitor
-  starts releasing voltage. Again: the voltage out is low.
+  \item We can use capacitors to act as \emph{filters}. Imagine a
+  capacitor wired in series with a circuit.
 
-  \item Things will happen the same way as the voltage drops to (and
-  below) 0V. It will just be the reverse of before. The lesser the
-  capacitance, the more quickly the capacitor will fill up and block the
-  voltage.
+  \item Imagine a fast switching AC input. The voltage starts high, lets
+  say. Voltage starts being stored in the capacitor. At the very start,
+  the capacitor has stored zero volts, so it presents no resistance. If
+  the capacitor is given time to charge up, it will start to present
+  more and more resistance.
 
-  \item On the other hand, imagine an infinitely large capacitor. No
-  amount of charge can raise its voltage. So it will never act to resist
-  the incoming current.
+  \item However, if the polarity of the input voltage switches quickly
+  enough (relative to the time constant $RC$), then a negligible amount
+  of voltage gets stored in the capacitor before the polarity flip.
 
-  \item The point is this: a capacitor acts as a high-pass filter. If an
-  alternating current is switching at a fast enough rate, the capacitor
-  won't attenuate it very much.
+  \item The stored voltage is now \emph{adding} to the newly reversed
+  voltage. Again, the effect is small.
 
-  \item A capacitor intended to block DC but pass AC is called a
-  \define{coupling capacitor}.
+  \item Basically, there's some corruption of the signal voltage, but it
+  is small. We probably should do a little math to show that the
+  corruption is \emph{bounded} by a small epsilon. This takes some
+  showing because the voltage stored in the capacitor is oscillating
+  over the time. Sometimes the capacitor will have stored voltage in one
+  direction, sometimes in another.
 
-  % p84: transistors!!!
+  \item Anyway, imagine a more slowly oscillating signal. Now we can see
+  that the corruption will be much greater. Because the capacitor has
+  time to elet the voltage rise.
+
+  \item Thus as the low-frequency signal slowly switches voltage, we
+  expect ``pops'' of high voltage that are quickly attenuated to zero.
+
+  \item Thus a capacitor acts as a \emph{high-pass filter} when we
+  wire the load in series with the capacitor.
+
+  \item The goal is to attenuate low frequencies, but preserve high
+  frequencies. However, if the time constant is too high, low
+  frequencies will not be attenuated fast enough.
+
+  \item Thus, it is problematic if the load (resistance of the circuit)
+  is too high. To solve this, we simply wire the circuit \emph{in
+  parallel} with a resistor $R$. That is: we have a simple RC circuit,
+  with the load wired in parallel with the resistor.
+
+  \item The resistor we've added ensures that the effective resistance
+  is never more than $R$. Thus the time constant for charging the
+  capacitor is never more than $RC$. This ensures that low-enough
+  frequencies are \emph{always} filtered. Depending on how low the
+  circuit load is, perhaps higher frequencies might also be attenuated.
+
+  \item To construct a low-pass filter, we want to instead wire the load
+  circuit in parallel \emph{with the capacitor}. This ensures that the
+  voltage delivered to the circuit is always exactly equal to the
+  voltage stored in the capacitor.
+
+  \item I think this also shows how you can do an audio cross-over? By
+  simply wiring circuits in parallel with either the resistor or the
+  capacitor?
+
+  % https://www.electronics-tutorials.ws/filter/filter_3.html
+  % https://www.electronics-tutorials.ws/filter/filter_2.html
+\end{enumerate}
+
+\subsection{Transistors}
+
+\begin{enumerate}
+  \item They next talk about transistors. The transistor has three legs:
+  \emph{collector}, \emph{base}, and \emph{emitter}.
+
+  \item Loosely speaking: the effective resistance of a transistor is
+  inversely proportional to the amount of current that passes through
+  the base.
+
+  \item They do an example where you hook a 9V battery to the
+  collector/emitter. You then complete a circuit by using your finger to
+  bridge the 9V positive terminal with the base. Your finger is like 40M
+  ohm resistance, so the current passing through is tiny. But the
+  transistor allows a much greater current to pass from collector to
+  emitter.
+
+  \item There are two types of tranistor: NPN (normal kind) and PNP. The
+  NPN switches a positive current, while the PNP switches a negative
+  current. That is: the NPN expects a positive input current at the
+  base/collector. With the PNP, a negative input current is expected at
+  base/collector.
+
+  \item This is a little different from the relay -- the relay expects a
+  directionality to the current flowing through the inductor that
+  opens/closes the relay, but I don't think it cares which way the
+  current flows through the switch itself.
+
+  \item The current that is passed by a transistor from collector to
+  emitter is a multiple of the current that is flowing from base to
+  emitter. The amplification factor can be measured by the multimeter
+  and it is about 200.
+
+  \item You shouldn't try to send too much current through either base
+  or collector. Also, you should not try to send current backward from
+  the emitter to the collector. That can damage the (NPN) transistor. I
+  assume the same is true of sending current backward through the base.
+
+  \item Transistors have longer term reliability (no moving parts), can
+  switch faster, and can be asily miniaturized. But transistors cannot
+  switch large currents (otherwise they'll be damaged). They also can't
+  switch \emph{alternating current} (because you can't send current
+  backward through them).
+
+  \item \TODO{How does a transistor actually work?} Specifically, does
+  it amplify the current, or does it amplify the voltage? I believe the
+  answer is that it is \emph{current controlled.} But I don't have a
+  mental model for this...
 \end{enumerate}
 
 \end{document}
