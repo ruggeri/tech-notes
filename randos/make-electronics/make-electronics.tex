@@ -557,4 +557,95 @@
   mental model for this...
 \end{enumerate}
 
+\subsection{Voltage Divider}
+
+\newcommand{\Rtot}{R_\text{total}}
+\newcommand{\Rload}{R_\text{load}}
+\newcommand{\Rpot}{R_\text{pot}}
+
+\begin{enumerate}
+  \item The book has us create a circuit where the input voltage is sent
+  to one end of a potentiometer, while the load circuit is connected to
+  the wiper, and ground is connected to the other end of the
+  potentiometer.
+
+  % Graphical example: https://en.wikipedia.org/wiki/Voltage_divider
+
+  \item Thus, if the potentiometer is set to $\alpha$, then the
+  resistance in series with the load circuit is $\alpha \Rpot$ and the
+  resistance in parallel with the load circuit is $\parens{1 - \alpha}
+  \Rpot$.
+
+  \item When $\alpha = 0$, there is no series resistance. The full
+  voltage is applied to the load circuit. Note: the voltage drop across
+  two parallel paths must always be equal. This is because the energy
+  expended by following each path must be equal. For this reason, when
+  you plug two lightbulubs in parallel, they don't get dimmer. The same
+  current will pass through both as before, aka the same instantaneous
+  power is being used by each bulb. So the power draw will double with
+  the two parallel bulbs.
+
+  \item On the other hand, when parallel paths are added, the effective
+  total resistance drops. Thus more current can be pushed by the same
+  voltage. The total current passed is:
+
+  \begin{nedqn}
+    I_\text{total}
+  \eqcol
+    \frac{V}{R_1} + \frac{V}{R_2}
+  \\
+    \Rtot
+  \eqcol
+    \frac{V}{I_\text{total}}
+  \\
+  \eqcol
+    \frac{1}{\frac{1}{R_1} + \frac{1}{R_2}}
+  \end{nedqn}
+
+  \item Here we see a downside to the voltage divider. It wastes some
+  power. Consider that $\alpha = 0$. Then $P = IV = V^2/\Rtot$. But:
+
+  \begin{nedqn}
+    \frac{1}{\Rtot}
+  \eqcol
+    \frac{1}{\Rload} + \frac{1}{\Rpot}
+  \intertext{thus}
+    P
+  \eqcol
+    \frac{V^2}{\Rload} + \frac{V^2}{\Rpot}
+  \end{nedqn}
+
+  If $\Rpot = \Rload$, then the power draw is two times it would be
+  if the potentiometer were not there. Half the energy is wasted. In
+  general: the smaller $\Rpot$ is, the more energy is wasted. This is an
+  argument for using large potentiometers when doing voltage division.
+
+  \item When $\alpha = 0$, we see that it could be desirable to not wire
+  the potentiometer at all to ground. In this case, there is no parallel
+  path to ground, so there would be no power wastage.
+
+  \item We must next consider what happens when $\alpha = 1$. In this
+  configuration, the potentiometer is entirely in series with the load.
+  But there is a short-circuit to ground in parallel with the load. Thus
+  the parallel part of the system has effective resistance zero. The
+  total resistance of the circuit is effectively $\Rpot$.
+
+  Thus, we expect that the voltage drop across $\Rpot$ will be
+  effectively $V$. There will be practically \emph{no} voltage drop
+  across the parallel half of the circuit. The voltage thus applied to
+  the load is effectively zero.
+
+  \item This shows us the importance of wiring the potentiometer not
+  only to the load, but also to ground. If not wired to ground, then the
+  effective resistance of the second half of the circuit is $\Rload$.
+  The total resistance is $\Rpot + \Rload$. The voltage drop across the
+  pot is then only $V \frac{\Rpot}{\Rpot + \Rload}$.
+
+  \item By wiring to ground, we may choose $\Rpot$ so that the wasted
+  power is acceptable. Then, no matter how we set the pot, the power
+  wastage remains the same. And we can adjust the voltage sent to the
+  load from literally zero to literally 100\% of $V$.
+\end{enumerate}
+
+
 \end{document}
