@@ -551,10 +551,8 @@
   switch \emph{alternating current} (because you can't send current
   backward through them).
 
-  \item \TODO{How does a transistor actually work?} Specifically, does
-  it amplify the current, or does it amplify the voltage? I believe the
-  answer is that it is \emph{current controlled.} But I don't have a
-  mental model for this...
+  \item I will have to explain more about how they work later... The
+  book doesn't quite explain.
 \end{enumerate}
 
 \subsection{Voltage Divider}
@@ -647,5 +645,127 @@
   load from literally zero to literally 100\% of $V$.
 \end{enumerate}
 
+\subsection{Diodes}
+
+\begin{enumerate}
+  \item A \define{diode} is a device that allows current to flow in one
+  direction, but not the other. Diodes originally consisted of a heated
+  cathode that throws electrons to a cylindrical anode shell. The entire
+  thing is encased in a vacuum tube. Thus diodes are sometimes called
+  \define{tubes}.
+
+  \item The phenomenon that is used is \define{thermionic emission}. If
+  you heat a metal enough, it will bounce/``throw'' electrons away. It
+  is just like when you boil water: the water molecules will want to
+  boil away. It's not that the heated material prefers stuff to be away;
+  this is just a byproduct of jostling of the material. If there is no
+  reason for the molecules to go elsewhere, they may well return.
+
+  \item Here, the heated cathode throws away electrons into the vacuum
+  of the tube. The vacuum matters, because otherwise the gas molecules
+  have electrons and would not want thrown electrons to get near them.
+  This is like how boiling happens more easily at lower pressures.
+
+  \item Since there is a vacuum in the tube, the boiled electrons can
+  bounce away to the anode. If the cathode and anode have a negative
+  potential difference between them, the anode is happy to receive the
+  electron.
+
+  \item The amount of energy required to remove an electron from the
+  surface of a solid to a point immediately outside the solid is called
+  the \define{work function}. Unless voltages are extremely high, then,
+  absent heating, the work function is too great for \define{field
+  electron transmission} to occur: the spontaneous transit of electrons
+  from a cold cathode to anode.
+
+  \item Thus a diode can be used for \define{rectification}: changing
+  alternating current into (pulsing) DC. This is because electrons can't
+  travel from the unheated anode to the cathode. So charge won't move
+  backward.
+
+  \item A diode acts like a \define{valve} in plumbing. So they are also
+  called valves.
+
+  \item The heating of the cathode will determine the rate at which
+  electrons are thrown off. The current through the diode is not so much
+  based on the voltage. Thus, I don't particularly expect a large
+  voltage drop across a diode?
+
+  \item Imagine wiring a diode in series with a resister. If heated, the
+  cathode may be throwing off lots of electrons. Hotter means more
+  electrons thrown off per second. But on delivery to the anode, they
+  are still at the same electrical potential. That is: the only have so
+  much energy that they can use to push through a resistor.
+
+  \item I believe that if too many electrons are being thrown off, then
+  they can't force their way fast enough through the resister. If too
+  many electrons are delivered to the anode, then the anode potential
+  will rise, repelling more electrons from joining. This effectively
+  decreases the rate of thermionic emission to the anode.
+
+  \item BTW, I believe that electrical potential is not easily fungible
+  with kinetic energy. IF you heat electrons, that won't necessarily
+  make them want to move in a straight line through a wire.
+\end{enumerate}
+
+\subsection{Triode}
+
+\begin{enumerate}
+  \item An important example from the internet said: if the cathode is
+  at 0V, the grid at -2V, and the anode at 80V. An electron is thrown
+  off with 3eV of energy. What is its energy upon arriving at the anode?
+  The answer was: 83V. Because the -2V is both expended and regained.
+
+  \item I believe this indicates that modulation of the voltage depends
+  entirely on control of the current through the grid. And I believe the
+  current is not simply all-or-nothing because it depends on how much
+  kinetic energy is directed \emph{perpendicular}/\emph{through} the
+  grid. I \emph{think} this is true but I am not sure.
+
+  \item A variant of the diode is the \define{triode}. A triode is a
+  kind of \define{amplifier}. A voltage amplifier has two inputs: the
+  collector and the base. The voltage output on the emitter is somewhere
+  between zero and the collector voltage. The amount of emitter output
+  current depends on the base voltage.
+
+  \item The triode achieves this amplification effect by adding a mesh
+  grid between the heated cathode and the anode. If the grid is at a
+  voltage equal to the collector voltage, nothing has changed.
+
+  \item Let us say, though, that the grid is at a potential voltage
+  greater than that of the
+
+
+  If the grid is
+  negatively charged, it wants to repel electrons from coming toward it.
+  Thus the electrons leaving the anode must do some work before they
+  pass to the other side of the grid. Once on the other side of the
+  grid, they can \emph{recover} the work by moving \emph{away} from the
+  grid.
+
+  \item The point here is that only those electrons thrown from the
+  cathode with enough energy perpendicular to the grid can make their
+  way to the anode. The others will be repelled by the electrostatic
+  force on the grid.
+
+  \item I believe that the amount of energy required to overcome the
+  grid depends on the difference in electrical potential between the
+  cathode and grid voltages. If the grid has no potential difference
+  with the cathode, then movement of an electron away from the cathode
+  toward the grid (1) moves an electron away from one potential, (2)
+  exactly insofar as it moves an electron toward the other end. So there
+  should be no net energy change.
+
+  \item \TODO{this feels a bit wishy-washy to me.} As in: I think that
+  the triode grid is kind of like a hill that the electron must climb.
+  If not given enough velocity, then it cannot make it over the hill and
+  thus liberate more energy on the other side. But... how come the
+  effect isn't all-or-nothing.
+
+  \item \TODO{How does a transistor actually work?} Specifically, does
+  it amplify the current, or does it amplify the voltage? I believe the
+  answer is that it is \emph{current controlled.} But I don't have a
+  mental model for this...
+\end{enumerate}
 
 \end{document}
