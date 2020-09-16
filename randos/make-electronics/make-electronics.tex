@@ -215,16 +215,24 @@
   potentiometers are simply potentiometers that plug into a breadboard.
   Transistors. Ceramic and electrolytic capacitors.
 
-  \item A SPDT switch has three junctions. One is always connected, and
-  of the other two only one is engaged. This is how a pair of light
-  switches can be wired together so that only when both are thrown the
-  same way does the light turn on.
+  \item A \emph{single-pole} switch has only one input. It is either
+  single-throw (either on, or off), or \emph{double-throw} (connected to
+  output A or output B).
+
+  \item A light switch is SPDT. This is how a pair of light switches can
+  be wired together so that only when both are thrown the same way does
+  the light turn on.
 
   \item A DP switch has two \emph{poles}. That means when the switch is
-  closed both poles close and two circuits are made. A DPST is what you
-  see in movies.
+  closed both poles close and two connections are made. A DPST is what
+  you see in movies. It is an off-off switch for two simultaneous
+  circuits.
 
-  \item Pushbottons can be NO (normally open) or NC (normally closed).
+  \item A DPDT is like our relay. DPDT allows you to simultaneously
+  switch from inputs A and B being connected to outputs A1, B1 and
+  outputs A2, B2.
+
+  \item Pushbuttons can be NO (normally open) or NC (normally closed).
   Maybe an NO button would be a doorbell.
 
   \item Schematic for resistor is a squiggle line. A battery is a short
@@ -429,7 +437,10 @@
   \item There are two kinds of capacitors: \emph{ceramic} and
   \emph{electrolytic}. Electrolytics are the tin-can ones. Electrolytic
   capacitors have polarity (long leg is positive!), ceramic capacitors
-  don't care. \TODO{How do elecrolytic capacitors work?}
+  don't care. \TODO{How do electrolytic capacitors work?}
+
+  \item \TODO{Can we define the equation for capacitance?} Feynman does.
+  It is $\frac{\epsilon_0 A}{d}$.
 
   \item The book has us do an experiment that experimentally verifies
   our charging equation for an RC circuit.
