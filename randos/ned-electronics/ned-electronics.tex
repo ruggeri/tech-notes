@@ -1,0 +1,868 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+
+\begin{document}
+
+\title{Ned Electronics}
+\maketitle
+
+\section{Batteries}
+
+A \define{battery} is a source of \define{voltage}. One terminal of the
+battery wants to send out an electron, while the other terminal of the
+battery wants to receive an electron. This is energetically preferred;
+the ``free energy'' difference can be harnessed to do work: light a
+lightbulb, heat up a resistor, et cetera.
+
+\TODO{Later, I may incorporate my battery notes. These describe how a
+battery works at a chemical level.}
+
+It is not necessary for an electron to move from the negative battery
+terminal all the way to the positive battery terminal. If connected by a
+conductive material (wire), all electrons in the wire can ``shift over''
+by one, just like a bike chain can shift over all links by one.
+
+\TODO{It should be explained why some materials conduct, and others do
+not. Moreover: we should explain why electrons won't simply fly off
+through the air.}
+
+As described, some energy is released/harnessed as an electron moves
+from one battery terminal to another. The amount of energy
+(\define{Joules}) per coulomb of charge is called the \define{voltage}.
+The unit of voltage is the \define{Volt}, which is equivalent to
+\define{coulombs of charge per second}.
+
+\section{Current and Resistors}
+
+The simplest way to use a battery is to simply wire up the two
+terminals. Electrons will start to flow through the wire.
+
+How ``fast'' do the electrons flow? If we take a cross-section of the
+wire, we can measure how many (coulombs of) electrons move across the
+cross-section per second. This is called \define{current} or
+\define{amperage}. The unit of current is the \define{ampere} or
+\define{amp}, and it is equivalent to \define{coulombs of charge per
+second}.
+
+Note that current is the ``flow rate'' of electrons; it's not exactly
+the ``speed'' at which electrons are moving. Remember that even if the
+length of the wire is great, no electron needs to traverse the entire
+distance of the wire from one battery terminal to the other. The
+electrons may move as links in a chain do.
+
+The next question is: how quickly do electrons pass through a given
+conductor? A wire offers a certain \define{resistance}. The resistance
+is measured in \define{ohms}, which is \define{joules per coulomb per
+ampere}. That is: the greater the desired current, the more energy must
+be expended (per coulomb of charge) to push it that fast through the
+wire.
+
+This is an important point: when you wire a battery to a resistor, the
+work that is performed in pushing each coulomb of charge through the
+resistor \emph{is independent of the resistor's resistance}. This work
+done per coulomb is \emph{always} the voltage of the battery. What
+changes when you swap out one resistor for a higher resistance wire is
+not the energy used to move charges through the resistor, but rather the
+\emph{rate} at which those charges move.
+
+One model for this is the \define{Drude model}. Imagine a resistor as a
+crowded ballroom. An electron runs into the ballroom with a given
+energy. It is trying to make its way out the door at the other end of
+the ballroom. But it is moving quickly, and there are people in the way.
+The electron bounces into people, giving up energy. The faster the
+electron is moving, the harder it is to avoid people. More energy is
+needed to push through quickly to the other side.
+
+\TODO{This is inexact, but gives the rough idea. I should return and
+make more formal how, if one is content to move more slowly, less energy
+is needed.}
+
+The resistance of a wire is determined by both the \define{resistivity}
+of the material (how crowded the ballroom is) and (inversely) by the
+cross-sectional area of the wire. The greater the cross-sectional area,
+the more electrons can be trying to push forward simultaneously. The
+resistance is also proportional to the length of the wire (how long a
+ballroom to cross).
+
+The relationship between voltage, current, and resistance is described
+by \define{Ohm's Law}: $V=IR$.
+
+No matter the choice of wire/resistance, a battery will always move the
+same number of electrons from one terminal to the other. The battery
+will keep moving electrons until the chemical inputs to the battery's
+redox reaction are expended. Which is to say: the battery has a fixed
+energy storage (measured in joules).
+
+There is a question of \emph{how long} the battery will take to
+discharge fully. Put another way: what is the energy consumption per
+second? This is called \define{power}, and the unit is the
+\define{Watt}. A watt is equivalent to \define{joules per second}.
+
+We know that the voltage is the number of joules released per coulomb of
+charge moved, and we know that the amperage is the coulombs of charge
+moved per second. Therefore, we know that $P=VI$. By substitution, we
+also know that $P=I^2 R$.
+
+Consider what happens when we replace a resistor with resistance $R$
+with a resistor with resistance $R' = \half R$. If we keep voltage
+constant, the current becomes $I' = \frac{V}{R'} = 2 \frac{V}{R} = 2I$.
+Thus the power consumption becomes $P = I'^2 R' = 4 I^2 \half R = 2 I^2
+R = 2P$.
+
+Thus, by halving the circuit resistance, we double the power
+consumption. The amount of work done per coulomb stays the same, as does
+the total work done until battery depletion, but the rate of energy
+depletion (power consumption) doubles.
+
+\section{Voltage Divider}
+
+\newcommand{\Rtot}{R_\text{total}}
+\newcommand{\Rload}{R_\text{load}}
+\newcommand{\Rpot}{R_\text{pot}}
+
+The book has us create a circuit where the input voltage is sent to one
+end of a potentiometer, while the load circuit is connected to the
+wiper, and ground is connected to the other end of the potentiometer.
+This is called a \define{voltage divider}. Question: why bother
+connecting the ground to the other end of the pot?
+
+% Graphical example: https://en.wikipedia.org/wiki/Voltage_divider
+
+If the potentiometer is set to $\alpha$, then the resistance in series
+with the load circuit is $\alpha \Rpot$ and the resistance in parallel
+with the load circuit is $\parens{1 - \alpha} \Rpot$.
+
+When $\alpha = 0$, there is no series resistance. The full voltage is
+applied to the load circuit. Note: the voltage drop across two parallel
+paths must always be equal. This is because the energy expended by
+following each path must be equal. For this reason, when you plug two
+light bulbs in parallel, they don't get dimmer. The same current will
+pass through both as before, aka the same instantaneous power is being
+used by each bulb. So the power draw will double with the two parallel
+bulbs.
+
+On the other hand, when parallel paths are added, the effective total
+resistance drops. Thus more current can be pushed by the same voltage.
+The total current passed is:
+
+\begin{nedqn}
+  I_\text{total}
+\eqcol
+  \frac{V}{R_1} + \frac{V}{R_2}
+\\
+  \Rtot
+\eqcol
+  \frac{V}{I_\text{total}}
+\\
+\eqcol
+  \frac{1}{\frac{1}{R_1} + \frac{1}{R_2}}
+\end{nedqn}
+
+\noindent
+Here we see a downside to the voltage divider. It wastes some power.
+Consider that $\alpha = 0$. Then $P = IV = V^2/\Rtot$. But:
+
+\begin{nedqn}
+  \frac{1}{\Rtot}
+\eqcol
+  \frac{1}{\Rload} + \frac{1}{\Rpot}
+\intertext{thus}
+  P
+\eqcol
+  \frac{V^2}{\Rload} + \frac{V^2}{\Rpot}
+\end{nedqn}
+
+If $\Rpot = \Rload$, then the power draw is two times it would be if the
+potentiometer were not there. Half the energy is wasted. In general: the
+smaller $\Rpot$ is, the more energy is wasted. This is an argument for
+using large potentiometers when doing voltage division.
+
+When $\alpha = 0$, we see that it could be desirable to not wire the
+potentiometer at all to ground. In this case, there is no parallel path
+to ground, so there would be no power wastage.
+
+We must next consider what happens when $\alpha = 1$. In this
+configuration, the potentiometer is entirely in series with the load.
+But there is a short-circuit to ground in parallel with the load. Thus
+the parallel part of the system has effective resistance zero. The total
+resistance of the circuit is effectively $\Rpot$.
+
+Thus, we expect that the voltage drop across $\Rpot$ will be effectively
+$V$. There will be practically \emph{no} voltage drop across the either
+of the parallel legs in the circuit. The voltage thus applied to the
+load is effectively zero.
+
+This shows us the importance of wiring the potentiometer not only to the
+load, but also to ground. If not wired to ground, then the effective
+resistance of the second half of the circuit is $\Rload$. The total
+resistance is $\Rpot + \Rload$. The voltage drop across the pot is then
+only $V \frac{\Rpot}{\Rpot + \Rload}$.
+
+By wiring to ground, we may choose $\Rpot$ so that the wasted power is
+acceptable. Then, no matter how we set the pot, the power wastage
+remains the same. And we can adjust the voltage sent to the load from
+literally zero to literally 100\% of the supply voltage $V$.
+
+\section{Switches, Buttons, and Relays}
+
+A mechanical \define{switch} is simply a disconnected wire that can be
+\define{thrown} to complete an electronic circuit.
+
+A \define{single throw} switch is simply open or closed. That is: when
+the switch is open, there is no electrical connection. When it is
+closed, the connection is made.
+
+A \define{double throw} switch is not simply on-or-off. The input wire
+is connected either to output A or output B. More complicated switches
+can have even more throw positions.
+
+Using a double-throw switch, we can select whether to light up either
+light bulb A, or light bulb B. But we can also be fancy. Imagine a light
+bulb controlled by \emph{two} switches connected in series. The switches
+have two wires connecting corresponding throw positions. Only when both
+switches are thrown correspondingly does the circuit complete.
+
+(If you want a \emph{third} light switch, you will have to be more
+fancy!)
+
+A \define{double-pole} switch makes two connections simultaneously. A
+double-pole, single-throw (DPST) switch is like the one you see in
+monster movies. When you throw the switch, two connections go from
+broken to completed.
+
+\newcommand{\Ain}{A_\text{in}}
+\newcommand{\Bin}{B_\text{in}}
+\newcommand{\Aout}{A_\text{out}}
+\newcommand{\Apout}{A'_\text{out}}
+\newcommand{\Bout}{B_\text{out}}
+\newcommand{\Bpout}{B'_\text{out}}
+
+Our relay (AKA \define{bison}) is a form of double-pole, double-throw
+(DPDT) switch. It has eight connections: two power the relay. But then
+there are two inputs ($\Ain, \Bin$) and two pairs of outputs ($\Aout,
+\Apout$ and $\Bout, \Bpout$).
+
+Push buttons can be either normally open (NO) or normally closed (NC).
+A doorbell is a NO button.
+
+We've already mentioned our \define{relay}. It is an electromechanical
+device. It contains a solenoid that will create a magnetic field whe
+electricity runs through it. The magnetic field is used to move an
+armature. The armature has electrical contacts that complete the
+circuit. We will talk about how solenoids work later.
+
+A relay can be either \define{latching} or \define{non-latching}. A
+non-latching relay resets to its original state when voltage is removed.
+
+\section{Capacitors}
+
+A simple \define{capacitor} consists of two parallel metal plates. When
+connected to a battery, one plate will accept electrons (building up an
+electron excess), while the other will eject electrons (building an
+electron deficit).
+
+When the battery is removed, we can then connect the capacitor to a
+circuit, and use it as a little battery. Electrons will want to flow
+from the side with the excess to the side with the deficit. This
+relieves the excess/deficit situation.
+
+``How much'' does the capacitor want to restore balance? First note a
+symmetry property: if releasing a coulomb of charge from a capacitor
+releases $J$ joules, then pushing a coulomb of charge into the capacitor
+\emph{consumes}/stores $J$ joules.
+
+The battery voltage $V$ says that $J$ joules are released if a coulomb
+of charge moves across the battery terminals (if a coulomb of charge is
+stored in the capacitor). Thus, the capacitor should keep accepting
+charges until the ``backpressure'' is also $V$ volts: $JR$ joules would
+be released if a coulomb of charge leaves the capacitor. In this case,
+things would be in equilibrium.
+
+Where does this backpressure come from? It comes from (a) the negative
+plate getting crowded with electrons and (b) the positive plate becoming
+short of electrons. Surely the backpressure must be going up as the
+excess/deficit situation becomes more extreme. But how? Does the
+backpressure grow logarithmically, linearly, quadratically with respect
+to the number of charges pushed into the capacitor?
+
+\subsection{Elastance/Capacitance}
+
+Let's analyze this. Say that each plate has area $A$, and a total of $Q$
+charges have been pushed onto the negative plate. Then the charge
+density is $\sigma = \frac{Q}{A}$. Next: if the distance between plates
+is small, we can approximate that capacitor plate has infinite area
+(with uniform charge density $\sigma$). Feynman proved that, provided
+that the plate is of infinite area, the electrical field is constant no
+matter the distance from the plate.
+
+\TODO{Can I give a formal proof that the field exerted by an infinite
+sheet is uniform?}
+
+Now, imagine how much energy would be released if a single electron were
+to be ejected by the infinite-sized plate? As the electron was pushed
+away from the plate, we would integrate the electrical force $F$ from
+zero to infinity. This would be an infinite amount of energy (befitting
+our infinite plate size).
+
+However, note that, while we have not ejected any electrons from the
+negative plate, we have, in a sense, ``partially'' ejected them. We've
+pushed out electrons from the positive plate. Thus, the only energy to
+be harnessed is that of moving an electron from the negative plate to
+the positive plate. We should integrate from zero to $d$ the net
+electrical force $2F$.
+
+Therefore we see that: the energy required to move a charge into the
+capacitor is (1) linearly proportional to the number of charges already
+pushed in (increases charge density), (2) inversely proportional to the
+capacitor plate area (reduces charge density), (3) linearly proportional
+to the plate distance.
+
+\define{Elastance} measures the second two factors. It is proportional
+to $\frac{d}{A}$. Notice that it \emph{does not} incorporate the first
+factor. Thus, elastance is the same no matter how much charge is pushed
+into the capacitor. Note:
+
+\begin{nedqn}
+  \diff{V}
+\eqcol
+  S
+  \diff{Q}
+\end{nedqn}
+
+That is: the joules required to push a next electron into a capacitor is
+equal to $QS$: this grows linearly as the number of charges $Q$ is
+pushed in.
+
+So return to our battery hooked up to a capacitor. If the battery has a
+voltage of $V$, we know that, in equilibrium, $V = QS$.
+
+We may check out intuition. For a given voltage, we will push more
+electrons into the capacitor if the plates are bigger (more space for
+the electrons to fit). But we will push fewer electrons onto the plate
+if the distance between plates is greater (the ``partial ejection''
+effect is less). If the voltage is greater, the number of charges pushed
+will also be greater.
+
+It's more common to talk about the inverse of elastance:
+\define{capacitance}. Capacitance is measured in \define{Farads}:
+coulombs of charge pushed into a capacitor per volt. Since $C =
+\inv{S}$, we know from a prior equation that $Q = VC$.
+
+\subsection{Energy Storage In A Capacitor}
+
+Note: $QS$ gives the energy required to store \emph{the next marginal}
+coulomb of charge. You \emph{cannot} say that there are $Q$ charges and
+$QS$ joules per coulomb of energy thus $Q^2 S$ joules of energy stored
+in the capacitor. Instead, you ought to solve:
+
+\begin{nedqn}
+  \int_0^Q V(q) \diff{q}
+\eqcol
+  \int_0^Q Sq \diff{q}
+\\
+\eqcol
+  \parens{\half S q^2} \intevalbar{0}{Q}
+\\
+\eqcol
+  \half S Q^2
+\end{nedqn}
+
+\subsection{Charging/Discharging Rate}
+
+We may now begin to ask: how \emph{quickly} does a capacitor reach its
+maximum charge $Q = VC$?
+
+It's important to remember that there is some resistance in the wires
+that connect the capacitor to the battery. Imagine a resistor $R$ in
+series with the capacitor.
+
+As we push more and more charge into the capacitor, more-and-more energy
+is required to push each charge. That leaves less-and-less energy
+released by the battery available to push through the resistor $R$.
+Thus, as the capacitor charges, the current flowing into the capacitor
+is dropping.
+
+\newcommand{\vbat}{V_\text{bat}}
+\newcommand{\vcap}{V_\text{cap}}
+
+\begin{nedqn}
+  \vbat - \vcap(t)
+\eqcol
+  I(t) R
+\\
+  \fpartial{q} \vbat
+\eqcol
+  0
+\\
+  \fpartial{q} \vcap
+\eqcol
+  \inv{C}
+  \nedcomment{defn of elastance/capacitance}
+\\
+  \fpartial{t} \vcap
+\eqcol
+  \fpartial{t} q
+  \fpartial{q} \vcap
+  \nedcomment{chain rule}
+\\
+\eqcol
+  \fpartial{t} q \inv{C}
+\\\eqcol
+  I(t) \inv{C}
+\\\eqcol
+  \frac{\vbat - \vcap(t)}{RC}
+\\
+  \fpartial{t} \parens{
+    \vbat - \vcap(t)
+  }
+\eqcol
+  0 - \frac{\vbat - \vcap(t)}{RC}
+\\
+  \Delta V
+\eqcol
+  \alpha_0
+  \expf{-t/RC}
+  \nedcomment{solution of diffeq}
+\\
+  \alpha_0
+\eqcol
+  \vbat
+\end{nedqn}
+
+\noindent
+And now we see where the exponential charging of capacitors comes
+from!
+
+Note: the time it takes to charge the capacitor to a given percentage of
+the battery voltage is based not on the battery voltage itself, but on
+the time constant $RC$. The greater the $R$, the more electrons are
+delayed on their way into the capacitor. The bigger the $C$, the more
+electrons are needed to charge the capacitor by one volt.
+
+\subsection{Danger Of Capacitors}
+
+The energy stored in a capacitor, if discharged through a human, can be
+dangerous. Human skin is a pretty effective resistor; a relatively high
+voltage is needed to drive significant current through a human.
+
+There is the effect of internal burning due to ``Joule heating:'' the
+energy dissipated by a resistor. Assuming fixed body resistance, both
+current and time matter. Though note that the same Joules delivered over
+a longer time period may be safer because there is more opportunity for
+the body to start to conduct the excess heat away from the electrical
+path. (Also note: twice the current delivered over half the time is
+still twice the joules delivered. This may make short-duration high
+current deceptively dangerous.)
+
+A more significant problem is heart fibrillation. Here, the heart goes
+out of rhythm. Apparently even very small currents for small periods can
+cause disruption. I don't think the main problem is heat damage to the
+heart. It's that the heart goes out of rhythm.
+
+Anyway: capacitors that have not been charged to a high voltage can't
+drive very much current. But capacitors powered off mains voltage,
+\emph{or} from a low-voltage battery that has been \define{stepped up}
+to higher voltage (e.g., lightbulb flash) can be dangerous.
+
+\subsection{Filtering}
+
+A capacitor can be used as a \define{filter}. For instance, let's build
+a \define{high-pass filter}. This will let fast alternating voltage go
+through the capacitor, but block out low frequency voltage signal.
+
+Simply wire a capacitor in series with a load circuit. Charge starts
+coming into plate A and out of plate B. Then the voltage switches. Now
+the capacitor \emph{discharges} briefly, and then begins charging in the
+opposite direction: it accepts electrons into plate B (it flows out plate
+A).
+
+If the input voltage switches quickly relative to the time constant
+$RC$, then the capacitor doesn't have time to charge significantly. Put
+another way: the capacitor doesn't have time to build up its own stored
+voltage. Put another way: the capacitor doesn't have time to start
+offering its own resistance to the circuit.
+
+Imagine a slowly alternating input voltage. The capacitor will charge
+all the way up, and the current out of the capacitor will stop flowing.
+Then, there will be a big spike when the input voltage changes. But
+again, upon charging fully the opposite way, the capacitor will block
+any current.
+
+The fast signal is only corrupted a little bit, but the slow signal is
+greatly corrupted (``pops'' at each phase change, but quickly attenuated
+to zero).
+
+Note that we want to choose a time constant $RC$ that is appropriate for
+the desired filtering. However, what if the resistance of the load is
+inappropriate to achieve the desired time constant?
+
+One solution is to wire a resistor $R$ in parallel with the load. This
+ensures that, no matter the load circuit's resistance, the overall
+resistance is never greater than $R$ (it may be less). This ensures that
+the time constant is never more than $RC$, no matter the load
+resistance. That means that frequencies lower than some threshold $f$
+will \emph{always} be filtered out. Depending on how low the load
+resistance is, possibly higher frequencies will also be attenuated.
+
+To construct a \define{low-pass filter}, we instead wire the load in
+parallel \emph{with the capacitor}. If the rate of voltage change is
+slow relative to the time constant, then the capacitor has time to
+charge all the way up and all the voltage is delivered to the load. If
+the rate of change is fast relative to the time constant, then the
+capacitor can charge up and discharge to maintain a constant voltage on
+the load circuit.
+
+% I think this also shows how you can do an audio cross-over? By
+% simply wiring circuits in parallel with either the resistor or the
+% capacitor?
+%
+% Sources:
+% https://www.electronics-tutorials.ws/filter/filter_3.html
+% https://www.electronics-tutorials.ws/filter/filter_2.html
+
+\section{Diodes}
+
+A \define{diode} is a device that allows current to flow in one
+direction, but not the other. Diodes originally consisted of a heated
+cathode that throws electrons to a cylindrical anode shell. The entire
+thing is encased in a vacuum tube. Thus diodes are sometimes called
+\define{tubes}.
+
+The phenomenon that is used is called \define{thermionic emission}. If
+you heat a metal enough, it will bounce/``throw'' electrons away. It is
+just like when you boil water: the water molecules will want to boil
+away. It's not that the heated material prefers stuff to be away; this
+is just a byproduct of jostling of the material. If there is no reason
+for the molecules to go elsewhere, they may well return.
+
+Here, the heated cathode throws away electrons into the vacuum of the
+tube. The vacuum matters, because otherwise the gas molecules have
+electrons and would not want thrown electrons to get near them. This is
+like how boiling happens more easily at lower pressures.
+
+Since there is a vacuum in the tube, the boiled electrons can bounce
+away to the anode. If the cathode and anode have a negative potential
+difference between them, the anode is happy to receive the electron.
+
+Question: since the electrons is happier at the anode rather than the
+cathode, why is it necessary at all to heat the cathode? Answer:
+electrons don't like to simply jump off metal surfaces. They are happy
+to move \define{through} metals, but unhappy to jump off of them (even
+if they are replaced by another). The energy required to remove an
+electron from the surface of a conductor is called the \define{work
+function} of the conductor
+
+If voltages are very high, then \define{field electron transmission} can
+occur. In that case, there is spontaneous transmission from cold cathode
+to anode.
+
+Because only the cathode is heated, a diode can be used for
+\define{rectification}. It can change alternating current into pulsing
+DC current. This is because electrons cannot travel from the unheated
+anode to the cathode. This is similar to a \define{valve} in plumbing.
+Thus, diodes are also called valves.
+
+\subsection{Resistance of a diode}
+
+\TODO{Explain this!}
+
+%   \item The heating of the cathode will determine the rate at which
+%   electrons are thrown off. The current through the diode is not so much
+%   based on the voltage. Thus, I don't particularly expect a large
+%   voltage drop across a diode?
+
+%   \item Imagine wiring a diode in series with a resister. If heated, the
+%   cathode may be throwing off lots of electrons. Hotter means more
+%   electrons thrown off per second. But on delivery to the anode, they
+%   are still at the same electrical potential. That is: the only have so
+%   much energy that they can use to push through a resistor.
+
+%   \item I believe that if too many electrons are being thrown off, then
+%   they can't force their way fast enough through the resister. If too
+%   many electrons are delivered to the anode, then the anode potential
+%   will rise, repelling more electrons from joining. This effectively
+%   decreases the rate of thermionic emission to the anode.
+
+%   \item BTW, I believe that electrical potential is not easily fungible
+%   with kinetic energy. IF you heat electrons, that won't necessarily
+%   make them want to move in a straight line through a wire.
+
+\end{document}
+
+% \subsection{Capacitor}
+
+% \begin{enumerate}
+%   \item To slow things down, we attach a capacitor in parallel with the
+%   inductor. Now, when the switch is depressed, the voltage is used to
+%   first charge the capacitor. As it charges, the ``resistance'' of the
+%   capacitor rises (really the voltage difference drops), and thus
+%   current begins to run through the inductor. This closes the switch.
+
+%   \item Now no more charging of the capacitor happens. In fact, it
+%   begins to \emph{discharge}. The inductor resists the discharging of
+%   the capacitor. When the capacitor is drained, the gate closes again.
+
+%   \item Note that charging of a capacitor slows over time not because
+%   capacitance drops, but rather because the voltage stored in the
+%   capacitor is rising as more coulombs are pushed into the capacitor.
+
+%   \item There are two kinds of capacitors: \emph{ceramic} and
+%   \emph{electrolytic}. Electrolytics are the tin-can ones. Electrolytic
+%   capacitors have polarity (long leg is positive!), ceramic capacitors
+%   don't care. \TODO{How do electrolytic capacitors work?}
+
+%   \item Note: $RC$ is simply \emph{seconds}. $C$ (farads) is coulombs
+%   per volt, while $R$ (ohms) is volts per amp. We may note that just as
+%   resistance is volts per amp, so capacitance is volts per coulomb of
+%   charge. In both cases: more and more energy per charge is needed as
+%   (1) greater current is transmitted, (2) more charges are stored.
+
+% \end{enumerate}
+
+%   \item Here's how grounding works. The third wire leads directly to the
+%   earth. This is connected to, for instance, the chassis of the device.
+%   If a charge builds on an ungrounded chasis for whatever reason, and
+%   you touch touch it, the charge could pass through you to the earth
+%   (which I guess wants to accept the charge). But if the chassis is
+%   grounded, (1) the charge won't build up, and (2) you aren't a
+%   preferred route to discharge the charge because you have higher
+%   resistance than a direct connection to Earth.
+
+%   \item 120 volts is standard in the US. 240 volt is for heavy-duty
+%   appliances. Household appliances may draw up to 2 amps maybe. Circuit
+%   breakers cut amperage at 20 amps.
+
+%   \item \define{Direct current} constantly pushes electrons from side to
+%   the other. \define{Alternating current} is generated by generators,
+%   and switches the voltage from one side to the other. 60hz is common.
+%   Generators induce current by spinning through a magnetic field.
+
+%   \item Right plug of outlet is hot, while left is neutral. The third
+%   hole is the electrical ground. Should AC have polarity? I think the
+%   idea is that there is a positive/negative draw on the hot plug,
+%   relative to both the neutral and ground plugs. But the ground plug is
+%   (I think) used to dump current rather than send current through the
+%   circuit to the neutral plug.
+
+%   \item LED wants positive power on the longer leg. There is a
+%   \emph{forward voltage} limit and a \emph{forward current} limit.
+%   Violating either of these will damage the LED.
+
+%   \item The greater resistors, when wired into series with the LED,
+%   result in less light from the LED. Less resistance means more light.
+
+%   \item Common breakpoints for resistors: 1.0, 1.5, 2.2, 3.3, 4.7, 6.8,
+%   10.0. These correspond to plus-or-minus 20\% tolerance.
+
+%   \item We pry open a potentiometer. We can see it's just a wiper
+%   running a long a resistive track. We have a three-prong version. As
+%   the wiper gets closer to the left prong, it gets farther from the
+%   right prong.
+
+%   \item We then use the potentiometer to control lighting the LED. But
+%   we also let it send too much current and burn out the LED. So we
+%   really want a resistor plus a potentiometer so that the current never
+%   runs above a certain limit.
+
+%   \item An LED with too little voltage will not even light up at all. It
+%   needs a threshold voltage. Measuring the LED voltage drop shows it
+%   consumes 2.1V when wired with the 470 ohm resistor.
+
+%   \item But if I increase the resistance of the potentiometer so that
+%   it's a total 1.47kΩ resistance, then the voltage consumed by the LED
+%   drops. If I plug it into the diode measurer, it measures 1.3V drop.
+
+%   \item I believe that the LED needs to consume 1.3V to light at all.
+%   That's the threshold. As you try to run more and more current through
+%   the LED, the LED will rise in resistance to try to block that current.
+%   But if the voltage is too high, the current will be too great to
+%   resist, and the LED will break down.
+
+%   \item The LED won't let any current pass until you hit a voltage
+%   floor. Then, it will allow current to pass with very little
+%   resistance. If you run too much current, you'll burn out the LED. The
+%   amount of light that is output by the LED depends on the amount of
+%   current being pushed through.
+
+%   % Note: I think that there is no real limit on the voltage applied to
+%   % the LED, provided you use an appropriate resistor. I believe the
+%   % voltage limit is really just: (1) the voltage floor, plus (2) the
+%   % amount of voltage to push the max-safe current through the LED's
+%   % intrinsic resistance.
+%   %
+%   % Source:
+%   % https://electronics.stackexchange.com/questions/151627/why-does-an-led-have-a-maximum-voltage/151653
+
+%   \item \TODO{How do LEDs actually work?}
+
+%   \item Note: if a potentiometer is in series with a fixed resistor, the
+%   voltage drop across the resistor will increase as we turn down the
+%   potentiometer. That's because the battery voltage is constant.
+
+%   \item With the LED in series with potentiometer, as you turn up
+%   resistance on the potentiometer, the LED potential drop is
+%   less-and-less. That is expected. Once the voltage available to the LED
+%   drops below a fixed amount, the current will stop entirely, though.
+
+%   \item I guess that while a resistor consumes energy to push through
+%   electrons at a rate, an LED consumes energy to push electrons across
+%   \emph{at all}.
+
+%   \item An LED, on the other hand, is like a staircase. You must expend
+%   energy to travel up at all. But the speed of travel is irrelevant. An
+%   LED then, has a nonlinear resistance. It appears infinite at low
+%   voltage, but appears zero above the threshold voltage. Of course, it
+%   is not ideal: as current rises, the energy needed to push through will
+%   also rise.
+
+%   \item When you wire two resisters in parallel, then the effective
+%   resistance is halved. This is because to push a current of $I$ through
+%   the parallel pair, only $\frac{I}{2}$ current must go through each
+%   resistor. And thus only half the energy per charge must be used.
+
+%   \item They do a useful calculation. Say you have an LED which is
+%   specified to want a forward voltage of 2V, at which point it will pass
+%   a current of 20mA. How big a resistor must you use with a 9V battery?
+
+%   \item They say: the resistor should drop the voltage by 7V. It should
+%   pass a current of 20mA. If you do the math, you want a resistance of
+%   350 ohms.
+
+%   \item They mention that even a low-resistance wire (say: 0.2 ohm) will
+%   draw a lot of power if you run a large current (say 15A). This will
+%   consume 3V of the voltage. If you're running a 12V battery,
+%   approximately 1/4 of the energy is being lost to the wire!
+
+%   \item We may make an observation about \emph{power}. Power is the
+%   \emph{amount of energy released/consumed per second}. A high voltage
+%   source attached to a high resistance component will use all its energy
+%   to move a charge across the component. But the great resistance means
+%   that a small amount of current will travel, so only a small amount of
+%   energy will be consumed per second.
+
+%   \item As in: $P = V I = I^2 R = V^2 / R$.
+
+%   \item For reference: a car battery delivers \emph{hundreds of amps}!
+
+%   \item BTW, resistors are rated by \emph{wattage}. This is implicitly a
+%   measure of how much current they can allow to pass, so I don't know
+%   why this isn't simply measured in amps?
+
+%   \item As a (mistaken) convention, we imagine that electricity travels
+%   from positive to negative. Arrows point positive to negative. Positive
+%   pole is marked as red, negative as black.
+
+% \subsection{Transistors}
+
+% \begin{enumerate}
+%   \item They next talk about transistors. The transistor has three legs:
+%   \emph{collector}, \emph{base}, and \emph{emitter}.
+
+%   \item Loosely speaking: the effective resistance of a transistor is
+%   inversely proportional to the amount of current that passes through
+%   the base.
+
+%   \item They do an example where you hook a 9V battery to the
+%   collector/emitter. You then complete a circuit by using your finger to
+%   bridge the 9V positive terminal with the base. Your finger is like 40M
+%   ohm resistance, so the current passing through is tiny. But the
+%   transistor allows a much greater current to pass from collector to
+%   emitter.
+
+%   \item There are two types of tranistor: NPN (normal kind) and PNP. The
+%   NPN switches a positive current, while the PNP switches a negative
+%   current. That is: the NPN expects a positive input current at the
+%   base/collector. With the PNP, a negative input current is expected at
+%   base/collector.
+
+%   \item This is a little different from the relay -- the relay expects a
+%   directionality to the current flowing through the inductor that
+%   opens/closes the relay, but I don't think it cares which way the
+%   current flows through the switch itself.
+
+%   \item The current that is passed by a transistor from collector to
+%   emitter is a multiple of the current that is flowing from base to
+%   emitter. The amplification factor can be measured by the multimeter
+%   and it is about 200.
+
+%   \item You shouldn't try to send too much current through either base
+%   or collector. Also, you should not try to send current backward from
+%   the emitter to the collector. That can damage the (NPN) transistor. I
+%   assume the same is true of sending current backward through the base.
+
+%   \item Transistors have longer term reliability (no moving parts), can
+%   switch faster, and can be asily miniaturized. But transistors cannot
+%   switch large currents (otherwise they'll be damaged). They also can't
+%   switch \emph{alternating current} (because you can't send current
+%   backward through them).
+
+%   \item I will have to explain more about how they work later... The
+%   book doesn't quite explain.
+% \end{enumerate}
+
+% \subsection{Triode}
+
+% \begin{enumerate}
+%   \item An important example from the internet said: if the cathode is
+%   at 0V, the grid at -2V, and the anode at 80V. An electron is thrown
+%   off with 3eV of energy. What is its energy upon arriving at the anode?
+%   The answer was: 83V. Because the -2V is both expended and regained.
+
+%   \item I believe this indicates that modulation of the voltage depends
+%   entirely on control of the current through the grid. And I believe the
+%   current is not simply all-or-nothing because it depends on how much
+%   kinetic energy is directed \emph{perpendicular}/\emph{through} the
+%   grid. I \emph{think} this is true but I am not sure.
+
+%   \item A variant of the diode is the \define{triode}. A triode is a
+%   kind of \define{amplifier}. A voltage amplifier has two inputs: the
+%   collector and the base. The voltage output on the emitter is somewhere
+%   between zero and the collector voltage. The amount of emitter output
+%   current depends on the base voltage.
+
+%   \item The triode achieves this amplification effect by adding a mesh
+%   grid between the heated cathode and the anode. If the grid is at a
+%   voltage equal to the collector voltage, nothing has changed.
+
+%   \item Let us say, though, that the grid is at a potential voltage
+%   greater than that of the
+
+
+%   If the grid is
+%   negatively charged, it wants to repel electrons from coming toward it.
+%   Thus the electrons leaving the anode must do some work before they
+%   pass to the other side of the grid. Once on the other side of the
+%   grid, they can \emph{recover} the work by moving \emph{away} from the
+%   grid.
+
+%   \item The point here is that only those electrons thrown from the
+%   cathode with enough energy perpendicular to the grid can make their
+%   way to the anode. The others will be repelled by the electrostatic
+%   force on the grid.
+
+%   \item I believe that the amount of energy required to overcome the
+%   grid depends on the difference in electrical potential between the
+%   cathode and grid voltages. If the grid has no potential difference
+%   with the cathode, then movement of an electron away from the cathode
+%   toward the grid (1) moves an electron away from one potential, (2)
+%   exactly insofar as it moves an electron toward the other end. So there
+%   should be no net energy change.
+
+%   \item \TODO{this feels a bit wishy-washy to me.} As in: I think that
+%   the triode grid is kind of like a hill that the electron must climb.
+%   If not given enough velocity, then it cannot make it over the hill and
+%   thus liberate more energy on the other side. But... how come the
+%   effect isn't all-or-nothing.
+
+%   \item \TODO{How does a transistor actually work?} Specifically, does
+%   it amplify the current, or does it amplify the voltage? I believe the
+%   answer is that it is \emph{current controlled.} But I don't have a
+%   mental model for this...
+% \end{enumerate}
+
+% \end{document}
