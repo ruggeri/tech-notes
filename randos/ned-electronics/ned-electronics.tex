@@ -525,7 +525,7 @@ the load circuit.
 % https://www.electronics-tutorials.ws/filter/filter_3.html
 % https://www.electronics-tutorials.ws/filter/filter_2.html
 
-\section{Diodes}
+\section{Tube Diodes}
 
 A \define{diode} is a device that allows current to flow in one
 direction, but not the other. Diodes originally consisted of a heated
@@ -626,6 +626,38 @@ electrons toward it.
 % Source: https://www.john-a-harper.com/tubes201/
 % Source: http://www.r-type.org/articles/art-010b.htm
 % Source: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjPkoqXzPHrAhWJrZ4KHavZDf8QFjABegQIChAE&url=http%3A%2F%2Fphysics.usask.ca%2F~angie%2Fp404%2Freports%2Fexp3%2Fp404-langmuirchild-lab3.doc&usg=AOvVaw00T-G_lNhpf_O7qHI8s_J-
+
+\section{Triodes and Tube Amplifiers}
+
+A \define{triode} is similar to a diode, except there is a screen
+between cathode and anode that modulates the current that runs from the
+cathode to anode.
+
+If the screen is set at the same voltage as the cathode, then it is as
+if it were not present. The triode will work just like a diode. The
+current is limited by either the thermionic emission rate or the
+electron cloud. We've previously discussed the current-to-voltage
+relationship in a thermionic diode.
+
+A next question: what is the \define{voltage drop} across a thermionic
+diode? In the space charge limited regime, the diode has a near-constant
+``resistance.'' We know that it takes energy to push charge through a
+resistor. This is the voltage drop.
+
+Thermionic diodes are \define{non-Ohmic}. The current is controlled by
+the resistance of (1) the electron cloud that builds up, (2) the
+strength of the voltage drop from cathode to anode, and (3) the
+distribution in electron emission velocities. This determines how many
+electrons are able to penetrate the electron cloud.
+
+However, those electrons that \emph{do} penetrate the cloud regain all
+the energy that is lost upon approach to the cloud. The point here is:
+the thermionic diode may limit the current, but the electrons that are
+passed through do not lose energy.
+
+The \define{triode} is an amplifying vacuum tube. The screen acts just
+as the electron cloud might: it tends to reduce current through the
+tube. But it does not change the voltage.
 
 \end{document}
 
@@ -840,64 +872,16 @@ electrons toward it.
 %   book doesn't quite explain.
 % \end{enumerate}
 
-% \subsection{Triode}
-
-% \begin{enumerate}
-%   \item An important example from the internet said: if the cathode is
-%   at 0V, the grid at -2V, and the anode at 80V. An electron is thrown
-%   off with 3eV of energy. What is its energy upon arriving at the anode?
-%   The answer was: 83V. Because the -2V is both expended and regained.
-
-%   \item I believe this indicates that modulation of the voltage depends
-%   entirely on control of the current through the grid. And I believe the
-%   current is not simply all-or-nothing because it depends on how much
-%   kinetic energy is directed \emph{perpendicular}/\emph{through} the
-%   grid. I \emph{think} this is true but I am not sure.
-
-%   \item A variant of the diode is the \define{triode}. A triode is a
-%   kind of \define{amplifier}. A voltage amplifier has two inputs: the
-%   collector and the base. The voltage output on the emitter is somewhere
-%   between zero and the collector voltage. The amount of emitter output
-%   current depends on the base voltage.
-
-%   \item The triode achieves this amplification effect by adding a mesh
-%   grid between the heated cathode and the anode. If the grid is at a
-%   voltage equal to the collector voltage, nothing has changed.
-
-%   \item Let us say, though, that the grid is at a potential voltage
-%   greater than that of the
-
-
-%   If the grid is
-%   negatively charged, it wants to repel electrons from coming toward it.
-%   Thus the electrons leaving the anode must do some work before they
-%   pass to the other side of the grid. Once on the other side of the
-%   grid, they can \emph{recover} the work by moving \emph{away} from the
-%   grid.
-
-%   \item The point here is that only those electrons thrown from the
-%   cathode with enough energy perpendicular to the grid can make their
-%   way to the anode. The others will be repelled by the electrostatic
-%   force on the grid.
-
-%   \item I believe that the amount of energy required to overcome the
-%   grid depends on the difference in electrical potential between the
-%   cathode and grid voltages. If the grid has no potential difference
-%   with the cathode, then movement of an electron away from the cathode
-%   toward the grid (1) moves an electron away from one potential, (2)
-%   exactly insofar as it moves an electron toward the other end. So there
-%   should be no net energy change.
-
-%   \item \TODO{this feels a bit wishy-washy to me.} As in: I think that
-%   the triode grid is kind of like a hill that the electron must climb.
-%   If not given enough velocity, then it cannot make it over the hill and
-%   thus liberate more energy on the other side. But... how come the
-%   effect isn't all-or-nothing.
-
-%   \item \TODO{How does a transistor actually work?} Specifically, does
-%   it amplify the current, or does it amplify the voltage? I believe the
-%   answer is that it is \emph{current controlled.} But I don't have a
-%   mental model for this...
-% \end{enumerate}
-
-% \end{document}
+% https://en.wikipedia.org/wiki/Bipolar_junction_transistor
+% https://en.wikipedia.org/wiki/Boost_converter
+% https://en.wikipedia.org/wiki/Crystal_oscillator
+% https://en.wikipedia.org/wiki/Electric_generator
+% https://en.wikipedia.org/wiki/Electric_motor
+% https://en.wikipedia.org/wiki/Field-effect_transistor
+% https://en.wikipedia.org/wiki/Inductor
+% https://en.wikipedia.org/wiki/Light-emitting_diode
+% https://en.wikipedia.org/wiki/Photodiode (uses photoelectric effect)
+% https://en.wikipedia.org/wiki/Relay
+% https://en.wikipedia.org/wiki/Transformer
+% https://en.wikipedia.org/wiki/Triode
+% https://en.wikipedia.org/wiki/Varistor
