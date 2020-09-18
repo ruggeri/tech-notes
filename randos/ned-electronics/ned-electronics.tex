@@ -567,30 +567,65 @@ DC current. This is because electrons cannot travel from the unheated
 anode to the cathode. This is similar to a \define{valve} in plumbing.
 Thus, diodes are also called valves.
 
-\subsection{Resistance of a diode}
+\subsection{Current-to-Voltage Characteristics of a Tube Diode}
 
-\TODO{Explain this!}
+With no voltage difference between cathode and anode, still a small
+current might run, because some high-energy electrons will be thrown all
+the way to the anode. This is called \define{splash current}. I assume
+that soon enough the cathode will collect charge and go negative and
+start resisting the splash current (returning electrons to the cathode).
 
-%   \item The heating of the cathode will determine the rate at which
-%   electrons are thrown off. The current through the diode is not so much
-%   based on the voltage. Thus, I don't particularly expect a large
-%   voltage drop across a diode?
+If there is a great voltage difference between cathode and anode, the
+temperature of the cathode (and thus the rate of thermioinic emission)
+becomes the limiting factor. This is the \define{temperature limited
+regime}.
 
-%   \item Imagine wiring a diode in series with a resister. If heated, the
-%   cathode may be throwing off lots of electrons. Hotter means more
-%   electrons thrown off per second. But on delivery to the anode, they
-%   are still at the same electrical potential. That is: the only have so
-%   much energy that they can use to push through a resistor.
+Let's consider the intermediate regime where voltage is relatively low.
+This is called the \define{space charge limited regime}. As soon as any
+voltage is applied, why shouldn't the diode immediately run at the
+thermionic emission rate? After all, the electrons are entering an
+electric field which is always directed toward the anode, right?
 
-%   \item I believe that if too many electrons are being thrown off, then
-%   they can't force their way fast enough through the resister. If too
-%   many electrons are delivered to the anode, then the anode potential
-%   will rise, repelling more electrons from joining. This effectively
-%   decreases the rate of thermionic emission to the anode.
+As electrons are thrown from the cathode, a cloud of them starts to
+build up. Because electrons accelerate toward the cathode, the electron
+density is highest \emph{nearer} the cathode. As electrons build up in
+the space around the cathode, they start \emph{repelling} electrons
+thrown by the cathode. High-velocity electrons may be able to ``punch
+through,'' but low-velocity electrons will be pushed back to the
+cathode.
 
-%   \item BTW, I believe that electrical potential is not easily fungible
-%   with kinetic energy. IF you heat electrons, that won't necessarily
-%   make them want to move in a straight line through a wire.
+If the anode voltage is high, the cloud is thin, and its effect can be
+neglected relative to the high voltage electric field. But if the
+voltage is low, then the cloud is thicker (because electrons aren't
+rapidly sucked away), and the effect of the cloud is stronger. It
+competes with the electric field induced by the cathode/anode voltage
+difference.
+
+I've explained this in hand-wavy terms, but one can study further the
+Child-Langmuir Law which describes the current in the space charge
+limited regime. This is a ``three-halves'' law: the current grows
+proportional to $V^{3/2}$. This is more-or-less linear. It is as if the
+diode offers a constant resistance. Anyway, I am satisfied with this.
+
+I should lastly mention: what if there is resistance later on in the
+circuit? In this case, the diode cannot simply deliver its maximum
+numbers of electrons to the anode. The anode cannot send them away so
+quickly, because the electrons must move through a resistor to get to
+the other side of the battery. There is only so much electron energy
+that can be used to push through the resistor, so the current can only
+be so great. (One presumes the thermal energy imparted to the electron
+is not very great, or is difficult to harness?) Therefore, the presence
+of the resistor will cause a ``backlog'' of electrons at the anode,
+which further reduces the electric field from cathode to anode.
+
+Put another way: if enough current is pushed through a resistor, then
+the voltage drop across the resistor is very high. In which case, there
+is little remaining voltage for the anode to do its thing pulling
+electrons toward it.
+
+% Source: https://www.john-a-harper.com/tubes201/
+% Source: http://www.r-type.org/articles/art-010b.htm
+% Source: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjPkoqXzPHrAhWJrZ4KHavZDf8QFjABegQIChAE&url=http%3A%2F%2Fphysics.usask.ca%2F~angie%2Fp404%2Freports%2Fexp3%2Fp404-langmuirchild-lab3.doc&usg=AOvVaw00T-G_lNhpf_O7qHI8s_J-
 
 \end{document}
 
