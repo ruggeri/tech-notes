@@ -55,12 +55,12 @@ length of the wire is great, no electron needs to traverse the entire
 distance of the wire from one battery terminal to the other. The
 electrons may move as links in a chain do.
 
-The next question is: how quickly do electrons pass through a given
-conductor? A wire offers a certain \define{resistance}. The resistance
-is measured in \define{ohms}, which is \define{joules per coulomb per
-ampere}. That is: the greater the desired current, the more energy must
-be expended (per coulomb of charge) to push it that fast through the
-wire.
+The next question is: for a given voltage, at what rate do electrons
+pass through a given conductor? A wire offers a certain
+\define{resistance}. The resistance is measured in \define{ohms}, which
+is \define{joules per coulomb per ampere}. That is: the greater the
+desired current, the more energy must be expended (per coulomb of
+charge) to push it that fast through the wire.
 
 This is an important point: when you wire a battery to a resistor, the
 work that is performed in pushing each coulomb of charge through the
@@ -92,11 +92,18 @@ ballroom to cross).
 The relationship between voltage, current, and resistance is described
 by \define{Ohm's Law}: $V=IR$.
 
+When you wire two resisters in parallel, then the effective resistance
+is halved. This is because to push a current of $I$ through the parallel
+pair, only $\frac{I}{2}$ current must go through each resistor. And thus
+only half the energy per charge must be used.
+
+\subsection{Battery Capacity And Instantaneous Power Consumption}
+
 No matter the choice of wire/resistance, a battery will always move the
 same number of electrons from one terminal to the other. The battery
 will keep moving electrons until the chemical inputs to the battery's
 redox reaction are expended. Which is to say: the battery has a fixed
-energy storage (measured in joules).
+energy storage (measured in joules, or sometimes \define{Watt-hours}).
 
 There is a question of \emph{how long} the battery will take to
 discharge fully. Put another way: what is the energy consumption per
@@ -118,6 +125,8 @@ Thus, by halving the circuit resistance, we double the power
 consumption. The amount of work done per coulomb stays the same, as does
 the total work done until battery depletion, but the rate of energy
 depletion (power consumption) doubles.
+
+Another way of saying: $P = I^2 R = \frac{V^2}{R}$.
 
 \section{Voltage Divider}
 
@@ -279,7 +288,7 @@ releases $J$ joules, then pushing a coulomb of charge into the capacitor
 The battery voltage $V$ says that $J$ joules are released if a coulomb
 of charge moves across the battery terminals (if a coulomb of charge is
 stored in the capacitor). Thus, the capacitor should keep accepting
-charges until the ``backpressure'' is also $V$ volts: $JR$ joules would
+charges until the ``backpressure'' is also $V$ volts: $J$ joules would
 be released if a coulomb of charge leaves the capacitor. In this case,
 things would be in equilibrium.
 
@@ -423,20 +432,28 @@ is dropping.
 \eqcol
   0 - \frac{\vbat - \vcap(t)}{RC}
 \\
-  \Delta V
+  \vbat - \vcap(t)
 \eqcol
-  \alpha_0
+  C
+  +
+  \alpha
   \expf{-t/RC}
   \nedcomment{solution of diffeq}
+\intertext{
+  We know that $\vcap(0) = 0$, so $C + \alpha = \vbat$. Also,
+  $\lim_{t\to\infty} \vcap(t) = \vbat$. Thus, $C = 0$. Thus:
+}
 \\
-  \alpha_0
+\\
+  \vbat - \vcap(t)
 \eqcol
   \vbat
+  \expf{-t/RC}
+  \nedcomment{solution of diffeq}
 \end{nedqn}
 
 \noindent
-And now we see where the exponential charging of capacitors comes
-from!
+And now we see where the exponential charging of capacitors comes from!
 
 Note: the time it takes to charge the capacitor to a given percentage of
 the battery voltage is based not on the battery voltage itself, but on
@@ -452,12 +469,12 @@ voltage is needed to drive significant current through a human.
 
 There is the effect of internal burning due to ``Joule heating:'' the
 energy dissipated by a resistor. Assuming fixed body resistance, both
-current and time matter. Though note that the same Joules delivered over
-a longer time period may be safer because there is more opportunity for
-the body to start to conduct the excess heat away from the electrical
-path. (Also note: twice the current delivered over half the time is
-still twice the joules delivered. This may make short-duration high
-current deceptively dangerous.)
+current and time are factors. Though note that the same Joules delivered
+over a longer time period may be safer because there is more opportunity
+for the body to start to conduct the excess heat away from the
+electrical path. (Also note: twice the current delivered over half the
+time is still twice the joules delivered. This may make short-duration
+high current deceptively dangerous.)
 
 A more significant problem is heart fibrillation. Here, the heart goes
 out of rhythm. Apparently even very small currents for small periods can
@@ -490,8 +507,8 @@ offering its own resistance to the circuit.
 Imagine a slowly alternating input voltage. The capacitor will charge
 all the way up, and the current out of the capacitor will stop flowing.
 Then, there will be a big spike when the input voltage changes. But
-again, upon charging fully the opposite way, the capacitor will block
-any current.
+again, upon fully discharging and then charging fully the opposite way,
+the capacitor will block any current.
 
 The fast signal is only corrupted a little bit, but the slow signal is
 greatly corrupted (``pops'' at each phase change, but quickly attenuated
@@ -514,8 +531,8 @@ parallel \emph{with the capacitor}. If the rate of voltage change is
 slow relative to the time constant, then the capacitor has time to
 charge all the way up and all the voltage is delivered to the load. If
 the rate of change is fast relative to the time constant, then the
-capacitor can charge up and discharge to maintain a constant voltage on
-the load circuit.
+capacitor will steal the excess/deficit voltage by charging, and the
+load circuit will not see the change in voltage.
 
 % I think this also shows how you can do an audio cross-over? By
 % simply wiring circuits in parallel with either the resistor or the
@@ -561,7 +578,8 @@ If voltages are very high, then \define{field electron transmission} can
 occur. In that case, there is spontaneous transmission from cold cathode
 to anode. But for this to happen, the electric field must be great
 enough that the work done by moving away \emph{at the metal's surface}
-must exceed the work function.
+must exceed the work function. (Note, the electric field is measured in
+\define{Volts-per-meter}).
 
 Because only the cathode is heated, a diode can be used for
 \define{rectification}. It can change alternating current into pulsing
@@ -592,6 +610,13 @@ Thus, even though the current is relatively constant at high voltage,
 the voltage drop across the diode is variable. The voltage drop comes
 from the work done by accelerating electrons through the electric field.
 
+Quick check: where does the electric field come from? It is created in
+the same way an electric field is created between capacitor plates. The
+battery shoves excess electrons onto the cathode, and steals away
+electrons from the anode. It builds up the electric field strength until
+the voltage drop by moving an electron through the field becomes equal
+to the battery voltage.
+
 \subsection{Space Charge Limited Regime}
 
 Let's consider the intermediate regime where voltage is relatively low.
@@ -607,8 +632,8 @@ points nearer the anode, the cloud tends to push the emitted electrons
 onward to the anode.
 
 If the anode is at high voltage, then all emitted electrons are able to
-``punch through'' the cloud and reach the anode. The net electric field
-is consistently directed toward the anode.
+``punch through'' the cloud and reach the anode. That's because the net
+electric field is consistently directed toward the anode.
 
 But if the anode voltage is low, then the electric field will be net
 directed toward the cathode in the region closest to the cathode. This
@@ -616,6 +641,11 @@ limits the current toward the anode. Only electrons emitted with a
 sufficiently high velocity can make it all the way to the anode. These
 electrons will be \emph{decelerated} by the field, until they punch
 through the cloud (at which point they are again accelerated).
+
+Note: no matter the voltage we run the diode, no matter the density of
+the electron cloud, the voltage drop across the diode is exactly equal
+to the kinetic energy imparted per electron moving from cathode to
+diode.
 
 I've explained this in hand-wavy terms, but one can study further the
 Child-Langmuir Law which describes the current in the space charge
@@ -649,6 +679,13 @@ V_\text{diode}$ may still be very high (because it is accelerating
 electrons very fast). That is: $\Delta V_\text{diode}$ can be
 arbitrarily high, even if the output current $I_\text{diode}$ has a
 ceiling defined by the thermionic emission rate.
+
+If we reduce the resistance $R$, then $\Delta V_\text{diode}$ must
+increase. But if we are in the temperature-limited regime, $I$ is not
+significantly increased. How, then, does $\Delta V_\text{diode}$
+increase? It's because the battery builds up more charge difference
+across cathode/anode. Similarly, the electric field from cathode to
+anode increases.
 
 % Source: https://www.john-a-harper.com/tubes201/
 % Source: http://www.r-type.org/articles/art-010b.htm
@@ -695,17 +732,18 @@ Given this, how could applying a negative grid voltage increase the
 voltage drop across the diode? The reason is: the charge on the
 cathode/anode are not fixed!
 
-If $I$ out of the triode drops and nothing else happens, we are not in
-equilibrium. The battery wants to pull more electrons through the
-resistor to maintain $IR$. It can do this - but if $I_\text{resistor} >
-I_\text{diode}$, then it will build up a greater charge difference
-across the cathode/anode of the triode.
+If $I_\text{diode}$ out of the triode drops but $\Delta V_\text{diode}$
+stays constant, we are not in equilibrium. The battery wants to pull
+more electrons through the resistor to maintain $IR$. It can do this -
+but if $I_\text{resistor} > I_\text{diode}$, then it will build up a
+greater charge difference across the cathode/anode of the triode.
 
 This is good. The charge difference \emph{does} increase. But as this
 happens, it becomes harder-and-harder to suck away more electrons from
 the anode (AKA, store more electrons at the cathode). How hard? It
 requires $\Delta V_\text{diode}$ per coulomb of charge you suck away
-from the triode.
+from the triode. But as you increase the charge difference, $\Delta
+V_\text{diode}$ is increasing!
 
 The process reaches equilibrium when enough charge has been stored in
 the triode cathode/anode so that $\Delta V_\text{diode} = V - IR$. This
@@ -714,36 +752,6 @@ work on electrons that pass from cathode to anode. Which is exactly what
 you want.
 
 \end{document}
-
-% \subsection{Capacitor}
-
-% \begin{enumerate}
-%   \item To slow things down, we attach a capacitor in parallel with the
-%   inductor. Now, when the switch is depressed, the voltage is used to
-%   first charge the capacitor. As it charges, the ``resistance'' of the
-%   capacitor rises (really the voltage difference drops), and thus
-%   current begins to run through the inductor. This closes the switch.
-
-%   \item Now no more charging of the capacitor happens. In fact, it
-%   begins to \emph{discharge}. The inductor resists the discharging of
-%   the capacitor. When the capacitor is drained, the gate closes again.
-
-%   \item Note that charging of a capacitor slows over time not because
-%   capacitance drops, but rather because the voltage stored in the
-%   capacitor is rising as more coulombs are pushed into the capacitor.
-
-%   \item There are two kinds of capacitors: \emph{ceramic} and
-%   \emph{electrolytic}. Electrolytics are the tin-can ones. Electrolytic
-%   capacitors have polarity (long leg is positive!), ceramic capacitors
-%   don't care. \TODO{How do electrolytic capacitors work?}
-
-%   \item Note: $RC$ is simply \emph{seconds}. $C$ (farads) is coulombs
-%   per volt, while $R$ (ohms) is volts per amp. We may note that just as
-%   resistance is volts per amp, so capacitance is volts per coulomb of
-%   charge. In both cases: more and more energy per charge is needed as
-%   (1) greater current is transmitted, (2) more charges are stored.
-
-% \end{enumerate}
 
 %   \item Here's how grounding works. The third wire leads directly to the
 %   earth. This is connected to, for instance, the chassis of the device.
@@ -841,11 +849,6 @@ you want.
 %   is not ideal: as current rises, the energy needed to push through will
 %   also rise.
 
-%   \item When you wire two resisters in parallel, then the effective
-%   resistance is halved. This is because to push a current of $I$ through
-%   the parallel pair, only $\frac{I}{2}$ current must go through each
-%   resistor. And thus only half the energy per charge must be used.
-
 %   \item They do a useful calculation. Say you have an LED which is
 %   specified to want a forward voltage of 2V, at which point it will pass
 %   a current of 20mA. How big a resistor must you use with a 9V battery?
@@ -859,24 +862,7 @@ you want.
 %   consume 3V of the voltage. If you're running a 12V battery,
 %   approximately 1/4 of the energy is being lost to the wire!
 
-%   \item We may make an observation about \emph{power}. Power is the
-%   \emph{amount of energy released/consumed per second}. A high voltage
-%   source attached to a high resistance component will use all its energy
-%   to move a charge across the component. But the great resistance means
-%   that a small amount of current will travel, so only a small amount of
-%   energy will be consumed per second.
-
-%   \item As in: $P = V I = I^2 R = V^2 / R$.
-
 %   \item For reference: a car battery delivers \emph{hundreds of amps}!
-
-%   \item BTW, resistors are rated by \emph{wattage}. This is implicitly a
-%   measure of how much current they can allow to pass, so I don't know
-%   why this isn't simply measured in amps?
-
-%   \item As a (mistaken) convention, we imagine that electricity travels
-%   from positive to negative. Arrows point positive to negative. Positive
-%   pole is marked as red, negative as black.
 
 % \subsection{Transistors}
 
