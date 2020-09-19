@@ -667,25 +667,51 @@ current is limited by either the thermionic emission rate or the
 electron cloud. We've previously discussed the current-to-voltage
 relationship in a thermionic diode.
 
-A next question: what is the \define{voltage drop} across a thermionic
-diode? In the space charge limited regime, the diode has a near-constant
-``resistance.'' We know that it takes energy to push charge through a
-resistor. This is the voltage drop.
+When the grid is at a negative voltage, it will tend to inhibit the
+transit of electrons across the diode. The effect is similar to the
+effect of the electron cloud. If the cathode and anode voltages remain
+constant, then dropping the grid voltage will tend to reduce current.
 
-Thermionic diodes are \define{non-Ohmic}. The current is controlled by
-the resistance of (1) the electron cloud that builds up, (2) the
-strength of the voltage drop from cathode to anode, and (3) the
-distribution in electron emission velocities. This determines how many
-electrons are able to penetrate the electron cloud.
+Imagine that the diode is in series with a load. If grid voltage is
+decreased, then the outflow of electrons $I$ will tend to decrease. Thus
+the voltage drop across the load $IR$ will drop. Thus the voltage drop
+across the diode $\Delta V_\text{diode}$ must increase, since $V =
+\Delta V_\text{diode} + IR$ remains constant.
 
-However, those electrons that \emph{do} penetrate the cloud regain all
-the energy that is lost upon approach to the cloud. The point here is:
-the thermionic diode may limit the current, but the electrons that are
-passed through do not lose energy.
+Once upon a time, this was confusing to me. I imagined an ideal parallel
+plate capacitor, with charges $-Q, +Q$ on the two plates. If each plate
+induces a field of strength $E$, then the net field between plates is
+uniformly $2E$. The voltage drop across plates is $2Ed$.
 
-The \define{triode} is an amplifying vacuum tube. The screen acts just
-as the electron cloud might: it tends to reduce current through the
-tube.
+I imagined interposing a middle plate with charge $-Q$. Between negative
+plates, the net field is now $E$, and between the middle and positive
+plates the field is now $3E$. But everything integrates out still to a
+voltage drop of $2Ed$ across plates.
+
+In fact, it doesn't matter the charge of the middle plate. Regardless,
+the effect of the middle plate is anti-symmetric, and cancels out.
+
+Given this, how could applying a negative grid voltage increase the
+voltage drop across the diode? The reason is: the charge on the
+cathode/anode are not fixed!
+
+If $I$ out of the triode drops and nothing else happens, we are not in
+equilibrium. The battery wants to pull more electrons through the
+resistor to maintain $IR$. It can do this - but if $I_\text{resistor} >
+I_\text{diode}$, then it will build up a greater charge difference
+across the cathode/anode of the triode.
+
+This is good. The charge difference \emph{does} increase. But as this
+happens, it becomes harder-and-harder to suck away more electrons from
+the anode (AKA, store more electrons at the cathode). How hard? It
+requires $\Delta V_\text{diode}$ per coulomb of charge you suck away
+from the triode.
+
+The process reaches equilibrium when enough charge has been stored in
+the triode cathode/anode so that $\Delta V_\text{diode} = V - IR$. This
+extra charge creates an electric field that does $\Delta V_\text{diode}$
+work on electrons that pass from cathode to anode. Which is exactly what
+you want.
 
 \end{document}
 
@@ -911,5 +937,4 @@ tube.
 % https://en.wikipedia.org/wiki/Photodiode (uses photoelectric effect)
 % https://en.wikipedia.org/wiki/Relay
 % https://en.wikipedia.org/wiki/Transformer
-% https://en.wikipedia.org/wiki/Triode
 % https://en.wikipedia.org/wiki/Varistor
