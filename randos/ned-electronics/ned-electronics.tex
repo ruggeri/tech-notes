@@ -549,7 +549,7 @@ Since there is a vacuum in the tube, the boiled electrons can bounce
 away to the anode. If the cathode and anode have a negative potential
 difference between them, the anode is happy to receive the electron.
 
-Question: since the electrons is happier at the anode rather than the
+Question: since the electrons are happier at the anode rather than the
 cathode, why is it necessary at all to heat the cathode? Answer:
 electrons don't like to simply jump off metal surfaces. They are happy
 to move \define{through} metals, but unhappy to jump off of them (even
@@ -559,7 +559,9 @@ function} of the conductor
 
 If voltages are very high, then \define{field electron transmission} can
 occur. In that case, there is spontaneous transmission from cold cathode
-to anode.
+to anode. But for this to happen, the electric field must be great
+enough that the work done by moving away \emph{at the metal's surface}
+must exceed the work function.
 
 Because only the cathode is heated, a diode can be used for
 \define{rectification}. It can change alternating current into pulsing
@@ -580,6 +582,18 @@ temperature of the cathode (and thus the rate of thermioinic emission)
 becomes the limiting factor. This is the \define{temperature limited
 regime}.
 
+Quick question: if the diode is wired into a battery with sufficient
+voltage to run the diode at maximum current, then where does the voltage
+go? Answer: the electrons are accelerated as they move through the
+electric field. This velocity is a form of kinetic energy. When the
+electrons smack into the anode, the energy is lost as waste heat.
+
+Thus, even though the current is relatively constant at high voltage,
+the voltage drop across the diode is variable. The voltage drop comes
+from the work done by accelerating electrons through the electric field.
+
+\subsection{Space Charge Limited Regime}
+
 Let's consider the intermediate regime where voltage is relatively low.
 This is called the \define{space charge limited regime}. As soon as any
 voltage is applied, why shouldn't the diode immediately run at the
@@ -587,19 +601,21 @@ thermionic emission rate? After all, the electrons are entering an
 electric field which is always directed toward the anode, right?
 
 As electrons are thrown from the cathode, a cloud of them starts to
-build up. Because electrons accelerate toward the cathode, the electron
-density is highest \emph{nearer} the cathode. As electrons build up in
-the space around the cathode, they start \emph{repelling} electrons
-thrown by the cathode. High-velocity electrons may be able to ``punch
-through,'' but low-velocity electrons will be pushed back to the
-cathode.
+build up between cathode and anode. At points nearer the cathode, the
+cloud tends to repel emitted electrons back toward the cathode. At
+points nearer the anode, the cloud tends to push the emitted electrons
+onward to the anode.
 
-If the anode voltage is high, the cloud is thin, and its effect can be
-neglected relative to the high voltage electric field. But if the
-voltage is low, then the cloud is thicker (because electrons aren't
-rapidly sucked away), and the effect of the cloud is stronger. It
-competes with the electric field induced by the cathode/anode voltage
-difference.
+If the anode is at high voltage, then all emitted electrons are able to
+``punch through'' the cloud and reach the anode. The net electric field
+is consistently directed toward the anode.
+
+But if the anode voltage is low, then the electric field will be net
+directed toward the cathode in the region closest to the cathode. This
+limits the current toward the anode. Only electrons emitted with a
+sufficiently high velocity can make it all the way to the anode. These
+electrons will be \emph{decelerated} by the field, until they punch
+through the cloud (at which point they are again accelerated).
 
 I've explained this in hand-wavy terms, but one can study further the
 Child-Langmuir Law which describes the current in the space charge
@@ -607,25 +623,37 @@ limited regime. This is a ``three-halves'' law: the current grows
 proportional to $V^{3/2}$. This is more-or-less linear. It is as if the
 diode offers a constant resistance. Anyway, I am satisfied with this.
 
-I should lastly mention: what if there is resistance later on in the
-circuit? In this case, the diode cannot simply deliver its maximum
-numbers of electrons to the anode. The anode cannot send them away so
-quickly, because the electrons must move through a resistor to get to
-the other side of the battery. There is only so much electron energy
-that can be used to push through the resistor, so the current can only
-be so great. (One presumes the thermal energy imparted to the electron
-is not very great, or is difficult to harness?) Therefore, the presence
-of the resistor will cause a ``backlog'' of electrons at the anode,
-which further reduces the electric field from cathode to anode.
+\subsection{In Series With A Load}
 
-Put another way: if enough current is pushed through a resistor, then
-the voltage drop across the resistor is very high. In which case, there
-is little remaining voltage for the anode to do its thing pulling
-electrons toward it.
+The diode is \define{non-Ohmic}: it does not have a fixed resistance
+$R$, and so its output current is nonlinear as a function of the voltage
+$V$. If the diode is placed in series with a load, how do we determine
+(1) the output current or (2) the voltage drop across the diode? We must
+solve the equation:
+
+\begin{nedqn}
+  V
+\eqcol
+  \Delta V_\text{diode}
+  +
+  I_\text{diode}
+  R
+\end{nedqn}
+
+This is actually just like what we do with any component, except that
+the calculation is more intricate because there is not a simple
+relationship between $\Delta V_\text{diode}$ and $I_\text{diode}$.
+
+Note that even when $I_\text{diode}$ is nearly at its limit, $\Delta
+V_\text{diode}$ may still be very high (because it is accelerating
+electrons very fast). That is: $\Delta V_\text{diode}$ can be
+arbitrarily high, even if the output current $I_\text{diode}$ has a
+ceiling defined by the thermionic emission rate.
 
 % Source: https://www.john-a-harper.com/tubes201/
 % Source: http://www.r-type.org/articles/art-010b.htm
 % Source: https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjPkoqXzPHrAhWJrZ4KHavZDf8QFjABegQIChAE&url=http%3A%2F%2Fphysics.usask.ca%2F~angie%2Fp404%2Freports%2Fexp3%2Fp404-langmuirchild-lab3.doc&usg=AOvVaw00T-G_lNhpf_O7qHI8s_J-
+% Source: https://electronics.stackexchange.com/questions/522152/what-causes-voltage-drop-in-a-vacuum-tube-diode
 
 \section{Triodes and Tube Amplifiers}
 
@@ -657,7 +685,7 @@ passed through do not lose energy.
 
 The \define{triode} is an amplifying vacuum tube. The screen acts just
 as the electron cloud might: it tends to reduce current through the
-tube. But it does not change the voltage.
+tube.
 
 \end{document}
 
