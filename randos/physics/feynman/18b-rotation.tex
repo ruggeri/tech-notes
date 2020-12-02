@@ -1,0 +1,59 @@
+\subsection{Rigid Bodies: When Motion Doesn't Happen}
+
+\begin{enumerate}
+  \item Let us consider a \define{rigid body}: one where the parts have
+  a fixed and unvarying distance form each other.
+
+  We know that translating all points in the object does not deform it.
+  We also know that rotation about its center of mass does not deform
+  the object.
+
+  Any other other distance preserving transformation can be broken down
+  into rotation about CoM followed by translation of the center of mass.
+
+  \item We reiterate that a rigid body will not translate when the net
+  force $\vF = 0$. On the one hand, we know this because (1) translation
+  moves the center of mass, and (2) when $\vF = 0$, the center of mass
+  will not move.
+
+  We may also calculate more directly. Consider if the object translated
+  by $vx$. Then:
+
+  \begin{nedqn}
+    \sum_i \vF_i \cdot \vx
+  \eqcol
+    \parens{\sum_i \vF_i} \cdot \vx
+  \\
+  \eqcol
+    \vF \cdot \vx
+  \\
+  \eqcol
+    0 \cdot \vx
+  \\
+  \eqcol
+    0
+  \end{nedqn}
+
+  \noindent
+  So it is not energetically preferred to translate the object.
+
+  \item We may next ask: when does the object not undergo rotation?
+  Well, consider a rotation by $\theta$ radians. Consider that each
+  force $\vF_i$ is applied at a distance $r_i$ from the center of mass.
+
+  Then, by turning, how much work is done?
+
+  \begin{nedqn}
+    \sum_i \vF_i \vx_i
+  \eqcol
+    \sum_i \vF_i r_i \theta
+  \end{nedqn}
+
+  We denote $\tau_i = \vF_i r_i$; this is called \define{torque}. When
+  the torques sum to $\tau = 0$, this is precisely when rotation is not
+  energetically preferred.
+
+  \item Thus we see that an object at rest will stay at rest when (1)
+  net force is zero, and (2) net torque is zero. It is possible for
+  both, either, or neither to be zero.
+\end{enumerate}

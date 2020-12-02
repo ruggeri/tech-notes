@@ -1,0 +1,82 @@
+\subsection{Center of Mass}
+
+\begin{enumerate}
+  \item Consider a system that is experiencing many forces. That is,
+  each part of the system $i$ is acted upon with force $\vF_i$. Thus,
+  each part is accelerated according to:
+
+  \begin{nedqn}
+    \vF_i
+  \eqcol
+    m_i
+    \fpartialsq{t}{\vx_i}
+  \end{nedqn}
+
+  \item Different parts of the system are moving in different directions
+  at different speeds. However, we would like to ask how the system,
+  ``in aggregate,'' is moving in response to the many forces. Our hope
+  is that we can, simply, aggregate the various forces $\vF_i$ into an
+  aggregate force:
+
+  \begin{nedqn}
+    \vF
+  \eqcol
+    \sum_i \vF_i
+  \end{nedqn}
+
+  \noindent
+  Perhaps this is possible. But, pray tell, in what respect does the
+  system respond to such a force? Well, note:
+
+  \begin{nedqn}
+    \vF
+  \eqcol
+    \sum_i \vF_i
+  \\
+  \eqcol
+    \sum_i m_i \fpartialsq{t}{\vx_i}
+  \\
+  \eqcol
+    M \sum_i \frac{m_i}{M} \fpartialsq{t}{\vx_i}
+  \\
+  \eqcol
+    M \fpartialsq{t} \sum_i \frac{m_i}{M} \vx_i
+  \end{nedqn}
+
+  \noindent
+  Feynman notes that we are assuming non-relativistic speeds: that $m_i$
+  does not change wrt $t$.
+
+  \item This motivates us to define the \define{center of mass}:
+
+  \begin{nedqn}
+    \vx
+  \eqcol
+    \sum_i m_i \vx_i / M
+  \end{nedqn}
+
+  \noindent
+  Having defined this, it is a matter of substitution that:
+
+  \begin{nedqn}
+    \vF
+  \eqcol
+    M
+    \fpartialsq{t} \vx
+  \end{nedqn}
+
+  \item Thus, if we choose to view the center of mass as the ``true
+  location'' of the system, we can see how the system is moved when
+  acted upon by a set of forces. We do not need to know on what parts
+  those forces are acting; we can simply just roll all the $\vF_i$
+  blindly up into one $\vF$.
+
+  \item We must not assume that when the total exterior force $\vF =
+  \sum_i \vF_i = 0$, therefore the system is motionless. This is not at
+  all a safe assumption! Any number of things can happen to the system:
+  it can contract (everything moves toward center of mass), it can
+  expand (everything moves away), or many other transformations
+  (provided they do not move the center of mass). These are all
+  transformations that ``move'' the system without moving its center of
+  mass.
+\end{enumerate}

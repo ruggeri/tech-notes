@@ -1,0 +1,76 @@
+\section{Center of Mass; Moment of Inertia}
+
+\begin{enumerate}
+  \item We can ask: what is the rotational kinetic energy of an object?
+  That is, what is the rotational kinetic energy of an object moving at
+  speed $\omega$? Well, we know that:
+
+  \begin{nedqn}
+    KE
+  \eqcol
+    \half m v^2
+  \\
+  \eqcol
+    \half m \parensq{\omega r}
+  \\
+  \eqcol
+    \half I \omega^2
+  \end{nedqn}
+
+  \item Consider again the skater who moves their leg inward as they
+  spin. We know their angular momentum has been conserved, but that
+  their moment of inertia has gone down, and thus their angular velocity
+  $\omega$ has gone up by the same proportion.
+
+  The implication, though, is that there is more kinetic energy in the
+  system. How did this happen? Well, note that, to maintain rotation, a
+  centripetal force must be applied to the outside foot. This force is
+  required to maintain circular motion.
+
+  When we bring the leg in, we apply this force through a (radial)
+  distance. Thus the change in kinetic energy is (1) the magnitude of
+  the centripetal force, (2) times the change in the radius.
+
+  \item Feynman notes: consider just your torso when moving a leg in.
+  The torso angular velocity has increased, even though its moment of
+  inertia has not changed. What happened to the torso when the leg was
+  moved in? There must be some torque applied!
+
+  This torque is the \define{Coriolis force}, and like the centrifugal
+  force, it is ``fictitious.'' It only exists if our frame of reference
+  is already rotating.
+
+  \item The Coriolis force can also be observed if you are on a
+  carousel. If you start from an inner point and try to walk to an outer
+  point, you will feel the need to lean in the direction of rotation.
+  The reason is that your angular momentum is increasing as you move
+  outward. Thus, some torque must be applied to increase your angular
+  momentum.
+
+  We can calculate the magnitude of the Coriolis force. If you are
+  moving radially at a velocity $v_r$, then:
+
+  \begin{nedqn}
+    \fpartial{t} L
+  \eqcol
+    \fpartial{t} I \omega
+  \\
+  \eqcol
+    \fpartial{t} m r^2 \omega
+  \\
+  \eqcol
+    m \omega 2r v_r
+  \intertext{let's focus on in on the torque/force:}
+    \tau
+  \eqcol
+    m \omega 2 r v_r
+  \\
+    F_\text{coriolis} r
+  \eqcol
+    m \omega 2 r v_r
+  \\
+    F_\text{coriolis}
+  \eqcol
+    2m \omega v_r
+  \end{nedqn}
+\end{enumerate}
