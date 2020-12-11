@@ -1,0 +1,100 @@
+\subsection{Center of Mass}
+
+\begin{enumerate}
+  \item If we put some forces $\vF_i$ on a body and allow it to start
+  moving, it is maybe hard to know how it will move. This is especially
+  the case if the system is not rigid: if the system contains many parts
+  that may move relative to each other.
+
+  \item Let's consider a system where the parts are allowed to freely
+  move relative to each other. Then $\vF_i = m_i \fpartialsq{t} \vx_i$.
+  Assuming non-relativistic speeds, we can move the $m_i$ term inside:
+  $\vF_i = \fpartialsq{t} m_i \vx_i$. Let's try summing all forces:
+
+  \begin{nedqn}
+    \sum_i \vF_i
+  \eqcol
+    \sum_i \fpartialsq{t} m_i \vx_i
+  \\
+  \eqcol
+    M
+    \fpartialsq{t} \sum_i \frac{m_i}{M} \vx_i
+  \intertext{We denote $\vx = \sum_i \frac{m_i}{M} \vx_i$:}
+  \\
+  \eqcol
+    M
+    \fpartialsq{t} \vx
+  \end{nedqn}
+
+  \noindent
+  This is another motivation for considering the total external force
+  $\vF = \sum_i \vF_i$ an important quantity.
+
+  \item We call $\vx$ the \define{center of mass}. We've talked in terms
+  of acceleration. But let's make an (equivalent) investigation of
+  momenta:
+
+  \begin{nedqn}
+    \sum_i \vp_i
+  \eqcol
+    \sum_i m_i \fpartial{t} \vx_i
+  \\
+  \eqcol
+    M \fpartial{t} \sum_i \frac{m_i}{M} \vx_i
+  \\
+  \eqcol
+    M \fpartial{t} \vx
+  \end{nedqn}
+
+  \noindent
+  This justifies us in calling $\vp = \sum_i \vp_i$ the \define{total
+  translational momentum}. Unsurprisingly:
+
+  \begin{nedqn}
+    \vF
+  \eqcol
+    \sum_i \vF_i
+  \\
+  \eqcol
+    \sum_i \fpartial{t} \vp_i
+  \\
+  \eqcol
+    \fpartial{t} \sum_i \vp_i
+  \\
+  \eqcol
+    \fpartial{t} \vp
+  \end{nedqn}
+
+  \item Here is a key takeaway: the instantaneous change in the center
+  of mass is the same no matter on what subpart we apply a force
+  $\vF_i$. Compared to applying a force on a miniscule subpart, applying
+  $\vF_i$ to a massive subpart will tend to accelerate it more slowly,
+  but the instantaneous change in momentum will still be the same.
+
+  \item We've specifically explored a scenario where $\fpartial{t} \vp_i
+  = \vF_i$. But what if subparts can exert forces upon each other? For
+  instance: what if subparts are exerting forces to pull each other
+  together (or push each other apart)? Basically: what if the net force
+  is on subpart $i$ is not simply the external force $\vF_i$, but also
+  includes some internal forces?
+
+  Indeed, these internal forces can change $\fpartial{t} \vp_i$. But
+  they will not change the aggregate $\fpartial{t} \vp$. Per Newton,
+  these internal forces always come in equal and opposite pairs. Thus
+  internal forces, when both halves of the force pair are accounted for,
+  cannot change the net instantaneous change in total momentum.
+
+  Thus internal forces are irrelevant when accounting for change in the
+  system's total momentum, AKA change in the position of the center of
+  mass.
+
+  \item Thus, we see that, even for a rigid body - for \emph{any} body -
+  we still know that $\vF = M \fpartial{t} \vx$.
+
+  \item I even mean \emph{spaceships}. A spaceship cannot move its its
+  center of mass. If the spaceship accelerates some exhaust (mass)
+  backward, the spaceship gains velocity forward. If you account for the
+  exhaust, the center of mass doesn't change. But if you only focus on
+  the spaceship (if the exhuast ``exits'' the system under
+  consideration), then yes, the center of  mass does change.
+\end{enumerate}
