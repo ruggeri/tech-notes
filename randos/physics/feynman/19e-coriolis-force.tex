@@ -21,8 +21,8 @@
 
   \item Imagine things this way: a central part and a more distant
   connected part have equal inertia $I$. They rotate at the same rate
-  $\omega$. Then they are briefly disconnected. The outer part goes
-  through these changes:
+  $\omega$. Then they are disconnected. They continue to rotate freely
+  at $\omega$. The outer part goes then through these changes:
 
   \begin{nedqn}
     r \mapstocol r/2
@@ -37,7 +37,8 @@
   \noindent
   Now reconnect the two parts. It's clear that the core part is ``going
   around too slowly'' while the outer part is ``going around too
-  quickly.'' We need to conserve $L = \frac{5}{4} \omega$. So there must
+  quickly.'' We need to conserve $2I_0 \omega = I' \omega' = \frac{5}{4}
+  I_0 \omega'$. That is: $\omega' = \frac{8}{5} \omega$. So there must
   be a torque against the outer part (slow it down) and a torque with
   the inner part (speed it up).
 
@@ -45,37 +46,47 @@
   force}. Like the centrifugal force, it is ``fictitious.'' It only
   appears when we try to move things in a rotating frame of reference.
 
-  \item The Coriolis force can also be observed if you are on a
-  carousel. If you start from an inner point and try to walk to an outer
-  point, you will feel the need to lean in the direction of rotation.
-  The reason is that your angular momentum is increasing as you move
-  outward. Thus, some torque must be applied to increase your angular
-  momentum.
+  \item Feynman gives an example of a carousel. Say you are pushing a
+  box of mass $m$ radially on a carousel. Assume that the carousel's
+  rotational speed remains constant at $\omega$ (e.g., assume the
+  carousel's inertia is much greater than the box's inertia of $m r^2$).
 
-  We can calculate the magnitude of the Coriolis force. If you are
-  moving radially at a velocity $v_r$, then:
+  As you push the box away from the center, the box is gaining angular
+  momentum. There must be a torque applied; therefore there must be a
+  tangential force. A `fictitious' one, but a force nonetheless.
+  Consider:
 
   \begin{nedqn}
+    L
+  \eqcol
+    I \omega
+  \\
+    L
+  \eqcol
+    m r^2 \omega
+  \\
     \fpartial{t} L
   \eqcol
-    \fpartial{t} I \omega
-  \\
-  \eqcol
-    \fpartial{t} m r^2 \omega
-  \\
-  \eqcol
-    m \omega 2r v_r
-  \intertext{let's focus on in on the torque/force:}
+    2 m r \omega v_r
+  \intertext{and since}
     \tau
   \eqcol
-    m \omega 2 r v_r
-  \\
-    F_\text{coriolis} r
+    \fpartial{t} L
+  \intertext{we know}
+    \tau
   \eqcol
-    m \omega 2 r v_r
+    F r
+  =
+    2mr \omega v_r
   \\
-    F_\text{coriolis}
+    F
   \eqcol
     2m \omega v_r
   \end{nedqn}
+
+  \noindent
+  We call this the \define{Coriolis force}. Thus as you walk radially on
+  a carousel, you will feel yourself leaning against the rotation, as
+  your feet are accelerated out from underneath you.
+
 \end{enumerate}
