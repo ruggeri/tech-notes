@@ -26,6 +26,7 @@
 * Wavelet transform
   * I understand the Fourier transform so let's take it one more step!
   * Also: Laplace transform?
+  * Also: can I speed up/slow down music without changing the pitch?
 * Ordinary Differential Equations
   * This came up in Feynman when we studied springs.
   * I think at least for some simple ones it wouldn't be so hard?
