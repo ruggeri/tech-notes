@@ -89,7 +89,7 @@ main = do
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Functor
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Functor.html
 
-**Applicative Functor**
+**`Control.Applicative` Functor**
 
 We say 'Applicative Functor,' but that class is named `Applicative`. An
 `Applicative` extends the concept of a `Functor` by allowing that the
@@ -167,12 +167,126 @@ produce an intermediate result of type `Applicative (b -> c)`.
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Control.Applicative.html
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Applicative
 
+**Semigroup**
+
+```haskell
+-- From GHC.Base
+class Semigroup a where
+  -- Associative operation allowing two elements to be combined into
+  -- one.
+  (<>) :: a -> a -> a
+```
+
+In `Data.Semigroup`, they define a newtype `Min a`:
+
+```haskell
+-- newtype is a way of defining a synonymous class to `a` called
+-- `Min a`. `getMin` is an accessor function. But `Min a` is the way to
+-- convert back to the underlying type `a`.
+newtype Min a = Min { getMin :: a }
+
+instance Ord a => Semigroup (Min a) where
+  -- so `min :: Ord a => a -> a -> a`. So `min 3 4` works from
+  -- `GHC.Classes` in `ghc-prim`.
+  --
+  -- `coerce` is a function that allows you to safely convert between
+  -- two types that have the same runtime representation.
+  (<>) = coerce (min :: a -> a -> a)
+```
+
+This is allowing you to treat `a` as a semigroup with respect to the min
+operation:
+
+```haskell
+import Data.Semigroup (Min(..))
+
+mx = (3 :: Min Int)
+my = (4 :: Min Int)
+mz = mx <> my
+z = getMin mz
+
+main = putStrLn (show z)
+```
+
+There are many such helper newtypes defined in `Data.Semigroup`. Just a
+note: it isn't always true that `x <> y == y <> x`.
+
+Some other methods that are default defined in the `Semigroup` class for
+you: `sconcat`, which finds the min in a `NonEmpty`:
+
+```haskell
+-- Notice how this isn't a synonym for [a]. This is a different type.
+-- Defined in GHC.Base, but not actually exported from Prelude.
+data NonEmpty a = a :| [a]
+
+-- Nothing special. By using NonEmpty ensures that sconcat cannot give
+-- error.
+sconcat (a :| as) = go a as where
+  go b (c:cs) = b <> go c cs
+  go b []     = b
+```
+
+It also has an unusual method called `stimes :: Integral b => b -> a ->
+a`. This 'repeats' the element many times. That is, if the element is x,
+then `stimes 3 x` is `x \cdot x \cdot x`.
+
+There are some possible implementations for the `stimes` class method in
+`Data.Semigroup.Internal`:
+
+```haskell
+-- `x` if `n > 0`, else error
+sTimesIdempotent n x
+
+-- `mempty` if `n == 0`, else `x` if `n > 1`. Error if `n < 0`
+sTimesIdempotentMonoid n x
+
+-- Does a fancy thing where it knows that if `n` is even, it can halve
+-- and say `y = sTimesMonoid (n `quot` 2) x`, and return `y \cdot y`.
+-- Requires that `x` is a `Monoid`.
+sTimesMonoid n x
+
+-- Does the fancy thing, but errors if n == 0. Requires only that `x` is
+-- a `Semigroup`.
+sTimesDefault n x
+```
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Semigroup
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Semigroup.html
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Semigroup.Internal.html
+  * https://github.com/ghc/ghc/blob/master/libraries/ghc-prim/GHC/Classes.hs#L336
+
 **Monoids**
 
-* Monoids
-    * Basically needs an `mempty` and a `mappend :: m -> m -> m`.
-    * `Any` could be a monoid; `mappend True False = True`, etc.
-    * Array is also a good example, using concatenation.
+`GHC.Base` defines a `Monoid`, which is basically just a `Semigroup`
+with a neutral element:
+
+```haskell
+class Semigroup a => Monoid a where
+  -- The neutral element like 0 or [] or "".
+  mempty :: a
+
+  -- The semigroup operation
+  mappend = (<>)
+
+  -- Extension of sconcat for any list
+  mconcat :: [a] -> a
+  mconcat = foldr mappend mempty
+```
+
+Another example is `Ordering`. `Ordering` can be extended to do
+lexicographic comparison of lists of `Order` if we treat it as a
+semigroup. And it can even compare empty lists of things if we treat it
+as a `Monoid` where `mempty = EQ`.
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Monoid
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Monoid.html
+    * Basically nothing interesting here.
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-Monoid.html
+
+**TODO**
+
 * Foldable
     * Implements things you can call `foldr` on.
     * Writes in terms of a `foldMap :: (Foldable f, Monoid m) => (a ->
