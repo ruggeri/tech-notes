@@ -1,3 +1,5 @@
+(To run these programs, you can `stack runghc script.hs`).
+
 Haskell uses monads for IO. Basically, it builds up an object tha
 represents the transactions that should take place throughout the
 program.
@@ -8,46 +10,165 @@ I see this as kind of like CPS, actually.
 
 ## Common Haskell Classes
 
-* Functor
-    * anything with an `fmap :: Functor f => (a -> b) -> f a -> f b`.
-    * Generalizes the concept of `map`.
-    * Any "container" or box type thing that you can still apply a
-      function to.
-    * Simplest example is `Either`. `fmap (+ 3) (Just 3)` gives `Just
-      6`. `fmap f Nothing` gives `Nothing`.
-    * They also define `<$>`, which is an infix version. So `(+ 3) <$>
-      (Just 3)` is `Just 6`.
-    * Another example is `IO`. We define:
-      * `fmap f action = do result <- action; return (f result)`.
-    * Source: https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-Functor.html
-* Applicative Functor
-    * An `Applicative` is a `Functor that satisfies the following.
-    * It has `<*> :: Functor f => f (a -> b) -> f a -> f b`.
-    * Also comes with a `pure :: Functor f => a -> f a`.
-      * Called 'lifting' a value.
-    * `(pure (3+)) <*> (Just 5)` equals `Just 8`.
-    * Here's a sophisticated example that uses `<$>`:
-      * `+ <$> (Just 3) <*> (Just 5)`.
-      * Remember that `+ <$> (Just 3)` is `Just (+ 3)`. Call this `f`.
-        Then `f <*> (Just 5)` returns `Just (f 5)`.
-    * Basically any "container" or box type thing that might itself
-      hold a function, allowing you to use this function on further
-      things.
-    * `Either` can implement; apply a function included in `Just`,
-      else return `Nothing`.
-      * Another example: a tree of functions `a -> b`, to apply to each
-        item in the tree of `a`s, producing a new tree of `b`s
-      * And, `IO` implements `Applicative`. Because `(<*>) :: IO (a ->
-        b) -> IO a -> IO b`. And we would define `a <*> b = do f <- a; x
-        <- b; return (f x)`.
-    * As a synonym, it defines `liftA2 :: (a -> b -> c) -> f a -> f b ->
-      f c`.
-        * We define `liftA2 f a b = f <$> a <*> b`.
-        * This is the same as before, but perhaps makes it clear that we
-          can apply binary functions to two applicatives, rather than
-          just a unary function to a functor.
-        * Basically, `liftA2` takes a binary function and lifts it.
-    * Source: https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Applicative.html
+**`Data.Functor`**
+
+Note some of this is defined in `Data.Functor`, while some is defined in
+`GHC.Base`.
+
+```haskell
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
+```
+
+Basically, `fmap` generalizes the concept of `map`. You can apply it to
+a 'boxed' thing. The simplest example is `Data.Maybe`:
+
+```haskell
+x = fmap (show :: Int -> String) (Just 3)
+y = fmap (show :: Int -> String) (Nothing)
+
+main = do
+  -- Prints 'Just "3"'
+  putStrLn (show x)
+  -- Prints 'Nothing'
+  putStrLn (show y)
+```
+
+They also define the helper `<$>`, which is an infix version of `fmap`.
+Note that this is an analogue to the `$` command which is usually just
+syntax to help eliminate parentheses.
+
+```haskell
+-- my definition of <$>
+-- f <$> obj = fmap f obj
+
+x = (show :: Int -> String) <$> (Just 3)
+y = (show :: Int -> String) <$> (Nothing)
+
+main = do
+  -- Prints 'Just "3"'
+  putStrLn (show x)
+  -- Prints 'Nothing'
+  putStrLn (show y)
+```
+
+Haskell says: "Whereas `Prelude.$` is function application, `<$>` is
+function application *lifted* over a `Functor`." Here we see the meaning
+of `lift`: it means something like: doing something through a kind of
+box.
+
+`Data.List` also is a `Functor`.
+
+```haskell
+xs = (show :: Int -> String) <$> [1, 2, 3]
+
+main = do
+  -- Prints ["1", "2", "3"]
+  putStrLn (show xs)
+```
+
+Another example is `IO`:
+
+```haskell
+-- I'll cover, do and <- and return properly later.
+myFmap :: (a -> b) -> IO a -> IO b
+myFmap f action = do
+  x <- action
+  return (f x)
+
+readStringAndAppendMsg = fmap (++ " is the input string") getLine
+
+main = do
+  putStrLn "Please type input string"
+  s <- readStringAndAppendMsg
+  putStrLn s
+```
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-Functor.html
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Functor
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Functor.html
+
+**Applicative Functor**
+
+We say 'Applicative Functor,' but that class is named `Applicative`. An
+`Applicative` extends the concept of a `Functor` by allowing that the
+`Functor` might wrap a function, which in turn can be applied.
+
+```haskell
+class Functor f => Applicative f where
+    -- Lifts a value into the Applicative.
+    pure :: a -> f a
+    -- Takes a function wrapped in an Applicative and applies it to
+    -- another applicative.
+    (<*>) :: f (a -> b) -> f a -> f b
+```
+
+Here's an example with `IO`:
+
+```haskell
+import Data.Functor
+
+-- Define functions that double/triple
+double x = 2 * x
+triple x = 3 * x
+
+-- Let user select which function to use.
+selectDoubleOrTriple :: IO (Int -> Int)
+selectDoubleOrTriple = do
+  putStrLn "Choose to double or triple a number"
+  option <- getLine
+  return (
+    if (option == "double") then double else triple
+    )
+
+-- Notice the use of `<*>`. Also notice the use of `pure` to lift the
+-- value 3.
+doubleOrTripleThree :: IO Int
+doubleOrTripleThree = selectDoubleOrTriple <*> (pure 3)
+
+-- Last, notice the use of `<&>`. This is simply the flip of `<$>` and
+-- thus a lifted version of &.
+main :: IO ()
+main = (doubleOrTripleThree <&> show) >>= putStrLn
+```
+
+A perhaps simpler example with the `Maybe` `Applicative`:
+
+```
+x = (Just show) <*> (Just 3)
+y = (Nothing :: (Maybe (Int -> String))) <*> (Just 3)
+z = (Just (show :: Int -> String)) <*> Nothing
+
+main = do
+  putStrLn (show x)
+  putStrLn (show y)
+  putStrLn (show z)
+```
+
+There is a synonym of `<*>`, `liftA2`:
+
+```haskell
+liftA2 :: (a -> b -> c) -> f a -> f b -> f c
+liftA2 f x y = (fmap f x) <*> y
+
+--They contrast this with `liftA`, defined in `GHC.Base`:
+liftA :: (a -> b) -> f a -> f b
+liftA f x = f <$> x
+```
+
+The Learn You A Haskell folks say that the difference between Functor
+and Applicative is made clear by `liftA` vs `liftA2`. They note that
+only an applicative could have `liftA2` defined, since `liftA2 f x` can
+produce an intermediate result of type `Applicative (b -> c)`.
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Applicative.html
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Control.Applicative.html
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Applicative
+
+**Monoids**
+
 * Monoids
     * Basically needs an `mempty` and a `mappend :: m -> m -> m`.
     * `Any` could be a monoid; `mappend True False = True`, etc.
