@@ -1,3 +1,4 @@
+
 (To run these programs, you can `stack runghc script.hs`).
 
 Haskell uses monads for IO. Basically, it builds up an object tha
@@ -8,9 +9,7 @@ Do notation is just a shorthand to make this simpler.
 
 I see this as kind of like CPS, actually.
 
-## Common Haskell Classes
-
-**`Data.Functor`**
+## `Data.Functor`
 
 Note some of this is defined in `Data.Functor`, while some is defined in
 `GHC.Base`.
@@ -60,6 +59,10 @@ box.
 `Data.List` also is a `Functor`.
 
 ```haskell
+-- From GHC.Base
+instance Functor [] where
+    fmap = map
+
 xs = (show :: Int -> String) <$> [1, 2, 3]
 
 main = do
@@ -70,13 +73,24 @@ main = do
 Another example is `IO`:
 
 ```haskell
--- I'll cover, do and <- and return properly later.
+-- From GHC.Base
+-- `pure . f` says: first take the incoming value, transform it with
+-- `f`. Now, we need to return an IO instance, so wrap it via pure.
+instance Functor IO where
+   fmap f x = x >>= (pure . f)
+
+-- Here I write the same thing myself in do notation.
 myFmap :: (a -> b) -> IO a -> IO b
 myFmap f action = do
   x <- action
   return (f x)
 
 readStringAndAppendMsg = fmap (++ " is the input string") getLine
+
+-- Maybe easiest to read with <&>, the flipped version of <$>.
+-- Just import (<&>) the proper name of the infix operator <&>.
+import Data.Functor ((<&>))
+readStringAndAppendMsg = getLine <&> (++ " is the input string")
 
 main = do
   putStrLn "Please type input string"
@@ -89,13 +103,15 @@ main = do
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Functor
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Functor.html
 
-**`Control.Applicative` Functor**
+## `Control.Applicative` Functor
 
-We say 'Applicative Functor,' but that class is named `Applicative`. An
-`Applicative` extends the concept of a `Functor` by allowing that the
-`Functor` might wrap a function, which in turn can be applied.
+We say *Applicative Functor*, but the Haskell typeclass is named
+`Applicative`. An `Applicative` extends the concept of a `Functor` by
+allowing that the `Functor` might wrap a function, which in turn can be
+applied.
 
 ```haskell
+-- From GHC.Base
 class Functor f => Applicative f where
     -- Lifts a value into the Applicative.
     pure :: a -> f a
@@ -107,7 +123,7 @@ class Functor f => Applicative f where
 Here's an example with `IO`:
 
 ```haskell
-import Data.Functor
+import Data.Functor ((<&>))
 
 -- Define functions that double/triple
 double x = 2 * x
@@ -128,10 +144,14 @@ doubleOrTripleThree :: IO Int
 doubleOrTripleThree = selectDoubleOrTriple <*> (pure 3)
 
 -- Last, notice the use of `<&>`. This is simply the flip of `<$>` and
--- thus a lifted version of &.
+-- thus lifting the second argument of &.
 main :: IO ()
 main = (doubleOrTripleThree <&> show) >>= putStrLn
 ```
+
+The implementation of the typeclass `Applicative` for `IO` is a little
+too much for me to understand right now (especially because I don't
+understand IO/do notation yet)!
 
 A perhaps simpler example with the `Maybe` `Applicative`:
 
@@ -146,9 +166,24 @@ main = do
   putStrLn (show z)
 ```
 
+Here we see the implementation:
+
+```haskell
+-- From GHC.Base
+instance Applicative Maybe where
+    -- Simply wrap the value.
+    pure = Just
+
+    -- To use <*>, unwrap `f` if any, and then delegate to `fmap`.
+    Just f  <*> m       = fmap f m
+    Nothing <*> _m      = Nothing
+```
+
 There is a synonym of `<*>`, `liftA2`:
 
 ```haskell
+-- This is defined in the typeclass `Applicative` in case you have a
+-- more efficient specialization.
 liftA2 :: (a -> b -> c) -> f a -> f b -> f c
 liftA2 f x y = (fmap f x) <*> y
 
@@ -167,7 +202,11 @@ produce an intermediate result of type `Applicative (b -> c)`.
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Control.Applicative.html
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Applicative
 
-**Semigroup**
+## `Data.Semigroup`
+
+Let's take a step away from boxed types and lifting function application
+into the boxed type context. Let's just consider objects that have a
+binary relation defined on them.
 
 ```haskell
 -- From GHC.Base
@@ -177,20 +216,26 @@ class Semigroup a where
   (<>) :: a -> a -> a
 ```
 
-In `Data.Semigroup`, they define a newtype `Min a`:
+As an example, in `Data.Semigroup`, they define a newtype `Min a`:
 
 ```haskell
 -- newtype is a way of defining a synonymous class to `a` called
--- `Min a`. `getMin` is an accessor function. But `Min a` is the way to
--- convert back to the underlying type `a`.
+-- `Min a`. You produce one like `m = (5 :: Min Int)`. You can also
+-- write `m = Min { getMin = 5 }`.
+--
+-- Then to get the minimum back out you write `x = getMin m`.
 newtype Min a = Min { getMin :: a }
 
 instance Ord a => Semigroup (Min a) where
-  -- so `min :: Ord a => a -> a -> a`. So `min 3 4` works from
-  -- `GHC.Classes` in `ghc-prim`.
+  -- The function `min :: Ord a => a -> a -> a` is defined in
+  -- `GHC.Classes` from `ghc-prim`. You use it like `min 3 4` to get
+  -- `3`.
   --
   -- `coerce` is a function that allows you to safely convert between
   -- two types that have the same runtime representation.
+  --
+  -- This coerces `min` on `a` instances to the equivalent function on
+  -- `Min a` instances.
   (<>) = coerce (min :: a -> a -> a)
 ```
 
@@ -209,22 +254,31 @@ main = putStrLn (show z)
 ```
 
 There are many such helper newtypes defined in `Data.Semigroup`. Just a
-note: it isn't always true that `x <> y == y <> x`.
+note: it isn't always true that `x <> y == y <> x`. Even full groups
+need not be commutative AKA Abelian.
 
-Some other methods that are default defined in the `Semigroup` class for
-you: `sconcat`, which finds the min in a `NonEmpty`:
+Some other methods that are default defined in the `Semigroup` typeclass
+for you: `sconcat`, which can be used to, e.g., find the min in a
+`NonEmpty` list:
 
 ```haskell
 -- Notice how this isn't a synonym for [a]. This is a different type.
 -- Defined in GHC.Base, but not actually exported from Prelude.
+-- It has a lot of functions defined in Data.List.NonEmpty but I'm not
+-- interested right now.
 data NonEmpty a = a :| [a]
 
 -- Nothing special. By using NonEmpty ensures that sconcat cannot give
--- error.
+-- error. This is just a helpful method built on top of the Semigroup
+-- `<>` function.
 sconcat (a :| as) = go a as where
   go b (c:cs) = b <> go c cs
   go b []     = b
 ```
+
+We're seeing a relationship between the concept of Semigroup and the
+idea of reducing/multiplying/'concatenating' a series of values. We're
+going to explore/generalize this concept when we talk about `Foldable`.
 
 It also has an unusual method called `stimes :: Integral b => b -> a ->
 a`. This 'repeats' the element many times. That is, if the element is x,
@@ -237,7 +291,8 @@ There are some possible implementations for the `stimes` class method in
 -- `x` if `n > 0`, else error
 sTimesIdempotent n x
 
--- `mempty` if `n == 0`, else `x` if `n > 1`. Error if `n < 0`
+-- `mempty` if `n == 0`, else `x` if `n > 1`. Error if `n < 0`. Hint:
+-- `mempty` is the identity value in a monoid.
 sTimesIdempotentMonoid n x
 
 -- Does a fancy thing where it knows that if `n` is even, it can halve
@@ -256,10 +311,10 @@ sTimesDefault n x
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Semigroup.Internal.html
   * https://github.com/ghc/ghc/blob/master/libraries/ghc-prim/GHC/Classes.hs#L336
 
-**Monoids**
+## `Data.Monoid`
 
 `GHC.Base` defines a `Monoid`, which is basically just a `Semigroup`
-with a neutral element:
+with a neutral (identity) element:
 
 ```haskell
 class Semigroup a => Monoid a where
@@ -274,16 +329,95 @@ class Semigroup a => Monoid a where
   mconcat = foldr mappend mempty
 ```
 
-Another example is `Ordering`. `Ordering` can be extended to do
-lexicographic comparison of lists of `Order` if we treat it as a
-semigroup. And it can even compare empty lists of things if we treat it
-as a `Monoid` where `mempty = EQ`.
+Examples:
+
+```haskell
+-- `[a]` is a semigroup under concatenation.
+instance Semigroup [a] where
+        (<>) = (++)
+instance Monoid [a] where
+        mempty  = []
+
+-- Here's the Maybe monoid:
+instance Semigroup a => Semigroup (Maybe a) where
+    -- Just pass <> inside.
+    Nothing <> b       = b
+    a       <> Nothing = a
+    Just a  <> Just b  = Just (a <> b)
+-- But Nothing is the identity element then.
+instance Semigroup a => Monoid (Maybe a) where
+    mempty = Nothing
+
+-- Ordering will be a semigroup in such a way that
+instance Semigroup Ordering where
+    LT <> _ = LT
+    EQ <> y = y
+    GT <> _ = GT
+
+instance Monoid Ordering where
+    mempty = EQ
+
+-- Note that if you `mconcat` a list of Ordering elements, you'll
+-- compute the lexicographic ordering value.
+```
 
 * Sources:
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.Base.html#Monoid
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Monoid.html
     * Basically nothing interesting here.
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-Monoid.html
+
+## `Data.Foldable`
+
+We've been talking `Monoid`s and `mconcat`, and applying it just to
+`[a]`. But there is a wider world of objects that can be `mconcat`ed.
+Thus we define the `Foldable` typeclass. Many of the methods are
+generalizations of functions that apply to a list `[a]`.
+
+```haskell
+class Foldable t where
+  -- Basically squashes a collection of Monoid objects.
+  fold :: Monoid m => t m -> m
+  fold = foldMap id
+
+  -- Basically, you can fold even a container class of not a Monoid, so
+  -- long as you first transform to a Monoid via the mapping `f`.
+  --
+  -- Monoid was needed first because the container might be empty.
+  --
+  -- Note that after seeing Functor and Applicative, this is our first
+  -- way of getting something *out* of a container type.
+  foldMap :: Monoid m => (a -> m) -> t a -> m
+  -- Notice how `mappend . f` first transforms the element, then passes
+  -- it as the first argument of the `mappend` function.
+  foldMap = foldr (mappend . f) mempty
+
+  foldr :: (a -> b -> b) -> b -> t a -> b
+  -- You will need to define `foldr` yourself. This is specific to your
+  -- class. Note that `foldr` does not merely squash, so you don't need
+  -- `b` to be a Monoid.
+
+  -- TODO: Review various other versions of `foldl`, `foldr'`
+```
+
+There are a number of other derived functions:
+
+```haskell
+class Foldable t where
+  -- Specialization of fold
+  toList :: t a -> [a]
+  toList = foldr : []
+
+  null = foldr (\_ _ -> False) True
+
+  length = foldr (\_ c -> c+1) 0
+
+  elem :: x ->
+  elem x xs = any (== x)
+```
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Foldable.html
 
 **TODO**
 
