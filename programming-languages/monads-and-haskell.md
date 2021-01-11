@@ -10,21 +10,44 @@ I see this as kind of like CPS, actually.
 
 * Functor
     * anything with an `fmap :: Functor f => (a -> b) -> f a -> f b`.
+    * Generalizes the concept of `map`.
     * Any "container" or box type thing that you can still apply a
       function to.
-    * `Either` can implement; apply the function to `Just`, ignore for
-      `Empty`.
+    * Simplest example is `Either`. `fmap (+ 3) (Just 3)` gives `Just
+      6`. `fmap f Nothing` gives `Nothing`.
+    * They also define `<$>`, which is an infix version. So `(+ 3) <$>
+      (Just 3)` is `Just 6`.
+    * Another example is `IO`. We define:
+      * `fmap f action = do result <- action; return (f result)`.
+    * Source: https://hackage.haskell.org/package/base-4.14.1.0/docs/Data-Functor.html
 * Applicative Functor
-    * Anything with a `<*> :: Functor f => f (a -> b) -> f a -> f b`.
+    * An `Applicative` is a `Functor that satisfies the following.
+    * It has `<*> :: Functor f => f (a -> b) -> f a -> f b`.
     * Also comes with a `pure :: Functor f => a -> f a`.
-    * `(pure (3+)) <*> (Just 5) == Just 8`.
-    * As a convenience, could write `+ <$> Just 3 <*> (Just 5)`, as
-      `<$> :: (a-> b) -> f a -> f b`.
+      * Called 'lifting' a value.
+    * `(pure (3+)) <*> (Just 5)` equals `Just 8`.
+    * Here's a sophisticated example that uses `<$>`:
+      * `+ <$> (Just 3) <*> (Just 5)`.
+      * Remember that `+ <$> (Just 3)` is `Just (+ 3)`. Call this `f`.
+        Then `f <*> (Just 5)` returns `Just (f 5)`.
     * Basically any "container" or box type thing that might itself
       hold a function, allowing you to use this function on further
       things.
     * `Either` can implement; apply a function included in `Just`,
-      else return `Empty`.
+      else return `Nothing`.
+      * Another example: a tree of functions `a -> b`, to apply to each
+        item in the tree of `a`s, producing a new tree of `b`s
+      * And, `IO` implements `Applicative`. Because `(<*>) :: IO (a ->
+        b) -> IO a -> IO b`. And we would define `a <*> b = do f <- a; x
+        <- b; return (f x)`.
+    * As a synonym, it defines `liftA2 :: (a -> b -> c) -> f a -> f b ->
+      f c`.
+        * We define `liftA2 f a b = f <$> a <*> b`.
+        * This is the same as before, but perhaps makes it clear that we
+          can apply binary functions to two applicatives, rather than
+          just a unary function to a functor.
+        * Basically, `liftA2` takes a binary function and lifts it.
+    * Source: https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Applicative.html
 * Monoids
     * Basically needs an `mempty` and a `mappend :: m -> m -> m`.
     * `Any` could be a monoid; `mappend True False = True`, etc.
