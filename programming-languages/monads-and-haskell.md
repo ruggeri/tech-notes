@@ -973,6 +973,63 @@ main = do
   * The `State` monad is defined here:
   * https://hackage.haskell.org/package/transformers-0.5.6.2/docs/src/Control.Monad.Trans.State.Lazy.html#line-221
 
+## Either
+
+The `Either` monad is used to do a series of computations, any of which
+might fail. It's like the `Maybe` monad, except the `Left` data
+constructor takes a value that represents what error was encountered.
+Here is my implementation:
+
+```haskell
+-- Left, as the sinister constructor, will represent an 'error.'
+data Either a b = Left a | Right b
+  deriving Show
+
+instance Functor (Either a) where
+  -- Easy. Apply to the boxed value, if everything is all Right.
+  fmap :: (b -> c) -> (Either a b) -> (Either a c)
+  f `fmap` (Right x) = Right (f x)
+  _ `fmap` (Left x)  = Left x
+
+instance Applicative (Either a) where
+  -- Lift the value up into the monad.
+  pure :: b -> (Either a b)
+  pure x = Right x
+
+  -- I guess we'll throw away the 2nd error if there was an error with
+  -- the function we're trying to <*> with.
+  (<*>) :: (Either a (b -> c)) -> (Either a b) -> (Either a c)
+  (Left x) <*> y = Left x
+  (Right f) <*> (Left x) = Left x
+  (Right f) <*> (Right x) = Right (f x)
+
+instance Monad (Either a) where
+  return :: b -> (Either a b)
+  return = pure
+
+  (>>=) :: (Either a b) -> (b -> (Either a c)) -> (Either a c)
+  (Left x) >>= _ = Left x
+  (Right x) >>= f = f x
+```
+
+Here's an example of our `Either` monad in action:
+
+```haskell
+doErrorComputation :: Either String Int
+doErrorComputation = do
+  x <- return 3
+  y <- return 4
+  -- As soon as an error occurs, it's all over.
+  Left "I messed up"
+  return (x + y)
+
+main = do
+  putStrLn (doErrorComputation & show)
+```
+
+* Sources:
+  * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Either.html#Either
+
 ## Summary of Types Encountered
 
 * Reducable/combineable things:
@@ -1000,24 +1057,42 @@ main = do
       recovery. `Nothing` must be returned. You could call this a
       'side-effect,' in that the use of the `Nothing` monad changes the
       context.
-  * `[]` monad?
+    * `Either` is a simple extension.
+    * Basically, the monadic context (failure or success) affects the
+      computation performed by the next function, in that the function
+      is only run if the previous value was successful. Else the error
+      is propagated.
   * `Writer`: keeps track of a `Monoid` state. `>>=` threads the
     current value to the next function. The function returns both the
     next value and anything to `mappend` into the monad context.
       * There is no way for the monad to read the accumulated context.
       * `Int`, `""`, and `[]` are all good choices for a context.
       * In `do` notation, you might encounter a `Writer` value that
-        simply writes a log-line. It might *look* like nothing, but it a
-        monadic action in the sequence described by `do`.
+        simply writes a log-line. It might *look* like it does nothing,
+        but it a monadic action in the sequence described by `do`.
+      * The context 'affects' the computation only at cash-out at the
+        end where the accumulated context can be read.
   * `State`: broadens the allowed interaction with the state. `>>=`
     threads both the current value *and* the current state.
       * In this way, it is strictly more general than `Writer`.
+      * The underlying state can always be promoted/got with the `get`
+        `State`. But I suppose the power of the `State` monad is that
+        mostly your actions will interact with the state behind the
+        scenes, separating these underlying state interactions from your
+        higher level code that just works with the values being returned
+        by the state interactions.
+  * `[]` monad
+    * TODO: I would like to understand this monad better. It feels
+      weird.
+    * I've seen it said that this is like a non-deterministic
+      computation. In our knights example, the search space exploded.
+    * But how does this relate to the other monads we've studied?
 
 ## TODO
 
 * As we approach the thrilling conclusion, there are a few LYAH pages:
   * http://learnyouahaskell.com/for-a-few-monads-more
-    * Read up to error error.
+    * Have read until 'Some useful monadic functions'
   * http://learnyouahaskell.com/zippers
 * After reading these pages, I should probably do a thorough
   investigation into `GHC.Base` and `Control.Monad` to review the
