@@ -14,7 +14,7 @@ fact, it's really just an 'append only' writing.
 
 Thus, we invent the `State` monad!
 
-## Impelementation
+## Implementation
 
 ```haskell
 -- Allow re-declaration of instance signatures to help me debug.
