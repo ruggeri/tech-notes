@@ -1,4 +1,4 @@
-## `Data.Monoid`
+# `Data.Monoid`
 
 `GHC.Base` defines a `Monoid`, which is basically just a `Semigroup`
 with a neutral (identity) element:

@@ -1,4 +1,6 @@
-## Summary of Types Encountered
+# Summary of Types Encountered
+
+**TODO**: Review me!
 
 * Reducable/combineable things:
   * `Semigroup`: has an associative binary operation.

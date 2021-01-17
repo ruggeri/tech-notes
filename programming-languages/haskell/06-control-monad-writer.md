@@ -1,8 +1,10 @@
-## `Control.Monad.Writer` Monad
+# `Control.Monad.Writer` Monad
 
 The idea of the `Writer` monad is that it works on a `Monoid`
 'accumulator', and the `>>=` operation works by fusing the two
 accumulators through `mappend`.
+
+## Implementation
 
 The `Writer` monad is defined in the `transformers` package. It's
 written in a way that uses a concept called 'monad transformers' and as
@@ -53,6 +55,8 @@ instance Monoid w => Monad (Writer w) where
       (y, newCtx) = runWriter (f x)
 ```
 
+## Evaluating a `Writer` value
+
 The `Writer` monad provides several methods for evaluation:
 
 * `runWriter`: unwraps `(value, accumulation)`.
@@ -62,7 +66,7 @@ The `Writer` monad provides several methods for evaluation:
 * `mapWriter`: transforms a `Writer w a` to a `Writer w' b`. You provide
   a function to map the internal state `(a, w) -> (b, w')`.
 
-Here is an example use:
+## Example
 
 ```haskell
 -- Just a convenient synonym.
@@ -86,10 +90,11 @@ main = do
   putStrLn ((doSomeMath 10) & runWriter & show)
 ```
 
-* Sources:
-  * The `Writer` monad is written in terms of monad transformers. It is
-    defined in the `transformers` package, which is a dependency of the
-    `mtl` package. I believe the `mtl` package extends `trasformers`.
-  * Here is the source code for `Writer`'s monad implementation:
-  * https://hackage.haskell.org/package/transformers-0.5.6.2/docs/src/Control.Monad.Trans.Writer.Lazy.html#line-197
+## Sources/Todos
+
+* The `Writer` monad is written in terms of monad transformers. It is
+  defined in the `transformers` package, which is a dependency of the
+  `mtl` package. I believe the `mtl` package extends `trasformers`.
+* Here is the source code for `Writer`'s monad implementation:
+* https://hackage.haskell.org/package/transformers-0.5.6.2/docs/src/Control.Monad.Trans.Writer.Lazy.html#line-197
 * TODO: learn about Monad transformers!

@@ -1,4 +1,4 @@
-## `Data.Either`
+# `Data.Either`
 
 The `Either` monad is used to do a series of computations, any of which
 might fail. It's like the `Maybe` monad, except the `Left` data

@@ -1,4 +1,4 @@
-## `Control.Monad.State` Monad
+# `Control.Monad.State` Monad
 
 The `Writer` monad is a little simplistic. The context for a value is
 updated simply through concatenation. We can produce new context values,
@@ -6,13 +6,15 @@ which are reduced into the current accumulation through `mappend`.
 
 We don't have the ability to ever look at the context that has been
 collected along the way. We must wait until someone calls `runWriter` to
-'cash out' the state at the end.
+'cash out' the accumulated value at the end.
 
 Thus, it is entirely appropriate that we call `Writer` 'writer.' It lets
 us *write* into a log, which we cannot read at any intermediate step. In
 fact, it's really just an 'append only' writing.
 
 Thus, we invent the `State` monad!
+
+## Impelementation
 
 ```haskell
 -- Allow re-declaration of instance signatures to help me debug.
@@ -24,9 +26,16 @@ import Data.Function ((&))
 -- when you feed in the initial state can you then run things forward
 -- to get the current value `a` and also the current underlying
 -- context `s`.
+--
+-- I wish maybe that this was called StateTransformation. But oh well.
+--
+-- Why not simply write `runState :: (a, s)`, which is what `Writer`
+-- did? Because `>>=` is only going to pass the prior value, not the
+-- prior state.
 newtype State s a = State { runState :: s -> (a, s) }
 
 instance Functor (State s) where
+  -- Notice how `fmap` won't make any change to the current state.
   fmap :: (a -> b) -> (State s a) -> (State s b)
   f `fmap` currentState = State $ \initialStateVal -> (
     let (currentVal, currentStateVal) = runState currentState initialStateVal
@@ -48,6 +57,7 @@ instance Monad (State s) where
   return :: a -> (State s a)
   return = pure
 
+  -- >>= sequences one state transformation after the other.
   (>>=) :: (State s a) -> (a -> State s b) -> State s b
   currentState >>= f = State $ \initialStateVal -> (
     let (currentVal, currentStateVal) = runState currentState initialStateVal
@@ -55,7 +65,11 @@ instance Monad (State s) where
     in
       (nextVal, nextStateVal)
     )
+```
 
+## Stack Example
+
+```haskell
 type Stack = [Int]
 
 pop :: State Stack Int
@@ -77,15 +91,7 @@ main = do
     (_, stack) = runState manipulateStack [10]
 ```
 
-There are two helpers defined in `Control.Monad.State`:
-
-```haskell
-get :: State stateType stateType
-get = \stateVal -> (stateVal, stateVal)
-
-put :: newStateType -> State () oldStateType
-put newStateVal = \oldStateVal -> ((), newStateVal)
-```
+## Naming
 
 The name `State` is a bit of a misnomer. The value `manipulateStack` is
 a good example. It looks more like a value rather than a function. It is
@@ -94,13 +100,37 @@ needs to have a `stateValue` injected into it in order to be run. Only
 then can a resulting value and state value be returned.
 
 Perhaps a better name would have been something like
-`StatefulInteraction`. A `State` is describing *what to do*, not a
+`StateTransformation`. A `State` is describing *what to do*, not a
 specific state at any moment in time.
 
-It is also interesting to reflect that inside the `do` syntax we do have
-something akin to a side-effect. This is because the the monad's context
-vlaue, which is evolving through the calls to `push`/`pop`, is hidden
-from us.
+Related to this is how the `push` operations in the `do` syntax have a
+side-effect, despite not producing a value that is bound to any explicit
+variable. This is because the monad's context value (which is the state
+transformation function) *is* changing. It's just that this change of
+context is being hidden from us.
+
+## Helper Functions
+
+There are some helpers defined in `Control.Monad.State`:
+
+```haskell
+-- Pulls the current state up into the value of the monad.
+get :: State stateType stateType
+get = \stateVal -> (stateVal, stateVal)
+
+-- Sets the state.
+put :: newStateType -> State () oldStateType
+put newStateVal = \oldStateVal -> ((), newStateVal)
+
+-- Applies a function that modifies the state.
+modify :: (s -> s) -> State s ()
+modify f = state $ \ s -> ((), f s)
+```
+
+Similar to `Writer`, we have `runState`, `execState`, and `evalState`. I
+think they all strictly evaluate state?
+
+## Random Number Generation Example
 
 ```haskell
 -- You may have to install random package. `stack install random`

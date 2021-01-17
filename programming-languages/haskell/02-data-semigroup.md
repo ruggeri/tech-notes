@@ -1,4 +1,4 @@
-## `Data.Semigroup`
+# `Data.Semigroup`
 
 Let's take a step away from boxed types and lifting function application
 into the boxed type context. Let's just consider objects that have a

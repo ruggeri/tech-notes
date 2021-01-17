@@ -1,4 +1,6 @@
-## TODO
+# TODO
+
+**TODO**: Review me!
 
 * As we approach the thrilling conclusion, there are a few LYAH pages:
   * http://learnyouahaskell.com/for-a-few-monads-more

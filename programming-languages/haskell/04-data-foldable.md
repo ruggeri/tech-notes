@@ -1,4 +1,4 @@
-## `Data.Foldable`
+# `Data.Foldable`
 
 We've been talking `Monoid`s and `mconcat`, and applying it just to
 `[a]`. But there is a wider world of objects that can be `mconcat`ed.

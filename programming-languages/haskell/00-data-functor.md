@@ -1,4 +1,4 @@
-## `Data.Functor`
+# `Data.Functor`
 
 Note that some of this is defined in `Data.Functor`, while some is
 defined in `GHC.Base`.

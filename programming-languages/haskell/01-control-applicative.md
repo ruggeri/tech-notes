@@ -1,4 +1,4 @@
-## `Control.Applicative` Functor
+# `Control.Applicative` Functor
 
 We say *Applicative Functor*, but the Haskell typeclass is named
 `Applicative`. An `Applicative` extends the concept of a `Functor` by
