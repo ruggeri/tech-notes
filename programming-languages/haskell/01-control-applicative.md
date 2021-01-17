@@ -92,6 +92,8 @@ and Applicative is made clear by `liftA` vs `liftA2`. They note that
 only an applicative could have `liftA2` defined, since `liftA2 f x` can
 produce an intermediate result of type `Applicative (b -> c)`.
 
+## `[]` as `Applicative`
+
 Last, let's look at something which is a little weird. Let's consider
 the implementation of `Applicative` for `[]`.
 
@@ -105,14 +107,14 @@ instance Applicative [] where
   fs <*> xs = [f x | f <- fs, x <- xs]
 ```
 
-LYAH says that, using lists for computation actually is like doing
-non-deterministic computation. If the machine could be in any of the
-states `xs`, and you could apply any of the deterministic functions
-`fs`, then you could end up in any of the states `fs <*> xs`.
-
 This is certainly a fancier notion of `Applicative` than most types like
 `Maybe`, `Either`, `IO`, et cetera, which are really just a box of at
 most one function value.
+
+I'm not sre when I would want to use this. One idea is: if `[a]`
+represents a set of possibilities, then `fs` is a set of possible
+(deterministic) functions, while `xs` is a set of possible inputs. Then
+`fs <*> xs` is the set of possible outputs.
 
 * Sources:
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Applicative.html
