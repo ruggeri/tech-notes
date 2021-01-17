@@ -1,11 +1,13 @@
 ## `Control.Monad.Writer` Monad
 
-The `Writer` monad is defined in the `transformers` package. It's
-written in a way that is inscrutable to me presently.
-
 The idea of the `Writer` monad is that it works on a `Monoid`
 'accumulator', and the `>>=` operation works by fusing the two
 accumulators through `mappend`.
+
+The `Writer` monad is defined in the `transformers` package. It's
+written in a way that uses a concept called 'monad transformers' and as
+such is a little inscrutable to me at present. However, I do write my
+own version below:
 
 ```haskell
 -- Allow re-declaration of instance signatures to help me debug.
@@ -49,7 +51,20 @@ instance Monoid w => Monad (Writer w) where
     where
       (x, oldCtx) = runWriter wrappedX
       (y, newCtx) = runWriter (f x)
+```
 
+The `Writer` monad provides several methods for evaluation:
+
+* `runWriter`: unwraps `(value, accumulation)`.
+* `execWriter`: tosses away `value` and just returns
+  `accumulation`. Also: it evaluates strictly (forces evaluation). This
+  forces the writer operation to run completely.
+* `mapWriter`: transforms a `Writer w a` to a `Writer w' b`. You provide
+  a function to map the internal state `(a, w) -> (b, w')`.
+
+Here is an example use:
+
+```haskell
 -- Just a convenient synonym.
 type Logged x = Writer [String] x
 
@@ -77,7 +92,4 @@ main = do
     `mtl` package. I believe the `mtl` package extends `trasformers`.
   * Here is the source code for `Writer`'s monad implementation:
   * https://hackage.haskell.org/package/transformers-0.5.6.2/docs/src/Control.Monad.Trans.Writer.Lazy.html#line-197
-  * It's hard to read the `Writer` definition because it is written in
-    terms of `WriterT`, which is a *monad transformer*. I don't know
-    what a monad transformer is, though.
-  * TODO: learn about monad transformers!
+* TODO: learn about Monad transformers!
