@@ -14,7 +14,7 @@ class Foldable t where
   -- Basically, you can fold even a container class of not a Monoid, so
   -- long as you first transform to a Monoid via the mapping `f`.
   --
-  -- Monoid was needed first because the container might be empty.
+  -- `m` must be a `Monoid` because the container might be empty.
   --
   -- Note that after seeing Functor and Applicative, this is our first
   -- way of getting something *out* of a container type.
@@ -44,25 +44,61 @@ There are a number of other derived functions:
 class Foldable t where
   -- Specialization of fold
   toList :: t a -> [a]
-  toList = foldr : []
+  toList = foldr (:) []
 
-  -- Likely you'll choose to optimize this?
+  -- Returns whether `t` is empty. Likely you'll choose to optimize
+  -- this?
   null :: t a -> Bool
   null = foldr (\_ _ -> False) True
 
   length :: t a -> Int
   length = foldr (\_ c -> c+1) 0
 
+  -- This uses a language extension to say: only provide maximum if `a`
+  -- is `Ord. Note that this appears in the typeclass to allow
+  -- specialization.
+  maximum :: forall a. Ord a => t a -> a
+  maximum xs =
+    fromMaybe
+      -- Default value is actually going to raise an error!
+      (errorWWithoutStackTrace "maximum: empty structure")
+      -- They use a Max from Data.Functor.Utils. Here Max is a newtype
+      -- for Maybe a, where a is `Ord`. `Max a` is a `Monoid`, whereas
+      -- the version from `Data.Semigroup` is merely a `Semigroup`.
+      --
+      -- Thus, they map each x to `Max (Just x)`, fold the monoid values
+      -- and finally extract.
+      getMax . foldMap (Max . (Just :: a -> Maybe a)) xs
+
+  -- It is easier to define `sum` and `product`, since in Data.Semigroup
+  -- they define `mempty` to be `Sum 0`/`Product 1`. These are thus
+  -- Monoid and immediately foldable.
+
+  -- `any` will be defined below
   elem :: Eq a => a -> t a -> Bool
-  elem x xs = any (== x)
+  elem x xs = any (== x) xs
 
-  -- min and max are defined using the Semigroups we saw before.
-  -- If `a` is `Ord`, then `Maybe (Ord a)` is a monoid. So we `foldMap`
-  -- with a transform of `a` into `Just (Min a)`.
+-- Any and All are defined in Data.Semigroup. They are newtypes for
+-- Bool. They `<>` in the obvious way, with an appropriate `mempty`
+-- value.
+--
+-- Note that because `&&` and `||` won't evaluate the second argument if
+-- not-needed, `any` (and `all`) will stop execution as soon as they hit
+-- a True (or False) value.
+any :: Foldable t => (a -> Bool) -> t a -> Bool
+any p = getAny . foldMap (Any . p)
+all :: Foldable t => (a -> Bool) -> t a -> Bool
+all f xs = getAll (foldMap (All . f) xs)
 
-  -- Similarly we can define `sum` and `product` since if `a` is `Num`,
-  -- then `Sum a` is a Monoid. We can `foldMap` with a transform of
-  -- `a` to `Sum a` or `Product a`.
+-- `and`/`or` are defined even more simply.
+and bools = getAll (foldMap All bools)
+or bools = getAll (foldMap Any bools)
+
+-- Uses the First monoid.
+find :: Foldable t => (a -> Bool) -> t a -> Maybe a
+find p xs = getFirst (foldMap f xs)
+  where
+    f x = First (if p x then Just x else Nothing)
 ```
 
 Let's see some instances/examples:
@@ -83,28 +119,6 @@ instance Foldable Maybe where
 
 instance Foldable [] where
     foldr   = List.foldr
-
-and :: Foldable t => t Bool -> Bool
--- They write a version with `#.` and I don't know what that means...
-and bools = getAll (foldMap All bools)
-
-all :: Foldable t => (a -> Bool) -> t a -> Bool
--- Again, my rewrite eliminates `#.`.
-all f xs = getAll (foldMap (All . f) xs)
-
--- There are further functions for or/any.
-
--- Note: there is no explicit shortcut to terminate early for
--- `and`/`all`. Does that mean the entire list is iterated? Maybe not?
--- Because maybe lazy evaluation, and as soon as we hit a `False` value,
--- the other half of the `mappend` action (which is `&&`) is known as
--- not needed and is thus never continued? In fact, I believe this is
--- *exactly* what happens. Wow.
-
-find :: Foldable t => (a -> Bool) -> t a -> Maybe a
-find p xs = getFirst (foldMap f xs)
-  where
-    f x = First (if p x then Just x else Nothing)
 ```
 
 Let's look at one last thing: the definition for a tree:

@@ -19,23 +19,27 @@ class Semigroup a => Monoid a where
 Examples:
 
 ```haskell
--- `[a]` is a semigroup under concatenation.
+-- [a]
 instance Semigroup [a] where
-        (<>) = (++)
+  -- `[a]` is a semigroup under concatenation.
+  (<>) = (++)
 instance Monoid [a] where
-        mempty  = []
+  -- And the empty list is `mempty`.
+  mempty  = []
 
--- Here's the Maybe monoid:
+-- Semigroup a => Maybe a
 instance Semigroup a => Semigroup (Maybe a) where
-    -- Just pass <> inside.
-    Nothing <> b       = b
-    a       <> Nothing = a
-    Just a  <> Just b  = Just (a <> b)
--- But Nothing is the identity element then.
+  -- Just pass <> inside. This is why `a` must be `Semigroup`
+  Nothing <> b       = b
+  a       <> Nothing = a
+  Just a  <> Just b  = Just (a <> b)
 instance Semigroup a => Monoid (Maybe a) where
-    mempty = Nothing
+  -- Nothing is `mempty`.
+  mempty = Nothing
 
--- Ordering will be a semigroup in such a way that
+-- Ordering will be a semigroup in such a way that, if you `mconcat` a
+-- list of Ordering values, you'll compute the lexicographic ordering
+-- value.
 instance Semigroup Ordering where
     LT <> _ = LT
     EQ <> y = y
@@ -43,9 +47,6 @@ instance Semigroup Ordering where
 
 instance Monoid Ordering where
     mempty = EQ
-
--- Note that if you `mconcat` a list of Ordering elements, you'll
--- compute the lexicographic ordering value.
 ```
 
 * Sources:

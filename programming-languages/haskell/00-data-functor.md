@@ -1,15 +1,15 @@
 ## `Data.Functor`
 
-Note some of this is defined in `Data.Functor`, while some is defined in
-`GHC.Base`.
+Note that some of this is defined in `Data.Functor`, while some is
+defined in `GHC.Base`.
 
 ```haskell
 class Functor f where
   fmap :: (a -> b) -> f a -> f b
 ```
 
-Basically, `fmap` generalizes the concept of `map`. You can apply it to
-a 'boxed' thing. The simplest example is `Data.Maybe`:
+Basically, `fmap` generalizes the concept of `List.map`. You can apply
+it to a 'boxed' thing. The simplest example is `Data.Maybe`:
 
 ```haskell
 x = fmap (show :: Int -> String) (Just 3)

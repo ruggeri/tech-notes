@@ -17,7 +17,7 @@ As an example, in `Data.Semigroup`, they define a newtype `Min a`:
 ```haskell
 -- newtype is a way of defining a synonymous class to `a` called
 -- `Min a`. You produce one like `m = (5 :: Min Int)`. You can also
--- write `m = Min { getMin = 5 }`.
+-- write `m = Min { getMin = 5 }` or `m = Min 5`.
 --
 -- Then to get the minimum back out you write `x = getMin m`.
 newtype Min a = Min { getMin :: a }
@@ -87,18 +87,18 @@ There are some possible implementations for the `stimes` class method in
 -- `x` if `n > 0`, else error
 sTimesIdempotent n x
 
--- `mempty` if `n == 0`, else `x` if `n > 1`. Error if `n < 0`. Hint:
--- `mempty` is the identity value in a monoid.
+-- Has a constraint of Monoid. `mempty` if `n == 0`, else `x` if `n > 1`.
+-- Error if `n < 0`.
 sTimesIdempotentMonoid n x
 
--- Does a fancy thing where it knows that if `n` is even, it can halve
--- and say `y = sTimesMonoid (n `quot` 2) x`, and return `y \cdot y`.
--- Requires that `x` is a `Monoid`.
-sTimesMonoid n x
-
--- Does the fancy thing, but errors if n == 0. Requires only that `x` is
--- a `Semigroup`.
+-- Does a fancy thing. If `n` is even, calculates
+-- `sTimesDefault (n `div` 2) x` and then squares that. Error if
+-- `n <= 0`.
 sTimesDefault n x
+
+-- Has a constraint of Monoid. Will allow `n = 0` in which case it uses
+-- `mempty`.
+sTimesMonoid n x
 ```
 
 * Sources:
