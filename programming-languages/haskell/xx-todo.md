@@ -1,20 +1,22 @@
-# TODO
-
-**TODO**: Review me!
+# TODOs
 
 * As we approach the thrilling conclusion, there are a few LYAH pages:
   * http://learnyouahaskell.com/for-a-few-monads-more
     * Have read until 'Some useful monadic functions'
   * http://learnyouahaskell.com/zippers
-* After reading these pages, I should probably do a thorough
-  investigation into `GHC.Base` and `Control.Monad` to review the
-  various functions that are defined therein.
-* Years ago, I claimed that I saw (and wrote) the `State` monad. If
-  that's true, could I explain it here today?
+* Want to understand what `<*>` means for `Writer` and `State`.
+* Read about monad transformers
+  * This is heavily used for `Writer` and `State`. I want to know what
+    it is about.
+* I've also heard talk about `Arrow`. What is that?
+* I may want to browse the Haskell source code more:
+  * Might peak around `GHC.Base` for more info.
+  * I think there's more functionality in `Control.Monad`.
+* Random:
+  * What is `MonadFail`, `MonadTrans`, `MonadIO`?
+  * What is `callCC`.
 
-Haskell books dump:
-
-I already (re)read Learn You a Haskell recently...
+## Many Books/Haskell Resources
 
 * http://www.apress.com/9781430262503
 * http://www.cambridge.org/us/academic/subjects/computer-science/programming-languages-and-applied-logic/thinking-functionally-haskell
@@ -32,9 +34,3 @@ I already (re)read Learn You a Haskell recently...
 * https://wiki.haskell.org/How_to_write_a_Haskell_program
 * https://wiki.haskell.org/Typeclassopedi
 * https://news.ycombinator.com/item?id=10008169
-
-* Monad transformers??
-* TODO:
-  * `MonadFail`, `MonadPlus`, `MonadTrans`, `MonadIO`
-  * What is an `Arrow`?
-  * What is `callCC`

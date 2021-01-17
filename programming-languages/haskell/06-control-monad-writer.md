@@ -90,11 +90,10 @@ main = do
   putStrLn ((doSomeMath 10) & runWriter & show)
 ```
 
-## Sources/Todos
+## Sources
 
 * The `Writer` monad is written in terms of monad transformers. It is
   defined in the `transformers` package, which is a dependency of the
   `mtl` package. I believe the `mtl` package extends `trasformers`.
 * Here is the source code for `Writer`'s monad implementation:
 * https://hackage.haskell.org/package/transformers-0.5.6.2/docs/src/Control.Monad.Trans.Writer.Lazy.html#line-197
-* TODO: learn about Monad transformers!
