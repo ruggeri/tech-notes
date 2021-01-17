@@ -8,6 +8,8 @@
 * Read about monad transformers
   * This is heavily used for `Writer` and `State`. I want to know what
     it is about.
+* `zipWithM`
+* What is `>=>` about?
 * I've also heard talk about `Arrow`. What is that?
 * I may want to browse the Haskell source code more:
   * Might peak around `GHC.Base` for more info.

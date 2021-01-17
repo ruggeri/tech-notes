@@ -50,13 +50,19 @@ very basic. The monoid operation is simply to return the first non-null
 value. Whereas we frequently want to also consider a richer monoid where
 non-null operations have a semigroup operation performed between them.
 
-## `guard`
+## `guard`, `when`, `unless`
 
 ```haskell
 -- Defined in Control.Monad. Simply turns a Bool into a truth value.
 guard :: Alternative f => Bool -> f
 guard True = pure ()
 guard False = empty
+
+-- Generalizes guard to Applicative. Whereas `guard` is intended to kill
+-- the computation so that no further action occurs, this simply will
+-- give a no-op value if p is false. Else, it will return an action.
+when :: Applicative f => Bool -> f () -> f ()
+when p f = if p then f else pure ()
 ```
 
 ## `MonadPlus`
