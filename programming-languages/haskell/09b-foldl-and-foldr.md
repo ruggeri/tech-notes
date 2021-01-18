@@ -19,7 +19,11 @@
 -- converge even on an infinite list.
 --
 -- On the other hand, `foldr` is not tail-recursive. Thus, when
--- evaluating `foldr`, it will use `n` stack frames.
+-- evaluating `foldr`, it will evaluate a tower of `n` thunks.
+--
+-- Random thought: if f is building a list by concatenation, and the
+-- result is consumed bit-by-bit, you might be able to slowly pull apart
+-- the tower of thunk, evaluating just a bit at a time as needed.
 foldr :: (a -> b -> b) -> b -> [a] -> b
 foldr f y [] = y
 foldr f y (x:xs) = f x (foldr f y xs)
@@ -65,7 +69,7 @@ foldl k z0 xs =
     -- `fn` is a hole that will contain the recursive foldr result.
     -- It is not immediately needed. `k z v` can be calculated first.
     --
-    -- For this reason, foldl *could* take O(1) time. Except that
+    -- For this reason, foldl *could* take O(1) space. Except that
     -- `k z v` is lazily evaluated. So the recursive `foldr` call is
     -- passed a thunk! And, thus our nested thunks build up.
     --
@@ -80,6 +84,9 @@ foldl k z0 xs =
 **`foldl'`**
 
 ```haskell
+-- From Data.list:
+-- https://hackage.haskell.org/package/base-4.14.1.0/docs/src/GHC.List.html#foldl%27
+--
 -- This version works similarly to the prior version of `foldl`. There
 -- is an essential difference, however. It is this:
 --
@@ -100,18 +107,40 @@ foldl' k z0 xs =
 
 ## Folding Monadic Values
 
+**`foldM`**
+
 ```haskell
--- From GHC.Base
+-- From GHC.Base:
 -- https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Control.Monad.html#foldM
 --
 -- foldM is an alias for foldlM
 foldM = foldlM
 ```
 
-## TODO
+**`foldlM`**
 
-* https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Foldable.html#foldlM
-* https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Foldable.html#foldrM
+```haskell
+-- From Data.Foldable:
+-- https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Foldable.html#foldlM
+--
+-- This is written using `foldr`, as `foldl` was, too. It uses the
+-- common trick of using `foldr` to build a function, which is then
+-- applied to the initial accumulator `z0`.
+foldlM :: (Foldable t, Monad m) => (b -> a -> m b) -> b -> t a -> m b
+foldlM f z0 xs = foldr c return xs z0
+  -- Similar to the List definition of foldl. `k` represents the fold
+  -- for everything to the right of the present value (how to finish the
+  -- fold). `x` represents the current value. And `z` represents the
+  -- result of folding elements to the left. `z` is only provided at the
+  -- very end, when the fold result is being applied to z0.
+  where c x k z = f z x >>= k
+
+-- https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Data.Foldable.html#foldrM
+-- I guess for symmetry they define `foldrM` with respect to `foldl`? Not
+-- sure why this doesn't directly use `foldr`?
+foldrM f z0 xs = foldl c return xs z0
+  where c k x z = f x z >>= k
+```
 
 ## Sources
 

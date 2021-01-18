@@ -1,6 +1,5 @@
 # TODOs
 
-* `foldlM` and `foldrM`.
 * Copy over my RPN code.
 * mfilter vs filterM?
 * As we approach the thrilling conclusion, there are a few LYAH pages:
