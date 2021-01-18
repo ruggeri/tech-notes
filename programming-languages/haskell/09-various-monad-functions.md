@@ -78,6 +78,8 @@ main = do
 For reference, here is the standard definition of `filterM`:
 
 ```haskell
+-- They generalize to any applicative.
+filterM :: (Applicative m) => (a -> m Bool) -> [a] -> m [a]
 -- You can see it's written without the `xs`. It's written using
 -- `foldr`. The starting value is the empty monad `[]`.
 filterM p = foldr (
@@ -151,7 +153,7 @@ main = do
   putStrLn ((execWriter logs !! 0) & show)
 ```
 
-## `forever`, `replicateM`
+### `forever`, `replicateM`
 
 ```haskell
 
@@ -167,13 +169,6 @@ replicateM :: Monad m => Int -> m a -> m [a]
 replicateM 0 _ = return []
 replicateM n m = liftM2 (:) m (replicateM (n - 1) m)
 ```
-
-## `foldM`
-
-* **TODO**: Finish writing up explanation of `foldM`.
-* `foldM :: (b -> a -> m b) -> [a] -> m b` works like the others.
-* `foldM_` ignore the result (wrapped value). They are used for
-  side-effects/context, I assume.
 
 * Source:
   * https://hackage.haskell.org/package/base-4.14.1.0/docs/src/Control.Monad.html
