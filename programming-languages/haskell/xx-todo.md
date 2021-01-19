@@ -1,17 +1,16 @@
 # TODOs
 
 * Copy over my RPN code.
-* mfilter vs filterM?
 * As we approach the thrilling conclusion, there are a few LYAH pages:
   * http://learnyouahaskell.com/for-a-few-monads-more
-    * Have read until 'Some useful monadic functions'
+    * Have read until 'Making Monads'
   * http://learnyouahaskell.com/zippers
 * Want to understand what `<*>` means for `Writer` and `State`.
 * Read about monad transformers
   * This is heavily used for `Writer` and `State`. I want to know what
     it is about.
+  * Could it improve my RPN code?
 * `zipWithM`
-* What is `>=>` about?
 * I've also heard talk about `Arrow`. What is that?
 * I may want to browse the Haskell source code more:
   * Might peak around `GHC.Base` for more info.

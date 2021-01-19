@@ -23,6 +23,38 @@ join mmx = mmx >>= id
 mx >>= f = join (fmap f mx)
 ```
 
+## Kleisi arrows
+
+```haskell
+-- Defined in Control.Monad.
+
+-- `f >=> g` sequences two functions that produce monadic values. We
+-- know that `>>=` feeds a value into a function that produces a monadic
+-- result. You can write `x >>= (f >=> g)` instead of `(x >>= f) >>= g`.
+(>=>) :: Monad m => (a -> m b) -> (b -> m c) -> (a -> m c)
+f >=> g = \x -> f x >>= g
+
+-- Just the flipped version of `>=>`. You can write `(g <=< f) =<< x`
+-- instead of `g =<< (f =<< x)`.
+(<=<) = flip (>=>)
+```
+
+It would be nice to build pipelines with regular functions in the same
+way that we can build pipelines with monad producing functions. Here is
+how:
+
+```haskell
+x & (f >>> g)
+```
+
+`&` comes from `Data.Function`. `>>>` comes from `Data.Category`. It is
+the flip of `<<<`, which is simply defined as `.`. In fact, any
+`Category` instance has a `.` function; `->` is just one instance of the
+typeclass `Category`.
+
+`&`, `>>>` are the equivalents of `>>=` and `>=>`, while `$` (from
+`GHC.Base`) and `<<<` are the analogues of `=<<` and `<=<`.
+
 ## Monads and Lists
 
 Now they start talking about various analogues of `List` functions.
