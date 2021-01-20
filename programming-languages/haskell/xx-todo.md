@@ -2,8 +2,6 @@
 
 * Copy over my RPN code.
 * As we approach the thrilling conclusion, there are a few LYAH pages:
-  * http://learnyouahaskell.com/for-a-few-monads-more
-    * Have read until 'Making Monads'
   * http://learnyouahaskell.com/zippers
 * Want to understand what `<*>` means for `Writer` and `State`.
 * Read about monad transformers
