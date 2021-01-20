@@ -18,25 +18,25 @@ import System.Random.MWC (create, uniformR)
 data ArraySlice = ArraySlice (IOUArray Int Int) Int Int
 
 readArraySlice :: ArraySlice -> Int -> IO Int
-readArraySlice as@(ArraySlice arr offset _) idx = do
-  unsafeRead arr (fromIntegral (offset + idx) :: Int)
+readArraySlice (ArraySlice arr offset _) idx =
+  unsafeRead arr (offset + idx)
 
 writeArraySlice :: ArraySlice -> Int -> Int -> IO ()
-writeArraySlice as@(ArraySlice arr offset _) idx val = do
-  unsafeWrite arr (fromIntegral (offset + idx) :: Int) val
+writeArraySlice (ArraySlice arr offset _) idx val =
+  unsafeWrite arr (offset + idx) val
 
 resliceArraySlice :: ArraySlice -> Int -> Int -> ArraySlice
-resliceArraySlice as@(ArraySlice arr offset _) newOffset newLen =
+resliceArraySlice (ArraySlice arr offset _) newOffset newLen =
   ArraySlice arr (offset + newOffset) newLen
 
-asLength :: ArraySlice -> Int
-asLength as@(ArraySlice _ _ len) = len
+arraySliceLength :: ArraySlice -> Int
+arraySliceLength (ArraySlice _ _ len) = len
 
 -- Moves all items smaller than the pivot to the left of the
 -- pivot. Everything greater is to the right of the pivot.
 partition :: ArraySlice -> Int -> Int -> IO Int
 partition as pivotIdx idx
-  | idx == (asLength as) =
+  | idx == (arraySliceLength as) =
       return pivotIdx
   | otherwise = do
       pivot <- readArraySlice as pivotIdx
@@ -61,13 +61,12 @@ partition as pivotIdx idx
 -- immutable (and extremely inefficient) way.
 qsort :: ArraySlice -> IO ()
 qsort as
-  | (asLength as) == 0 = do
-      return ()
+  | (arraySliceLength as) == 0 = return ()
   | otherwise = do
       pivotIdx <- partition as 0 0
       let leftLen = pivotIdx
       qsort (resliceArraySlice as 0 leftLen)
-      let rightLen = (asLength as) - (pivotIdx + 1)
+      let rightLen = (arraySliceLength as) - (pivotIdx + 1)
       qsort (resliceArraySlice as (pivotIdx + 1) rightLen)
 
 -- A function to benchmark how long an operation takes.
