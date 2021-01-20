@@ -1,6 +1,5 @@
 # TODOs
 
-* ST Monad.
 * Copy over my RPN code.
 * As we approach the thrilling conclusion, there are a few LYAH pages:
   * http://learnyouahaskell.com/zippers
