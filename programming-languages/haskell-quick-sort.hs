@@ -1,130 +1,152 @@
-import Control.Monad (forM, liftM)
-import Data.Array.IO (IOUArray, getElems, newListArray)
-import Data.Array.Base (unsafeRead, unsafeWrite)
-import Data.Function ((&))
-import Data.Time.Clock (NominalDiffTime, diffUTCTime)
-import Data.Time.Clock.POSIX (getPOSIXTime, posixSecondsToUTCTime)
+-- Makes it a little easier to destructure a record.
+{-# LANGUAGE NamedFieldPuns #-}
+
+import qualified Control.Monad
+import qualified Control.Monad.ST
+import qualified Data.Array.Base
+import qualified Data.Time.Clock as Clock
+import qualified Data.Time.Clock.POSIX as POSIX
+import Prelude hiding (length)
 -- You need to install mwc-random
-import System.Random.MWC (create, uniformR)
+import qualified System.Random.MWC as Random.MWC
 
--- TODO: I should be able to do this with the ST monad, but I'm not
--- smart enough for that yet.
+type UArray = Data.Array.Base.UArray Int Int
+type STUArray s = Data.Array.Base.STUArray s Int Int
 
--- ArraySlice data type. I probably should be able to parameterize
--- over the kind of MArray. Indeed, ArraySlice probably can implement
--- MArray itself!
---
--- http://hackage.haskell.org/package/array-0.5.2.0/docs/Data-Array-MArray.html
-data ArraySlice = ArraySlice (IOUArray Int Int) Int Int
+-- ArraySlice data type. Note the bogus `s` parameter for use in `ST`.
+data ArraySlice s = ArraySlice {
+  backingArray :: STUArray s,
+  startIdx :: Int,
+  length :: Int
+}
 
-readArraySlice :: ArraySlice -> Int -> IO Int
-readArraySlice (ArraySlice arr offset _) idx =
-  unsafeRead arr (offset + idx)
+-- Read a location in the ArraySlice
+readArraySlice :: ArraySlice s -> Int -> Control.Monad.ST.ST s Int
+readArraySlice arraySlice idx =
+  -- Doing unsafe reads/writes is very important for performance!
+  Data.Array.Base.unsafeRead backingArray (startIdx + idx)
+  where
+    ArraySlice { backingArray, startIdx, length } = arraySlice
 
-writeArraySlice :: ArraySlice -> Int -> Int -> IO ()
-writeArraySlice (ArraySlice arr offset _) idx val =
-  unsafeWrite arr (offset + idx) val
+-- Write a location in the ArraySlice.
+writeArraySlice :: ArraySlice s -> Int -> Int -> Control.Monad.ST.ST s ()
+writeArraySlice arraySlice idx val =
+  -- Doing unsafe reads/writes is very important for performance!
+  Data.Array.Base.unsafeWrite backingArray (startIdx + idx) val
+  where
+    ArraySlice { backingArray, startIdx, length } = arraySlice
 
-resliceArraySlice :: ArraySlice -> Int -> Int -> ArraySlice
-resliceArraySlice (ArraySlice arr offset _) newOffset newLen =
-  ArraySlice arr (offset + newOffset) newLen
-
-arraySliceLength :: ArraySlice -> Int
-arraySliceLength (ArraySlice _ _ len) = len
+-- Move the startIdx and change the length.
+resliceArraySlice :: ArraySlice s -> Int -> Int -> ArraySlice s
+resliceArraySlice arraySlice newStartIdx newLength =
+  ArraySlice {
+    backingArray = backingArray,
+    startIdx = startIdx + newStartIdx,
+    length = newLength
+  }
+  where
+    ArraySlice { backingArray, startIdx, length } = arraySlice
 
 -- Moves all items smaller than the pivot to the left of the
 -- pivot. Everything greater is to the right of the pivot.
-partition :: ArraySlice -> Int -> Int -> IO Int
-partition as pivotIdx idx
-  | idx == (arraySliceLength as) =
-      return pivotIdx
+partition :: ArraySlice s -> Int -> Int -> Control.Monad.ST.ST s Int
+partition arraySlice pivotIdx idx
+  | idx == (length arraySlice) = return pivotIdx
   | otherwise = do
-      pivot <- readArraySlice as pivotIdx
-      el <- readArraySlice as idx
-      if el < pivot
-        then do
-          let nextIdx = pivotIdx + 1
-          nextEl <- readArraySlice as nextIdx
-          writeArraySlice as idx nextEl
-          writeArraySlice as nextIdx pivot
-          writeArraySlice as pivotIdx el
-          partition as (pivotIdx + 1) (idx + 1)
-        else do
-          partition as pivotIdx (idx + 1)
+    pivot <- readArraySlice arraySlice pivotIdx
+    el <- readArraySlice arraySlice idx
+    if el < pivot
+      then do
+        let nextIdx = pivotIdx + 1
+        nextEl <- readArraySlice arraySlice nextIdx
+        -- Perform the three-fold exchange.
+        writeArraySlice arraySlice idx nextEl
+        writeArraySlice arraySlice nextIdx pivot
+        writeArraySlice arraySlice pivotIdx el
+        partition arraySlice (pivotIdx + 1) (idx + 1)
+      else do
+        partition arraySlice pivotIdx (idx + 1)
 
--- QuickSort runs the partition subroutine to place the pivot, and
--- then sorts the left and right halves recursively.
+-- QuickSort runs the partition subroutine to place the pivot, and then
+-- sorts the left and right halves recursively.
 --
--- The whole point of this gist is to show how to do this *in
--- place*. The whole point of quick sort is to do it in place. But
--- most introductions to Haskell will show you how to do it in an
--- immutable (and extremely inefficient) way.
-qsort :: ArraySlice -> IO ()
-qsort as
-  | (arraySliceLength as) == 0 = return ()
+-- The whole point of quick sort is to do it in place. But most
+-- introductions to Haskell will show you how to do it in an immutable
+-- (and extremely inefficient) way.
+qsort :: ArraySlice s -> Control.Monad.ST.ST s ()
+qsort arraySlice
+  | (length arraySlice) == 0 = return ()
   | otherwise = do
-      pivotIdx <- partition as 0 0
-      let leftLen = pivotIdx
-      qsort (resliceArraySlice as 0 leftLen)
-      let rightLen = (arraySliceLength as) - (pivotIdx + 1)
-      qsort (resliceArraySlice as (pivotIdx + 1) rightLen)
+      pivotIdx <- partition arraySlice 0 0
+      let leftLength = pivotIdx
+      qsort (resliceArraySlice arraySlice 0 leftLength)
+      let rightLength = (length arraySlice) - (pivotIdx + 1)
+      qsort (resliceArraySlice arraySlice (pivotIdx + 1) rightLength)
 
 -- A function to benchmark how long an operation takes.
-benchmark :: IO a -> IO (NominalDiffTime, a)
+benchmark :: IO a -> IO (Clock.NominalDiffTime, a)
 benchmark f = do
-  t1 <- getPOSIXTime & liftM posixSecondsToUTCTime
+  t1 <- POSIX.posixSecondsToUTCTime `fmap` POSIX.getPOSIXTime
   result <- f
-  t2 <- getPOSIXTime & liftM posixSecondsToUTCTime
-  let timeDiff = diffUTCTime t2 t1
+  t2 <- POSIX.posixSecondsToUTCTime `fmap` POSIX.getPOSIXTime
+  let timeDiff = Clock.diffUTCTime t2 t1
 
   return (timeDiff, result)
 
--- Some constants!
+-- Some constants
 numElems :: Int
 numElems = 10 * 1000 * 1000
 maxValue :: Int
 maxValue = 10 * 1000 * 1000
 
+-- Generate a UArray of unsorted elements.
+generateUnsortedElements :: IO UArray
+generateUnsortedElements = do
+    generator <- Random.MWC.create
+    unsortedElements <- (
+      Control.Monad.forM
+        [0..numElems]
+        (\_ -> Random.MWC.uniformR (0, maxValue) generator)
+      )
+    return (
+      Data.Array.Base.listArray
+        -- Ugh, bounds are *inclusive*.
+        (0, numElems - 1)
+        unsortedElements
+      )
+
+-- Sort the elements in a UArray. This will use `unsafeThaw`, which will
+-- assume that no other thread is given the UArray. This allows
+-- `sortElements` not to copy over the input into its own buffer.
+sortElements:: UArray -> UArray
+sortElements unsortedElements = Control.Monad.ST.runST $ do
+  arr <- (Data.Array.Base.thaw unsortedElements) :: Control.Monad.ST.ST s (STUArray s)
+  -- Ugh, bounds are *inclusive*.
+  (_, numElems) <- Data.Array.Base.getBounds arr
+  qsort (ArraySlice {
+    backingArray = arr,
+    startIdx = 0,
+    length = numElems + 1
+  })
+  (Data.Array.Base.freeze arr)
+
 main :: IO ()
 main = do
-  -- Generate random list of numbers. Apparently System.Random is very slow...
+  -- Generate random list of numbers. Apparently System.Random is very
+  -- slow...
   -- http://hackage.haskell.org/package/mwc-random-0.14.0.0/docs/System-Random-MWC.html
   putStrLn "Generating random numbers!"
-  (timeDiff, elems) <- benchmark $ do
-    gen <- create
-    elems <- forM [1..numElems] $ \_ -> uniformR (0, maxValue) gen
-    return elems
+  (timeDiff, unsortedElements) <- benchmark generateUnsortedElements
   putStrLn $ "Time: " ++ (show timeDiff)
-  -- About 1.2sec!!
+  -- About 1.02sec.
 
   -- Build the array for in place sorting.
   -- http://hackage.haskell.org/package/array-0.5.2.0/docs/Data-Array-IO.html
-  putStrLn "Building array!"
-  (timeDiff, arr) <- benchmark $ do
-    arr <- (newListArray (0, numElems - 1) elems) :: IO (IOUArray Int Int)
-    return arr
+  putStrLn "Building/sorting array!"
+  (timeDiff, sortedElements) <- benchmark $ do
+    let sortedElements = sortElements unsortedElements
+    sortedElements `seq` return sortedElements
   putStrLn $ "Time: " ++ (show timeDiff)
-  -- About 0.05sec.
+  -- About 1.15sec.
 
-  -- Sort them!
-  putStrLn "Sorting array!"
-  (timeDiff, _) <- benchmark $ do
-    qsort (ArraySlice arr 0 numElems)
-  putStrLn $ "Time: " ++ (show timeDiff)
-  -- About 1.25s. <<<
-  -- A C++ version takes ~0.77s. So this isn't so bad. 60% slower.
-
-  -- Extract list and print!
-  putStrLn "Extracting array!"
-  (timeDiff, elems) <- benchmark $ do
-    elems <- getElems arr
-    return elems
-  putStrLn $ "Time: " ++ (show timeDiff)
-  -- About 0.8s.
-
-  putStrLn (show (last elems))
-
-  --forM_ elems $ \el -> do
-  --  putStrLn (show el)
-
-  putStrLn "DONE"
+  putStrLn (show (sortedElements Data.Array.Base.! (numElems - 1)))
