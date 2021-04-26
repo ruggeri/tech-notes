@@ -1,51 +1,65 @@
 \subsection{Total Rotational Inertia}
 
 \begin{enumerate}
-  \item We know that for subparts $i$, $L_i = m_i r_i^2 \omega_i$. And
-  we know that (inclusive of internal torques) $\tau_i = \fpartial{t}
-  L_i = I_i \alpha$.
+  \item For a point mass, we've related $L_i$ with $\omega_i$ by
+  defining $L_i = I_i \omega_i$. But we have this synthetic quantity $L
+  = \sum_i L_i$. Does this relate to some ``aggregate'' angular velocity
+  $\omega$ of anything? Is there any corresponding aggregate rotational
+  inertia $I$?
 
-  \item \TODO{We should note that this is true only if the distance
-  $r_i$} is fixed! Which is why we will want to consider only rotations
-  about the center of mass...
+  \item Consider an aggregate object that is rotating with an angular
+  velocity $\omega$. Then each subpart $i$ has angular momentum $L_i =
+  I_i \omega$. The total angular momentum is then:
 
-  \item Per our discussion, we know that $\tau = \fpartial{t} L$, where
-  $L$ has been defined simply as the sum of the angular momenta $L_i$ of
-  the various subparts $i$. But is there any similar sense in which $L$
-  relates to some $\alpha$?
+  \begin{nedqn}
+    L
+  =
+    \sum_i L_i
+  =
+    \parens{\sum_i I_i} \omega
+  \end{nedqn}
 
-  \item Well, let us consider that the object cannot be deformed. Then
-  its we must have that $\alpha_i$ is constant for all subparts $i$. We
-  will denote this $\alpha$.
+  \noindent
+  Thus we are motivated to define $I = \sum_i I_i = \sum_i m_i r_i^2$ as
+  the \define{total rotational inertia} of the object.
 
-  \item We thus know that for every subpart $i$, when inclusive of
-  internal torques, $\tau_i = m_i r_i^2 \alpha$. But how do we calculate
-  $\alpha$ from the external torques? Similar to our discussion of net
-  translational force, we hope to ignore entirely the subparts. Thus we
-  hope that we can calculate $\alpha$ from the aggregate external torque
-  $\tau$.
+  \item We know that the net external torque is equal to the
+  instantaneous change in total angular momentum. Now, a net external
+  torque does not always correspond to pure rotation of the object. For
+  instance, the object may not be rigid, so different parts may
+  experience different angular accelerations $\alpha_i$.
 
-  \item Indeed we can! We know that, $\sum_i \tau_i$ is constant whether
-  we take $\tau_i$ to be just the external torque, or inclusive of
-  external torques. Thus:
+  \item However, we may consider the important case where (1) $m_i, r_i$
+  are fixed and (2) all $\omega_i$ are required to stay equal. This
+  corresponds to the requirement that the object is rigid and
+  constrained to rotate about the axis. In this case, we do have that
 
   \begin{nedqn}
     \tau
   \eqcol
-    \sum_i m_i r_i^2 \alpha
+    \fpartial{t} L
   \\
   \eqcol
-    \parens{\sum_i m_i r_i^2} \alpha
+    \fpartial{t} \sum_i L_i
+  \\
+  \eqcol
+    \sum_i m_i r_i^2 \fpartial{t} \omega
+  \\
+  \eqcol
+    I \alpha
   \end{nedqn}
 
-  \item This justifies us in calling the sum $\sum_i m_i r_i^2$ the
-  \define{total rotational inertia} of the object.
+  \item Of course, the preceding has assumed that total rotational
+  inertia $I$ is constant. But even if net external torque $\tau$ is
+  zero, $\alpha$ might be non-zero if $\fpartial{t} I$ is non-zero.
 
-  \item We make a final note: whereas we cannot change the translational
-  inertia of an object (which is $M = \sum_i m$), we \emph{can} change
-  the rotational inertia. This is what a figure skater does as they
-  enter a spin. They move their leg from outside to inside, reducing
-  their angular inertia. Their angular momentum remains constant. But
-  because the inertia is decreasing, their angular velocity $\omega$
-  increases to compensate.
+  \item This is what happens when a figure skater moves their leg from
+  outside to inside, reducing their rotational inertia. Their angular
+  momentum remains constant (net zero torque). But because the inertia
+  is decreasing, their angular velocity $\omega$ increases to
+  compensate. They experience a positive angular acceleration $\alpha$.
+
+  \item More generally, we may be applying a non-zero torque to a
+  system, but not see the expected angular acceleration, provided the
+  system is undergoing a simultaneous change in its rotational inertia.
 \end{enumerate}
