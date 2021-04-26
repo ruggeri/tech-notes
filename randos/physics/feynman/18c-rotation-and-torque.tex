@@ -1,0 +1,56 @@
+\subsection{Rotation and Torque}
+
+\begin{enumerate}
+  \item Firstly, we relate \define{angular velocity} $\omega$ and
+  \define{angular acceleration} $\alpha$ to the tangential velocities
+  and accelerations $v, a$. It depends on the distance to the reference
+  axis. If the point is at a distance $r$ from the axis, then then
+  angular velocity is $\omega = \frac{v}{r}$.
+
+  \item We want to define analogues to $F, M$ that will describe angular
+  acceleration. Since $\alpha = \frac{a}{r}$, we \emph{could} define a
+  concept of \define{rotational force} also called \define{torque} as
+  $\tau = F$. We would have to define the \define{rotational inertia} as
+  $I = rm$.
+
+  \item This would be acceptable if we only wanted to consider a point
+  mass, but it would not do if we wanted to consider multiple torques
+  applied to a composite object. For instance, consider a for $F$
+  applied at a distance $r$, and a force $-F$ applied at a distance
+  $\frac{r}{2}$. Consider a rotation by $\theta$ radians:
+
+  \begin{nedqn}
+    W
+  =
+    \parens{F r\omega} - \parens{F \frac{r}{2} \omega}
+  =
+    F \frac{r}{2} \omega
+  \end{nedqn}
+
+  \item That is: work is done by a rotation of $\omega$ radians, thus
+  the object will want to rotate when subjected to these torques. This
+  defies a simple analysis of $F + -F = 0$. So if we want the sum of
+  external torque to say something useful, then we better not define
+  $\tau = F$.
+
+  \item Of course, we see immediately that the amount of work performed
+  is proportional to the sum $\sum_i F_i r_i$. Thus, it will be useful
+  to define $\tau_i = F_i r_i$, and $\tau = \sum_i \tau_i$ will be
+  meaningful.
+
+  \item This suggests that we should define rotational inertia as $I =
+  r^2 m$, so that an extra term of $r$ will cancel out the $r$ in the
+  formula $\tau = F r$. By our choice of definitions, for a point mass,
+  we have $\tau = I \alpha$. Naturally, if the torque is maintained for
+  time $t$, then $\tau t = I \Delta \omega$.
+
+  \item Corresponding to translational momentum, we may of course define
+  \define{angular momentum} which is $L = I \omega$. We know that $\tau
+  = \fpartial{t} L$.
+
+  \item Note that I haven't really said very much here. I've just been
+  defining new angular quantities in terms of old translational ones. I
+  made just one clever choice: I defined torque specifically in the
+  hopes that I would be able to aggregate torques in a simple but
+  meaningful way. We'll show more about why in a moment!
+\end{enumerate}

@@ -1,0 +1,47 @@
+\subsection{Total Rotational Inertia}
+
+\begin{enumerate}
+  \item We know that for subparts $i$, $L_i = m_i r_i^2 \omega_i$. And
+  we know that (inclusive of internal torques) $\tau_i = \fpartial{t}
+  L_i = I_i \alpha$.
+
+  \item Per our discussion, we know that $\tau = \fpartial{t} L$, where
+  $L$ has been defined simply as the sum of the angular momenta $L_i$ of
+  the various subparts $i$. But is there any similar sense in which $L$
+  relates to some $\alpha$?
+
+  \item Well, let us consider that the object cannot be deformed. Then
+  its we must have that $\alpha_i$ is constant for all subparts $i$. We
+  will denote this $\alpha$.
+
+  \item We thus know that for every subpart $i$, when inclusive of
+  internal torques, $\tau_i = m_i r_i^2 \alpha$. But how do we calculate
+  $\alpha$ from the external torques? Similar to our discussion of net
+  translational force, we hope to ignore entirely the subparts. Thus we
+  hope that we can calculate $\alpha$ from the aggregate external torque
+  $\tau$.
+
+  \item Indeed we can! We know that, $\sum_i \tau_i$ is constant whether
+  we take $\tau_i$ to be just the external torque, or inclusive of
+  external torques. Thus:
+
+  \begin{nedqn}
+    \tau
+  \eqcol
+    \sum_i m_i r_i^2 \alpha
+  \\
+  \eqcol
+    \parens{\sum_i m_i r_i^2} \alpha
+  \end{nedqn}
+
+  \item This justifies us in calling the sum $\sum_i m_i r_i^2$ the
+  \define{total rotational inertia} of the object.
+
+  \item We make a final note: whereas we cannot change the translational
+  inertia of an object (which is $M = \sum_i m$), we \emph{can} change
+  the rotational inertia. This is what a figure skater does as they
+  enter a spin. They move their leg from outside to inside, reducing
+  their angular inertia. Their angular momentum remains constant. But
+  because the inertia is decreasing, their angular velocity $\omega$
+  increases to compensate.
+\end{enumerate}

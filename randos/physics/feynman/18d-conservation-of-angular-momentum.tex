@@ -1,0 +1,77 @@
+\subsection{Conservation of Angular Momentum}
+
+\begin{enumerate}
+  \item Imagine a system where the parts are allowed to move freely.
+  That is, there are no internal forces. Consider that each subpart $i$
+  is subjected to an external torque of $\tau_i$. Then we know that each
+  subpart $i$ will experience an instantaneous change in angular
+  momentum equal to $\fpartial{t} L_i = \tau_i$.
+
+  \item We can talk about the \define{total angular momentum} of the
+  system: $L = \sum_i L_i$. From the preceding, we know that
+  $\fpartial{t} L = \sum_i \tau_i$. This sum $\sum_i tau_i$ we call the
+  \define{total external torque} $\tau$.
+
+  \item So far, this has just been definitions. But we now proceed to
+  say something interesting: even if there are internal forces, the
+  instantaneous change in total angular momentum remains equal to the
+  net external torque.
+
+  \item The argument is similar to our argument regarding translational
+  force. Basically: whether $\tau_i$ is considered to be only the
+  external torque, or if it is inclusive of internal torques, the sum
+  $\sum_i \tau_i$ will come out the same regardless.
+
+  \item We will prove this. We know that internal forces always come in
+  equal and opposite pairs; we used this property when talking about
+  conservation of (translational) momentum. But now it is not simply the
+  force that matters: it also matters what proportion of the force is
+  tangential, and at what distance from the axis of rotation.
+
+  \item So consider a force pair. The forces are $\vF, -\vF$, but they
+  may be applied at different distances $r_1, r_2$ from the axis. Thus
+  it may easily be that $\vF r_1 - \vF r_2 \ne 0$. In that case, the
+  forces, weighted by distance from the axis, don't cancel. Uh oh?
+
+  \item If we are considering torque, it doesn't just matter how far
+  away a force is applied. It also matters how tangential the force is.
+  We'll be saved if the difference in radii is exactly compensated by
+  the difference in how tangential the forces are.
+
+  \item And this turns out to be exactly the case! Newton didn't exactly
+  say, but he appears to have meant to imply that equal and opposite
+  forces always act through a common line. That is: an interaction force
+  is always either pulling or pushing two subparts directly toward or
+  away from each other.
+
+  \item The best proof is a diagram, which I have included. It shows a
+  force $\vF$ applied at distance $r$ from the axis of rotation. The
+  force $\vF$ is not applied tangentially; it is applied at an angle of
+  $\theta$ degrees off tangential. Thus the tangential force is
+  $\cosf{\theta} \norm{\vF}$ and the torque is $\tau = r \cosf{\theta}
+  \norm{\vF}$.
+
+  Feynman says that we can instead look at the ``lever arm.'' We get
+  this from extending $\vF$ until it is in fact tangential. The diagram
+  shows that the length of the lever arm is $r \cosf{\theta}$. So we can
+  say that torque is:
+
+  \begin{nedqn}
+    \tau
+  \eqcol
+    r \cosf{\theta} F
+  \\
+  \eqcol
+    \textrm{lever arm length} \cdot F
+  \end{nedqn}
+
+  \item This formulation is very helpful in proving conservation of
+  angular momentum. Two equal/opposite paired forces, even if they
+  aren't applied at the same location, will both share a lever arm
+  (because the force pair acts along the same line). Thus we know that
+  $\tau_1 = -\tau_2$.
+
+  \item This proves that angular momentum is conserved. That is: that
+  the total instantaneous change in angular momentum is equal to the net
+  external torque on the object.
+\end{enumerate}

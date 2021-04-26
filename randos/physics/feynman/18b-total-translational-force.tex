@@ -1,0 +1,101 @@
+\subsection{Total Translational Force}
+
+\begin{enumerate}
+  \item Consider a set of external forces $\vF_i$ acting on subparts $i$
+  of a body at points $\vx_i$.
+
+  \item If no internal forces develop, then $\vx_i$ will start to
+  change. The change is described by $\va_i = \frac{\vF_i}{m_i}$, per
+  the definitions of force and mass.
+
+  \item However, if internal forces \emph{do} develop, then we don't
+  actually know how any particular $\vx_i$ will change! Is there
+  anything we \emph{do} know about the object's motion, regardless of
+  internal forces?
+
+  \item If we want to ignore internal forces, then in a sense we want to
+  ignore that the object is composed of separate parts. Could we pretend
+  that all the forces $\vF_i$, instead of operating at different
+  subparts, are all operating on a single aggregate? In that case, the
+  total force on the aggregate would be $\vF = \sum_i \vF_i$. We call
+  this the \define{net external translational force}.
+
+  \item Likewise, we would want need to aggregate the inertia of the
+  various parts. Summing the inertia of the various subparts would give
+  us an aggregate \define{total translational inertia} of $M = \sum_i
+  m_i$.
+
+  \item Is there any sense in which the object behaves as if it is a
+  point-mass, and that all the force and all the mass are concentrated
+  there? Let us imagine. The location of this point-mass we will denote
+  $\vx$. We don't yet know what $\vx$ should be. We only know that we
+  want that $\va = \frac{\vF}{M}$.
+
+  \item Is there any way to define $\vx$ in terms of just the subparts'
+  positions $\vx_i$ and masses $m_i$?
+
+  \begin{nedqn}
+    \va
+  \eqcol
+    \frac{\vF}{M}
+  \\
+  \eqcol
+    \frac{1}{M} \sum_i \vF_i
+  \\
+  \eqcol
+    \frac{1}{M} \sum_i \va_i m_i
+  \\
+    \fpartialsq{t} \vx
+  \eqcol
+    \sum_i \frac{m_i}{M} \fpartialsq{t} \vx_i
+  \\
+    \fpartialsq{t} \vx
+  \eqcol
+    \fpartialsq{t}
+    \sum_i \frac{m_i}{M} \vx_i
+  \end{nedqn}
+
+  \item This tells us that if we want to imagine that the object is
+  collapsed to a point $\vx = \sum_i \frac{m_i}{M} \vx_i$, then the net
+  external force $\vF$ and the net translational inertia $M$ will tell
+  us the instantaneous change in $\vx$. We call $\vx$ the \define{center
+  of mass}.
+
+  \item Our proof above relied on the assumption that $\va_i =
+  \frac{\vF_i}{m_i}$. I've previously said that $\vF_i$ is supposed to
+  be the \emph{external} force. But if we stick to that, then $\va_i$ is
+  only going to equal $\frac{\vF_i}{m_i}$ if there are no internal
+  forces.
+
+  \item So let's say that $\vF_i$ is maybe \emph{not} simply the
+  external force, but actually inclusive of all the internal forces.
+  This will allow us to be assured that $\va_i = \frac{\vF_i}{m_i}$.
+  Then it is true that the center of mass $\vx$ accelerates per $M \va =
+  \sum_i \vF_i$.
+
+  \item The question then is: does $\sum_i \vF_i$ change whether we take
+  $\vF_i$ to be just the external force, or inclusive of all internal
+  forces on subpart $i$?
+
+  \item And here comes the last point: internal forces always come in
+  equal and opposite pairs. So even if we take $\vF_i$ to possibly be
+  inclusive of internal forces, the sum $\sum_i \vF_i$ will still come
+  out the same as if we only considered external forces. Thus, when
+  defining $\vF = \sum_i \vF_i$, we can ignore any internal forces that
+  develop.
+
+  \item If we like, we can talk in terms of change of momentum
+  $\fpartial{t} \vp_i$ instead of mass-weighted acceleration $m \va_i$.
+  It's all equivalent. It is simple to show that if we define $\vp = M
+  \vv$, then we will have $\vF = \fpartial{t} \vp$, and that $\vp =
+  \sum_i \vp_i$. It can be convenient to talk in terms of momentum,
+  because it is easier to aggregate the subpart momentums $\vp_i$ than
+  to aggregate the subpart accelerations $\va_i$.
+
+  \item Feynman gives an example of spaceships. If there is no external
+  force of the spaceship, then no matter the internal forces, there can
+  be no change in spaceship momentum. But doesn't that eliminate the
+  possibility of propulsion? Not exactly. A spaceship moves by ejecting
+  some mass (exhaust), and then considering that mass as ``no longer
+  part of the spaceship.'' No exhaust, no propulsion.
+\end{enumerate}
