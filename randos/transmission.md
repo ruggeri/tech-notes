@@ -73,8 +73,8 @@ https://en.wikipedia.org/wiki/File:Crash_gearbox_3gears_and_reverse.gif
 ## Synchronous transmission
 
 Luckily, since at least the 70s they've adopted a new system: the
-non-synchronous gearbox. This is so-called because all gears on the
-input shaft are always engaged with all gears on the layshaft.
+synchronous gearbox. This is so-called because all gears on the input
+shaft are always engaged with all gears on the layshaft.
 
 How does this work? The gears are at different ratios, so they surely
 can't all be engaged? Answer: they aren't. When you select a gear, _dog
@@ -82,6 +82,30 @@ teeth_ (also called the _dog clutch_) that are part of the input shaft
 engage with the gear. The gear doesn't move, but the dog teeth do. This
 is like a clutch engaging the gear inside the gearbox. Thus it is called
 a dog clutch.
+
+In addition to the gear grooving that meshes with the layshaft gear, the
+gear also has some conical slots for the dog clutch. Correspondingly,
+grooved hub fixed to the shaft. The synchronizer sleeve (dog clutch)
+sits on top of the hub. The sleeve will be shifted forward to engage
+with the corresponding dog grooves; locking the input shaft with the
+gear.
+
+But here's the point: the input shaft and gear are moving at different
+speeds. Thus the locking action is "not an easy task." The synchro ring
+can move with the hub, but it can also be pushed axially to contact the
+gear. Basically, the ring is a large surface area; it is in fact
+_conical_, fitting inside the gear to an extent. So when you start
+exerting pressure of the synchro ring to the gear, it will start
+changing the speed of the gear to match the output shaft.
+
+When the speed is equalized, you now can slide the sleeve forward to
+lock the gear and hub.
+
+Basically: without the synchromesh, you'd just be smashing the sleeve up
+against the dog teeth in the gear and it would be a lot of force and
+fragile.
+
+Source: https://www.youtube.com/watch?v=wCu9W9xNwtI
 
 The engagement of the dog-clutch needs to be _synchronized_, in the same
 way that we use the clutch to synchronize engine RPM to desired
