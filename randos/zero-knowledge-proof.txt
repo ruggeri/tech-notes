@@ -1,3 +1,5 @@
+## Zero Knowledge Proof
+
 Classic example. Prove you have a 3-coloring of a map. This is an NP
 complete problem.
 
@@ -10,72 +12,50 @@ give the hash pre-image, and they can verify this.
 You can repeat as many times as you want; but you need to permute the
 colors used each time. This gives no info about the coloring.
 
+Note: this is an *interactive* protocol for proving.
+
 ## Zero Knowledge Password Proof
 
-I don't understand the point of ZKPP. How is it better than uploading
-a public key to a remote server, and then the remote server challenges
-us with nonces, asking us to sign them?
+A bad way to do login is to store a password on the server, and upload
+that password to login. The server then verifies the password by
+checking if they are equal.
 
-You can encrypt the private key with your weak password. Maybe the
-weakly encrypted private key can be attacked offline with a dictionary
-attack? You keep trying to decrypt until you find a decrypted private
-key that matches the public key?
+You can make this slightly better by using a PBKDF: basically a salted
+hash of the password. This will mean that it's harder to do a dictionary
+attack against the verifier stored on the server. This protects you from
+the server being hacked.
 
-What if the server keeps the public key private? Then how can you tell
-when the dictionary attack has succeeded?
+However, anyone who can eavesdrop the traffic will be able to read your
+password off the network. To defeat this, you could do Diffie-Hellman
+with the remote server to establish a session key.
 
-I guess maybe you observed signed nonces in the past, and you can
-check whether signing gives the same answer? But that means either (1)
-they weren't using SSL, or (2) you broke SSL temporarily. Even if they
-didn't use SSL, then they can still use DH for the nonce. In which
-case you'd have to not only eavesdrop the SSL communication, but
-literally do an impersonation.
+This would defeat an eavesdropper, but not someone who can MITM. So the
+remote server had better have a public key which you can verify and
+which it can sign its DH message with.
 
-Basically: what attack does ZKPP prevent that public/private key
-authentication via signing nonces doesn't?
+But now let us say that the server can be hacked. The hacker can steal
+the verifier, but it is of limited use if it uses PBKDF. But the hacker
+can now MITM you because it has the secret key.
 
-**Some more thoughts**
+If you are sending the server your password, then you are revealing this
+to the hacker.
 
-If the verifier program is known, then you can test candidate
-decryptions of the prover offline. You stop when the verifier accepts
-the output of the prover. So we must assume the verifier is *also*
-secret.
+This is particularly problematic if you reuse passwords on different
+websites. The ability to reuse passwords would be desirable.
 
-I think the idea is: if a user doesn't have a Yubikey, how are they
-supposed to copy their private key over to new machines. If I need my
-private key to login to gmail, then I can't login to gmail without my
-computer having a copy of the private key. So I can't login to Gmail
-from my Mom's computer on a whim.
+## Comparison With Private Key
 
-So I presume ZKPP doesn't store *any secret key material with the
-client.* The user truly only has a password, but doesn't upload it to
-the server.
+A common login method is you upload a public key on setup, and then you
+must sign nonces sent by the server with your private key. But this
+requires you to have a device like a Yubikey. It makes it harder to log
+on from other machines, and having a device like a Yubikey could be one
+more thing that could be stolen.
 
-If that is true, then the remote machine, as described above, can run
-a dictionary attack against the verifier. So the verifier *must* be
-kept secret.
+Jonathan suggests that you could upload your private key encrypted with
+a password to the remote server. The remote server could present this to
+you, which you could then use your password to decrypt.
 
-But I believe the idea is that, if an adversary eavesdrops the
-authentication, or even can MITM, they can't learn the password from
-what the client sends up. (Eavesdropping shouldn't matter, because
-DH). But MITM can happen if certs are broken.
+## Sources
 
-But if you can MITM, then when the client logs in, you can do a login
-to the remote server. The client had better not be able to access
-their own verifier stored on the remote machine; else the MITM could
-steal it and try to crack the password. Also: the MITM may be able to
-do a password reset, so that they can do future logins too.
-
-But the attack is mitigated. For the MITM to extend the duration of
-their session, they need to do a password reset, which the client can
-eventually notice.
-
-Haseeb mentioned that using a PBKDF you can maybe make the stored
-password hash hard to crack. So you for your ZKPP, you presumably
-first use a PBKDF on the password, and then do the ZKPP thing with the
-password hash. You can choose something with adjustable CPU and memory
-difficulty.
-
-* Fucking useless source: https://www.cs.columbia.edu/~smb/papers/neke.pdf
 * Personal communication: https://mail.google.com/mail/u/0/#inbox/KtbxLzGLkSbsHbrxhrPhzDskndMKpDbQDV
 * Slightly more useful source: https://pdfs.semanticscholar.org/2880/993c1abc110e832422753a5134f8ccf0633b.pdf
