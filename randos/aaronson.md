@@ -3,17 +3,17 @@
 **Godel's Completeness Theorem**
 
 This says that everything which is true in every model of the theory
-is provable. There are two ideas here: *logical validity* of a
+is provable. There are two ideas here: _logical validity_ of a
 statement means that in every model of the theory the statement is
-assigned true; a theory is called *complete* if every logically valid
+assigned true; a theory is called _complete_ if every logically valid
 statement is provable in the system. Basically, Godel says that every
-*sound* theory (one where only logically valid formulas are provable)
+_sound_ theory (one where only logically valid formulas are provable)
 must be complete.
 
 How is this proven? Basically, you need to produce a model where
 statements are assigned true if they are provable (this is required by
 soundness), but where you are free to set any other statement true or
-false as you desire. That means that all statements *not provable* are
+false as you desire. That means that all statements _not provable_ are
 not logically sound.
 
 This is shown by adapting a model that based on the language of the
@@ -32,13 +32,13 @@ meta-TM that takes as input a TM description and an input and
 determines whether the described machine halts on the given input.
 
 If this existed, you could modify the machine to tell you whether an
-input machine, *given its own description as input*, would
+input machine, _given its own description as input_, would
 halt. Instead of returning true or false, you can further modify the
 machine to run forever if the input machine would halt, and to stop if
 the input machine would not halt.
 
 But now give this machine its own description as input. Does it halt
-or not?  Paradox! Therefore, no such machine can exist.
+or not? Paradox! Therefore, no such machine can exist.
 
 To bring it back to Godel: we know that proofs are enumerable. It must
 not be a solution to the halting problem for a TM to enumerate all
@@ -81,7 +81,7 @@ otherwise runs forever. That is:
    in case 0.
 
 Note that, unlike before, I am talking about a very specific
-machine. *There is no question about whether this machine exists.*
+machine. _There is no question about whether this machine exists._
 
 Feeding this machine to itself, it cannot halt. If it halted, then
 that means it found a proof that it did not halt. Halting would
@@ -108,7 +108,7 @@ So my proof only applies if the formal system is consistent. If we
 don't know the formal system is consistent, then the proof is not
 actually valid, as it presumes something we don't know.
 
-This brings us to the crux. Let's suppose the system *is consistent*,
+This brings us to the crux. Let's suppose the system _is consistent_,
 since otherwise our "proof" above is just plain invalid. Then the
 proof above is valid in formal system + axiom that formal system is
 consistent. But this fact still doesn't make it valid in just the
@@ -122,18 +122,18 @@ And that's what you can't do. You can't prove that the formal system
 is consistent. Because otherwise the paradox really would
 occur. Without that proof of consistency, the paradox does not occur.
 
-Basically: incompleteness is saying that *one of things you can't
-prove* is *consistency itself*.
+Basically: incompleteness is saying that _one of things you can't
+prove_ is _consistency itself_.
 
 **Completeness Plus Incompleteness: Self-Hating Theory**
 
 Incompleteness says that you can't prove consistency: that I can
 accept. But Completeness says that there therefore must be a model of
 the theory where the statement "the theory is inconsistent" is
-*assigned true*. That means that, for a consistent system,
+_assigned true_. That means that, for a consistent system,
 `A+Not(Consistent(A))` is also consistent (since `A` is certainly not
-implying `Consistent(A)`)! This is called the *self-hating
-theory*. What. The. Fuck.
+implying `Consistent(A)`)! This is called the _self-hating
+theory_. What. The. Fuck.
 
 **Summary**
 
@@ -164,7 +164,7 @@ brains are not. He doesn't like Searle's Chinese Room, as he thinks it
 isn't enlightening. In particular, he thinks that if we actually
 started interacting with robots, we would start to treat them mostly
 like other humans. Or rather: why do we think other people are
-conscious? We know that *we* are conscious, why grant that to other
+conscious? We know that _we_ are conscious, why grant that to other
 people though? I guess the answer to that would be that we know that
 we come from other humans...
 
@@ -181,13 +181,13 @@ simulated by a TM, has equivalent efficient computation power.
 
 Even though Church-Turing hypothesizes that TM defines limit of
 computability, there are possibly other machines that have more
-powerful *efficiency*. That is probably where quantum computer will
+powerful _efficiency_. That is probably where quantum computer will
 come in.
 
 Aaronson does ask why we choose polynomial as our standard of
 tractability. He says that it's arbitrary, but works out
 practically. He says that luckily, few algorithms are polynomial but
-intractable. This is apparently called *Cobham's thesis*. I don't see
+intractable. This is apparently called _Cobham's thesis_. I don't see
 any particular deep justification, really, nor does Aaronson imply
 one.
 
@@ -264,8 +264,7 @@ be checked, while `coNP` are problems where a short proof of no can be
 checked. Just like P is a subset of NP, it is also a subset of coNP,
 for the same reason (ignore the input, just solve the problem).
 
-Even *given* `P != NP`, we haven't been able to prove that `NP !=
-coNP` (TODO1: though this is strongly suspected? Why?). OTOH, if
+Even _given_ `P != NP`, we haven't been able to prove that `NP != coNP` (TODO1: though this is strongly suspected? Why?). OTOH, if
 `P=NP`, then `NP=coNP` (or, equivalently, `P=coNP`).
 
 This was unclear to me because I've defined `coNP` as problems where
@@ -282,14 +281,14 @@ problem can be solved in polytime (since it is in NP). Therefore, by
 just solve the problem, then compute the opposite). Thus `coNP` is a
 subset of `P`, and we already had that `P` is a subset of `coNP`.
 
-The idea here is that `P` is *closed under complement*. Basically
-`P=NP=coNP`. The question of whether `NP!=coNP` is whether *those*
+The idea here is that `P` is _closed under complement_. Basically
+`P=NP=coNP`. The question of whether `NP!=coNP` is whether _those_
 sets are closed under complement.
 
 Let us assume that `P!=NP`, as we expect. Is `NP!=coNP`: we strongly
 suspect so. If our intuition is correct, then no NP-complete problem
 can be in `coNP` (proof follows soon!). That is, problems where we can
-quickly check proofs of yes *and* check proofs of no are not expected
+quickly check proofs of yes _and_ check proofs of no are not expected
 to be the hardest problems in `NP` (or, in `coNP` for that matter).
 
 For a concrete example consider decision versions of factorization:
@@ -371,7 +370,7 @@ setting, and accept if it works. If there is even one working variable
 setting, you have a probability >=`2**-n` of picking it; thus, you
 have >0.5 chance of accepting if there is such a setting. Likewise, if
 there is no such setting, the probability of acceptance is exactly
-`0.5-2**-2n`. So PP is a pretty *uninteresting*, large class. By a
+`0.5-2**-2n`. So PP is a pretty _uninteresting_, large class. By a
 symmetric argument, PP contains coNP.
 
 Basically, PP contains problems where your discriminative power may be
@@ -391,7 +390,7 @@ true answer is no. But, moreover, this amplification will hold even as
 we scale the problem.
 
 I want to make a note: the defintion of BPP has very little to do with
-*false positive and false negative rates*. A problem where we can
+_false positive and false negative rates_. A problem where we can
 correctly recognize a yes with high probability and correctly
 recognize a no with high probability may still have a high false
 negative (or false positive) rate if almost all answers are yes (or
@@ -405,7 +404,7 @@ arbitrarily small false positive and false negative rate. It's only as
 we scale problem size that the prior probabilities may change! That
 may require more amplification to keep one or the other rate low.
 
-The point is: in BPP our *total* error rate can be made effectively
+The point is: in BPP our _total_ error rate can be made effectively
 zero. BPP is one of the largest classes of problems we could consider
 practicable with a computer based on a classical model of physics.
 
@@ -424,13 +423,13 @@ zero; that is, we need the ability to recognize both positives and
 negatives to approach 0.5. RP and coRP are both one sided, so the
 discriminative power doesn't go to zero.
 
-As before, false negative and false positive rates *can* go to
+As before, false negative and false positive rates _can_ go to
 zero. But overall error rate is bounded by any `eps` for a fixed
 number of amplifications.
 
 ZPP (zero-error probabilistic polytime) is the intersection of RP and
 coRP. Another definition: these are the problems that you can always
-get the right answer, but in *expected* polytime. The first definition
+get the right answer, but in _expected_ polytime. The first definition
 implies the second, you need to call RP and coRP until you get an
 answer you're sure of. But the number of necessary trials will fall
 very rapidly.
@@ -447,14 +446,14 @@ definition implies the first. Whatever...
 
 We don't know whether NP (or coNP) contains BPP. That sort of makes
 sense: BPP may tell us with arbitrarily high probability that
-something is true, but that is *not* a proof. We certainly don't
+something is true, but that is _not_ a proof. We certainly don't
 expect NP to be contained in BPP, since that would imply practical
 solutions to all NP-complete problems (and, basically, all crypto
 would be broken).
 
 **Even More Complexity!**
 
-There's this idea of *advice*. Advice is extremely powerful, changing
+There's this idea of _advice_. Advice is extremely powerful, changing
 even what is computable. Advice is a function of input length. For
 instance, `P/1` (polytime with O(1) advice) can solve a unary version
 of the halting problem (the length of the input represents "the
@@ -464,14 +463,14 @@ That seems odd, because the advice function should be construtable?
 Does a halting problem advice function exist in ZF? Whatever.
 
 `BPP` is provably contained within `P/poly` (Adleman); that is,
-*non-uniformity* (which is another name for advice) is at least as
+_non-uniformity_ (which is another name for advice) is at least as
 strong as randomness. But we don't believe that `BQP` is contained in
 `P/poly`, which suggests that BQP contains problems not efficiently
 solvable by real computers.
 
 But also: there appears to be growing proof that `P=BPP`. There's a
 theorem by Impagliazzo-Wigderson strongly hinting this must be
-true. Moving a problem from BPP to P is called *derandomization*.
+true. Moving a problem from BPP to P is called _derandomization_.
 
 Okay: I clearly don't follow a lot of this; it's above my paygrade
 mabye. But I understand enough that I might be able to come back and
@@ -483,16 +482,16 @@ OTP is clearly optimal, but hard to distribute keys.
 
 How about key stretching? That's a CSPRNG. What you want:
 
-* A TM that:
-    * Takes an `n` bit input.
-    * Outputs a `p(n)` bit output.
-    * Runs in polytime.
-    * Call output `f(n)`
-* For every other TM B:
-    * `Prob(A accepts f(x)) - Pr(A accepts y) < \eps`
-    * Where `x` is an `n` bit string and `y` is a `p(n)` length
-      string.
-    * Of course this needs to be in the limit.
+- A TM that:
+  - Takes an `n` bit input.
+  - Outputs a `p(n)` bit output.
+  - Runs in polytime.
+  - Call output `f(n)`
+- For every other TM B:
+  - `Prob(A accepts f(x)) - Pr(A accepts y) < \eps`
+  - Where `x` is an `n` bit string and `y` is a `p(n)` length
+    string.
+  - Of course this needs to be in the limit.
 
 It would be enough to be able to stretch input even 1 bit, since then
 we could just keep applying this algorithm recursively to stretch as
@@ -513,10 +512,10 @@ isn't hard in the quantum world. However, we have candidates for hard
 problems in a quantum world that could be the basis of CSPRNG.
 
 One reason it's hard to build CSPRNGs: it's hard to base them on
-problems with *worst-case* difficulty. We need *average-case*
+problems with _worst-case_ difficulty. We need _average-case_
 difficulty. One such problem is "shortest vector problem" (who cares
-what exactly), which is the basis of *lattice-based
-cryptosystems*. But it looks like this problem isn't NP-complete,
+what exactly), which is the basis of _lattice-based
+cryptosystems_. But it looks like this problem isn't NP-complete,
 thought it may be harder than polynomial!
 
 Aaronson suggests that even if NP-complete problems might be "hard on
@@ -524,11 +523,11 @@ average", it doesn't seem obvious how to base a PRG on them.
 
 Mentions OWFs. These have the property:
 
-* A TM calculates `f(n)` in polytime.
-* For all TMs A:
-    * Assuming A is polytime.
-    * `Pr(f(A(f(x))) = f(x)) < eps`.
-    * Again, this is an asymptotic notion.
+- A TM calculates `f(n)` in polytime.
+- For all TMs A:
+  - Assuming A is polytime.
+  - `Pr(f(A(f(x))) = f(x)) < eps`.
+  - Again, this is an asymptotic notion.
 
 Basically, this is saying it's hard to find a pre-image. A PRG is a
 OWF. Basically, if you could find a pre-image of `y` for a PRG, then
@@ -540,7 +539,7 @@ Anyway, what we want is a trapdoor OWF so we can do public crypto:
 public key cryptography and authentication/signing. RSA does
 this. Aaronson notes that RSA has not been proven to be as hard as
 factoring, though we can't think of a better way to do it. There is a
-variant that *is* as hard as factoring.
+variant that _is_ as hard as factoring.
 
 But factoring can be done efficiently by Shor's algorithm in a quantum
 computer. That leads us to lattice based cryptography, which is secure
@@ -560,7 +559,7 @@ Quantum generalizes probability to include negative and imaginary
 amplitudes. Okay, take a bit. It has a certain probability of being a
 zero or one: `p` and `1-p`. But let's now say that probabilities could
 be `alpha` and `beta`, each imaginary numbers (we call these
-*amplitudes*). In fact, for now, let's keep alpha and beta to be real
+_amplitudes_). In fact, for now, let's keep alpha and beta to be real
 numbers.
 
 We still need the total probability to "sum to one": we'll require
@@ -568,23 +567,23 @@ We still need the total probability to "sum to one": we'll require
 either a one or zero with probabilities `alpha` and `beta`.
 
 It seems pointless to use alpha and beta, instead of their
-squares. But what matters are the *transformations* that we can apply
+squares. But what matters are the _transformations_ that we can apply
 to the system. Transformations to classical probability vectors are
-*stochastic matrices*: those where the columns add to one. We write
+_stochastic matrices_: those where the columns add to one. We write
 `Ax`, where `x` is a column vector of probabilities. Each column of
 `A` describes the probability that, if `x` were `i` before, it will
 transition to `j` with probability `A_{j,i}`. Of course, if `x=i`, it
 must transition somewhere, so the columns sum to unity.
 
-Stochastic matrices are *exactly* those that map probability vectors
+Stochastic matrices are _exactly_ those that map probability vectors
 to probability vectors. In more mathy words: they are the matrices
 that preserve 1-norm.
 
 So, given an amplitude vector with 2-norm 1, what matrices will map it
 to another vector of 2-norm 1? When we're talking real numbers, the
-*orthonormal matrices* are the ones that do this. When the vector
-space is over the complex numbers, these will be the *unitary
-matrices*.
+_orthonormal matrices_ are the ones that do this. When the vector
+space is over the complex numbers, these will be the _unitary
+matrices_.
 
 I know a fair bit about orthogonal matrices from linear algebra; I
 know less about unitary matrices. For instance, orthogonal matrices
@@ -602,10 +601,10 @@ What we've seen here so far is a generalization from positive real
 probabilities with 1-norm to real numbers with 2-norm.
 
 Ket notation would write a vector as `a|0> + b|1>`, which is weird,
-but is just physicist's way of writing a vector. This is Dirac *ket
-notation*.
+but is just physicist's way of writing a vector. This is Dirac _ket
+notation_.
 
-These matrices let us speak about *quantum interference*. Take the
+These matrices let us speak about _quantum interference_. Take the
 matrix:
 
 ```
@@ -619,13 +618,13 @@ Applying this to a `1|0>`, apply a second time. You'll get
 `1|1>`. How? We performed a randomizing operation twice, but ended up
 with a deterministic outcome! You might say there are two paths to
 `1|1>`: one path through `|0>`, and another through `|1>`. But the two
-paths *destructively interfered* to cancel out the possibility of
-`0|0>` and *constructively interfered* to make `1|1>` 100% probable.
+paths _destructively interfered_ to cancel out the possibility of
+`0|0>` and _constructively interfered_ to make `1|1>` 100% probable.
 
 Let us say that we do not know which of two quantum states we are
 in. Let's say there is a 50/50 chance of `1/sqrt(2)(|0>+|1>)` and
 `1/sqrt(2)(|0>-|1>)`. For each vector, we take its outer product with
-itself: this is called a *density matrix*. We then take the linear
+itself: this is called a _density matrix_. We then take the linear
 combination of the density matrices, weighted by the appropriate
 probability. In our case, we have:
 
@@ -634,7 +633,7 @@ probability. In our case, we have:
 0 0.5
 ```
 
-This describes the *mixed state*. Note that it is identical to the
+This describes the _mixed state_. Note that it is identical to the
 density matrix for a 50/50 probability of `|0>` and `|1>`. In fact,
 there is no experiment that will distinguish these two mixed states;
 they are effectively identical.
@@ -659,7 +658,7 @@ apply the transformation twice. For the norm to be preserved
 throughout, you need another dimension to travel in, which is what the
 complex numbers are giving you.
 
-So basically, complex numbers are required if you want *continuity* of
+So basically, complex numbers are required if you want _continuity_ of
 transformations.
 
 Now, if you have two qubits and want to consider them together, you
@@ -668,11 +667,11 @@ typically take the tensor product of their states. This is basically:
     (a|0>+b|1>)(c|0>+d|1>)=ac|00>+ad|01>+bc|10>+bd|11>
 
 That's basically what you expect. However, there are some arrangements
-which *cannot* be a tensor product:
+which _cannot_ be a tensor product:
 
     (|00>+|11>)/sqrt(2)
 
-This is a pair of *entangled* qubits. We might say that there state is
+This is a pair of _entangled_ qubits. We might say that there state is
 not independent.
 
 He goes on to discuss no cloning, quantum crypto, and quantum
@@ -733,11 +732,11 @@ computers still have the same computability as Turing
 machines. Penrose is arguing that the brain can do hypercomputation.
 
 If you have this claim about hypercomputation, you shouldn't even be
-able to *simulate* intelligence with a Turing machine. But Aaronson
+able to _simulate_ intelligence with a Turing machine. But Aaronson
 says: surely you can do that with a huge lookup table.
 
 So Aaronson says: I think what we want is a machine that can simulate
-intelligence *efficiently*. Then it may be the case that no Turing
+intelligence _efficiently_. Then it may be the case that no Turing
 machine can even simulate intelligence (efficiently).
 
 Of course, even if the brain is the kind of hypercomputer that can
@@ -764,7 +763,7 @@ experiment. Why might you not be okay with being destroyed? Perhaps
 the brain stores "you" inside quantum state. Then that can't be
 cloned. So the "transporter" cannot be duplicating you; it either
 fails to copy the quantum state, OR it would need to work in a fancier
-way. It would need to deconstruct you *as* you were reassembled on the
+way. It would need to deconstruct you _as_ you were reassembled on the
 other side (a la quantum teleportation).
 
 ## Ch 12: Decoherence And Hidden Variables
@@ -810,25 +809,25 @@ quantum theory.
 
 He notes 4 things about hidden variable theories:
 
-* If you want to cook up a transition matrix that evolves the
+- If you want to cook up a transition matrix that evolves the
   probabilistic state to match the evolution of quantum state `\phi`
   with unitary operation `U` applied, then the transition matrix must
   also depend on the state `\phi`. That is: the evolution function for
   the hidden variable state is not merely a translation of the evolution
   function for the quantum state.
-* Any hidden variables theory will not give the same stochastic
+- Any hidden variables theory will not give the same stochastic
   transition matrix for `VU` as you get from translating `V` and `U`
   independently and multiplying. So the translation is not "time-slice
   independent."
-* Skipped one...
-* Last, Bell's theorem shows that any hidden variable theory needs to
+- Skipped one...
+- Last, Bell's theorem shows that any hidden variable theory needs to
   have an explanation involving "instantaneous communication." He
   stresses: not that we could use the hidden variable theory to send
   messages faster than light; just that there needs to be some kind of
   collapse across points instantaneously.
 
 He gives some hidden variable theories. He ends with the Bohmian one.
-Basically, Bohmian mechanics is *deterministic*, but non-local. The
+Basically, Bohmian mechanics is _deterministic_, but non-local. The
 transition matrix is all ones and zeroes.
 
 Anyway... I don't know that I fully understand these things...
@@ -838,13 +837,33 @@ Anyway... I don't know that I fully understand these things...
 He investigates probabilistic proofs. One class is `MA`: Merlin-Arthur.
 Here, the question is: "Are there polynomial sized proofs that can be
 verified by a randomized algorithm?" This is a smashup of NP with BPP.
+This is kind of "probabilistically verifiable proof." A language `L` is
+in `MA` if (1) any `x \in L` admits a proof `w` that can be verified
+with certainty by a verifier algorithm `V(x, w)`, (2) if `x \not\in L`,
+then for every fake proof `w`, we should have `V(x, w)` returns false
+with probability at least 50% no matter the choice of `w`.
 
-This can be extended to Arthur-Merlin `AM`. Here, Arthur can first
-submit a random "challenge" to Merlin. Basically, this means that Merlin
-shouldn't be able to cook up any "trick" proofs; his proof needs to be
-responsive to Arthur's challenge. `AM` clearly contains `MA`, but there
-is a proof that additional rounds of communication are pointless. The
-conventional wisdom is that `P = MA = AM`.
+Basically: you can verify a true proof that `x \in L`, and if you do
+enough rounds of checking, you will be probabilistically sure to reject
+a false proof that `x \in L`. Of course, we haven't talked about proofs
+that `x \not\in L`: that sounds like `co-MA`.
+
+Some problems might not be in `MA` if Merlin has a tricky way of
+generating false proofs that can't be detected. Thus, we can imagine
+first issuing a random challenge to Merlin. Merlin's proof must be
+responsive to this challenge. This is called Arthur-Merlin `AM`. `AM`
+should contain `MA`, which is just the version with no challenge.
+
+(Aaronson doesn't precisely define `MA`. `MA` may be defined such that
+Arthur should verify deterministically, which seems less powerful. But
+there appears to be a result of Goldwasser/Sipser that says that
+"private" randomness is not needed.)
+
+Aaronson notes that it is strongly presume that `AM` is in fact exactly
+equal to `MA`, not strictly stronger. It is further expected that they
+are both equal to `NP`, which would correspond with `P=BPP`.
+
+**Zero Knowledge Proofs**
 
 He talks about zero-knowledge proofs. One example is graph
 non-isomorphism. Say you want to prove that you know two graphs are
@@ -853,16 +872,34 @@ of the two graphs. Because they are not isomorphic, you can tell which
 one this corresponds to. You reply thusly. This convinces the
 challenger.
 
-Note: the challenger learns nothing here. He gains no ability to
-convince anyone else that the graphs are not isomorphic (since they can
-submit their own challenges). This is an example of a *statistical ZKP*.
+This seems intuitively "zero knowledge:" the challenger "learns" nothing
+here. But can we formalize this?
 
-Another kind is a *computational ZKP*. Here, we do our graph coloring
+First, even though the verifier now believes that the two graphs are not
+isomorphic, they should not be able to prove this onward to anyone else.
+They could show the transcript to someone new, but this is unconvincing,
+because how does the third party know that the prover and the verifier
+weren't colluding?
+
+In particular: how would a third party know that the transcript wasn't
+simply something the alleged "verifier" wrote all by themself?
+
+Basically: the proof will be non-convincing if there is a simulator
+program that would generate fake transcripts with the same probability
+distribution as true transcripts. This is called _statistical ZKP_.
+
+This captures the idea of the original proof protocol being zero
+knowledge, because it shows that a sample from the true proof protocol
+transcript says nothing, since that was equally probable to sample from
+the simulator transcript space.
+
+Another kind is a _computational ZKP_. Here, we do our graph coloring
 thing, where we encrypt our colorings for commitment. We are relying on
 non-invertibility of our encryption. Clearly `SZK` is contained in
-`CZK`.
+`CZK`. All NP-complete can be encoded as graph coloring, so all
+NP-complete problems have a computational ZKP.
 
-A *probabilistically checkable proof* (PCP) says that you can verify a
+A _probabilistically checkable proof_ (PCP) says that you can verify a
 proof by just looking in a few random places. That is: in the right
 proof system, a false proof should make errors just about everywhere.
 
@@ -892,6 +929,6 @@ extend BQP without being able to solve all NP complete problems.
 
 ## More
 
-* An interview here:
+- An interview here:
 
 http://blogs.scientificamerican.com/cross-check/scott-aaronson-answers-every-ridiculously-big-question-i-throw-at-him/
