@@ -4,7 +4,10 @@ Classic example. Prove you have a 3-coloring of a map. This is an NP
 complete problem.
 
 You color the map. You hash each color (with a nonce). This hides the
-values. You send the hashed map to the validator.
+values. You send the hashed map to the validator. (Note: for ease we can
+assume there exists a _random oracle_ that maps each input to a
+uniformly sampled value from its output space. But you can get away with
+a weaker assumption of a _commitment protocol_.)
 
 You let the validator ask to reveal two adjacent vertices. You
 give the hash pre-image, and they can verify this.
@@ -122,7 +125,45 @@ Jonathan suggests that you could upload your private key encrypted with
 a password to the remote server. The remote server could present this to
 you, which you could then use your password to decrypt.
 
+## Fiat-Shamir Heuristic
+
+A ZKP is a protocol: the prover needs to be online to participate. That
+can be inconvenient. What if the prover dies or refuses to cooperate
+anymore?
+
+We would like to obtain transferability: the ability to convince a next
+party with a transcript of the interactive proof.
+
+Imagine the proof of identity based on the discrete log problem above. I
+said a transcript would be unconvincing because if I know what the
+challenges will be, I can produce each commitment tailored just right.
+
+We want to make the challenges deterministic but uncontrollable. Sounds
+like a hash!
+
+But I can still fake a transcript. I generate a commitment, hash, and if
+it gives me the wrong challenge, I just start again. There is a constant
+cost to generating each next commitment/challenge. But the time to
+produce `k` rounds is linear in `k`.
+
+I want the property that fake transcripts cannot be extended. This makes
+it very hard to fake long sequences of commitments/challenges. The way
+to do this is to (1) require all commitments to be made _up front_ and
+(2) produce challenges as the hash of all messages that came before.
+
+That way, if I want to add another commitment, I have to change the
+_beginning_ of the proof. This works, and is called _Fiat-Shamir_. It is
+called a _heuristic_, because we are replacing the verifier with a
+random oracle.
+
+It is proven that Fiat-Shamir should work if there are random oracles: a
+black-box function that maps each input to a uniformly sampled output.
+However, it has also been proven (by Goldwasser/Kalai) that Fiat-Shamir
+is _not_ secure if random oracles don't exist.
+
 ## Sources
 
 - Personal communication: https://mail.google.com/mail/u/0/#inbox/KtbxLzGLkSbsHbrxhrPhzDskndMKpDbQDV
 - Slightly more useful source: https://pdfs.semanticscholar.org/2880/993c1abc110e832422753a5134f8ccf0633b.pdf
+- https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
+- Aaronson also has a helpful discussion in the Quantum Computing book.
