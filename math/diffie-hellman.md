@@ -16,7 +16,10 @@ DH key generation is fast. RSA generation is presumably much slower
 You can use Diffie-Hellman to do public key encryption. Basically,
 Alice publishes `g**a, p` as her public key. Then, when Bob wants to
 send a message, they pick a `g**b`, and send that in addition to their
-message encrypted with `g**(ab)`.
+message encrypted with `g**(ab)`. I believe this public version is
+called **ElGamal encryption**.
 
-But it's very interesting. This is still not *asymmetric*
-encryption. Which means you can't do key signing with it.
+But it's very interesting. This is still not _asymmetric_ encryption.
+Which means you can't do key signing with it. But I've explained in my
+ZKP notes that you can do signatures based on the discrete log problem
+using a non-interactive versus of Schnorr identification.

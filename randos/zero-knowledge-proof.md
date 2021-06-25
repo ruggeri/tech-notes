@@ -171,6 +171,13 @@ is _not_ secure if random oracles don't exist.
   I believe was patented by the government and licensed royalty free.
   - I think Schnorr was not happy because he felt that DSA was just a
     variant of his work.
+  - It is worth noting: since DH can be trivially modified to generate a
+    public key, and because it can also be extended to allow digital
+    signatures (like you've seen here), it isn't obvious that RSA was
+    necessary.
+  - But it appears that while DH was published in 1976, Schnorr only
+    came about in 1991. (ElGamal signature, which is similar, was
+    developed in 1985).
 - This is basically the identification protocol described above. It's
   made non-interactive via the Fiat-Shamir heuristic.
 - That is:
@@ -190,9 +197,6 @@ is _not_ secure if random oracles don't exist.
     have less chance of getting exactly the value you want.
   - That makes it harder to forge. Correspondingly, it makes it faster
     to sign to a given level of security.
-
-ttps://www.cryptologie.net/article/193/schnorrs-signature-and-non-interactive-protocols/. Schnorr's Signature and non-interactive Protocols
-https://en.wikipedia.org/wiki/Schnorr_signature
 
 ## Sources
 
