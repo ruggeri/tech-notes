@@ -161,9 +161,48 @@ black-box function that maps each input to a uniformly sampled output.
 However, it has also been proven (by Goldwasser/Kalai) that Fiat-Shamir
 is _not_ secure if random oracles don't exist.
 
+## Schnorr Signature
+
+- A signature algorithm is used to sign a message.
+- There are many. There's one where you hash the message, then encrypt
+  with the RSA private key. There are Schnorr and ElGamal, which are
+  both based on the discrete log problem. DSA is a standardized variant
+  of both. And ECDSA is just replaces Zmodp with an elliptic curve. DSA
+  I believe was patented by the government and licensed royalty free.
+  - I think Schnorr was not happy because he felt that DSA was just a
+    variant of his work.
+- This is basically the identification protocol described above. It's
+  made non-interactive via the Fiat-Shamir heuristic.
+- That is:
+  - You generate `y = g^x mod p`. You publish `y` as your public key.
+  - You choose `r` and compute `h = g^r`.
+  - They get to challenge. Schnorr allows them to sample `a` and request
+    `z = ax + r`. This is a simple extension of my version above where
+    we restricted `a \in {0, 1}`.
+  - You must respond with either `r` the discrete log of `h`, or $a +
+    r$, the discrete log of the product of `h` and `y`.
+  - This shows you must know `x`.
+- To make this non-interactive via Fiat-Shamir, you make your commitment
+  `r`, and then hash to generate the challenge.
+  - Note that it is convenient to make the challenge any `r mod p`
+    rather than just bit `r \in \setof{0, 1}`.
+  - I believe that this means that for each hash of a commitment, you
+    have less chance of getting exactly the value you want.
+  - That makes it harder to forge. Correspondingly, it makes it faster
+    to sign to a given level of security.
+
+ttps://www.cryptologie.net/article/193/schnorrs-signature-and-non-interactive-protocols/. Schnorr's Signature and non-interactive Protocols
+https://en.wikipedia.org/wiki/Schnorr_signature
+
 ## Sources
 
 - Personal communication: https://mail.google.com/mail/u/0/#inbox/KtbxLzGLkSbsHbrxhrPhzDskndMKpDbQDV
 - Slightly more useful source: https://pdfs.semanticscholar.org/2880/993c1abc110e832422753a5134f8ccf0633b.pdf
 - https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
+  - Second part explains Schnorr.
 - Aaronson also has a helpful discussion in the Quantum Computing book.
+- Wiki pages:
+  - ZKP page is good.
+  - https://en.wikipedia.org/wiki/Schnorr_signature: pretty good! Quite
+    clear.
+  - NIZKP is _total garbage!!_
