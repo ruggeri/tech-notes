@@ -159,7 +159,8 @@ random oracle.
 It is proven that Fiat-Shamir should work if there are random oracles: a
 black-box function that maps each input to a uniformly sampled output.
 However, it has also been proven (by Goldwasser/Kalai) that Fiat-Shamir
-is _not_ secure if random oracles don't exist.
+is _not_ secure if random oracles don't exist. (Source:
+https://eprint.iacr.org/2003/034.pdf).
 
 ## Schnorr Signature
 
@@ -209,4 +210,4 @@ is _not_ secure if random oracles don't exist.
   - ZKP page is good.
   - https://en.wikipedia.org/wiki/Schnorr_signature: pretty good! Quite
     clear.
-  - NIZKP is _total garbage!!_
+  - NIZKP wiki page is _total garbage!!_
