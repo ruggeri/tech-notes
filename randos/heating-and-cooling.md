@@ -51,44 +51,86 @@
 
 # Water Heating
 
-- Storage water heaters heat water and store it in a hot water tank.
-- Typically water is brought to a high temperature, and then it sits in
-  the tank.
-- However, there is leakage of heat from the tank. Then you need to
-  reheat the water.
-- One advantage is that energy can be used at a relatively slow rate to
-  heat the water. It need not instantly heat it.
-- Of course, if the tank is depleted from use, there is no hot water
-  left.
-- Tankless heaters instantly heat water as it flows through. They do not
-  retain any heated water except what is in contact with the heat
+- A traditional way of heating water is to burn gas, heat water, and
+  store it in a large tank for later use.
+  - Alternatively, you can use resistance heating or heat pumps.
+- This means you have a limited quantity of hot water. But you can use
+  it at a high rate until depletion.
+- Tankless heaters use either gas or electric to instantly heat water
+  with a heat exchanger.
+  - Because they must heat rapidly, their instantaneous gas/electric
+    draw can be high.
+  - For electric, you may need to add additional amperage capacity,
+    which can be very expensive!
+- Tankless heaters can continuously provide hot water, but they have a
+  limited gallons per minute flow (based on the size of the heat
+  exchanger).
+  - Basically, tank is better for concurrent hot water usage. Tankless
+    is better for serial usage.
+- Tankless can be more energy efficient because it doesn't need to
+  constantly keep the water in the tank hot. Tank systems will lose
+  heat and waste energy.
+  - On the other hand, tankless must provide high heat instantly.
+    Whereas tanks can heat the tank more slowly, or even at off-peak
+    times.
+  - Still, tankless has efficiency that is at least 80%, rather than at
+    most 60% for tanks.
+- Tankless needs (basic) maintenance to avoid fouling of the heat
   exchanger.
-  - They have unlimited flow of hot water.
-  - They might use less power in that they aren't keeping a tank of
-    water constantly hot.
-  - It appears common for tankless heaters to be run on gas as well.
-- How you generate hot water varies.
-  - Traditionally, gas is burned. But you can also use electric, or even
-    heat pumps.
-  - You can in theory consume electricity to do the heating at times
-    when the electric grid load is low. In this way, hot water tanks are
-    akin to batteries.
-- With tankless, you do have a short delay between turning on and
-  getting hot water.
-  - I think this is maybe not true with tank designs, because the lines
-    to the faucets are constantly hot?
-- I think people say that tankless needs maintenance maybe because the
-  heat exchanger can corrode?
-- People like the tankless design better for shorter lines, or even at
-  the point of use.
-  - But if we're talking electric, you have the same gas/electric
-    tradeoff.
-  - If it's central, then you have the problem where water can take a
-    long time to get hot.
-- It sounds like people say that if a home is in constant use, water
-  tank makes more sense.
-  - Though they do say that tankless can make sense if you are often
-    running out of hot water from multiple serial showers (like in a
-    large family).
-- People say installing electric tankless means higher amperage circuits
-  which means you need to do expensive electrical work.
+- Tankless can have a short delay between turning on and getting hot
+  water.
+  - With tank designs, the lines to the faucets are typically at least
+    warm, from expansion from the hot water heater.
+  - You could see this as waste, or as readily providing hot water.
+  - The further the faucet is from the tank in the house, the longer it
+    takes to start getting hot water from a tank.
+  - So you'll get hot water faster if the tankless heater is close to
+    the point of use.
+- Conclusions
+  - If you have a lot of people in your household who take serial
+    showers, tankless might make sense.
+  - If you have long periods of no-use, then tankless might make sense.
+  - Tankless may make more sense if it can be closer to point of use.
+
+# Central Heating
+
+- You can heat air with a furnace and blow it around the home.
+  - This can be done with electric, a heat pump, or with gas.
+  - With electric resistance heating, you might as well do it right at
+    the location of your heat requirement?
+  - The heat can turn on very fast.
+- Steam heating distributes hot steam in the house. It runs through a
+  radiator, loses heat to the room, and condenses as water. This flows
+  back to the steam boiler.
+  - No one installs steam heat anymore.
+  - I think a major benefit was that you didn't need pumps.
+  - It's apparently sophisticated to run the piping correctly so that
+    the liquid water returns properly.
+  - I think also you have the problem that when only moderate heating is
+    desired, you still have to make steam, which requires a minimum
+    heat level.
+  - You also can't run different rooms at different heat levels.
+- Electric baseboard heating just runs electricity through a resister. I
+  think you get the same efficiency (but lower output) from anything you
+  plug in the wall?
+  - These systems work through convection: the spontaneous distribution
+    of hotter fluid through a medium.
+  - If the heat is not evenly distributed throughout the room, it will
+    not be efficient in that the area close to the heater may get hot,
+    but not impart much heat elsewhere.
+  - There are baseboards that use electricity to heat water or mineral
+    oil. They are supposed to be more energy efficient.
+  - I think the reason is high volume and lower temperature. By having a
+    consistent temperature in a large volume closer to what you want,
+    you heat the air in the room more evenly?
+  - In particular, I think that oil has a higher heat capacity (amount
+    of energy required to change temperature by one degree). Thus a
+    larger thermal mass is heated, and cannot simply blow away like the
+    air in a room.
+- Other hydronic systems have a central boiler and hot water is piped to
+  heaters. I think this is possible nowadays with electricity so that
+  you can have pumps.
+  - You can run the hydronic pipes through the floor. People set the
+    thermostat lower if their feet are warm.
+- I saw that 1MM BTU generation using electric baseboard was $34, versus
+  $14 for an electric heat pump and $7 for gas furnace.
