@@ -70,3 +70,14 @@
   more torque applied to the chainring.
 - So if you are lightweight, weak, or have very short cranks, you should
   be able to violate the minimum input ratio for the hub gear.
+
+# Chain
+
+- The distance between chain pins in standardized to 1/2 inch.
+- However, chains come in different widths between the plates. 1/8"
+  width is common for hub gears.
+- There are various chain speeds. Basically, the higher the chain speed,
+  the narrower the chain is inclusive of the plates. That's because a
+  too-wide chain will rub against the other gears on the rear cog.
+- People say that higher speed chains may be less durable, because they
+  have to be narrower/smaller.
