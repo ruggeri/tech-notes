@@ -47,6 +47,37 @@ Riding the clutch is most common in stop-and-go traffic and in reverse,
 when you want to select a speed below the minimum idle speed of the car
 in the lowest gear.
 
+## How a Clutch Works
+
+You have the crankshaft from the engine, and you want to connect it to
+the input shaft of the transmission.
+
+The interface consists of two nested "baskets." The crankshaft is
+connected to one basket, which sits inside a basket connected to the
+transmission input shaft.
+
+The baskets are splined, so that gears can mate with them. One set of
+gear plates mates with the outside basket, while the other set of gear
+plates mates with the inside basket. The inner and outer mating plates
+alternate.
+
+If pressure is applied to push the plates together, they will want to
+rotate at the same rate, connecting the rotation rate of the crankshaft
+to the transmission input shaft. If no pressure is applied, the two sets
+of clutch plates can rotate at different speeds.
+
+The clutch lever just changes the tension on the clutch plates. By
+pulling the lever in, the clutch springs have their tension released,
+the plates lose contact, and they can rotate separately.
+
+Most motorcycles use a "wet clutch." Here, the transmission is bathed in
+oil circulated from the engine. This helps keep the clutchplates cool,
+even when you are in the friction zone and they are scraping each other.
+Some high-performance bikes use a dry clutch, which can often sound
+rattly. But most bikes have dropped this, because of noise regulations.
+
+Source: https://www.youtube.com/watch?v=mxTSw3d5anE
+
 ## Gearbox: Non-synchronous
 
 So when you move around the gear shift, what is happening? Basically, it
