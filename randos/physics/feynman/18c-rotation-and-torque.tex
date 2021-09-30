@@ -1,65 +1,121 @@
-\subsection{Rotation and Torque}
+\subsection{Rotational Velocity, Momentum, And Inertia}
 
 \begin{enumerate}
-  \item Firstly, we relate \define{angular velocity} $\omega$ and
-  \define{angular acceleration} $\alpha$ to the tangential velocities
-  and accelerations $v, a$. It depends on the distance to the reference
-  axis. If the point is at a distance $r$ from the axis, then then
-  angular velocity is $\omega = \frac{v}{r}$. Likewise $\alpha =
-  \frac{a}{r}$.
+  \item Consider a point-mass moving with velocity $v$ at a distance $r$
+  from a reference axis. We define \define{angular velocity} $\omega$ to
+  be $\omega = \frac{\vtan}{r}$. Note: the point-mass does not need to
+  be moving in a fixed circle about the reference axis for $\omega$ to
+  be definable.
 
-  \item We want to define analogues to $F, M$ that will describe angular
-  acceleration. Since $\alpha = \frac{a}{r}$, we \emph{could} define a
-  concept of \define{rotational force} also called \define{torque} as
-  $\tau = F$. We would have to define the \define{rotational inertia} as
-  $I = rm$.
+  \item Assume $v$ is entirely tangential. Assume $v$ is held constant.
+  If so, the point-mass is at \define{perigee}: the closest it will ever
+  get to the reference axis. As time goes on, $r$ will increase, and $v$
+  will no longer remain purely tangential. The tangential component will
+  decrease (and the radial component will increase).
 
-  \item This would be acceptable if we only wanted to consider a point
-  mass, but we will eventually want to consider multiple torques applied
-  to a composite object at different positions on the object. For
-  instance, consider a for $F$ applied at a distance $r$, and a force
-  $-F$ applied at a distance $\frac{r}{2}$. Consider the work done by a
-  rotation of $\theta$ radians:
+  \item Assume that the point-mass travels to a new position, offset by
+  $\theta$ degrees from its original perigee. The new radius is now $r'
+  = \frac{r}{\cos \theta}$. With some basic geometry (see diagram), we
+  can determine that the new tangential velocity is $v^{\text{TAN}'} = v
+  \cos\theta$.
+
+  \item The new angular velocity is now calculated to be:
 
   \begin{nedqn}
-    W
-  \eqcol
-    Fd_1 - Fd_2
-  \\
-  \eqcol
-    \parens{F r\omega} - \parens{F \frac{r}{2} \omega}
-  \\
-  \eqcol
-    F \frac{r}{2} \omega
+    \omega' = \frac{v \cos \theta}{r'} = v \cos^2 \theta = \omega \cos^2\theta
   \end{nedqn}
 
-  \item That is: work is done by a rotation of $\theta$ radians, thus
-  the object will want to rotate when subjected to these torques. This
-  defies a simple analysis of $F + -F = 0$. So if we want the sum of
-  external torque to say something useful, then we better not define
-  $\tau = F$.
+  \item No forces are present, so this is \emph{unlike} the
+  translational scenario where the velocity of an object does not change
+  unless a force is applied. Here, the angular velocity has changed,
+  even though no force (translational or angular) is applied.
 
-  \item We can see that the amount of work performed is proportional to
-  the sum $\sum_i F_i r_i$. Thus, it will be useful to define $\tau_i =
-  F_i r_i$, and thus $\tau = \sum_i \tau_i$ will be meaningful.
+  \item We can try to save things by introducing an analogue of
+  \emph{momentum}. We know that translational force really changes the
+  translational momentum of an object, not simply its velocity. At
+  normal speeds the distinction is moot, but at relativistic speed it
+  matters.
 
-  \item I want to return to focusing on point-masses for now. I only
-  want to define things at the moment. This exploration has suggested
-  how I should define the torque as $\tau = Fr$.
+  \item Not that relativistic speeds matter in our examples. But it's a
+  good hint.
 
-  \item We should define \define{rotational inertia} as $I = r^2 m$, so
-  that an extra term of $r$ will cancel out the $r$ in the formula $\tau
-  = F r$. By our choice of definitions, for a point mass, we have $\tau
-  = I \alpha$. Naturally, if the torque is maintained for time $t$, then
-  $\tau t = I \Delta \omega$.
+  \item We'll denote \define{angular momentum} as $L$. If this were
+  simply $m\omega$, nothing would be fixed. In our example, we would
+  have $L' = L \cos^2 \theta$.
 
-  \item Corresponding to translational momentum, we may of course define
-  \define{angular momentum} which is $L = I \omega$. We know that $\tau
-  = \fpartial{t} L$. Note that this is simply a definition.
+  \item We need to define an analogue of \emph{translational inertia},
+  which is simply the mass. In this case, we want our \define{rotational
+  inertia} $I$ to be proportional to $r^2$, which will fix-up our
+  problems and leave $L' = L$ when there is no force.
 
-  \item I haven't really said very much in this section. I've just been
-  defining new angular quantities in terms of old translational ones. I
-  made just one clever choice: I defined torque specifically in the
-  hopes that I would be able to aggregate torques in a simple but
-  meaningful way. We'll show more about why in a moment!
+  \item We've shown that if an object starts with a purely tangential
+  velocity, it will not experience a change in angular momentum as it
+  drifts and its velocity deviates from tangential. This implies more
+  generally that \emph{any} drifting body with a constant velocity, even
+  if it is not tangential, will not experience a change in angular
+  momentum. The reason is because we can always draw back to a
+  hypothetical ``starting point'' when the velocity \emph{would have}
+  been tangential.
+
+  \item This is the ``lever arm'' definition of angular momentum, and it
+  is unchanging as a body moves at constant velocity.
+
+  \item Correspondingly, we can simply ignore any radial velocity when
+  we calculate $L = I \frac{\vtan}{r}$. That is: the definition holds
+  even when the velocity is not perfectly perpendicular to the radius.
+\end{enumerate}
+
+\subsection{Torque And Angular Acceleration}
+
+\begin{enumerate}
+  \item Since radial velocity is irrelevant to angular momentum, which
+  is constant, we know likewise that radial acceleration does not change
+  angular momentum. However, we can note that radial acceleration
+  \emph{does} change $\fpartial{t} r$ and thus $\fpartial{t} I$. So the
+  presence of initial radial velocity or continued radial acceleration
+  will affect $\fpartial{t} \omega$.
+
+  \item However, we can note that, if radial acceleration perfectly
+  balances to result in $\fpartial{t} r = 0$, then we must have that
+  $\fpartial{t} \omega = 0$. This is the \define{centripetal force}
+  needed to hold the body in an orbit of radius $r$.
+
+  \item What happens if we begin to apply a tangential force? Let us say
+  that the body is made to undergo a tangential acceleration. If the
+  centripetal force is held constant, then the body will begin to spiral
+  outward.
+
+  \item That would be okay, but let's stay simple for now. Let us say
+  that the centripetal force will respond to any increase in tangential
+  velocity so that the body continues to rotate at radius $r$. Then,
+  force $\Ftan$ implies an instantaneous change in tangential velocity
+  $\atan = \frac{\Ftan}{m}$.
+
+  \item We can represent this as an \define{angular acceleration}
+  $\alpha = \frac{\Ftan}{mr}$.
+
+  \item This works okay, but if we define our ``angular force'' (which
+  wea call \define{torque}) as simply $\tau = \Ftan$, we have a few
+  problems. First, we want $\tau = \fpartial{t} L$, and this does not
+  hold because $I \ne mr$. To fix this, we would need $\tau = \Ftan r$.
+  Then, presuming that the radius $r$ is fixed, we have:
+
+  \begin{nedqn}
+    \tau = I \alpha
+  \end{nedqn}
+
+  \noindent
+  This is the desired analogue to $F = ma$.
+
+  \item Correspondingly, unless we set $\tau = Fr$, note that the work
+  done by a rotation of $\theta$ radians is not $F\theta$, but in fact
+  $F\theta r$.
+
+  \item This matters if we ever hope to analyze the net effect of
+  several torques applied at different points. Imagine equal but
+  opposite forces $F, -F$ applied at two different radii $r,
+  \frac{r}{2}$. Then a rotation by $\theta$ degrees should do work equal
+  to $F \frac{r}{2} \theta$. If the torques are defined as $Fr,
+  -F\frac{r}{2}$, then we can simply sum a total torque $F\frac{r}{2}$
+  and multiply by $\theta$ to get that $\tau \theta$ work is done.
 \end{enumerate}

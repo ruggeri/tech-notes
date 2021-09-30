@@ -1,38 +1,13 @@
 \subsection{Total Rotational Inertia}
 
 \begin{enumerate}
-  \item For a point mass, we've related $L_i$ with $\omega_i$ by
-  defining $L_i = I_i \omega_i$. But we have this synthetic quantity $L
-  = \sum_i L_i$. Does this relate to some ``aggregate'' angular velocity
-  $\omega$ of anything? Is there any corresponding aggregate rotational
-  inertia $I$?
+  \item Now, imagine a body that is constrained to rotate about an axis.
+  This means the velocity of every particle in the body must be
+  perpendicular to its radial distance from the axis. Additionally, the
+  angular velocity of every particle must be an equal $\omega$.
 
-  \item Consider an aggregate object that is rotating with an angular
-  velocity $\omega$. Then each subpart $i$ has angular momentum $L_i =
-  I_i \omega$. The total angular momentum is then:
-
-  \begin{nedqn}
-    L
-  =
-    \sum_i L_i
-  =
-    \parens{\sum_i I_i} \omega
-  \end{nedqn}
-
-  \noindent
-  Thus we are motivated to define $I = \sum_i I_i = \sum_i m_i r_i^2$ as
-  the \define{total rotational inertia} of the object.
-
-  \item We know that the net external torque is equal to the
-  instantaneous change in total angular momentum. Now, a net external
-  torque does not always correspond to pure rotation of the object. For
-  instance, the object may not be rigid, so different parts may
-  experience different angular accelerations $\alpha_i$.
-
-  \item However, we may consider the important case where (1) $m_i, r_i$
-  are fixed and (2) all $\omega_i$ are required to stay equal. This
-  corresponds to the requirement that the object is rigid and
-  constrained to rotate about the axis. In this case, we do have that
+  \item By conservation of angular momentum, we know the total
+  instantaneous change in angular momentum is:
 
   \begin{nedqn}
     \tau
@@ -40,14 +15,48 @@
     \fpartial{t} L
   \\
   \eqcol
-    \fpartial{t} \sum_i L_i
+    \sum_i \fpartial{t} L_i
+    \nedcomment{external only}
+  \end{nedqn}
+
+  \item Consider each point $i$ on the object. We've assumed that $r_i$
+  does not change: that the object must rotate about this axis. (We of
+  course also assume that $m_i$ does not change). And we've even assumed
+  that $\omega_i$ is always equal to a common $\omega$.
+
+  \item Then we have:
+
+  \begin{nedqn}
+    \tau
+  \eqcol
+    \fpartial{t} L
+  \\
+  \eqcol
+    \sum_i \fpartial{t} L_i
+    \nedcomment{external and internal}
   \\
   \eqcol
     \sum_i m_i r_i^2 \fpartial{t} \omega
   \\
   \eqcol
+    \parens{\sum_i m_i r_i^2}
+    \fpartial{t} \omega
+  \\
+  \eqcol
+    \parens{\sum_i I_i}
+    \fpartial{t} \omega
+  \end{nedqn}
+
+  \item Thus, by setting total $I = \sum_i I_i$, we have:
+
+  \begin{nedqn}
+    \tau
+  \eqcol
     I \alpha
   \end{nedqn}
+
+  \noindent
+  for aggregate bodies.
 
   \item Of course, the preceding has assumed that total rotational
   inertia $I$ is constant. But even if net external torque $\tau$ is
@@ -62,4 +71,8 @@
   \item More generally, we may be applying a non-zero torque to a
   system, but not see the expected angular acceleration, provided the
   system is undergoing a simultaneous change in its rotational inertia.
+
+  \item Last, we constrained our body to rotate about a fixed axis. But
+  how do we choose an axis such that the body is constrained to rotate
+  about it?
 \end{enumerate}

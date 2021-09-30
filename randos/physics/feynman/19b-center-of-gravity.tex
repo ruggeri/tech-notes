@@ -1,29 +1,122 @@
 \subsection{Center of Gravity}
 
 \begin{enumerate}
-  \item He asks us to consider an object sitting in a uniform
-  gravitational field. What is the torque about an origin?
+  \item We've shown that the acceleration of the center of mass $\va$ is
+  always exactly equal to $\frac{\vF}{M}$. We've also shown that the
+  instantaneous change in angular momentum $\fpartial{t} L$ is always
+  exactly $\tau$.
+
+  \item We know that rigid motion can be broken down into translation
+  and rotation. Given a set of forces $\vF_i$, we know that we can use
+  our definitions of net external force and net external torque to
+  describe the instantaneous change in angular momentum.
+
+  \item We know that a rigid body can undergo two kinds of motion:
+  translation and rotation. We want to be able to consider these two
+  kinds of motion separately.
+
+  \item As discussed, if we know the net external force $\vF = \sum_i
+  \vF_i$, we know the acceleration of $\vx$. Depending on the set of
+  individual forces $\vF_i$, there may also be some tendency for points
+  on the object to angularly accelerate.
+
+  \item This angular acceleration is of course $\tau = \sum_i \tau_i$.
+  But we can counteract this. Simply apply
+
+  \item We want to break down the dynamic acceleration of a rigid body
+  into translational and rotational accelerations. To cleanly separate
+  these two kinds of acceleration, we want (1) the angular acceleration
+  to effect no change in translational momentum $\vp$ and (2) the
+  translational acceleration to effect no change in angular momentum
+  $L$.
+
+  \item We need to choose a center-point so specify torque and angular
+  momentum. We shall see that the center of mass is the center-point
+  which allows us to cleanly separate total external torque from changes
+  in translational momentum and total external force from changes in
+  angular momentum.
+
+  \item If we choose any other center-point, we will have that a pure
+  angular acceleration accelerates the center of mass. That means there
+  will be a change in translational momentum. On the other hand, if the
+  center of mass is chosen as being the center point, then any
+  rotational acceleration will not accelerate the center point. Thus,
+  there is no change in translational momentum.
+
+  \item We hope that, likewise, pure translational acceleration will not
+  cause a change in angular momentum. I will show tha
+
+
+
+  One thought: angular momentum is
+  actually scalar in two-dimensional space (rotation about a fixed
+  point), but a three-vector in three-dimensional space (pitch, roll,
+  and yaw).
+
+  \item I first discuss two-dimensional space. Take the plane that (1)
+  passes through the center of mass and (2)
+
+  \item We shall see that this happens exactly when we take the
+  reference axis to be through the center of mass. I first note: clearly
+  we must take some point that is not fixed, but will itself accelerate
+  by $\va$ if the body itself is translationally accelerated by $\va$.
+  Otherwise, there is a torque about a fixed point ``off to the side''
+  of the path of the accelerating body.
+
+  \item We can say more than this. We had better consider rotation about
+  the center of mass. Otherwise, if any other point is taken, then pure
+  rotational acceleration about this point will be able to change the
+  velocity of the center of mass. In that case, pure rotational
+  acceleration will cause a change in translational momentum, which we
+  do not want.
+
+  \item As hinted before, when we choose the center of mass as our
+  center-point, we ensure that pure translational acceleration by $\va$
+  does not cause a change in angular momentum.
+
+  \item That is: if we choose the center of mass as our axis of
+  rotation, we are assured that rotational acceleration $\alpha$ will
+  not change translational momentum $\vp$.
+
+  \item If the body is rigid, then the distance $\vr_i$ from the center
+  of mass cannot change. In that case $\alpha = \frac{\tau}{I}$.
+
+  \item Consider an object that is experiencing a uniform translational
+  acceleration. That is, $\va_i$ is constant everywhere. We denote this
+  $\va$. The force at each subpart $i$ is $\vF_i = m_i \va$.
+
+  \item I claim that there is a special point about which the torque is
+  exactly zero. Even about this special point, we cannot say that
+  $\tau_i = F_i r_i$, because $\vF_i$ will not typically perpendicular to
+  $\vr_i$.
+
+  \item To find $\tau_i$, we can use our lever-arm rule. Since all
+  $\vF_i$ are parallel, we can project $\vr_i$ onto any plane
+  perpendicular to the $\vF_i$. Once we do this, we are taking a sum:
 
   \begin{nedqn}
     \tau
   \eqcol
-    \sum_i m_i g \vx_i
+    \sum_i \vF_i \vr'_i
   \\
   \eqcol
-    g \sum_i m_i \vx_i
+    \sum_i m_i a \vr'_i
+  \\
+  \eqcol
+    a \sum_i m_i \vr'_i
   \end{nedqn}
 
-  \noindent
-  Feynman notes that the torque will be zero if the origin is chosen to
-  be the center of mass, since $\sum_i  m_i \vx_i$ is the location of
-  the center of mass. If the origin is the CoM, then this is defined to
-  be zero.
+  But now we know that this is the projection of the center of mass into
+  the plane. In particular, we can just choose the plane to be
+  \emph{through} the center of mass, in which case the torque will be
+  zero here.
 
-  \item This is why \define{center of gravity} is sometimes used
-  somewhat interchangeably with center of mass. But CoG is not always
-  exactly at the CoM if the gravity does not pull uniformly on the
-  object. But the approximation that the two are equal is good at
-  non-planetary scales.
+  \item It is common that $a$ might be acceleration due to gravity, in
+  which case we denote it $g$. This is why we sometimes use the term
+  \define{center of gravity} is sometimes used somewhat interchangeably
+  with center of mass. But CoG is not always exactly at the CoM if the
+  gravity does not pull uniformly on the object. Still, the
+  approximation that the two are equal is good at non-planetary scales.
 
   \item He very quickly finishes with the statement that, if the axis is
   taken through the center of mass, the torque is equal to the
