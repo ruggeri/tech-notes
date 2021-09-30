@@ -34,14 +34,12 @@
   \emph{momentum}. We know that translational force really changes the
   translational momentum of an object, not simply its velocity. At
   normal speeds the distinction is moot, but at relativistic speed it
-  matters.
+  matters. We won't be considering relativistic speeds in our discussion
+  of angular motion, but this is a good hint.
 
-  \item Not that relativistic speeds matter in our examples. But it's a
-  good hint.
-
-  \item We'll denote \define{angular momentum} as $L$. If this were
-  simply $m\omega$, nothing would be fixed. In our example, we would
-  have $L' = L \cos^2 \theta$.
+  \item We'll define \define{angular momentum}, which we denote as $L$.
+  If this were simply $m\omega$, nothing would be fixed. In our example,
+  we would have $L' = L \cos^2 \theta$.
 
   \item We need to define an analogue of \emph{translational inertia},
   which is simply the mass. In this case, we want our \define{rotational
@@ -59,31 +57,53 @@
 
   \item This is the ``lever arm'' definition of angular momentum, and it
   is unchanging as a body moves at constant velocity.
+\end{enumerate}
 
-  \item Correspondingly, we can simply ignore any radial velocity when
-  we calculate $L = I \frac{\vtan}{r}$. That is: the definition holds
-  even when the velocity is not perfectly perpendicular to the radius.
+\subsection{Radial Velocity And Acceleration}
+
+\begin{enumerate}
+  \item As we've seen, angular momentum is defined as $L = I \omega$.
+  $\omega = \frac{\vtan}{r}$ doesn't care about any radial velocity. So
+  angular momentum is independent of radial velocity. Or, for that
+  matter, radial acceleration.
+
+  \item However, we can note that differences in radial velocity do
+  change $\fpartial{t} r$ and thus $\fpartial{t} I$. So the presence of
+  initial radial velocity will affect $\fpartial{t} \omega$.
+
+  \item Likewise, radial acceleration can affect $\fpartialsq{t} r,
+  \fpartialsq{t} I$.
+
+  \item Let's consider the special case when radial acceleration
+  perfectly balances to result in $\fpartial{t} r = 0$. This means that
+  a \define{centripetal force} is forcing the object to rotate in a
+  circle about the axis.
+
+  \item We do not expect $L$ to change in this scenario, because the
+  acceleration is always radial, and we said that radial velocity and
+  acceleration do not affect $L$.
+
+  \item We can verify that $\fpartial{t} L = 0$ by examining
+  $\fpartial{t} \omega$. This is $\fpartial{t} \frac{\vtan}{r}$. This is
+  a derivative of a ratio of two quantities. We already said that
+  $\fpartial{t} r = 0$, so we need only concentrate on $\fpartial{t}
+  \vtan$. This is of course zero, because the force is directly and
+  always oriented at a right angle to $\vtan$.
+
+  \item My goal here has been to build intuition that radial forces do
+  not change angular momentum, though we do notice that radial forces
+  \emph{do} change the radial distance and correspondingly the angular
+  velocity.
 \end{enumerate}
 
 \subsection{Torque And Angular Acceleration}
 
 \begin{enumerate}
-  \item Since radial velocity is irrelevant to angular momentum, which
-  is constant, we know likewise that radial acceleration does not change
-  angular momentum. However, we can note that radial acceleration
-  \emph{does} change $\fpartial{t} r$ and thus $\fpartial{t} I$. So the
-  presence of initial radial velocity or continued radial acceleration
-  will affect $\fpartial{t} \omega$.
 
-  \item However, we can note that, if radial acceleration perfectly
-  balances to result in $\fpartial{t} r = 0$, then we must have that
-  $\fpartial{t} \omega = 0$. This is the \define{centripetal force}
-  needed to hold the body in an orbit of radius $r$.
-
-  \item What happens if we begin to apply a tangential force? Let us say
-  that the body is made to undergo a tangential acceleration. If the
-  centripetal force is held constant, then the body will begin to spiral
-  outward.
+  \item What happens if we begin to apply a \emph{tangential} force? Let
+  us say that the body is made to undergo a tangential acceleration. If
+  the centripetal force is held constant, then the body will begin to
+  spiral outward.
 
   \item That would be okay, but let's stay simple for now. Let us say
   that the centripetal force will respond to any increase in tangential
@@ -92,30 +112,78 @@
   $\atan = \frac{\Ftan}{m}$.
 
   \item We can represent this as an \define{angular acceleration}
-  $\alpha = \frac{\Ftan}{mr}$.
+  $\alpha = \frac{\Ftan}{mr}$. This angular acceleration is actually
+  realized, because $r$ is being held fixed.
 
-  \item This works okay, but if we define our ``angular force'' (which
-  wea call \define{torque}) as simply $\tau = \Ftan$, we have a few
-  problems. First, we want $\tau = \fpartial{t} L$, and this does not
-  hold because $I \ne mr$. To fix this, we would need $\tau = \Ftan r$.
-  Then, presuming that the radius $r$ is fixed, we have:
+  \item We are very close to defining the angular analogue $\tau$ of
+  translation force. But simply setting $\tau = F$ will not be very
+  nice.
+
+  \item Just as $F = \fpartial{t} p$, it would be nice if analogously we
+  have $\tau = \fpartial{t} L$. That is: we want our twisting force to
+  relate to angular momentum exactly as translation force related to
+  translational momentum.
+
+  \item Secondly, we would like our twisting analogue of force to have
+  the same relationship to \emph{work} that force does. We know that $W
+  = Fd$. We want $W = \tau \theta$.
+
+  \item The fix in both cases is the same: we want to set $\tau = Fr$.
+
+  \item This is simply proved if we hold $r$ constant. Then:
 
   \begin{nedqn}
-    \tau = I \alpha
+    \tau \theta
+  \eqcol
+    \Ftan r \theta = \Ftan d = W
+  \intertext{Likewise}
+    \tau
+  \eqcol
+    \Ftan r = \parens{m\atan} r = mr \fpartial{t} \vtan = mr \fpartial{t} r\omega
+  \\
+  \eqcol
+    \fpartial{t} m r^2 \omega = \fpartial{t} I \omega = \fpartial{t} L
+  \end{nedqn}
+
+  \item This is nice. All the angular quantities have the appropriate
+  relationship to the others. Also, note that, if $r$ is held constant,
+  we have:
+
+  \begin{nedqn}
+    \tau
+  \eqcol
+    I \fpartial{t} = I \alpha
   \end{nedqn}
 
   \noindent
-  This is the desired analogue to $F = ma$.
+  Here we use $\alpha$ to denote \define{angular acceleration}. Note
+  that we have achieved the desired analogue of $F=ma$.
 
-  \item Correspondingly, unless we set $\tau = Fr$, note that the work
-  done by a rotation of $\theta$ radians is not $F\theta$, but in fact
-  $F\theta r$.
+  \item This definition is convenient when considering the aggregate
+  effect of many torques $\tau_i$. You may ask: how much total work is
+  done by the various torques when we perform a rotation by $\theta$
+  rad? One way to calculate is $W = \sum_i \tau_i \theta$.
 
-  \item This matters if we ever hope to analyze the net effect of
-  several torques applied at different points. Imagine equal but
-  opposite forces $F, -F$ applied at two different radii $r,
-  \frac{r}{2}$. Then a rotation by $\theta$ degrees should do work equal
-  to $F \frac{r}{2} \theta$. If the torques are defined as $Fr,
-  -F\frac{r}{2}$, then we can simply sum a total torque $F\frac{r}{2}$
-  and multiply by $\theta$ to get that $\tau \theta$ work is done.
+  \item But if we do not know the individual $\tau_i$, but only their
+  aggregate, $\tau = \sum_i \tau_i$, we will still be able to calculate
+  the total work performed. It is simply $\tau \theta$. Again, this is
+  analogous to force.
+
+  \item This matters when the torques are applied at different radii.
+  Imagine equal but opposite forces $F, -F$ applied at two different
+  radii $r, \frac{r}{2}$. Then a rotation by $\theta$ degrees should do
+  work equal to $F \frac{r}{2} \theta$. If the torques are defined as
+  $Fr, -F\frac{r}{2}$, then we can simply sum a total torque
+  $F\frac{r}{2}$ and multiply by $\theta$ to get that $\tau \theta$ work
+  is done. Whereas if we were considering the total force, we see that
+  this is zero.
+
+  \item In this section, I have always assumed that $r$ is held constant
+  by an always appropriate centripetal force. However, this doesn't need
+  to be assumed at all. We know that a centripetal force is irrelevant
+  with regard to angular momentum. Thus we will \emph{still} have $\tau
+  = \fpartial{t} L$. Note: if $\tau$ is applied for $t$ seconds, while
+  $r$ is allowed to vary, we have $\Delta L = \tau t$. But note that
+  since $r$ is changing, the tangential force $\Ftan$ may need to vary
+  over time to maintain the same $\tau$.
 \end{enumerate}
