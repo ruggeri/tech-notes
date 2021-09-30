@@ -1,10 +1,18 @@
 \subsection{Total Rotational Inertia}
 
 \begin{enumerate}
-  \item Now, imagine a body that is constrained to rotate about an axis.
-  This means the velocity of every particle in the body must be
-  perpendicular to its radial distance from the axis. Additionally, the
-  angular velocity of every particle must be an equal $\omega$.
+  \item This section simply puts together what we know about (1) the
+  relationship between torque and angular acceleration of a point mass
+  when radius $r$ is fixed and (2) the conservation of angular momentum
+  in a complex system.
+
+  \item Imagine a body that is constrained to rotate about an axis. This
+  means the velocity of every particle in the body must be perpendicular
+  to its radial distance from the axis. Additionally, the angular
+  velocity of every particle must be an equal $\omega$.
+
+  \item The second property defines \define{rigid bodies}, where the
+  distances of the various constituents $i$ are not allowed to vary.
 
   \item By conservation of angular momentum, we know the total
   instantaneous change in angular momentum is:
@@ -56,11 +64,15 @@
   \end{nedqn}
 
   \noindent
-  for aggregate bodies.
+  for aggregate bodies. This aggregate $I$ is often called the
+  \define{moment of inertia}.
 
   \item Of course, the preceding has assumed that total rotational
-  inertia $I$ is constant. But even if net external torque $\tau$ is
-  zero, $\alpha$ might be non-zero if $\fpartial{t} I$ is non-zero.
+  inertia $I$ is constant. If $I$ is allowed to vary, then it may be
+  that $\alpha \ne 0$ even when $\tau = 0$. For instance, this would
+  happen if $\fpartial{t} I < 0$. Angular momentum would be conserved,
+  as the decrease in rotational inertia is exactly offset by an increase
+  in angular velocity.
 
   \item This is what happens when a figure skater moves their leg from
   outside to inside, reducing their rotational inertia. Their angular
@@ -71,8 +83,19 @@
   \item More generally, we may be applying a non-zero torque to a
   system, but not see the expected angular acceleration, provided the
   system is undergoing a simultaneous change in its rotational inertia.
+\end{enumerate}
 
-  \item Last, we constrained our body to rotate about a fixed axis. But
-  how do we choose an axis such that the body is constrained to rotate
-  about it?
+\subsection{Future Explorations}
+
+\begin{enumerate}
+  \item We have examined an aggregate body where (1) subparts are
+  required to rotate about a fixed axis, and (2) subparts must all
+  rotate by an equal amount $\theta$.
+
+  \item The second requirement is tied to the property of rigid bodies:
+  that all subparts must stay at a fixed distance to each other.
+
+  \item The first part seems somewhat arbitrary. Why should we not allow
+  the object to simply translate away? We will address this in the next
+  section by specifying a very particular and special axis of rotation.
 \end{enumerate}
