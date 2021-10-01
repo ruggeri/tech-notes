@@ -1,135 +1,87 @@
 \subsection{Center of Gravity}
 
 \begin{enumerate}
-  \item We've shown that the acceleration of the center of mass $\va$ is
-  always exactly equal to $\frac{\vF}{M}$. We've also shown that the
-  instantaneous change in angular momentum $\fpartial{t} L$ is always
-  exactly $\tau$.
+  \item Feynman now notes that the center of mass is also often called
+  the \define{center of gravity}. Imagine an object is in a uniform
+  gravitational field. We will ``support'' the object at a point. This
+  point is not allowed to be translated. That means that the object can
+  \emph{only} rotate about this point.
 
-  \item We know that rigid motion can be broken down into translation
-  and rotation. Given a set of forces $\vF_i$, we know that we can use
-  our definitions of net external force and net external torque to
-  describe the instantaneous change in angular momentum.
+  \item How can an object be constrained so that this point doesn't
+  move/accelerate? We could assume that, whatever acceleration this
+  point would experience, we will apply a uniform acceleration/force at
+  every point in the body. This exactly counteracts the acceleration of
+  our supported point.
 
-  \item We know that a rigid body can undergo two kinds of motion:
-  translation and rotation. We want to be able to consider these two
-  kinds of motion separately.
+  \item Thus, the only movement can be rotation about the point. Will
+  the object rotate? It depends on the total torque about this point.
+  Only if it is zero will the object balance.
 
-  \item As discussed, if we know the net external force $\vF = \sum_i
-  \vF_i$, we know the acceleration of $\vx$. Depending on the set of
-  individual forces $\vF_i$, there may also be some tendency for points
-  on the object to angularly accelerate.
-
-  \item This angular acceleration is of course $\tau = \sum_i \tau_i$.
-  But we can counteract this. Simply apply
-
-  \item We want to break down the dynamic acceleration of a rigid body
-  into translational and rotational accelerations. To cleanly separate
-  these two kinds of acceleration, we want (1) the angular acceleration
-  to effect no change in translational momentum $\vp$ and (2) the
-  translational acceleration to effect no change in angular momentum
-  $L$.
-
-  \item We need to choose a center-point so specify torque and angular
-  momentum. We shall see that the center of mass is the center-point
-  which allows us to cleanly separate total external torque from changes
-  in translational momentum and total external force from changes in
-  angular momentum.
-
-  \item If we choose any other center-point, we will have that a pure
-  angular acceleration accelerates the center of mass. That means there
-  will be a change in translational momentum. On the other hand, if the
-  center of mass is chosen as being the center point, then any
-  rotational acceleration will not accelerate the center point. Thus,
-  there is no change in translational momentum.
-
-  \item We hope that, likewise, pure translational acceleration will not
-  cause a change in angular momentum. I will show tha
-
-
-
-  One thought: angular momentum is
-  actually scalar in two-dimensional space (rotation about a fixed
-  point), but a three-vector in three-dimensional space (pitch, roll,
-  and yaw).
-
-  \item I first discuss two-dimensional space. Take the plane that (1)
-  passes through the center of mass and (2)
-
-  \item We shall see that this happens exactly when we take the
-  reference axis to be through the center of mass. I first note: clearly
-  we must take some point that is not fixed, but will itself accelerate
-  by $\va$ if the body itself is translationally accelerated by $\va$.
-  Otherwise, there is a torque about a fixed point ``off to the side''
-  of the path of the accelerating body.
-
-  \item We can say more than this. We had better consider rotation about
-  the center of mass. Otherwise, if any other point is taken, then pure
-  rotational acceleration about this point will be able to change the
-  velocity of the center of mass. In that case, pure rotational
-  acceleration will cause a change in translational momentum, which we
-  do not want.
-
-  \item As hinted before, when we choose the center of mass as our
-  center-point, we ensure that pure translational acceleration by $\va$
-  does not cause a change in angular momentum.
-
-  \item That is: if we choose the center of mass as our axis of
-  rotation, we are assured that rotational acceleration $\alpha$ will
-  not change translational momentum $\vp$.
-
-  \item If the body is rigid, then the distance $\vr_i$ from the center
-  of mass cannot change. In that case $\alpha = \frac{\tau}{I}$.
-
-  \item Consider an object that is experiencing a uniform translational
-  acceleration. That is, $\va_i$ is constant everywhere. We denote this
-  $\va$. The force at each subpart $i$ is $\vF_i = m_i \va$.
-
-  \item I claim that there is a special point about which the torque is
-  exactly zero. Even about this special point, we cannot say that
-  $\tau_i = F_i r_i$, because $\vF_i$ will not typically perpendicular to
-  $\vr_i$.
-
-  \item To find $\tau_i$, we can use our lever-arm rule. Since all
-  $\vF_i$ are parallel, we can project $\vr_i$ onto any plane
-  perpendicular to the $\vF_i$. Once we do this, we are taking a sum:
+  \item So what is the total torque? It is
 
   \begin{nedqn}
     \tau
   \eqcol
-    \sum_i \vF_i \vr'_i
-  \\
-  \eqcol
-    \sum_i m_i a \vr'_i
-  \\
-  \eqcol
-    a \sum_i m_i \vr'_i
+    \sum_i \tau_i
+  =
+    \sum_i m_i g r_i
+  =
+    g \sum_i m_i r_i
   \end{nedqn}
 
-  But now we know that this is the projection of the center of mass into
-  the plane. In particular, we can just choose the plane to be
-  \emph{through} the center of mass, in which case the torque will be
-  zero here.
+  \item Note that if and only if we choose the center of mass as the
+  balance, then the net torque will sum out to zero.
 
-  \item It is common that $a$ might be acceleration due to gravity, in
-  which case we denote it $g$. This is why we sometimes use the term
-  \define{center of gravity} is sometimes used somewhat interchangeably
-  with center of mass. But CoG is not always exactly at the CoM if the
-  gravity does not pull uniformly on the object. Still, the
-  approximation that the two are equal is good at non-planetary scales.
+  \item I did neglect to address one part. We should not just use the
+  $\tau_i$ that come from the gravitational field. We should \emph{also}
+  add in the force necessary to fix the balance point. Note that exactly
+  when we select the center of gravity as the balance point, a uniform
+  force throughout the object has zero torque.
+\end{enumerate}
 
-  \item He very quickly finishes with the statement that, if the axis is
-  taken through the center of mass, the torque is equal to the
-  instantaneous change in angular momentum \emph{even if the center of
-  mass is undergoing accelerations}.
+\subsection{Center Of Mass As Conventional Axis Of Rotation}
 
-  He says this quickly, but I think his point is: if every point on the
-  object is undergoing a uniform acceleration, there will still be no
-  torque on the object. That is: there will be no change in the angular
-  momentum (about the CoM), and there will be no change in our
-  calculation of the torque.
+\begin{enumerate}
+  \item We want to decompose the motion of a rigid body into translation
+  and rotation.
 
-  \item I feel like my ``proof'' here is a little less than ironclad.
-  But I do feel like I understand it intuitively and well enough. I wish
-  to declare victory and move on.
+  \item The acceleration of every point on the object will be broken
+  into two parts: (1) a constant translational acceleration and (2)
+  a constant angular acceleration.
+
+  \item The axis of the rotation is a special point which will
+  \emph{only} undergo translational acceleration, since the (2) angular
+  acceleration will have no effect.
+
+  \item There is a point whose acceleration is uniquely easy to
+  calculate: the center of mass's. Thus we will use the center of mass
+  as our axis of rotation. Thus the translational acceleration will be
+  very simple to calculate.
+
+  \item We must now calculate the torque about the center of mass. If
+  the net force is $\vF$, we can imagine a counteracting force of
+  magnitude $\frac{\vF}{M}m_i$ at each point $i$. This exactly
+  counteracts the net force $\vF$, so the center of mass will stay
+  fixed.
+
+  \item Also, this force has no net-torque. Thus the net torque remains
+  $\tau = \sum_i \tau_i$. The instantaneous change in angular momentum
+  about the center of mass will remain the same after applying the
+  fixing force.
+
+  \item Thus we have shown that we can decompose the total motion
+  easily: (1) a translational part found by assuming that all the mass
+  and all the forces lies/act at the center of mass, and (2) the
+  rotational component found by simply assuming that there is no net
+  force on the object (even if that is not true).
+
+  \item This is a more general version of the center-of-gravity story I
+  told above. It is also a more ironclad proof.
+
+  \item Note that this did \emph{not} assume a rigid body. I \emph{do}
+  allow for non-rigid internal motion of the object. This will not
+  affect the argument that instantaneous change in angular momentum will
+  still be equal to the total torque about the center of mass. Of
+  course, the angular acceleration may no longer be proportional to the
+  torque, if the moment of inertia is allowed to change.
 \end{enumerate}
