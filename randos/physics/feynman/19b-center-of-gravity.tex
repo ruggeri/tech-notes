@@ -7,17 +7,18 @@
   point is not allowed to be translated. That means that the object can
   \emph{only} rotate about this point.
 
-  \item How can an object be constrained so that this point doesn't
-  move/accelerate? We could assume that, whatever acceleration this
-  point would experience, we will apply a uniform acceleration/force at
-  every point in the body. This exactly counteracts the acceleration of
-  our supported point.
+  \item Let's set aside momentarily \emph{how} we could support the
+  object at a point. We will simply assume that this point is
+  constrained so it does not move, and that only rotation about this
+  point is allowed.
 
-  \item Thus, the only movement can be rotation about the point. Will
-  the object rotate? It depends on the total torque about this point.
-  Only if it is zero will the object balance.
+  \item In that case, will the object rotate? Assuming the object is a
+  rigid body, it will rotate if and only if there is a total torque
+  about the support point. It will not rotate if and only if total
+  torque is zero.
 
-  \item So what is the total torque? It is
+  \item Let's calculate the torque. Assume we've chosen an axis and
+  calculated all the various radial distances $r_i$.
 
   \begin{nedqn}
     \tau
@@ -29,14 +30,34 @@
     g \sum_i m_i r_i
   \end{nedqn}
 
-  \item Note that if and only if we choose the center of mass as the
-  balance, then the net torque will sum out to zero.
+  \item Note that that the torque $\tau_i$ is proportional to the mass
+  of the subpart $i$ and the radial distance $r_i$. The center of mass
+  is the exact point defined to balance these terms. Thus the total
+  torque is exactly zero if and only if we choose the center of gravity
+  as the balance point. Thus, provided the balance point is fixed, the
+  center of mass is also the center of gravity.
 
-  \item I did neglect to address one part. We should not just use the
-  $\tau_i$ that come from the gravitational field. We should \emph{also}
-  add in the force necessary to fix the balance point. Note that exactly
-  when we select the center of gravity as the balance point, a uniform
-  force throughout the object has zero torque.
+  \item Now we need to figure out how to fix the balance point.
+  Hopefully we will do it in a way that does not affect the total
+  torque. If we can do this, our calculation of the CoM as a point about
+  which there is zero torque will still be valid.
+
+  \item If the CoM wants to accelerate by $\va$, we could imagine apply
+  a force $\vF_i = -\va m_i$ at every subpart $i$. This results in a net
+  force of $\vF$, changing the acceleration of the CoM by $-\va =
+  \frac{\vF}{M}$.
+
+  \item Note that while this new imaginary force fixes the CoM, it has a
+  net-zero torque about the CoM. So our prior calculation of total
+  torque remains unaffected.
+
+  \item Note that I could also have simply demanded a force of $\vF =
+  -\va M$ be applied directly at the CoM. Presumably \emph{internal}
+  forces would develop to cause a uniform deceleration of the rigid
+  object by $-\va$. Of course, torque would continue to be conserved.
+
+  \item \TODO{It might be nice to consider what happens if you try to
+  support by a point \emph{other} than the CoM}
 \end{enumerate}
 
 \subsection{Center Of Mass As Conventional Axis Of Rotation}
@@ -84,12 +105,41 @@
   still be equal to the total torque about the center of mass. Of
   course, the angular acceleration may no longer be proportional to the
   torque, if the moment of inertia is allowed to change.
+\end{enumerate}
 
-  \item I think that you can use \emph{any} accelerating reference axis,
-  and still calculate the total torque. It's just that you will have to
-  do a ``fix-up'' based on the torque implied by the fictitious force
-  that fixes the axis. Once you do that fix-up, you can still go ahead
-  and use the fixed torque and know it will equal the instantaneous
-  change in angular momentum of the system. It's just annoying to do
-  this, and much more convenient to use the center of mass!
+\subsection{Can You Use Another Axis?}
+
+\begin{enumerate}
+  \item I think that you can use \emph{any} accelerating reference axis
+  to decompose motion into translation and rotation. Simply, other axes
+  are annoying for calculation purposes. First, you will have to
+  calculate the acceleration of your reference point, which will be
+  annoying if you do not choose CoM.
+
+  \item The CoM is convenient because you can ignore internal forces. If
+  you choose an axis that is sensitive to internal forces (any non-CoM
+  fixed point on the body, for instance), you will have a lot of
+  trouble.
+
+  \item You should now be able to calculate torque about your chosen
+  axis. However, this torque must be ``fixed-up'' by applying
+  fictitious forces that fix the axis.
+
+  \item Again, you will have a lot of pain if you have chosen an axis
+  that is sensitive to internal forces. You cannot simply apply a force
+  $\vF = -\va m_i$ everywhere and assume that this uniformly decelerates
+  the entire body by $-\va$.
+
+  \item Likewise, even if you apply $\vF = -\va M$ directly at your
+  chosen axis, of course internal forces might develop that imply that
+  your axis is not in fact decelerated by exactly $-\va$.
+
+  \item Once you have found your fixing forces, you'll have to calculate
+  the torque ``fix-up.'' We saw that this is zero if you chose the CoM.
+  But of course it won't be if you choose any other axis.
+
+  \item Thus we see that a distant second-best axis is one that is a
+  fixed offset from the CoM. This will allow you to easily calculate its
+  acceleration in the usual way, as well as the fixing force. You only
+  have to do the torque fix-up, which should be easy to calculate.
 \end{enumerate}
