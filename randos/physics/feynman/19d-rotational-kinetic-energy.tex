@@ -1,9 +1,9 @@
 \subsection{Rotational Kinetic Energy}
 
 \begin{enumerate}
-  \item We can ask: what is the rotational kinetic energy of an object?
-  That is, what is the rotational kinetic energy of an object moving at
-  speed $\omega$? Well, we know that:
+  \item We can ask: what is the rotational kinetic energy of a point
+  mass? That is, what is the rotational kinetic energy of an point mass
+  moving at speed $\omega$? Well, we know that:
 
   \begin{nedqn}
     \text{KE}
@@ -16,6 +16,77 @@
   \eqcol
     \half I \omega^2
   \end{nedqn}
+
+  \item Note that this is invariant with respect to origin, because $I$
+  will scale appropriately to offset changes in $\omega^2$.
+
+  \item We can generalize this further to break down the kinetic energy
+  of a rigid body into two parts. Presume that a body is rotating with
+  angular velocity $\vomega$ about its CoM $\vx_\CoM$. WLOG, assume that
+  $\vx_\CoM = 0$. We allow that the CoM has velocity $\vv_\CoM$. Then:
+
+  \begin{nedqn}
+    \text{KE}
+  \eqcol
+    \sum_i \half m_i \normsq{\vv_i}
+  \\
+  \eqcol
+    \sum_i \half m_i \normsq{\vomega \cross \vx_i + \vv_\CoM}
+  \\
+  \eqcol
+    \sum_i
+      \half m_i
+      \parens{\vomega \cross \vx_i + \vv_\CoM} \cdot
+      \parens{\vomega \cross \vx_i + \vv_\CoM}
+  \\
+  \eqcol
+    \sum_i
+    \half m_i
+    \parens{
+      \normsq{\vomega}\normsq{\vx_i}
+      + 2 \parens{\vomega \cross \vx_i} \cdot \vv_\CoM
+      + \normsq{\vv_\CoM}
+    }
+  \\
+  \eqcol
+    \parens{
+      \sum_i \half m_i \normsq{\vx_i} \normsq{\vomega}
+    }
+    + \parens{
+      \sum_i m_i \parens{\vomega \cross \vx_i} \cdot \vv_\CoM
+    }
+    + \parens {
+      \sum_i \half m_i \normsq{\vv_\CoM}
+    }
+  \intertext{
+    We show in a moment why, but the second term can be eliminated:
+  }
+  \eqcol
+    \half I_\CoM \normsq{\vomega} + \half M \normsq{\vv_\CoM}
+  \\
+  \eqcol
+    \text{KE}_\text{rotational} + \text{KE}_\text{translational}
+  \end{nedqn}
+
+  \noindent
+  And now I show the elimination of the second term:
+
+  \begin{nedqn}
+    \sum_i m_i \parens{\vomega \cross \vx_i} \cdot \vv_\CoM
+  \eqcol
+    \parens{
+      \vomega \cross \parens{\sum_i m_i \vx_i}
+    } \cdot \vv_\CoM
+  \\
+  \eqcol
+    \parens{\vomega \cross \vec{0}} \cdot \vv_\CoM
+  \\
+  \eqcol
+    \vec{0}
+  \end{nedqn}
+
+  \item As ever, this breakdown will only be clean by choosing to
+  consider rotation about the center of mass.
 
   \item Consider again the skater who moves their leg inward as they
   spin. We know their angular momentum has been conserved, but that
