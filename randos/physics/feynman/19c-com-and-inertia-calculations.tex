@@ -1,3 +1,5 @@
+\newcommand{\cross}{\times}
+
 \subsection{Tips and Tricks For CoM and Inertia Calculations}
 
 \begin{enumerate}
@@ -31,32 +33,363 @@
 
   \item He does a similar calculation and computes that swinging about
   the CoM is $\frac{L^2M}{12}$
+\end{enumerate}
 
-  \item He next develops the \define{parallel-axis theorem}. He asks us
-  to consider swinging a rod about an axis. Reduce the rod to simply a
-  point mass at its CoM. Then the inertia about the axis is $M
-  x_\text{CM}^2$. But when we rotate the rod, we not only rotate the
-  CoM, but also rotate \emph{about} the CoM. Thus we should also correct
-  by $I_C = \sum_i m_i x_i^2$, the inertia about the center of mass
-  (moment-of-inertia).
+\subsection{Parallel Axis Theorem}
 
-  \item He proves this like so: let $x_i = x_i' + x_\text{CM}$
-  ($x_\text{CM}$ is the location of the center of mass). Then:
+\newcommand{\CoM}{\text{CoM}}
+
+\begin{enumerate}
+  \item Consider rotating a body not about its center of mass, but some
+  other, parallel axis. We may ask: what is the rotational inertia of
+  the body, when considered about this axis.
+
+  \item We know that $I = \sum_i \normsq{\vx_i} m_i$, where $\vx_i$ is
+  the position relative of particle $i$ to the axis.
+
+  \item We would like to break down the motion into \emph{two} kinds of
+  rotation: rotation of the center of mass about the reference axis, and
+  rotation of the body about the center of mass.
+
+  \item We'll write $\vy_i = \vx_i - \vx_\CoM$, and see what happens
+  when we apply this substitution for our rotational inertia equation.
 
   \begin{nedqn}
-    x_i^2
+    I
   \eqcol
-    x_i'^2 + 2 x_i' x_\text{CM} + x_\text{CM}^2
+    \sum_i \normsq{\vx_i} m_i
+  \\
+  \eqcol
+    \sum_i \normsq{\vy_i + \vx_\CoM} m_i
+  \\
+  \eqcol
+    \sum_i
+    \normsq{\vy_i} m_i
+    + 2 \vy_i \cdot \vx_\CoM m_i
+    + \normsq{\vx_\CoM} m_i
+  \intertext{
+    the middle term is zero, because the CoM is the mass-weighted center
+    of the body, thus
+  }
+  \\
+    I
+  \eqcol
+    \sum_i \normsq{\vy_i} m_i
+    + \normsq{\vx_\CoM} m_i
+  \\
+  \eqcol
+    I_\CoM + \normsq{\vx_\CoM} M
+  \end{nedqn}
+
+  \item I will prove a similar theorem about torque. Here, I will use a
+  vectorized version of torque: $\vtau_i = \vx_i \cross \vF_i$. Then:
+
+  \begin{nedqn}
+    \vtau
+  \eqcol
+    \sum_i \vtau_i
+  \\
+  \eqcol
+    \sum_i \vx_i \cross \vF_i
+  \\
+  \eqcol
+    \sum_i \parens{\vy_i + \vx_\CoM} \cross \vF_i
+  \\
+  \eqcol
+    \parens{\sum_i \vy_i \cross \vF_i}
+    + \parens{\sum_i \vx_\CoM \cross \vF_i}
+  \\
+  \eqcol
+    \vtau_\CoM + \vx_\CoM \cross \vF
+  \end{nedqn}
+
+  \item Here is a similar proof breaking down angular momentum:
+
+  \begin{nedqn}
+    \vL
+  \eqcol
+    \sum_i \vx_i \cross \vp_i
+  \\
+  \eqcol
+    \sum_i \vx_i \cross (m_i \vv_i)
+  \\
+  \eqcol
+    \sum_i m_i \parens{\vy_i + \vx_\CoM} \cross \vv_i
+  \\
+  \eqcol
+    \sum_i m_i \parens{\vy_i \cross \vv_i} + m_i \parens{\vx_\CoM \cross \vv_i}
+  \\
+  \eqcol
+    \vL_\CoM + \vx_\CoM \cross M\vv_\CoM
+  \\
+  \eqcol
+    \vL_\CoM + \vx_\CoM \cross M (\vomega \cross \vx_\CoM)
+  \\
+  \eqcol
+    \vL_\CoM + \normsq{\vx_\CoM} M \vomega
+  \end{nedqn}
+
+  \item Here I have used the distributive rule of cross products only. I
+  will prove that shortly. The last equation uses a trick that $\vx
+  \cross \vy \cross \vx$ is equal to $\normsq{\vx} \vy$.
+
+  \item This shows that if we have a non-zero torque about the center of
+  mass, but a zero total force on a body, then the torque about any
+  parallel axis remains the same as if we chose the axis through the
+  center of mass.
+
+  \item Correspondingly, if there is zero torque about the center of
+  mass, but a total force exists on the body, then the torque is the
+  same as if all the total force were being applied at the center of
+  mass.
+
+  \item We can further see that, if an object is spinning about its
+  center of mass without its center of mass moving, then the angular
+  momentum about any axis is the same as if we just considered an axis
+  through the center of mass.
+
+  \item Likewise, if the object is not spinning, but is being
+  translated, then we see that the angular momentum is the same as if
+  all the mass were located at the center of mass.
+
+  \item It is very convenient to note that if we break down $\vtau$ into
+  $\vtau_\CoM$ and $\vx_\CoM \cross \vF$, then these respectively are
+  equal to $\fpartial{t} \vL_\CoM$ and $\fpartial{t} \vx_\CoM \cross M
+  \vv_\CoM$.
+
+  \item Thus we see that we can break down torque and angular momentum
+  into ``internal'' and ``external'' parts.
+
+  \item Question: why break down specifically with regard to the CoM?
+  Can we not use any other location? I believe yes (as a matter of
+  algebra), but we will lose the correspondence that $\vtau_\CoM =
+  \fpartial{t} \vL_\CoM$ and $\vx_\CoM \cross \vF = \fpartial{t}
+  \vx_\CoM \cross M \vv_\CoM$.
+
+  \item These decompositions gives us another reason to believe that $I
+  = I_\CoM + M \normsq{\vx_\CoM}$. This is true because to rotate the
+  body about an external axis, we must use the external torque to (1)
+  get the body rotating about its center of mass and (2) get the center
+  of mass rotating about the external axis.
+
+  \item \TODO{Ideally, I would be able to explain why it is intuitive
+  that a body spinning about its center of mass has angular momentum
+  $\vL$ about its CoM equal to its angular momentum about any other
+  origin point.} Algebraically we showed this simply and trivially, but
+  I don't think its intuitive that this should be the case.
+\end{enumerate}
+
+\subsection{The Cross Product}
+
+\begin{enumerate}
+  \item We will use the cross-product as a sort of opposite of the dot
+  product. Whereas the dot-product $\vx \cdot \vy$ is $\norm{\vx}
+  \norm{\vy}$ when $\vx, \vy$ are parallel, we want $\norm{\vx \cross
+  \vy} = \norm{\vx} \norm{\vy}$ when $\vx$ and $\vy$ are perpendicular.
+
+  \item Let us start by defining the cross-product of unit vectors. We
+  define:
+
+  \begin{nedqn}
+    \vi \cross \vj
+  \eqcol
+    \vk
+  \\
+    \vj \cross \vk
+  \eqcol
+    \vi
+  \\
+    \vk \cross \vi
+  \eqcol
+    \vj
+  \end{nedqn}
+
+  \item We see that the a cross-product of two basis vectors maps to the
+  third (orthogonal) basis vector.
+
+  \item As a mnemonic, consider your right hand. Assume that the vectors
+  $\vi$, $\vj$, and $\vk$ are oriented such that you can rotate your
+  hand so that index, middle, and thumb fingers correspond to each.
+
+  \item Then you can always find the output of $\vx \cross \vy$ by
+  orienting your index finger with $\vx$, your middle finger with $\vy$,
+  and your thumb is oriented in the direction of the output.
+
+  \item Note that the right-hand rule should imply that the
+  cross-product is \define{anti-symmetric}: $\vx \cross \vy =
+  -\parens{\vy \cross \vx}$. This still produces a mutually orthogonal
+  vector, but with the opposite orientation. We will find this
+  convenient.
+
+  \item Thus we have:
+
+  \begin{nedqn}
+    \vj \cross \vi
+  \eqcol
+    -\vk
+  \\
+    \vk \cross \vj
+  \eqcol
+    -\vi
+  \\
+    \vi \cross \vk
+  \eqcol
+    -\vj
+  \end{nedqn}
+
+  \item Next, I will define:
+
+  \begin{nedqn}
+    \vi \cross \vi
+  \eqcol
+    \vec{0}
+  \\
+    \vj \cross \vj
+  \eqcol
+    \vec{0}
+  \\
+    \vk \cross \vk
+  \eqcol
+    \vec{0}
   \end{nedqn}
 
   \noindent
-  Then consider $\sum_i m_i x_i^2$. Then $\sum_i m_i x_i'^2$ is simply
-  the moment of inertia and $\sum_i m_i x_\text{CM}^2 = M
-  x_\text{CM}^2$. The middle term sums $\sum_i m_i x_i'$, but this is
-  zero because it is a CoM calculation where origin is already defined
-  to be CoM.
+  We need this if we want the norm of the cross-product to reflect not
+  only the product of the norms of the input vectors, but also how
+  orthogonal these vectors were to begin with.
 
-  \item This proves the theorem for one dimension, but it holds in
-  three. However, it is important that the axes under consideration be
-  \emph{parallel}!
+  \item I can actually generalize in this way:
+
+  \begin{nedqn}
+    \alpha \parens{
+      \cos\theta \vi + \sin\theta \vj
+    }
+    \cross
+    \beta \parens{
+      \cos\phi \vj - \sin\phi \vi
+    }
+  \eqcol
+    \alpha\beta \sinf{\frac{\pi}{2} + \phi - \theta} \vk
+  \\
+    \alpha \parens{
+      \cos\theta \vj + \sin\theta \vk
+    }
+    \cross
+    \beta \parens{
+      \cos\phi \vk - \sin\phi \vj
+    }
+  \eqcol
+    \alpha\beta \sinf{\frac{\pi}{2} + \phi - \theta} \vi
+  \\
+    \alpha \parens{
+      \cos\theta \vk + \sin\theta \vi
+    }
+    \cross
+    \beta \parens{
+      \cos\phi \vi - \sin\phi \vk
+    }
+  \eqcol
+    \alpha\beta \sinf{\frac{\pi}{2} + \phi - \theta} \vj
+  \end{nedqn}
+
+  \item This corresponds exactly with the calculation we want to perform
+  when the input vectors lie in the $(i,j)$, $(j,k)$, or $(i,k)$ planes.
+
+  \item Or even more generally: for perpendicular $\vx, \vy$, we want:
+
+  \begin{nedqn}
+    \alpha \parens{
+      \cos\theta \vx + \sin\theta \vy
+    }
+    \cross
+    \beta \parens{
+      \cos\phi \vy - \sin\phi \vx
+    }
+  \eqcol
+    \alpha\beta
+    \sinf{\frac{\pi}{2} + \phi - \theta}
+    \parens{\vx \cross \vy}
+  \end{nedqn}
+
+  \item Let's consider another kind of relationship. Consider two
+  non-parallel $\vx, \vy$. We expect that the norm of $\vx \cross \vy$
+  is proportional to $\norm{\vx} \norm{\vy} \sin\theta$, where $\theta$
+  is the angle between the two.
+
+  Now, consider $\parens{\vx + \alpha \vx} \cross \vy$. Effectively we
+  have scaled $\vx$ by $1 + \alpha$. Thus the cross product is
+  $\parens{1 + \alpha} \vx \cross \vy$. But note this is exactly equal
+  to $\parens{\vx \cross \vy} + \parens{\alpha\vx \cross \vy}$. That is:
+  we can distribute the cross product over this sum.
+
+  We next consider $\parens{\vx + \alpha \vy} \cross \vy$. We know that
+  this will change the projection of $\vx + \alpha \vy$ onto $\vy$: by
+  exactly $\vy$. However, the perpendicular component of $\vx + \alpha
+  \vy$ remains unchanged. Thus $\parens{\vx + \alpha \vy} \cross \vy$
+  remains $\vx \cross \vy$. Note that $\alpha \vy \cross \vy = 0$, so we
+  can say that $\parens{\vx + \alpha \vy} \cross \vy = \vx \cross \vy +
+  \alpha \vy \cross \vy$. Again, we see that the cross product
+  distributes over addition.
+
+  \item But we must extend our notion outside the planes defined by the
+  basis vectors. Only then will the story be complete. Consider
+  perpendicular $\vx, \vy$. We want to consider rotating $\vx$ in the
+  plane defined by $\vx, \vx \cross \vy$. Let $\vz = \frac{\vx \cross
+  \vy}{\norm{\vy}}$. Then:
+
+  \begin{nedqn}
+      \parens{
+        \cos\theta \vx + \sin\theta \vz
+      } \cross \vy
+    \eqcol
+      \cos\theta \parens{\vx \cross \vy} - \sin\theta \vx
+  \end{nedqn}
+
+  \noindent
+  as this rotates the output away from $\vx$ exactly as the first input
+  is rotated toward $\vz$. Also, note that $-\vx = \vz \cross \vy$.
+  Thus, we have our typical distribution law for perpendicular unit
+  vectors $\vx, \vy, \vz = \vx \cross \vy$:
+
+  \begin{nedqn}
+      \alpha \parens{
+        \cos\theta \vx + \sin\theta \vz
+      } \cross \beta \vy
+    \eqcol
+      \alpha \beta \parens{
+        \cos\theta \parens{\vx \cross \vy}
+        + \sin\theta \parens{\vz \cross \vy}
+      }
+  \end{nedqn}
+
+
+  \item Last, we should inquire about how to extend our definition to
+  non-basis vectors. This will be accomplished by adopting a
+  distribution law:
+
+  \begin{nedqn}
+    &&
+    \parens{
+      \alpha_i \vi + \alpha_j \vj + \alpha_k \vk
+    }
+    \cross
+    \parens{
+      \beta_i \vi + \beta_j \vj + \beta_k \vk
+    }
+  \\
+  &&
+  \qquad
+  =
+    \parens{
+      \alpha_j \beta_k - \alpha_k \beta_j
+    } \vi
+    +
+    \parens{
+      \alpha_k \beta_i - \alpha_i \beta_k
+    } \vj
+    +
+    \parens{
+      \alpha_i \beta_j - \alpha_j \beta_i
+    } \vk
+  \end{nedqn}
 \end{enumerate}
