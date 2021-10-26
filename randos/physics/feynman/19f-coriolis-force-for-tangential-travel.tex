@@ -1,34 +1,62 @@
 \subsection{Coriolis Force For Tangential Travel}
 
 \begin{enumerate}
-  \item We are asked to now consider the force experienced when walking
-  in a circle along the rim of a spinning carousel. That is: tangential
-  motion, rather than radial motion. We are walking at velocity $v'$
-  relative to the rotating frame of reference, and the carousel itself
-  is traveling at velocity $v$. So an outside observer knows that the
-  centripetal force must be:
+  \item Next, we may consider the force experienced by walking along a
+  circular path around a spinning carousel. Say the carousel spins with
+  angular velocity $\omega_0$, and you want to walk around the central
+  point with (apparent) angular velocity $\omega_1$.
+
+  \item Note first that even if we are standing still on the carousel,
+  we will experience the fictional \define{centrifugal} force, which is
+  equal and opposite to the centripetal force that keeps redirecting our
+  true tangential velocity us and keeps us rotating about the axis. This
+  is $m r \omega_0^2$.
+
+  \item Also, if the carousel were \emph{not} rotating, we expect to
+  need to exert a centripetal force of $m r \omega_1^2$ to maintain a
+  circular motion about a central point. (Incidentally, this is why we
+  lean in toward the rotational axis when we are running in a circle).
+
+  \item But, from the perspective of the spinning person, you must apply
+  an \emph{additional} force to move along a circle painted on the
+  carousel. We can calculate it:
 
   \begin{nedqn}
-    F
+    F_\text{Centripetal}
   \eqcol
-    m (v + v')^2 / r
+    m r \omega^2
   \\
   \eqcol
-    m v^2/r + 2m v v'/r + m v'^2 /r
+    m r \parensq{\omega_0 + \omega_1}
+  \\
+  \eqcol
+    m r \omega_0^2 + 2m r \omega_0\omega_1 + mr \omega_1^2
+  \\
+  \eqcol
+    F_{0, \text{Centripetal}}
+    + 2m r \omega_0\omega_1
+    + F_{1, \text{Centripetal}}
   \end{nedqn}
 
-  \item The first force is the centripetal force we'd experience even if
-  standing still on the carousel. The last force is the centripetal
-  force we'd experience from walking in a circle even if the carousel
-  were not rotating.
+  For a person walking about the carousel, they've always felt a
+  fictitious centrifugal force which they've ``overcome'' by applying a
+  true (and needed, for circular motion) force $F_{0,
+  \text{Centripetal}}$. And, in order to walk in a circle, they must
+  apply the usual centripetal force $F_{1, \text{Centripetal}}$.
 
-  \item The middle term is interesting. Replace $v/r$ with $\omega$.
-  Then this magnitude is $2m \omega v'$. This is the Coriolis force.
+  But they may not expect that they need to apply a further force inward
+  of $2m r \omega_0 \omega_1$. Rewriting with $v_\text{Tangential} =
+  \omega_1 r$, we have that a force of magnitude $2m \omega_0
+  v_\text{Tangential}$ is required.
 
-  \item \TODO{I definitely feel a little less sure about this force.} I
-  guess I would say; if you start to run along the outside of the
-  carousel, you will feel like you are struggling not to fall into a
-  greater radial orbit about the center. It is as if you are being
-  pulled outward. \TODO{I don't know, I feel like I understand this last
-  part very poorly.}
+  \item To the rotating observer on the carousel, this needed extra
+  force is felt as necessary to oppose and negate a fictitious Coriolis
+  force. If the observer wishes to talk \emph{with} the rotation of the
+  carousel, the Coriolis force pulls them outward, whereas if the
+  observer wishes to walk \emph{against} the rotation of the carousel,
+  the Coriolis force pulls them inward.
+
+  \item We see once again that the Coriolis force is perpendicular to
+  $\vomega$ and $\vv$. In fact, one expects that it is equal to $-2
+  m\vomega \cross \vv$.
 \end{enumerate}
