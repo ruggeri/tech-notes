@@ -88,6 +88,19 @@
   \item As ever, this breakdown will only be clean by choosing to
   consider rotation about the center of mass.
 
+  \item \TODO{I believe this too blithely assumes that $\parens{\vomega
+  \cross \vx_i} \cdot \parens{\vomega \cross \vx_i} =
+  \norm{\vomega}\norm{\vx_i}$.} This is only true if $\vomega$ is
+  perpendicular to $\vx_i$, of course. Else we must correct by a factor
+  of $\cos^2\parens{\theta}$, where $\theta$ is the angle between
+  $\vomega$ and $\vx_i$. This makes sense: the rotational inertia of the
+  body cannot be a constant ``$I_\CoM$'' regardless of the axis of
+  rotation! The same body, rotating about its CoM, will have different
+  rotational inertia depending on the axis about which it rotates.
+
+  I believe there is a rotational inertia \emph{matrix}, but I will not
+  pursue that yet.
+
   \item Consider again the skater who moves their leg inward as they
   spin. We know their angular momentum has been conserved, but that
   their moment of inertia has gone down, and thus their angular velocity

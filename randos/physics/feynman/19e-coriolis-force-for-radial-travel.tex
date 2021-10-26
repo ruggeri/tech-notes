@@ -1,3 +1,73 @@
+\subsection{Circular Motion And Forces}
+
+\begin{enumerate}
+  \item I next take a quick break to derive the centripetal force
+  required to keep an object traveling at angular speed $\omega$ and
+  radius $r$ in a circle.
+
+  \begin{nedqn}
+    x(t)
+  \eqcol
+    r\expf{i \omega t}
+  \\
+    v(t)
+  \eqcol
+    \omega i x(t)
+  \\
+    a(t)
+  \eqcol
+    - \omega^2 x(t)
+  \end{nedqn}
+
+  \noindent
+  thus to maintain circular motion, we must apply a force $F$ directed
+  inward with magnitude as follows:
+
+  \begin{nedqn}
+    F
+  \eqcol
+    m \omega^2 r
+  \\
+  \eqcol
+    m \parensq{v/r} r
+  \\
+  \eqcol
+    m v^2/r
+  \end{nedqn}
+
+  \item We may slightly generalize. We should allow that the center be
+  moved from the origin. We simply modify that $x(t) = c + \expf{i
+  \omega t}$, where $c$ is the center of rotation. The rest stays the
+  same.
+
+  \item We may wish to further generalize from two-dimensional space
+  (where we used a basis of $1, i$) to a three-dimensional space (with
+  basis $\vi, \vj, \vk$). I am at present too lazy to do this. I don't
+  believe a simple exponential form can be used, because the exponential
+  function is not typically extended to having arbitrary vector-space
+  inputs. This is because the exponential function is typically defined
+  in terms of a multiplication operation, and there is no typical
+  multiplication on vectors.
+
+  \item Can you not use cross product as a multiplication? While cross
+  product is neither commutative nor associative, it is
+  \emph{anticommutative} and obeys the Jacobi identity (which I won't
+  describe right now). This means that you can treat $\R^3$ as a
+  \define{Lie algebra}, and there is some work to define the exponential
+  function for Lie algebras.
+
+  \item Note that a vector space with a bilinear multiplication is
+  called a \define{algebra}. There are associative and non-associative
+  algebras. Lie algebras are a kind of non-associative algebra. A
+  classic commutative algebra would be polynomials over a field, with
+  the traditional polynomial multiplication. Note that an algebra
+  typically doesn't contain vector inverses. An algebra can either be
+  over a field (typical), or over a \define{ring} (scalars don't always
+  have multiplicative inverses). This is called an \define{algebra over
+  a ring} for purpose of distinction.
+
+\end{enumerate}
+
 \subsection{Coriolis Force For Radial Travel}
 
 \begin{enumerate}
