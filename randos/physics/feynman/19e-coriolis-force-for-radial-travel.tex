@@ -66,12 +66,25 @@
   have multiplicative inverses). This is called an \define{algebra over
   a ring} for purpose of distinction.
 
+  \item Note that the required centripetal force is quadratic in
+  $\omega$ and linear in $r$, while momentum is quadratic in $r$ and
+  linear in $\omega$. If momentum is conserved while $r$ changes, this
+  implies that $F$ cannot stay constant. For instance, if $r$ is halved,
+  then $\omega$ must be quadrupled. But then we see that the centripetal
+  force must be increased by eight times.
+
+  Thus, we cannot say that, if the centripetal force required to hold a
+  mass at distance $r$ in circular motion is $F$, then a change $\Delta
+  r$ to the radius results in $F \Delta r$ work being performed. This
+  would undercalculate the work needed to bring reduce the angular
+  inertia of the body. And if one plugged this incorrect work into the
+  equation for rotational kinetic energy, they would underestimate the
+  corresponding change in rotational speed.
 \end{enumerate}
 
 \subsection{Coriolis Force For Radial Travel}
 
 \begin{enumerate}
-
   \item Feynman notes: consider just your torso when moving a leg in.
   The torso angular velocity has increased, even though its inertia has
   not changed (the torso didn't move; only the leg). What happened to
@@ -82,7 +95,7 @@
   because the centripetal force is radial, and radial forces do not give
   torque.
 
-  \item As the leg moves inward, it wants to increase its angular
+  \item As the leg moves inward, it needs to increase its angular
   velocity so that angular momentum is conserved. But as the leg starts
   to speed up, it encounters the rotational inertia of the core body.
   The leg wants to run ahead of the body, but of course it is attached
@@ -92,70 +105,139 @@
   \item Imagine things this way: a central part and a more distant
   connected part have equal inertia $I$. They rotate at the same rate
   $\omega$. Then they are disconnected. They continue to rotate freely
-  at $\omega$. The outer part goes then through these changes:
+  at $\omega$. The outer part then goes through these changes:
 
   \begin{nedqn}
-    r \mapstocol r/2
+    r' \eqcol \frac{r}{2}
   \\
-    I \mapstocol I/4
+    I' \eqcol \frac{I}{4}
   \\
-    \omega \mapstocol 4\omega
-  \\
-    v \mapstocol 2v
+    \omega' \eqcol 4 \omega
   \end{nedqn}
 
   \noindent
   Now reconnect the two parts. It's clear that the core part is ``going
   around too slowly'' while the outer part is ``going around too
-  quickly.'' We need to conserve $2I_0 \omega = I' \omega' = \frac{5}{4}
-  I_0 \omega'$. That is: $\omega' = \frac{8}{5} \omega$. So there must
-  be a torque against the outer part (slow it down) and a torque with
-  the inner part (speed it up).
+  quickly.'' They will need to ``agree'' on a final angular velocity
+  $\omega''$.
 
-  \item The force that gives rise to this is called the \define{Coriolis
-  force}. Like the centrifugal force, it is ``fictitious.'' It only
-  appears when we try to move things in a rotating frame of reference.
-
-  \item Feynman gives an example of a carousel. Say you are pushing a
-  box of mass $m$ radially on a carousel. Assume that the carousel's
-  rotational speed remains constant at $\omega$ (e.g., assume the
-  carousel's inertia is much greater than the box's inertia of $m r^2$).
-
-  As you push the box away from the center, the box is gaining angular
-  momentum. There must be a torque applied; therefore there must be a
-  tangential force. A `fictitious' one, but a force nonetheless.
-  Consider:
+  This is easily calculated. Originally the angular momentum was $L = I
+  \omega + I \omega$. After drawing in the distant part, we have $L' =
+  I\omega + I' \omega'$, but of course $L' = L$ by conservation of
+  angular momentum. And last, we know that $L'' = L' = L$, because
+  angular momentum continues to be conserved. So:
 
   \begin{nedqn}
-    L
+    L''
   \eqcol
-    I \omega
+    L
   \\
+    I \omega'' + I' \omega''
+  \eqcol
+    I \omega + I \omega
+  \\
+    \parens{I + \frac{I}{4}} \omega''
+  \eqcol
+    2 I\omega
+  \\
+    \omega''
+  \eqcol
+    \frac{8}{5} \omega
+  \end{nedqn}
+
+  \noindent
+  This shows that to ``reconnect'' the outer part to the inner part, a
+  torque must be applied to the inner part to accelerate it (angularly),
+  and a corresponding torque must be applied to the outer part to
+  decelerate it (angularly).
+
+  \item Feynman asks us to consider a carousel. You are pushing a box of
+  mass $m$ radially outward. There is a line drawn on the carousel, you
+  want to push the box outward along this radial line.
+
+  To remain on this radial line, you are effectively asking that the
+  angular velocity of the box be held constant at $\omega$, the rate of
+  the carousel's rotation, as you push the box outward. But since the
+  box's angular inertia is increasing as you push it outward, we know
+  this corresponds to an increase in angular momentum of the box. Thus,
+  we know that a torque needs to be applied as you move the box outward.
+
+  \item If one looks from the outside at the carousel, they can see that
+  the box, even when not moving, is always accelerating toward the
+  center. They can see that the box will need to undergo tangential
+  acceleration as you move it outward, if it is to maintain its angular
+  velocity.
+
+  For someone who is on the carousel, and thus has a rotating frame of
+  reference, they will experience that pushing the box outward (which
+  does not look to them like acceleration), will somehow induce a force
+  that drags it toward the right (for counter-clockwise rotation) or
+  toward the left (for clockwise rotation).
+
+  This unexpected sideways drag force is called the \define{Coriolis
+  force}. To push the box radially, one needs to exert a force
+  \emph{opposite} the Coriolis force if they want to follow the line
+  drawn on the carousel.
+
+  \item To counteract the Coriolis force, the pusher must push
+  \emph{with} the rotation: they must push the box to their left (for
+  counter-clockwise rotation) or to the right (for clockwise rotation).
+  Alternatively, if they only push toward the center, they will see the
+  object drift away to the right (for counter-clockwise rotation) or the
+  left (for clockwise rotation).
+
+  \item The Coriolis force is again a ``fictitious'' force, because it
+  only appears in a rotating frame of reference. A rotating frame is
+  non-inertial.
+
+  \item Let's calculate the magnitude of the Coriolis force. One can
+  find it from:
+
+  \begin{nedqn}
     L
   \eqcol
     m r^2 \omega
   \\
     \fpartial{t} L
   \eqcol
-    2 m r \omega v_r
-  \intertext{and since}
-    \tau
-  \eqcol
-    \fpartial{t} L
-  \intertext{we know}
-    \tau
-  \eqcol
-    F r
-  =
-    2mr \omega v_r
+    m r^2 \parens{\fpartial{t} \omega}
+    + 2mr\omega \parens{\fpartial{t} r}
   \\
-    F
+    -F_\text{Coriolis} r
   \eqcol
-    2m \omega v_r
+    2mr \omega \parens{\fpartial{t} r}
+    \nedcomment{assuming $\omega$ is held constant}
+  \\
+    -F_\text{Coriolis}
+  \eqcol
+    2m\omega \fpartial{t} r
   \end{nedqn}
 
-  \noindent
-  We call this the \define{Coriolis force}. Thus as you walk radially on
-  a carousel, you will feel yourself leaning against the rotation, as
-  your feet are accelerated out from underneath you.
+  \item Here I held $\omega$ constant, and found the magnitude of the
+  force required to maintain this. Alternatively, presuming that $L$ is
+  held constant, we know $\fpartial{t} \omega$ must have opposite sign
+  from $\fpartial{t} r$. This dragging force (when moving away from the
+  axis of rotation) or accelerating force (when moving toward the axis
+  of rotation) is the Coriolis force.
+
+  \item A final note and summary: when a rocketship launches from the
+  earth (or a box is pushed to the outside of a carousel), no torque is
+  applied if the motion is always radial. The rocketship or box does not
+  gain any angular momentum as it moves away from the axis. It does not
+  experience a torque. Instead, simply its angular velocity $\omega$
+  falls. This does not imply a loss of angular momentum, since $r$ is
+  increasing.
+
+  Only if we insist that $\omega$ be held constant must there be a
+  torque. Then there \emph{must} be a tangential acceleration to keep
+  pace, thus a tangential force, thus a torque. This force/torque is not
+  really ``counteracting'' any force/torque, since in fact it is
+  increasing momentum/angular momentum.
+
+  Only if we take the non-inertial, rotating frame is there a
+  (fictitious!) force to counteract. This is the Coriolis force. It is
+  only an \emph{apparent} force, not a ``real'' one. When you resist
+  this force, you are applying a real force to counteract a fictitious
+  one. Thus you are applying a net torque and thus increasing angular
+  momentum.
 \end{enumerate}
