@@ -1,8 +1,4 @@
-\input{../common/preamble.tex}
-
-\setcounter{section}{16}
-
-\begin{document}
+\def\chapterbody{
   \section{Space-Time}
 
   \input{17a-minkowski-space.tex}
@@ -15,4 +11,16 @@
     \item \TODO{Should prove contravariance of four-momentum wrt Lorentz
     transformations.}
   \end{enumerate}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{16}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

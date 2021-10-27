@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{10a-conservation-of-momentum.tex}
+}
 
-\setcounter{section}{9}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./10a-conservation-of-momentum.tex}
-\end{document}
+  \setcounter{section}{9}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+

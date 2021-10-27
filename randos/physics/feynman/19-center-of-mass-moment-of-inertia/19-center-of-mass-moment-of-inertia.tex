@@ -1,8 +1,4 @@
-\input{../common/preamble.tex}
-
-\setcounter{section}{18}
-
-\begin{document}
+\def\chapterbody{
   \section{Center of Mass; Moment of Inertia}
 
   \input{19a-properties-of-com.tex}
@@ -11,4 +7,16 @@
   \input{19d-rotational-kinetic-energy.tex}
   \input{19e-coriolis-force-for-radial-travel.tex}
   \input{19f-coriolis-force-for-tangential-travel.tex}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{18}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{14a-work-and-potential-energy-conclusion.tex}
+}
 
-\setcounter{section}{13}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./14a-work-and-potential-energy-conclusion.tex}
-\end{document}
+  \setcounter{section}{13}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+

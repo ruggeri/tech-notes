@@ -1,5 +1,4 @@
-\input{../common/preamble.tex}
-
+% TODO: probably want to get rid of these!
 \newcommand{\atan}{a^{\text{TAN}}}
 \newcommand{\Ftan}{F^{\text{TAN}}}
 \newcommand{\vtan}{v^{\text{TAN}}}
@@ -7,9 +6,7 @@
 \newcommand{\Frad}{F^{\text{RAD}}}
 \newcommand{\vrad}{v^{\text{RAD}}}
 
-\setcounter{section}{17}
-
-\begin{document}
+\def\chapterbody{
   \section{Rotation In Two Dimensions}
 
   \input{18a-rigid-bodies.tex}
@@ -17,4 +14,16 @@
   \input{18c-rotation-and-torque.tex}
   \input{18d-conservation-of-angular-momentum.tex}
   \input{18e-total-rotational-inertia.tex}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{17}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{12a-characteristics-of-force.tex}
+}
 
-\setcounter{section}{11}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./12a-characteristics-of-force.tex}
-\end{document}
+  \setcounter{section}{11}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+

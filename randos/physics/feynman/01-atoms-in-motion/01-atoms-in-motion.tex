@@ -1,7 +1,15 @@
-\input{../common/preamble.tex}
-
-\setcounter{section}{0}
-
-\begin{document}
+\def\chapterbody{
   \input{./01a-atoms-in-motion.tex}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{0}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

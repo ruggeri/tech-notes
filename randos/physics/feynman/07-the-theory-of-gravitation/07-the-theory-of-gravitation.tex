@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{07a-the-theory-of-gravitation.tex}
+}
 
-\setcounter{section}{6}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./07a-the-theory-of-gravitation.tex}
-\end{document}
+  \setcounter{section}{6}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+

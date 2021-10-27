@@ -1,8 +1,4 @@
-\input{../common/preamble.tex}
-
-\setcounter{section}{15}
-
-\begin{document}
+\def\chapterbody{
   \section{Relativistic Energy and Momentum}
 
   \input{16a-relativity-and-accelerations}
@@ -24,4 +20,16 @@
     \item \TODO{Is rest mass real? Or is it just energy? Is potential
     energy real? Or is it just kinetic energy?}
   \end{enumerate}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{15}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

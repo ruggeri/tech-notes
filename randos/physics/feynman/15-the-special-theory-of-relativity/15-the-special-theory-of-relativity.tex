@@ -1,8 +1,4 @@
-\input{../common/preamble.tex}
-
-\setcounter{section}{14}
-
-\begin{document}
+\def\chapterbody{
   \section{The Special Theory of Relativity}
   \input{15a-principles.tex}
   \input{15b-michelson-morley.tex}
@@ -13,4 +9,16 @@
   \input{15g-relativistic-mass.tex}
   \input{15h-relativistic-energy.tex}
   \input{15i-pedagogical-note.tex}
-\end{document}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{14}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

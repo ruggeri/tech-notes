@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{04a-conservation-of-energy.tex}
+}
 
-\setcounter{section}{3}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./04a-conservation-of-energy.tex}
-\end{document}
+  \setcounter{section}{3}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+

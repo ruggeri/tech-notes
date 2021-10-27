@@ -1,7 +1,16 @@
-\input{../common/preamble.tex}
+\def\chapterbody{
+  \input{05a-time-and-distance.tex}
+}
 
-\setcounter{section}{4}
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
 
-\begin{document}
-  \input{./05a-time-and-distance.tex}
-\end{document}
+  \setcounter{section}{4}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
+
