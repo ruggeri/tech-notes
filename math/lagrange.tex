@@ -1,0 +1,434 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+
+\newcommand{\braket}[1]{|#1\rangle}
+\newcommand{\sqtot}{\frac{\sqrt{2}}{2}}
+
+\begin{document}
+
+\title{Constrained Optimization}
+\maketitle
+
+\section{Univariate Unconstrained Optimization}
+
+\begin{enumerate}
+  \item  Given a function and (possibly) some constraints, you want to
+  find the $x$ such that $f(x)$ is maximized.
+
+  \item We will assume that $f$ is differentiable. This is actually a
+  pretty strong assumption, but often holds.
+
+  \item If $f$ is of one variable, then a local maximum is achieved
+  when: $\fpartial{x} f(x)=0$ and $\fpartialsq{x} f(x)$ is negative. If
+  $\fpartialsq{x} f(x)$ is positive, this is a local minimum.
+
+  \item If $\fpartialsq{x} f(x)$ is zero, then we must look to further
+  derivatives. I don't study these at this moment.
+\end{enumerate}
+
+\section{Multivariate Unconstrained Optimization}
+
+\begin{enumerate}
+  \item Say that $f:\R^n\to\R$ is differentiable; note that this is
+  \emph{stronger} than the assumption that all partials exist. Take for
+  instance:
+
+  \begin{nedqn}
+    f(x, y) = \setof{ x \,\text{if}\, y \ne x, \,\text{else}\, 0 }
+  \end{nedqn}
+
+  Partials exist wrt to $x$ and $y$ at $(0, 0)$, but this function is
+  \emph{not} differentiable. In the case that $f$ is differentiable, its
+  differential is the hyperplane defined by linear combinations of the
+  partials.
+
+  \item The gradient $\grad f$ defines the slope of the hyperplane
+  tangent to $f$. When $\grad f$ is zero along each dimension, we
+  \emph{might} be at an locally extreme value. This corresponds to the
+  first derivative test.
+
+  \item We next ask how the gradient will change as we move from $\vx$.
+  This will corresponds to a second derivative test. We know that the
+  analogue of the univariate second derivative is the \define{Hessian}:
+  a matrix of mixed-partial derivatives $\frac{\partial^2}{\partial x_i
+  \partial x_j} f$.
+
+  \item Given a direction $\vu$, the Hessian $\mtxH$ tells us that the
+  gradient will change by $\mtxH \vu$ by an infinitesimal change of
+  $\vx$ in the direction of $\vu$. We can then ask: as the gradient
+  changes by $\lambda \mtxH \vu$, will the value of $f(\vx + \lambda
+  \vu)$ also change? For instance, if $\mtxH \vu$ is not a vector of
+  zeros, we still may have $\fpartial{\lambda} f(\vx + \lambda \vu) = 0$
+  if the gradient change is \emph{perpendicular} to $\vu$.
+
+  \item If for every direction $\vu$ we have $\parens{\mtxH \vu}\tran
+  \vu < 0$, then an infinitesimal change in any direction $\vu$ reduces
+  the output of $f$. Likewise, if $\parens{\mtxH \vu}\tran \vu > 0$ for
+  all $\vu$, then every direction we move in will increase the output of
+  $f$.
+
+  \item We call the first kind of matrix \emph{negative definite}, while
+  the second kind is \emph{positive definite}. A zero gradient and
+  negative definite Hessian implies a local maximum, whereas a zero
+  gradient and positive definite Hessian implies a local minimum.
+
+  \item Note that if a matrix is positive definite, then every diagonal
+  entry must be positive, since $\ve_i\tran \mtxH \ve_i > 0$ and equals
+  $\mtxH_{i, i}$. Likewise, a negative definite matrix satisfies
+  $\ve_i\tran \mtxH \ve_i < 0$.
+
+  \item Thus, if $\mtxH$ has a mix of positive and negative entries
+  along the diagonal, it cannot represent an extreme value. A point such
+  as this must represent a \define{saddle point}. That is: along one
+  dimension we have $\ve_i\tran \mtxH \ve_i > 0$, but along another
+  dimension we have $\ve_j\tran \mtxH \ve_j < 0$. A matrix where
+  $\vv\tran \mtxH \vv$ is sometimes positive and other times negative is
+  called \define{indefinite}. A zero gradient and an indefinite Hessian
+  implies a saddle point, which is neither a local minimum or maximum.
+
+  \item Can we determine definiteness simply by looking at the diagonal
+  entries? The answer is no. Consider:
+
+  \begin{nedqn}
+    \parens{\cos\theta e_i + \sin\theta e_j}\tran
+    \mtxH
+    \parens{\cos\theta e_i + \sin\theta e_j}
+  \eqcol
+    \cos^2\theta \mtxH_{i, i}
+    + 2\cos\theta \sin\theta \mtxH_{i, j}
+    + \sin^2\theta \mtxH_{j, j}
+  \end{nedqn}
+
+  \noindent
+  Here I have used symmetry of $\mtxH$ to note that $\mtxH_{i, j} =
+  \mtxH_{j, i}$. Note that, as a function of $\theta$, this equation may
+  touch or even go below zero, provided $\mtxH_{i, j}$ has opposite
+  sign.
+
+  \item We may use this equation to construct an example. Let $\mtxH_{i,
+  i} = \mtxH_{j, j} = 1$. Let $\mtxH_{i, j} = \mtxH_{j, i} = -1$. Then,
+  $\parens{1, 1} \mtxH \parens{1, 1}\tran = 0$.
+
+  \item Likewise, we must not look at the diagonals, see they are all
+  zero, and assume that $\vu\tran \mtxH \vu = 0$ for all $\vu$. Consider
+  $\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}$.
+
+  \item We last note, a matrix where $\vu\tran \mtxH \vu \geq 0$ is
+  called \define{positive semi-definite}. In this case, we \emph{may}
+  have a local minimum, maximum, or saddle point. It is not determined,
+  just as in our univariate second-derivative test.
+\end{enumerate}
+
+\section{Equality Constraints}
+
+\begin{enumerate}
+  \item Now say that you need to optimize a function given an equality
+  constraint. That is, say that you are also given a function $g(x)$ and
+  required that $g(x)=0$: now optimize $f(x)$.
+
+  \item We will again assume that these are \define{smooth} functions
+  (that all their derivatives exist). That is a mathematically strong
+  assumption, but pretty realistic in many real-world problems.
+
+  \item A helpful metaphor: assume $f$ maps coordinates in a national
+  park to altitudes, while $g(x)=0$ defines a path through the national
+  park. You want to find the point at which you reach the maximum
+  altitude on the path.
+
+  \item If $g$ truly defines a path, then you could equivalently define
+  this path by $h(t)$ such that $t\in\R$ is a continuous mapping to
+  points on the path. You could then differentiate $f(h(t))$ using the
+  chain rule. This should give you the maximum.
+
+  \item Finding this reparameterization of $g$ could be hard. Also, this
+  approach would have difficulty generalizing if $g(x)=0$ defined a more
+  complicated set than a path.
+\end{enumerate}
+
+\section{Lagrange Multipliers}
+
+\begin{enumerate}
+  \item Let us approach the problem differently. We know that we need an
+  $x$ where the isoquant of $f$ is parallel to $g$. If that were not
+  true, we could move a little along $g$ (in one direction or another)
+  and move either up or down $f$.
+
+  \item Isoquants of $f$ are perpendicular to $\grad f$. Likewise, the
+  set $g(x)=0$ defines a manifold perpendicular to $\grad g$. So we know
+  that $\grad f$ and $\grad g$ must lie in the same subspace. If they
+  did not, we can project $\grad f$ onto the subspace perpendicular to
+  $\grad g$ and move a little along the manifold to pick up some
+  positive $f$ change.
+
+  \item Therefore, we have $\grad f = \lambda \grad g$. The constant
+  $\lambda$ is called the \define{Lagrange multiplier}. At most points
+  $x$ (even those on the boundary), there is no such $\lambda$, because
+  $\grad f$ and $\grad g$ are not aligned. But at a minimum or maximum
+  there must be such a $\lambda$.
+
+  \item Here is how I would solve the problem. I would set $\grad f =
+  \lambda \grad g$. I would then solve for $x$ in terms of $\lambda$. I
+  then plug this formula back into $g(x) = 0$. Even if $g$ originally
+  consisted of many variables, the substitution makes it an equation in
+  a single variable: $\lambda$. Therefore I can solve it.
+
+  \item Having found the appropriate $\lambda$, I then use my formula to
+  convert it back to $x$.
+
+  \item We shall see that ``solving for $x$ in terms of $\lambda$''
+  corresponds to ``optimizing profit with respect to a cost for
+  pollution of $\lambda$.'' Then, by solving for the value of $\lambda$
+  that satisfies $g(x) = 0$, we will find that price whereby the
+  producer has no incentive to pollute.
+\end{enumerate}
+
+\section{Example}
+
+\begin{enumerate}
+  \item Let's say we want to maximize $f(x, y) = x + y$. We are subject
+  to the constraint $g(x, y) = x^2 + y^2 - 1 = 0$. Basically: find the
+  point that maximizes $x + y$ on the unit circle.
+
+  \item I then do like so:
+
+  \begin{nedqn}
+    \grad f
+  \eqcol
+    \lambda \grad g
+  \\
+    \parens{1, 1}
+  \eqcol
+    \lambda \parens{2x, 2y}
+  \\
+    \parens{\tfrac{1}{2\lambda}, \tfrac{1}{2\lambda}}
+  \eqcol
+    \parens{x, y}
+  \end{nedqn}
+
+  \item I have divided by $\lambda$. Is that safe? Could $\lambda$ be
+  zero? \TODO{I should argue why this is safe!}
+
+  \item Having solved for $\lambda$, I focus on the constraint:
+
+  \begin{nedqn}
+    g(x, y)
+  \eqcol
+    x^2 + y^2 - 1 = 0
+  \\
+    2 \parensq{\tfrac{1}{2\lambda}}
+  \eqcol
+    1
+  \\
+    \half \lambda^{-2}
+  \eqcol
+    1
+  \\
+    \lambda
+  \eqcol
+    \frac{1}{\sqrt{2}}
+  \intertext{which implies}
+    \parens{x, y}
+  \eqcol
+    \parens{\frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{2}}
+  \end{nedqn}
+\end{enumerate}
+
+\section{Inequality Constraints}
+
+\begin{enumerate}
+  \item We have said that $\grad f(x^*) = \lambda \grad g(x^*)$ for some
+  $\lambda$ at an $x^*$ that maximizes $f$ subject to a constraint that
+  $g(x^*) = C$.
+
+  \item What if we wish to allow $g(x^*) \leq C$? In this case, the
+  optimum $x^*$ may incur $g(x^*) < C$. That is: $f(x^*)$ may be a local
+  optimum of $f$ within the interior of the region defined by $g(x) <
+  C$.
+
+  \item Thus, when optimizing, we solve both ways: we may assume that
+  $\lambda = 0$ and optimize $f(x)$ without constraint, and we may also
+  assume that $\lambda \ne 0$, and that $\grad f = \lambda \grad g$. We
+  should use the first solution if it obeys the constraint, else we must
+  use the second solution.
+
+  \item We may also \emph{combine} these terms. We ask the firm to
+  optimize:
+
+  \begin{nedqn}
+    P(x) = f(x) - \lambda \parens{g(x) - C}
+  \end{nedqn}
+
+  \item We want to examine two kind of optima: (1) one which assumes
+  that $\lambda = 0$, or (2) one which assumes that $g(x) - C = 0$.
+
+  \item In this second case, note that $\fpartial{\lambda} P(x) = 0$.
+  This is because no pollution above level $C$ is being created, and
+  thus, at the optimal $x^*$, the firm is indifferent to changes in the
+  tax on excess pollution.
+
+  \item This allows us to transform the constrained problem into an
+  unconstrained problem over $P(x, \lambda)$. The requirement that
+  $\fpartial{\lambda} P = 0$ exactly specifies that $g(x) = C$.
+\end{enumerate}
+
+\section{Shadow Prices}
+
+\begin{enumerate}
+  \item A policy that sets a constraint that $g(x) \leq C$ is said to
+  impose a \define{shadow price} $\lambda$ on pollution above level $C$.
+
+  \item This is the price $\lambda$ such that the firm's optimal $x^*$
+  for $f(x) - \lambda \parens{g(x) - C}$ would set $g(x^*) = C$.
+
+  \item Note that the shadow price may be zero. This corresponds to the
+  scenario where $g(x^*) \leq C$ even if we optimize $f$ without regard
+  to constraint on the pollution $g$.
+
+  \item By considering the shadow price $\lambda$, we could consider how
+  this compares to the marginal suffering imposed on the victims of one
+  more unit of pollution.
+
+  \item A cap of $g(x) \leq C$ is not pareto optimal if the shadow price
+  for pollution imposed on the firm is greater than the cost of an
+  additional unit of pollution imposed on a victim. In that case, we
+  would argue that we have set the cap too low.
+\end{enumerate}
+
+\section{KKT Conditions}
+
+\begin{enumerate}
+  \item We will list the conditions that should hold for a constrained
+  optimization of $f$ subject to constraints that $g_i(x) \leq 0$ and
+  $h_j(x) = 0$. The conditions are called \define{KKT conditions} after
+  the people who defined this theorem.
+
+  \item We should identify KKT multipliers $\mu_i$ and $\lambda_j$.
+
+  \item First, we of course require that $g_i(x^*) \leq 0$ and $h_i(x^*)
+  = 0$. Else, we would not have obeyed the constraints. This is called
+  \define{primal feasibility}.
+
+  \item We should also have that $\mu_i \geq 0$. These shadow prices
+  should not go below zero, since we allow that $g_i(x) < 0$. This is
+  called \define{dual feasibility}. Note that $\lambda_j$ may go below
+  zero, since we may have to encourage the firm to incur $h_j(x^*) = 0$.
+
+  \item We require that $\grad f(x^*) - \sum_i \mu_i g_i(x^*) - \sum_j
+  \lambda_j h_j(x^*) = 0$. This is called \define{stationarity}. Note
+  that $\mu_i$ and even $\lambda_j$ may be zero if the shadow price of
+  imposing the corresponding constraint is zero.
+
+  \item Last, $\mu_i g_i(x^*) = 0$. This is called \define{slackness}.
+  It says that either $g_i(x^*) = 0$, or the shadow price $\mu_i$ is set
+  to zero.
+
+  \item Note that the last condition about slackness is necessary.
+  Consider an interior point $x$ where $\grad f(x)$ and $\grad g(x)$ are
+  aligned, but where $g(x)$ is still negative. Then the shadow price
+  $\mu$ should still be zero, so that $\grad f(x) - \mu g(x) = \grad
+  f(x) \ne 0$ encouraging you to increase production. But if you
+  incorrectly set a shadow price $\mu > 0$, then you could discourage
+  production and achieve stationarity: $\grad f(x) - \mu \grad g(x) =
+  0$. You would be respecting both primal and dual feasibility.
+
+  \item Only the violation of slackness would show you that you have not
+  met all necessary conditions of a constrained optimum.
+\end{enumerate}
+
+\end{document}
+
+% ## KKT Example
+
+% Follows from http://www.math.ubc.ca/~israel/m340/kkt2.pdf.
+
+% Let's say our requirements are:
+
+%     maximize f(x, y) = xy
+%     x + y^2 <= 2
+%     x >= 0
+%     y >= 0
+
+% I threw some `>=` for fun!
+
+% Let's encode this with prices like so. `\lambda_1` encodes the price
+% for pollution `x + y^2`. `\lambda_2` is the credit for producing
+% positive byproduct `x`, `\lambda_3` is the credit for producing
+% positive byproduct `y`.
+
+% At prices `\lambda_1, \lambda_2, \lambda_3` we know:
+
+%     y - \lambda_1 + \lambda_2 = 0 (from deriv wrt x)
+%     x - \lambda_1 (2y) + \lambda_3 = 0 (from deriv wrt y)
+
+% Our *complementary slackness* conditions say:
+
+%     \lambda_1 (2 - x - y^2) = 0
+%     \lambda_2 x = 0
+%     \lambda_3 y = 0
+
+% This says that at an optimal solution to the program, you would act as
+% if
+
+%     (1) the price for polution \lambda_1!=0 entailed no polution, OR
+%         you wouldn't polute even if \lambda_1 = 0,
+%     (2) you would do x cleanup even if lambda_2 = 0, OR you wouldn't
+%         pollute if \lambda_2 were set appropriately,
+%     (2) you would do y cleanup even if lambda_3 = 0, OR you wouldn't
+%         pollute if \lambda_3 were set appropriately,
+
+% So let's begin! Let's briefly assume that behave optimally even if
+% \lambda_1 = 0. By our `x, y` optimality equation, that means that:
+
+%     y = -\lambda_2
+%     x = -\lambda_3
+
+% And by complementary slackness, we must have `x = y = 0` and
+% `\lambda_2 = \lambda_3 = 0`. This doesn't sound like it will be a
+% maximum of `f`, but maybe. Or maybe we derived this solution from a
+% false premise that `\lambda_1 = 0`.
+
+% Alternatively, we consider if `\lambda_1 != 0`. In that case we have
+% some subquestions. What if `\lambda_2 = 0`? Then:
+
+%     y = \lambda_1
+
+% from our maximization constraint. Since `y != 0`, that means that
+% `\lambda_3` doesn't matter, so we may assume `\lambda_3 = 0`. This is
+% convenient because it lets us enumerate fewer cases; we don't need to
+% solve for if  `\lambda_3 != 0`.
+
+% Using `\lambda_3 = 0`, we use our other optimization constraint
+% equation:
+
+%     x - \lambda_1 (2y) = 0
+%     x - 2 \lambda_1^2 = 0
+%     x = 2 \lambda_1^2
+
+% Last, we can solve for `\lambda_1`.
+
+%     2 - (2\lambda_1^2) - (\lambda_1^2) = 0
+%     2 = 3 \lambda_1^2
+%     \lambda_1 = \sqrt(2/3)
+
+% Thus:
+
+%     y = \sqrt(2/3)
+%     x = 4/3
+
+% There is one last case! We must check for when `\lambda_1 != 0` AND
+% `\lambda_2 != 0`. `\lambda_2 != 0` implies that `x = 0`. But then
+% `\lambda_1 != 0` implies `x + y^2 = 2`, so we have `y = \sqrt(2)`.
+
+% So in the final analysis, we examine the possibilities:
+
+% (1) x = y = 0,
+% (2) x = 0, y = sqrt(2)
+% (3) x = 4/3, y = \sqrt(2/3)
+
+% Clearly 3 is the maximizer.
