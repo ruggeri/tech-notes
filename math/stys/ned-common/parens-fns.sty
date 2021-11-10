@@ -53,7 +53,19 @@
   \log\parens{#1}
 }
 
+\newcommand{\maxf}[1]{
+  \max\parens{#1}
+}
+
+\newcommand{\minf}[1]{
+  \min\parens{#1}
+}
+
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\sgnf}[1]{
+  \sgn\parens{#1}
+}
 
 \newcommand{\anglef}[1]{
   \langle #1 \rangle
@@ -61,4 +73,8 @@
 
 \newcommand{\ff}[1]{
   f\parens{#1}
+}
+
+\newcommand{\phif}[1]{
+  \phi\parens{#1}
 }

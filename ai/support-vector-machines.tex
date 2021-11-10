@@ -1,0 +1,174 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+\usepackage{ned-linear-algebra}
+
+\newcommand{\braket}[1]{|#1\rangle}
+\newcommand{\sqtot}{\frac{\sqrt{2}}{2}}
+
+\begin{document}
+
+\title{Support Vector Machines}
+\maketitle
+
+\section{Linear Decision Boundary}
+
+A linear decision boundary is a hyperplane through feature space such
+that every feature vector on one side will be labeled as a positive
+example, while every feature vector on the other will be labeled as a
+negative example.
+
+The boundary can be defined by a normal vector $\vtheta$ and an
+intercept $b$. A point $\vx$ lies on the boundary when $\vtheta\tran \vx
++ b = 0$. Learning a linear decision boundary is equivalent to learning
+such a normal vector.
+
+SVMs will learn a linear decision boundary. Similarly, perceptrons learn
+a linear decision boundary.
+
+\section{Maximum (Hard) Margin}
+
+The simplest SVM problem formulation first assumes that the positive and
+negative training examples are linearly separable: a hyperplane can
+separate them. We want to learn a hyperplane.
+
+If this is so, then there is generally more than one hyperplane that
+separates positive and negative examples. SVM wants to choose that
+hyperplane that maximizes the \define{margin}: the distance of the
+nearest training points to the hyperplane.
+
+The hope is that this will result in the least generalization error
+going forward.
+
+One way to express this requirement is to require that $\norm{\vtheta} =
+1$, and that you maximize $\min_i y_i \parens{\vtheta\tran \vx_i + b}$,
+given the requirement that $\vtheta\tran \vx_i + b > 0$ iff $y_i = 1$.
+
+Here is an alternative formulation. We change the requirement to
+$\vtheta\tran \vx_i + b \geq 1$ when $y_i = 1$, and $\vtheta\tran \vx_i
++ b \leq -1$ when $y_i = -1$. Subject to this constraint, we now want to
+minimize $\norm{\vtheta}$. (Or, equivalently, $\normsq{\vtheta}$.)
+
+The result is the same. The norm of the slope $\vtheta$ away from the
+linear boundary can be made minimal exactly when the distance from the
+boundary to the nearest point is made maximal.
+
+
+\section{Soft Margin}
+
+We may also consider a scenario when the data are possibly not linearly
+separable. In this case, we impose a \emph{loss} that defines how bad it
+is to mislabel a training example. This is the \define{hinge loss}:
+
+\begin{nedqn}
+  \maxf{0, 1 - y_i\parens{\vtheta\tran \vx_i + b}}
+\end{nedqn}
+
+We call this loss a ``hinge'' because no loss is incurred if we respect
+that $y_i \parens{\vtheta\tran \vx_i + b} \geq 1$.
+
+Note that if the hinge loss can be made zero, then this says that the
+data is linearly separable. But we still want to set up a problem that
+will choose a maximum margin classifier. In that case, let us minimize:
+
+\begin{nedqn}
+  \lambda \normsq{\vtheta} + \sum_i \maxf{0, 1 - y_i \vtheta\tran \vx_i}
+\end{nedqn}
+
+\noindent
+Note that this incorporates a certain L2 regularization on the
+parameters $\vtheta$. If $\lambda$ is chosen very great, then the loss
+imposed will be swamped, and we will bias our estimates of the
+parameters strongly toward zero.
+
+If we choose $\lambda$ to be small enough, then the optimal parameters
+achieve a hinge loss of zero. At this point, our cost function is simply
+pushing us to select $\vtheta, b$ which maximize the margin (as before).
+
+Thus, we see that the soft margin problem, when the data is linearly
+separable, generalizes the hard margin problem: the soft margin becomes
+the hard margin in these scenarios when the $\lambda$ is chosen small
+enough.
+
+\section{Support Vectors}
+
+The \define{margins} of a support vector $\vtheta$ are defined by
+$\vtheta\tran \vx = -1$ and $\vtheta\tran \vx = +1$. There must be at
+least one datapoint on this first margin, and at least one datapoint on
+this second margin. Else, we could \emph{shift} the decision boundary
+without violating the boundary, and in fact increasing the margin.
+
+There may, of course, be more than one datapoint lying on these margins.
+
+\section{SVM and Logistic Regression}
+
+SVM and logistic regression both aim to find a linear decision boundary.
+However, the SVM method is going to minimize the hinge loss, while
+logistic regression aims to minimize the log loss.
+
+The learned decision boundary will have the same structure; either model
+can represent the boundary learned by the other. But the estimation
+procedure is slightly different. The ``correct'' method to use will
+depend on underlying assumptions about how the data is generated.
+
+I won't belabor this, because I think it's mostly not important in the
+real world. In the real world, the models both perform similarly because
+they have the same structure, and because the underlying assumptions of
+each model are both probably equally violated by the real world data.
+
+That is: I expect SVM and LR to generally perform about equally well on
+most problems.
+
+\section{Kernel Methods}
+
+What if we want to learn a non-linear decision boundary? In that case,
+we could project into a new feature space and use SVM there. But how
+could we find such a space?
+
+Here is a simple idea: project $\vx$ to a vector consisting of $\vx_i
+\cdot \vx$, for each training example $\vx_i$. That is: you find the
+cosine similarity between $\vx$ and each training example $\vx_i$.
+Choosing $w_i$ carefully, we should be able to achieve:
+
+\begin{nedqn}
+  \sgnf{\sum_i w_i \vx_i \cdot \vx_j} = y_j
+\end{nedqn}
+
+That is: we hope to carve out angular wedges in the original space
+around each training point such that the wedge is assigned the correct
+class. We hope these angular wedges are defined by a linear boundary in
+the projection space.
+
+Another choice would be to use the \define{radial basis function}
+kernel. We map to a feature space defined by $\expf{-\gamma
+\normsq{\vx_i - \vx}}$. Here, $\gamma$ is again a parameter. Denoting
+the RBF as $k(\vx_i, \vx)$, we hope to find weights such that:
+
+\begin{nedqn}
+  \sgnf{\sum_i w_i k(\vx_i, \vx_j)} = y_j
+\end{nedqn}
+
+Again, I don't prove here that you can achieve linear separation in the
+projection space. But we hope to: these features are basically the
+inverse of distance from various reference points (the training $\vx_i$
+themselves).
+
+Can we use any old function $k$? It turns out that if $k$ is of a
+special form (a \define{positive definite kernel}), then $k(\vx, \vx') =
+\iprod{\vphif{\vx}}{\vphif{\vx'}}$. What does this mean? $\varphi$ is a
+mapping from $\vx$ to some vector space. $\iprod{\cdot}{\cdot}$ is an
+inner product in this vector space. This is saying that the kernel
+function is equivalent to an inner-product in some vector space. This
+result is called \define{Mercer's theorem}.
+
+The \define{kernel trick} says that, if a technique works in any vector
+space with a dot product, then we can perform it with respect to any
+\emph{kernel} also. We will not need to explicitly represent $\varphi$
+or compute any $\varphi{\vx}$: we will use only the kernel function and
+the original $\vx_i$.
+
+\end{document}
