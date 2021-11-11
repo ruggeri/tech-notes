@@ -119,10 +119,19 @@
   zero, and assume that $\vu\tran \mtxH \vu = 0$ for all $\vu$. Consider
   $\begin{bmatrix}0 & 1\\1 & 0\end{bmatrix}$.
 
-  \item We last note, a matrix where $\vu\tran \mtxH \vu \geq 0$ is
-  called \define{positive semi-definite}. In this case, we \emph{may}
-  have a local minimum, maximum, or saddle point. It is not determined,
-  just as in our univariate second-derivative test.
+  \item What about if $\vu\tran \mtxH \vu = 0$ for some $\vu$? In this
+  case, the second-derivative test has failed. We cannot tell whether
+  $g(t) = f(\vx + t \vu)$ will achieve a maximum, minimum, or neither at
+  $\vx$.
+
+  \item We call a matrix where $\vu\tran \mtxH \vu \geq 0$
+  \define{positive semi-definite}. Likewise we define negative
+  semi-definite. As described, we cannot conclude from a positive
+  (negative) semi-definite Hessian that $\vx$ is a local minimum
+  (maximum).
+
+  We may, however, note, that a minimum (maximum) always implies a
+  positive (negative) semi-definite Hessian.
 \end{enumerate}
 
 \section{Equality Constraints}
@@ -308,7 +317,9 @@
   $h_j(x) = 0$. The conditions are called \define{KKT conditions} after
   the people who defined this theorem.
 
-  \item We should identify KKT multipliers $\mu_i$ and $\lambda_j$.
+  \item The theorem says that $x^*$ being an optimum of $f$ given the
+  constraints implies there exists KKT multipliers $\setof{\mu_i},
+  \setof{\lambda_j}$ such that the following conditions hold.
 
   \item First, we of course require that $g_i(x^*) \leq 0$ and $h_i(x^*)
   = 0$. Else, we would not have obeyed the constraints. This is called
@@ -319,10 +330,11 @@
   called \define{dual feasibility}. Note that $\lambda_j$ may go below
   zero, since we may have to encourage the firm to incur $h_j(x^*) = 0$.
 
-  \item We require that $\grad f(x^*) - \sum_i \mu_i g_i(x^*) - \sum_j
-  \lambda_j h_j(x^*) = 0$. This is called \define{stationarity}. Note
-  that $\mu_i$ and even $\lambda_j$ may be zero if the shadow price of
-  imposing the corresponding constraint is zero.
+  \item We require that $\grad f(x^*) - \sum_i \mu_i \grad g_i(x^*) -
+  \sum_j \lambda_j \grad h_j(x^*) = 0$. This is called
+  \define{stationarity}. Note that $\mu_i$ and even $\lambda_j$ may be
+  zero if the shadow price of imposing the corresponding constraint is
+  zero.
 
   \item Last, $\mu_i g_i(x^*) = 0$. This is called \define{slackness}.
   It says that either $g_i(x^*) = 0$, or the shadow price $\mu_i$ is set
@@ -339,6 +351,16 @@
 
   \item Only the violation of slackness would show you that you have not
   met all necessary conditions of a constrained optimum.
+
+  \item Note that the KKT conditions are not \emph{sufficient} criteria;
+  they are merely necessary. But we hope to be able identify and test
+  just a few points that meet these criteria.
+
+  \item Even assuming all $\mu_i \ne 0$, it might be hard to solve the
+  system of equations implied by the stationarity condition. However, I
+  believe you should always be able to solve via successive
+  substitution. That is: you write one term in terms of the others, and
+  successively substitute this value and repeat.
 \end{enumerate}
 
 \end{document}
