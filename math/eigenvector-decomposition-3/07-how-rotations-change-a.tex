@@ -48,6 +48,7 @@ near zero. Let's first study $\mtxA'_{k_1, k_2}(\theta)$ where $k_1, k_2
   \nednumber\label{change:k1:k2}%
 \end{nedqn}
 
+\noindent
 As we see, the only changed elements should be in rows (and columns) $i$
 and $j$. Let's next consider what happens to $\mtxA'_{k, i}(\theta)$
 where $k \not\in \setof{i, j}$.
@@ -68,10 +69,37 @@ where $k \not\in \setof{i, j}$.
   \label{change:k:i}
 \end{nedqn}
 
-\textbf{TODO}: we really ought to prove that rotation preserves symmetry?
+\noindent
+Well, that makes sense! We can consider next about $\mtxA'_{i,
+k}\parens{\theta}$. We can simply repeat:
 
-Well, that makes sense! Naturally, because $\mtxA'(\theta)$ is
-symmetric, we know that $\mtxA'_{i, k}(\theta) = \mtxA'_{k, i}(\theta)$.
+\begin{nedqn}
+  \mtxA'_{i, k}(\theta)
+& = &
+  \bvec{i}\tran (\mtxQtAQ) \bvec{k}
+  \\
+& = &
+  \left(
+    \cos\theta \bvec{i} + \sin\theta \bvec{j}
+  \right)\tran
+  \mtxA \bvec{k}
+  \\
+& = &
+  \cos\theta \mtxA_{i, k} + \sin\theta \mtxA_{j, k}
+  \nednumber
+  \label{change:k:i}
+\end{nedqn}
+
+\noindent
+Since $\mtxA$ started symmetric, we can conclude from the preceding
+calculations that:
+
+\begin{nedqn}
+  \mtxA'_{k, i}\parens{\theta}
+\eqcol
+  \mtxA'_{i, k}\parens{\theta}
+\end{nedqn}
+
 Let's next ask about $\mtxA'_{k, j}(\theta)$. Here we go:
 
 \begin{nedqn}
