@@ -363,94 +363,86 @@
   successively substitute this value and repeat.
 \end{enumerate}
 
+\section{Worked KKT Example}
+
+\begin{enumerate}
+  \item This example comes from
+  \href{http://www.math.ubc.ca/~israel/m340/kkt2.pdf}{LINK}.
+
+  \item Let's try to maximize $f(x, y) = xy$ subject to the constraints
+  that $x + y^2 \leq 2$ and $x \geq 0, y \geq 0$.
+
+  \item We thus wish to maximize, for the appropriate $\mu_1, \mu_2,
+  \mu_3 \geq 0$:
+
+  \begin{nedqn}
+    q(x) = xy - \mu_1 \parens{x + y^2} + \mu_2 x + \mu_3 y
+  \end{nedqn}
+
+  \item By stationarity, we know that:
+
+  \begin{nedqn}
+    \grad q(x)
+  \eqcol
+    \vec{0}
+  \intertext{which implies}
+  \\
+    \fpartial{x} q(x)
+  \eqcol
+    y - \mu_1 + \mu_2 = 0
+  \\
+    \fpartial{y} q(x)
+  \eqcol
+    x - 2 \mu_1 y + \mu_3 = 0
+  \end{nedqn}
+
+  \item We will now examine the implications of complementary slackness.
+  Let's first assume that $\mu_1 = 0$. Then we conclude that $y =
+  -\mu_2$ and $x = -\mu_3$. We are supposed to require that $\mu_2,
+  \mu_3 \geq 0$ (dual feasibility). But if $\mu_2 > 0$, then that would
+  imply $y = -\mu_2 < 0$, which violates primal feasibility. So we must
+  conclude $\mu_2 = 0$, which implies that $y = 0$. Likewise $x = 0$.
+
+  This gives us the critical point $(x, y) = (0, 0)$. Note that any
+  other point $(x \ne 0, 0), (0, y \ne 0)$ would give the same value
+  $f(x, y) = xy = 0$. However, these are \emph{not} critical points.
+  Take $x \ne 0$. Then $\fpartial{y} q(x) = x + \mu_3 > 0$ for any
+  choice $\mu_3 \geq 0$. That is: we could improve the objective by
+  increasing $y$. This is another way of showing that a critical point
+  must set $x = 0$.
+
+  \item Let's next assume that $\mu_1 \ne 0$. Then we know, from
+  complementary slackness, that $x + y^2 = 2$.
+
+  Consider $x = 0$. Then this implies that $y = \sqrt{2}$. This implies
+  that $\mu_3 = 0$, by complementary slackness. But then note that $x =
+  2 \mu_1 y > 0$. This contradicts the assumption that $x = 0$.
+
+  When considering $\parens{0, \sqrt{2}}$, we note this is not a
+  critical point unless there is a cost imposed on increasing $x$: this
+  comes from $\mu_1 > 0$. But if so, then marginally we would want to
+  decrease $y$ (to gain from the cost $\mu_1$), since this costs nothing
+  with regard to our objective (since $\fpartial{y} f(0, y) = 0$).
+
+  This explains why we obtained a contradiction, rather than identified
+  a critical point.
+
+  \item So we must have $x > 0$. This implies that $\mu_2 = 0$. Thus $y
+  = \mu_1 > 0$. That in turn implies that $\mu_3 = 0$ (again by
+  slackness).
+
+  By substitution, we have that $x - 2 \mu_1 y + \mu_3 = x - 2 y^2 + 0
+  =0$. Thus, $x = 2 y^2$. By plugging into $x + y^2 = 2$, we recover $y
+  = \sqrt{\frac{2}{3}}$.
+
+  Similarly, we could have said $y^2 = \frac{x}{2}$. Plugging this in
+  gives us $x + \frac{x}{2} = 2$, implying $x = \frac{4}{3}$.
+
+  This gives us a second critical point to consider:
+  $\parens{x, y} = \parens{\frac{4}{3}, \sqrt{\frac{2}{3}}}$.
+
+  \item We may easily see that $f(0, 0) = 0$, while $f(\frac{4}{3},
+  \sqrt{\frac{2}{3}}) > 0$. Thus we have found our constrained optimum!
+\end{enumerate}
+
 \end{document}
-
-% ## KKT Example
-
-% Follows from http://www.math.ubc.ca/~israel/m340/kkt2.pdf.
-
-% Let's say our requirements are:
-
-%     maximize f(x, y) = xy
-%     x + y^2 <= 2
-%     x >= 0
-%     y >= 0
-
-% I threw some `>=` for fun!
-
-% Let's encode this with prices like so. `\lambda_1` encodes the price
-% for pollution `x + y^2`. `\lambda_2` is the credit for producing
-% positive byproduct `x`, `\lambda_3` is the credit for producing
-% positive byproduct `y`.
-
-% At prices `\lambda_1, \lambda_2, \lambda_3` we know:
-
-%     y - \lambda_1 + \lambda_2 = 0 (from deriv wrt x)
-%     x - \lambda_1 (2y) + \lambda_3 = 0 (from deriv wrt y)
-
-% Our *complementary slackness* conditions say:
-
-%     \lambda_1 (2 - x - y^2) = 0
-%     \lambda_2 x = 0
-%     \lambda_3 y = 0
-
-% This says that at an optimal solution to the program, you would act as
-% if
-
-%     (1) the price for polution \lambda_1!=0 entailed no polution, OR
-%         you wouldn't polute even if \lambda_1 = 0,
-%     (2) you would do x cleanup even if lambda_2 = 0, OR you wouldn't
-%         pollute if \lambda_2 were set appropriately,
-%     (2) you would do y cleanup even if lambda_3 = 0, OR you wouldn't
-%         pollute if \lambda_3 were set appropriately,
-
-% So let's begin! Let's briefly assume that behave optimally even if
-% \lambda_1 = 0. By our `x, y` optimality equation, that means that:
-
-%     y = -\lambda_2
-%     x = -\lambda_3
-
-% And by complementary slackness, we must have `x = y = 0` and
-% `\lambda_2 = \lambda_3 = 0`. This doesn't sound like it will be a
-% maximum of `f`, but maybe. Or maybe we derived this solution from a
-% false premise that `\lambda_1 = 0`.
-
-% Alternatively, we consider if `\lambda_1 != 0`. In that case we have
-% some subquestions. What if `\lambda_2 = 0`? Then:
-
-%     y = \lambda_1
-
-% from our maximization constraint. Since `y != 0`, that means that
-% `\lambda_3` doesn't matter, so we may assume `\lambda_3 = 0`. This is
-% convenient because it lets us enumerate fewer cases; we don't need to
-% solve for if  `\lambda_3 != 0`.
-
-% Using `\lambda_3 = 0`, we use our other optimization constraint
-% equation:
-
-%     x - \lambda_1 (2y) = 0
-%     x - 2 \lambda_1^2 = 0
-%     x = 2 \lambda_1^2
-
-% Last, we can solve for `\lambda_1`.
-
-%     2 - (2\lambda_1^2) - (\lambda_1^2) = 0
-%     2 = 3 \lambda_1^2
-%     \lambda_1 = \sqrt(2/3)
-
-% Thus:
-
-%     y = \sqrt(2/3)
-%     x = 4/3
-
-% There is one last case! We must check for when `\lambda_1 != 0` AND
-% `\lambda_2 != 0`. `\lambda_2 != 0` implies that `x = 0`. But then
-% `\lambda_1 != 0` implies `x + y^2 = 2`, so we have `y = \sqrt(2)`.
-
-% So in the final analysis, we examine the possibilities:
-
-% (1) x = y = 0,
-% (2) x = 0, y = sqrt(2)
-% (3) x = 4/3, y = \sqrt(2/3)
-
-% Clearly 3 is the maximizer.
