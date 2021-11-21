@@ -1,0 +1,200 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+
+\begin{document}
+
+\title{Eigenvector Decomposition Intuition}
+\maketitle
+
+
+\section{Orthogonality of Eigenvectors; Simple Proof Of Finite-Dim Spectral Theorem}
+
+\begin{enumerate}
+  \item Consider if $\vu$ is an eigenvector of a symmetric matrix
+  $\mtxA$. Now, consider $\vv$ perpendicular to $\vu$.
+
+  \item I say that $\mtxA \vv$ can have no projection onto $\vu$. This
+  is clear, because $\mtxA \vu$ has no projection onto $\vv$, else it
+  would not be an eigenvector.
+
+  \item I like this statement, because it relies on the intuition that a
+  symmetric matrix should bend orthogonal vectors equally toward (or
+  away) from each other. So if $\vu$ doesn't move toward $\vv$, neither
+  can $\vv$ move toward $\vu$.
+
+  \item I am now one step away from the eigenvector theorem: I need only
+  prove that a symmetric matrix must have at least one eigenvector.
+  Then, I can consider the action of the matrix on the subspace
+  perpendicular to this eigenvector. I've just said that the matrix
+  fixes this subspace. So I can then recursively apply my statement and
+  find that there is an eigenvector of this subspace. And so on for $n$
+  orthogonal eigenvectors.
+
+  \item Consider the space of all unit vectors. I want to find the
+  vector $\vu$ which comes ``closest'' to being inline with $\mtxA\vu$.
+  I can simulate this with $\ff{\vu} = \vu \cdot \mtxA\vu$. This is like
+  asking: how much does $\mtxA$ stretch $\vu$ (ignoring any other
+  action)? What vector is stretched the most by $\mtxA$?
+
+  \item To find a maximum of $f$ on the space of unit vectors, I need to
+  find a $\vu$ such that $\grad f$ is perpendicular to the hypersphere
+  at $\vu$. Note that I \emph{do not} require that $\grad f$ is zero at
+  $\vu$.
+
+  \item The vector $\vu$ itself defines a normal of the hyperplane
+  perpendicular to the unit hypersphere at $\vu$. So, we know that the
+  critical points of $f$ on the hypersphere surface occur where $\grad
+  f$ is a scalar multiple of $\vu$. We know that such a position must
+  exist somewhere on the unit hypersphere, because $f$ is continuous,
+  and the hypersphere is a compact space.
+
+  \item Okay. We know (1) a maximum of $f$ exists, and (2) where it
+  exists, we have $\grad \ff{\vu} = \lambda \vu$. Let's actually look at
+  the gradient. We can do this one partial derivative at a time:
+
+  \begin{nedqn}
+    \fpartial{\vu_i} \ff{\vu}
+  \eqcol
+    \fpartial{\vu_i}
+    \sum_{i, j} \vu_i \mtxA_{i, j} \vu_j
+  \\
+  \eqcol
+    \sum_j \parens{\mtxA_{i, j} \vu_j + \vu_j \mtxA_{j, i}}
+  \intertext{using symmetry}
+  \eqcol
+    \sum_j 2 \mtxA_{i, j} \vu_j
+  \\
+  \eqcol
+    2\parens{\mtxA\vu}_i
+  \intertext{implying}
+    \grad \ff{\vu}
+  \eqcol
+    2 \mtxA\vu
+  \end{nedqn}
+
+  \item But this takes us full circle. We already said that at the point
+  where $f$ obtains its maximum (which is guaranteed to exist), we have
+  $\grad \ff{\vu} = \lambda \vu$. And now we've said that $\grad
+  \ff{\vu} = 2 \mtxA\vu$ (btw, this is the formula for any $\vu$, not
+  just the critical point).
+
+  Thus we know that, for some $\vu$ on the unit sphere, $\vu$ is a
+  critical point for $\ff{\vu} = \vu \cdot \mtxA\vu$ and at this point:
+
+  \begin{nedqn}
+    \grad \ff{\vu}
+  =
+    2\mtxA \vu
+  =
+    \lambda \vu
+  \end{nedqn}
+
+  \item This shows that when $\mtxA$ is symmetric, there must always be
+  at least one eigenvector of $\mtxA$. By prior argument, there are a
+  further $n-1$ perpendicular eigenvectors in the subspace perpendicular
+  to the first eigenvector. That is: the eigenspace has full rank.
+
+  \item \TODO{Gain intuition for why the gradient of $f$ is $\mtxA\vu$.}
+\end{enumerate}
+
+
+\section{Some Simple Symmetric Matrices}
+
+\begin{enumerate}
+  \item What are the simplest symmetric matrices? I suppose they are the
+  \define{diagonal matrices} $\mtxD$. These correspond to stretching of
+  a single component.
+
+  \item The next simplest are probably the rank-1 symmetric matrices:
+  $\vu \vu\tran$. These correspond to a projection into a single
+  dimension, as well as possibly some scaling.
+
+  \item It makes sense that a matrix that maps vectors into a
+  one-dimensional subspace should have all columns be scalar multiples
+  of the vector defining that subspace. But why is it natural that the
+  columns should be weighted such that the $\mtxA_{i, j} = \mtxA_{j,
+  i}$?
+
+  \item Of course, it must be related to the fact that we are actually
+  doing true projection onto the matrix. Let's assume that $\norm{\vu} =
+  1$ for a moment, for simplicity. We can always scale up by $\lambda$
+  with $\lambda \vu\vu\tran$.
+
+  \item The entry $\mtxA_{2, 1}$ is a product of two components. Firstly,
+  the length of the projection of $\ve_1$ onto $\vu$: $\ve_1 \cdot \vu$.
+  But then, secondly, the component of $\vu$ in the direction of
+  $\ve_2$: $\vu \cdot \ve_2$.
+
+  That is: $\mtxA_{2, 1}$ would be zero if $\vu$ were perpendicular to
+  $\ve_1$. But $\vu$ is not perpendicular to $\ve_1$ simply because
+  there is projection of $\vu$ onto $\ve_1$. That is: $u_1 \ne 0$. This
+  is the first factor that goes into both $\mtxA_{1, 1}$ (where this
+  factor is squared) and also $\mtxA_{2, 1}$.
+
+  But then we have the second part. $\mtxA_{2, 1}$ would still be zero,
+  no matter the first part, except if $\vu$ has projection onto $\ve_2$.
+
+  \item But we can follow that reasoning in the other direction. Only
+  insofar as $\vu$ has projection onto $\ve_2$ will $A_{2, 1} \ne 0$.
+  But likewise, this has implications for $A_{2, 2}$ and $A_{1, 2}$.
+
+  \item Here is another way to think about it and visualize. Consider
+  $\vu$ projected into the $\ve_1, \ve_2$ plane. Assume it lies in the
+  first quarter of the space (for simplicity), and also has length one.
+  Then the projection of $\ve_1$ onto $\vu$ has length $\cos\theta$, for
+  $\theta$ the angle between $\ve_1, \vu$. Correspondingly, the
+  projection of $\ve_2$ onto $\vu$ has length $\sin\theta$.
+
+  That is: $\vu = \cos\theta \ve_1 + \sin\theta \ve_2$. But this shows
+  that if you project $\ve_1$ onto $\vu$, you get $\cos\theta \vu$,
+  which has a second coordinate of $\cos\theta \sin\theta$.
+
+  Likewise, a projection of $\ve_2$ onto $\vu$ has length $\sin\theta$.
+  If this is projected onto $\ve_1$, you again get $\sin\theta
+  \cos\theta$.
+\end{enumerate}
+
+\section{Sum of Orthogonal Projection Matrices}
+
+\begin{enumerate}
+  \item It's clear that for $\lambda \vu\vu\tran$ can be written as
+  $\mtxQ\mtxD\mtxQ\tran$. We need only that $\mtxQ\tran$ rotates $\vu$
+  to a basis vector, which is then stretched by $\mtxD$ (while the other
+  vectors are nulled out).
+
+  \item If $\setof{\vu_i}$ are perpendicular, then $\sum_i \lambda_i
+  \vu_i \vu_i\tran$ can still be written as $\mtxQ\mtxD\mtxQ\tran$, with
+  entries of $\mtxQ$ corresponding to the $\vu_i$. The $\vu_i$ are the
+  eigenvectors (and columns of $\mtxQ$), while the $\mtxD_{i, i}$ are
+  eigenvalues.
+
+  \item However, we haven't yet achieved an intuitive understanding of
+  why a symmetric matrix should \emph{always} be orthogonally
+  diagonalizable.
+\end{enumerate}
+
+\section{TODOs}
+
+\begin{enumerate}
+  \item \TODO{Note that matrices can sometimes be diagonalized, but not
+  with an orthogonal matrix.}
+
+  \item \TODO{Consider rank-1 symmetric matrices. Must they correspond
+  to a diagonalization?}
+
+  \item \TODO{Consider rank-2 2x2 symmetric matrices. Must they
+  have an orthogonal diagonalization?}
+
+  \item \TODO{Would it help to sum $\lambda_i \sum_i \vu_i\vu_i\tran$
+  for \emph{non-orthogonal} $\vu$? This is symmetric, but does not have
+  eigenvectors $\vu_i$.}
+\end{enumerate}
+
+\end{document}
