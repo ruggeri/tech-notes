@@ -22,20 +22,25 @@
 
   \item I say that $\mtxA \vv$ can have no projection onto $\vu$. This
   is clear, because $\mtxA \vu$ has no projection onto $\vv$, else it
-  would not be an eigenvector.
+  would not be an eigenvector. Symmetry implies $\vu \cdot \mtxA\vv =
+  \mtxA\vu \cdot \vv$.
 
   \item I like this statement, because it relies on the intuition that a
   symmetric matrix should bend orthogonal vectors equally toward (or
   away) from each other. So if $\vu$ doesn't move toward $\vv$, neither
   can $\vv$ move toward $\vu$.
 
+  (This isn't strictly correct, in that the angle of bending need not be
+  equal. But insofar as a vector is bent less, it must be stretched
+  \emph{more}. That is what symmetry implies.)
+
   \item I am now one step away from the eigenvector theorem: I need only
   prove that a symmetric matrix must have at least one eigenvector.
   Then, I can consider the action of the matrix on the subspace
-  perpendicular to this eigenvector. I've just said that the matrix
-  fixes this subspace. So I can then recursively apply my statement and
-  find that there is an eigenvector of this subspace. And so on for $n$
-  orthogonal eigenvectors.
+  perpendicular to this eigenvector. I've just said that the matrix maps
+  this subspace to itself. So I can then recursively apply my statement
+  and find that there is an eigenvector of this subspace. And so on for
+  $n$ orthogonal eigenvectors.
 
   \item Consider the space of all unit vectors. I want to find the
   vector $\vu$ which comes ``closest'' to being inline with $\mtxA\vu$.
@@ -101,7 +106,18 @@
   further $n-1$ perpendicular eigenvectors in the subspace perpendicular
   to the first eigenvector. That is: the eigenspace has full rank.
 
-  \item \TODO{Gain intuition for why the gradient of $f$ is $\mtxA\vu$.}
+  \item We could try to explore why $\grad f = 2 \mtxA\vu$. Surely
+  $\grad f$ has two components: when we change $\vu$, it can come more
+  into line with $\mtxA\vu$, and while we change $\vu$, $\mtxA\vu$ can
+  come more into line with $\vu$. The first part has gradient $\mtxA\vu$
+  and the second part has gradient $\vu\mtxAt$. Since $\mtxA$ is
+  symmetric, we can combine these two components.
+
+  \item \TODO{Explore what gradient is like when $\mtxA$ is not
+  symmetric.}
+
+  \item \TODO{Explore the maximizer of $f$ when $\mtxA$ is not
+  symmetric.}
 \end{enumerate}
 
 
