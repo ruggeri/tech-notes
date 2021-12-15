@@ -60,8 +60,10 @@ alternator.
 However, when people say "alternator" they normally mean that the
 magnetic field is provided by **field coils**, rather than a permanent
 magnet. Recall that a coil of wire, through which current is flowing,
-will produce a magnetic field. A coil used to produce a magnetic field
-is called a **field coil**.
+will produce a magnetic field (Faraday's law of induction). This is of
+course just the other side of the idea that a rotating magnetic field
+will induce an alternating current. A coil used to produce a magnetic
+field is called a **field coil**.
 
 One advantage of the field coil is that you can vary the magnetic field
 (by varying the field current). This will result in different voltage
@@ -87,13 +89,131 @@ now power both the load and the field coils.
 
 It appears that you will want to perform some kind of _rectification_
 before running the AC output through the field coils. Else, current
-through the field coils will reverse.
+through the field coils will reverse. Indeed, this seems to be confirmed
+by Stack Overflow.
+
+We've said that the rotor contains the field coils. How will a current
+be continuously applied as the rotator moves? The answer is **slip
+rings**. These are just a sliding electrical contact. It's just a metal,
+conductive ring which is wired into the field coils. Current is applied
+to the conductive ring by a stationary roller, which is where the input
+voltage is applied. The stationary roller remains in contact with the
+ring as it rotates, delivering voltage.
+
+Note that, to complete a circuit, you'll need a _pair_ of slip rings.
+
+Apparently these slip rings are somewhat delicate, and thus it's desired
+to apply a lower voltage to them, when possible. This influences putting
+the field coil on the rotor of a generator. A relatively low voltage
+needs be driven to the field coils, whereas a large voltage will come
+off the armature.
+
+Source: https://electronics.stackexchange.com/questions/599265/does-alternator-self-excitation-require-rectification
+Source: https://www.youtube.com/watch?v=yhu3s1ut3wM
+
+## Dynamos
+
+To produce direct current from a rotating generator, one must use one of
+two devices.
+
+One way is **rectification**. This can be done using a **diode bridge**.
+Today, we would build this out of semiconductor diodes. However, it
+could also be built out of thermionic (vacuum tube) diodes.
+
+See here for a demonstration of a full-bridge rectifier:
+https://en.wikipedia.org/wiki/Diode_bridge. Note that the produced
+voltage output follows a pulsing DC current. This can be cleaned up to a
+steadier voltage with a capacitor. I won't describe that here.
+
+The other possibility is **commutation**. You can imagine a pair of slip
+rings (A and B), each segmented into two halves (A1 and A2, B1 and B2).
+One end of the rotor circuit is wired in parallel to A1 and B2, while
+the other end of the rotor circuit is wired in parallel to A2 and B1.
+
+Thus, at the start, the circuit is wired into A1 and B1. But, after a
+180deg turn, it is wired into B2 and A2. That is: it is wired
+_backward_. This is appropriate: as the orientation of the rotor
+reverses, it is becomes connected to the circuit in reverse.
+
+## Dynamos vs Alternators
+
+In the beginning, people wanted DC for their devices. Unfortunately, the
+alternator was the simpler device. It does not need rectification or
+commutation. The slip rings are less prone to wear than the mechanical
+commutator.
+
+Also, rectification of large voltage was probably really hard. They
+didn't have semiconductor materials. They could use diodes, but those
+were probably pretty wasteful. Nowadays, we produce DC from an
+alternator simply by solid-state rectification. This is how car
+batteries are charged. Solid-state rectification wasn't an option in the
+early days.
+
+## Power Transmission
+
+Imagine that you are sending power from a source (a hydroplant) to a
+destination (a city). Let's imagine that the hydroplant will charge a
+battery, then put the battery on a truck, and then drive it to the city.
+
+If you put very little energy into each battery, then the city will need
+to receive batteries at a high rate in order to meet its power demands.
+In this analogy, we will presume that the _speed_ of the trucks carrying
+the batteries is what costs us energy. It is true that trucks travelling
+at higher speeds will experience greater drag forces meaning more energy
+will be expended in transit.
+
+If we charge the batteries more fully, then fewer will have to arrive
+per second at the city to meet its power demands. We can ship them more
+slowly.
+
+Could we not send more trucks per second, with the same charge per
+truck? If we assume that trucks are lined up single-file, then the
+maximum number of trucks we send per second is equal to the distance
+traveled divided by their speed.
+
+Of course, if we add lanes (increase the cross-sectional area of the
+wire), we can send more trucks per second. But, if the cross-sectional
+area of the wire is fixed (its material costs money, you know), and the
+resistivity of the material (the "drag" on electron speed) is fixed,
+then we have only one option: send more energy per truck.
+
+This explains why you want to send _high voltage_ on transmission lines.
+The current per area is thus minimized, and thus wasted energy is
+minimized.
+
+## Power Transformation
+
+Equipment in the home is not going to want to deal with such high
+voltage. For one, high voltage would be extremely dangerous. Thus you
+will want to **transform** from a higher voltage to a lower voltage.
+This steps down the voltage from the high voltage used for transmission
+to a more practical voltage for use in the home.
+
+Alternating current transformation can be performed by appropriately
+winding input and output wires around a magnetic core. How this works
+will be discussed later. But the principle of AC voltage transformation
+was understood early, which was why AC power distribution could make
+sense: AC could be transmitted long distances at high voltage, and then
+stepped down to lower voltage at the destination.
+
+## HVDC Transmission And Conversion
+
+How would high-voltage DC transmission work? It would need to be
+transformed. One possibility is to charge batteries in series, then
+connect them to the grid in parallel. But this has the disadvantage of a
+charge/discharge cycle, and is not efficient.
+
+You can of course run a solid-state inverter to produce AC, then step
+down using an AC transformer, then run a rectifier.
+
+An electro-mechanical version would be to run a DC motor, then use this
+to power a DC generator. You could use either gearing to change the
+rotational speed and torque, which would result in a different voltage.
 
 ## TODO
 
-- Dynamos and commutators!
-- AC power transmission
-- Power transformers
-- DC power transmission
+- How an AC power transformer works.
 - Single-phase vs multi-phase power.
-- Brushless motors.
+- Brushless DC motors.
+  - Hall effect sensor?
+- Inverter.
