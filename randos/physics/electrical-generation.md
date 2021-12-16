@@ -108,6 +108,9 @@ the field coil on the rotor of a generator. A relatively low voltage
 needs be driven to the field coils, whereas a large voltage will come
 off the armature.
 
+Please note that brushes are still used to make contact with the slip
+rings. Thus, this is not a brushless design.
+
 Source: https://electronics.stackexchange.com/questions/599265/does-alternator-self-excitation-require-rectification
 Source: https://www.youtube.com/watch?v=yhu3s1ut3wM
 
@@ -210,10 +213,81 @@ An electro-mechanical version would be to run a DC motor, then use this
 to power a DC generator. You could use either gearing to change the
 rotational speed and torque, which would result in a different voltage.
 
+## Two Phase Power
+
+We have examined single phase power generation. Single phase power can
+be distributed using two wires. However, we can note that single phase
+power generation is constant through the cycle of the rotor. At a
+certain orientation, the magnetic field is orthogonal to the stator
+coil, producing no voltage. At this moment, there exists no voltage,
+thus no power generation.
+
+We may imagine two coils placed orthogonally. Then, the voltage created
+by one coil reaches its maximum exactly when the other coil has zero
+voltage.
+
+What is the power delivery? Recall that instantaneous power is V=IR and
+P=IV=V^2/R. The voltage on one phase is cos(theta)V while the other
+phase delivers sin(theta)V voltage. Thus, provided that the loads are
+balanced, the power delivered is $(cos^2(theta) +
+sin^2(theta))V^2/R=V^2/R$.
+
+Thus the power being output is constant, though the instantaneous power
+is out-of-phase by 90deg on each of the two circuits.
+
+A second major advantage of two-phase power is that it allows the simple
+creation of a rotating magnetic field. This allows a motor at rest to be
+"self-started." This was an important consideration for industrial
+applications and for trains. But this is something that should be
+discussed later.
+
+Two phase power is most typically implemented using two pairs of wires:
+four wires total.
+
+We shall soon see that three-phase power has some advantages over
+two-phase, which is why two-phase was very quickly supplanted by
+three-phase.
+
+## Single-Phase Three Wire For Home Delivery
+
+Three-phase power lines are used for long-range transmission, and for
+heavy machinery. In the home, single-phase alternating current is used.
+
+Here is how it works. You actually get three wires coming into the home.
+Two wires are live: the voltage difference between them is 240V AC at
+60Hz (in the US). However, relative to a third, neutral wire, the
+voltage of each of the live wires is 120V AC. That is: the two live
+wires are 180deg out of phase.
+
+(Note: this is not two-phase power because the two lines are 180deg out
+of phase. Thus, we could not use this system to create a rotating
+magnetic field.)
+
+In the breaker box, each circuit of the home bridges one live wire and
+the neutral. Half the circuits of the home are connected to one live,
+while the other half are connected to the other. There is 120V AC
+throughout the home.
+
+The exception is high-voltage equipment, which bridges the two live
+wires. These circuits receive 240V AC.
+
+Question: how does the transformer on your block supply these two
+out-of-phase live wires? The transformer input will be single-phase. It
+will step down the voltage appropriately. But, in the output coil, we
+will add a neutral connection right at the center.
+
+**TODO**: Actually wait how does this work?
+
 ## TODO
 
 - How an AC power transformer works.
 - Single-phase vs multi-phase power.
+- Brushless Generator.
+- Motors: induction and synchronous.
+  - I believe I've been describing _synchronous generators_. However,
+    there are _asynchronous generators_, which are just induction motors
+    run in reverse.
+- Brushless AC motor.
 - Brushless DC motors.
   - Hall effect sensor?
 - Inverter.
