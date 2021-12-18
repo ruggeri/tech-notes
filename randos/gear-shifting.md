@@ -1,8 +1,8 @@
 ## Gear Shifting For Maximum Acceleration
 
 Acceleration depends on the force where the tire meets the road. This
-force is equal to wheel torque divided by wheel radius. Smaller wheels
-should give faster acceleration, I suppose, at expense of top speed.
+force is equal to wheel torque times wheel radius. Smaller wheels should
+give faster acceleration, I suppose, at expense of top speed.
 
 To maximize acceleration, you maximize force. Which means you want to
 maximize wheel torque. What goes into wheel torque?
@@ -72,3 +72,42 @@ approximately halve the RPMs. So we'll also be thrown much farther back
 past the torque peak.
 
 Source: https://www.youtube.com/watch?v=zZBqb0ZJSwU
+
+## Maximize Horsepower
+
+Let me hit you with another interesting fact. Consider
+
+```
+# The relevant comparison
+current_wheel_torque ? next_wheel_torque
+current_engine_torque * current_gear_ratio ? next_engine_torque * next_gear_ratio
+# Multiply both sides by current_rpms, and divide by current_gear_ratio
+current_engine_torque * current_rpms
+?
+next_engine_torque * (current_rpms * next_gear_ratio/current_gear_ratio)
+# Note this equality
+next_rpms = current_rpms * next_gear_ratio/current_gear_ratio
+# So substitute
+current_engine_torque * current_rpms ? next_engine_torque * next_rpms
+# Last, note that torque * rpms = HP (well, with a constant factor).
+# Thus we can reduce to:
+current_hp ? next_hp
+```
+
+Thus we have a simpler version of the same decision. Would decreasing
+the gear ratio increase the horsepower? This makes sense: horsepower is
+the rate at which we add kinetic energy to the vehicle.
+
+## Is The Greedy Algorithm Optimal?
+
+Should you ever ride past the point where HP would have increased by
+upshifting?
+
+First, when could that happen? Consider that most HP graphs are
+monotonically increasing to peak HP, then are monotonically decreasing.
+Thus, once it makes sense to upshift, it will never make sense to then
+downshift.
+
+I also would argue: you should upshift as soon as that increases HP. If
+later you could increase HP by downshifting, then do it. But it still
+makes the most sense to follow the HP numbers.
