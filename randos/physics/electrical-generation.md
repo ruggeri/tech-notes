@@ -217,7 +217,7 @@ rotational speed and torque, which would result in a different voltage.
 
 We have examined single phase power generation. Single phase power can
 be distributed using two wires. However, we can note that single phase
-power generation is constant through the cycle of the rotor. At a
+power generation is not constant through the cycle of the rotor. At a
 certain orientation, the magnetic field is orthogonal to the stator
 coil, producing no voltage. At this moment, there exists no voltage,
 thus no power generation.
@@ -248,20 +248,67 @@ We shall soon see that three-phase power has some advantages over
 two-phase, which is why two-phase was very quickly supplanted by
 three-phase.
 
+## Three-Phase Power
+
+Consider three phase power. This is generated using coils that are
+120deg out of phase. Thus the voltage generated is always 120deg out of
+phase.
+
+Now, imagine that each coil is connected to an equivalent load. Then
+note that the currents driven are each described by sine waves 120deg
+out of phase.
+
+I've proven in my algebra/imaginary number notes that the sum of nth
+roots of unity is zero. Thus, the sum of the three currents is zero.
+
+That means that the current driven by coil one is equal and opposite to
+the sum of the currents driven by coils two and three.
+
+So we wire the three coils together at the center of the rotor. The
+three outputs of the generator can now also be wired together.
+Everything will balance properly.
+
+This suggests that we do not need six transmission wires, but only
+three. We can complete each coil circuit by cleverly wiring into the
+others. Here is a good visualization:
+
+https://en.wikipedia.org/wiki/Three-phase_electric_power#/media/File:3-phase_flow.gif
+
+Three phase power gives us the constant power output that we would get
+from two-phase power, as well as lets us create a rotating magnetic
+field easily.
+
+Note that we cannot reduce the four-wire two-phase system to three
+wires. In the two-phase system, the currents are ninety degrees out of
+phase and thus one cannot be wired to the other.
+
 ## Single-Phase Three Wire For Home Delivery
 
 Three-phase power lines are used for long-range transmission, and for
 heavy machinery. In the home, single-phase alternating current is used.
 
-Here is how it works. You actually get three wires coming into the home.
-Two wires are live: the voltage difference between them is 240V AC at
-60Hz (in the US). However, relative to a third, neutral wire, the
-voltage of each of the live wires is 120V AC. That is: the two live
-wires are 180deg out of phase.
+Here is how it works. As seen from the above gif, the red, green, and
+blue loads are all seeing 60Hz alternating current. The voltage is the
+transmission voltage, which is very high.
 
-(Note: this is not two-phase power because the two lines are 180deg out
-of phase. Thus, we could not use this system to create a rotating
-magnetic field.)
+The circuit to the home is wired with a voltage transformer to step down
+the voltage. The transformer steps down to single-phase 240V AC. This is
+the hot-to-hot voltage.
+
+To make things sophisticated, there is a **center-tap** of the coil on
+the home side of the transformer. This center tap is at the center point
+of the inductor coil, and is wired to ground. Throughout the home, each
+two-prong receptacle has one hot receptacle and one neutral receptacle.
+The neutral receptacles are all wired to ground. Half the outlets in the
+house will be wired to hot #1, and the other half to hot #2.
+
+You can go ahead and touch the neutral receptacle directly; it should
+have no voltage because it is wired to ground. If you touch the hot
+receptacle, you'll receive a 120V shock. Note that the hots in half the
+outlets will be 180deg out of phase with the hots in the other half.
+
+Note, this is _not_ two-phase power. The two lines are 180deg out of
+phase. You cannot create a rotating magnetic field like this.
 
 In the breaker box, each circuit of the home bridges one live wire and
 the neutral. Half the circuits of the home are connected to one live,
@@ -271,23 +318,71 @@ throughout the home.
 The exception is high-voltage equipment, which bridges the two live
 wires. These circuits receive 240V AC.
 
-Question: how does the transformer on your block supply these two
-out-of-phase live wires? The transformer input will be single-phase. It
-will step down the voltage appropriately. But, in the output coil, we
-will add a neutral connection right at the center.
+Let's quickly note why the voltage is 120V on each circuit. Instead of
+considering a single inductor with a center tap, you can consider _two_
+inductors, each with half the windings, each grounded to earth. Then
+it's clear that the voltage induced will be 120V, and not 240V.
 
-**TODO**: Actually wait how does this work?
+But maybe it's slightly more complicated if we consider that the two
+earths are really the same earth? Then consider if one circuit has the
+full resistance, while the second circuit has no load? There's a path
+through inductor A, the load, to the earth, then back out of the earth,
+around empty load B, through the inductor B (with opposite orientation),
+and back to earth again. Wouldn't that give 240V of voltage to the load?
+
+But with regard to inductor B, there is a short circuit. The current it
+is moving doesn't need to move through the load on circuit A, which
+would expend work. Instead, it can simply oscillate with no energy cost
+through circuit B with empty load. Presumably the energy draw of this
+circuit from the substation is zero, since it is costless to maintain
+the oscillation.
+
+## Synchronous Motor
+
+The prototype of a synchronous motor could be a permanent-magnet
+synchronous motor. This is like a reverse-magneto. The rotor is trying
+to create a fixed magnetic field, but the stator is creating (assuming
+three-phase power) a rotating magnetic field.
+
+Else, the rotor can have field coils. You can provide voltage via
+slip-rings. You will want to use rectification to generate DC for the
+field coils. You may also achieve a _brushless_ motor if you _induce_
+current in the motor with the changing magnetic field, rectifying this,
+and using it to drive field coils.
+
+One downside to the synchronous motor is that it can be difficult to
+start. In the beginning, you have no rotation of the shaft, but the
+stator is rotating the magnetic field. But this can only effectively
+drag the shaft if it is rotating at approximately the same rate as the
+motor. We say that the motor is not _self-starting_.
+
+How do you start the motor? One way is to use _variable frequency
+drive_; this allows for control of the frequency fed to the stator
+coils.
+
+Another way is to use an _induction motor_ (discussed soon) to start the
+motor. I believe this is the most common approach.
+
+I believe that a synchronous motor will try to maintain a constant RPM,
+even as load torque is increased. However, if the load is too great,
+then the rotor will fall behind the magnetic field, and the motor will
+stop working.
+
+This is another reason why an induction motor is often also used. As the
+rotor starts to _slip_, it will apply a torque to bring it up to speed.
 
 ## TODO
 
 - How an AC power transformer works.
-- Single-phase vs multi-phase power.
 - Brushless Generator.
 - Motors: induction and synchronous.
   - I believe I've been describing _synchronous generators_. However,
     there are _asynchronous generators_, which are just induction motors
     run in reverse.
 - Brushless AC motor.
+- Induction motors.
+  - Squirrel cage
+  - Wound Rotor
 - Brushless DC motors.
   - Hall effect sensor?
 - Inverter.
