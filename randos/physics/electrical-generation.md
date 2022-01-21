@@ -324,18 +324,27 @@ inductors, each with half the windings, each grounded to earth. Then
 it's clear that the voltage induced will be 120V, and not 240V.
 
 But maybe it's slightly more complicated if we consider that the two
-earths are really the same earth? Then consider if one circuit has the
-full resistance, while the second circuit has no load? There's a path
-through inductor A, the load, to the earth, then back out of the earth,
-around empty load B, through the inductor B (with opposite orientation),
-and back to earth again. Wouldn't that give 240V of voltage to the load?
+earths are really the same earth? If there is no load on circuit A, is
+there still not an electrical path through both inductors, load B, and
+back to earth? That is, isn't there a path through 240V of inductors and
+through a load B?
 
-But with regard to inductor B, there is a short circuit. The current it
-is moving doesn't need to move through the load on circuit A, which
-would expend work. Instead, it can simply oscillate with no energy cost
-through circuit B with empty load. Presumably the energy draw of this
-circuit from the substation is zero, since it is costless to maintain
-the oscillation.
+Yes, there is such a path, but it is not the _only_ path. Imagine that a
+stream is flowing down hill. You dig an alternative path that takes the
+stream up a mountain, and then back down, where it rejoins the stream.
+Will water run up the mountain simply because there is a path up it?
+
+Note that going up the mountain might have net-zero energy cost
+(ignoring friction), since kinetic energy of the stream's water would be
+converted to potential energy, and then back to kinetic energy.
+
+Still, even in this idealized scenario, no water will flow up the
+mountain. Likewise for the current through an unloaded circuit A; it
+will not want to flow through circuit B when it could simply immediately
+return to ground.
+
+We could probably analyze this further to really clarify, but this is
+sufficient for now.
 
 ## Synchronous Motor
 
