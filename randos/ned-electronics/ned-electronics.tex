@@ -602,15 +602,28 @@ regime}.
 
 Quick question: if the diode is wired into a battery with sufficient
 voltage to run the diode at maximum current, then where does the voltage
-go? Answer: the electrons are accelerated as they move through the
+``go?'' Answer: the electrons are accelerated as they move through the
 electric field. This velocity is a form of kinetic energy. When the
-electrons smack into the anode, the energy is lost as waste heat.
+electrons smack into the anode, the kinetic energy is lost as waste
+heat. The greater the voltage difference between cathode and anode, the
+greater the kinetic energy imparted to the electrons when they arrive at
+the anode.
 
-Thus, even though the current is relatively constant at high voltage,
-the voltage drop across the diode is variable. The voltage drop comes
-from the work done by accelerating electrons through the electric field.
+To be clear: when wired directly to a battery, the cathode/anode
+potential difference is equal to the potential across the terminals of
+the battery. That is: the cathode and anode are charged to some $-Q, +Q$
+sufficient to create a voltage difference across the plates equal to
+$V$, the voltage of the battery.
 
-Quick check: where does the electric field come from? It is created in
+Note that the diode is \define{non-Ohmic}. Increasing the voltage
+difference across the diode plates does not necessarily imply a
+proportionate increase in current. In the temperature-limited regime,
+increasing the voltage will have no effect on current passed through the
+diode. The increased voltage simply means that electrons will arrive
+with more velocity at the anode. The power of the heat dissipated at the
+anode should be $P=VI$, but $I$ need not vary in proportion with $V$.
+
+To reiterate: where does the electric field come from? It is created in
 the same way an electric field is created between capacitor plates. The
 battery shoves excess electrons onto the cathode, and steals away
 electrons from the anode. It builds up the electric field strength until
@@ -645,13 +658,20 @@ through the cloud (at which point they are again accelerated).
 Note: no matter the voltage we run the diode, no matter the density of
 the electron cloud, the voltage drop across the diode is exactly equal
 to the kinetic energy imparted per electron moving from cathode to
-diode.
+anode.
 
 I've explained this in hand-wavy terms, but one can study further the
 Child-Langmuir Law which describes the current in the space charge
 limited regime. This is a ``three-halves'' law: the current grows
 proportional to $V^{3/2}$. This is more-or-less linear. It is as if the
 diode offers a constant resistance. Anyway, I am satisfied with this.
+
+Again, it is very important to note: the voltage difference describes
+the energy per coulomb difference between electrons at the cathode and
+electrons at the anode. The rate at which electrons ``punch through''
+the electron cloud may be non-linear (proportional to $V^{3/2}$), but
+the kinetic energy that the electrons have on arrival to the anode is
+always $V$ joules per coulomb, all of which is dissipated as heat.
 
 \subsection{In Series With A Load}
 
@@ -680,12 +700,16 @@ electrons very fast). That is: $\Delta V_\text{diode}$ can be
 arbitrarily high, even if the output current $I_\text{diode}$ has a
 ceiling defined by the thermionic emission rate.
 
+Of course, I once again emphasize that $\Delta V_\text{diode}$ will
+be the joules per coulomb that are lost as heat.
+
 If we reduce the resistance $R$, then $\Delta V_\text{diode}$ must
 increase. But if we are in the temperature-limited regime, $I$ is not
 significantly increased. How, then, does $\Delta V_\text{diode}$
 increase? It's because the battery builds up more charge difference
 across cathode/anode. Similarly, the electric field from cathode to
-anode increases.
+anode increases. And, last, the kinetic energy of electrons arriving at
+the anode increases.
 
 % Source: https://www.john-a-harper.com/tubes201/
 % Source: http://www.r-type.org/articles/art-010b.htm
@@ -706,50 +730,56 @@ relationship in a thermionic diode.
 
 When the grid is at a negative voltage, it will tend to inhibit the
 transit of electrons across the diode. The effect is similar to the
-effect of the electron cloud. If the cathode and anode voltages remain
-constant, then dropping the grid voltage will tend to reduce current.
+effect of the electron cloud. If the voltage difference across cathode
+and anode remains constant, then reducing the grid voltage relative to
+the cathode will tend to reduce current.
 
-Imagine that the diode is in series with a load. If grid voltage is
-decreased, then the outflow of electrons $I$ will tend to decrease. Thus
-the voltage drop across the load $IR$ will drop. Thus the voltage drop
-across the diode $\Delta V_\text{diode}$ must increase, since $V =
-\Delta V_\text{diode} + IR$ remains constant.
+When we studied the diode, we saw that the analysis was relatively
+simple when the voltage across cathode and anode was held constant. The
+situation is somewhat more complicated when the voltage difference is
+not constant.
 
-Once upon a time, this was confusing to me. I imagined an ideal parallel
-plate capacitor, with charges $-Q, +Q$ on the two plates. If each plate
-induces a field of strength $E$, then the net field between plates is
-uniformly $2E$. The voltage drop across plates is $2Ed$.
+Imagine that the triode is in series with a load. If grid voltage is
+decreased, then the outflow of electrons $I$ will tend to decrease. Say
+that current drops to $I'$. Then the voltage drop across the load is
+$I'R$: that is, the voltage drop across the resistor is reduced. This
+means that the voltage drop across the triode $\Delta V_\text{triode}$
+must increase, since $V = \Delta V_\text{triode} + I'R$ remains
+constant.
 
-I imagined interposing a middle plate with charge $-Q$. Between negative
-plates, the net field is now $E$, and between the middle and positive
-plates the field is now $3E$. But everything integrates out still to a
-voltage drop of $2Ed$ across plates.
+We know that $\Delta V_\text{triode}$ must rise. Can we see how this
+happens by looking at what is happening in the triode?
 
-In fact, it doesn't matter the charge of the middle plate. Regardless,
-the effect of the middle plate is anti-symmetric, and cancels out.
+We know that a triode is basically two parallel plates, charged with
+$-Q, +Q$ charge on the cathode/anode. If each plate induces an electric
+field of strength $E$, then the net field between plates is uniformly
+$2E$. The voltage drop across plates is $2Ed$.
 
-Given this, how could applying a negative grid voltage increase the
-voltage drop across the diode? The reason is: the charge on the
-cathode/anode are not fixed!
+Imagine interposing a middle plate (the control grid) with charge $-Q$.
+Between negative plates, the net field is now $E$, and between the
+middle and positive plates the field is now $3E$. But everything
+integrates out still to a voltage drop of $2Ed$ across plates. In fact,
+it doesn't matter the charge of the middle plate. Regardless, the effect
+of the middle plate is anti-symmetric, and cancels out.
 
-If $I_\text{diode}$ out of the triode drops but $\Delta V_\text{diode}$
-stays constant, we are not in equilibrium. The battery wants to pull
-more electrons through the resistor to maintain $IR$. It can do this -
-but if $I_\text{resistor} > I_\text{diode}$, then it will build up a
-greater charge difference across the cathode/anode of the triode.
+So why does interposing the intermediate plate of charge $-Q$
+\emph{increase} the voltage? The point is: the charge of the
+cathode/anode is \emph{not constant}!
 
-This is good. The charge difference \emph{does} increase. But as this
-happens, it becomes harder-and-harder to suck away more electrons from
-the anode (AKA, store more electrons at the cathode). How hard? It
-requires $\Delta V_\text{diode}$ per coulomb of charge you suck away
-from the triode. But as you increase the charge difference, $\Delta
-V_\text{diode}$ is increasing!
+We know that interposing the negatively charged control grid will reduce
+current $I_\text{triode}$ across the triode, presuming that the voltage
+across the plates is held constant. But if $I_\text{resistor}$ stays
+constant, then a greater positive charge $+Q'$ is going to build up on
+the anode. This will induce a correspondingly greater negative charge
+$-Q'$.
 
-The process reaches equilibrium when enough charge has been stored in
-the triode cathode/anode so that $\Delta V_\text{diode} = V - IR$. This
-extra charge creates an electric field that does $\Delta V_\text{diode}$
-work on electrons that pass from cathode to anode. Which is exactly what
-you want.
+This increase in charge difference across the plates will induce a
+corresponding increase in voltage drop across the plates. This will tend
+to increase $I_\text{triode}$ toward an equilibrium point. At the same
+time, energy per charge moved across the plates will increase (it's
+equal to the voltage drop across the plates). Thus there is less energy
+remaining to push through the resistor. Thus $I_\text{resistor}$ will
+fall toward an equilibrium point.
 
 \end{document}
 
