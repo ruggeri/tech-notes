@@ -67,7 +67,10 @@ lower voltage and power).
 
 Last, I believe it is common to include a diode and capacitor. Otherwise
 you're going to get _pulses_ of stepped-up voltage DC, rather than
-continuously have higher voltage DC.
+continuously have higher voltage DC. If you're doing this, you might be
+able to run a switched capacitor voltage doubler. That doubles voltage
+by charging two capacitors in parallel, and then switching them to run
+the load in series.
 
 Source: https://en.wikipedia.org/wiki/Boost_converter
 
