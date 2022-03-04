@@ -139,6 +139,20 @@ has the pins for the four data lanes.
 In 2019, USB 4 is released. It does 40 Gbps. Again, only USB-C does
 this. At this time, I do not want to explore or discuss this.
 
+## Cables
+
+USB-C cables seem to frequently leave out pins. In particular, many
+USB-C cables only support USB 2 by leaving out the data pins. This way,
+they can be made longer, because they can support the lower speed of USB
+2 for longer distances.
+
+To have long USB-C cables capable of USB 3.2 Gen 1 or Gen 2 speeds, you
+need active cables.
+
+Thunderbolt 3 cables are designed to support up to 40 Gbps, so they
+should also support 3.2 Gen 2x2 use. However, my Mac doesn't even do USB
+3.2 Gen 2x2 as far as I am aware; it does only USB 3.1 Gen 2.
+
 ## USB Power
 
 USB cables can deliver power as well as data. Originally I think they
@@ -175,10 +189,11 @@ lanes for DisplayPort to get 4K@60Hz. That leaves nothing for SuperSpeed
 USB, so you fall back to USB 2.0 speeds. This is how my Dell monitor is
 configured.
 
-**DisplayPort 2.0 and DSC**
+**DisplayPort 1.4, 2.0 and DSC**
 
 DisplayPort 2.0 (2019) has a 10 Gbps per lane mode called UHBR 10. This
-could conceivably drive 4K@60Hz with just two USB-C lanes.
+could conceivably drive 4K@60Hz with just two USB-C lanes. The Radeon on
+my MacBook Pro doesn't do DisplayPort 2.0 though.
 
 Alternatively, DisplayPort 1.4 has a feature called DSC (Display Stream
 Compression). This does a 3:1 lossy compression on the image. They say

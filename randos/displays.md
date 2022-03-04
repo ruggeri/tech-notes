@@ -96,6 +96,10 @@ the center of the screen.
     my monitor.
   - USB-C 3.2 doesn't have enough bandwidth to support UHD @ 60Hz _and_
     speeds above USB 2.0 (woeful).
+    - Well, see my discussion of USB Alternate Mode for more info.
+    - In short: DisplayPort 1.2 can't do this. DisplayPort 1.4 can if
+      you can enable DSC compression. DisplayPort 2.0 might be able to
+      do this without DSC.
   - That implies you want to use Thunderbolt 3/4 or USB 4. These can do
     enough bandwidth to run UHD @ 60Hz _and_ high speed USB peripherals.
   - I am making do fine with low speed USB with the Dell U2723QE. But it
