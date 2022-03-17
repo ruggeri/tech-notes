@@ -1,3 +1,25 @@
+**2022 Research**
+
+* Power distribution. Three-Phase and Split-Phase power.
+
+**2021 Research**
+
+* Revisited Haskell notes.
+* Start taking notes on engines and transmissions.
+* Looked at Zero Knowledge Proofs a bit.
+* Notes on heating and cooling. Hydraulic pressure.
+
+**2020 Research**
+
+* Started looking at pumps and turbines.
+* Cleanup/improvement of Fourier notes.
+* Cleanup/improvement of Strang notes.
+* Cleanup/improvement of RSA notes.
+* Took some Error Correcting Code notes.
+* Took Abstract Algebra notes.
+* Started studying electronics more closely via Make Electronics.
+* Worked on rotational motion in Feynman.
+
 **2019 Research**
 
 * Grover's algorithm
