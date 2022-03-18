@@ -1,16 +1,17 @@
 ## Gear Shifting For Maximum Acceleration
 
 Acceleration depends on the force where the tire meets the road. This
-force is equal to wheel torque times wheel radius. Smaller wheels should
-give faster acceleration, I suppose, at expense of top speed.
+force is equal to wheel torque divided by wheel radius. Smaller wheels
+should give faster acceleration, I suppose, at expense of top speed.
 
 To maximize acceleration, you maximize force. Which means you want to
 maximize wheel torque. What goes into wheel torque?
 
 - Engine torque
 - Gear ratio
-- Final drive ratio (a constant; it's just the gearing that connects the
-  driveshaft to the rear axle).
+- Final drive ratio
+  - This is a constant. It's just the gearing that connects the
+    driveshaft to the rear axle. We may ignore it.
 
 Great. Now, as you upshift, the gear ratio will drop. Gear ratio is
 expressed in terms of input gear:output gear. So you have the highest
@@ -24,7 +25,8 @@ also reduces gear ratio. Both factors work to reduce wheel torque.
 Of course, even if torque were nondecreasing in RPM, you still will need
 to upshift when you reach redline. Otherwise, you cannot increase your
 speed further without running the engine past redline. The redline is
-limiting your top speed in a given gear. This is why you must upshift.
+limiting your top speed in a given gear. This is why you _must_ upshift.
+You would expect a decrease in acceleration every time you upshift.
 
 Engine torque is typically _not_ monotonically increasing. The torque
 will peak somewhere below redline, and then decrease until redline.
@@ -34,7 +36,7 @@ torque is fairly small (maybe 20%) at redline.
 The question now is: is there any point between peak torque and redline
 where an upshift will increase torque at the wheel?
 
-## The Math
+## Torque Math
 
 ```python
 # Constants
@@ -46,13 +48,15 @@ next_gear_ratio
 next_rpms = (next_gear_ratio/current_gear_ratio) * current_rpms
 next_engine_torque = TORQUE_DYNO(next_rpms)
 
-# If `next_torque < old_torque`, then don't shift. You will be reducing
-# *both* engine torque and gear ratio. Both factors reduce wheel torque.
+# If `next_engine_torque < current_engine_torque`, then don't shift. You
+# will be reducing *both* engine torque and gear ratio. Both factors
+# reduce wheel torque.
 
 current_wheel_torque = current_engine_torque * current_gear_ratio
 next_wheel_torque = next_engine_torque * next_gear_ratio
 
-# Now, let's divide next_wheel_torque by current_wheel torque.
+# Now, let's divide next_wheel_torque by current_wheel torque. This
+# is the product of two factors:
 
 gear_ratio_change = next_gear_ratio / current_gear_ratio
 engine_torque_change = next_engine_torque / current_engine_torque
@@ -62,20 +66,20 @@ engine_torque_change = next_engine_torque / current_engine_torque
 # these two > 1?
 ```
 
-The problem is that the _max_ we can recover in `engine_torque` may be
-approximately 20% (the difference between peak and redline torque). But
-the gear ratio change will typically be greater than this. For instance,
-a typical first and second gear might imply a `gear_ratio_change ~ 2`.
+By looking at this from an engine-torque perspective, we see that we
+cannot simply look at the torque curve to compare redline torque to the
+torque we would shift to. We must further compare this (good) change in
+engine torque to the (bad) change in gear ratio. That makes things a
+little complicated.
 
-Also, keep in mind that such a great gear ratio change will
-approximately halve the RPMs. So we'll also be thrown much farther back
-past the torque peak.
+## Horsepower Math
 
-Source: https://www.youtube.com/watch?v=zZBqb0ZJSwU
+It's a little easier if we look at _horsepower_. It makes sense that we
+should look at horsepower. Horsepower is instantaneous change in energy.
+If engine energy is transferred to motorcycle kinetic energy (maybe with
+some constant losses), then more horsepower means greater acceleration.
 
-## Maximize Horsepower
-
-Let me hit you with another interesting fact. Consider
+Let's justify this mathematically:
 
 ```
 # The relevant comparison
@@ -94,11 +98,81 @@ current_engine_torque * current_rpms ? next_engine_torque * next_rpms
 current_hp ? next_hp
 ```
 
-Thus we have a simpler version of the same decision. Would decreasing
-the gear ratio increase the horsepower? This makes sense: horsepower is
-the rate at which we add kinetic energy to the vehicle.
+Thus we see that an upshift will increase acceleartion iff the upshift
+increases wheel torque iff the upshift results in greater engine
+horsepower output. It is this last formulation that we can reason about
+most easily from a dynograph.
 
-## Is The Greedy Algorithm Optimal?
+## A Practical Example
+
+Typically we expect horsepower to monotonically increase in RPM until
+peak, and then to decrease monotonically until redline. Indeed, this is
+what we see on the dynograph for a BMW 1250GS.
+
+Source: https://www.cycleworld.com/how-much-power-does-2019-bmw-r1250gs-adventure-make/
+
+Given a horsepower curve like this, we know you should never upshift
+before peak horsepower.
+
+Once past the peak horsepower, you would like to upshift to increase
+back to peak horsepower. However, if
+`next_gear_ratio/current_gear_ratio` is too much less than one, then
+your RPMs might drop too much and put you too low on the horsepower
+curve. So let's consider the gear ratios of the BMW 1250GS:
+
+```
+1st - 2.438
+2nd - 1.714
+3rd - 1.296
+4th - 1.059
+5th - 0.943
+6th - 0.848
+```
+
+More importantly, let's calculate the change in gear ratio by various
+upshifts:
+
+```
+1st-to-2nd: 0.703x
+2nd-to-3rd: 0.756x
+3rd-to-4th: 0.817x
+4th-to-5th: 0.890x
+5th-to-6th: 0.900x
+```
+
+Let's consider that we upshift from 1st-to-2nd at 9k RPMs. Our new RPMs
+will be about 6.3k RPM. We can see that horsepower at 9k RPMs is about
+100HP and horsepower at 6.3k RPM is maybe ever-so-slightly more.
+
+Shifting before redline would mean that pre-shift horsepower would be
+greater, and post-shift horsepower would be less.
+
+This shows that you should just-about ride the BMW 1250GS to redline in
+first before shifting to second. This is typical, because the gear
+changes are "taller" in lower gears (the change in gear ratio is great).
+
+As the gear changes get "shorter", then your RPMs will drop less as you
+shift. Let's say that `max_hp_rpms` is the RPMs at which horsepower is
+maximized; for the BMW 1250GS this is 7.5k RPMs. Then of course we will
+want to shift no later than `max_hp_rpms / (next_gear_ratio/current_gear_ratio)`. We can calculate this for some
+upper-bounds on when to shift:
+
+```
+1st-to-2nd: 10.66k RPM (past redline)
+2nd-to-3rd:  9.92k RPM (past redline)
+3rd-to-4th:  9.18k RPM (past redline)
+4th-to-5th:  8.42k RPM
+5th-to-6th:  8.33k RPM
+```
+
+## Summary
+
+- Never shift before obtaining peak horsepower.
+- In lower gears, when upshifting results in a greater drop in RPMs,
+  ride the engine out closer to redline.
+- In higher gears, don't wait until redline.
+
+## Non `^` Shaped Graphs
 
 Should you ever ride past the point where HP would have increased by
 upshifting?
@@ -109,5 +183,5 @@ Thus, once it makes sense to upshift, it will never make sense to then
 downshift.
 
 I also would argue: you should upshift as soon as that increases HP. If
-later you could increase HP by downshifting, then do it. But it still
-makes the most sense to follow the HP numbers.
+later you could increase HP by downshifting, then do it. But you still
+are just following the HP numbers.
