@@ -227,3 +227,10 @@ go, and because motorcycle gas mileage is already pretty decent, this is
 not that interesting to me.
 
 Source: https://www.youtube.com/watch?v=C6_FtVTjKng
+
+## Sources
+
+The grown-up kid from Engineering Explained has a decent explanation and
+confirms redline is basically what you want:
+
+Source: https://www.youtube.com/watch?v=zZBqb0ZJSwU
