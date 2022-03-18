@@ -1,53 +1,81 @@
-**Reviewed 2019-12-19**
+**Reviewed 2022-03-17**
+
+## Large Efforts
 
 * Physics:
   * I think I want to learn all intro physics.
-  * Especially electronics!
+  * Especially electronics and electromagnetism.
   * The Feynman lectures have been a great guide!
   * Endothermic/exothermic reactions.
   * Want to understand why some materials are transparent.
-* Zero knowledge proof. Interactive proofs? Zcash?
-  * Is there a book that covers this?
-  * Also I'd like to understand homomorphic encryption!
-* Return to notes on Prisoner's Dilemma from computability standpoint?
-  * What Prisoner's Dilemma books exist?
-  * In particular: I'd like to understand the Freeman Dyson paper.
-  * Other equilibria concepts besides Nash Equilibrium.
-* Writeup how reverse image search works. Text search/info retrieval.
-  * Com'on this should be easy!
-* Might be nice to get Deep Q Network to actually work...
+* Signal Processing and Encoding
+  * I want to properly understand AM vs FM transmission.
+  * Parity bits and encoding schemes
+  * Wavelet transform
+    * I understand the Fourier transform so let's take it one more step!
+    * Also: Laplace transform?
+    * Also: can I speed up/slow down music without changing the pitch?
+* Cryptography
+  * Zero knowledge proof. Interactive proofs? Zcash?
+    * Is there a book that covers this?
+    * Also I'd like to understand homomorphic encryption!
+  * More minor: Elliptic Curve Crypto and Lattice Based Crypto
+* Statistics
+  * Prove Central Limit Theorem?
+  * Improve/extend understanding of symmetric matrices.
+  * Write up/improve understanding of eigenvector decomposition, SVD.
+  * I feel like I never really finish this.
+* Decentralized Systems, Multi-Party Coordination, and Economics
+  * Voting systems.
+  * Incentive alignment.
+
+## Minor Efforts
+
+* Deep Learning
+  * Might be nice to get Deep Q Network to actually work...
   * Alpha Go.
   * Neural Turing Machine, Monte-Carlo Tree Search.
   * Attention.
   * GPT-2 type stuff?
   * That cooperation paper.
-* Quintic unsolvability
-  * JRN re-interested me in this.
-* Wavelet transform
-  * I understand the Fourier transform so let's take it one more step!
-  * Also: Laplace transform?
-  * Also: can I speed up/slow down music without changing the pitch?
-* Ordinary Differential Equations
-  * This came up in Feynman when we studied springs.
-  * I think at least for some simple ones it wouldn't be so hard?
-* Compiler project.
-* React Hook Notes
-* TSP algorithms?
-* Voting systems. Condorcet methods.
-* Maybe extend/improve understanding of symmetric matrices?
-  * Writing up notes on eigenvector decomposition, SVD would help.
-* Chaos
-* Parity bits and encoding schemes
-* Elliptic Curve Crypto
-* Why is it that the normal distribution has a power of x^2?
-  * Also, why do we care about the normal distribution? It is specific
-    to convergence in L2 norm. But who cares about that?
-  * Note: is it that, if you used stricter notions of convergence, you
-    wouldn't get some other distribution, but just fewer distributions
-    would converge at all?
-  * This is basically a question about the central limit theorem? * Wait
-  but does CLT say that density function converges toward normal in L2
-  norm?
+  * But overall I don't know that I really care about this kind of
+    stuff.
+* Pure mathematics
+  * Quintic unsolvability
+    * JRN re-interested me in this.
+* Random
+  * Return to notes on Prisoner's Dilemma from computability standpoint?
+    * In particular: understand Freeman Dyson paper.
+  * Writeup how reverse image search works. Text search/info retrieval.
+    * Com'on this should be easy!
+  * Ordinary Differential Equations
+    * This came up in Feynman when we studied springs.
+    * I think at least for some simple ones it wouldn't be so hard?
+  * React Hook Notes
+  * TSP algorithms?
+  * Voting systems. Condorcet methods.
+  * Chaos theory
+
+## Past Interests
+
+- Concurrency/Parallelization
+  - I was interested in coordination and also parallel algorithms. But I
+    don't know that I am that interested in these now?
+- Data Structures/algorithms
+  - I don't want to know more about data structures at present.
+  - I might be curious about randomized algorithms/computability
+    per Aaronson. But I'm not that curious about it.
+- Databases: I feel like I have nowhere further to go with this.
+  - There aren't any problems I really want to solve with databases.
+- Data Intensive Applications et cetera
+  - Anything big data is not that interesting to me going forward.
+- Logic/Set Theory
+  - I don't know how further logic knowledge would help me.
+- Programming Languages
+  - I'm not that interested in either compilers or learning more ideas
+    in PL theory.
+- Quantum
+  - I don't know what I would want to learn next about this.
 
 ## Explanation
 
