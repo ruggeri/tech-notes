@@ -185,3 +185,45 @@ downshift.
 I also would argue: you should upshift as soon as that increases HP. If
 later you could increase HP by downshifting, then do it. But you still
 are just following the HP numbers.
+
+## Final Drive Gearing Change
+
+On a chain-driven bicycle, you can change the front and rear sprockets
+to change your top-speed/acceleration. This change the final-drive
+ratio.
+
+Say you either (1) decrease the number of teeth on the front (also
+called countershaft) sprocket, or (2) increase the teeth on the rear
+sprocket. Thus, each revolution of the countershaft implies less
+revolution of the rear wheel. This is _increasing_ the gear ratio.
+
+(Somewhat confusingly, we call this increased gear ratio _shorter_. It's
+doubly confusing because shorter can also mean that the difference
+between successive gear ratios is less.)
+
+Anyway, your increased gear ratio will deliver more torque at the same
+engine RPM. Let us say you increase gear ratio by 5%. Your torque will
+increase by 5% across the rev range. On the other hand, across the rev
+range, your speed will have decreased by 5%.
+
+You'll want to shift at lower speeds, but at the same RPMs (since the
+height of gear changes has not been changed). Eventually, when you're
+running at maxmium RPM in the top gear, you'll find that your maximum
+speed has decreased by 5%.
+
+On most bikes, the speedometer reads the countershaft speed and assumes
+it knows the final drive ratio. Thus your speedometer will read 5% too
+high. Likewise, your odometer will collect miles 5% too quickly. You can
+sometimes get a device that corrects for this.
+
+In general, you can expect gas mileage to decrease when increasing the
+gear ratio. You will have to cruise at 5% higher RPM to maintain the
+same speed, and your engine would rather operate at a lower RPM.
+
+On the other hand, you could _decrease_ the gear ratio (taller gearing).
+This will sacrifice torque, but will give you a higher top-speed, and
+better gas mileage. Since motorcycle top speed is faster than I want to
+go, and because motorcycle gas mileage is already pretty decent, this is
+not that interesting to me.
+
+Source: https://www.youtube.com/watch?v=C6_FtVTjKng
