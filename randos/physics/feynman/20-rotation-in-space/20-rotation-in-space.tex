@@ -1,0 +1,17 @@
+\def\chapterbody{
+  \section{Rotation in Space}
+
+  \input{20a-rotation-in-space.tex}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{19}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi

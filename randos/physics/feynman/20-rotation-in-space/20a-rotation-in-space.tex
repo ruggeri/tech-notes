@@ -1,0 +1,310 @@
+\subsection{Vector definitions}
+
+\begin{enumerate}
+  \item He starts out by noting that everything we learned about torque
+  in two dimensions still holds in a two-dimensional plane in space. He
+  suggests that we can define analogues of angular momentum ($L_{\vi},
+  L_{\vj}, L_{\vk}$) and torque ($\tau_{\vi}, \tau_{\vj}, \tau_{\vk}$).
+
+  \item But then he asks: how can the torque in these three particular
+  planes tell us about the torque in some other, fourth plane? He lets
+  $\vk$ stay fixed, but rotates $\vi, \vj$.
+
+  Now, we know that, 2-dimensional style, angular momentum in the $\vi,
+  \vj$ plane is radius times angular speed. But if we rotate between
+  $\vi, \vj$ to produce $\vi', \vj'$, we don't change the radius to the
+  point mass, when projected into the $\vi, \vj$ plane.
+
+  We can likewise consider torque: (1) project the radius $\vx$ to the
+  point mass into the $\vi, \vj$ plane, (2) project the force $\vF$ into
+  the $\vi, \vj$ plane, (2) find the amount perpendicular of (2) that is
+  perpendicular to (1), and (3) multiply magnitudes of (1) and (2).
+
+  It's clear that a rotation between $\vi, \vj$ does not affect this
+  quantity.
+
+  \item That is: angular momentum and torque in a plane defined by
+  perpendicular $\vx, \vy$ are invariant under a rotation that does not
+  lift $\vx, \vy$ out of the plane defined by the two of them.
+
+  \item I jump ahead for a moment: we may define $\vL = \vr \cross \vp$
+  and $\vtau = \vr \cross \vF$. Because the cross product has been
+  defined to produce a vector with:
+
+  \begin{nedqn}
+    \norm{\vr \cross \vp}
+  \eqcol
+    \abs{\cos\theta} \norm{\vr} \norm{\vp}
+  \end{nedqn}
+
+  \noindent
+  where $\cos$ is the angle between the two vectors, we know we have the
+  right magnitude. With regard to magnitude, we know that this will
+  imply that a force acting purely in the $\vx, \vy$ plane will produce
+  a torque about the $\vz$ axis, which is how to interpret the vector
+  nature of this definition.
+
+  We know the direction of the angular momentum/torque is always
+  ``correct,'' because it is consistently oriented perpendicular to the
+  plane under consideration.
+
+  \item If you rotate the basis with a matrix $\mtxR$, then we have:
+  $\vr' = \mtxR \vr$, $\vp' = \mtxR \vp$. Then:
+
+  \begin{nedqn}
+    \vL'
+  \eqcol
+    \vr' \cross \vp'
+  \\
+  \eqcol
+    \parens{\mtxR\vr} \cross \parens{\mtxR\vp}
+  \\
+  \eqcol
+    \mtxR \parens{\vr \cross \vp}
+  \end{nedqn}
+
+  \noindent
+  You could show this with algebra, but it's easier to see that this
+  flows from the geometric definition of cross product that the
+  algebraic definition was defined to achieve.
+
+  If we allow any orthonormal matrix $\mtxQ$ to be used, we have to be a
+  little careful about flips, which should affect the sign of the
+  result.
+
+  \item But you could say that this has only defined the angular
+  momentum and torque in the plane defined by $\vr$ and $\vp$ (or $\vr,
+  \vF$). Okay. Then consider any $\vz$. Consider $\vL \cdot \vz$. I say
+  that is equivalent to nulling out any part of $\vr, \vp$ that is
+  parallel to $\vz$.
+
+  That's because any portion of $\vr$ parallel to $\vz$ will always
+  yield $\parens{\proj_{\vz} \vr} \cross \vp$ which is
+  \emph{perpendicular} to $\vz$, by definition of the cross product, no
+  matter what $\vp$ is. Likewise we can ignore any portion of $\vp$
+  which is parallel to $\vz$.
+
+  Thus, we are saying that $\vL \cdot \vz$ is equivalent to projecting
+  into the $\vx, \vy$ plane, where $\vx, \vy$ are orthogonal vectors
+  giving $\vz = \vx \cross \vy$.
+
+  \item This means that $\vL$ \emph{does} tell us the angular momentum
+  in an arbitrary plane defined by $\vx, \vy$. We simply use $\vL \cdot
+  \parens{\vx \cross \vy}$. This even works if $\vx, \vy$ are not
+  orthonormal; we simply correct by dividing by $\norm{\vx \cross \vy}$.
+\end{enumerate}
+
+\subsection{Vectorized Rotation Laws}
+
+\begin{enumerate}
+  \item We've already defined:
+
+  \begin{nedqn}
+    \vtau
+  \eqcol
+    \vr \cross \vF
+  \\
+    \vL
+  \eqcol
+    \vr \cross \vp
+  \intertext{and we also know}
+    \vtau
+  \eqcol
+    \fpartial{t} \vL
+  \end{nedqn}
+
+  \item We previously defined $\omega = \frac{v}{r}$. Now, we may
+  generalize and say that
+
+  \begin{nedqn}
+    \vomega
+  \eqcol
+    \frac{\vr \cross \vv}{\norm{\vr}}
+  \intertext{equivalently}
+    \vomega \cross \vr
+  \eqcol
+    \frac{\vr \cross \vv}{\norm{\vr}} \cross \vr
+  =
+    \vv
+  \intertext{Thus we may argue:}
+    \vL
+  \eqcol
+    \vr \cross \vp
+  \\
+  \eqcol
+    \vr \cross \parens{m \vv}
+  \\
+  \eqcol
+    m \vr \cross \parens{\vomega \cross \vr}
+  \\
+  \eqcol
+    m \normsq{\vr} \vomega
+  \end{nedqn}
+
+  \item We know that, if an appropriate centripetal force $\vF$ is
+  directed opposite to the radius $\vr$, we can hold both $\vr$ and
+  $\vomega$ constant. In this case, the point-mass will truly be
+  rotating about the axis defined by $\vomega$, with angular velocity
+  $\norm{\vomega}$, and at distance $\norm{\vr}$ from the origin.
+
+  \item Consider momentarily that $m = 1$, $\vr = \vi + \vk$, while $\vv
+  = \vj$. Then $\vL = \vk - \vi$. If $\normsq{\vr}$ is held fixed at
+  $\normsq{\vr} = 2$, then $\vomega$ will be held fixed as $\vomega =
+  \half \parens{\vk - \vi}$.
+
+  \item But we could also apply a force that rotates the mass parallel
+  to the $\vi, \vj$ plane. In that case, the $\vk$ term of $\vr$ is held
+  constant. Note that we will \emph{still} have that $\normsq{\vr}$ is
+  held constant.
+
+  However, in this case, $\vomega$ will \emph{not} be held constant.
+  This will also rotate parallel to the $\vi, \vj$ plane: the $\vk$
+  component will always be fixed. This is simply a result of rotational
+  symmetry.
+
+  Thus, because symmetry, we will have $\normsq{\vr}$ held constant, as
+  well as $\norm{\vomega}$. Thus $\norm{\vL}$ will also be held constant.
+  So the direction of $\vL$ will spin about, but its magnitude will not
+  change.
+
+  We verify this by noting that we need to apply a centripetal force
+  $-\vi$ to spin a unit mass at $\vi + \vk$ about the $\vk$ axis. This
+  results in a torque $\parens{\vi + \vk} \cross -\vi = -\vj$. This is,
+  unsurprisingly, perpendicular to $\vL$.
+
+  \item This is a new phenomenon in the 3-dimensional case. In the
+  two-dimensional world, a particle subjected to a torque must
+  experience a magnitude change of $\vomega$. In three dimensions, a
+  torque $\vtau$ can be applied to rotate $\vL$ and $\vomega$ without
+  changing their magnitude.
+
+  \item Let's now try to break angular momentum up into two terms: (1) a
+  term that reflects the position and velocity of a body's center of
+  mass and (2) a term that reflects the rotation of the body about its
+  center of mass. We did this before, but I want to repeat this more
+  carefully:
+
+  \begin{nedqn}
+    \vL
+  \eqcol
+    \sum_i \vx_i \cross \vp_i
+  \\
+  \eqcol
+    \sum_i \parens{\vx_\CoM + \vr_i} \cross \vp_i
+  \\
+  \eqcol
+    \parens{
+      \sum_i \vx_\CoM \cross \vp_i
+    }
+    + \parens{
+      \sum_i \vr_i \cross \vp_i
+    }
+  \\
+  \eqcol
+    \parens{
+      \vx_\CoM \cross \vp
+    }
+    + \parens{
+      \sum_i \vr_i \cross \parens{m_i \vv_i}
+    }
+  \\
+  \eqcol
+    \vL_\CoM
+    + \parens{
+      \sum_i m_i \vr_i \cross \parens{\vomega_i \cross \vr_i}
+    }
+  \end{nedqn}
+
+  \item As before, the first term represents the angular momentum that
+  derives from the total mass of the object and its velocity. The second
+  term is the angular momentum derived from the motion of the
+  constituents about the center of mass.
+
+  \item We want to consider the case of a rigid body. In this case,
+  every point of the body is undergoing a rotation about an axis defined
+  by $\vomega$. In the two dimensional case, we were able to assume that
+  $\vomega_i$ was everywhere equal to $\vomega$, and orthogonal to
+  $\vr_i$. This let us say $\vr_i \cross \parens{\vomega_i \cross \vr_i}
+  = \normsq{\vr_i} \vomega$.
+
+  \item But things are just a bit more tricky in three dimensions. If we
+  naively set $\vomega_i = \frac{\vr_i \cross \vv_i}{\norm{\vr_i}}$,
+  then note that $\vomega_i$ is defined perpendicular to $\vr_i$. But
+  with three dimensions, not all $\vr_i$ lie in the same plane, and thus
+  not all $\vomega_i$ will be aligned!
+
+  Note that the \emph{sum} will come out right. The equation above is
+  correct. But we will not easily simplify it in terms of a $\vomega$
+  for the aggregate body.
+
+  \item The point is this: a velocity $\vv_i$ is compatible with a
+  rotation about any axis perpendicular to $\vv_i$. Working in three
+  dimensions, this leaves a two-dimensional subspace of possibilities
+  for the ``true'' $\vomega_i$. The velocity of a single particle cannot
+  by itself tell us the angular velocity of the object.
+
+  \item But let us say that a rigid body truly is rotating about an axis
+  $\vu$ (with norm 1) with angular speed $\omega$. Or simply: it's
+  rotating with angular velocity $\vomega$. Then we can decompose
+  $\vr_i$ into parallel and perpendicular components:
+
+  \begin{nedqn}
+    \vr_{\parallel, i}
+  \eqcol
+    \parens{\vr \cdot \vu} \vu
+  \\
+    \vr_{\perp, i}
+  \eqcol
+    \vr_i - \vr_{\parallel, i}
+  \end{nedqn}
+
+  \item We may also decompose $\vv_i$ into terms of $\vomega$. I claim
+  that $\vomega \cross \vr_{\perp, i} = \vv_i$. Since the body is
+  undergoing pure rotation about $\vu$, we know that its velocity must
+  be perpendicular to both $\vu$ and $\vr_{\perp, i}$, the projection of
+  its radius into the plane perpendicular to $\vu$. Thus $\vv_i$ has the
+  direction corresponding to $\vu \cross \vr_{\perp, i}$. Additionally,
+  $\vv_i$ should correspond to an angular speed of $\omega$, which
+  correction is achieved by $\vomega \cross \vr_{\perp, i}$.
+
+  We may also note that $\vomega \cross \vr_{\parallel, i} = \vec{0}$.
+  This is because the vectors are parallel. It makes sense that this
+  component can be ignored for velocity purposes, because
+  $\vr_{\parallel, i}$ is left unchanged by a pure rotation about
+  $\vomega$.
+
+  \item Having decomposed both $\vr_i, \vv_i$, we proceed to keep
+  hacking:
+
+  \begin{nedqn}
+    \vL
+  \eqcol
+    \sum_i
+      m_i
+      \parens{\vr_{\perp, i} + \vr_{\parallel, i}}
+      \cross
+      \parens{\vomega \cross \vr_{\perp, i}}
+  \\
+  \eqcol
+    \sum_i
+      m_i
+      \normsq{\vr_{\perp, i}}
+      \vomega
+    +
+    \sum_i
+      m_i
+      \vr_{\parallel, i}
+      \cross
+      \parens{\vomega \cross \vr_{\perp, i}}
+  \end{nedqn}
+
+  \noindent
+  We can see that if $\vu$ and $\vomega$ are parallel to $\vL$ (as we
+  expect), then the first term is parallel to $\vL$, while the second
+  term is \emph{perpendicular} to $\vL$. Since the terms must sum to
+  $\vL$, then the second term must be zero and can be ignored.
+
+  \item In fact, we can show the second term must be zero, provided that
+  we properly picked $\vomega$ to explain entirely the tangential
+  velocity $\vv_i$ at every point. \ldots
+\end{enumerate}
