@@ -1,0 +1,92 @@
+\begin{enumerate}
+  \item Feynman says that we will study the harmonic oscillation. You
+  can create a mechanical version with a mass attached to a spring. But
+  Feynman says there are many analogues. We are really studying
+  \define{linear differential equations}. These are equations of the
+  form:
+
+  \begin{nedqn}
+    b(t)
+  \eqcol
+    a_0 x + a_1 \frac{\partial x}{\partial t} + \ldots + a_n \frac{\partial^n x}{\partial t^n}
+  \end{nedqn}
+
+  \item In this example, the $a_i$ are constant in $t$. A more general
+  linear differential equation would allow $a_i$ to be an arbitrary
+  function of $t$. We won't study that right now though.
+
+  \item In a linear differential equation problem, we are given the
+  function $b$ and the coefficients $a_i$, and asked to find $x(t)$.
+
+  \item Let's think of some of the simplest examples we can. First,
+  let's say that $b(t) = 0$ for all $t$. This is called a
+  \define{homogeneous} linear differential equation. Next, let's assume
+  that $a_0 = 1$, while $a_i = 0$ for all $i > 0$. Then certainly $x(t)
+  = 0$.
+
+  \item But before we try to solve more kinds of equations like this, we
+  should follow Feynman, who is now going to talk about a specific
+  mechanical case (a spring with a mass attached).
+
+  \item He's going to consider a linear spring. The force exerted by the
+  spring is linear. Which also implies that there is a point where no
+  force is exerted by the spring.
+
+  Of course, we have attached a mass. Gravity exerts a force downward.
+  But we know that there is a corresponding extension of the spring that
+  exerts an equal but opposite force upward. We will call this position
+  zero. This is an equilibrium position: if the mass had no velocity,
+  the mass gravity and spring extension forces would balance and the
+  mass would not move.
+
+  \item We'll say that an upward displacement of the mass is denoted by
+  a positive $x$, while a downward displacement of the mass is denoted
+  by a negative $-x$. The total force on the mass is $-kx$, where $k$ is
+  the \define{spring constant}.
+
+  \item He notes that the acceleration $\fpartialsq{t} x$ is
+  $\frac{-kx}{M}$, where $M$ is the mass of the object. For simplicity,
+  he will assume that $k/M=1$. So now we have a differential equation to
+  solve:
+
+  \begin{nedqn}
+    x(t) - \fpartialsq{t} x(t) = 0
+  \end{nedqn}
+
+  \noindent
+  What function $x(t)$ would satisfy this? Certainly $x(t) = 0$ would
+  do. Next, is $x(t) = \sinf{t}$ is a solution? In this case, we have
+  $x(t) = \fpartialsq{t} x(t) = 0$, as desired. But, there could be some
+  initial velocity $\fpartialsq{t}$. This would suggest that the spring
+  would stretch (or compress) until a minimum (or maximum) $x$ value is
+  obtained, at which point the process reverses. The mass is restored to
+  its initial position, and the cycle continues.
+
+  \item Of course, any $x(t) = A \sinf{t}$ would also be a solution to
+  the equation. This would just correspond to more or less velocity
+  imparted to the object. In general, a solution $f(t)$ to a
+  (homogenous) differential equation always implies that $Af(t)$ is also
+  a solution.
+
+  \item Could not the object be stretched out to start from a
+  displacement $x$, imparted no initial velocity, but then allowed to
+  oscillate? Yes, naturally. We know that it will suffice to consider
+  $x(0) = 1$. In that case, $x(t) = \cosf{t}$ is the most natural
+  choice. And of course $x(t) = A \cosf{t}$ is a solution that allows
+  for any $x(0) = A$.
+
+  \item And this is an interesting point: any \emph{superposition} of
+  solutions is also a solution. Thus, we know that any $A\cosf{t} +
+  B\cosf{t}$ must be a solution to the differential equation.
+
+  \item Equivalently, we can say that the solutions are defined by $x(t)
+  = \text{Re}\parens{c_0 e^{it}}$. When $c_0 = 1$, this corresponds to
+  x(t) = $\cosf{t}$. When $c_0 = i$, this corresponds to $-\sinf{t}$.
+
+  \item You might ask: shouldn't $x(t) = \text{Re}\parens{c_0 e^{-it}}$
+  also be a solution? In this case, we do not need it. That's because
+  we're restricting $x(t)$ to be real. And $\text{Re}\parens{c_0
+  e^{-it}}$ is equal to $\text{Re}\parens{ic_0 e^{it}}$. That is: the
+  direction of rotation doesn't matter if we only care about the real
+  component.
+\end{enumerate}

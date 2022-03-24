@@ -1,0 +1,17 @@
+\def\chapterbody{
+  \section{The Harmonic Oscillator}
+
+  \input{21a-the-harmonic-oscillator.tex}
+}
+
+\ifx\bookmode\undefined
+  \input{../common/preamble.tex}
+
+  \setcounter{section}{19}
+
+  \begin{document}
+    \chapterbody
+  \end{document}
+\else
+  \chapterbody
+\fi
