@@ -49,6 +49,51 @@
   brake) work? I don't care.
 - Source: https://en.wikipedia.org/wiki/Freewheel
 
+# Freewheel vs Freehub
+
+- Freewheel means "overrunning clutch," just as described above.
+- But in bicycle terminology, it is even a little more specific. It
+  presumes that the clutch is integrated into the *gear assembly*.
+- The gear assembly (the stack of gears), would have the freewheel
+  clutch built into the assembly. The cogset would be called a
+  *freewheel*.
+- In old days, you couldn't re-gear your bike at all. And the axle was
+  dumb and you just screwed the freewheel into it.
+- Eventually, they started producing *freehubs*. This integrated the
+  freewheel clutch into the axle body.
+- At the same time, the freehub, which is generally heavy plastic,
+  would get splines.
+- You would then split a stack of sprockets onto the splines. This
+  stack is called a *cassette*.
+- A final lock ring would screw into the final sprocket, holding
+  everything in place.
+- I believe the major advantage of the cassette design is that the
+  clutch would be located directly over the bearing that transfered
+  force from the axle to the wheel. But I actually don't understand
+  why that matters right now?
+  - It's okay not to understand everything. It's helpful at least to
+    be able to identify freewheel and freehub mechanisms.
+- Source: https://www.youtube.com/watch?v=qcgz3-XyNkI
+- Source: https://en.wikipedia.org/wiki/Cogset#Freewheels
+
+# Axle and Hub
+
+- The axle is what affixes to the frame.
+- The hub is where the spokes affix to. Also, the cogset is screwed or
+  splined and locked to the hub.
+- The axle passes through the hub.
+- Note that the hub will be spinning whenever the wheel is spinning.
+- The axle is never spinning.
+- This is allowed by **ball bearings**.
+- The bearings are packed into a cup, and then a cone is screwed in to
+  hold them in place.
+- The cup and cone are called *races*.
+- As dirt enters the races, it can interfere with the rolling
+  friction. Eventually, you can even crack and damage the races. In
+  that case, they would need to be replaced.
+- This is what happened to us at Burning Man once.
+- Source: https://www.youtube.com/watch?v=_axwV6sfaAs
+
 # Practical
 
 - Important reminder: lower gear ratio means greater magnification of
