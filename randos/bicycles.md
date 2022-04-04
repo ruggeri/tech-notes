@@ -126,3 +126,59 @@
   too-wide chain will rub against the other gears on the rear cog.
 - People say that higher speed chains may be less durable, because they
   have to be narrower/smaller.
+
+# Bicycle Tires
+
+Holy sweet Jesus. There are so many naming conventions.
+
+My bicycle wheels are sometimes called 700C (French system). It is
+more modernly called **ISO 622**. This is the diameter from "bead
+seats" (where the tire will make contact with the wheel). In road
+biking, ISO 622 is by far the most prevelant wheel size.
+
+I believe 700C refers to the outer diameter, including the tire. But
+because tire height affects outer diameter, you won't always arrive at
+700mm. Also, the bead seat diameter (622mm) is much more important for
+fitting the tire properly. That's because the tire needs to sit on the
+rim, which is an inner diameter.
+
+The next thing to account for is the tire size. My tires are 23mm
+wide. Thus, they are labeled **23-622**, which is a ETRTO (European
+Tyre and Rim Technical Organisation) standard. The alternative, French
+style label for my tire is 700x23C.
+
+While 700C is the most common wheel size, there are a variety of tire
+widths. 23mm used to be quite popular, but tire widths have gotten
+greater over the years. Something something contact patch and cushy
+ride. People recommend 25mm or 26mm nowadays, or even more!
+
+It appears that 29" is a marketing term for ISO 622? This seems to
+come out of mountain bike terminology?
+
+Sources:
+
+- https://www.biketiresdirect.com/common-tire-sizes-article
+- https://www.biketiresdirect.com/tire-size-chart-article
+- https://www.sheldonbrown.com/tire-sizing.html
+- https://www.rei.com/learn/expert-advice/bike-tires.html
+
+# My Bicycle Specifications
+
+- I have Velocity Deep V 700C wheels. These are ISO 622 wheels.
+- My tires are 23-622 tires. The Velocity folks say I could go up to
+  28mm without problem.
+- I have 42 teeth on the front chain ring.
+- I have 20 teeth on the back sprocket.
+- I have an Shimano Alfine 8 internal gear hub.
+  - Alfine says you should not exceed 1.9:1 gear ratio of front chain
+    ring to back sprocket.
+  - My gear ratio is 2.1. So I could maybe gain 10% more torque
+    without exceeding the maximum input gear ratio.
+  - At the lowest ratio of 0.53:1 in the hub, you get a total lowest
+    ratio of 1.11. That's your easiest gear.
+- Assuming my 23-622 tire size, a gear ratio of 1.11 gives 29.5 gear
+  inches.
+  - Tourers like to have 23 inches and lower. Commuters, who face
+    fewer hills and fewer long climbs, probably are fine with higher
+    gears and faster speeds.
+  - Source: https://ritzelrechner.de/?GR=SHA8&KB=42&RZ=20&UF=2125&TF=90&SL=2.6&UN=KMH&DV=gearInches
