@@ -8,12 +8,15 @@
   \begin{nedqn}
     b(t)
   \eqcol
-    a_0 x + a_1 \frac{\partial x}{\partial t} + \ldots + a_n \frac{\partial^n x}{\partial t^n}
+    a_0 x(t)
+    + a_1 \fpartial{t} x(t)
+    + \ldots + a_n \frac{\partial^n}{\partial t^n} x(t)
   \end{nedqn}
 
   \item In this example, the $a_i$ are constant in $t$. A more general
   linear differential equation would allow $a_i$ to be an arbitrary
-  function of $t$. We won't study that right now though.
+  function of $t$. We won't study that right now though. We have
+  \emph{constant coefficients}.
 
   \item In a linear differential equation problem, we are given the
   function $b$ and the coefficients $a_i$, and asked to find $x(t)$.
@@ -22,15 +25,16 @@
   let's say that $b(t) = 0$ for all $t$. This is called a
   \define{homogeneous} linear differential equation. Next, let's assume
   that $a_0 = 1$, while $a_i = 0$ for all $i > 0$. Then certainly $x(t)
-  = 0$.
+  = 0$. In fact, for any choice of $a_i$, we always have $x(t) = 0$ is a
+  solution of a homogenous linear differential equation.
 
   \item But before we try to solve more kinds of equations like this, we
   should follow Feynman, who is now going to talk about a specific
   mechanical case (a spring with a mass attached).
 
   \item He's going to consider a linear spring. The force exerted by the
-  spring is linear. Which also implies that there is a point where no
-  force is exerted by the spring.
+  spring is linear with respect to its extension $x$. Which also implies
+  that there is a point where no force is exerted by the spring.
 
   Of course, we have attached a mass. Gravity exerts a force downward.
   But we know that there is a corresponding extension of the spring that
@@ -50,15 +54,19 @@
   solve:
 
   \begin{nedqn}
-    x(t) - \fpartialsq{t} x(t) = 0
+    x(t) + \fpartialsq{t} x(t) = 0
   \end{nedqn}
 
   \noindent
   What function $x(t)$ would satisfy this? Certainly $x(t) = 0$ would
   do. Next, is $x(t) = \sinf{t}$ is a solution? In this case, we have
-  $x(t) = \fpartialsq{t} x(t) = 0$, as desired. But, there could be some
-  initial velocity $\fpartialsq{t}$. This would suggest that the spring
-  would stretch (or compress) until a minimum (or maximum) $x$ value is
+  $\fpartialsq{t} x(t) = -\sinf{t}$, which satisfies the differential
+  equation, fas desired.
+
+  \item But since $\sinf{0} = 0$, which is the equilibrium position, why
+  would the mass move at all? Well, there could be some initial velocity
+  $\fpartial{t} x(0) \ne 0$! This would suggest that the spring would
+  stretch (or compress) until a minimum (or maximum) $x$ value is
   obtained, at which point the process reverses. The mass is restored to
   its initial position, and the cycle continues.
 
@@ -79,14 +87,46 @@
   solutions is also a solution. Thus, we know that any $A\cosf{t} +
   B\cosf{t}$ must be a solution to the differential equation.
 
-  \item Equivalently, we can say that the solutions are defined by $x(t)
-  = \text{Re}\parens{c_0 e^{it}}$. When $c_0 = 1$, this corresponds to
-  x(t) = $\cosf{t}$. When $c_0 = i$, this corresponds to $-\sinf{t}$.
+  \item It is interesting to note that the \define{period} of the
+  oscillation in no way depends on (1) the initial velocity or (2) the
+  initial position. It has been fixed because $k/M = 1$.
 
-  \item You might ask: shouldn't $x(t) = \text{Re}\parens{c_0 e^{-it}}$
-  also be a solution? In this case, we do not need it. That's because
-  we're restricting $x(t)$ to be real. And $\text{Re}\parens{c_0
-  e^{-it}}$ is equal to $\text{Re}\parens{ic_0 e^{it}}$. That is: the
-  direction of rotation doesn't matter if we only care about the real
-  component.
+  \item We've been talking in terms of $\sin, \cos$. These are
+  real-valued functions which are the solutions to the differential
+  equation. What if we consider complex-valued functions? Then we can
+  consider the analogue of $\cosf{t}$, which $x(t) = e^{it} = \cosf{t} +
+  i \sinf{t}$. A complex analogue of $\sinf{t}$ is $-i e^{it} = \sinf{t}
+  - i\cosf{t}$. This is a (complex) scalar multiple of our first
+  solution, $e^{it}$.
+
+  \item We had a two-dimensional real vector space as the solution space
+  for the real-valued problem. Is there a second dimension to the
+  complex-valued problem? Yes. It is: $e^{-it}$. This has the
+  ``opposite'' frequency, 180deg out of phase. This rotates in the
+  opposite direction.
+
+  \item Are not $\cosf{t}, \sinf{t}$ still complex-valued solutions?
+  Yes. These real-valued solutions are simply the sum of $\cosf{t} =
+  \half e^{it} + \half e^{-it}$. Note that $\cosf{t}, \sinf{t}$ span the
+  complex-valued solution space, but you have to use complex
+  coefficients.
+
+  \item We see that, per usual, the real-valued problem has a
+  two-dimensional solution space. And we see that the complex-valued
+  problem extends the real-valued solution space, but (1) the
+  real-valued solution space is not a closed subspace over the complex
+  numbers, and (2) the complex-valued solution space remains
+  two-dimensional.
+
+  \item We want to ask: are there any other solutions to this
+  differential equation? How do we know that a solution must be a linear
+  combination of two sinusoidals of frequency $\frac{1}{2\pi},
+  -\frac{1}{2\pi}$?
+
+  \item \TODO{JRN and I discussed a proof, based on the Fourier
+  transform and the Fundamental Theorem of Algebra, that a degree $n$
+  homogenous linear differential equation always has a solution vector
+  space of dimension $n$}.
+
+  \item Now, let us consider when $k/M \ne 1$.
 \end{enumerate}
