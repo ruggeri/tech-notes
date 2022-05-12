@@ -165,6 +165,7 @@ Sources:
 # My Bicycle Specifications
 
 - I have Velocity Deep V 700C wheels. These are ISO 622 wheels.
+  - They are 32 spoke wheels.
 - My tires are 23-622 tires. The Velocity folks say I could go up to
   28mm without problem.
 - I have 42 teeth on the front chain ring.
@@ -176,9 +177,21 @@ Sources:
     without exceeding the maximum input gear ratio.
   - At the lowest ratio of 0.53:1 in the hub, you get a total lowest
     ratio of 1.11. That's your easiest gear.
+  - With the highest gear you have a gear ratio of 3.39.
+  - Has gear ratio range of 307%.
 - Assuming my 23-622 tire size, a gear ratio of 1.11 gives 29.5 gear
-  inches.
+  inches, while a 3.39 ratio gives 90.3 gear inches.
   - Tourers like to have 23 inches and lower. Commuters, who face
     fewer hills and fewer long climbs, probably are fine with higher
     gears and faster speeds.
   - Source: https://ritzelrechner.de/?GR=SHA8&KB=42&RZ=20&UF=2125&TF=90&SL=2.6&UN=KMH&DV=gearInches
+- Rohloff Speedhub
+  - Costs like $1.8k.
+  - It's 14 speed.
+  - Has gear ratio range of 526%.
+  - You can see the range here: https://bicycles.stackexchange.com/questions/45655/gear-for-incline-internal-gear-hub
+  - Here is a review: https://www.sheldonbrown.com/RohloffHub.html
+- Alfine 11
+  - Has gear ratio range of 409%.
+  - However, it has the same low gear of 0.53:1 as the Afline 8.
+  - And it has the same 1.9
