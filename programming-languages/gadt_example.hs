@@ -1,5 +1,7 @@
 {-#LANGUAGE GADTs #-}
 
+import Data.Typeable
+
 -- Source: https://en.wikibooks.org/wiki/Haskell/GADT
 -- Look, a type-safe expression library using GADT. You can't do this
 -- without GADT, because eval needs to know what kind of expression
@@ -64,13 +66,31 @@ safeHead (Cons a rest) = a
 -- GADT subsumes Existential types!
 
 data Showable where
-  MkShowable :: Show a => a -> Showable
+  -- I used a Typeable constraint for `getTypeOfShowable` defined
+  -- below...
+  MkShowable :: (Show a, Typeable a) => a -> Showable
+
+-- Showable now does everything a Show can!
+instance Show Showable where
+  show (MkShowable a) = show a
 
 myList2 :: [Showable]
-myList2 = [(MkShowable 1), (MkShowable "abc"), (MkShowable (7, 5))]
+myList2 = [
+  (MkShowable (1 :: Integer)),
+  (MkShowable "abc"),
+  (MkShowable (7 :: Integer, 5 :: Integer))
+  ]
 
 showShow :: Showable -> String
 showShow (MkShowable a) = show a
+
+-- Note that you can retrieve the type of an upcasted object.
+getTypeOfShowable :: Showable -> String
+getTypeOfShowable (MkShowable a) = show (typeOf a)
+
+-- You can even downcast! Wowzers.
+convertShowableToInteger :: Showable -> Maybe Integer
+convertShowableToInteger (MkShowable a) = cast a
 
 myList3 :: [String]
 myList3 = map showShow myList2
