@@ -143,7 +143,6 @@
   thinner, and thus less durable.
 - On my IGH bike, I should be using either single-speed chain, or
   7-speed. Anything higher is just less durable.
-  - **TODO**: do I need 1/8" or 3/32"?
 
 # Bicycle Tires
 
@@ -198,14 +197,20 @@ Sources:
   - I am almost certain it is this one:
   - https://origin8.bike/collections/chainrings-cranks/products/track-ss-crankset?variant=40214953164955
   - The cost of this chainring is ~$115.
-  - **TODO**: I'm not sure if it's 3/16 or 1/8 actually...
-  - **TODO**: Also, it would be interesting to note the crank length.
-- I have 20 teeth on the back sprocket.
-  - **TODO**: what sprocket?
+  - The cranklength is 165mm.
+  - I can't figure out whether this is a 3/32 or 1/8 chain width
+    version. It isn't marked as far as I can see... But I think it is
+    3/32, since (1) 9 speed chain has worked, (2) see my info about
+    the rear sprocket.
+  - lmao, Origin 8 just stamps Lasco CF 12. It's no-name
+    made-in-Taiwan.
+- I have 20 teeth on the rear sprocket.
+  - I bet it is the standard Alfine 20 tooth sprocket. It looks
+    similar, and would be standard.
+  - The manual says you should use 9 speed chain. In that case, one
+    expects it is 3/32.
 - Chain
-  - **TODO**: Did I put on a Shimano 9 speed or KMC 9 speed chain on?
-  - **TODO**: It seems like I should be using 1/8 singlespeed chain
-    probably?
+  - I am running a KMC 9 speed chain.
 - I have an Shimano Alfine 8 internal gear hub.
   - Alfine says you should not exceed 1.9:1 gear ratio of front chain
     ring to back sprocket.
@@ -244,4 +249,4 @@ Sources:
   tires.
   - I also changed the tubes. I used Conti Tube Race 28 tubes.
 - 2021-06: I changed the chain.
-  - **TODO**: What chain did I put on, though?
+  - I put on a KMC 9 speed chain.
