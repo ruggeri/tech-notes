@@ -120,12 +120,30 @@
 
 - The distance between chain pins in standardized to 1/2 inch.
 - However, chains come in different widths between the plates. 1/8"
-  width is common for hub gears.
-- There are various chain speeds. Basically, the higher the chain speed,
-  the narrower the chain is inclusive of the plates. That's because a
-  too-wide chain will rub against the other gears on the rear cog.
-- People say that higher speed chains may be less durable, because they
-  have to be narrower/smaller.
+  (4/32") width is common for hub gears. 3/32" is the standard for
+  derailleur bikes.
+  - This is *roller width*. It is not inclusive of the *plates*.
+  - What chain your hub gear needs really depends on the sprockets,
+    not the hub gear. So you need to check those. They could be 1/8",
+    or 3/32".
+- The wider the roller width, the more heavy-duty the chain is.
+- However, with derailleur bikes you need to account also for the
+  total width of the chain, inclusive of plates. That's because the
+  chain needs to not rub the other gears on the rear cog.
+- This total width can be measured in millimeters. Different
+  manufacturers manufacturer chains with various different
+  widths. There is no standardization.
+- Because the millimeter measurements vary, there is a semi-standard
+  of chain "speed." This means how many rear cogs it is intended to
+  accomodate.
+  - Typical speeds are 7-speed, 8-speed chain, 9-speed, and 10-speed.
+  - Typically, you can run a chain one-gauge narrower than intended
+    without problem.
+- However, you have a problem with higher speed chains: they are
+  thinner, and thus less durable.
+- On my IGH bike, I should be using either single-speed chain, or
+  7-speed. Anything higher is just less durable.
+  - **TODO**: do I need 1/8" or 3/32"?
 
 # Bicycle Tires
 
@@ -166,14 +184,32 @@ Sources:
 
 - I have Velocity Deep V 700C wheels. These are ISO 622 wheels.
   - They are 32 spoke wheels.
-- My tires are 23-622 tires. The Velocity folks say I could go up to
-  28mm without problem.
-- I have 42 teeth on the front chain ring.
+- My tires are 25-622 Vitorria Zafirro Pro tires. The Velocity wheel
+  folks say I could go up to 28mm without problem.
+  - The original tires were 23-622 Vitorria Zafirro Pro tires. I used
+    them for about 10 years!
+  - I upgraded to 25-622 Vitorria Zafirro Pro. They seem to give a
+    nice ride.
+  - I don't think I could do 28mm. It wouldn't fit between the brake
+    levers inflated, for one. Also, there isn't enough clearance at
+    the frame.
+- I have 46 teeth on the front chain ring.
+  - I originally counted 42, but clearly from photo it is at least 44.
+  - I am almost certain it is this one:
+  - https://origin8.bike/collections/chainrings-cranks/products/track-ss-crankset?variant=40214953164955
+  - The cost of this chainring is ~$115.
+  - **TODO**: I'm not sure if it's 3/16 or 1/8 actually...
+  - **TODO**: Also, it would be interesting to note the crank length.
 - I have 20 teeth on the back sprocket.
+  - **TODO**: what sprocket?
+- Chain
+  - **TODO**: Did I put on a Shimano 9 speed or KMC 9 speed chain on?
+  - **TODO**: It seems like I should be using 1/8 singlespeed chain
+    probably?
 - I have an Shimano Alfine 8 internal gear hub.
   - Alfine says you should not exceed 1.9:1 gear ratio of front chain
     ring to back sprocket.
-  - My gear ratio is 2.1. So I could maybe gain 10% more torque
+  - My gear ratio is 2.3. So I could get maybe 17-18% torque gain
     without exceeding the maximum input gear ratio.
   - At the lowest ratio of 0.53:1 in the hub, you get a total lowest
     ratio of 1.11. That's your easiest gear.
@@ -185,6 +221,9 @@ Sources:
     fewer hills and fewer long climbs, probably are fine with higher
     gears and faster speeds.
   - Source: https://ritzelrechner.de/?GR=SHA8&KB=42&RZ=20&UF=2125&TF=90&SL=2.6&UN=KMH&DV=gearInches
+
+## Other Gearhub Options?
+
 - Rohloff Speedhub
   - Costs like $1.8k.
   - It's 14 speed.
@@ -194,4 +233,15 @@ Sources:
 - Alfine 11
   - Has gear ratio range of 409%.
   - However, it has the same low gear of 0.53:1 as the Afline 8.
-  - And it has the same 1.9
+  - And it has the same 1.9x input limit.
+
+## Maintenance
+
+- 2022-05: I cleaned and lubricated the chain.
+  - lol, maybe it should have been replaced... Should have checked for
+    wear!
+- 2022-05: I replaced the tires with new Vitorria Zaffiro Pro 25-622
+  tires.
+  - I also changed the tubes. I used Conti Tube Race 28 tubes.
+- 2021-06: I changed the chain.
+  - **TODO**: What chain did I put on, though?
