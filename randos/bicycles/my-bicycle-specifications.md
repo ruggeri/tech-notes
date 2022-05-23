@@ -41,6 +41,12 @@
   - I have a 25-622 tire on.
   - Thus, my gear inches run from 32.4 to 99.4.
   - Source: https://ritzelrechner.de/?GR=SHA8&KB=46&RZ=20&UF=2135&TF=90&SL=2.6&UN=KMH&DV=gearInches
+- Seat height
+  - There is a proper way to measure saddle height. But I simply
+    measured the extension from the top of the tube to the base where
+    the saddle is mounted.
+  - I adjusted recently from a height of 124mm to 138mm. That's about
+    half an inch difference.
 
 ## Torque Upgrade?
 
