@@ -23,9 +23,9 @@
   - This costs about $115 new.
   - lmao, Origin 8 just stamps Lasco CF 12. It's no-name made-in-Taiwan
     rebrand.
-- I have 20 teeth on the rear sprocket.
-  - I bet it is the standard Alfine 20 tooth sprocket. It looks
-    similar, and would be standard.
+- I have 22 teeth on the rear sprocket.
+  - I replaced the stock Alfine 20T sprocket with a Shimano 22T. It is
+    3/32.
   - The manual says you should use 9 speed chain. In that case, one
     expects it is 3/32.
 - Chain
