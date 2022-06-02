@@ -1,132 +1,557 @@
+\subsection{Mass On a Spring}
+
 \begin{enumerate}
-  \item Feynman says that we will study the harmonic oscillation. You
-  can create a mechanical version with a mass attached to a spring. But
-  Feynman says there are many analogues. We are really studying
-  \define{linear differential equations}. These are equations of the
-  form:
+  \item Let's consider a mass suspended by a spring.
 
-  \begin{nedqn}
-    b(t)
-  \eqcol
-    a_0 x(t)
-    + a_1 \fpartial{t} x(t)
-    + \ldots + a_n \frac{\partial^n}{\partial t^n} x(t)
-  \end{nedqn}
-
-  \item In this example, the $a_i$ are constant in $t$. A more general
-  linear differential equation would allow $a_i$ to be an arbitrary
-  function of $t$. We won't study that right now though. We have
-  \emph{constant coefficients}.
-
-  \item In a linear differential equation problem, we are given the
-  function $b$ and the coefficients $a_i$, and asked to find $x(t)$.
-
-  \item Let's think of some of the simplest examples we can. First,
-  let's say that $b(t) = 0$ for all $t$. This is called a
-  \define{homogeneous} linear differential equation. Next, let's assume
-  that $a_0 = 1$, while $a_i = 0$ for all $i > 0$. Then certainly $x(t)
-  = 0$. In fact, for any choice of $a_i$, we always have $x(t) = 0$ is a
-  solution of a homogenous linear differential equation.
-
-  \item But before we try to solve more kinds of equations like this, we
-  should follow Feynman, who is now going to talk about a specific
-  mechanical case (a spring with a mass attached).
-
-  \item He's going to consider a linear spring. The force exerted by the
-  spring is linear with respect to its extension $x$. Which also implies
+  \item Let's assume it's a \define{linear} spring. The force exerted by
+  the spring is linear with respect to its extension $x$. This implies
   that there is a point where no force is exerted by the spring.
 
-  Of course, we have attached a mass. Gravity exerts a force downward.
-  But we know that there is a corresponding extension of the spring that
-  exerts an equal but opposite force upward. We will call this position
-  zero. This is an equilibrium position: if the mass had no velocity,
-  the mass gravity and spring extension forces would balance and the
-  mass would not move.
+  \item Gravity exerts a force downward on our mass. We know that there
+  is a corresponding extension of the spring that exerts an equal but
+  opposite force upward. We will call this position of $x$ zero. This is
+  an equilibrium position: if the mass had no velocity, the mass gravity
+  and spring extension forces would balance and the mass would not move.
 
   \item We'll say that an upward displacement of the mass is denoted by
   a positive $x$, while a downward displacement of the mass is denoted
   by a negative $-x$. The total force on the mass is $-kx$, where $k$ is
-  the \define{spring constant}.
+  the \define{spring constant}. I suppose its units are newtons per
+  meter.
+
+  \item Note: we aren't trying to describe right now why the
+  relationship between spring extension and spring force is linear. But
+  it seems like a natural assumption.
 
   \item He notes that the acceleration $\fpartialsq{t} x$ is
   $\frac{-kx}{M}$, where $M$ is the mass of the object. For simplicity,
-  he will assume that $k/M=1$. So now we have a differential equation to
-  solve:
+  he will assume that $k/M=1$. So now we want to find those trajectory
+  functions $\xf{t}$ that satisfy the equation:
 
   \begin{nedqn}
-    x(t) + \fpartialsq{t} x(t) = 0
+    \xf{t} \eqcol -\fpartialsq{t} \xf{t}
   \end{nedqn}
 
-  \noindent
-  What function $x(t)$ would satisfy this? Certainly $x(t) = 0$ would
-  do. Next, is $x(t) = \sinf{t}$ is a solution? In this case, we have
-  $\fpartialsq{t} x(t) = -\sinf{t}$, which satisfies the differential
-  equation, fas desired.
+  \item What function $\xf{t}$ would satisfy this? Certainly $\xf{t} = 0$
+  would do.
 
-  \item But since $\sinf{0} = 0$, which is the equilibrium position, why
-  would the mass move at all? Well, there could be some initial velocity
-  $\fpartial{t} x(0) \ne 0$! This would suggest that the spring would
-  stretch (or compress) until a minimum (or maximum) $x$ value is
-  obtained, at which point the process reverses. The mass is restored to
-  its initial position, and the cycle continues.
+  \item Is $\xf{t} = \sinf{t}$ also a solution? In this case, we have
+  $\fpartialsq{t} \xf{t} = -\sinf{t}$, which satisfies the differential
+  equation, as desired.
 
-  \item Of course, any $x(t) = A \sinf{t}$ would also be a solution to
-  the equation. This would just correspond to more or less velocity
-  imparted to the object. In general, a solution $f(t)$ to a
-  (homogenous) differential equation always implies that $Af(t)$ is also
-  a solution.
+  \item When $t = 0$, $\sinf{t} = 0$, so there is no initial force to
+  start the mass moving. Why is it moving? Because it must have an
+  initial velocity! This is why $\fpartial{t} \sinf{t} = \cosf{t} = 1$
+  when $t = 0$.
 
-  \item Could not the object be stretched out to start from a
-  displacement $x$, imparted no initial velocity, but then allowed to
-  oscillate? Yes, naturally. We know that it will suffice to consider
-  $x(0) = 1$. In that case, $x(t) = \cosf{t}$ is the most natural
-  choice. And of course $x(t) = A \cosf{t}$ is a solution that allows
-  for any $x(0) = A$.
+  \item Likewise, consider $\xf{t} = \cosf{t}$. This satisfies the
+  equation above. This corresponds to no initial velocity, but an
+  initial \emph{extension} of the spring. Thus there is initial force
+  that starts it moving.
 
-  \item And this is an interesting point: any \emph{superposition} of
-  solutions is also a solution. Thus, we know that any $A\cosf{t} +
-  B\cosf{t}$ must be a solution to the differential equation.
+  \item In fact, we can see that any superposition $a_0 \sinf{t} + b_0
+  \cosf{t}$ is a solution. Of course, this space consists of exactly
+  phase and scale shifts of a sinusoidal with fixed period. These other
+  solutions correspond to initially extending the spring a certain
+  amount but also giving it some initial velocity.
 
-  \item It is interesting to note that the \define{period} of the
-  oscillation in no way depends on (1) the initial velocity or (2) the
-  initial position. It has been fixed because $k/M = 1$.
+  \item This maybe makes sense. All phase-shifts should be solutions,
+  because a change in arbitrary starting point $t = 0$ corresponds to a
+  phase-shift. And all scaling by a constant should be a solution, since
+  that is just defined by your original definition of the unit of
+  distance.
 
-  \item We've been talking in terms of $\sin, \cos$. These are
-  real-valued functions which are the solutions to the differential
-  equation. What if we consider complex-valued functions? Then we can
-  consider the analogue of $\cosf{t}$, which $x(t) = e^{it} = \cosf{t} +
-  i \sinf{t}$. A complex analogue of $\sinf{t}$ is $-i e^{it} = \sinf{t}
-  - i\cosf{t}$. This is a (complex) scalar multiple of our first
-  solution, $e^{it}$.
+  \item Still, it is interesting to note that the \define{period} of the
+  oscillation is entirely determined by $k/M = 1$. The initial velocity
+  and initial extension of the spring are irrelevant.
 
-  \item We had a two-dimensional real vector space as the solution space
-  for the real-valued problem. Is there a second dimension to the
-  complex-valued problem? Yes. It is: $e^{-it}$. This has the
-  ``opposite'' frequency, 180deg out of phase. This rotates in the
-  opposite direction.
+  \item What if we doubled the scale of time? Then we should have the
+  same solutions, but with half the period. \TODO{Can we describe why,
+  mathematically, we would expect to get different solutions.}
+\end{enumerate}
 
-  \item Are not $\cosf{t}, \sinf{t}$ still complex-valued solutions?
-  Yes. These real-valued solutions are simply the sum of $\cosf{t} =
-  \half e^{it} + \half e^{-it}$. Note that $\cosf{t}, \sinf{t}$ span the
-  complex-valued solution space, but you have to use complex
-  coefficients.
+\subsection{Differential Equations}
 
-  \item We see that, per usual, the real-valued problem has a
-  two-dimensional solution space. And we see that the complex-valued
-  problem extends the real-valued solution space, but (1) the
-  real-valued solution space is not a closed subspace over the complex
-  numbers, and (2) the complex-valued solution space remains
-  two-dimensional.
+\begin{enumerate}
+  \item Feynman says many systems will follow similar rules as our mass
+  and spring.
 
-  \item We want to ask: are there any other solutions to this
-  differential equation? How do we know that a solution must be a linear
-  combination of two sinusoidals of frequency $\frac{1}{2\pi},
-  -\frac{1}{2\pi}$?
+  \item We are really studying \define{linear differential equations}.
+  These are equations of the form:
+
+  \begin{nedqn}
+    b(t)
+  \eqcol
+    a_0 \xf{t}
+    + a_1 \fpartial{t} \xf{t}
+    + \ldots + a_n \frac{\partial^n}{\partial t^n} \xf{t}
+  \end{nedqn}
+
+  \item We are typically given the $a_i$ and $b$ and asked to find $x$.
+
+  \item The $a_i$ are typically constant. In more complex problems
+  (which I do not consider here), the $a_i$ could be themselves
+  functions of $t$.
+
+  \item We will begin by studying \define{homogeneous} linear
+  differential equations. That means $b(t) = 0$. The key property of
+  homogeneous differential equations is that linear combinations of
+  solutions are also solutions. Our spring example is a homogeneous
+  linear differential equation (with constant coefficients):
+
+  \begin{nedqn}
+    0 = \xf{t} + \fpartialsq{t} \xf{t}
+  \end{nedqn}
+\end{enumerate}
+
+\subsection{Complex Version}
+
+\begin{enumerate}
+  \item We said that there are two independent solutions to the (real)
+  differential equation problem. All others appear to be linear
+  combinations of the two. \TODO{We should prove that a degree two
+  differential equation has at most two independent solutions!}
+
+  \item Let's consider the complex valued version of the problem. Then
+  we can consider $\xf{t} = e^{it} = \cosf{t} + i \sinf{t}$. This is a
+  solution to the equation.
+
+  \item Equally well would $\xf{t} = e^{-it} = \cosf{-t} + i \sinf{-t} =
+  \cosf{t} - i \sinf{t}$ be a solution. This corresponds to rotation in
+  the opposite direction. We didn't worry about direction of rotation in
+  the real-valued version, because a change in direction could look the
+  same as a phase shift.
+
+  \item On the other hand, because we have complex coefficients, we can
+  explain a change in phase simply as a scaling by a complex value.
+
+  \item We can recover a real-valued solution like $\xf{t} = \cosf{t}$ by
+  summing two exponentials:
+
+  \begin{nedqn}
+    \half e^{it} + \half e^{-it}
+  \eqcol
+    \half \parens{
+      \cosf{t} + i \sinf{t}
+    }
+    +
+    \half \parens{
+      \cosf{t} - i \sinf{t}
+    }
+  =
+    \cosf{t}
+  \end{nedqn}
+
+  \item This is as usual. By changing from a real-valued problem to a
+  complex-valued problem we (1) make phase shifts just multiples, (2)
+  allow directionality to make a difference.
 
   \item \TODO{JRN and I discussed a proof, based on the Fourier
   transform and the Fundamental Theorem of Algebra, that a degree $n$
   homogenous linear differential equation always has a solution vector
   space of dimension $n$}.
+\end{enumerate}
 
-  \item Now, let us consider when $k/M \ne 1$.
+\subsection{Mass On a Spring II}
+
+\begin{enumerate}
+  \item Now, let us consider when $k/M \ne 1$. In this case, we have
+
+  \begin{nedqn}
+    \fpartialsq{t} \xf{t}
+  \eqcol
+    \frac{k \xf{t}}{M}
+  \\
+    \xf{t}
+  \eqcol
+    -\frac{M}{k} \fpartialsq{t} \xf{t}
+  \end{nedqn}
+
+  \noindent
+  Note that the factor of $\frac{M}{k}$ cancels out the factor of
+  $\frac{k}{M}$ in the acceleration formula.
+
+  \item In this case, we want $\cosf{\sqrt{\frac{k}{M}} t}$. Then we
+  will have
+
+  \begin{nedqn}
+    \fpartialsq{t} \cosf{\sqrt{\frac{k}{M}} t}
+  \eqcol
+    - \frac{M}{k} \cosf{\sqrt{\frac{k}{M}} t}
+  \end{nedqn}
+
+  \noindent
+  which satisfies the differential equation.
+
+  \item This makes sense. If the mass is increased, it will decrease the
+  acceleration of the mass. But doubling the mass will not quite double
+  the time period. Likewise, halving the mass will not quite double the
+  period either.
+
+  \item Interestingly, changing $k, M$ do not change the amplitude of
+  the oscillation. This makes the most sense when we consider a mass on
+  a spring that has been stretched out and is at rest, waiting to be
+  released. That is, when $\xf{t} = A \cosf{\omega t}$. Changing the mass
+  or spring constant won't change the fact that the system reaches the
+  opposite extreme when $x(t_0) = -A$. It just changes how long it takes
+  the system to reach the other extreme.
+
+  \item To summarize. Solutions are of the form:
+
+  \begin{nedqn}
+    \xf{t}
+  \eqcol
+    a \sinf{\omega \parens{t - t_0}}
+  \end{nedqn}
+
+  \item You can call $\omega = \sqrt{\frac{k}{M}}$ an \define{angular
+  velocity} if you like. It's how fast the system cycles from one
+  extreme and back again. We call $a$ the \define{amplitude}. $t_0$ is
+  the \define{phase shift}.
+
+\end{enumerate}
+
+\subsection{Harmonic Motion and Circular Motion}
+
+\begin{enumerate}
+  \item Because we know about complex numbers, we already found that a
+  circular motion is a more general solution to the differential
+  equation. But Feynman is going to show this through some non-algebraic
+  means.
+
+  \item He recounts some equations of circular motion:
+
+  \begin{nedqn}
+    a \eqcol \omega^2 R
+    \nedcomment{See prior work about centripetal force}
+  \\
+    x \eqcol R \cosf{\theta}
+  \\
+    y \eqcol R \sinf{\theta}
+  \end{nedqn}
+
+  \item He then consider the acceleration in the $x$ dimension. This
+  involves a projection of $a$ into the $x$-dimension, which depends on
+  the angle between $a$ and $e_x$ $\theta$. And because acceleration is
+  oriented inward, we need a negative sign:
+
+  \begin{nedqn}
+    a_x
+  \eqcol
+    -\omega^2 R \cdot \cosf{\theta}
+  =
+    -\omega^2 x
+  \end{nedqn}
+
+  \item Now, he notes that this shows that the acceleration in the $x$
+  dimension is exactly proportional to the extension in the $x$
+  dimension. That means we have set up the same differential equation as
+  with the spring scenario. Thus, circular motion, when projected into
+  one dimension, looks like oscillation of a linear spring.
+
+  \item He proposes an experiment that should demonstrate the
+  equivalence. I don't entirely understand the experiment, but it is not
+  particularly relevant. It is something like: suspend a bicycle wheel
+  from a spring. Attach a crank pin to the bicycle wheel. Extend the
+  wheel/spring and release. Project a light from behind. The shadow of
+  the pin projected on the screen should oscillate.
+
+  \item Next, simultaneous spin the wheel. If the displacement of the
+  spring is equal to the diameter of the wheel, then there is an angular
+  velocity at which the crank pin's shadow should look stationary.
+
+  \item Look, this isn't too important to us. We know algebraically that
+  spring motion and circular motion are related. He just hasn't
+  introduced the math for it yet.
+
+  \item He notes that he will soon be introducing the needed math. He
+  also notes that sometimes it will be convenient to treat spring motion
+  as if it were circular motion. We imagine a second dimension of the
+  motion, perform calculations and analysis. At the end, we'll throw
+  away the imaginary component by simply projecting into the one
+  dimension of linear travel we care about. It's just a matter of
+  mathematical convenience.
+\end{enumerate}
+
+\subsection{Initial Conditions}
+
+\begin{enumerate}
+  \item We know that the initial position and velocity of the mass
+  determines the solution to the differential equation.
+
+  \item The solution can be found relatively easily. First we find $A$
+  from the position equation:
+
+  \begin{nedqn}
+    \xf{t}
+  \eqcol
+    A \cosf{\omega_0 t} + B \sinf{\omega_0 t}
+  \\
+    \xf{0}
+  \eqcol
+    A \cosf{0} + B \sinf{0}
+  \\
+    A
+  \eqcol
+    \xf{0}
+  \end{nedqn}
+
+  \item Next, we find $B$ from the velocity equation:
+
+  \begin{nedqn}
+    \vf{t}
+  \eqcol
+    -A \omega_0 \sinf{t} + B \omega_0 \cosf{\omega_0 t}
+  \\
+    v(0)
+  \eqcol
+    -A \omega_0 \sinf{0} + B \omega_0 \cosf{0}
+  \\
+    B
+  \eqcol
+    \frac{v(0)}{\omega_0}
+  \end{nedqn}
+
+  \item Thus we simply see that:
+
+  \begin{nedqn}
+    \xf{t}
+  \eqcol
+    \xf{0} \cosf{\omega_0 t} + \frac{\vf{0}}{\omega_0} \sinf{\omega_0 t}
+  \end{nedqn}
+
+  \item Could we have guessed this answer? Yes, certainly. If the
+  initial configuration $\xf{0}, \vf{0}$ is given, then we need to
+  decompose this into a superposition of $\cosf{\omega_0 t},
+  \sinf{\omega_0 t}$. But only $\cosf{\omega_0 t}$ can explain the
+  initial extension $\xf{0}$. Likewise, only $\sinf{\omega_0 t}$ can
+  explain the initial velocity. But, if $B=1$, then the initial velocity
+  $\vf{0}$ would be $\omega_0$. So we need to set $B =
+  \frac{\vf{0}}{\omega_0}$.
+
+  \item This superposition form is helpful, but it doesn't directly tell
+  me the amplitude nor the phase shift of the solution. That is, I want
+  the form $\xf{t} = a \cosf{\omega_0 (t - t_0)}$. I can of course
+  recover this in the usual way. First, we need to find the $\theta_0$
+  such that:
+
+  \begin{nedqn}
+    \parens{A, B}
+  \eqcol
+    \norm{\parens{A, B}}
+    \parens{\cosf{\theta_0}, \sinf{\theta_0}}
+  \end{nedqn}
+
+  \noindent
+  This (inevitably) involves an application of the inverse tangent
+  function. But now we can say:
+
+  \begin{nedqn}
+    \xf{t}
+  \eqcol
+    \norm{\parens{A, B}}
+    \parens{
+      \cosf{\theta_0} \cosf{\omega_0 t}
+      + \sinf{\theta_0} \sinf{\omega_0 t}
+    }
+  \\
+  \eqcol
+    \norm{\parens{A, B}}
+    \cosf{\omega_0 t - \theta_0}
+  \intertext{now we set  $t_0 = \frac{\theta_0}{\omega_0}$}
+  \\
+  \eqcol
+    \norm{\parens{A, B}}
+    \cosf{\omega_0 (t - t_0)}
+  \end{nedqn}
+
+  \noindent
+  This shows us that we want:
+
+  \begin{nedqn}
+    a
+  \eqcol
+    \sqrt{A^2 + B^2}
+  \\
+    t_0
+  \eqcol
+    \atantwof{A, B} / \omega_0
+  \end{nedqn}
+
+  \noindent
+  Notice my use of the two argument $\atantwo$ function. This is
+  basically just $\atanf{\frac{B}{A}}$. However, $\frac{B}{A}$ doesn't
+  tell us the quadrant that $\parens{A, B}$ lies in. Also, it is
+  undefined if $A = 0$. Thus the two argument arctan function is quite
+  useful. You can see its definition on Wikipedia, if you like.
+
+  \item Next, let's find $a, t_0$ directly from $\parens{\xf{0},
+  \vf{0}}$. First, we know that we can put the initial conditions in
+  polar form for some $\alpha, \beta$:
+
+  \begin{nedqn}
+    \parens{\xf{0}, \vf{0}}
+  \eqcol
+    \alpha
+    \parens{
+      \cosf{\beta}, \sinf{\beta}
+    }
+  \end{nedqn}
+
+  \noindent
+  Next, let us rewrite $\xf{t}, \vf{t}$ in terms not of time $t$, but of
+  angular displacement $\theta$:
+
+  \begin{nedqn}
+    \xf{\theta}
+  \eqcol
+    a \cosf{\theta - \theta_0}
+  \\
+    \vf{\theta}
+  \eqcol
+    -a \sinf{\theta - \theta_0}
+  \intertext{This implies, for $\theta = 0$}
+    \xf{\theta = 0}
+  \eqcol
+    a \cosf{-\theta_0}
+  =
+    a \cosf{\theta_0}
+  =
+    \xf{t = 0}
+  \\
+    \vf{\theta = 0}
+  \eqcol
+    -a \sinf{-\theta_0}
+  =
+    a \sinf{\theta_0}
+  =
+    \vf{t = 0}
+  \end{nedqn}
+
+  \noindent
+  What does this imply? By uniqueness of polar decomposition, it implies
+  that the polar decomposition $\parens{\alpha, \beta}$ must be equal to
+  the polar decomposition $\parens{a, \theta_0}$.
+
+  Thus we must have
+
+  \begin{nedqn}
+    a
+  \eqcol
+    \norm{\parens{\xf{0}, \vf{0}}}
+  \\
+    \theta_0
+  \eqcol
+    \atantwof{\xf{0}, \vf{0}}
+  \\
+  \intertext{converting to time from angular displacement}
+    t_0
+  \eqcol
+    \atantwof{\xf{0}, \vf{0}} / \omega_0
+  \end{nedqn}
+
+  \item Have we learned anything? Maybe that as we scale $\cosf{t}$, so
+  we scale $\xf{0}, \vf{0}$. And that as we rotate $\cosf{t - t_0}$ by
+  changing $t_0$, so we rotate from $\parens{\xf{0}, \vf{0}} =
+  \parens{1, 0}$ toward $\parens{\xf{0}, \vf{0}} = \parens{0, 1}$.
+
+\end{enumerate}
+
+\subsection{Kinetic and Potential Energy}
+
+\begin{enumerate}
+  \item Let's calculate the kinetic and potential energy in a spring.
+
+  \item The potential energy in a spring with extension $x_0$ is:
+
+  \begin{nedqn}
+    \text{PE}
+  \eqcol
+    \int_{x_0}^0 -F(x) \dx
+  =
+    \int_{x_0}^0 -kx \dx
+  =
+    \frac{k x_0^2}{2}
+  \end{nedqn}
+
+  \item When $x = a$ the spring is at maximum extension and $v = 0$.
+  Thus, this shows that the total energy in the system is always
+  $\frac{ka^2}{2}$.
+
+  \item Moreover, we can say that the potential energy, at any given
+  time, is
+
+  \begin{nedqn}
+    \text{PE} \parens{t}
+  \eqcol
+    \half k x(t)^2
+  \\
+  \eqcol
+    \half k a^2 \cos^2 \parens{\omega \parens{t - t_0}}
+  \end{nedqn}
+
+  \item Next, we can find the kinetic energy just as easily:
+
+  \begin{nedqn}
+    \text{KE} \parens{t}
+  \eqcol
+    \half M \vf{t}^2
+  \\
+  \eqcol
+    \half
+    M
+    \parensq{
+      -a \omega_0 \sinf{\omega_0 \parens{t - t_0}}
+    }
+  \\
+  \eqcol
+    \half
+    M
+    \parens{
+      a^2 \frac{k}{M} \sinf{\omega_0 \parens{t - t_0}}
+    }
+  \\
+  \eqcol
+    \half
+    k a^2 \sin^2 \parens{\omega_0 \parens{t - t_0}}
+  \end{nedqn}
+
+  \noindent
+  As expected, we see that $\text{PE}(t) + \text{KE}(t) = \half k a^2$.
+
+  \item Here we see that if you double the spring constant, you double
+  the energy of the system. We also see that the energy is proportional
+  to the square of the amplitude of the oscillation. We also see the
+  energy in the system is independent of the mass.
+
+  \item Last, he notes that the average potential energy is half the
+  maximum potential energy. How does he know this? Well:
+
+  \begin{nedqn}
+    \text{PE}_\text{AVG}
+  \eqcol
+    \int_0^{2\pi} \half k a^2 \cos^2 \parens{\theta} \dtheta
+  \intertext{here I paramaterize by $\theta$ rather than $t$}
+  \\
+  \eqcol
+    \half k a^2 \int_0^{2\pi} \cos^2 \parens{\theta} \dtheta
+  \end{nedqn}
+
+  \noindent
+  It would be sufficient to know: $\int_0^{2\pi} \cos^2 \parens{\theta}
+  \dtheta = \half$. But I have proven this previously by a symmetry
+  argument about the norm of all unit vectors.
+
+  \item Thus, we know that
+
+  \begin{nedqn}
+    \text{PE}_\text{AVG}
+  \eqcol
+    \half \text{PE}_\text{MAX}
+  \\
+    \text{KE}_\text{AVG}
+  \eqcol
+    \half \text{KE}_\text{MAX}
+  \end{nedqn}
+
 \end{enumerate}
