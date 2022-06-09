@@ -36,11 +36,11 @@
   - The highest gear you have a gear ratio of 1.62:1.
   - Thus we have a gear ratio range of 307%.
 - My Gear Ratios
-  - I run an input gear ratio of 2.3. So my lowest gear is effectively
-    1.22:1, and my highest gear is effectively 3.73:1.
+  - I run an input gear ratio of 2.1. So my lowest gear is effectively
+    1.10:1, and my highest gear is effectively 3.38:1.
   - I have a 25-622 tire on.
-  - Thus, my gear inches run from 32.4 to 99.4.
-  - Source: https://ritzelrechner.de/?GR=SHA8&KB=46&RZ=20&UF=2135&TF=90&SL=2.6&UN=KMH&DV=gearInches
+  - Thus, my gear inches run from 29.5 to 90.3.
+  - Source: https://ritzelrechner.de/?GR=SHA8&KB=46&RZ=22&UF=2135&TF=90&SL=2.6&UN=KMH&DV=ratio
 - Seat height
   - There is a proper way to measure saddle height. But I simply
     measured the extension from the top of the tube to the base where
@@ -48,23 +48,24 @@
   - I adjusted recently from a height of 124mm to 138mm. That's about
     half an inch difference.
 
-## Torque Upgrade?
+## Gear Ratio Upgrade?
 
-- If I wanted to sacrifice top speed for more torque and easier
-  hill-climbing, I could make one of a few modifications.
-- I could use smaller tires. But that is a minimal improvement.
-- I could increase the teeth at the rear sprocket. Shimano makes a 22T
-  sprocket for the Alfine/Nexus system.
-- I could decrease the teeth at the front chainring.
-- I could increase the crank length. Origin 8 makes a 170mm crank
-  version.
-- The Alfine wants a minimum input gear ratio of 1.9:1.
-  - It doesn't want too much torque applied to the gear hub.
-    Otherwise, it can be damaged.
-  - It's making assumptions about (1) your weight, (2) your strength,
-    (3) your crank arm length.
-  - Some people violate this input minimum.
-  - But if I follow the rules, I could get a 17-18% gain in torque, at
-    a decrease of 17-18% in max speed in the top gear.
-  - Maybe that would be worth it for my knees in San Francisco. I'm
-    not usually in my top gear anyway.
+- I wanted to increase the mechanical advantage of my lowest gear. This
+  means I could climb hills with less force on my knees.
+- I would give up some top-speed by doing this.
+- Smaller tires. This is a minimal improvement, since the wheel size
+  remains the same.
+- Smaller wheels: can't easily fit them to the bike. And the smaller
+  your wheels are, the more you will feel bumps.
+- More teeth on rear sprocket. Shimano makes a 22T sprocket for the
+  Alfine/Nexus system.
+  - I did this! It made a noticeable and very helpful difference!
+  - Read elsewhere about limitations on the Alfine 8 input ratio though!
+- Fewer teeth on front chainring.
+  - I could, but I'd have to find a different crank.
+  - Also, the rear sprocket swap worked nicely already.
+- Increase crank length.
+  - Origin 8 makes a 170mm crank version.
+  - This would affect not only the gear ratio, but also the motion of my
+    leg.
+  - Maybe in a good way.
