@@ -54,15 +54,20 @@ Cables are responsible for controlling the brake and shifting systems.
 - Note that pulleys can be used when a cable without housing needs to
   change direction. This could happen at the frame, but not anywhere
   where the distance traveled must change (like at the handlebars)
-- Sheldon Brown notes that a Bowden cable transmits two kinds of force.
-  - We know you're applying a pull to the inner cable.
-  - Because friction, the housing would want to move forward with the
-    inner cable. But it cannot, because the ferrule is held in place by
-    the lever entrypoint.
-  - Thus, there is a push _back_ on the housing.
-  - Isn't friction bad between the inner wire and housing bad? Yes. But
-    we know that the inner cable wants to straighten out to take a
-    shorter path.
+
+## Bowden Apply Opposite Force On Inner And Outer Cables
+
+- Sheldon Brown insists that a Bowden cable transmits two kinds of
+  force.
+- We know you're applying a pull to the inner cable.
+- Because friction, the housing would want to move forward with the
+  inner cable. But it cannot, because the ferrule is held in place by
+  the lever entrypoint.
+- Thus, there is a push _back_ on the housing.
+- Isn't friction bad between the inner wire and housing bad? Yes. But
+  we know that the inner cable wants to straighten out to take a
+  shorter path.
+- Older, possibly wrong logic (second order effect):
   - But the housing cannot straighten out. The only way it could is to
     push out on both ends of the housing at the ferrules.
   - Again, this describes why the cable housing receives a push when the
@@ -70,6 +75,16 @@ Cables are responsible for controlling the brake and shifting systems.
   - This effect matters for side-pull brakes. Here, the inner cable
     pulls one brake arm closed, while the housing pushes the other brake
     arm closed. The two forces are equal!
+  - I think this must be wrong. First, it relies on friction. Second, it
+    seems like a minor effect. Third, you can eliminate it if you had a
+    straight run of cable.
+- With regard to side-pull brakes: I think I have missed the point. The
+  inner wire wants to pull the one side closed. But the way the brake is
+  set up, this will want to rotate _both arms_.
+- If that happened, the two brakes arms would rotate together, not
+  close. Only one side would come in contact with the rim.
+- The housing constrains the second arm from rotating. This redirects
+  the force to closing the second brake arm.
 
 ## Index Compatible Cable
 
@@ -83,6 +98,7 @@ Cables are responsible for controlling the brake and shifting systems.
 
 ## Sources
 
+- https://www.sheldonbrown.com/cables.html
 - https://www.sheldonbrown.com/upgrade-gears.html
 - TODO:
   - https://sheldonbrown.com/cable-installation.html
