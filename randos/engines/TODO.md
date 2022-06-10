@@ -27,8 +27,6 @@
   - https://en.wikipedia.org/wiki/Fuel_injection
   - https://en.wikipedia.org/wiki/Fuel_pump
 - Engine Configurations
-  - https://en.wikipedia.org/wiki/Flat_engine
-    - https://en.wikipedia.org/wiki/Flat-twin_engine
   - https://en.wikipedia.org/wiki/Straight_engine
     - https://en.wikipedia.org/wiki/Straight-three_engine
     - https://en.wikipedia.org/wiki/Straight-four_engine

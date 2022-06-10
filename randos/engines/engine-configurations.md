@@ -152,20 +152,39 @@
   the 360deg, which is basically efficiency loss, and thus lower gas
   mileage. The 180deg does the best here.
 
-**Flat Twin**
+**Flat (Boxer) Twin**
 
-- This is typical of BMW motorcycles.
+- This is typical of BMW motorcycles. Nobody else does flat engine
+  motorcycles.
 - Two cylinders are opposed 180 degrees across the crankshaft.
 - Typically longitudinal mounted.
   - Means crank runs parallel to bike axis. Cylinders stick out
     perpendicular from the bike.
+  - Can do aircooling this way.
+  - Low center of gravity.
+  - Danger to the cylinders in a collision.
+  - I believe that shaft drive is more attractive in this configuration.
+- Cylinder firing is offset by 360deg. This gives even power.
+- No net force, so primary reciprocating balance is perfect.
+  - But there is some rocking (rotating imbalance), similar to the
+    180deg twin, because of the distance between crank pins.
+- Secondary reciprocating balance is also perfect, btw.
+  - This is because of the opposition of the pistons. This is superior
+    to the 180deg parallel twin.
+  - There is secondary rotational imbalance, though.
 
 **V-Twin**
 
-- Typical of Aprilia, Ducati, Harley, Suzuki. Some Hondas.
-- Mostly transverse, though Moto Guzzi does longitudinal mounting.
+- Ducati (all their twins) and Suzuki (V-Strom 650s and 1050s). Moto
+  Guzzi and Harley. The KTM 1290.
+  - Almost always transverse mounting.
+  - Moto Guzzi mounts them longitudinal. Advantage for air cooling, but
+    disadvantage for width.
+  - Honda Shadow, Suzuki Boulevard, Kawi Vulcan, and Yamaha Virago,
+    cruisers also use V-Twin.
 - Ducati V-twin is 90deg and mounted with one cylinder pointing
   almost forward; they thus call it L-Twin.
+- Harley: 45deg. Japanese cruisers all ~45-55deg.
 
 **Triple**
 
