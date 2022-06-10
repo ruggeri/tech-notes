@@ -28,6 +28,7 @@
         "parallel" anyway.
     - 270deg: pistons are offset by 90deg.
       - Some people say this ends up being similar to a V-Twin.
+      - The Aprilia Tuono 660 has this configuration.
 - Triple
   - Almost always 120deg offset.
   - Extremely unusual to have 180deg offset (2 together, 1 apart).
@@ -43,3 +44,11 @@
     - Crossplane: each 90deg offset. Only Yamaha on the YZF-R1
       literbike.
   - V4
+
+## TODO
+
+- Have to talk about stuff like cams.
+- Should talk about stuff like balance.
+- Should talk about stuff like bore and stroke length. Engine
+  displacement. Rev rate.
+- Should talk about compression ratio.
