@@ -17,6 +17,8 @@
     - V-twin
       - Typical of Aprilia, Ducati, Harley, Suzuki. Some Hondas.
       - Mostly transverse, though Moto Guzzi does longitudinal mounting.
+      - Ducati V-twin is 90deg and mounted with one cylinder pointing
+        almost forward; they thus call it L-Twin.
   - Crankshaft angle
     - 360deg: both pistons move together.
       - Some people use "parallel twin" to refer specifically to this
@@ -44,11 +46,3 @@
     - Crossplane: each 90deg offset. Only Yamaha on the YZF-R1
       literbike.
   - V4
-
-## TODO
-
-- Have to talk about stuff like cams.
-- Should talk about stuff like balance.
-- Should talk about stuff like bore and stroke length. Engine
-  displacement. Rev rate.
-- Should talk about compression ratio.

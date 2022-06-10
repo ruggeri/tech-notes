@@ -1,0 +1,48 @@
+## TODO
+
+- Have to talk about stuff like cams.
+  - https://en.wikipedia.org/wiki/Valvetrain
+  - https://en.wikipedia.org/wiki/Camshaft
+  - https://en.wikipedia.org/wiki/Poppet_valve
+  - https://en.wikipedia.org/wiki/Overhead_camshaft_engine
+  - https://en.wikipedia.org/wiki/Timing_belt_(camshaft)
+  - https://en.wikipedia.org/wiki/Valve_timing
+  - https://en.wikipedia.org/wiki/Desmodromic_valve
+  - https://en.wikipedia.org/wiki/Variable_valve_timing
+- Should talk about stuff like balance.
+  - https://en.wikipedia.org/wiki/Engine_balance
+  - https://en.wikipedia.org/wiki/Balance_shaft
+  - https://en.wikipedia.org/wiki/Flat-plane_crank
+  - https://en.wikipedia.org/wiki/Crankshaft
+  - https://en.wikipedia.org/wiki/Firing_order
+  - https://en.wikipedia.org/wiki/Big-bang_firing_order
+- Should talk about stuff like bore and stroke length. Engine
+  displacement. Compression ratio. Rev rate.
+  - https://en.wikipedia.org/wiki/Bore_(engine)
+  - https://en.wikipedia.org/wiki/Stroke_(engine)#Stroke_length
+  - https://en.wikipedia.org/wiki/Engine_displacement
+  - https://en.wikipedia.org/wiki/Compression_ratio
+- Fuel
+  - https://en.wikipedia.org/wiki/Carburetor
+  - https://en.wikipedia.org/wiki/Fuel_injection
+  - https://en.wikipedia.org/wiki/Fuel_pump
+- https://en.wikipedia.org/wiki/Firing_order
+- Wikipedia pages
+  - https://en.wikipedia.org/wiki/Internal_combustion_engine
+  - https://en.wikipedia.org/wiki/Flat_engine
+    - https://en.wikipedia.org/wiki/Flat-twin_engine
+  - https://en.wikipedia.org/wiki/Straight_engine
+    - https://en.wikipedia.org/wiki/Straight-twin_engine
+    - https://en.wikipedia.org/wiki/Straight-three_engine
+    - https://en.wikipedia.org/wiki/Straight-four_engine
+  - https://en.wikipedia.org/wiki/V_engine
+    - https://en.wikipedia.org/wiki/V-twin_engine
+    - https://en.wikipedia.org/wiki/V4_engine
+  - https://en.wikipedia.org/wiki/Single-cylinder_engine
+  - https://en.wikipedia.org/wiki/Four-stroke_engine
+    - https://en.wikipedia.org/wiki/Stroke_(engine)
+- Other Systems
+  - Cooling system
+  - Ignition system, Starting system, Alternator
+  - Lubrication system
+  - Super and turbo chargers
