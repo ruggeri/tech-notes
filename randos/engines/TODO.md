@@ -31,7 +31,6 @@
     - https://en.wikipedia.org/wiki/Straight-three_engine
     - https://en.wikipedia.org/wiki/Straight-four_engine
   - https://en.wikipedia.org/wiki/V_engine
-    - https://en.wikipedia.org/wiki/V-twin_engine
     - https://en.wikipedia.org/wiki/V4_engine
 - https://en.wikipedia.org/wiki/Four-stroke_engine
   - https://en.wikipedia.org/wiki/Stroke_(engine)

@@ -42,6 +42,15 @@
   _flywheel_. The flywheel stores power as rotational inertia.
   - Note that the pulsation will also get worse as you increase stroke
     or bore. That's another limit on the displacement.
+- You can use a counterweight to try to balance the engine. But this
+  won't be perfect, because a counterweight spins with the crankshaft,
+  and its motion is thus not perfectly opposed to the piston motion.
+  - If you use a counterweight that balances 100% of the vertical net
+    force, then at 90deg, there will be a net force horizontally.
+  - You've just rotated the plane in which the force acts.
+  - The best you can do (with a simple counterweight) is to reduce the
+    magnitude of the shake by half and constantly rotate the direction
+    of the shake.
 - To even out vibration, you can start adding _balance shafts_ to
   counteract vibrations. But soon enough it will be easier to build a
   multi-cylinder engine.
@@ -172,19 +181,101 @@
   - This is because of the opposition of the pistons. This is superior
     to the 180deg parallel twin.
   - There is secondary rotational imbalance, though.
+- I believe that if you use a single crank pin (sometimes called a
+  180degree V-twin), you can get rid of the rotational imbalance.
+- Because of the even firing order, you don't get the cool syncopated
+  sound of the V-Twin or 270deg Parallel designs.
 
-**V-Twin**
+**90deg V-Twin**
 
-- Ducati (all their twins) and Suzuki (V-Strom 650s and 1050s). Moto
-  Guzzi and Harley. The KTM 1290.
-  - Almost always transverse mounting.
-  - Moto Guzzi mounts them longitudinal. Advantage for air cooling, but
-    disadvantage for width.
-  - Honda Shadow, Suzuki Boulevard, Kawi Vulcan, and Yamaha Virago,
-    cruisers also use V-Twin.
-- Ducati V-twin is 90deg and mounted with one cylinder pointing
-  almost forward; they thus call it L-Twin.
-- Harley: 45deg. Japanese cruisers all ~45-55deg.
+- Almost always transverse mounted (crankshaft perpendicular to bike
+  body; easily drives chain).
+  - Exception is Moto Guzzi, which mounts longitudinal (crankshaft
+    parallel to bike body).
+  - That's an advantage for air cooling, but a disadvantage for width.
+- Examples of 90deg V-Twins
+  - Ducati V-twins is 90deg and mounted with one cylinder pointing
+    almost forward; they thus call it L-Twin.
+    - They sometimes call this engine "Testastretta 11°"; the 11 refers
+      to something totally unrelated to what we're discussing (valve
+      overlap).
+    - Like all 90deg V-Twins I know, uses a shared crank pin and fires on
+      a 270-540 interval.
+    - Transverse mounted.
+    - No rocking couple because of single crank pin.
+      - Well, that isn't true. Even though there's one crank pin, there
+        are two side-by-side connecting rods. Which means you have some
+        rotational imbalance.
+    - Ducati doesn't do any parallel twins. V-Twins are used for their
+      smaller displacement bikes.
+    - A downside to this design is that you need a longer wheelbase to
+      accommodate the horizontal cylinder. That impacts maneuverability.
+  - Moto Guzzi V7 Engine
+    - Longitudinal mounted, 90deg V-twin.
+    - Uses a single crank pin. 270-540 firing interval.
+    - No rocking couple because of single crank pin.
+  - Suzuki V-Twins (SV650 and V-Strom bikes)
+    - 90deg angle. Fires on 270-540 interval like every other 90deg
+      V-Twin.
+  - I think the major downside to 90deg V-Twin is that it has a lot of
+    deadspace between the cylinders and it's hard to fit. That's why
+    Suzuki might use it on V-Stroms which aren't intended to be that
+    maneuverable, or Moto Guzzi might try to mount longitudinally.
+    - Note that the Supersport 950 does have a fairly long wheelbase for
+      this class of bike.
+- Generic 90deg V-Twin Information
+  - When left cylinder is at top, right cylinder is at middle. This is
+    what you need for a 270-540 firing interval. Note that you achieve
+    this with a shared crank pin and a 90deg V angle.
+  - You can use a counterweight that is at 180deg from the crankpin.
+    This will always rotate opposite the crankpin. This will be
+    positioned exactly opposite to the cylinder whenever it fires.
+  - Without the counterweight, you will have a rotating imbalance in the
+    engine. With the counterweight, you achieve perfect primary balance.
+- The alternating longer and shorter intervals between firing give the
+  prototypical V-Twin sound which is emulated by 270deg parallel twins.
+- Using two crank pins, you can get 360deg and 180deg firing intervals
+  like parallel twins.
+  - However, this is exceptionally uncommon.
+  - Why? Probably you should just build a parallel twin at that point?
+  - Certainly you're going to have primary balance problems with the
+    360deg and 180deg engines.
+  - That's because the net force will pulse either vertically (360deg
+    firing interval) or horizontally (180deg).
+  - In addition to the rotational imbalance due to using two crank pins.
+
+**~45deg V-Twins**
+
+- These are typical of cruiser type bikes.
+- Almost all Harleys are air-cooled 45-deg twin engines.
+  - There lightest street cruiser bikes use a 60-deg engine.
+  - But all others are the classic 45-degree V-Twin.
+  - Harley uses fork-and-blade connecting rods, which means the
+    cylinders fire in the same plane. So you only need to analyze this
+    plane.
+  - Sharing a crankpin means that you have a 315-405 firing interval.
+    This gives their classic sound.
+- In terms of primary imbalance, a 45-deg twin is going to be quite
+  similar to a parallel twin with a 360deg firing order.
+  - That's because both cylinders are at about TDC at the same time.
+  - BTW, typically these bikes are _overbalanced_, to reduce vertical
+    vibration by a bit more than 50%, at the cost of more horizontal
+    vibration. That's based on the subjective experience of the rider.
+- Another note on sound: Harleys crank at lower RPMs, so you can hear
+  the syncopation more than Ducatis, which crank at higher RPMs and
+  start to sound more droney.
+- Japanese Cruisers are ~55deg V-Twins
+  - Honda Shadow (52deg), Suzuki Boulevard (C50: 45deg M109: 54deg),
+    Kawisaki Vulcan (900: 55deg, 1700: 52deg), and Yamaha V-Star and
+    Bolt R Spec (60deg).
+  - I think a lot of manufacturers are getting out of the cruiser game
+    because demand is drying up.
+  - All transverse mounted.
+
+**Weird/Other V-Twins**
+
+- KTM 1290
+  - 75deg angle.
 
 **Triple**
 
@@ -204,3 +295,38 @@
   - Crossplane: each 90deg offset. Only Yamaha on the YZF-R1
     literbike.
 - V4
+
+## Sources
+
+- https://www.youtube.com/watch?v=9Bdc9CuBOzc
+  - Explains primary reciprocating balance well.
+  - From Engineering Explained.
+  - Primary reciprocating balance is about the net momentum change in
+    the system. If the total translational momentum is constant, the
+    engine is balanced.
+  - At the end, mentions that a counterweight can balance a
+    single-cylinder engine in the vertical plane, but at the cost of
+    horizontal imbalance.
+- https://www.youtube.com/watch?v=gdHQ8aTfiQQ
+  - Explains secondary reciprocating balance.
+  - From Engineering Explained.
+  - This is a good explanation of secondary reciprocating balance.
+  - It shows the geometry: that a piston travels more than half of the
+    way down from top dead center to 90deg.
+  - It then travels _less_ than half of the way down from 90deg to
+    bottom dead center.
+  - Clearly cylinder head position (and velocity, and acceleration) is
+    not going to be perfectly sinusoidal.
+  - **TODO**: I think I need a better/more mathematical explanation for
+    why change in effective crank length has period 180deg.
+- https://www.youtube.com/watch?v=a9ZFZABaLbg
+  - Driving 4 Answers.
+  - Explains various parallel twin crank angles. Talks about primary and
+    secondary balance.
+  - Also explains rocking couples.
+- https://www.cycleworld.com/2016/02/01/motorcycle-v-twin-and-parallel-twin-and-flat-twin-engine-tech-sound-insights/
+  - Explains all sorts of balancing techniques/compromises in different
+    engines. Very useful, but a bit fast, and with no diagrams.
+  - Mostly focused on _primary balance_.
+  - Does also discuss different sounds created by different firing
+    intervals.
