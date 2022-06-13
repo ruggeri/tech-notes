@@ -18,7 +18,6 @@
   - https://en.wikipedia.org/wiki/Crankshaft
   - https://en.wikipedia.org/wiki/Firing_order
   - https://en.wikipedia.org/wiki/Big-bang_firing_order
-  - https://en.wikipedia.org/wiki/Firing_order
 - Engine Power/Torque
   - https://en.wikipedia.org/wiki/Stroke_ratio
   - https://en.wikipedia.org/wiki/Compression_ratio
@@ -28,7 +27,6 @@
   - https://en.wikipedia.org/wiki/Fuel_pump
 - Engine Configurations
   - https://en.wikipedia.org/wiki/Straight_engine
-    - https://en.wikipedia.org/wiki/Straight-three_engine
     - https://en.wikipedia.org/wiki/Straight-four_engine
   - https://en.wikipedia.org/wiki/V_engine
     - https://en.wikipedia.org/wiki/V4_engine

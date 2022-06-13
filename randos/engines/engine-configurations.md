@@ -116,6 +116,9 @@
       force of 1.5x. But this is less than the 360deg. And you'll also
       have some rotational vibration.
     - These will need to be balanced out.
+  - KTM 890 engine has 75deg crank angle and 285-435deg firing interval.
+    This is equivalent to a 75deg V-Twin with a 360deg firing crank
+    angle (the setup of the KTM 1290 engine).
 - Can be prone to vibration either because (1) unbalanced mass in the
   360deg version or (2) irregular firing in the 180deg version.
 - Also, in 180deg version, there is rocking, which is the desire to
@@ -243,6 +246,8 @@
   - That's because the net force will pulse either vertically (360deg
     firing interval) or horizontally (180deg).
   - In addition to the rotational imbalance due to using two crank pins.
+- **TODO**: What are the pros-and-cons versus a parallel twin with a
+  270deg crank angle?
 
 **~45deg V-Twins**
 
@@ -271,22 +276,66 @@
   - I think a lot of manufacturers are getting out of the cruiser game
     because demand is drying up.
   - All transverse mounted.
+- Firing of 45deg V-Twin is less uneven than 90deg V-Twin.
 
 **Weird/Other V-Twins**
 
 - KTM 1290
-  - 75deg angle.
+  - 75deg angle. Firing interval of 285-435.
+  - As discussed previously, a parallel twin with a 75deg crank has the
+    same firing interval.
 
 **Triple**
 
-- Almost always 120deg offset.
-- Extremely unusual to have 180deg offset (2 together, 1 apart).
-- Will typically be mounted transverse. The headers will look like a
-  trident.
-- However, you can also have a longitudinal triple, where the
-  cylinders run with the bike. This is the configuration of the
-  Triumph Rocket 3.
-- Most identified with Triumph. But also Yamaha makes some.
+- Typically mounted transverse, and the headers will look like a
+  "trident" a bit.
+  - Exception is Rocket III which has a longitudinal mounted engine.
+- Yamaha makes some triples, but Triumph is most associated with them.
+- The "typical" setup is 120deg crank offset.
+  - Yamaha calls this "CP3" (Crossplane 3). But this is the typical and
+    traditional 3 cylinder setup.
+  - All Yamaha triples use this setup.
+  - The branding matches CP2 (their 270deg twin) and CP4 (a crossplane 4
+    engine) that Yamaha sells.
+  - The firing interval is an even 240deg. The first cylinder fires,
+    then the third, then the second.
+    - Note: power delivery is not perfectly even, because there are
+      moments when there are no power strokes occuring (180deg to
+      240deg, 330deg to 360deg).
+  - Perfect primary reciprocating balance is achieved.
+  - I can also prove that secondary reciprocating balance is perfect.
+    - Angles of 0,120,240 correspond to doubled angles of 0,240,120.
+    - Thus, if we double the frequency, these angles get swapped, but
+      their relative position stays the same.
+    - Thus, by the same argument that primary forces are balanced, we
+      argue that secondary forces are balanced.
+    - Note that it doesn't work for tertiary forces; 0,120,240 become
+      0,0,0 in the tripled frequency domain. Thus, tertiary imbalance is
+      magnified by 3x in this engine.
+  - A 120deg triple will have some rotational imbalance. This occurs
+    directly about the central cylinder.
+    - The first and third cylinders are 120deg out-of-phase, so this
+      rocking imbalance tends to be somewhat attenuated.
+    - But it appears that a balance shaft is used to even this out.
+- Triumph
+  - Trident 660, Speed Triple, and Street Triple have crank angles of
+    120deg. We've already discussed that setup.
+  - Tiger 850, 900, 1200 have T-Plane.
+  - T-Plane has crank angles of 0deg, 90deg, and 180deg.
+  - Thus fires cylinder 1 at 0deg, cylinder 3 at 180deg, and then
+    cylinder 2 at 450deg.
+  - That gives firing intervals of 180-270-270.
+  - The engine loses primary and secondary balance.
+  - Why do this? And why only on the ADV bikes? The reason they say is
+    that even power delivery can mean that the tire is constantly under
+    power and breaks traction in dirt and starts to spin.
+  - By giving a longer interval under no power, the tire can find
+    traction, and then you give it a pulse of power.
+  - It seems implausible, but this was established on earlier big-bang
+    firing engines that are used in off-road motorsports.
+  - The downside is greater vibration.
+  - For this reason, twins with 270 crank throws are also popular
+    off-road.
 
 **Four cylinder**
 
@@ -330,3 +379,13 @@
   - Mostly focused on _primary balance_.
   - Does also discuss different sounds created by different firing
     intervals.
+- https://www.youtube.com/watch?v=E1_9MrHzZ98
+  - Compares V-Twin angles
+  - Driving 4 Answers
+  - Basically, says that 90deg can achieve better balance, but 45deg has
+    more even firing interval and can be more easily fit without
+    expanding the wheelbase.
+- https://www.youtube.com/watch?v=Oc5_B4Qua_I
+  - Engineering Explained.
+  - Explains three cylinder engine.
+  - Explains crank angles, firing interval.
