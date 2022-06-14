@@ -248,6 +248,14 @@
   - In addition to the rotational imbalance due to using two crank pins.
 - **TODO**: What are the pros-and-cons versus a parallel twin with a
   270deg crank angle?
+- Some other thoughts
+  - https://www.cycleworld.com/2015/12/03/ask-kevin-cameron-honda-africa-twin-parallel-twin-engine-vs-v-twin-engine/
+    - Here, Kevin talks about some pros/cons of inline vs v-twins.
+    - But it's mostly about packaging, cost, and balancing.
+    - He doesn't otherwise suggest that a V-twin could make more low-end
+      torque, like you hear a lot of people say.
+  - Basically, I don't see anything that suggests that orientation of
+    cylinders should really affect power band.
 
 **~45deg V-Twins**
 
@@ -291,6 +299,7 @@
   "trident" a bit.
   - Exception is Rocket III which has a longitudinal mounted engine.
 - Yamaha makes some triples, but Triumph is most associated with them.
+- Typically make about 80-120HP.
 - The "typical" setup is 120deg crank offset.
   - Yamaha calls this "CP3" (Crossplane 3). But this is the typical and
     traditional 3 cylinder setup.
@@ -334,16 +343,81 @@
   - It seems implausible, but this was established on earlier big-bang
     firing engines that are used in off-road motorsports.
   - The downside is greater vibration.
+    - Which is why I think they don't use it on street bikes, where
+      there is less benefit.
+  - Another benefit is that the soundtrack is nice.
   - For this reason, twins with 270 crank throws are also popular
     off-road.
 
-**Four cylinder**
+**Inline Four Cylinder**
 
-- Inline four
-  - Flat plane: 180deg offset.
-  - Crossplane: each 90deg offset. Only Yamaha on the YZF-R1
-    literbike.
-- V4
+- Generally used for high revving, high horsepower machines.
+- Kawisaki, Honda, and Suzuki all make supersports. Also BMW.
+  - Ducati and Aprilia prefer V4s, which we'll talk about later.
+  - Triumph builds threes.
+- Fours generally are built when you want at least 100HP. Otherwise, you
+  can achieve it with a twin.
+  - To get this, presumably you're normally relying on the high revving
+    of the engine to achieve greater HP. Thus, you'll tune it to produce
+    peak torque high up in the rev range.
+- Your typical design will have each cylinder offset by 180deg.
+  - Thus, your firing interval is an even 180deg.
+  - This should have perfect primary balance, like the inline twin.
+  - I believe you can eliminate the rocking, if the cylinders are at
+    0deg, 180deg, 180deg, 0deg. They should have no moment about their
+    center of mass.
+  - I believe you will still have secondary imbalance. This should be
+    doubled.
+    - I believe balance shafts are used on higher displacement engines
+      for this reason.
+- There is always one cylinder firing, but there is some pulsation in
+  power delivery. That happens because the end of the power stroke
+  delivers less power than the beginning.
+  - But I think this is common to all engines with no more than 4
+    cylinders.
+- Crossplane Design
+  - Yamaha is the only one currently doing this for inline fours.
+  - Crank angle is 90deg. So pistons are at 0deg, 270deg, 90deg, 180deg
+    with respect to each other.
+    - Cylinder 1 fires at 0 deg, cylinder 3 at 270deg, cylinder 2 at
+      450deg, and cylinder 4 at 540deg.
+    - Firing intervals are 270-180-90-180...
+  - So let's talk balance. You should have primary reciprocating
+    balance. But you should have rocking about the center of mass.
+  - So you have two rocking couples.
+    - But the outer couple is placed further away, so it has more of an
+      impact.
+    - You could add counterweights at ends of crankshaft to reduced (but
+      not eliminate) this rocking couple. We talked about how you could
+      do that with 180deg parallel twins.
+    - Claims that a balance shaft is a better solution here because...
+      Why?
+  - In good news, you have less secondary imbalance than a flatplane I4.
+    - That's because there is no net secondary force at 90deg/270deg.
+    - So you only have two pistons (the ones at 0deg, 180deg)
+      contributing to secondary imbalance.
+    - But this is not much of a win, because secondary imbalances are
+      already less important than primary imbalance.
+  - Talks about big bang engines, which produce their torque/power
+    during a short phase of the cycle. The bangs are placed closer
+    together.
+    - This typically increases vibrations and reduces maximum possible
+      output.
+    - He talks about the advantage. Which is that in extreme high-speed
+      cornering, you're going to get recovery time during which the tire
+      is not under power. That way you can regain traction.
+    - The crossplane isn't as crazy as some I4s with even more absurd
+      firing intervals. But it's on that spectrum.
+    - The R6 doesn't use crossplane because the 600 class is not
+      overpowered for the exit.
+  - Basically, this like the bike will have more vibration, and this
+    really only benefits you when pushing to the absolute limit in
+    cornering.
+  - Source: https://www.youtube.com/watch?v=uM-ycHS9uvw&t=180s
+
+**V4**
+
+- **TODO**
 
 ## Sources
 
@@ -455,6 +529,8 @@ https://www.reddit.com/r/motorcycles/comments/1v9uw2/why_do_v_twins_tend_to_have
 - https://www.youtube.com/watch?v=UV3RwBPqznU
   - Engineering Explained.
   - Bore vs Stroke
+  - Oversquare = short stroke/larger bore, undersquare = longer
+    stroke/smaller bore.
   - It seems like it shouldn't make a difference? Isn't just engine
     displacement what matters?
   - He seems to indicate that the limitation is on piston speed. That
@@ -568,3 +644,36 @@ max F = m * max acceleration
 
 - TODO: https://www.youtube.com/watch?v=PXD_AvKbCMg
   - Talks about why 4 valves better than two. Might explain valve sizing.
+- https://www.youtube.com/watch?v=u4AfvfHqCBM
+  - Does not expand on common claim that piston velocity is limited. But
+    why?
+  - Explicitly says that both undersquare and oversquare will produce
+    same torque.
+    - It claims that force depends on pressure on piston crown times
+      area.
+    - Pressure is presumably constant maximum since otherwise would
+      crack piston.
+    - You can increase the crank radius, but for same displacement that
+      comes at cost of decreased bore AKA area of piston. Thus, there is
+      less total force that can be exerted on the smaller piston.
+    - So everything cancels and you get a torque that is the same.
+    - Doesn't that suggest you need less fuel to produce same torque?
+    - Also, how does that jive with my previous assumption that fuel
+      consumption would be same per cycle but energy from fuel would be
+      same, and torque is energy per rotation?
+    - I think you need the same total energy, because you need to
+      sustain the same pressure through a longer distance.
+  - He contradicts Engineering Explained. He claims that long stroke
+    will have more heat loss, because of larger area swept by piston.
+    Whereas, EE claims that what matters is the surface area available
+    for ignition at TDC.
+    - I think he's wrong. I think that probably the greatest heat is at
+      TDC, when long stroke has the advantage in area.
+    - But I do think you can add more fins onto a long cylinder to
+      improve cooling.
+  - He notes that cooling is more difficult for larger moving parts
+    required for big bore engines.
+  - Notes that you can get better emissions if the combustion chamber is
+    cooler. Which can be accomplished by undersquare engines.
+  - Might be worth noting that cooling is a problem for air-cooled
+    engines like Harley.
