@@ -1,5 +1,11 @@
 ## Maintenance Log
 
+- 2022-06-14
+  - Approximately. I changed the inner tube of the rear tire after it
+    went flat.
+- 2022-06-12
+  - I adjusted the seat height up to 148mm. I had previously increased
+    it to 138mm from 124mm. This seems to be a good height for me.
 - 2022-05-26
   - I replaced the 20T rear sprocket with a 22T sprocket. This should
     reduce my top speed by about 10% but decrease effort in the lowest
