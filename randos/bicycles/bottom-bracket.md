@@ -39,7 +39,7 @@
   - The JIS are spindle ends are shorter, and thus don't taper as much.
     Most Japanese cranks/bottom brackets expect JIS. In particular,
     Shimano.
-- Typically the typical square taper spindle will be a _cartridge bottom
+- More recent square taper spindles will be a _cartridge bottom
   bracket_.
   - That means that the bearings are integrated with the bottom bracket.
     The bearings are not replaceable, so when they fail you have to
@@ -75,15 +75,19 @@
     crank, (3) the right crank.
 - Other three-piece systems.
   - ISIS Drive (ten splines).
-  - Shimano Octolink (eight splines).
+  - Shimano Octalink (eight splines). (BTW, there were two versions of
+    Octalink: V1 and V2. They are incompatible).
   - I don't want to go into the potential pros/cons of these systems too
-    much. I think it was basically about a larger spindle.
+    much. I think it was basically about a larger spindle. This came at
+    the cost of smaller bearings though.
   - What we see with these splined systems is that there is _still a
     taper_ behind the splining. That's necessary for the crank to be
     crammed onto the spindle.
   - These systems are basically dead though. They never became standards
     like the square taper system, and manufacturers have moved onto
     their proprietary two-piece systems with outboard bearings.
+    - They're especially dead because they were proprietary, which meant
+      that you had to match your Shimano BB with your Shimano cranks.
   - Because the cranks are still secured in the typical way, you'll
     still need the crank puller, which works in the typical way.
   - I believe that these systems may use larger fixing bolts, which may
@@ -127,13 +131,48 @@
     to the spindle, you can normally take the crank off by hand, or with
     soft tapping with a mallet.
   - That is: you don't need a crank puller.
+  - I should have mentioned how the BB is tightened to the shell. There
+    are splines on the outside, which are gripped by a tool. Even just
+    Shimano has different tools needed for different specific BBs. But
+    the BBT-69.3 is a typical example.
 - We skipped how bottom bracket is screwed in.
   - I will focus on threaded-shell brackets. That, I believe, is typical
     of the square-taper style and the outboard bearing styles that are
     popular today.
-  -
 - I should note that there are many kinds of systems, but the ones that
   I have discussed predominate.
+- Cup-and-cone style
+  - This is a style typical of older bikes. It uses the square spindle
+    like I said.
+  - In the cartridge style, the bearings are enclosed within the bottom
+    bracket. They aren't adjustable by the user. When the bearings
+    degrade, you replace the bracket.
+  - In the older cup-and-cone style, you put the bearings in there
+    yourself. This is similar to the Ashtabula style that I saw
+    disassembled once.
+  - On the drive-side, the threaded cup can be removed by grabbing onto
+    flat edges. You can use Park Tool HCW-4.
+  - On the non-drive-side, there will first be a lockring which can be
+    removed with HCW-5 (though I was able to use a wrench).
+  - After removing the lockring, you need to remove the threaded cup.
+    There are a number of holes here that you need to insert a pin tool
+    into. The HCW-4 has some pins that will _probably_ work for me, but
+    depends on the number of holes and their spacing. However, if that
+    doesn't work I need SPA-1 (which is springy and can handle different
+    adjustable cups).
+  - I will just be removing a cup-and-cone bottom bracket, so I won't
+    adjust it.
+  - This style, being older, typically has a _fixing nut_ attached to a
+    bolt that extends from the spindle.
+- I should mention removal of a cartridge square-taper bottom bracket.
+  - These replaced cup-and-cone style. But they themselves got replaced
+    over time. First by Octalink, then by outboard bearing two-piece
+    systems like Hollowtech II.
+  - The Shimano UN300 is typical. It's the last cartridge BB that
+    Shimano sells today.
+  - It has splines that a tool catches and rotates.
+  - BBT-22 or BBT-32 are the tools you want for installation or removal.
+  - I believe my current bicycle has this style.
 
 ## Sources
 
@@ -141,13 +180,13 @@
 - https://www.sheldonbrown.com/bbtaper.html
 - Crank type identification: https://www.youtube.com/watch?v=VMV-SOIhM2c
   - So many systems. Remember, we're probably just going to care about
-    square-taper and HollowTech II, and maybe Octolink.
+    square-taper and HollowTech II, and maybe Octalink.
   - I don't even really care about Ashtabula, though you will encounter
     that.
 - Three-Piece Crank removal/installation:
   https://www.youtube.com/watch?v=cPQyQnNdews&t=2s
   - Great cutaway demontration of three-piece crank attachment.
-  - Tells you everything you need to know about square-taper, Octolink,
+  - Tells you everything you need to know about square-taper, Octalink,
     and ISIS removal/installation.
 - Hollowtech II removal/installation:
   https://www.youtube.com/watch?v=QqBtB8Kyl2U&t=297s

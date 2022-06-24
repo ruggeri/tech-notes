@@ -12,6 +12,11 @@
   - I don't think my frame could do 28mm. There isn't enough clearance
     at the frame. It alsoe wouldn't fit between the brake levers
     inflated.
+- My bottom bracket is a Shimano (presumably) square spindle.
+  - It has 20 internal splines, and requires BBT-22 to install or
+    remove.
+  - The bottom bracket shell is 68mm so appears to be ISO/British.
+  - I didn't measure the spindle length. That matters for chainline.
 - My front chain ring is an Origin 8 Track/SS crankset.
   - https://origin8.bike/collections/chainrings-cranks/products/track-ss-crankset?variant=40214953164955
   - It has 165mm cranks.
