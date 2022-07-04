@@ -126,7 +126,7 @@
     spindle and up to the bracket. This kind of serves the purpose of
     the fixing bolt in the square taper system.
   - To remove this, you need a proprietary tool to remove the splined
-    bolt.
+    bolt. This is BBT-10.2.
   - However, since this is not the primary way that you secure the crank
     to the spindle, you can normally take the crank off by hand, or with
     soft tapping with a mallet.
