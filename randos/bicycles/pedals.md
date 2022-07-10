@@ -63,6 +63,9 @@
   - They do sell a 15mm crow foot (TWB-15) you can use with a torque
     wrench. But you're better off just buying a crow foot set if you
     need that.
+  - Actually, I would say that the Park Tool crow foot could be worth it
+    because it is narrow and large. My generic crow foot worked poorly
+    with regard to fitting in the tight space required.
 
 ## Sources
 
