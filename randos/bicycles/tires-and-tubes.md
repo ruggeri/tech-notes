@@ -118,6 +118,19 @@ Presumably, as 700C tire widths shrunk, so did the wheel widths.
 
 Anyway, prefer the ISO designations to this old French designation.
 
+## Clincher vs Tubeless
+
+You'll hear tires described as "clinchers" often. This is your standard
+type. It has the tube inside, and the tire is kind of bulb shaped, where
+the edges grab the rim and are retained by it. The edge that crabs the
+rim is called the _bead_.
+
+Tubular tires, which are a torus that has been sewn closed around the
+inner tube, are used in professional racing. They are lighter, but since
+you can't simply replace the tube, you would need to carry a second
+tubular tire as an amateur. In professional racing, that's not a problem
+because your support carries the tire.
+
 ## Sources
 
 - https://www.biketiresdirect.com/common-tire-sizes-article
