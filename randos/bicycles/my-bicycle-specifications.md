@@ -18,7 +18,7 @@
   - The bottom bracket shell is 68mm so appears to be ISO/British.
   - I didn't measure the spindle length. That matters for chainline.
 - My front chain ring is an Origin 8 Track/SS crankset.
-  - https://origin8.bike/collections/chainrings-cranks/products/track-ss-crankset?variant=40214953164955
+  - https://origin8.bike/collections/chainrings-cranks/products/track-ss-crankset-1?variant=40214953754779
   - It has 165mm cranks.
   - It has 46 teeth.
   - I expect it is for 3/32 chain.
@@ -28,6 +28,9 @@
   - This costs about $115 new.
   - lmao, Origin 8 just stamps Lasco CF 12. It's no-name made-in-Taiwan
     rebrand.
+  - I measured a 42.5mm chainline, which corresponds to the 42mm
+    indicated as intended on the Origin 8 specifications.
+    - Note: 42mm is a typical single-speed chainline.
 - I have 22 teeth on the rear sprocket.
   - I replaced the stock Alfine 20T sprocket with a Shimano 22T. It is
     3/32.
@@ -36,6 +39,9 @@
 - Chain
   - I am running a KMC 9 speed chain.
   - I use a 9-speed KMC Missing Link.
+  - BTW, Shimano claim that you should use a 9 speed chain with the
+    Alfine rear cog. That implies it is a 3/32 sprocket. Thus I'm using
+    the right chain.
 - I have an Shimano Alfine 8 internal gear hub.
   - The lowest gear in the hub has a ratio 0.53:1.
   - The highest gear you have a gear ratio of 1.62:1.
