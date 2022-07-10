@@ -1,5 +1,11 @@
 ## Maintenance Log
 
+- 2022-07-04
+  - Approximately. I tightened the rear axle nuts to ~45 Nm per spec.
+    They had gotten loose and the wheel moved on me and the chain
+    dropped.
+  - I also readjusted the alignment of the shift cable at the hub. I got
+    much better shifting after that. A big difference!
 - 2022-06-14
   - Approximately. I changed the inner tube of the rear tire after it
     went flat.
