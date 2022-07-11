@@ -120,6 +120,11 @@
 - Park Tool makes various tools to remove various freewheels. However,
   it doesn't appear they make a tool for the Shimano 600 freewheel I had
   to deal with.
+  - The FR-1.3 may be the most typical. It's for Shimano 12-spline
+    freewheels with a 22.6mm diameter. However, you have to check; there
+    are also smaller diameter 12-spline freewheels, and large ones too.
+    - And of course, other competing interfaces (many using notches),
+      though those are less common.
   - There is still a lock ring, with two pin holes, that holds the
     freewheel bearings in place. You can use a hammer and center punch
     to unscrew this.
@@ -147,6 +152,12 @@
     placement of the hub bearings close to the center of the wheel? Or
     something something dish?
   - Source: https://www.bikeforums.net/classic-vintage/684606-126mm-frame-5-speed-freewheel.html
+- When installing a freewheel, note that pedaling will tend to tighten
+  the freewheel on. Thus, you don't need to torque it up yourself.
+  - You can use a chain whip like SR-2.3 to tighten the freewheel on. But
+    you can also do this just by standing on the pedal with the chain
+    on.
+  - You _do_ need a chain whip to install or remove a cassette.
 
 ## A Little More About Hubs
 
@@ -161,6 +172,9 @@
   adjusting the cone.
 - You then tighten a lock nut against the cone, so that they can't move.
 - Rear hubs typically need 9x 1/4" ball bearings per side.
+  - It looks like Wheels Manufacturing is most popular for bearings. You
+    typical want "Grade 25" bearings, which are accurate to 25
+    millionths of an inch.
 
 # Chain
 
