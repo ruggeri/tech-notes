@@ -107,6 +107,61 @@
 - Source: https://www.youtube.com/watch?v=qcgz3-XyNkI
 - Source: https://en.wikipedia.org/wiki/Cogset#Freewheels
 
+**Some More Details**
+
+- How can you tell a cassette from a freewheel easily? Look at the
+  internal fitting. Spin the freewheel counterclockwise.
+  - If the fitting spins, then it must be for a lockring that holds the
+    cassette stack. It's part of the stack that is spinning around.
+- If the fitting stays stationary, it's because it's screwed into the
+  hub, which is not rotating. It's a tool fitting for you to be able to
+  unscrew the entire freewheel from the hub.
+- It appears that the Shimano 12 spline interface is typical.
+- Park Tool makes various tools to remove various freewheels. However,
+  it doesn't appear they make a tool for the Shimano 600 freewheel I had
+  to deal with.
+  - There is still a lock ring, with two pin holes, that holds the
+    freewheel bearings in place. You can use a hammer and center punch
+    to unscrew this.
+  - After that, you can use a pipe wrench (or in my case, a vise-grip
+    and a rubber mallet) to grip onto the freewheel body and unscrew it.
+- I believe the thread pitch is the same for practically all freewheels
+  (ISO standard).
+- More speeds on the freewheel necessitate wider dimension between the
+  dropouts.
+  - Sheldon says 120mm was standard for 5 speed.
+  - 126mm was standard for 6 speed.
+  - They also would try to fit 6 speeds with 120mm dropouts by using a
+    closer spacing of cogs (5mm instead of 5.5mm between cogs). This is
+    called "Ultra Six".
+  - 7- and 8-speed cogsets always used ultra spacing. They fit in 126mm
+    and 130mm dropouts. They weren't called "Ultra", because this was
+    just the standard.
+    - Shimano distance between cogs has changed further over time. They
+      kept 5mm for 7-speed. Went down to 4.8mm for 8 speed. 4.34mm for 9
+      speed, and 3.95mm for 10-speed.
+- Note, that you can still put a 5-speed cogset on 126mm dropouts. At
+  some point 120mm had become obsolete, and they would be producing
+  126mm dropout frames.
+  - Then, they might still put 5-speed for reasons pertaining to the
+    placement of the hub bearings close to the center of the wheel? Or
+    something something dish?
+  - Source: https://www.bikeforums.net/classic-vintage/684606-126mm-frame-5-speed-freewheel.html
+
+## A Little More About Hubs
+
+- Shimano hubs continue to use cup-and-cone bearings. Inside the hub is
+  a cup, and then a cone is screwed down to hold the bearings in place.
+  - For this reason, plenty of people prefer hubs from other
+    manufacturers. People seem to feel that Shimano hubs aren't at all
+    sexy, but they do admit they are functionality and of good quality.
+- This may require adjustment for the axle to rotate freely.
+- For this adjustment, you'll need a cone wrench, which is very narrow
+  and small and used for a relatively low torque application like
+  adjusting the cone.
+- You then tighten a lock nut against the cone, so that they can't move.
+- Rear hubs typically need 9x 1/4" ball bearings per side.
+
 # Chain
 
 - The distance between chain pins in standardized to 1/2 inch.

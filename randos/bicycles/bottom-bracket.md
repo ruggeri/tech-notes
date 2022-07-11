@@ -163,7 +163,7 @@
   - I will just be removing a cup-and-cone bottom bracket, so I won't
     adjust it.
   - This style, being older, typically has a _fixing nut_ attached to a
-    bolt that extends from the spindle.
+    threaded bolt that extends from the spindle.
 - I should mention removal of a cartridge square-taper bottom bracket.
   - These replaced cup-and-cone style. But they themselves got replaced
     over time. First by Octalink, then by outboard bearing two-piece
