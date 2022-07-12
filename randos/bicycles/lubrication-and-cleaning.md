@@ -3,6 +3,7 @@
 - First, multi-purpose cleaner used inside the household is likely not
   strong enough to do a good job degreasing bike parts.
   - By pH, multi-purpose cleaner is approximately neutral at 6-8.
+  - I did buy some Simple Green just for cleaning my bike though.
 - Heavy duty degreaser may be pH 11-13.
 - Another question is whether the degreaser is water or solvent based.
   - Water based means that water is used as the solvent, but water is
@@ -68,6 +69,9 @@
     bacteria.
   - None of this helps with _degreasing_, which is the problem with
     bicycles, of course.
+  - Clorox is a brand of chlorine bleach. The 7th Generation bleach I
+    have at home is peroxide based.
+  - Ironically, Clorox wipes contain no bleach.
 
 **Degreaser And Ball Bearings**
 
