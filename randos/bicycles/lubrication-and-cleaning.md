@@ -56,6 +56,18 @@
     alcohol. However, they note it's volatile so you have to act fast
     before it evaporates.
   - Acetone is also a better solvent than mineral spirits.
+- Bleach
+  - We might as well talk about it in the context of these other
+    solvents/degreasers.
+  - Bleach is primarily dissolved chlorine. It can disinfect and
+    sterilize.
+  - Bleaches also remove color. Many colored organic compounds react
+    with bleach, turning them into colorless compounds.
+  - There is also hydrogen peroxide based bleaches (like Oxyclean). They
+    have less bleaching power but are easier on fabrics. It also kills
+    bacteria.
+  - None of this helps with _degreasing_, which is the problem with
+    bicycles, of course.
 
 **Degreaser And Ball Bearings**
 
@@ -144,6 +156,18 @@
   want the lubricant to be able to penetrate and lubricate the
   pins/bushings.
 
+## Removing Rust
+
+- Some parts may get rusty over time.
+- White vinegar is a common approach. It is mildly acidic, containing
+  acetic acid. You spray or soak, then scrub. You can also use citric acid.
+- Rust converters convert the rust into a more stable chemical. Then you
+  paint over it. But it won't restore it to looking like new. The
+  process is called _chelation_.
+- Of course, you can use wire brushes to brush off rust.
+- You have to be careful with acid because it can also react with the
+  metal causing pitting.
+
 ## Sources
 
 - https://www.nycoproducts.com/resources/blog/cleaners-degreasers-blurred-lines
@@ -154,3 +178,4 @@
   - Describes wet vs dry lubes
 - https://www.yellowjersey.co.uk/the-draft/everything-you-need-to-know-about-bike-lubricants
   - Some information on greases.
+- https://workingbyhand.wordpress.com/2015/08/22/removing-rust-chemical-methods/
