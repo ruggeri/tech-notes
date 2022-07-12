@@ -1,5 +1,12 @@
 ## Maintenance Log
 
+- 2022-07-11
+  - I took the chain off, cleaned it (sprayed it with Finish Line Speed
+    Degreaser in a bucket), and regreased with Tri Flow (removing
+    excess).
+  - Made sure that rear axle nuts were tightened, centered rear brake,
+    checked hub gear cable adjustment.
+  - Rode very nicely afterward :-)
 - 2022-07-04
   - Approximately. I tightened the rear axle nuts to ~45 Nm per spec.
     They had gotten loose and the wheel moved on me and the chain
