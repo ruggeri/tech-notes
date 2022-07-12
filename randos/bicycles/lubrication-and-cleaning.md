@@ -51,6 +51,25 @@
   - "Agent Orange" is a common choice.
 - People note that dish soap and a brush is all that you need to clean
   chains/cogs et cetera. But that the job can be easier with a degreaser
+- Solvent Comparison
+  - People say that acetone is a much better solvent than isopropyl
+    alcohol. However, they note it's volatile so you have to act fast
+    before it evaporates.
+  - Acetone is also a better solvent than mineral spirits.
+
+**Degreaser And Ball Bearings**
+
+- I think you have to be careful spraying degreaser where grease has
+  been packed.
+- Most importantly: you don't want to spray degreaser onto your axle or
+  hub bearings. They need the grease to rotate easily. The degreaser
+  will take it away.
+  - Probably with cartridge bearings this is less of a worry, since
+    there are seals to protect them from water and dirt ingress.
+  - But it might be more problematic with cup-and-cone style.
+- Also, it just speaks to the general principle of: there's supposed to
+  be grease in places. If dirt has entered, you can remove the dirt and
+  grease, but you must subsequently replace.
 
 ## Options
 
@@ -66,9 +85,64 @@
 - Note that most of these are citrus based. Finish Line makes both a
   citrus based, but also the Speed Degreaser I have from them is
   heptane, acetone, propane, ethanol...
+  - The Speed Degreaser seems to do a pretty good job. It is
+    conveniently pressurized, so you can spray down components with it
+    and penetrate a fair bit.
+  - But it would be interesting to try soaking in something. I have
+    purchased some Finish Line Citrus Degreaser to try soaking a chain
+    in.
+  - If I don't like that, then I might try mineral spirits.
 - Note that you can have either cans/jugs, or aerosol sprays. The sprays
   can be very effective, but I would always want to take the parts off
   my bike so that mess doesn't get everywhere.
+
+## Chain Lubricants
+
+- I have been using Tri-Flow Superior Lubricant as a chain grease.
+  - This is a dry lube based on teflon.
+  - I also recently purchased Squirt Clean Long Lasting Chain Lube,
+    which is a dry, wax based lubricant. I haven't tried it yet though.
+- Dry lube goes on wet, and then dries. It tends not to get dirty as
+  fast.
+  - You are supposed to wait 2-4hrs before riding after application.
+    - Other people seem to think that's bullshit and you only need
+      30min.
+  - Tend to have a parafin wax or teflon base.
+  - The dry lube will be washed away by wet.
+  - Often recommended for summer riding.
+  - Tends to require frequent application.
+- Wet lube is better for wet conditions.
+  - You don't have to wait for drying, so you can just ride away after
+    application.
+  - It's thick and sticky, and stays on the chain despite water
+    splashing on it.
+  - On the other hand, it attracts dust and grit.
+  - Tends to need less frequent application.
+- It appears that much more important than lubrication is cleanliness.
+  Which tends to favor _dry_ lube.
+- When applying, apply a drop per link. Then, wipe off excess by
+  rotating chain backward through a rag.
+
+## Grease vs Oil
+
+- Grease is oil with a thickener added.
+- Often there is a choice of using grease or oil. But the major problem
+  with oil is that it will leak out.
+- Thus, axles and bearings are lubricated with grease.
+- My Alfine hub is lubricated with grease, though the Alfine 11 actually
+  has you add oil. It can do this because it is like a self-contained
+  gearbox.
+- Grease is not only used for lubrication. It is also used to repel
+  water and prevent oxidation. This is why it is frequently applied to
+  threads.
+- I have Park High Performance Grease. There are lots of kinds.
+  - There are also anti-seize compounds, which are greases specifically
+    meant for threads and to stop seizing. But a lot of people say
+    regular grease is fine.
+- A note that liquid lubricants are appropriate when you need
+  _penetration_. That is important for bike chains, for instance. You
+  want the lubricant to be able to penetrate and lubricate the
+  pins/bushings.
 
 ## Sources
 
@@ -76,3 +150,7 @@
 - https://www.omegasonics.com/knowledge-center/blog/solvents-vs-detergents-whats-the-difference/
 - https://cyclingtips.com/2018/12/the-best-degreaser-for-bicycles/
 - https://www.bikeshepherd.org/best-bike-degreasers/
+- https://pedalchile.com/blog/dry-wet-lube
+  - Describes wet vs dry lubes
+- https://www.yellowjersey.co.uk/the-draft/everything-you-need-to-know-about-bike-lubricants
+  - Some information on greases.
