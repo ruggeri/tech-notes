@@ -308,6 +308,135 @@ Ahh, you can see that this is two three-byte UTF-8 representations:
 heart and "colorful." So the red heart is an example where UTF-16 wins
 big!
 
+Just to be clear, the length of a string counts the number of code
+points, not the number of grapheme clusters:
+
+    len("❤️") == 2
+
+## C/C++
+
+I believe that C++ will be happy to let you stick unicode characters
+into strings:
+
+```c
+#include <stdio.h>
+
+int main()
+{
+  printf("Hello world: 🙂\n");
+
+  return 0;
+}
+```
+
+Presumably the file is written in UTF-8. The string literal is treated
+as containing a series of bytes. Note that in UTF-8, ASCII bytes (0-127)
+never occur when encoding non-ASCII codepoints into UTF-8. That is good,
+and means UTF-8 is safe to just embed in a string in a C program.
+
+This means that C programs can easily read and write UTF-8 strings.
+However, the `strlen` function will obviously be wrong. It will continue
+to return the number of *bytes* (not including the null terminator). But
+obviously we expect that.
+
+Let's work toward reading/writing individual unicode codepoints.
+
+```c
+#include <locale.h>
+#include <stdio.h>
+#include <wchar.h>
+
+int main()
+{
+  // wchar_t is a 4-byte representation of a character. This can hold
+  // all Unicode codepoints.
+  wchar_t smileys[3] = {0x1F642, 0x1F642, 0};
+
+  // You must call `setlocale` to inherit the locale from the terminal.
+  // This will adopt UTF-8. That means that interpolation of wide
+  // characters will encode them UTF-8 style.
+  setlocale(LC_ALL, "");
+  // Instead of simply writing %s, you write %ls which means you'll
+  // provide a null-terminated wchar_t*. The code point will be encoded
+  // appropriately.
+  printf("here are two smileys: %ls\n", smileys);
+  printf("here is a single smiley: %lc\n", smileys[0]);
+
+  // You can also use wchar_t literals. Note that the character needs to
+  // fit within a single wchar_t. The common red heart consists of two
+  // code points, so you'll get a warning if you try L'❤️', and it won't
+  // work like you expect.
+  //
+  // Basically, just like 'a' is just a standing for a char with a given
+  // ASCII value, L'🙂' is just a wchar_t with a given value.
+  wchar_t smiley = L'🙂';
+  wchar_t checkbox = L'✅';
+
+  printf("here is a single smiley again: %lc\n", smiley);
+  printf("here is a checkbox: %lc\n", checkbox);
+
+  return 0;
+}
+```
+
+Now, let's try reading a unicode character and writing it back out:
+
+```c
+#include <locale.h>
+#include <stdio.h>
+#include <wchar.h>
+
+int main()
+{
+  // We must set this before wide character reading or writing.
+  setlocale(LC_ALL, "");
+
+  // What is wint_t? First, recall that getc returns `int` rather than
+  // `unsigned char`. Recall that it does this because it must be able
+  // to return EOF, which is typically defined as -1.
+  //
+  // Shouldn't `getc` return `char`, in which case -1 is available? Not
+  // really, since `getc` can be used for binary files, which don't
+  // simply have bytes in the 0-127 range.
+  //
+  // With that recalled, we can see that getwc must be able to store all
+  // wide characters. But an unsigned int can already store all the code
+  // points we need, and more. Thus, WEOF is defined in GCC as
+  // `(unsigned int) -1`.
+  wint_t _character = getwc(stdin);
+
+  // Unnecessary cast, but I do it for clarity. I could use a wint_t as
+  // a wchar_t just as I could use an int from `getc` as a char.
+  wchar_t character = (wchar_t)_character;
+
+  printf("%lc\n", character);
+
+  return 0;
+}
+```
+
+Note that `wchar_t` is 32bits and uses UTF-32 internally on Linux. But
+on Microsoft, it uses 16bits with a UTF-16 LE representation. I believe
+that corresponds to Java and JavaScript.
+
+`wchar_t` has been standardized in C/C++ for some time. The following
+types are only in c++23, and not yet in ISO C I think.
+
+You can specify what encoding you want with `char16_t` and `char32_t`.
+You can specify literals as `u'🙂', U'🙂', or u"🙂🙂", U"🙂🙂"`. These
+produce `char16_t`/`char32_t` or `char16_t*`/`char32_t*`. It's just a
+more specific version of `wchar_t`.
+
+Last, I can mention that `u8"🙂"` exists. If the default encoding is
+UTF-8, then there is no difference from just using a regular string
+literal. Note that `u8'🙂'` is bad, because the smiley is not just one
+UTF-8 codepoint.
+
+Everything I've said so far is not that useful. It's tough to operate
+with unicode graphemes, because you need a library to help you
+understand clusters. You have no idea how many characters wide a
+character will print as.
+
 ## Sources
 
 * https://blog.jonnew.com/posts/poo-dot-length-equals-two
