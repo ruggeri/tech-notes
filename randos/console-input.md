@@ -6,20 +6,20 @@ non-printing.
 
 What are the non-printing characters? They are things like:
 
-* 0: null.
-* 4: EOT (end of transmission). This is sent by the terminal when you
+- 0: null.
+- 4: EOT (end of transmission). This is sent by the terminal when you
   type Ctrl-D. It is different from EOF, which is a return condition of
   the C library for character input.
-    * Just because the terminal sends EOT doesn't mean that the
-      application will treat it like an end of file.
-    * For instance, with `cat`, it will only be treatedly like EOF if
-      the EOT appears as the first character on a new line.
-* 7: Bell. Rings a bell.
-* 8: Backspace. Ctrl-H.
-* 10: Line feed. Newline. Ctrl-J.
-* 13: Carriage return. Ctrl-R.
-* 27: Escape. Ctrl-[.
-* 127: Delete. Ctrl-?.
+  - Just because the terminal sends EOT doesn't mean that the
+    application will treat it like an end of file.
+  - For instance, with `cat`, it will only be treatedly like EOF if
+    the EOT appears as the first character on a new line.
+- 7: Bell. Rings a bell.
+- 8: Backspace. Ctrl-H.
+- 10: Line feed. Newline. Ctrl-J.
+- 13: Carriage return. Ctrl-R.
+- 27: Escape. Ctrl-[.
+- 127: Delete. Ctrl-?.
 
 Note: you can send any of these via the keyboard by using Ctrl-whatever.
 Note that several have alternate ways to send: ESC key is equivalent to
@@ -30,7 +30,7 @@ non-printing. Each can be input via CTR-X, where X is some appropriate
 character. Note that 32-126 are all printing-characters, and are input
 with the appropriate key.
 
-Next, note that *some* ASCII codes have C escape sequences: '\n' means
+Next, note that _some_ ASCII codes have C escape sequences: '\n' means
 linefeed which is code 10. But most escape sequences do not have a C
 code. For instance, Ctrl-Z (27) has no C code, because it's not intended
 to be interpolated into a string.
@@ -76,13 +76,13 @@ will write and interpret them directly.
 
 So `^[` is the ASCII code for escape. There are a not very large list of
 escape sequences. But the most common is `^[[` (i.e., `ESC[`). This is
-the *command sequence introducer* (CSI). The following command sequences
+the _command sequence introducer_ (CSI). The following command sequences
 are standardized:
 
-* `^[[` then `A` for cursor up. Also `B` (down), `C` (forward), `D`
+- `^[[` then `A` for cursor up. Also `B` (down), `C` (forward), `D`
   back.
-* `^[[y;xH` moves cursor to row `y` column `x`.
-* `^[[K` kills the line from the current point.
+- `^[[y;xH` moves cursor to row `y` column `x`.
+- `^[[K` kills the line from the current point.
 
 CSI also standardized commands to put the terminal in various color
 modes. This is `^[[X;m`, where X is a number with a meaning defined by
@@ -263,10 +263,10 @@ Guess what though? How will this cool program handle arrow keys? Of
 course it will just process them as a multiple byte sequence.
 
 Here's a random question possibly better suited for my unicode doc
-probably. What if you input "🙂"? It actually reads that as a *single
-character* and prints `128578` (the correct code-point). Holy moses.
+probably. What if you input "🙂"? It actually reads that as a _single
+character_ and prints `128578` (the correct code-point). Holy moses.
 Presumably that's because `sys.stdin` is being interpreted as UTF-8, and
-thus `sys.stdin.read(1)` asks for *one UTF-8 codepoint*.
+thus `sys.stdin.read(1)` asks for _one UTF-8 codepoint_.
 
 However, if you replace with `sys.stdin.buffer.read(1)`, this actually
 reads stdin in raw mode, and thus you get a series of bytes. I believe
@@ -339,6 +339,24 @@ Both the smiley and the heart will print. But not the checkbox! That's
 odd. Note that ✅ is handled fine when calling `get_wch`. So it's weird
 we can't put it back...
 
+**`keyboard` and `pynput`**
+
+So let's say we just want to handle keyboard input, but don't want to
+use curses for managing the screen.
+
+You could try using `pynput`. This lets you install listeners to listen
+for key events. However, it listens _in all windows_. It doesn't just
+put the terminal into cbreak mode. It actually talks with the operating
+system to ask it to receive _all input events_. Wow. I think it can even
+_write_ keyboard events to the operating system, simulating typing. Wow.
+
+This requires special security permissions, plus it isn't what you want.
+
+You can try the `keyboard` module. But this needs to be installed (or
+run) as `sudo`. WTF? Why?
+
+So basically, I think you just have to do shit yourself.
+
 ## C++
 
 Let's use ncurses from C++:
@@ -376,7 +394,7 @@ the font.
 
 However, on the console, we're usually dealing with monospaced fonts.
 Each character takes up one column of the terminal. Or almost. Typically
-fonts are actually *duospaced*. That means there are only two kinds of
+fonts are actually _duospaced_. That means there are only two kinds of
 width: 1 unit, or 2 units. These double width characters are sometimes
 called "full width" (by implication, half-width is when you cram a Kanji
 into space meant for a latin character).
@@ -455,7 +473,7 @@ OSX being out-of-date.
 Quick question: if ncurses can't print the green checkbox, how can tmux?
 The answer is in the Homebrew formula
 https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/tmux.rb. If
-you look, you'll see that  it wants to use utf8proc on MacOS. This is
+you look, you'll see that it wants to use utf8proc on MacOS. This is
 further explained in the tmux build scripts:
 https://github.com/tmux/tmux/blob/b566cd57bfa0d28fcc2e44e5a7b2e88433a5e016/configure.ac#L839.
 
