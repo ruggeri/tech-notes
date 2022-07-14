@@ -30,21 +30,30 @@
 - Isopropyl alcohol can also be used, but it appears to not be as
   strong a solvent. I think it is used in applications where it is
   desired not to leave any residue.
-  - BTW, rubbing alcohol is just 70% concentrate isopropyl alcohol.
-    Rubbing alcohol is diluted like this to make it easier/safer to use
-    in the home.
+  - BTW, rubbing alcohol is just 70% concentrate isopropyl alcohol (in
+    the US). Rubbing alcohol is diluted like this to make it
+    easier/safer to use in the home.
   - Rubbing alcohol isn't always IPA. It can also be ethanol based.
-  - In that case, the ethanol has been _denatured_. Denatured ethanol is
-    also called _methylated spirits_. Denatured just means that poison
-    or bad tasting chemicals have been added so that the ethanol is not
-    consumed. It is denatured for tax reasons usually.
-    - The name methylated spirit implies that _methanol_ was added.
-    - Methanol ingestion can destroy the optic nerve.
-    - In situations where ethanol is not available, denatured alcohol
-      may be consumed. A technique during prohibition was to strain
-      Sterno through cheesecloth (or sometimes a sock), and mix the
-      methylated spirit with juice. This gives the name "sock wine" or
-      "jungle juice" (from hobo jungle).
+  - In that case, the ethanol has been _denatured_. Denatured ethanol
+    (so called in the US) is also called _methylated spirits_ (UK).
+    Denatured just means that poison or bad tasting chemicals have been
+    added so that the ethanol is not consumed. It is denatured for tax
+    reasons usually.
+    - In the UK, rubbing alcohol is 95% methylated spirit.
+  - The name methylated spirit implies that _methanol_ was added.
+    - Methanol has a boiling point close to ethanol so it is hard to
+      remove.
+    - Though sometimes different bitterants are used. IPA can be used.
+      But the goal is always to make it undrinkable.
+    - Often methylated spirit is dyed so that people can see it is
+      dangerous to consume.
+    - A common use is as a clean burning fuel.
+  - Methanol ingestion can destroy the optic nerve.
+  - In situations where ethanol is not available, denatured alcohol
+    may be consumed. A technique during prohibition was to strain
+    Sterno through cheesecloth (or sometimes a sock), and mix the
+    methylated spirit with juice. This gives the name "sock wine" or
+    "jungle juice" (from hobo jungle).
   - Ethanol (and denatured alcohol) is used as a solvent or as a fuel.
   - Note that sterno is a jellied denatured alcohol. It's used as a
     cooking fuel.
