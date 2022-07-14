@@ -377,7 +377,9 @@ the font.
 However, on the console, we're usually dealing with monospaced fonts.
 Each character takes up one column of the terminal. Or almost. Typically
 fonts are actually *duospaced*. That means there are only two kinds of
-width: 1 unit, or 2 units.
+width: 1 unit, or 2 units. These double width characters are sometimes
+called "full width" (by implication, half-width is when you cram a Kanji
+into space meant for a latin character).
 
 This is necessary for CJK writing systems, where characters are square.
 Also, many emojis display better if they are given double the width.
@@ -445,8 +447,87 @@ operating-system specific. GNU libc (glibc) has one implementation,
 while OSX derives from the BSD libc. The OSX version might be quite
 old/simple/out-of-date/incorrect.
 
+I rented an AWS box with Debian and glibc 2.31, and it appears that the
+green checkbox has its width properly computed as 2 there. My test
+program runs satisfactorily there. So it appears to be atypical case of
+OSX being out-of-date.
+
+Quick question: if ncurses can't print the green checkbox, how can tmux?
+The answer is in the Homebrew formula
+https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/tmux.rb. If
+you look, you'll see that  it wants to use utf8proc on MacOS. This is
+further explained in the tmux build scripts:
+https://github.com/tmux/tmux/blob/b566cd57bfa0d28fcc2e44e5a7b2e88433a5e016/configure.ac#L839.
+
+They say that MacOS Unicode support is poor. They want you to
+`--enable-utf8proc` when building on MacOS, which is what Homebrew does.
+
+I wrote up a little test program using utf8proc:
+
+```c++
+#include <locale.h>
+#include <iostream>
+#include <string>
+#include <wchar.h>
+
+#include <utf8proc.h>
+
+int main()
+{
+  setlocale(LC_ALL, "");
+
+  wchar_t chars[] = {
+      L'🙂',
+      L'😊',
+      L'a',
+      L'♥',
+      L'Ａ',
+      L'✅',
+  };
+
+  int numChars = sizeof(chars) / sizeof(wchar_t);
+  for (int i = 0; i < numChars; i++)
+  {
+    wchar_t ch = chars[i];
+    int width = utf8proc_charwidth(ch);
+    std::cout << std::to_string(width) << std::endl;
+  }
+
+  return 0;
+}
+```
+
+I built and ran this.
+
+```
+>> g++ -o utf8proc_test utf8proc_test.cc -lutf8proc
+>> ./utf8proc_test
+2
+2
+1
+1
+2
+2
+```
+
+This is correct!
+
+It seems like iTerm2 handles emoji widths without using wcwidth:
+https://github.com/gnachman/iTerm2/blob/aabb9cc7ab727e688d745c278b602187c37ee3a6/sources/NSCharacterSet%2BiTerm.m.
+Not that this is perfect either.
+
 Is there any way to ask OSX to use a different version of wcwidth? I
-don't know yet.
+don't know yet. I explore that possibility in my notes on the standard
+library.
+
+Last, I'll mention an HN post regarding emoji in the terminal:
+https://news.ycombinator.com/item?id=30113521. What do we see there?
+They mention that each terminal tries to replace wcwidth with its own
+mapping of emoji to width. But if the program running in the terminal
+doesn't have the same opinion as the terminal, then the cursor gets
+confused.
+
+It appears that maybe ZSH handles emojis more nicely than bash?
 
 ## Sources
 
