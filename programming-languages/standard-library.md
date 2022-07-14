@@ -263,7 +263,7 @@ void* real_malloc(size_t sz);
 // my_real_malloc.c
 #include <stdlib.h>
 
-// never return memory
+// Trivial wrapper to true malloc.
 void* real_malloc(size_t sz) {
   return malloc(sz);
 }
@@ -309,4 +309,5 @@ main.o:
 ```
 
 We see that we can override standard library functionality within our
-own code, but it doesn't quite work for dynamically linked code...
+own code, but doing so doesn't change the call by the dynamically linked
+code.
