@@ -90,6 +90,17 @@ SGR (Select Graphic Rendition). However, like other CSI sequences, you
 can write a series of numbers like `x;y;z`. But let me return to SGR
 another time.
 
+**Other CSI**
+
+- You can ask yourself: what about other key combinations? There are
+  some that will be passed to the terminal. For instance, shift+tab will
+  be rendered as `^[[Z`.
+- But I don't believe that xterm will inform you of arbitrary
+  combintions. For instance, I believe that `^a` is the same as `^A`.
+  The shift key doesn't matter here.
+- I believe that `Meta+X` is typically translated as `ESC X`.
+- Source: https://gist.github.com/justinmk/a5102f9a0c1810437885a04a07ef0a91
+
 ## Readline commands
 
 Here are several non-standardized commands, which Readline respects:
