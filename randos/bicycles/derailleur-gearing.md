@@ -26,6 +26,11 @@
       bikes.
   - Link: http://ritzelrechner.de/?GR=DERS&KB=30,46&RZ=11,13,15,17,20,23,26,30,36&UF=2135&TF=90&SL=2.8&UN=KMH&DV=gearInches
 
+## Common Single Setups
+
+- These are typically fitness bikes. I can look more into them in the
+  future.
+
 ## Common Double Setups
 
 - XX-YY cogset means that the smallest cog has XX teeth and the largest
@@ -77,17 +82,19 @@
 - Summary
   - A 50x34 11-28T setup is probably too hard for me.
   - A 50x34 11-30T setup probably is also too hard for me.
-    - Ex: Trek Emonda ALR 5.
+    - Ex: Trek Emonda ALR 5 ($2,300).
   - A 50x34 and 11-32T setup does make sense if I'm not particularly
     afraid of hills. It would be somewhat easier and quite a bit faster
     than my current setup, with much closer spacing.
-    - Ex: Trek Domane AL 4 Disc. (This is 10-speed at the rear, though).
+    - Ex: Trek Domane AL 4 Disc ($2,100).
+      - This is 10-speed at the rear, though.
+    - Ex: Specialized Allez Elite ($1,700).
   - A 50x34 and 11-34T setup would make sense if I'm scared of hills,
     and want something a fair bit easier. It is still quite a bit
     faster.
     - Gear spacing is much better than Alfine 8.
     - Slightly steeper than 11-32T, but not if the 11-32 is 10-speed.
-    - Ex: Trek Domane AL 5 Disc.
+    - Ex: Trek Domane AL 5 Disc ($2,100).
 
 ## Gravel
 
