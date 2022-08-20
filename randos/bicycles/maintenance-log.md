@@ -1,5 +1,29 @@
 ## Maintenance Log
 
+- 2022-08-19
+  - I noticed some resistance when pedaling, so I decided to service the
+    gearhub.
+  - I took the wheel off. I did a lot of cleaning and degreasing of the
+    frame, rims, and spokes.
+  - I removed the gearhub. I disassembled it into its two main parts. I
+    put it in degreaser in the ultrasonic. I then regreased it and
+    dunked it in automatic transmission fluid.
+  - I could not replace the ball bearings at this time, since I didn't
+    have the right size. Also, I couldn't access the right-hand cone
+    bearings because I lacked a special Shimano disassembly tool.
+  - I reinstalled the wheel. I torqued the axle nuts to 45Nm. I had
+    recently torqued them to 55Nm after I noticed them slip, but I think
+    that was hurting the paint. I degreased the serrated locknuts in the
+    ultrasonic. Hopefully that grips better.
+  - I also degreased the chain, and regreased it with Squirt Lube.
+  - I still notice that the hub is pretty draggy. Was it always this
+    draggy? Backpedaling accelerates the wheel backward. Pedaling
+    forward, the wheel accelerates, but then if I let go, the cranks
+    turn forward on their own.
+  - I could try to further grease the hub when I get the necessary parts
+    to finish disassembly. Before that, I can see if the same problem
+    manifests with the locknuts loosened. I can also try to adjust the
+    cup-and-cone bearings on the non-drive side.
 - 2022-07-11
   - I took the chain off, cleaned it (sprayed it with Finish Line Speed
     Degreaser in a bucket), and regreased with Tri Flow (removing
