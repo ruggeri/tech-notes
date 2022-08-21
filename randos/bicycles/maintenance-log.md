@@ -1,5 +1,29 @@
 ## Maintenance Log
 
+- 2022-08-20
+  - This morning, I loosened cup-and-cone bearing. I also added some
+    more grease to the non-drive side bearings. The two changes
+    significantly reduced drag. But there was also definitely play in
+    the axle. Riding away, I noticed squealing when braking the rear
+    wheel. This must be caused by the shaking of the wheel.
+  - Otherwise, the bike felt good. It certainly felt less draggy while
+    riding. I rode my bay loop. I felt like I could climb some hills in
+    third which I normally only do in second.
+  - I didn't notice any slipping of the axle nuts after the ride.
+    Cleaning maybe helped them grip better?
+  - On returning home, I remove the dirt cup from the non-drive side.
+    This lets me adjust the bearings while the wheel is on the bike. I
+    presume this will be okay for a while, since SF is not that rainy or
+    dusty.
+  - I adjusted the cup and cone to be tighter. There was still
+    significantly less drag than yesterday. When rotating the pedals
+    backward, the wheel does not particularly move backward. Much of the
+    play from the morning was eliminated.
+  - I rode up-and-down the street. The squealing seems to be gone.
+    Success?
+  - The rear wheel seems straight in the dropouts. I tightened axle nuts
+    to 45Nm. I repositioned both front and rear brakes so that they grab
+    the rims best. Braking power continues to feel very strong.
 - 2022-08-19
   - I noticed some resistance when pedaling, so I decided to service the
     gearhub.
