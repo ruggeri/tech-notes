@@ -1,0 +1,322 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+
+\begin{document}
+
+\title{Riemann Hypothesis}
+\maketitle
+
+\begin{definition}
+  We first define $\zeta$ for all real numbers $s > 1$:
+
+  \begin{nedqn}
+    \zeta(s)
+  \defeqcol
+    \sum_{n = 1}^\infty
+      \frac{1}{n^s}
+  \end{nedqn}
+
+  \noindent
+  It is clear that this would not converge for some $s \leq 1$. Consider
+  $s=0$, in which case this is $\sum_{n=1}^\infty 1$ or $s = -1$, in
+  which case this is $\sum_{n=1}^\infty n$. Neither can converge.
+
+  Also, if $s = 1$, then this is the sum of the \define{harmonic
+  series}: $\sum \frac{1}{n}$, which also does not converge.
+\end{definition}
+
+\begin{remark}
+  We can prove that whenever $s > 1$, the infinite sum must converge.
+  That is, $\zeta$ is properly defined on the reals greater than 1.
+\end{remark}
+
+\begin{remark}
+  We can next extend $\zeta$ so that it is defined for all
+  \emph{complex} $s$ where $\text{Re}(s) > 1$. In that case:
+
+  \begin{nedqn}
+      \sum_{n = 1}^\infty
+        \frac{1}{n^{\alpha + i\beta}}
+    \eqcol
+      \sum_{n = 1}^\infty
+        \parens{\frac{1}{n^\alpha}}
+        \left(\frac{1}{n}\right)^{i\beta}
+  \end{nedqn}
+
+  \noindent
+  How do we interpret that? The first part of the product is just the
+  same as before. The second part, $\left(\frac{1}{n}\right)^{i\beta}$,
+  is a rotation of a unit vector.
+
+  One expects the sum not to diverge when $\text{Re}(s) > 1$. Certainly
+  it's not possible for the sum to grow infinitely in magnitude, since
+  even if all the summands were oriented in the same direction (as
+  happens when $s$ is real), they would still converge to a finite
+  value.
+\end{remark}
+
+\begin{remark}
+  I believe we would have to prove that $\zeta(s)$, as defined so far,
+  will always diverge when $\text{Re}(s) \leq 1$.
+\end{remark}
+
+\begin{remark}
+  We have now defined $\zeta$ for all complex values with real part
+  greater than 1. We now want to try to \emph{extend} $\zeta$ to the
+  rest of the complex plane.
+
+  One way to do this is to set $\zeta(s) = 0$ whenever $\text{Re}(s)
+  \leq 1$. But that would create discontinuity at the border values $1 +
+  i\beta$.
+
+  We want to extend the definition ``smoothly''. Let's explore what we
+  mean by that.
+\end{remark}
+
+\begin{definition}
+  A function is \define{continuous} if $\lim_{x\to x_0} f(x) = f(x_0)$.
+\end{definition}
+
+\begin{definition}
+  A function is \define{differentiable} if $\lim_{x\to x_0} \frac{f(x) -
+  f(x_0)}{x - x_0}$ converges.
+\end{definition}
+
+\begin{remark}
+  A differentiable function must be continuous. Not all continuous
+  functions need be differentiable though (e.g., $f(x) = \abs{x}$).
+\end{remark}
+
+\begin{definition}
+  A function $f$ is \define{smooth} if all derivatives $f', f'', \ldots,
+  f^{(k)}, \ldots$ exist. Note all derivatives must be continuous, and
+  in fact smooth themselves.
+\end{definition}
+
+\begin{definition}
+  The class of smooth functions is denoted $C^\infty$.
+\end{definition}
+
+\begin{definition}
+  Consider a function $f$ which is smooth. We will call it
+  \define{analytic} if it has the following additional property. For
+  every $x_0$, consider a neighborhood of $x_0$. For all $x$ in the
+  neighborhood, we want:
+
+  \begin{nedqn}
+    f(x)
+  \eqcol
+    \sum_{i = 0}^\infty \frac{f^{(i)}}{i!} \left(x - x_0\right)^i
+  \end{nedqn}
+
+  \noindent
+  That is, the Taylor series at any point $x_0$ converges to $f$
+  \emph{pointwise} in some neighborhood about $x_0$.
+\end{definition}
+
+\begin{remark}
+  You could go more general and define analytic to mean that for all
+  $x_0$, there is some infinite series of polynomials $p_k$ such that
+  $p_k$ converges pointwise to $f$ in a neighborhood of $x_0$.
+
+  But it turns out that if such a series $p_k$ exists, then the function
+  must be smooth. And, further, that the Taylor series must converge
+  pointwise to $f$ in a neighborhood of $x_0$.
+\end{remark}
+
+\begin{remark}
+  We denote the class of analytic functions as $C^\omega$.
+\end{remark}
+
+\begin{remark}
+  We must ask: are there smooth functions that are \emph{not} analytic?
+  There are real-functions which are smooth but not analytic. An example
+  is:
+
+  \begin{nedqn}
+    f(x)
+  \eqcol
+    \begin{cases*}
+      e^{-\frac{1}{x}} & if $x > 0$ \\
+      0 & if $ x \leq 0$
+    \end{cases*}
+  \end{nedqn}
+
+  \noindent
+  This function is infinitely differentiable, including at $x = 0$. At
+  this point, $f^{(k)}(0) = 0$. Thus the Taylor series at $x = 0$ is
+  itself the zero function. But this does not pointwise converge to $f$
+  on any neighborhood of $x = 0$. Any neighborhood would contain a
+  positive region, on which $f$ is non-zero.
+\end{remark}
+
+\begin{remark}
+  There are functions called \define{bump functions} which are smooth,
+  but have ``compact support.'' Compact support means that the closure
+  of the support of $f$ is compact. If $f$ is a function from $\R^n$
+  with the usual topology, then this is the same as saying that the
+  support is bounded, which is a simpler criterion to think about.
+
+  Here is an example of a bump function:
+
+  \begin{nedqn}
+    f(x)
+  \eqcol
+    \begin{cases*}
+      \expf{-\frac{1}{1-x^2}} & if $x \in (-1, 1)$ \\
+      0 & otherwise
+    \end{cases*}
+  \end{nedqn}
+
+  \noindent
+  Note that a bump function can never be analytic. That's because it
+  must have all derivatives zero at the boundary of its support. But
+  then the Taylor series at any boundary point is zero.
+\end{remark}
+
+\begin{remark}
+  There are functions which are smooth but \emph{nowhere} does the
+  Taylor series converge locally pointwise to the function.
+\end{remark}
+
+\begin{definition}
+  A function $f: \R^n \to \R$ is a \define{real-valued} function of
+  \define{several real variables}. If $n = 1$, we call $f$ a
+  \define{real function}.
+
+  A function $f: \C^n \to \C$ is a \define{complex-valued} function of
+  \define{several complex variables}. If $n = 1$ we call $f$ a
+  \define{complex function}.
+\end{definition}
+
+\begin{definition}
+  A function is complex differentiable if
+
+  \begin{nedqn}
+    \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}
+  \end{nedqn}
+
+  \noindent
+  converges. Please note that $h$ is a complex number, and that we use
+  its \emph{value} (and not just it's magnitude) in the denominator.
+\end{definition}
+
+\begin{remark}
+  Let's consider $f(z) = \frac{z + \conj{z}}{2}$. This is just the real
+  part of a complex number: $\text{Re}(z)$.
+
+  If we view $f$ as a function of two real variables $f(a, b) = f(a +
+  ib)$, then we see that there partial derivatives with respect to the
+  real part and the imaginary part both exist:
+
+  \begin{nedqn}
+    \fpartial{a} f(a + ib) \eqcol 1 \\
+    \fpartial{b} f(a + ib) \eqcol 0
+  \end{nedqn}
+
+  \noindent
+  The complex derivative cannot be simultaneously both one and zero.
+  Thus the function is not complex-differentiable.
+\end{remark}
+
+\begin{remark}
+  Note that $\text{Re}(z)$, when viewed as a function of two
+  real-variables, had both partial derivatives existing.
+
+  I also note that $\text{Re}(z)$ is \define{differentiable}. What does
+  that mean? It means that there is a linear map $J(\vh)$ such that:
+
+  \begin{nedqn}
+    \lim_{\vh\to 0}
+    \frac{
+      \norm{
+        f(\vx + \vh) - f(\vx) - J(\vh)
+      }
+    }{
+      \norm{\vh}
+    }
+  \end{nedqn}
+
+  \noindent
+  But what does that mean? It means that $J(\vh) = \fpartial{\alpha}
+  f(\vx + \alpha \vh)$.
+\end{remark}
+
+\begin{remark}
+  The next question is: can a \emph{complex} function be smooth but not
+  analytic? Answer: no.
+\end{remark}
+
+\begin{definition}
+  A complex function $f$ is called \define{holomorphic} if there exists
+  any $x_0$ such $f$ is complex-differentiable in a neighborhood of
+  $x_0$.
+\end{definition}
+
+\begin{remark}
+  This is a surprisingly strong condition. It turns out that if $f$ is
+  holomorphic, then (1) it is infinitely differentiable in the
+  neighborhood of $x_0$, (2) in fact infinitely differentiable
+  \emph{everywhere}, (3) analytic.
+
+  For this reason, we often simply call holomorphic functions analytic.
+\end{remark}
+
+\begin{remark}
+  Complex bump functions cannot exist.
+\end{remark}
+
+\begin{remark}
+  There is a theorem called the \define{identity theorem}. It says that
+  an analytic function is completely determined by its value on a single
+  open-neighborhood.
+
+  Thus, if there is an analytic extension of a function $f$ to an
+  extended domain, then this extension is in fact unique.
+\end{remark}
+
+\begin{remark}
+  Let's return to the $\zeta$ function. We defined it for all $z$ where
+  $\text{Re}(z) > 1$. It can be extended to all complex inputs.
+\end{remark}
+
+\begin{remark}
+  It turns out that $\zeta(0) = -\frac{1}{2}$. This seems to imply that
+  $1 + 1 + 1 + \ldots = -\frac{1}{2}$.
+
+  Likewise, $\zeta(-1) = -\frac{1}{12}$. That seems to imply that $1 + 2
+  + \ldots = -\frac{1}{12}$.
+
+  But it \emph{doesn't} really imply either of those things. $\zeta$ is
+  only defined as the limit of a sum when $\text{Re}(z) > 1$. For all
+  other values, it is the unique analytic function that agrees with the
+  original, restricted version of $\zeta$.
+\end{remark}
+
+\begin{remark}
+  Last, we talk about the zeroes of $\zeta$. It turns out that
+  $\zeta(-2n)$ is always a zero. This is called a \define{trivial zero},
+  because mathematicians found these easily.
+
+  They also proved that there exist no other zeros of $\zeta$ if
+  $\text{Re}(z) \not\in (0, 1)$.
+
+  The strip of $z$ values with real part between zero and 1 is called
+  the \define{critical strip}. In here, it is not known where all the
+  zeroes lie.
+
+  It is hypothesized that all zeroes within the critical strip must have
+  real part $\frac{1}{2}$. This is called the \define{critical line}.
+  Not all $z$ values on the critical line are zero. But it is
+  hypothesized that all zeroes in the critical strip lie on the critical
+  line.
+\end{remark}
+
+\end{document}
+
