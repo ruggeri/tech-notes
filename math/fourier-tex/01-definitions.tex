@@ -1,29 +1,73 @@
 \section{Definitions}
 
-First, let's make some definitions. Consider the sinusoidal function
-$\sin t$. The \define{period} $T$ of this function is equal to $2\pi$.
-The period is the time required for the sinusoidal function to go
-through exactly one cycle.
+A sinusoidal function has the form:
+
+\begin{nedqn}
+  \sinf{\omega t + \phi}
+\end{nedqn}
+
+We call $\omega$ the \define{angular frequency}. This is how many
+radians we rotate through for each second. We call $\phi$ the
+\define{phase shift}. It is how many radians we have already rotated at
+time $t = 0$.
+
+We can define the frequency in terms of \define{rotations} (also called
+\define{cycles}) rather than radians. For instance, the
+\define{(ordinary) frequency} $f$ is the number of rotations per second
+(cycles per second, hertz). We of course have:
+
+\begin{nedqn}
+  f
+\eqcol
+  \frac{\omega}{2\pi}
+\end{nedqn}
+
+\noindent
+We may substitute this into our prior formula for a sinusoidal:
+
+\begin{nedqn}
+  \sinf{2\pi ft + \phi}
+\end{nedqn}
+
+\noindent
+This is a pleasing form if we consider that $ft$ is the (fractional)
+number of cycles we have rotated through.
+
+Instead of frequency, we might prefer to talk about \define{period}. The
+\define{angular period} is the time needed to rotate through one radian.
+Much more commonly, we care about the \define{(ordinary) period}, which
+is the time needed to rotate through one cycle. In either case:
+
+\begin{nedqn}
+  T_\text{angular}
+\eqcol
+  \frac{1}{\omega}
+\\
+  T_\text{ordinary}
+\eqcol
+  \frac{1}{f}
+\end{nedqn}
+
+\noindent
+Because ordinary period is what we almost always want, we just denote
+this $T$. And note that $\omega = \frac{2\pi}{T}$.
+
+Note that we can write our sinusoidal in terms of period:
+
+\begin{nedqn}
+  \sinf{2\pi \frac{t}{T} + \phi}
+\end{nedqn}
+
+\noindent
+This is pleasing because $\frac{t}{T}$ is again the number of cycles
+that have been rotated through at time $t$.
 
 There is a corresponding concept of \define{wavelength} denoted
 $\lambda$. This means roughly the same thing as period: the period is a
 measurement relative to time, while the wavelength is a measurement
 relative to distance. I think wavelength is relevant for waves that are
-\emph{travelling} through space. We won't be talking about propagation
-of waves through space, so we will only speak in terms of periods here.
+\emph{traveling} through space. If the wave velocity is $v$, I think
+that $\lambda = vT$.
 
-The \define{frequency} $f$ is how many cycles occur in one unit of time.
-Since $f$ and $T$ are in the same units, we have $f = \frac{1}{T}$.
-
-We may note that:
-
-\begin{nedqn}
-  \sin\parens{\frac{2\pi}{T} t}
-\eqcol
-  \sin\parens{2\pi f t}
-\end{nedqn}
-
-For convenience, we also talk in terms of \define{angular frequency}
-$\omega = 2\pi f = \frac{2\pi}{T}$. The angular frequency is the number
-of cycles that pass in $2\pi$ seconds of time. Thus the function $\sin
-t$ has angular frequency $\omega = 1$.
+We won't be talking about propagation of waves through space, so we will
+only speak in terms of periods here.
