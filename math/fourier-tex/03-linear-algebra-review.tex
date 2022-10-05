@@ -8,6 +8,8 @@ vectors. That's linear algebra.
 The function that does decomposing is called a \define{inner product}.
 Let's explore what kind of inner product we'll need.
 
+\subsection{Defining Length, Angle, and Projection}
+
 Consider a vector space and a basis for the space $\mathcal{B}$. We will
 declare the basis vectors to have ``unit length.'' We will declare that
 any rotation between unit vectors is also a unit vector. Recall that a
@@ -71,11 +73,13 @@ construction of angle/length/projection from $\mathcal{B}$ would exactly
 correspond to the inner product $\innerprod{\cdot}{\cdot}$ we started
 with.
 
+\subsection{Projection Properly Projects/Decomposes}
+
 We have called $\innerprod{\vv}{\vu}$ the ``projection'' of $\vv$ onto
 $\vu$. This terminology is compatible with our usual geometric
 understanding of ``projection.'' If, in $n$-dimensional Euclidean space,
 we rotate $\vu$ by $\theta$ degrees and get $\vv$, then it's true that
-the projection of $\vv$ onto $\vu$ is:
+the length of the projection of $\vv$ onto $\vu$ is:
 
 \begin{nedqn}
   \norm{\vv} \cos\theta
@@ -102,18 +106,19 @@ a linear combination of $\ve_i$ in an orthonormal basis $\mathcal{B}$:
 
 \noindent
 This proof relied on (1) the basis is orthonormal, (2) the inner product
-is \define{linear} in the first argument. Linearity is implied by
-$\innerprod{\cdot}{\cdot}$ being rotation-invariant, but I won't prove
-that right now.
+is \define{linear} in the first argument. We will show later why the
+inner-product must be linear in the first argument.
 
 But we don't need to adopt this proof that comes from linearity. We
-could instead rely on our earlier proof that $\innerprod{\vv}{\ve_i}$ is
-the cosine of the angle between $\ve_i$ and some $\vw$ that lives in the
-subspace spanned by the other basis vectors. In that case, it's clear
-that $\alpha_i = \norm{\vv} \cos\theta$. To find the other
-$\setof{\alpha_j}$ to complete the decomposition into a linear
-combination, we decompose $\norm{\vv} \sin\theta \vw$ in the subspace
-orthogonal to $\ve_i$.
+could instead rely on our earlier proof that (1) $\vv$ is always the
+result of rotating $\ve_i$ by some $\theta$ in the direction of some
+$\vw$ that lives in the subspace spanned by the other basis vectors, and
+(2) $\innerprod{\vv}{\ve_i} = \cos\theta$. In that case, it's clear that
+$\alpha_i = \cos\theta$. To find the other $\setof{\alpha_j}$ to
+complete the decomposition into a linear combination, we decompose
+$\sin\theta \vw$ in the subspace orthogonal to $\ve_i$. This proves that
+$\innerprod{\cdot}{\cdot}$ properly decomposes unit-vectors; the proof
+extends trivially to scaling.
 
 To tie things up: consider an orthonormal basis $\mathcal{B}$. Then:
 
@@ -123,65 +128,80 @@ To tie things up: consider an orthonormal basis $\mathcal{B}$. Then:
   \sum_{i=1}^n \innerprod{\vv}{\vb_i} \vb_i
 \end{nedqn}
 
+\subsection{Inner products are always dot products}
+
 Let's finally show that an inner-product needs to act like a \define{dot
-product}. The easiest way to show this \emph{is} by proving (1)
-linearity in the first argument and (2) (conjugate) symmetry.
+product}.
 
-To prove (1), we could argue that the geometric projection operation is
-clearly linear in the first argument.
+One way to show this is simply to appeal to $n$-dimensional Euclidean
+space. Any $n$-dimensional vector space $V$ has the same notions of
+angle and length as an $n$-dimensional Euclidean space (where the
+coordinate vectors correspond to a set of orthonormal basis vectors for
+$V$). If you already know that the dot-product does the decomposing in
+an $n$-dimensional Euclidean space, then we are done.
 
-By definition we have that $\innerprod{\alpha \vu}{\vv} = \alpha
-\innerprod{\vu}{\vv}$. That's because we started by defining
-$\innerprod{\cdot}{\cdot}$ as the cosine of the angle between two
-\emph{unit} vectors, and only later extended this to non-unit vectors by
-saying that $\innerprod{\alpha \vu}{\beta \vv} = \alpha \beta
-\innerprod{\vu}{\vv}$.
-
-Next, we consider $\innerprod{\vu + \vv}{\vw}$. We can assume that $\vu,
-\vv$ are unit vectors. Now, we know that there exists $\vz_u, \vz_v$
-(each orthogonal to $\vw$) and $\theta_u, \theta_v$ such that:
+But let's not make this appeal. We'll show that an inner-product must
+always be a dot product. To do this, it suffices to show: (1) linearity
+in first argument, and (2) symmetry of the inner product. Then we have:
 
 \begin{nedqn}
-  \vu
+  \innerprod{\vu}{\vv}
 \eqcol
-  \cos\theta_u \vw + \sin\theta_u \vz_u
+  \innerprod{
+    \sum \alpha_i \ve_i
+  }{
+    \sum \beta_j \ve_j
+  }
 \\
-  \vv
 \eqcol
-  \cos\theta_v \vw + \sin\theta_v \vz_v
-\intertext{thus}
-  \vu + \vv
+  \sum
+  \alpha_i
+  \innerprod{\ve_i}{\sum \beta_j \ve_j}
+  \nedcomment{linearity in first argument}
+\\
 \eqcol
-  \parens{\cos\theta_u + \cos\theta_v} \vw
-  +
-  \sin\theta_u \vz_u
-  +
-  \sin\theta_v \vz_v
+  \sum
+  \alpha_i
+  \innerprod{\sum \beta_j \ve_j}{\ve_i}
+  \nedcomment{symmetry}
+\\
+\eqcol
+  \sum_{i=1}^n
+  \sum_{j=1}^n
+  \alpha_i
+  \beta_j
+  \innerprod{\ve_j}{\ve_i}
+  \nedcomment{linearity}
+\\
+\eqcol
+  \sum \alpha_i \beta_i
+  \nedcomment{orthonormality}
 \end{nedqn}
 
 \noindent
-Since any linear combination of $\vz_u, \vz_v$ is orthogonal to $\vw$,
-it's clear that $\innerprod{\vu + \vv}{\vw} = \cos\theta_u +
-\cos\theta_v$.
+That is: an inner-product can always be calculated by doing a dot
+product where the vectors are decomposed into tuple-representation with
+respect to a common orthonormal basis. Or in short: inner products are
+always dot products.
 
-In summary: this shows that projection is linear in the first argument.
+We can start by proving symmetry. Consider units $\vu, \vv$. Then
+$\innerprod{\vu}{\vv} = \cos\theta$ by definition. But note that the
+angle between $\vu, \vv$ is irrespective of the ordering of $\vu, \vv$.
+Or perhaps it changes from $\theta$ to $2\pi - \theta$. But who cares:
+$\cos\theta$ stays the same. So the inner product must be symmetric.
 
-Last, we should show that inner-product is symmetric. But this is clear
-because $\innerprod{\vu}{\vv} = \norm{\vu}\norm{\vv} \cos\theta$. But
-the norms stay the same if we flip the arguments. And the $\theta$
-either stays the same (or maybe becomes $2\pi - \theta$), which leaves
-$\cos\theta$ the same.
+That means we need to show linearity. We can consider $\innerprod{\vu +
+\vv}{\vw}$. We could geometrically prove this by adding $\vu$ and $\vv$
+head-to-tail. We would see that the length of the projection of the sum
+is equal to the sum of the lengths of the projections.
 
-Another way to see this: if $\vu, \vv$ are unit vectors, then the length
-of the projection of $\vu$ onto $\vv$ is the same whether $\vv$ is a
-rotation by $\theta$ or $-\theta$ degrees.
+We'll do exactly that, with just a little more algebra/rigor. The
+projection operation doesn't care about the components of $\vu, \vv$
+orthogonal to $\vw$. So we might as well throw them out and just
+consider $\vu' = \norm{\vu} \cos\theta_u \vw$ and $\vv' = \norm{\vv}
+\cos\theta_v \vw$. But then it is clear that the projection of $\vu' +
+\vv'$ onto $\vw$ is the sum of their projections.
 
-Once we have linearity in the first argument and symmetry, then it shows
-that $\innerprod{\cdot}{\cdot}$ \emph{has} to act like a dot product. It
-is equally the dot-product for any basis $\mathcal{B}$ with which you
-might want to represent vectors $\vv$ in the vector space.
-
-Last, you could say it has to be the dot-product, because the
-dot-product is geometrically correct for $n$-dimensional Euclidean
-space, and every finite dimensional vector space is geometrically
-equivalent to an $n$-dimensional Euclidean space.
+This establishes linearity in the first argument. Putting these two
+facts (linearity, symmetry) together, we have that every inner-product
+is simply a dot-product with respect to any orthonormal basis.
