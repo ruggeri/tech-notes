@@ -20,6 +20,7 @@ this to be 1.0. But is that true? Consider just:
   \int_0^{2\pi} \sin^2 t \dt
 \end{nedqn}
 
+\noindent
 Note that $\sin t$ is periodic with period $2\pi$. Thus:
 
 \begin{nedqn}
@@ -28,6 +29,7 @@ Note that $\sin t$ is periodic with period $2\pi$. Thus:
   \int_{k'2\pi}^{(k'+1)2\pi} \sin^2 t \dt
 \end{nedqn}
 
+\noindent
 no matter which choice of $k, k'$. But this is trouble, since if
 
 \begin{nedqn}
@@ -36,6 +38,7 @@ no matter which choice of $k, k'$. But this is trouble, since if
   0
 \end{nedqn}
 
+\noindent
 then we would have that the integral over the entire real domain is
 infinite.
 
@@ -52,6 +55,7 @@ redundant. But does the integral come out correctly? Note:
   2\pi
 \end{nedqn}
 
+\noindent
 But note that:
 
 \begin{nedqn}
@@ -60,6 +64,7 @@ But note that:
   \int_0^{2\pi} \cos^2 t \dt
 \end{nedqn}
 
+\noindent
 since one is merely a phase-shifted version of the other. Thus we see
 that:
 
@@ -79,12 +84,19 @@ only half the story.
 Note that the same argument holds for any $\sin kt$, so we know that
 $\norm{\sin kt} = \pi$ for all $k$.
 
-Anyway, to ``fix'' this problem, we should \emph{keep} our inner
-product, but simply scale down our basis vectors to be
-$\frac{1}{\sqrt{\pi}} \sin kt$.
+Since our inner-product appears to be off by a constant factor, we have
+two choices: (1) scale down our basis vectors to $\frac{1}{\sqrt{\pi}}
+\sin kt$ or (2) change our inner product to:
 
-The next important question: are two sinusoidals $\sin kt$ and $\sin k'
-t$ orthogonal?
+\begin{nedqn}
+  \innerprod{f}{g}
+\eqcol
+  \frac{2}{2\pi} \int_0^{2\pi} f(t) g(t) \dt
+\end{nedqn}
+
+\noindent
+I will adopt this second fix, so that we can keep working with our
+convenient basis $\setof{\sin k\theta}$.
 
 \subsection{Orthogonality of $\sin kt$ and $\sin k' t$}
 
@@ -148,8 +160,9 @@ get zero. Why? Consider multiplying everything by $c$. The original $1$
 becomes $c$, and note that the final $c^{n-1}$ becomes $1$. So you get
 the same thing as you started with.
 
-When does a $cx = x$? Either when $c = 1$ (no rotation), or when $x = 0$
-(rotation does nothing to the zero vector).
+So if the sum of these terms is $z$, we also know that $cz = z$. For
+that to be true, either $c = 1$ (no rotation), or when $z = 0$ (since
+rotation does nothing to the zero vector).
 
 We thus know that the sum is zero (since $c$ corresponds to a rotation
 by $\varphi > 0$).
@@ -159,31 +172,39 @@ zero. And in fact this holds regardless of starting point $t_0 \ne 0$.
 Thus:
 
 \begin{nedqn}
-  \int \sin kt \sin k't \dt
+  \frac{2}{2\pi} \int \sin kt \sin k't \dt
 \eqcol
   0.0
 \end{nedqn}
 
-Thus the two are orthogonal.
+\noindent
+Thus the two sinusoidals with different frequencies are orthogonal.
+
+Put another way: the sum of a series of $n$ sinusoidals each out of
+phase by $\frac{2\pi}{n}$ radians is zero.
 
 \subsection{Linearity}
 
 The projection operation is clearly linear, because:
 
 \begin{nedqn}
+  \frac{2}{2\pi}
   \int_0^{2\pi}
   \parens{f(t) + g(t)}
   \cdot
   h(t)
   \dt
 \eqcol
+  \frac{2}{2\pi}
   \int_0^{2\pi}
   f(t) \cdot h(t) \dt
   +
+  \frac{2}{2\pi}
   \int_0^{2\pi}
   g(t) \cdot h(t) \dt
 \end{nedqn}
 
+\noindent
 So we now see that we have a nice inner product. It is linear in the
 correct way, and it declares our chosen basis to be orthonormal. Thus we
 can use it for decomposing a sinusoidal into the basis.
