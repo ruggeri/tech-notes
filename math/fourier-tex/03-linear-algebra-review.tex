@@ -1,77 +1,60 @@
 \section{Linear Algebra Review}
 
 Breaking something apart into its constituents is something we do in
-\define{linear algebra}. In linear algebra, we have some vectors $\ve_1,
-\ldots, \ve_n$ which are our \define{basis} for an $n$ dimensional
-space. Every vector in the space can be written as:
+\define{linear algebra}.
+
+Consider a basis of the space $\mathcal{B}$. We will declare the basis
+vectors to have unit length. We will declare that any rotation between
+unit vectors is also a unit vector.
+
+We'll declare the basis vectors to be orthogonal. We can go further and
+define the angle between two arbitrary unit vectors $\vu, \vv$. We can
+start defining this notion by saying the angle between $\ve_i$ and $\vv$
+corresponds to the angle needed to rotate $\ve_i$ toward a vector $\vw$
+in the subspace spanned by the other basis vectors.
+
+Why do we know that $\vw$ exists? First, we know that $\vv$ lies in
+\emph{some} plane defined by $\ve_i$ and some $\vw$, since the basis
+spans the vector space. We might as well assume $\vw$ is unit-length.
+But then all unit-length vectors in this plane are rotations of $\vu$
+toward $\vw$.
+
+This (almost) uniquely specifies $\theta$, up to two choices: $\theta$
+vs $2\pi - \theta$.
+
+We can further extend the notion of angle-between to any two unit
+vectors by saying that angle-between should be rotation-invariant.
+
+Once we have this notion of angle-between nailed down, we can
+unambiguously define $\innerprod{\vu}{\vv} = \cos\theta$, where $\theta$
+is the angle in between two unit vectors. We can then further extend
+this to vectors of arbitrary length by defining $\innerprod{\vu}{\vv} =
+\norm{\vu} \norm{\vv} \cos\theta$.
+
+Notice that since we are using $\cos\theta$, it doesn't matter the sign
+of $\theta$. We could iron out the sign wrinkles, but we don't need to.
+
+So, if we have a basis for a vector space, this suggests a notion of
+``angle-between,'' and even ``projection.'' Equivalently, a notion of
+``angle-between'' (``projection'') would suggest a set of privileged
+bases which consist of orthogonal (orthonormal) vectors.
+
+Note that if $\norm{\vu} = 1$, then $\innerprod{\vv}{\vu}$ is exactly
+the length of the ``projection'' of $\vv$ onto $\vu$.
+
+Thus, the inner-product will work as a decomposer for any orthonormal
+basis. As I said before, a notion of ``angle-between'' is enough to
+define orthogonality, and a notion of ``projection'' is enough to define
+orthonormality. And the projection will work on any orthonormal basis.
+The only thing we need for ``projection'' to work is (1) non-zero
+vectors have non-zero projection onto themselves, (2) scaling a vector
+scales the projection, (3) rotation invariance.
+
+To tie things up: consider an orthonormal basis $\mathcal{B}$. Then:
 
 \begin{nedqn}
   \vv
 \eqcol
-  \sum_{i = 1}^n
-  a_i \ve_i
+  \sum_{i=1}^n \innerprod{\vv}{\vb_i} \vb_i
 \end{nedqn}
 
-We say that the basis vectors $\ve_i$ \define{span} the $n$ dimensional
-space.
-
-We remember the \define{dot product} $\vu \cdot \vv$. The dot product is
-like the ``correlation'' between two vectors. For instance, if the
-lengths of $\vu, \vv$ are both 1, then $\vu \cdot \vv$ is equal to $\cos
-\theta$, where $\theta$ is the angle between $\vu$ and $\vv$.
-
-That is, if $\vu = \vv$, then $\vu \cdot \vv$ is equal to 1.0. Which
-makes sense, because $\theta = 0$, and thus $\cos\theta = 1$.
-
-We say that two vectors are \define{orthogonal} if they are completely
-uncorrelated. That is: if their inner product is zero. We will expect
-that our basis $\ve_i$ is an \define{orthogonal basis}. That means that
-$\ve_i \cdot \ve_j = 0$ for all $i, j$.
-
-In fact, we expect our basis to be an \define{orthonormal basis}. That
-means that the length of every vector $\ve_i$ is equal to 1.0. The
-length, or \define{norm}, of a vector $\ve_i$ is written $\norm{\ve_i}$.
-
-Above, when we talked about the angle between two vectors $\vu, \vv$, we
-assumed that the two vectors had length 1.0. When the lengths could be
-different than 1.0, we still know:
-
-\begin{nedqn}
-  \vu \cdot \vv
-\eqcol
-  \norm{\vu} \norm{\vv} \cos\theta
-\end{nedqn}
-
-A vital property of the dot product (also often called the \define{inner
-product}) is \define{linearity}. By this, we mean:
-
-\begin{nedqn}
-  \parens{\vu + \vv} \cdot \vw
-\eqcol
-  \vu \cdot \vw
-  + \vv \cdot \vw
-\end{nedqn}
-
-So let's return to breaking up a vector $\vv$ into a weighted sum of
-consituent vectors $\ve_i$. That is: we are given $\vv = \sum_i a_i
-\ve_i$ and we want to find all $a_i$.
-
-This is now trivial:
-
-\begin{nedqn}
-  \vv \cdot \ve_j
-\eqcol
-  \parens{
-    \sum_i a_i \ve_i
-  }
-  \cdot \ve_j
-\\\eqcol
-  \sum_i a_i \ve_i \cdot \ve_j
-\\\eqcol
-  a_j
-\end{nedqn}
-
-This occurs because $\ve_i \cdot \ve_j = 1$ precisely when $i = j$.
-Otherwise the dot product is zero. So what we see is that the dot
-product will let us break up a vector into a weighted sum of orthogonal
-vectors.
