@@ -1,54 +1,119 @@
 \section{Linear Algebra Review}
 
 Breaking something apart into its constituents is something we do in
-\define{linear algebra}.
+\define{linear algebra}. The space of waveforms is a vector space. We
+want to decompose a vector $\vv$ into a linear combination of basis
+vectors. That's linear algebra.
 
-Consider a basis of the space $\mathcal{B}$. We will declare the basis
-vectors to have unit length. We will declare that any rotation between
-unit vectors is also a unit vector.
+The function that does decomposing is called a \define{inner product}.
+Let's explore what kind of inner product we'll need.
 
-We'll declare the basis vectors to be orthogonal. We can go further and
-define the angle between two arbitrary unit vectors $\vu, \vv$. We can
-start defining this notion by saying the angle between $\ve_i$ and $\vv$
-corresponds to the angle needed to rotate $\ve_i$ toward a vector $\vw$
-in the subspace spanned by the other basis vectors.
+Consider a vector space and a basis for the space $\mathcal{B}$. We will
+declare the basis vectors to have ``unit length.'' We will declare that
+any rotation between unit vectors is also a unit vector. Recall that a
+``rotation'' between two vectors can simply be defined algebraically:
+
+\begin{nedqn}
+  \cos\theta \vu + \sin\theta \vv
+\end{nedqn}
+
+Since every vector $\vv$ is a scalar multiple of a unit vector (easy to
+prove), we can extend our notion of ``length'' to non-unit vectors. Let
+$\norm{\vv} = \alpha$ if $\vv = \alpha \vw$ where $\vw$ is a unit-vector
+(rotation of basis vectors).
+
+We'll declare the basis vectors to be ``orthogonal.'' We can go further
+and define the ``angle'' between two arbitrary unit vectors $\vu, \vv$.
+We can start defining this notion by saying the angle between $\ve_i$
+and $\vv$. I say that there exists some unique pair $\vw$ and $\theta$
+such that: (1) $\vw$ is in the subspace spanned by $\setof{\ve_j | j \ne
+i}$, and (2):
+
+\begin{nedqn}
+  \vv
+\eqcol
+  \cos\theta \ve_i + \sin\theta \vw
+\end{nedqn}
+
+\noindent
+I call $\theta$ the angle between $\ve_i$ and $\vv$. It's the angle
+needed to rotate $\ve_i$ in the direction of some (orthogonal) $\vw$
+such that the result is $\vv$.
 
 Why do we know that $\vw$ exists? First, we know that $\vv$ lies in
 \emph{some} plane defined by $\ve_i$ and some $\vw$, since the basis
 spans the vector space. We might as well assume $\vw$ is unit-length.
 But then all unit-length vectors in this plane are rotations of $\vu$
-toward $\vw$.
-
-This (almost) uniquely specifies $\theta$, up to two choices: $\theta$
-vs $2\pi - \theta$.
+toward $\vw$. This (almost) uniquely specifies $\theta$, up to two
+choices: $\theta$ vs $2\pi - \theta$.
 
 We can further extend the notion of angle-between to any two unit
 vectors by saying that angle-between should be rotation-invariant.
 
 Once we have this notion of angle-between nailed down, we can
-unambiguously define $\innerprod{\vu}{\vv} = \cos\theta$, where $\theta$
-is the angle in between two unit vectors. We can then further extend
-this to vectors of arbitrary length by defining $\innerprod{\vu}{\vv} =
-\norm{\vu} \norm{\vv} \cos\theta$.
+unambiguously define the \define{inner product} $\innerprod{\vu}{\vv} =
+\cos\theta$, where $\theta$ is the angle in between two unit vectors. We
+can then further extend this to vectors of arbitrary length by defining
+$\innerprod{\vu}{\vv} = \norm{\vu} \norm{\vv} \cos\theta$. We call
+$\frac{\innerprod{\vu}{\vv}}{\norm{\vv}} \vv$ the \define{projection} of
+$\vu$ onto $\vv$.
 
 Notice that since we are using $\cos\theta$, it doesn't matter the sign
-of $\theta$. We could iron out the sign wrinkles, but we don't need to.
+of $\theta$. We could iron out the sign wrinkles of our
+``angle-between'' concept, but we don't need to.
 
 So, if we have a basis for a vector space, this suggests a notion of
-``angle-between,'' and even ``projection.'' Equivalently, a notion of
-``angle-between'' (``projection'') would suggest a set of privileged
-bases which consist of orthogonal (orthonormal) vectors.
+``angle-between,'' ``length,'' and even ``projection.'' Alternatively,
+given a pre-existing notion of projection defined by
+$\innerprod{\cdot}{\cdot}$, any orthonormal basis $\mathcal{B}$ would be
+equally ``compatible'' with this inner-product. That is: the standard
+construction of angle/length/projection from $\mathcal{B}$ would exactly
+correspond to the inner product $\innerprod{\cdot}{\cdot}$ we started
+with.
 
-Note that if $\norm{\vu} = 1$, then $\innerprod{\vv}{\vu}$ is exactly
-the length of the ``projection'' of $\vv$ onto $\vu$.
+We have called $\innerprod{\vv}{\vu}$ the ``projection'' of $\vv$ onto
+$\vu$. This terminology is compatible with our usual geometric
+understanding of ``projection.'' If, in $n$-dimensional Euclidean space,
+we rotate $\vu$ by $\theta$ degrees and get $\vv$, then it's true that
+the projection of $\vv$ onto $\vu$ is:
 
-Thus, the inner-product will work as a decomposer for any orthonormal
-basis. As I said before, a notion of ``angle-between'' is enough to
-define orthogonality, and a notion of ``projection'' is enough to define
-orthonormality. And the projection will work on any orthonormal basis.
-The only thing we need for ``projection'' to work is (1) non-zero
-vectors have non-zero projection onto themselves, (2) scaling a vector
-scales the projection, (3) rotation invariance.
+\begin{nedqn}
+  \norm{\vv} \cos\theta
+\eqcol
+  \frac{\innerprod{\vv}{\vu}}{\norm{\vu}}
+\end{nedqn}
+
+Also, the inner-product gives us the way to decompose a vector $\vu$ into
+a linear combination of $\ve_i$ in an orthonormal basis $\mathcal{B}$:
+
+\begin{nedqn}
+  \innerprod{\vv}{\ve_i}
+\eqcol
+  \innerprod{\sum_{j=1}^n \alpha_j \ve_j}{\ve_i}
+\\
+\eqcol
+  \sum_{j=1}^n \alpha_j \innerprod{\ve_j}{\ve_i}
+  \nedcomment{by linearity}
+\\
+\eqcol
+  \alpha_i
+  \nedcomment{other $\alpha_j$ cancel by orthonormality}
+\end{nedqn}
+
+\noindent
+This proof relied on (1) the basis is orthonormal, (2) the inner product
+is \define{linear} in the first argument. Linearity is implied by
+$\innerprod{\cdot}{\cdot}$ being rotation-invariant, but I won't prove
+that right now.
+
+But we don't need to adopt this proof that comes from linearity. We
+could instead rely on our earlier proof that $\innerprod{\vv}{\ve_i}$ is
+the cosine of the angle between $\ve_i$ and some $\vw$ that lives in the
+subspace spanned by the other basis vectors. In that case, it's clear
+that $\alpha_i = \norm{\vv} \cos\theta$. To find the other
+$\setof{\alpha_j}$ to complete the decomposition into a linear
+combination, we decompose $\norm{\vv} \sin\theta \vw$ in the subspace
+orthogonal to $\ve_i$.
 
 To tie things up: consider an orthonormal basis $\mathcal{B}$. Then:
 
@@ -58,3 +123,65 @@ To tie things up: consider an orthonormal basis $\mathcal{B}$. Then:
   \sum_{i=1}^n \innerprod{\vv}{\vb_i} \vb_i
 \end{nedqn}
 
+Let's finally show that an inner-product needs to act like a \define{dot
+product}. The easiest way to show this \emph{is} by proving (1)
+linearity in the first argument and (2) (conjugate) symmetry.
+
+To prove (1), we could argue that the geometric projection operation is
+clearly linear in the first argument.
+
+By definition we have that $\innerprod{\alpha \vu}{\vv} = \alpha
+\innerprod{\vu}{\vv}$. That's because we started by defining
+$\innerprod{\cdot}{\cdot}$ as the cosine of the angle between two
+\emph{unit} vectors, and only later extended this to non-unit vectors by
+saying that $\innerprod{\alpha \vu}{\beta \vv} = \alpha \beta
+\innerprod{\vu}{\vv}$.
+
+Next, we consider $\innerprod{\vu + \vv}{\vw}$. We can assume that $\vu,
+\vv$ are unit vectors. Now, we know that there exists $\vz_u, \vz_v$
+(each orthogonal to $\vw$) and $\theta_u, \theta_v$ such that:
+
+\begin{nedqn}
+  \vu
+\eqcol
+  \cos\theta_u \vw + \sin\theta_u \vz_u
+\\
+  \vv
+\eqcol
+  \cos\theta_v \vw + \sin\theta_v \vz_v
+\intertext{thus}
+  \vu + \vv
+\eqcol
+  \parens{\cos\theta_u + \cos\theta_v} \vw
+  +
+  \sin\theta_u \vz_u
+  +
+  \sin\theta_v \vz_v
+\end{nedqn}
+
+\noindent
+Since any linear combination of $\vz_u, \vz_v$ is orthogonal to $\vw$,
+it's clear that $\innerprod{\vu + \vv}{\vw} = \cos\theta_u +
+\cos\theta_v$.
+
+In summary: this shows that projection is linear in the first argument.
+
+Last, we should show that inner-product is symmetric. But this is clear
+because $\innerprod{\vu}{\vv} = \norm{\vu}\norm{\vv} \cos\theta$. But
+the norms stay the same if we flip the arguments. And the $\theta$
+either stays the same (or maybe becomes $2\pi - \theta$), which leaves
+$\cos\theta$ the same.
+
+Another way to see this: if $\vu, \vv$ are unit vectors, then the length
+of the projection of $\vu$ onto $\vv$ is the same whether $\vv$ is a
+rotation by $\theta$ or $-\theta$ degrees.
+
+Once we have linearity in the first argument and symmetry, then it shows
+that $\innerprod{\cdot}{\cdot}$ \emph{has} to act like a dot product. It
+is equally the dot-product for any basis $\mathcal{B}$ with which you
+might want to represent vectors $\vv$ in the vector space.
+
+Last, you could say it has to be the dot-product, because the
+dot-product is geometrically correct for $n$-dimensional Euclidean
+space, and every finite dimensional vector space is geometrically
+equivalent to an $n$-dimensional Euclidean space.
