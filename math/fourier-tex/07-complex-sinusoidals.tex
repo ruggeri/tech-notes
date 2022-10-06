@@ -102,15 +102,20 @@ $c$ counter-clockwise by $\omega t$ radians. To return to $c$, we can
 rotate \emph{clockwise} by $\omega t$ radians. That corresponds to
 multiplication by $\expf{-\omega t}$.
 
-Consider if we don't know $\omega$. For most choices of $\omega'$
-$\expf{\parens{\omega - \omega'} t} \ne 1$. But the solution is to
-consider $\expf{\omega t}$ not at one point in time, but across its
-period:
+Consider if we don't know $\omega$. Let's say we are trying some
+$\omega'$ to see if $\omega' = \omega$. We don't know whether
+$\expf{\parens{\omega - \omega'} t} = 1$ or not. So we don't know if $c
+\expf{\omega t} \expf{-\omega' t}$ will recover $c$.
+
+But say that we know $c \expf{\omega t}$ at any time point $t$. We're in
+business, using (almost) our typical decomposition method:
 
 \begin{nedqn}
-  \int_0^{2\pi} c \expf{\omega t} \expf{-\omega t} \dt
+  \frac{1}{2\pi}
+  \int_0^{2\pi} c \expf{\omega t} \expf{-\omega' t} \dt
 \eqcol
-  c \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
+  \frac{c}{2\pi}
+  \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
 \end{nedqn}
 
 Again, assuming that $\omega, \omega'$ are integers, then all our old
@@ -122,12 +127,14 @@ and thus:
   \int_0^{2\pi} \expf{\parens{\omega - \omega'} t} \dt
 \eqcol
   \int_0^{2\pi} \expf{k t} \dt
+=
+  0
 \end{nedqn}
 
-This is clearly zero. Through the period the function $\expf{k t}$ will
-make one (or more) rotations counter-clockwise (or clockwise) through
-the unit circle. But it will end where it started. So the total
-displacement is zero.
+Why? Through the period the function $\expf{k t}$ will make one (or
+more) rotations counter-clockwise (or clockwise) through the unit
+circle. But if you sum up all the displacements, by symmetry of the
+circle you'll get zero.
 
 Naturally things are different when $\omega = \omega'$. Then:
 
@@ -140,10 +147,9 @@ Naturally things are different when $\omega = \omega'$. Then:
 \end{nedqn}
 
 Ah, notice the slight difference from before! The ``correction'' factor
-we should apply is not $\frac{1}{\sqrt\pi}$, but now
-$\frac{1}{\sqrt{2\pi}}$! The reason is that when we worked with
-real-valued sinusoidals, we were ignoring half the story: the imaginary
-part!
+we should apply is not $\frac{1}{\pi}$, but now $\frac{1}{2\pi}$! The
+reason is that when we worked with real-valued sinusoidals, we were
+ignoring half the story: the imaginary part!
 
 \subsection{Conjugation}
 
@@ -152,17 +158,18 @@ In general, to do a projection of $f$ onto $g$, we write:
 \begin{nedqn}
   \innerprod{f}{g}
 \eqcol
-  \int f(t) \conj{g(t)} \dt
+  \frac{1}{2\pi}
+  \int_0^{2\pi} f(t) \conj{g(t)} \dt
 \end{nedqn}
 
+\noindent
 Why use the conjugate? Isn't that different from when we worked with
 projections with a real scalar field? Not exactly: we wouldn't have
 ``noticed'' conjugation in our original dot-product projection because
 reals never had any imaginary part.
 
-Of course, we can see the conjugate as a clockwise rotation vs a
-counter-clockwise rotation. We can also see it as an ``unnormalized''
-inverse of $g(t)$ that removes any imaginary/rotational component.
+When multiplying $f(t) \conj{g(t)}$, we're basically computing a complex
+number that corresponds to the angle between $g(t)$ and $f(t)$.
 
 \subsection{And Real-Valued Sinusoidals?}
 
