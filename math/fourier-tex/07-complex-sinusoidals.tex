@@ -26,10 +26,9 @@ seconds. And the position at any time $t$ is given by:
   \cos(t) + i\sin(t)
 \end{nedqn}
 
-And that's what $\expf{it}$ will be defined as. This is
-\define{Euler's formula}.
-
-Note that therefore:
+\noindent
+And that's what $\expf{it}$ will be defined as. This is \define{Euler's
+formula}. Note that therefore:
 
 \begin{nedqn}
   \expf{i \pi}
@@ -39,14 +38,16 @@ Note that therefore:
   -1
 \end{nedqn}
 
+\noindent
 This is \define{Euler's identity}.
 
 \subsection{Complex Sinusoidal Function Space}
 
 We've been considering a space with basis vectors such as $\sin \omega
 t, \cos \omega' t$. I want to begin to explore the space spanned by
-$\expf{i \omega t}$. These are complex valued functions, but
-restricted to just their real component they are simply $\cos \omega t$.
+$\expf{i \omega t}$. These are complex valued functions $\cosf{\omega t}
++ i \sinf{\omega t}$, but restricted to just their real component they
+are simply $\cos \omega t$.
 
 Our life would be less rich if we only considered linear combinations of
 the $\expf{i \omega t}$ with real weights. In particular: we'd lose
@@ -55,7 +56,19 @@ no two basis vectors would be phase-shifts of each other.
 
 Well, there's an easy way to fix that! A phase shift is simply a
 rotation by a complex number $c$. So we should allow linear combinations
-with \emph{complex weights}.
+with \emph{complex weights}. Let's show how to recover a function whose
+real part is $\sinf{\omega t}$:
+
+\begin{nedqn}
+  -i \expf{i \omega t}
+\eqcol
+  -i \parens{
+    \cosf{\omega t} + i \sinf{\omega t}
+  }
+\\
+\eqcol
+  \sinf{\omega t} - i \cosf{\omega t}
+\end{nedqn}
 
 Note that even though we are now allowing complex amplitudes that
 phase-shift the basis sinusoidal, we do \emph{not} allow complex
@@ -68,13 +81,16 @@ corresponds to a clockwise rotation, whereas a positive $\omega$
 corresponds to a counter-clockwise rotation. We previously did not need
 to consider negative frequencies, because these (1) only would have
 affected $\sin$ waves, and (2) were already handled by negative
-amplitudes. Basically: a real valued wave $\sin -t$ looked like an out
-of phase version of $\sin t$. With appropriate amplitudes on $\cos t$
-and $\sin t$ we could construct $\sin -t$. But that is no longer the
-case with complex-valued $\expf{it}$. No two counter-clockwise-rotating
-sinusoidals can add up to a clockwise-rotating sinusoidal. A complex
-clockwise-rotating is not merely an out-of-phase version of a complex
-counter-clockwise-rotating sinusoidal.
+amplitudes.
+
+Now the direction of rotation matters. We showed that an amplitude of
+$i$ allows us to construct $\sinf{\omega t} - i \cosf{\omega t}$. But if
+we want to construct $\sinf{\omega t} + i \cosf{\omega t}$, this
+necessitates a completely opposite angular frequency. No two
+counter-clockwise-rotating sinusoidals can add up to a
+clockwise-rotating sinusoidal. A complex clockwise-rotating is not
+merely an out-of-phase version of a complex counter-clockwise-rotating
+sinusoidal.
 
 \subsection{Inner Product In Complex Vector Space}
 
