@@ -1,5 +1,15 @@
 ## Maintenance Log
 
+- 2022-10-11
+  - At some previous date (in August presumably), I removed the toe
+    cages from my bicycle.
+  - I can't decide if I miss them? Certainly the look of the bike is
+    cleaner without them. But they did give a bit of a sense of security
+    especially while standing on the pedals.
+  - They are pitted with rust, and the straps are all beat up from the
+    years.
+  - I'm going to toss them. They were size L in case I ever want them
+    back again.
 - 2022-08-20
   - This morning, I loosened cup-and-cone bearing. I also added some
     more grease to the non-drive side bearings. The two changes
