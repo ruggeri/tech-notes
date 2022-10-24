@@ -22,7 +22,8 @@ the center of the screen.
   - Notice this quadruples the size of HD.
   - It's not any "wider" than the other 16:9 HD formats. So this is not
     very logical.
-  - This was the resolution of the 27" Thunderbolt Display.
+  - This was the resolution of the 27" Thunderbolt Display. Also the
+    resolution of my Dell U2715H that I used at AA from mid-2015.
   - A 27" QHD screen would only reach "retina" pixel density at 34".
     Indeed, I could see the pixels of the Thunderbolt Display easily.
 - 2880x1800
