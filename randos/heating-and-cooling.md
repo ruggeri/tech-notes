@@ -43,7 +43,8 @@
 - Some people do note that refrigerant is a super greenhouse gas. And
   any refrigeration system will inevitably have leaks.
 - Another problem is that heat pumps will go off when electricity shuts
-  off, whereas a gas furnace will keep running.
+  off, whereas a gas furnace will keep running. I believe this fucked
+  many people in Texas when power went out.
 - Thus heat pumps make more sense in milder climates. But there are also
   _ground source_ heat pumps, which interface not with the atmosphere,
   but with the ground. The ground temperature is more stable than the
@@ -86,6 +87,15 @@
     takes to start getting hot water from a tank.
   - So you'll get hot water faster if the tankless heater is close to
     the point of use.
+- Solar water heating is used in countries with a lot of sun (like
+  Greece)
+  - It doesn't use any kind of photovoltaic technology.
+  - You paint a collector black. You run some tubing through it.
+  - You run a line from the bottom of a tank that sits higher than the
+    collector. You also run a line from the collector to the top of the
+    tank.
+  - This is called a _thermosiphon_, and will use convection (without a
+    pump), to circulate water so that the entire tank is heated.
 - Conclusions
   - If you have a lot of people in your household who take serial
     showers, tankless might make sense.
@@ -118,6 +128,7 @@
   - If the heat is not evenly distributed throughout the room, it will
     not be efficient in that the area close to the heater may get hot,
     but not impart much heat elsewhere.
+    - This is a problem with any heating system, I suppose.
   - There are baseboards that use electricity to heat water or mineral
     oil. They are supposed to be more energy efficient.
   - I think the reason is high volume and lower temperature. By having a
@@ -134,3 +145,23 @@
     thermostat lower if their feet are warm.
 - I saw that 1MM BTU generation using electric baseboard was $34, versus
   $14 for an electric heat pump and $7 for gas furnace.
+
+## Mini-Split Systems
+
+- You can use a mini-split system with a heat pump (or regular
+  air-conditioner).
+- It's the in-room air-conditioner you frequently see in Europe or
+  apartment buildings. Instead of running ducts for air to flow through,
+  the refrigerant lines pass through the wall.
+- The lines then go back to the heat pump, where they undergo
+  compression or expansion, depending on what mode the system is
+  operating in.
+- An advantage of mini-split systems is that you can run multiple zones;
+  each mini-split is basically it's own zone. That means you can run the
+  heating/cooling based on need per room.
+- Many heat pumps will support multiple zones on a single heat pump.
+- This can matter a lot if different parts of your house have different
+  natural temperatures. That can be affected by level in the house (hot
+  air rises to higher floors), height of ceilings, and windows.
+- You can save energy, and control the comfort in specific rooms better
+  this way.
