@@ -49,6 +49,14 @@
   _ground source_ heat pumps, which interface not with the atmosphere,
   but with the ground. The ground temperature is more stable than the
   air temperature.
+- Traditional gas or boiler systems often run with just one speed
+  (though not always). They turn off once a temperature is obtained, and
+  then kick on again when it falls outside a band.
+- Heat pumps can run at variable rates, if they use an 'inverter.' I
+  believe that means that they don't have to cycle on and off, and they
+  can just provide a consistent level of heating or cooling to maintain
+  the ideal temperature.
+- Source: https://www.nytimes.com/wirecutter/guides/heat-pump-buying-guide/
 
 # Water Heating
 
@@ -165,3 +173,39 @@
   air rises to higher floors), height of ceilings, and windows.
 - You can save energy, and control the comfort in specific rooms better
   this way.
+
+## Convection vs Radiation
+
+- The sun heats the earth, despite the fact that the vacuum of space in
+  between is exceptionally cold. That's because the heat energy is
+  transferred via _radiation_.
+  - Visible light carries energy.
+  - But infrared also carries a lot.
+  - The light needs a path to you. If you are standing in a shadow, you
+    can't absorb it.
+  - Likewise, a campfire on a cold night heats by radiation.
+- Convection transfers heat by heating the medium.
+  - Radiators are designed to have high surface area, which means a
+    large surface via which to easily transfer heat from the radiator to
+    the medium (normally air, sometimes liquid).
+  - The heat transfer happens because hot things are shaking, and they
+    impart some shake to surrounding things.
+- If air keeps moving away, then your body will get cold on a cold
+  night. The reason is that the temperature differential is constantly
+  remaining the same.
+  - Whereas, if you are in a tent, the air can't really move away. So
+    you do warm the tent with your body (the ten starts out cold).
+  - But eventually it gets warm; close to your body's temperature.
+  - It may even start to feel hot, if your body puts out heat faster
+    than the tent releases it to the outside environment.
+  - Why can't the tent just start transferring heat away? It's because
+    of the poor thermal conductivity of the outer layer. In fact, even
+    the air has poor thermal conductivity. Probably any gas at a
+    commensurate pressure will have similar thermal conductivity?
+  - The main point is: it can't simply float away from us. We need to
+    propagate heat _through_ the medium, and that is actually relatively
+    hard.
+  - This is also how wetsuits work, by the way. They aren't totally
+    water tight, just as a jacket is not totally airtight. But note that
+    water is much more thermally conductive (20x more than air), so we
+    need a better insulator (neoprene).
