@@ -1,5 +1,17 @@
 ## Maintenance Log
 
+- 2022-12-12
+  - Greased bicycle chain. Used Squirt Lube. It says don't take off the
+    old lube. I did wipe with a rag before to remove accumulated dirt.
+  - I also disassembled the shifter. I verified that the shifter was
+    (occasionally) not pulling the shift cable. This means the shifter
+    gives no resistance, and you don't change gears. It's not a problem
+    at the back. I can see that the cable isn't being pulled.
+  - In fact, after disassembly, I can even see the ratchet mechanism
+    turn, but fail to engage the lever that pulls the cable.
+  - The typical solution appears to be to flush with WD-40 and then
+    lubricate again with an aerosol grease. I bought some lithium
+    aerosol grease to do this in the next couple days.
 - 2022-10-11
   - At some previous date (in August presumably), I removed the toe
     cages from my bicycle.
