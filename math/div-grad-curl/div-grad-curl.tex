@@ -1,0 +1,175 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+\usepackage{ned-stats}
+
+\begin{document}
+
+\title{Div, Grad, Curl}
+\maketitle
+
+\begin{enumerate}
+
+\item With a function of a single variable, we have already defined:
+
+\begin{nedqn}
+  \fderiv{x} f(x_0)
+\eqcol
+  \lim_{x \to x_0}
+  \frac{
+    f(x) - f(x_0)
+  }{
+    x - x_0
+  }
+\end{nedqn}
+
+\item We can generalize in two directions. First, we can consider a
+function of many variables, but mapping to a single real variable. Then
+we define:
+
+\begin{nedqn}
+  \fpartial{x_i} f(\vx)
+\eqcol
+  \lim_{x_i \to \vx_i}
+  \frac{
+    \ff{\tilde\vx} - \ff{\vx}
+  }{
+    x_i - \vx_i
+  }
+\intertext{where}
+  \tilde{\vx}
+\eqcol
+  \parens{\vx_0, \ldots, x_i, \ldots, \vx_n}
+\end{nedqn}
+
+\noindent
+Simply, we're restricting $f$ to a function of just $x_i$, where all
+other parameter values $x_j$ are held constant as $\vx_j$. Then, we
+calculate the typical univariate derivative at $\vx_i$. Put another way,
+this partial derivative is the slope of the function in the direction of
+$x_i$.
+
+\item We can further define the \define{gradient}. This is:
+
+\begin{nedqn}
+  \gradient f(\vx)
+\eqcol
+  \begin{pmatrix}
+    \fpartial{x_0} \ff{\vx}
+    \\
+    \vdots
+    \\
+    \fpartial{x_n} \ff{\vx}
+  \end{pmatrix}
+\end{nedqn}
+
+\noindent
+What does this mean? Well, $\gradient f(\vx) \cdot \vu$ is the
+\define{directional derivative} of the function along the direction
+defined by $\vu$. If $\vu$ is a vector along one of the coordinate axes,
+then this is of course just a regular partial derivative.
+
+\item However, we should be careful to note that this only true for
+somewhat well-behaved functions! It's not always true that you can
+calculate any directional derivatives simply from knowing the gradient
+along some axes. Take a silly example:
+
+\begin{nedqn}
+  f(x, y)
+\eqcol
+  \begin{cases}
+    x \text{ if } y \ne x \\
+    0 \text{ if } y = x
+  \end{cases}
+\end{nedqn}
+
+\noindent
+Here, $\fpartial{x} f(0, 0) = 1$, $\fpartial{y} f(0, 0) = 0$. But the
+derivative along the direction defined $y = x$ is 0, and not
+$\frac{\sqrt{2}}{2}$. You can even create smooth examples!
+
+\item The other direction of generalization is to consider
+\define{vector-valued functions}. Our prior definition of a partial
+derivative (and of a directional derivative) will still apply. We just
+need to note that the numerator in the definition is a vector.
+
+\item We should be a little careful when generalizing the gradient. This
+was a vector, but the analogue should be a \emph{matrix}. We will define
+the \define{Jacobian} to be the analogue of the gradient:
+
+\begin{nedqn}
+  \mJ(\vx)
+\eqcol
+  \begin{bmatrix}
+    \grad\tran f(\vx)_0 \\
+    \grad\tran f(\vx)_1 \\
+    \vdots \\
+    \grad\tran f(\vx)_n \\
+  \end{bmatrix}
+\end{nedqn}
+
+\noindent
+It's a little unsatisfying that the \emph{rows} are the gradients,
+rather than the \emph{columns}. But this ensures that $\mJ \vu$ is the
+directional derivative along $\vu$. (Again, this depends on the function
+being ``differentiable'').
+
+\item Take $f$ is a function from $\R^m \to \R^n$. We say that a
+function $df_a$ is the \define{(total) derivative} or \define{(total)
+differential} of $f$ at $a$ if:
+
+\begin{nedqn}
+  \lim_{\vx \to \va}
+  \frac{
+    \norm{
+      \ff{\vx}
+      -
+      \parens{
+        \ff{\va}
+        +
+        df_a\parens{\vx - \va}
+      }
+    }
+  }{
+    \norm{
+      \vx - \va
+    }
+  }
+\eqcol
+  0
+\end{nedqn}
+
+\noindent
+If $m=1$, then of course $df_a$ is just the ordinary derivative
+$\fderiv{x} \ff{a}$. If $m > 1$, the word ``total'' emphasizes that we
+are not talking about a partial derivative, but something that describes
+rate of change in an arbitrary direction.
+
+\item In order to be considered a total derivative, mathematicians want
+$df_a$ to be a \emph{linear transformation}. Note that this implies that
+the differential is
+
+\begin{nedqn}
+  df_a
+\eqcol
+  \mJ\parens{a}
+\end{nedqn}
+
+\noindent
+except when the differential doesn't exist, because the function is not
+differentiable. It feels weird that we have different names for Jacobian
+and differential, but I suppose the point is that the differential does
+not necessarily exist everywhere the Jacobian does.
+
+\item \TODO{Define nabla differential operator}.
+\item \TODO{Define divergence}.
+\item \TODO{Define curl}.
+
+\end{enumerate}
+
+\end{document}
