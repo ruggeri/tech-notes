@@ -1,5 +1,7 @@
 \documentclass[11pt, oneside]{amsart}
 
+\newcommand{\calC}{\mathcal{C}}
+
 \usepackage{geometry}
 \geometry{letterpaper}
 
@@ -35,22 +37,22 @@ we define:
 \begin{nedqn}
   \fpartial{x_i} f(\vx)
 \eqcol
-  \lim_{x_i \to \vx_i}
+  \lim_{t \to \vx_i}
   \frac{
     \ff{\tilde\vx} - \ff{\vx}
   }{
-    x_i - \vx_i
+    t - \vx_i
   }
 \intertext{where}
   \tilde{\vx}
 \eqcol
-  \parens{\vx_0, \ldots, x_i, \ldots, \vx_n}
+  \parens{\vx_0, \ldots, t, \ldots, \vx_n}
 \end{nedqn}
 
 \noindent
 Simply, we're restricting $f$ to a function of just $x_i$, where all
 other parameter values $x_j$ are held constant as $\vx_j$. Then, we
-calculate the typical univariate derivative at $\vx_i$. Put another way,
+calculate the typical univariate derivative at $x_i$. Put another way,
 this partial derivative is the slope of the function in the direction of
 $x_i$.
 
@@ -70,9 +72,10 @@ $x_i$.
 
 \noindent
 What does this mean? Well, $\gradient f(\vx) \cdot \vu$ is the
-\define{directional derivative} of the function along the direction
-defined by $\vu$. If $\vu$ is a vector along one of the coordinate axes,
-then this is of course just a regular partial derivative.
+\define{directional derivative} of the function at $\vx$ along the
+direction defined by $\vu$. If $\vu$ is a vector along one of the
+coordinate axes, then this is of course just a regular partial
+derivative.
 
 \item However, we should be careful to note that this only true for
 somewhat well-behaved functions! It's not always true that you can
@@ -92,6 +95,12 @@ along some axes. Take a silly example:
 Here, $\fpartial{x} f(0, 0) = 1$, $\fpartial{y} f(0, 0) = 0$. But the
 derivative along the direction defined $y = x$ is 0, and not
 $\frac{\sqrt{2}}{2}$. You can even create smooth examples!
+
+\item It might seem nicer if $\grad \ff{\vx}$ were a \emph{row} vector
+rather than a \emph{column} vector. It sure seems that way to me!
+However, it appears that it is typical to define the gradient as a
+column vector for reasons that are somewhat above my pay-grade at this
+time.
 
 \item The other direction of generalization is to consider
 \define{vector-valued functions}. Our prior definition of a partial
@@ -114,10 +123,14 @@ the \define{Jacobian} to be the analogue of the gradient:
 \end{nedqn}
 
 \noindent
-It's a little unsatisfying that the \emph{rows} are the gradients,
-rather than the \emph{columns}. But this ensures that $\mJ \vu$ is the
-directional derivative along $\vu$. (Again, this depends on the function
-being ``differentiable'').
+It's a little unsatisfying that the \emph{rows} are the (transposed)
+gradients, rather than the \emph{columns}. Again, it seems like it would
+have been more natural if the gradient had always been a row
+vector...
+
+On the plus side, we have that $\mJ \vu$ is the directional derivative
+along $\vu$, which is what we always wanted. (Again, this depends
+on the function being ``differentiable'').
 
 \item Take $f$ is a function from $\R^m \to \R^n$. We say that a
 function $df_a$ is the \define{(total) derivative} or \define{(total)
@@ -166,8 +179,201 @@ differentiable. It feels weird that we have different names for Jacobian
 and differential, but I suppose the point is that the differential does
 not necessarily exist everywhere the Jacobian does.
 
+\item A vector-valued function $f: \R^n \to \R^n$ is also sometimes
+called a \define{vector field}. This use of \emph{field} is at odds with
+the algebra definition. This use is typical of physics.
+
+\item We can next define a \define{line integral} (also called a path
+integral). First we have to define a \define{curve}. A curve
+$\calC$ is a subset of $\R^m$ with the following requirement:
+there is a continuous map $r: [a, b] \to \R^m$, and the image of $r$ is
+$\calC$ ($[a, b]$ is a closed interval in $\R$, of course). In
+this case, we'll want $r$ to be piecewise differentiable.
+
+\item Now we can define the line integral of $f$ along a curve
+$\calC$ defined by $r$. It is defined to be:
+
+\begin{nedqn}
+  \int_\calC
+  f \diff{s}
+\eqcol
+  \int_a^b
+  \ff{\vr(t)}
+  \norm{\vr'(t)}
+  \dt
+\end{nedqn}
+
+\noindent
+Here the notation $\vr(t)$ emphasizes that this is a vector-valued
+function of $t$. Note that the ``rate'' at which we move through the
+curve (which is arbitrary) is corrected by $\norm{\vr'(t)}$. This makes
+the line integral independent on the parameterization of $\calC$.
+
+\item For now, I will consider $\int_\calC f \diff{s}$ as pure
+notation. It feels meaningless and arbitrary at present.
+
+\item Note that the path-integral concept trivially generalizes to a
+vector-valued $f$.
+
+\item It feels a little unfortunate that $\vr$ is required to be
+piecewise differentiable. It would be nicer if the only requirement were
+that $r$ be continuous.
+
+\item Maybe we can consider this a moment. The \define{length} of a path
+can be defined as $\int_\calC 1 \diff{s}$. Is there any other way
+to define a length? Could we not talk about line-segments in $\R^n$: the
+interpolation between two points? A line-segment has a natural
+definition of length; it's the norm of the difference between the two
+points.
+
+Can we then break up $\calC$ into a sequence of line-segments? Of course
+not if $\calC$ is curved. Could we have a sequence of progressively
+better approximations for $\calC$? It \emph{seems} intuitive, but it's
+not exactly clear how we could do this. We can't appeal to dividing up
+the length of $\calC$ into $k$-evenly spaced points on $\calC$ - that
+would put the cart before the horse!
+
+\item If it makes one feel happier, there is only one $\vr$ that traces
+$\mathcal{C}$ at a constant velocity $\vr' = 1$. So the appearance of
+$\norm{\vr'(t)}$ in the integral is just to correct for an arbitrarily
+stretched choice of $\vr$. Also, the requirement that $\vr'$ exists
+(almost everywhere) simply demands that there be a well-defined notion
+of tangency everywhere on the path.
+
+\item Once we can break up the path into equal-length segments, I
+believe we can do the typical thing of using the convergence of upper
+and lower sums to calculate the path interval of a function $f$ along
+$\calC$.
+
+\item We can define a corresponding \define{surface integral}. We must
+again first define what we mean by a \define{surface}. A surface $S$ is
+a subset of $R^n$ with the following property: there exists a continuous
+mapping $r: U \to \R^n$ ($U$ should be an open set in $\R^n$) where
+$S$ is the image of $r$.
+
+\item We should next define the notion of \define{surface area} (just as
+we defined curve length). We could try to define this as:
+
+\begin{nedqn}
+  \iint_S
+  1 \diff{s}
+& \stackrel{?}{=} &
+  \iint_U
+  \det \mtxJ_{\vr}(\vu)
+  \diff{\vu}
+\end{nedqn}
+
+\noindent
+Here we use that $\det \mtxJ_{\vr}(\vu)$ is the amount by which area is
+stretched by $\vr$ in the vicinity of $\vu$. However, since $\det$ is
+only defined for \emph{square} matrices, this won't work when we are
+mapping from two-dimensions to three!
+
+\item Of course, the coordinate axes in $\R^n$ are arbitrary, so we
+could rotate them so that $\mtxJ$ had all zeros outside the first two
+rows. Then, to find the stretching of an input area, we would just need
+to calculate the determinate of a (square) 2x2 matrix.
+
+\item Let's consider the specific case of two dimensions. I will note
+first that Wikipedia defines surface area as:
+
+\begin{nedqn}
+  \iint_S
+  1 \diff{s}
+\eqcol
+  \iint_T
+  \norm{
+    \frac{\partial \vr}{\partial x}(\vu)
+    \cross
+    \frac{\partial \vr}{\partial y}(\vu)
+  }
+  \diff{x} \diff{y}
+\end{nedqn}
+
+\noindent
+Already, the norm of this cross-product \emph{looks} like it should be
+equal to $\det \mtxJ_{\vr}(\vu)$. We can verify this quickly. First,
+note:
+
+\begin{nedqn}
+  \det A
+\eqcol
+  ad - bc
+\intertext{and}
+  \colvec{a \\ c \\ 0} \cross \colvec{b \\ d \\ 0}
+\eqcol
+  \parens{
+    ad - bc
+  } \vk
+\end{nedqn}
+
+\item Anyway, we can see that my $\det \mtxJ$ idea is not totally silly.
+However, it isn't quite right, and the cross-product way expresses what
+we want to do simpler, and accurately.
+
+I would note that area is defined by height times width, where those are
+measured orthogonally. We're assuming that $x$ and $y$ are orthogonal
+directions in the space. So the local stretching of a space depends on
+(1) how much differences in $x$ and $y$ get stretched, and (2) how much
+they remain orthogonal in the target space.
+
+\item We can finally define the \define{divergence} of a vector field
+$\mtxF$ at a point $\vu$:
+
+\begin{nedqn}
+  \operatorname{div} \mtxF(\vu)
+\defeqcol
+  \lim_{V \to 0}
+  \frac{1}{\abs{V}}
+  \iint_{S(V)}
+  \mtxF(\vx) \cdot \vn(\vx)
+  \diff{\vx}
+\end{nedqn}
+
+\noindent
+What the hell does this mean? First, we will $V$ is a volume which
+contains $\vu$. The limit is expressing that we take a series of volumes
+where the volume of $V$ (denoted $|V|$) is approaching zero. For
+instance, $V$ could be a series of $\epsilon$-balls, where $\epsilon \to
+0$.
+
+Next, we are going to do a surface integral. The surface we integrate
+over will be the surface of the volume. This could, for instance, be the
+$\epsilon$-shell.
+
+What will we integrate? $\mtxF(\vx) \cdot \vn(\vx)$. What is $\vn(\vx)$?
+It will be the unit-vector that is \define{normal} to the surface $S(V)$
+at position $\vx$.
+
+\item For a field $\mtxF$, we define the \define{flux} $\Phi_{\mtxF}(S)$
+to because
+
+\begin{nedqn}
+  \Phi_{\mtxF}(S)
+\defeqcol
+  \iint_S
+  \mtxF(\vu) \cdot \vn(\vu)
+  \diff{\vu}
+\end{nedqn}
+
+\noindent
+Thus, with this definition, we can equivalently define:
+
+\begin{nedqn}
+  \operatorname{div} \mtxF(\vu)
+\defeqcol
+  \lim_{\abs{V_i} \to 0}
+  \frac{
+    \Phi_{\mtxF}(S_i)
+  }{
+    \abs{V_i}
+  }
+\end{nedqn}
+
+\item Thus, for a small volume about $\vu$, multiplying the volume by
+the the divergence of $\mtxF$ will give you the flux out of the volume.
+
 \item \TODO{Define nabla differential operator}.
-\item \TODO{Define divergence}.
 \item \TODO{Define curl}.
 
 \end{enumerate}
