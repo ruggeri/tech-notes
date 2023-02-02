@@ -1,0 +1,77 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-linear-algebra}
+
+\begin{document}
+
+\title{Ordinary Differential Equations}
+\maketitle
+
+These notes are based on the book by Tenenbaum and Pollard.
+
+\section{Basic Concepts}
+
+\begin{enumerate}
+  \item They define \define{set} and \define{element}. They define
+  \define{interval}
+
+  \item They define what it means to be a function of \define{one
+  independent variable}. In this case, the value of the the function is
+  uniquely determined by the value of the independent variable. The
+  independent variable can take on any value in its \define{domain}.
+
+  \item Likewise a function of two independent variables means that
+  there is a uniquely determined function value for each pair of input
+  values. The inputs can take on values throughout their domains. The
+  independent variables are independent in the sense that their value is
+  in no way restricted by the selection of the other variable.
+
+  \item They define a \define{region} as a set in the plane which is
+  open and connected. That means that (1) for every point $x$ in a
+  region $R$, there is a circle which contains $x$ and is a subset of
+  $R$. Also, for any $x, y \in R$, there exists a (continuous) path from
+  $x$ to $y$ which is contained in $R$.
+
+  \item They define a region to be \define{bounded} if a circle contains
+  it.
+
+  \item They say that an equation of $x, y$ defines $y$ as an
+  \define{implicit function} of $x$ if for each value of $x$ there is a
+  value of $y$ which satisfies the equation. In particular, they intend
+  the equation to have the form:
+
+  \begin{nedqn}
+    h(x, y) = 0
+  \end{nedqn}
+
+  \item It seems clear that they do not require that there be a
+  \define{unique} function mapping $x$ values to $y$. For instance, they
+  would say that $y^2 - x = 0$ implicitly defines $y$ as a function of
+  $x$, even though there are many such functions of $x$ that would
+  satisfy this equation.
+
+  \item This seems odd because it doesn't really ``define'' a functional
+  relationship between $y$ and $x$ in a unique way. I would rather say
+  that a \define{set of solutions} $\setof{f \mid h(x, f(x)) = 0}$ is
+  defined by $h(x, y) = 0$. Note that the only way for $h$ \emph{not} to
+  define a set of solutions (or rather, to define a nullset of
+  solutions) is if there exists some $x$ in the domain such that no $y$
+  can satisfy the constraint.
+
+  \item They define \define{elementary functions} to be powers of $x$,
+  roots of $x$, $e^x$, $\log x$, trigonometric functions of $x$, inverse
+  trigonometric functions. This is then augmented by composition (i.e.,
+  chaining) of the preceding functions. Finally, they augment this via
+  finite combination via addition, subtraction, multiplication and
+  division.
+
+  \item They probably forgot constant functions. And they probably meant
+  to actually include functions like $\sqrt{x + x^2}$. They were a
+  little sloppy here.
+\end{enumerate}
+
+\end{document}
