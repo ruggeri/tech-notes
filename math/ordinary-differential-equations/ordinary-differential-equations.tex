@@ -4,7 +4,7 @@
 \geometry{letterpaper}
 
 \usepackage{ned-common}
-\usepackage{ned-linear-algebra}
+\usepackage{ned-calculus}
 
 \begin{document}
 
@@ -13,7 +13,7 @@
 
 These notes are based on the book by Tenenbaum and Pollard.
 
-\section{Basic Concepts}
+\section{Chapter 1: Basic Concepts}
 
 \begin{enumerate}
   \item They define \define{set} and \define{element}. They define
@@ -72,6 +72,336 @@ These notes are based on the book by Tenenbaum and Pollard.
   \item They probably forgot constant functions. And they probably meant
   to actually include functions like $\sqrt{x + x^2}$. They were a
   little sloppy here.
+
+  \item A \define{ordinary differential equation} is going to be one
+  that is a polynomial in $x, f(x)$, and derivatives of $f(x)$. That
+  includes the following examples:
+
+  \begin{nedqn}
+    x + \fpartial[g(x)]{x}
+  \eqcol
+    0
+  \\
+    x^2 + \frac{\partial^2 g(x)}{\partial x^2}
+  \eqcol
+    0
+  \\
+    h\parens{
+      x,
+      g(x),
+      \frac{\partial g(x)}{\partial x},
+      \frac{\partial^2 g(x)}{\partial x^2},
+      \ldots,
+      \frac{\partial^n g(x)}{\partial x^n}
+    }
+  \eqcol
+    0
+  \end{nedqn}
+
+  \noindent
+  The ODE implicitly defines a class of solution functions $g(x)$. It's
+  also common to simply denote $g(x)$ with $y$. Like:
+
+  \begin{nedqn}
+    x + \fpartial[y]{x}
+  \eqcol
+    0
+  \\
+    x^2 + \frac{\partial^2 y}{\partial x^2}
+  \eqcol
+    0
+  \end{nedqn}
+
+  \noindent
+  Here we are assuming that $y$ cannot be freely chosen for a given $x$.
+  We are assuming that $y$ is a \define{dependent variable} of $x$.
+
+  \item Often equations will be expressed with Lagrange's notation
+  (rather than Leibniz's as I have done):
+
+  \begin{nedqn}
+    x + y'
+  \eqcol
+    0
+  \\
+    x^2 + y''
+  \eqcol
+    0
+  \\
+    h\parens{
+      x,
+      y,
+      y',
+      y'',
+      \ldots,
+      y^{(n)}
+    }
+  \eqcol
+    0
+  \end{nedqn}
+
+  \noindent
+  Note how this obscures the fact that $y$ is presumed to be a function
+  of $x$, and that we are taking the derivative with respect to $x$.
+  Still, this is a common way to denote differential equations.
+
+  \item I don't think we've made it clear what makes these differential
+  equations \define{ordinary}. It's that there is a single independent
+  variable $x$.
+
+  \item The \define{order} of an a differential equation is the order of
+  the highest derivative in the equation. This is interesting, because
+  we \emph{do not} take account of the power of $x$ or of any
+  derivative.
+
+  We will see that a \define{linear} ordinary differential equation
+  presumes that there are no powers of $x$, $f(x)$ or derivatives of
+  $f(x)$.
+
+  \item A solution $f(x)$ will also imply the domain over which $x$ may
+  vary. Sometimes this is the real plane. Sometimes this is just an
+  interval.
+
+  Perhaps the ODE will presuppose that we want a solution where $x$ is
+  allowed to range over all reals (maybe $x$ is actually time, before
+  and after a reference point). Or maybe we only want to project
+  forward, so a solution for $x \geq 0$ is what we are looking for.
+
+  Note that any solution over $\R$ will also be a solution if restricted
+  only to non-negative inputs. But sometimes there won't be a solution
+  if $x$ is allowed to range over all $\R$, but there might still be a
+  solution for the restricted case.
+
+  \item The class of solutions to an ODE is made messy by the inclusion
+  of arbitrary/trivial restrictions of more general solutions. But I
+  guess it doesn't really matter in the end?
+
+  \item Actually, they make further clear that the ``solution'' of a
+  differential equation $h(x, y, y', y'', \ldots, y^{(n)}) = 0$ is not
+  the function $y = g(x)$ that would result in $h = 0$ being true, but
+  instead $f(x, y) = 0$ which implicitly defines $y = g(x)$ which
+  results in $h = 0$ being true.
+
+  $y = g(x)$ is the explicit solution, while $f(x, y) = 0$ is an
+  ``implicit solution.'' It's all a little silly.
+
+  \item I guess the point is that an implicit solution of the
+  differential equation at least does not incorporate any derivatives of
+  $y$. But it still feels a little silly, since there can be multiple
+  solutions of $f(x, y) = 0$ (i.e., solutions are $g$ such that $f(x,
+  g(x)) = 0$ is satisfied). If just one solution (of $f(x, y) = 0$) $g$
+  satisfies the differential equation $h(x, g(x), \fpartial[g(x)]{x},
+  \ldots) = 0$, must all $g$ that solve $f(x, g(x)) = 0$?
+
+  If not, then does $f(x, y)$ really deserve to be called a solution?
+
+  \item Let's see an ODE:
+
+  \begin{nedqn}
+    F(x, y, y')
+  =
+    (y^2 - x)y' - y + x^2
+  =
+    0
+  \end{nedqn}
+
+  \noindent
+  Let's propose an (implicit) solution:
+
+  \begin{nedqn}
+    f(x, y)
+  =
+    x^3 + y^3 - 3xy
+  =
+    0
+  \end{nedqn}
+
+  \noindent
+  The notation $f(x, y)$ makes it look like $y$ can be chosen freely,
+  but in fact $y$ can be taken as a dependent variable of $x$ if the
+  equality is to hold. Let's replace $y$ with $g(x)$, and differentiate
+  $f(x, g(x))$ with respect to $x$:
+
+  \begin{nedqn}
+    \fpartial{x} f(x, g(x))
+  \eqcol
+    3x^2 + 3 g(x)^2 \fpartial{x} g(x) - 3 g(x) - 3x \fpartial{x} g(x)
+  \\
+  \eqcol
+    3 \parens{
+      g(x)^2 - x
+    } \fpartial{x} g(x)
+    - 3 g(x)
+    + 3 x^2
+  \end{nedqn}
+
+  \noindent
+  Also, we know that this derivative is equal to zero, since $f(x,
+  g(x))$ is presumed constant (and equal to zero). Thus we can set this
+  equal to zero (and divide by three). That gives:
+
+  \begin{nedqn}
+    \parens{
+      g(x)^2 - x
+    } \fpartial{x} g(x)
+    - g(x)
+    + x^2
+  \eqcol
+    0
+  \end{nedqn}
+
+  \noindent
+  But this is just the original differential equation. Thus, we see any
+  solution $g$ for $f(x, g(x)) = 0$ is also a solution of $F(x, g(x),
+  g'(x)) = 0$.
+
+  We actually haven't found $g$ in explicit terms. But we have a new
+  implicit definition of $g$ that doesn't make reference to derivatives
+  of $g$.
+
+  \item However, the authors are at pains to argue that:
+
+  \begin{nedqn}
+    f(x, y)
+  =
+    x^2 + y^2
+  =
+    0
+  \intertext{is not an implicit solution of}
+    h(x, y)
+  =
+    x + yy'
+  = 0
+  \end{nedqn}
+
+  \noindent
+  They insist that this is not a solution because $x^2 + y^2 = 0$ itself
+  cannot be solved except when $x = 0$. Since there is no solution for
+  $y$ whenever $x \ne 0$, the ``implicit solution'' itself has no
+  solution on any interval of $x$ values. And the authors insist that a
+  solution should be a solution over an \emph{interval}.
+
+  Maybe that makes sense because $\fpartial{x} g(x)$ can only exist if
+  there is a neighborhood by which we can approach $x$. More generally,
+  I would not accept $f(x, y) = 0$ as an implicit solution if every
+  solution $y = g(x)$ does not allow $g$ to be differentiated at least
+  as many times as is required by the original ODE.
+
+  \item They propose a conjecture: that if a differential equation has a
+  solution, it has infinitely many solutions. More: a differential
+  equation of the $k$-th order features $k$ arbitrary constants. They
+  motivate this by considering:
+
+  \begin{nedqn}
+    y^{(k)}
+  \eqcol
+    e^x
+  \intertext{is solved by}
+    y
+  \eqcol
+    e^x + c_{k-1} x^{k-1} + \ldots c_0
+  \end{nedqn}
+
+  \noindent
+  That certainly feels like a very slim motivation for the conjecture.
+  In fact, the conjecture is false.
+
+  \item Still, they say that for many differential equations of order
+  $k$, the solution class can be defined by a single formula with $k$
+  parameters. When this exists, it is called a \define{general
+  solution}. For instance: $y = c e^x$ is a 1-parameter general solution
+  of $y' - y = 0$. A \define{particular} solution would substitute a
+  fixed value for the parameter $c$.
+
+  \item However, we've already noted that $k$-th order equations can
+  sometimes have solution classes that can be defined using $m > k$
+  parameters. And we should also not be surprised by the following
+  example:
+
+  \begin{nedqn}
+    y'^2 + xy' - y
+  \eqcol
+    0
+  \intertext{has a 1-parameter family of solutions}
+    y
+  \eqcol
+    cx + c^2
+  \intertext{but it \emph{also} has a solution}
+    y
+  \eqcol
+    -\frac{x^2}{4}
+  \end{nedqn}
+
+  \noindent
+  This is sometimes called a \define{singular} solution, implying that
+  it is an exception to the general solution.
+
+  \item Here is another example:
+
+  \begin{nedqn}
+    (y' - y)(y' - 2y)
+  \eqcol
+    0
+  \intertext{is solved by}
+    y
+  \eqcol
+    c_1 e^x
+  \intertext{and also}
+    y
+  \eqcol
+    c_2 e^{2x}
+  \end{nedqn}
+
+  \noindent
+  Here we have two one-parameter ``general'' solutions to the
+  differential equation. The problem is that they are equally general,
+  but neither general solution contains any of the others!
+
+  \item The book wants to only call a solution a \define{general}
+  solution to a $k$-degree ODE if (1) it contains $k$ parameters, and
+  (2) every solution to the ODE is a specific instance of the general
+  solution.
+
+  \item Basically, the book has wasted our time. There point is: don't
+  call solutions ``general'' unless they really do consist of \emph{all}
+  the solutions. And, it seems to me, there is no reason to expect (or
+  require) that a general solution to a $k$-degree ODE has $k$ free
+  parameters. It could have fewer, or it could have more.
+
+  \item They consider a first order differential equation. That is: $y'
+  = F(x, y)$. For a given $(x, y)$, the value $F(x, y)$ is called the
+  \define{line element}. Each coordinate is associated with a line
+  element. $F$ defines something akin to a ``vector field;'' it is
+  sometimes called a \define{slope field}.
+
+  In fact, one could imagine normalizing $(1, F(x, y))$ to be a vector
+  direction. You could call this a \define{direction field}.
+
+  Consider a solution for $y' = F(x, y)$. Let's say it passes through
+  the point $(x_0, y_0)$. Then we can ``follow'' the direction field to
+  draw out the curve. Of course, this requires that the slope does not
+  change too arbitrarily. In particular, ``following'' the direction
+  field forward to another point $(x_1, y_1)$ should trace the same path
+  as following the direction field ``backward'' from $(x_1, y_1)$ back
+  to $(x_0, y_0)$.
+
+  \item Such a path is called a \define{streamline}. We observe these in
+  real life when, in the presence of a magnetic field, we gently shake a
+  glass plate (or paper) with iron filings on it. The filings orient
+  themselves in line with the magnetic field.
+
+  \item They note that a point may have multiple ``continuations.'' For
+  instance, imagine the first derivative $y'$ is zero at $(x_0, y_0)$.
+  Then there are multiple paths with non-zero second derivative that
+  could continue the curve from $(x_0, y_0)$.
+
+  We say a point is an \define{ordinary point} if it lies on exactly one
+  solution to the differential equation. We say it is a \define{singular
+  point} if (1a) it lies on no solution to the ODE, or (1b) more than
+  one solution to the ODE, and (2) if it is part of the ``boundary'' of
+  the set of ordinary points. We can restate (2): that within any ball
+  about the singular point, there always exists at least one ordinary
+  point.
 \end{enumerate}
 
 \end{document}
