@@ -193,6 +193,24 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
     shift except via paddles. It's not like a normal manual that way.
     But it does probably have the best performance of these options.
 
+## CVT (Continuous Variable Transmission)
+
+- CVT is where you have a belt and two cones which allows you to vary
+  the gear ratio continuously.
+- I always thought they were relatively inefficient.
+- Engineering Explained says they share a lot of advantages with DCT.
+  - In fact, they can either just peg the engine at redline (peak power)
+    as you accelerate. That gives excellent acceleration.
+  - He notes that whereas manual transmission normally has only 6
+    speeds, whereas DCT can have more. More gears means can have a
+    taller first gear, while keeping short gear steps, up to a highest
+    gear that's best for cruising.
+  - The CVT can itself have certain setpoints to give paddle-like
+    shifting.
+  - He talks about lockup of a CVT torque converter. I actually don't
+    know why a torque converter is doing with the CVT?
+- Source: https://www.youtube.com/watch?v=3AnlSrs-LS4
+
 ## Cars With Manual Mode
 
 - There are relatively few made by higher-end producers. Here is a
