@@ -117,3 +117,40 @@ I'll note that the most common noise to eliminate is 50/60 Hz hum caused
 by mains power.
 
 https://www.sweetwater.com/insync/what-are-rwrp-pickups/
+
+## Note
+
+There seems to be some debate about whether the string is magnetized by
+the pickup magnet, or whether the presence of ferrous material simply
+changes the magnetic field. I think possibly both views are equivalent?
+
+However, it appears on good authority (including Seth Lover, inventor of
+humbuckers), that the string really is magnetized. They say you can
+magnetize the string and then remove the pickup magnet and the pickup
+will still play.
+
+"""
+"That’s right, the magnetic field comes up to the stings there and magnetizes the strings. That’s one of the things that most people don’t understand. They figure that string is waving there and cutting the magnetic lines of force. Nuts. That isn’t it. The magnet, all it does is magnetize the string. Now you’ve got a waving magnetic field. And we have a fixed coil with a waving magnetic field to induce voltage. If you want to, take the magnet out. One you’ve magnetized your strings, it will play until the string loses it. Players think the string, the magnetic field from the magnet comes up to the string and by twisting the magnetic flux back and forth that’s what induces the voltage. That’s not what happens. There’s a certain amount of that, but that’s minor. What is happening is you have a magnetic field that is moving back and forth across the coil. And when you move a magnetic field back and forth across the coil you induce voltage. If you move the field up and down it wouldn’t induce any voltage. It’s the motion back and forth across the pickup that does it."
+"""
+(From Seymour Duncan's interview w/Mr.Lover)
+
+However, I think that's probably a little unfair. The string has
+magnetic _permeability_, which means the string is magnetized in the
+presence of a magnetic field (the pole magnet). However, the string has
+low coercivity: it will not retain this magnetism without the continued
+presence of the magnet. Similar to a drill bit: you can not make it a
+permanent strong magnet outside the presence of an external magnetic
+field.
+
+Thus the presence of the magnet does not really seem redundant. You
+couldn't "magnetize" the string and then remove the magnets.
+
+Also, the presence of the magnet in the coil maybe changes the
+inductance?
+
+https://www.thegearpage.net/board/index.php?threads/magnetizing-strings.1657784/
+https://www.thegearpage.net/board/index.php?threads/magnetizing-strings.1657784/page-2
+
+Seth Lover interview 1978 with Seymour Duncan
+http://www.guitarhq.com/seth.html
+https://www.seymourduncan.com/blog/latest-updates/seymour-w-duncans-interview-with-seth-lover
