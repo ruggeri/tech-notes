@@ -242,11 +242,22 @@ applications and for trains. But this is something that should be
 discussed later.
 
 Two phase power is most typically implemented using two pairs of wires:
-four wires total.
+four wires total. However, it can be implemented with _three_ wires. The
+third wire is the return wire, but it needs to be able to handle a peak
+current of `sqrt(2)` observed in either one of the phases.
 
 We shall soon see that three-phase power has some advantages over
 two-phase, which is why two-phase was very quickly supplanted by
 three-phase.
+
+Let's compare two-phase power to single-phase power. Assume the
+four-wire version of two-phase. Then two-phase delivers twice the power
+(each of two phases generates as much power as a single-phase), but uses
+twice the wires. Thus, compared to single-phase, the efficiency of power
+delivered to conductive material is not improved: 2x/2x.
+
+If we use the three-wire version of two-phase, then we have an
+efficiency improvement. It is 2x/`(2+sqrt(2))/2`x: 1.17x.
 
 ## Three-Phase Power
 
@@ -278,9 +289,29 @@ Three phase power gives us the constant power output that we would get
 from two-phase power, as well as lets us create a rotating magnetic
 field easily.
 
-Note that we cannot reduce the four-wire two-phase system to three
-wires. In the two-phase system, the currents are ninety degrees out of
-phase and thus one cannot be wired to the other.
+The
+
+**Efficiency**
+
+Let's compare three-phase power to single-phase power. The three-phases
+deliver 3x the power (each of three phase generates as much power as a
+single-phase).
+
+If we wired with 6 wires, this would be 3x the conductive material. The
+efficiency of power delivered to conductive material would not have
+improved: 3x/3x.
+
+If we use the 3 wire arrangement, we have increased our power delivery
+by 3x while only using 1.5x more wires. Thus, compared to single-phase,
+the efficiency of power delivered to conductive material has improved
+2x.
+
+In general, we can deliver N phases using N wires. Comparing to
+single-phase, all such systems have Nx the power delivery using N/2x
+conductive material. Thus all polyphase systems have 2x efficiency.
+
+TODO: Why does this argument not apply for two-phases 180deg out of
+phase?
 
 ## Single-Phase Three Wire For Home Delivery
 
@@ -304,8 +335,9 @@ house will be wired to hot #1, and the other half to hot #2.
 
 You can go ahead and touch the neutral receptacle directly; it should
 have no voltage because it is wired to ground. If you touch the hot
-receptacle, you'll receive a 120V shock. Note that the hots in half the
-outlets will be 180deg out of phase with the hots in the other half.
+receptacle (and are yourself grounded), you'll receive a 120V shock.
+Note that the hots in half the outlets will be 180deg out of phase with
+the hots in the other half.
 
 Note, this is _not_ two-phase power. The two lines are 180deg out of
 phase. You cannot create a rotating magnetic field like this.
@@ -345,6 +377,19 @@ return to ground.
 
 We could probably analyze this further to really clarify, but this is
 sufficient for now.
+
+## Power Phases In US and Europe
+
+- In Europe, three-phase power is 400V live-to-live.
+  - In a three-phase system, live-to-live voltage `sqrt(3)`x the voltage
+    of a single phase.
+  - Thus, `400V/sqrt(3)` gives a voltage of 230V.
+  - Thus you have "230/400V" power.
+  - Note: for residential supply, I think you use _four_ wires. This
+    lets you just give each household a phase.
+- In US, it looks like a common three-phase power is 120/208V.
+  - TODO: But how does that get transformed to 120/240V split-phase
+    power?
 
 ## Synchronous Motor
 
