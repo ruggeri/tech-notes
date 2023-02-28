@@ -110,6 +110,25 @@
   - If you have long periods of no-use, then tankless might make sense.
   - Tankless may make more sense if it can be closer to point of use.
 
+## Recirculating Water Pump
+
+- The idea is that the water in the hot water line is poorly insulated
+  and gets cold.
+- That means you have a delay between when you turn the faucet and when
+  you get hot water. That wastes water. The severity of the problem
+  depends on the length of the line from the hot water tank.
+- The recirculating pump constantly pumps hot water out of the line and
+  sends it back to the hot water heater. It might do this using the cold
+  water line to return.
+- Hot water is drawn from the hot water tank into the line. It's always
+  there.
+- There is a huge downside. The hot water in the line starts getting
+  cold. That's always been the problem: the line is not necessarily well
+  insulated (not as well as the tank) and it has a large surface area.
+- Thus, the recirculating pump will waste heat (and also take energy to
+  operate).
+- T
+
 # Central Heating
 
 - You can heat air with a furnace and blow it around the home.
