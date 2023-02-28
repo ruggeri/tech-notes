@@ -378,6 +378,12 @@ return to ground.
 We could probably analyze this further to really clarify, but this is
 sufficient for now.
 
+What is the advantage of split-phase power? One part is that individual
+wires only have a 120V potential to ground. To get a 240V shock you need
+to grab both wires. OTOH, you need thicker wires with 120V for the same
+amount of power, so 240V in Europe has that advantage, where copper was
+expensive.
+
 ## Power Phases In US and Europe
 
 - In Europe, three-phase power is 400V live-to-live.
@@ -387,9 +393,19 @@ sufficient for now.
   - Thus you have "230/400V" power.
   - Note: for residential supply, I think you use _four_ wires. This
     lets you just give each household a phase.
-- In US, it looks like a common three-phase power is 120/208V.
-  - TODO: But how does that get transformed to 120/240V split-phase
-    power?
+- In the US, for homes, you have 120V split-phase. The transformer on
+  the pole steps down from (typically) 11kV to 240V, with a center tap.
+  - The transformer has three wires that come off it, and go into your
+    building and into the panel.
+  - Half the circuits connect to one live wire, and the other half to
+    the other.
+  - Of course, we have special plugs for 240V outlets. Some of them also
+    give you a neutral wire in case part of the appliance wants 120V.
+  - https://www.youtube.com/watch?v=jMmUoZh3Hq4
+- However, for commercial power, I think it's common to give three
+  phases of 208V live-to-live.
+  - Each phase is 120V above ground.
+  - I think this also maybe happens in apartment buildings sometimes?
 
 ## Synchronous Motor
 
