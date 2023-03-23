@@ -1,9 +1,9 @@
 ## Monitor Size
 
-The Thunderbolt Display was 27". My 2022 Dell U2723QE is 27". 27" is
-about as big as my eyes can reasonably look around at on a desk. Even
-then, I find myself centering VSCode or Firefox at the middle of the 27"
-screen area.
+My Thunderbolt Display (released 2011) was 27". My 2022 Dell U2723QE is
+27". 27" is about as big as my eyes can reasonably look around at on a
+desk. Even then, I find myself centering VSCode or Firefox at the middle
+of the 27" screen area.
 
 A larger monitor, it feels to me, would just waste space. I wouldn't use
 the edges of the monitor, I think. Even if I started to want to do a
@@ -25,7 +25,8 @@ the center of the screen.
   - This was the resolution of the 27" Thunderbolt Display. Also the
     resolution of my Dell U2715H that I used at AA from mid-2015.
   - A 27" QHD screen would only reach "retina" pixel density at 34".
-    Indeed, I could see the pixels of the Thunderbolt Display easily.
+    Indeed, I could see the pixels of the Thunderbolt Display easily. I
+    no longer consider this acceptable image quality.
 - 2880x1800
   - 16:10
   - This is the resolution of my 2018 MacBook Pro 15" (and also the
@@ -38,15 +39,21 @@ the center of the screen.
   - This is the resolution of my 2019 MacBook Pro 16".
   - For 16" display: 226px/in, 89px/cm, 79px/degree (at 20" typical
     distance).
+  - Notice that the 16" MBP screen is bigger than the 15", but pixel
+    density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - This is the native resolution of my new Dell U2723QE monitor.
   - In cinema, 4k means 4096x2160 (called DCI 4k). In computing, 4k UHD
     is 3840x2160.
-  - At 27", this is 163px/inch. Retina pixel density is achieved at a
-    viewing distance of 21" (calculated from a website calculator). So
-    this is more-or-less retina density to me (I'm about 20-24" from my
-    computer screen at my desk).
+  - At 27", this is 163px/inch. That is substantially lower PPI than the
+    2019 MBP 16" (lower resolution, but also smaller screen).
+  - However, to compare screen quality, we might want to compare PPD. At
+    24" viewing distance, a 27" UHD monitor has a 74 PPD. That is
+    comparable to the MBP.
+  - At 20" viewing distance, this drops to 63 PPD.
+  - If 57 PPD is taken as the definition of retina, then the monitor
+    achieves retina quality.
   - I appear to be perfectly happy with my Dell U2723QE 27" UHD
     resolution and pixel density.
 - 5120x2880: 5K
@@ -59,13 +66,17 @@ the center of the screen.
   - Apple recommends this at 32". They sell the 32" Pro Display XDR at
     6K for $5k. And then you have to buy a $1k stand!
 
+Source: https://en.wikipedia.org/wiki/Retina_display
+Source: https://qasimk.io/screen-ppd/
+
 ## Refresh Rate
 
 - My Dell U2723QE and Apple Thunderbolt displays both ran at 60Hz.
-- When misconfigured, I've experienced 30Hz and it feels quite laggy and
-  unresponsive.
+- When misconfigured, I've experienced 30Hz and mouse tracking feels
+  unbearably laggy and unresponsive.
 - I don't have experience with higher refresh rates, but I'm not sure
-  they would really be useful.
+  they would really be useful. Many people do seek this out, but then
+  they need more bandwidth on the display interconnect.
 
 ## Monitor Features
 
@@ -96,7 +107,7 @@ the center of the screen.
   - This is a nice-to-have in case I want to plug an external drive into
     my monitor.
   - USB-C 3.2 doesn't have enough bandwidth to support UHD @ 60Hz _and_
-    speeds above USB 2.0 (woeful).
+    speeds above USB 2.0 480Mbps.
     - Well, see my discussion of USB Alternate Mode for more info.
     - In short: DisplayPort 1.2 can't do this. DisplayPort 1.4 can if
       you can enable DSC compression. DisplayPort 2.0 might be able to
@@ -105,6 +116,9 @@ the center of the screen.
     enough bandwidth to run UHD @ 60Hz _and_ high speed USB peripherals.
   - I am making do fine with low speed USB with the Dell U2723QE. But it
     bugs me to have low USB speed on a brand-new monitor.
+    - Mar 2023 update: I think slow USB peripheral speed hasn't been a
+      problem? There's only 480Mbps for keyboard, mouse, ethernet and
+      webcam. But that is maybe enough??
 - I like having an integrated ethernet port.
   - This helps with internet reliability. And again, I don't want to
     plug more than one cable into my laptop.
@@ -117,7 +131,9 @@ the center of the screen.
     Pro. U2723QE has 1 USB-C downstream receptacle.
   - HDMI and DisplayPort are no longer necessary because I will just use
     USB-C connection.
-  - I don't think I really care about daisy-chaining monitors.
+  - I don't think I really care about daisy-chaining monitors. This is
+    for the same reason that I don't desire a monitor larger than 27"
+    anyway.
 
 ## Recommendations
 
