@@ -20,7 +20,9 @@ We will learn later that the four pins consist of two **differential
 pairs**. A differential pair is like a balanced line: the two members of
 the pair sends positive and negative images of the same signal. Each
 pair is used to send one (logical) signal: one pair is used for
-transmission and the other pair is used for receiving.
+transmission and the other pair is used for receiving. I believe that
+the differential pair is able to allow longer cable runs since EM
+interference can be cancelled.
 
 The USB-A connector had identical shape, so that a USB-A SuperSpeed
 cable could be plugged into any USB-A receptacle. The USB-B shape was
@@ -50,9 +52,9 @@ Much more common (almost universal) is USB Micro-B. I presume that
 durability of Mini-B is superior, but Micro-B is a more convenient
 (small) size. Tons of rechargeable things use Micro-B.
 
-There are SuperSpeed versions of Micro-A and Micro-B. They have an
-extended shape to support the extra pins. I have seen these only
-_exceedingly rarely_. I think it might have been on a smartphone?
+There is a SuperSpeed versions of Micro-B. This have an extended shape
+to support the extra pins. I have seen these only _exceedingly rarely_.
+I think it might have been on a smartphone?
 
 **USB-C**
 
@@ -98,12 +100,15 @@ speeds. Likewise, even though USB-C connectors are not physically
 compatible with USB-A or USB-B, some of USB-C's pins are dedicated to
 the same old purposes, so we can run USB 1.0/2.0 on USB-C.
 
+Note that since mini-USB didn't get SuperSpeed variants, it was
+effectively a dead-end as early as 2008.
+
 **USB 3.1 (Gen 2)**
 
 In 2013, USB 3.1 **Gen 2** does 10 Gbps (in each direction). This is
 called **SuperSpeed+**. This gets double the bandwidth out of each
 differential pair lane, presumably by increased clock rate and lower
-overhead.
+protocol overhead.
 
 Somewhat confusingly, the USB 3.0 standard is incorporated into the USB
 3.1 standard as USB 3.1 **Gen 1**. This means that USB Gen 2 controllers
@@ -117,10 +122,15 @@ squeezing more Gbps out of the same physical format.
 In 2017, USB 3.2 wants to do 20 Gbps. However, it can no longer squeeze
 more bandwidth out of a single lane.
 
-The solution is with the USB-C connector. It actually has four
+The solution is with the USB-C connector. It actually has eight
 differential pair pins that allow for **four lanes** (two in each
-direction). It only used two of these lanes in prior versions: I think
-which of two transmit pairs got used depended on insertion orientation.
+direction). When a USB-C cable is used for USB 3.1 Gen 1 or USB 3.1 Gen
+2, only two of these lanes were used (one in each direction). I think
+which of the two transmit lanes (and which of the two receive lanes)
+gets used depends on the insertion orientation.
+
+When USB3.2 Gen 2x2 is used then all four lanes (two in each direction)
+are used.
 
 Thus, without increasing bandwidth per lane, you can increase overall
 transmission/receiving bandwidth by using two lanes each for
@@ -136,22 +146,83 @@ has the pins for the four data lanes.
 
 **USB 4**
 
-In 2019, USB 4 is released. It does 40 Gbps. Again, only USB-C does
-this. At this time, I do not want to explore or discuss this.
+In 2019, USB 4 is released. This incorporates all the old USB standards:
+
+- Note: there is no USB4 Gen 1; they don't bother incorporating that as
+  part of USB4.
+- USB4 Gen 2x1: 10Gbps using a single lane.
+- USB4 Gen 2x2: 20Gbps using both lanes.
+- USB4 Gen 3x1: 20Gbps using a single lane at double the USB 3.2 Gen 2
+  data rate.
+  - I wonder if this is widely used. Why not just use USB4 Gen 2x2?
+- USB4 Gen 3x2: 40Gbps using both lanes at double the USB 3.2 Gen 2 data
+  rate.
+- USB4 Gen 4x1: 40Gbps using a single data lane at double the Gen 3 data
+  rate!
+  - Again, I wonder if this is widely used anywhere.
+- USB4 Gen 4x2: 80Gbps using both data lanes at double the Gen 3 data
+  rate.
+- USB4 Gen 4 Asymmetric
+  - Uses three data lanes, allocating only one for upstream.
+  - Thus, can do 120Gbps!
+
+Source: https://en.wikipedia.org/wiki/USB4
+
+**USB Naming**
+
+USB naming has been a mess. There is a desire to name USB by its
+unidirectional throughput. Thus, the following marketing names will be
+used:
+
+- USB 1.0 and USB 2.0 stay named the same.
+- USB 5Gbps is used instead of USB 3.0, USB 3.1 Gen 1, USB 3.2 Gen 1.
+- USB 10Gbps is used instead of USB 3.1 Gen 2, USB 3.2 Gen 2.
+- USB 20Gbps is used instead of USB 3.2 Gen 2x2.
+- USB 40Gbps is used instead of USB4 Gen 3x2.
+- USB 80Gbps is used instead of USB4 Gen 4x2.
+
+This might bring some sense to the nonsense of the naming...
+
+Source: https://en.wikipedia.org/wiki/USB#/media/File:USB_2022_September_naming_scheme.svg
 
 ## Cables
 
 USB-C cables seem to frequently leave out pins. In particular, many
-USB-C cables only support USB 2 by leaving out the data pins. This way,
-they can be made longer, because they can support the lower speed of USB
-2 for longer distances.
+USB-C cables only support USB 2 by leaving out the USB3 data pins. This
+is especially popular for USB-C cables intended for charging. Sadly,
+about half the USB-C cables in my household are for charging only.
 
-To have long USB-C cables capable of USB 3.2 Gen 1 or Gen 2 speeds, you
-need active cables.
+Now, let's talk about the _length_ of cables. Cables cannot be
+infinitely long, because of signal degradation.
 
-Thunderbolt 3 cables are designed to support up to 40 Gbps, so they
-should also support 3.2 Gen 2x2 use. However, my Mac doesn't even do USB
-3.2 Gen 2x2 as far as I am aware; it does only USB 3.1 Gen 2.
+For USB 2.0, cables of 5m (~16ft) are the maximum recommended (by the
+standard?). For USB 3.0 and USB 3.1 cables, the maximum cable length is
+9 feet. That stayed the same in USB 3.2 Gen 2x2: remember, that just
+added more lanes so didn't change the datarate over the lane (and thus
+didn't change sensitivity to noise).
+
+(Note: this info on maximum cable lengths may be inaccurate. Some
+sources appear to disagree? But the general point is: as USB generations
+went by, maximum cable length has generally been shrinking.)
+
+USB-C cables can be longer (up to 4m) if they are only used for power
+delivery!
+
+But now you want USB4 cables, which are supposed to do 40Gbps (at least
+for Gen 3x2). That restricts cable length to 0.8 meter (aka 2.6 feet).
+That's a pretty short cable!
+
+**Active Cables**
+
+These use chips to deal with signal attenuation. Apparently there are
+USB 2.0 active cables of about 33 feet. That's crazy!
+
+If you want to do USB4 at 3 meters/9 feet, you need an active cable.
+I've linked one sold by Apple for $159!
+
+Source: https://www.cablematters.com/Blog/USB-C/usb-cable-max-length
+Source: https://blog.tripplite.com/usb-cable-max-length
+Source: https://www.apple.com/shop/product/MWP02AM/A/thunderbolt-4-pro-cable-3-m
 
 ## USB Power
 
@@ -159,7 +230,12 @@ USB cables can deliver power as well as data. Originally I think they
 could do about 7.5W. Now-a-days they can do up to 100W. This is plenty
 for charging a laptop, I guess.
 
-I don't even want to talk about it.
+USB-C can deliver up to 20V at 5A: 100W. Traditionally USB gave 5V on
+the power pin, but later specifications like USB Power Delivery made the
+voltage negotiable somehow.
+
+I'm not sure how that works. I don't know if you can use USB Power
+Delivery (up to 100W power) at the same time as using USB data.
 
 ## USB Alternate Mode
 
@@ -208,3 +284,4 @@ Mar 1 2022, it is broken and has been since Nov 2020 I think!
 
 Source: https://www.bigmessowires.com/2019/05/19/explaining-4k-60hz-video-through-usb-c-hub/
 Source: https://www.reddit.com/r/Monitors/comments/phkcxl/4k_144hz_intel_or_just_amd_macs_macos_monterey/
+Source: https://en.wikipedia.org/wiki/USB_hardware#Connectors
