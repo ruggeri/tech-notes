@@ -27,6 +27,9 @@ the center of the screen.
   - A 27" QHD screen would only reach "retina" pixel density at 34".
     Indeed, I could see the pixels of the Thunderbolt Display easily. I
     no longer consider this acceptable image quality.
+  - This has a 109 PPI and a 49 PPD at 24" (40 at 20"). That is
+    significantly lower than the UHD 27" monitor or the MBP Retina
+    display.
 - 2880x1800
   - 16:10
   - This is the resolution of my 2018 MacBook Pro 15" (and also the
@@ -60,7 +63,14 @@ the center of the screen.
   - 16:9
   - Apple recommends this for 27" screen size. They sell a 5K, 27" LG
     UltraFine through their store ($1300).
+  - The Apple Studio Display
+    (https://www.apple.com/studio-display/specs/) is $1600, 27", 5K. It
+    has a built-in camera, but no built-in Ethernet. It uses Thunderbolt
+    3, which is necessary to drive this device. People also say they
+    like the nanotexture anti-reflective coating.
   - This have 77% higher pixel density from same-size UHD screen.
+  - It has 84-98 PPD at 20-24" distance. That's about the same as the
+    MBP Retina display.
 - 6016x3384: 6K
   - 16:9
   - Apple recommends this at 32". They sell the 32" Pro Display XDR at

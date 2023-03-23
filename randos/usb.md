@@ -166,6 +166,8 @@ In 2019, USB 4 is released. This incorporates all the old USB standards:
   - Uses three data lanes, allocating only one for upstream.
   - Thus, can do 120Gbps!
 
+Note, USB4 was based on Thunderbolt 3.
+
 Source: https://en.wikipedia.org/wiki/USB4
 
 **USB Naming**
