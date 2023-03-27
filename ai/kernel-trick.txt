@@ -1,0 +1,94 @@
+Okay. Say you have a machine learning method, especially one one that
+tries to find a linear decision boundary.
+
+We want to be able to learn a _non-linear boundary_. For instance, the
+data may not be linearly separable.
+
+One way of doing this is to project our data into a higher dimensional
+space. We would define a mapping $phi$ which takes an example $x$ and
+maps it to $phi(x)$.
+
+I believe that we can find a circular boundary in a two-dimensional
+feature space by projecting:
+
+    phi((a, b)) = (a, b, a^2 + b^2)
+
+Then we can find a linearly separator in the new space.
+
+Here, we start with a notion of what kind of boundaries we want to be
+able to draw, and then we project into a space where they are drawable.
+But we need to be able to know the projection phi.
+
+**Similarity**
+
+Let's say we have a notion of *similarity*. A good example is the
+*radial basis function*. For instance, let
+
+  K(x, x') = exp(- \norm{x - x'}^2 / 2 \sigma^2)
+
+The nice thing about this similarity notion is that close points are
+much more similar than further points. The similarity decays quickly,
+which means this localizes the notion of similarity. It's not a linear
+decay of similarity: it is exponential.
+
+Now, we might ask: is there some refeaturization of the space X such
+that the typical inner-product $\iprod{\phif{x}, \phif{x'}} = K(x, x')$?
+
+If that were so, then we could use $phi$ to project $x$ into this space,
+and then use a typical linear classifier, which generally only requires
+a notion of inner product.
+
+The answer is: there is no finite-dimensional space where there is an
+inner product that corresponds to K. That kind of makes sense. A
+(finite) inner product would try to extend globally a locally defined
+sense of similarity. But the whole point of this RBF kernel is that
+similarity is very local.
+
+**Infinite Dimensional Inner Product**
+
+However, you can show that the RBF kernel can be defined as an inner
+product in an *infinite* dimensional vector space. That is: there is a
+$\phi$ that will map $x$ to $\phif{x}$, and $K(x, x')$ will equal
+$\iprod{\phif{x}, \phif{x'}}$.
+
+The RBF wikipedia page defines this mapping.
+
+That means that any linear method, if it could be conceivably applied in
+an infinite dimensional space, can find a linear decision boundary in
+this space.
+
+What does that boundary look like? It is a boundary where for all $x$ on
+the boundary:
+
+    \sum_i w_i K(x, x_i) = 0
+
+You could say that such points are equally similar (collectively) to the
+examples on the positive and negative sides of the classifier
+
+**Kernel Trick**
+
+As a practical matter, we cannot project into an infinite dimensional
+space. But we might ask: do we need all these dimensions? We would need
+all infinite dimensions if we needed to compare *any two* points in
+space. But, presumably, we only need to compare a point to a *training
+example* point. Maybe we could featurize to something like:
+
+    phi(x) = [K(x, x_1), \ldots, K(x, x_n)]
+
+Then we run our machine learning algorithm to find a linear separator in
+this space?
+
+But, even simpler, is the idea that we can forget about $phi$ and inner
+products entirely. Instead, in our learning algorithm, replace the inner
+product everywhere with $K(x, x')$. Since $K(x, x')$ *is* the inner
+product in some (infinite dimensional) space, it can't be wrong to use
+this as the inner product value.
+
+Then, implicitly, we will find a linear boundary which *is* the
+separator in this space.
+
+This is the *kernel trick*.
+
+Source: https://en.wikipedia.org/wiki/Kernel_method
+Source: https://en.wikipedia.org/wiki/Radial_basis_function_kernel
+Source: https://stats.stackexchange.com/questions/80398/how-can-svm-find-an-infinite-feature-space-where-linear-separation-is-always-p
