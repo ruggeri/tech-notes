@@ -25,9 +25,9 @@ Let's step away from documents momentarily. Say you have vectors in
 space, and you want to find those vectors with the greatest cosine
 similarity.
 
-In that case, generate a bunch of hyperplanes. The probability that
-the two vectors lie on opposite sides of the hyperplane depends on the
-angle between them.
+In that case, generate a bunch of hyperplanes (through the origin). The
+probability that the two vectors lie on opposite sides of the hyperplane
+depends on the angle between them.
 
 The hyperplanes translate each vector into a bitstring. The hamming
 distance of the bitstrings (number of bits different) indicates the
@@ -36,7 +36,7 @@ cosine distance between the two.
 This is extremely similar to MinHash for documents; it's just a
 version for vectors.
 
-There even appears to be a way to do this for *Euclidean distance* of
+There even appears to be a way to do this for _Euclidean distance_ of
 points. You choose random lines, project points onto the line, and
 then see whether the points are within a certain distance on the
 projected line. I didn't study this in depth, but I make a note here
@@ -52,6 +52,25 @@ buckets. You iterate through buckets, and hopefully only look at a few
 items. You calculate the full similarity (or something close) with the
 small number of items in those buckets.
 
+## Further Explanation
+
+If you do a single random projection, you have a pretty noisy estimate
+of whether two documents are the same. If you take `n` random
+projections, you are getting a much better estimate of whether two
+documents are the same.
+
+But say that you want to find _similar_ documents. Then as you increase
+`n`, you are also increasing the probability that a similar but not
+identical document will be missed.
+
+If you want to get almost all the similar documents, without dealing
+with a lot of useless documents, you won't want to search by exact
+match.
+
+You will get a better ratio of similar-to-dissimilar results if you look
+for `k`-of-`n` matches. Of course, this means searching in more buckets,
+or duplicating the items in many buckets.
+
 ## Feature Hashing
 
 Simple feature hashing just hashes the features and does a
@@ -59,7 +78,7 @@ dimensionality reduction. This has an advantage of no storage cost for
 dictionaries. Also helpful when you could encounter new features
 online and want to do online updates to weights.
 
-Gaurav once claimed that feature hashing can *improve* performance and
+Gaurav once claimed that feature hashing can _improve_ performance and
 Peter couldn't believe that. I think the idea is that dimensionality
 reduction this way can serve as a form of regularization or
 prior. Imagine you're doing logistic regression, and then are a bunch
