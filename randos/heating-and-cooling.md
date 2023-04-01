@@ -127,7 +127,25 @@
   insulated (not as well as the tank) and it has a large surface area.
 - Thus, the recirculating pump will waste heat (and also take energy to
   operate).
-- T
+- Thus, lots of these pumps have timers. Others have a button you can
+  push in the home to start the pump.
+- If you want to save water, you can insulate your pipes. That will
+  reduce the amount of energy lost in the pipes, and it will mean that
+  the water in the hot water line is more likely to be hot when you turn
+  it on.
+- Some people talk about maybe sensors or something to kick on the pump.
+  But none of these solutions seems to make more practical sense than
+  timers.
+  - JRN mentioned that they have plugged the pump into a "smart outlet,"
+    which you can tell to give power by a web interface. It's also
+    programmed to turn itself off after 1hr. So that minimizes
+    recirculating pump water wastage.
+- A last use of pumps: in hydronic heating. You need to circulate the
+  water. You can have multiple pumps on multiple lines if you need zoned
+  heating.
+- Source: https://www.reddit.com/r/Plumbing/comments/fh4i3j/hot_water_recirculating_pumps_good_or_bad/
+- Source: https://www.buildwithrise.com/stories/pros-and-cons-of-hot-water-recirculation-pumps
+- Source: https://www.reddit.com/r/homeautomation/comments/ktzol3/looking_for_water_flow_sensor/
 
 # Central Heating
 
