@@ -391,8 +391,8 @@ expensive.
     of a single phase.
   - Thus, `400V/sqrt(3)` gives a voltage of 230V.
   - Thus you have "230/400V" power.
-  - Note: for residential supply, I think you use _four_ wires. This
-    lets you just give each household a phase.
+  - I think that you get one phase and a neutral wire for each house?
+  - Source: https://www.youtube.com/watch?v=W0_1xRqT8uU
 - In the US, for homes, you have 120V split-phase. The transformer on
   the pole steps down from (typically) 11kV to 240V, with a center tap.
   - The transformer has three wires that come off it, and go into your
@@ -401,11 +401,13 @@ expensive.
     the other.
   - Of course, we have special plugs for 240V outlets. Some of them also
     give you a neutral wire in case part of the appliance wants 120V.
-  - https://www.youtube.com/watch?v=jMmUoZh3Hq4
+  - Source: https://www.youtube.com/watch?v=jMmUoZh3Hq4
+  - Source: https://www.youtube.com/watch?v=fJeRabV5hNU
 - However, for commercial power, I think it's common to give three
   phases of 208V live-to-live.
   - Each phase is 120V above ground.
   - I think this also maybe happens in apartment buildings sometimes?
+  - A lot of things can operate on 208V, but at lower power.
 
 ## Synchronous Motor
 
