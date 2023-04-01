@@ -39,24 +39,68 @@ separate them. We want to learn a hyperplane.
 If this is so, then there is generally more than one hyperplane that
 separates positive and negative examples. SVM wants to choose that
 hyperplane that maximizes the \define{margin}: the distance of the
-nearest training points to the hyperplane.
-
-The hope is that this will result in the least generalization error
-going forward.
+nearest training points to the hyperplane. The hope is that this will
+result in the least generalization error going forward.
 
 One way to express this requirement is to require that $\norm{\vtheta} =
 1$, and that you maximize $\min_i y_i \parens{\vtheta\tran \vx_i + b}$,
-given the requirement that $\vtheta\tran \vx_i + b > 0$ iff $y_i = 1$.
+given the requirement that for all examples $y_i \parens{\vtheta\tran
+\vx_i + b} \geq 0$.
 
-Here is an alternative formulation. We change the requirement to
-$\vtheta\tran \vx_i + b \geq 1$ when $y_i = 1$, and $\vtheta\tran \vx_i
-+ b \leq -1$ when $y_i = -1$. Subject to this constraint, we now want to
-minimize $\norm{\vtheta}$. (Or, equivalently, $\normsq{\vtheta}$.)
+To gain intuition, assume $b = 0$. Then a vector $\vx$ can be broken
+into two components: the component parallel to the dividing hyperplane
+(which is irrelevant), and the component orthogonal to the hyperplane.
+This second component is defined by $\vtheta\tran \vx$, where $\vtheta$
+is a unit vector normal to the hyperplane. Thus, when $\norm{\vtheta} =
+1$, $\vtheta\tran \vx$ is exactly the distance of $\vx$ from the
+dividing hyperplane.
 
-The result is the same. The norm of the slope $\vtheta$ away from the
-linear boundary can be made minimal exactly when the distance from the
-boundary to the nearest point is made maximal.
+Nothing particularly changes if we consider an offset $b \ne 0$. The
+difference between $\vtheta\tran \vx$ and $\vtheta\tran \vx + b$ is the
+same as the difference between $\vtheta\tran \vx$ and $\vtheta\tran
+\parens{\vx + b\vtheta}$. That is: the same as if we moved the point
+$\vx$ $b$ units further from the dividing plane defined by $\vtheta$. We
+may verify this by doing the multiplication:
 
+\begin{nedqn}
+    \vtheta\tran \parens{\vx + b\vtheta}
+  \eqcol
+    \vtheta\tran \vx + b \vtheta\tran \vtheta
+  \\
+  \eqcol
+    \vtheta\tran \vx + b \normsq{\vtheta}
+  \\
+  \eqcol
+    \vtheta\tran \vx + b
+\end{nedqn}
+
+\noindent
+Thus, $\vtheta\tran \vx + b$ remains the distance from the dividing
+hyperplane when $\norm{\vtheta} = 1$.
+
+We've always been assuming that $\normsq{\vtheta} = 1$. But this is not
+necessary. We can eliminate the requirement that $\norm{\vtheta} = 1$
+and simply maximize $\frac{\vtheta\tran \vx + b}{\norm{\vtheta}}$. This
+is fine, but it does not uniquely determine a solution $\parens{\vtheta,
+b}$, since all scalar multiples $\parens{\alpha \vtheta, \alpha b}$ are
+equally good parameters.
+
+We had previously chosen to maximize the numerator, subject to a
+constraint that $\norm{\vtheta}$ could never be greater than 1. Note
+that choosing a $\vtheta$ with norm smaller than 1 could never have
+maximized $y_i \parens{\vtheta\tran \vx + b}$, since we could then have
+``pumped up'' $\vtheta, b$ to increase $y_i \parens{\vtheta\tran \vx +
+b}$.
+
+We can specify a solution in the opposite way. We set an arbitrary floor
+on $y_i \parens{\vtheta\tran \vx + b}$; let us say we will not let this
+be less than one. Then, we can ask to find a $\vtheta$ that respects
+this constraint, but minimizes $\norm{\vtheta}$. Then of course we will
+select a $\vtheta$ such that $y_i \parens{\vtheta\tran \vx + b}$
+achieves a minimum of 1 (since otherwise we could have shrunk $\vtheta$
+further). $\vtheta$ will have the same orientation as the solution as
+before. The distance of the closest points to the dividing hyperplane
+will remain the same.
 
 \section{Soft Margin}
 
@@ -67,6 +111,9 @@ is to mislabel a training example. This is the \define{hinge loss}:
 \begin{nedqn}
   \maxf{0, 1 - y_i\parens{\vtheta\tran \vx_i + b}}
 \end{nedqn}
+
+If the data is linearly separable, this can always be incur a total loss
+of zero.
 
 We call this loss a ``hinge'' because no loss is incurred if we respect
 that $y_i \parens{\vtheta\tran \vx_i + b} \geq 1$.
@@ -85,9 +132,15 @@ parameters $\vtheta$. If $\lambda$ is chosen very great, then the loss
 imposed will be swamped, and we will bias our estimates of the
 parameters strongly toward zero.
 
-If we choose $\lambda$ to be small enough, then the optimal parameters
-achieve a hinge loss of zero. At this point, our cost function is simply
-pushing us to select $\vtheta, b$ which maximize the margin (as before).
+If we choose $\lambda$ to be zero, then any parameters $\vtheta$ that
+separate the data correctly and achieve a hinge loss of zero will
+minimize the total cost.
+
+There should be some small $\lambda$ where the
+
+
+hinge loss of zero. At this point, our cost function is simply pushing
+us to select $\vtheta, b$ which maximize the margin (as before).
 
 Thus, we see that the soft margin problem, when the data is linearly
 separable, generalizes the hard margin problem: the soft margin becomes
@@ -168,7 +221,7 @@ result is called \define{Mercer's theorem}.
 The \define{kernel trick} says that, if a technique works in any vector
 space with a dot product, then we can perform it with respect to any
 \emph{kernel} also. We will not need to explicitly represent $\varphi$
-or compute any $\varphi{\vx}$: we will use only the kernel function and
+or compute any $\varphi(\vx)$: we will use only the kernel function and
 the original $\vx_i$.
 
 \end{document}
