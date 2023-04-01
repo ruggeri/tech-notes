@@ -15,7 +15,8 @@ of $f$. We calculate:
   \ldots
 \end{nedqn}
 
-We do this until we find all of $f$.
+\noindent
+We could do this until we find all of $f$.
 
 We are assuming that $f$ is in the \define{algebraic closure} of the
 basis. The algebraic closure consists of those vectors that are
@@ -40,6 +41,11 @@ We are used to the typical $L^2$ norm. This is the one which defines:
   \sqrt{\vv \cdot \vv}
 \end{nedqn}
 
+\noindent
+In fact, we've already said this is a natural (and only) choice for
+defining length, if you require that length should be rotation-invariant
+(plus length of $\alpha \vv$ should be proportional to $\alpha$).
+
 We shall say that a sequence of vectors $\vv_1, \vv_2, \ldots$ converges
 to $\vv$ if $\norm{\vv - \vv_i}$ converges to zero.
 
@@ -53,8 +59,6 @@ $\norm{\vv}$.
 Now, let us assume that any notion of norm should scale linearly as we
 scale $\vv$. Likewise, any notion of projection should scale linearly.
 From this alone, we know that $\norm{\vv} = \sqrt{\vv \cdot \vv}$.
-
-This makes sense. Consider
 
 You may be aware that there are other norms. However, it turns out that
 $L^2$ is the only norm which has a compatible inner product. A
