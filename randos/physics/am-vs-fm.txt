@@ -16,12 +16,30 @@ signal.
 
 But why doesn't it have the same affect on frequencies?
 
-It is true that the "zero crossings" can be affected by added
-noise. But I guess the idea is that this won't mess with the frequency
-spectrum very much?
+It is true that the "zero crossings" can be affected by added noise. But
+I guess the idea is that this won't mess with the frequency spectrum
+very much? Maybe it's because the derivative is greatest at the zero
+crossings, thus the impact of additive noise is the least here? If the
+demodulator doesn't care about anything other than zero crossings, then
+at other points in the curve it doesn't matter? I don't know...
 
 Here were some sources. But they didn't totally answer my questions...
 
 https://www.quora.com/Why-AM-signal-is-more-affected-by-noise-than-FM
 https://www.quora.com/Why-is-the-noise-immunity-frequency-modulation-better-than-amplitude-modulation
 http://www.commsp.ee.ic.ac.uk/~kkleung/Communications2_2009/Lecture5.pdf
+
+- https://ham.stackexchange.com/questions/9096/is-fm-modulation-still-more-resistant-to-noise-when-given-the-same-bandwidth-as
+  - Not that useful right now, but looks to have interesting info for
+  later.
+
+## More Notes
+
+With AM, it seems like you should be able to multiplex various signals
+over the same EM medium by choosing different *carrier frequencies*.
+
+On the other hand, the fourier transform will only find the amplitudes
+properly if the amplitude is held constant within the window.
+
+The link from SE does talk a little bit about the bandwidth needed for
+an FM signal. But I didn't read it thoroughly yet...
