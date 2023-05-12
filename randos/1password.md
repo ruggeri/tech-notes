@@ -79,9 +79,29 @@ cancel my subscription? Can I still access my vault in the 1Password
 cloud? Can I still access my local copy of the vault? Does my copy of
 the 1Password app just get crippled?
 
+## Account Freezing
+
+- 1Password will let you access your account even if you stop paying
+  them. Your account is in "freezed" mode.
+- You can still get your data our of 1Password through either the app or
+  their website. You can export data as usual.
+- You just can't add new data to a vault.
+- They claim that they will _never_ delete a freezed account!
+- Source: I contacted 1Password directly to ask them about this.
+
+## Account loss?
+
+- No one can ever reset your password on you. So that's good! Without
+  the password, they can never take your account!
+- I believe that if your email account is hijacked, that means nothing
+  to 1Password. Control of email is not sufficient to reset your account
+  password (1Password can't do that).
+- As far as I can tell, you can still log into 1Password without the
+  email address.
+- Source: I am emailing 1Password to verify that my interpretation is
+  correct.
+
 ## TODO
 
 - Look, there are some holes in my understanding of 1Password's entire
   security model.
-- I would like to know what happens if my subscription lapses.
-- I would like to know what happens if my email is lost.
