@@ -196,6 +196,7 @@
   - Exception is Moto Guzzi, which mounts longitudinal (crankshaft
     parallel to bike body).
   - That's an advantage for air cooling, but a disadvantage for width.
+  - I believe Moto Guzzi uses a crank shaft.
 - Examples of 90deg V-Twins
   - Ducati V-twins is 90deg and mounted with one cylinder pointing
     almost forward; they thus call it L-Twin.
@@ -235,6 +236,10 @@
     positioned exactly opposite to the cylinder whenever it fires.
   - Without the counterweight, you will have a rotating imbalance in the
     engine. With the counterweight, you achieve perfect primary balance.
+  - Well: I should note that with two crack pins, you'll have a rocking
+    couple so not totally perfect primary balance.
+  - Also: you will have _secondary_ imbalance, just like with an inline
+    twin.
 - The alternating longer and shorter intervals between firing give the
   prototypical V-Twin sound which is emulated by 270deg parallel twins.
 - Using two crank pins, you can get 360deg and 180deg firing intervals
@@ -375,6 +380,8 @@
   delivers less power than the beginning.
   - But I think this is common to all engines with no more than 4
     cylinders.
+  - Because there is always a cylinder firing, the exhaust note is very
+    even. This gives a screaming sound at high RPM.
 - Crossplane Design
   - Yamaha is the only one currently doing this for inline fours.
   - Crank angle is 90deg. So pistons are at 0deg, 270deg, 90deg, 180deg
