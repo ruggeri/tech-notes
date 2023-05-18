@@ -24,6 +24,8 @@ A couple thoughts:
   your account? Probably eventually for billing invoicing purposes? But
   it looks like you can log in simply listing your email as usual, and
   it's fine.
+  - Per an email with them, it appears no, you do not need to maintain
+    control over your email?
 - Master password is just your usual master password used to open the
   app.
 - What is the secret key?
@@ -33,6 +35,19 @@ A couple thoughts:
     server. This should be basically uncrackable.
   - Using your master password just unlocks the secret key stored in the
     client, I think.
+    - So the secret key is stored on your devices. It is encrypted with
+      your master password.
+    - Can people crack it directly then? Not exactly: after testing a
+      master password, I believe they'll get a decrypted secret key, but
+      this could be wrong if the wrong master password was used.
+    - They will then need to try to decrypt the vault with the secret
+      key. Only if that is successful will they know if the password has
+      been cracked.
+    - That adds at least one step. Maybe a quite slow one.
+    - Also: the secret key is never stored on the server. So even though
+      they can steal the _vault_ from 1Password, they can't steal the
+      secret key, which means the vault should be basically impossible
+      to decrypt.
   - Link: https://support.1password.com/secret-key-security
 
 ## Security Model
@@ -98,8 +113,45 @@ the 1Password app just get crippled?
   password (1Password can't do that).
 - As far as I can tell, you can still log into 1Password without the
   email address.
-- Source: I am emailing 1Password to verify that my interpretation is
-  correct.
+  - Source: 1Password appears to have verified this in an email I sent
+    to them May 2023.
+
+## Device Stolen?
+
+- They do possess your encrypted secret key, I believe.
+- I believe it should still be hard to crack if your master password is
+  secure and contains enough entropy.
+  - In fact, I believe that the white paper suggests that the secret key
+    is stored in the device password manager, so hopefully remains
+    secure.
+  - But it is considered "lightly obfuscated." "it should be assumed
+    that an attacker who gains read access to the user’s disk will acquire
+    the Secret Key."
+- They clearly say that the secret key is used to protect the vault
+  stored on 1Password's server, if compromised. But if the device is
+  compromised, it looks like security absolutely comes down to the
+  strength of the password.
+  - Source: https://1passwordstatic.com/files/security/1password-white-paper.pdf
+- So, if your device is stolen (or someone gains read access to your
+  disk), the only thing protecting you is the strength of this password.
+  - They actually don't recommend changing the password if you lose your
+    device.
+  - They _do_ suggest changing the secret key. That will keep the data
+    stored on the server secure.
+- Cracking the password is slow; they use hashing in the key-derivation
+  method that derives the vault key from the (1) account password and
+  (2) secret key.
+- But ultimately, it comes down to password strength. If you have a
+  stolen device, and a weak password, it can be cracked.
+- If they do that, they can steal all the passwords in the vault.
+- They _can't_ use the cracked account password to access the online
+  service, since they won't have the reset secret key.
+- Okay. But if you _don't_ change your account password, doesn't that
+  mean that if the attacker gains a _second_ device which uses the
+  updated secret-key, they know the exact account password needed to
+  open the vault?
+- It seems unwise not to update the account password in that case.
+- **TODO**: I emailed them to ask about this.
 
 ## TODO
 
