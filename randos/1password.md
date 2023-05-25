@@ -151,7 +151,13 @@ the 1Password app just get crippled?
   updated secret-key, they know the exact account password needed to
   open the vault?
 - It seems unwise not to update the account password in that case.
-- **TODO**: I emailed them to ask about this.
+- I did email them about this but I'm not sure the answer I got was very
+  clear.
+- But anyway: if you have a weak passphrase, then sure they can crack it
+  on one stolen device, or they can crack it on the second device they
+  steal. If your password is good, the fact that they can start cracking
+  it today doesn't really matter. They could wait until they get your
+  new device and start cracking it.
 
 ## TODO
 
