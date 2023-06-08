@@ -236,7 +236,7 @@
     positioned exactly opposite to the cylinder whenever it fires.
   - Without the counterweight, you will have a rotating imbalance in the
     engine. With the counterweight, you achieve perfect primary balance.
-  - Well: I should note that with two crack pins, you'll have a rocking
+  - Well: I should note that with two crank pins, you'll have a rocking
     couple so not totally perfect primary balance.
   - Also: you will have _secondary_ imbalance, just like with an inline
     twin.
@@ -314,7 +314,7 @@
   - The firing interval is an even 240deg. The first cylinder fires,
     then the third, then the second.
     - Note: power delivery is not perfectly even, because there are
-      moments when there are no power strokes occuring (180deg to
+      moments when there are no power strokes occurring (180deg to
       240deg, 330deg to 360deg).
   - Perfect primary reciprocating balance is achieved.
   - I can also prove that secondary reciprocating balance is perfect.
@@ -369,7 +369,7 @@
   - Thus, your firing interval is an even 180deg.
   - This should have perfect primary balance, like the inline twin.
   - I believe you can eliminate the rocking, if the cylinders are at
-    0deg, 180deg, 180deg, 0deg. They should have no moment about their
+    0deg, 180deg, 540deg, 360deg. They should have no moment about their
     center of mass.
   - I believe you will still have secondary imbalance. This should be
     doubled.
