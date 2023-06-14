@@ -91,9 +91,9 @@
     - Still typical of Kawasaki (including my Ninja 650) and Honda
       twins. They don't make big twins. Also 300cc bikes from Yamaha and
       Suzuki.
-    - Firing of second cylinder is 180deg after first, but then you wait
-      another 540deg until the first cylinder fires again. This gives
-      pulsing power.
+    - Firing of second cylinder is 180deg after first (0deg of silence),
+      but then you wait another 540deg (360deg silence) until the first
+      cylinder fires again. This gives pulsing power.
     - Because the forces aren't exactly opposite, they will want to
       rotate around their center. They're applying a torque.
     - The rotational vibration also is typically balanced out, but this
@@ -176,7 +176,8 @@
   - Low center of gravity.
   - Danger to the cylinders in a collision.
   - I believe that shaft drive is more attractive in this configuration.
-- Cylinder firing is offset by 360deg. This gives even power.
+- Cylinder firing is offset by 360deg. This gives even power with 180deg
+  silence between combustion.
 - No net force, so primary reciprocating balance is perfect.
   - But there is some rocking (rotating imbalance), similar to the
     180deg twin, because of the distance between crank pins.
@@ -203,8 +204,8 @@
     - They sometimes call this engine "Testastretta 11°"; the 11 refers
       to something totally unrelated to what we're discussing (valve
       overlap).
-    - Like all 90deg V-Twins I know, uses a shared crank pin and fires on
-      a 270-540 interval.
+    - Like all 90deg V-Twins I know, uses a shared crank pin and fires
+      on a 270-450 interval.
     - Transverse mounted.
     - No rocking couple because of single crank pin.
       - Well, that isn't true. Even though there's one crank pin, there
@@ -216,10 +217,10 @@
       accommodate the horizontal cylinder. That impacts maneuverability.
   - Moto Guzzi V7 Engine
     - Longitudinal mounted, 90deg V-twin.
-    - Uses a single crank pin. 270-540 firing interval.
+    - Uses a single crank pin. 270-450 firing interval.
     - No rocking couple because of single crank pin.
   - Suzuki V-Twins (SV650 and V-Strom bikes)
-    - 90deg angle. Fires on 270-540 interval like every other 90deg
+    - 90deg angle. Fires on 270-450 interval like every other 90deg
       V-Twin.
   - I think the major downside to 90deg V-Twin is that it has a lot of
     deadspace between the cylinders and it's hard to fit. That's why
@@ -229,8 +230,24 @@
       this class of bike.
 - Generic 90deg V-Twin Information
   - When left cylinder is at top, right cylinder is at middle. This is
-    what you need for a 270-540 firing interval. Note that you achieve
+    what you need for a 270-450 firing interval. Note that you achieve
     this with a shared crank pin and a 90deg V angle.
+    - At 90deg, right cylinder has finished exhaust. At 180deg, left
+      cylinder is done with combustion, right cylinder is halfway
+      through intake.
+    - At 270deg, right cylinder has completed intake, and left cylinder
+      is halfway through exhaust. At 360deg, left cylinder is done with
+      exhaust, and right cylinder is halfway through compression.
+    - At 450deg, now we start combustion in right cylinder. Left
+      cylinder is halfway through intake. At 540deg, left cylinder is
+      done with intake, and right cylinder is halfway through
+      compression.
+    - At 630deg, right cylinder is done with combustion, and left
+      cylinder is halfway through compression.
+    - And at 720deg, we are back where we started. Left cylinder starts
+      combustion, and right cylinder is halfway through exhaust.
+    - This explains the 270-450 firing interval. Notice the uneven 90deg
+      and 270deg of silence.
   - You can use a counterweight that is at 180deg from the crankpin.
     This will always rotate opposite the crankpin. This will be
     positioned exactly opposite to the cylinder whenever it fires.
@@ -316,6 +333,7 @@
     - Note: power delivery is not perfectly even, because there are
       moments when there are no power strokes occurring (180deg to
       240deg, 330deg to 360deg).
+    - There is an even 60deg of silence between combustion cycles.
   - Perfect primary reciprocating balance is achieved.
   - I can also prove that secondary reciprocating balance is perfect.
     - Angles of 0,120,240 correspond to doubled angles of 0,240,120.
@@ -326,20 +344,31 @@
     - Note that it doesn't work for tertiary forces; 0,120,240 become
       0,0,0 in the tripled frequency domain. Thus, tertiary imbalance is
       magnified by 3x in this engine.
-  - A 120deg triple will have some rotational imbalance. This occurs
-    directly about the central cylinder.
-    - The first and third cylinders are 120deg out-of-phase, so this
-      rocking imbalance tends to be somewhat attenuated.
-    - But it appears that a balance shaft is used to even this out.
+  - A 120deg triple will have some primary rotational imbalance.
+    - The pivot point actually moves. And the magnitude of the
+      rotational imbalance changes throughout the combustion cycle.
+    - It is zero when central piston is at TDC.
+    - But it is maximum when piston 1 (or 3) is at TDC. But note that
+      the pivot point is _not_ at the center piston. It is in between
+      the first and center piston.
+    - It appears that a balance shaft is needed to even this out.
 - Triumph
   - Trident 660, Speed Triple, and Street Triple have crank angles of
     120deg. We've already discussed that setup.
   - Tiger 850, 900, 1200 have T-Plane.
-  - T-Plane has crank angles of 0deg, 90deg, and 180deg.
+  - T-Plane has crank angles of 0deg, 270deg, and 180deg.
   - Thus fires cylinder 1 at 0deg, cylinder 3 at 180deg, and then
     cylinder 2 at 450deg.
   - That gives firing intervals of 180-270-270.
+    - Or: 0deg silence, 90deg silence, 90deg silence.
   - The engine loses primary and secondary balance.
+    - There is not primary reciprocating balance. Two pistons are 180deg
+      apart, but there is the third piston which is not balanced. So
+      that piston will not be balanced.
+    - For primary rotational balance, the two outer pistons form a
+      rocking couple.
+    - But, usefully, the primary rotational imbalance is about the
+      central piston, which is helpful.
   - Why do this? And why only on the ADV bikes? The reason they say is
     that even power delivery can mean that the tire is constantly under
     power and breaks traction in dirt and starts to spin.
@@ -353,6 +382,7 @@
   - Another benefit is that the soundtrack is nice.
   - For this reason, twins with 270 crank throws are also popular
     off-road.
+  - https://www.youtube.com/watch?v=vU7faKiQleM
 
 **Inline Four Cylinder**
 
@@ -367,10 +397,14 @@
     peak torque high up in the rev range.
 - Your typical design will have each cylinder offset by 180deg.
   - Thus, your firing interval is an even 180deg.
-  - This should have perfect primary balance, like the inline twin.
+  - This should have perfect primary reciprocating balance, like the
+    inline twin.
   - I believe you can eliminate the rocking, if the cylinders are at
     0deg, 180deg, 540deg, 360deg. They should have no moment about their
     center of mass.
+    - The firing order is thus: 1-3-4-2.
+    - You could easily design an engine which fires 1-2-4-3, which has
+      been done. I think it would basically give the same result.
   - I believe you will still have secondary imbalance. This should be
     doubled.
     - I believe balance shafts are used on higher displacement engines
@@ -421,6 +455,33 @@
     really only benefits you when pushing to the absolute limit in
     cornering.
   - Source: https://www.youtube.com/watch?v=uM-ycHS9uvw&t=180s
+
+**Flat Four**
+
+- This is also called a Boxer 4.
+- It was used on 1974-1987 Honda Gold Wing.
+- It should have primary and secondary reciprocating balance, just like
+  the boxer twin.
+  - However, there is an improvement here over the I4, because the I4
+    does not have secondary reciprocating balance.
+- Has an even firing interval of 180deg. Fires 1-3-2-4. That is, the
+  left bank of cylinders (which are at 180deg from each other) fire,
+  then the right bank of cylinders.
+- Next we consider primary rotational balance.
+  - We know that the boxer twin does not have primary rotational
+    balance, because of the offset of the pistons, which do not share a
+    crank pin.
+  - However, I believe that each pair of boxers in the flat four will
+    want to rotate opposite the other.
+  - Thus, there is no net rocking of the engine.
+  - Driving 4 Answers agrees with my analysis.
+  - In this respect, the flat four is better than the boxer twin. It
+    equals the I4.
+- However, the secondary rotational balance problem will still be
+  present. That's because, when separated by 180deg, the two cylinder
+  banks will want to rotate in the same direction. So they double the
+  secondary vibration.
+- Source: https://www.youtube.com/watch?v=TQlyS2rw-sk
 
 **V4**
 
