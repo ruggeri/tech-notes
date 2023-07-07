@@ -1,0 +1,64 @@
+- 2012 MacBook Air Core i5 1.7Ghz 11"
+  - Purchased Jul 31 2012. Bought by me but delivered to App Academy.
+  - $1,233.32.
+  - 1.7GHz (2.6GHz boost), 2 core, Intel Core i5. Ivy Bridge.
+  - 8GB 1.6GHz DDR3.
+  - 128GB SSD.
+  - Intel HD Graphics 4000.
+  - 1366x768 11.6" display
+  - 35Wh battery (5hr claimed)
+  - This lasted about 2.5yr until I upgraded to MBP 15".
+  - GeekBench 5 Single/Multi core scores: 497/1078.
+  - https://everymac.com/systems/apple/macbook-air/specs/macbook-air-core-i5-1.7-11-mid-2012-specs.html
+- 2014 MacBook Pro Core i7 2.2GHz 15"
+  - Purchased Jan 25 2015. By App Academy.
+  - $2,388.89.
+  - 2.2GHz (3.4GHz boost), 4 core, Intel Core i7. Haswell/Crystalwell.
+  - 16GB 1.6GHz DDR3.
+  - 256GB SSD.
+  - Integrated Intel Iris Pro 5200 GPU. 1.5GB VRAM.
+  - 2880x1800 15.4" display
+  - 95Wh battery (8hr claimed)
+  - Replaced with my own MBP in Sept 2018. Lasted almost 4yr.
+  - GeekBench 5 Single/Multi core scores: 799/3080.
+    - +60%/+185% over previous machine.
+  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.2-15-iris-only-mid-2014-retina-display-specs.html
+- 2018 MacBook Pro Core i7 2.2GHz 15"
+  - Purchased Sept 24 2018.
+  - $2,825.92
+  - 2.2GHz (4.1GHz turbo boost), 6 core, Intel Core i7. Coffee Lake.
+  - 16GB 2.4GHz DDR4 RAM
+  - 512GB SSD
+  - Radeon 555X 4GB
+  - 2880x1800 15.4" display
+  - 83.6Wh battery (10hr claimed)
+  - This computer was stolen when I moved to Clayton St. Mar 2020.
+    Lasted about 18mo.
+  - GeekBench 5 Single/Multi core scores: 961/4771.
+    - +20%/+55% over previous machine.
+  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.2-15-mid-2018-true-tone-display-touch-bar-specs.html
+- 2019 MacBook Pro Core i9 2.3GHz 16"
+  - Purchased Mar 24 2020. Using as of July 2023.
+  - $3,041.92
+  - 2.3GHz (4.8GHz turbo boost), 8 core, Intel Core i9. Coffee Lake
+    (Refresh).
+  - 16GB 2.6GHz DDR4 RAM
+  - 1TB SSD
+  - Radeon Pro 5500M 4GB
+  - 3072x1920 16" display
+  - 100 Wh battery (11hr claimed)
+  - GeekBench 5 Single/Multi core scores: 1077/6637.
+    - +12%/+40% over previous machine
+  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i9-2.3-eight-core-16-2019-scissor-specs.html
+- Current upgrade:
+  - 2023 Mac Book Pro M2 Pro 12 CPU/19 GPU 16"
+  - $2700 before tax
+  - 3.49GHz, 12 core, Apple M2 Pro.
+  - 16GB RAM. (Can be upgraded to 32GB)
+  - 1TB SSD.
+  - 19 core GPU integrated to M2 Pro.
+  - 3456x2234 16.2" display
+  - 100 Wh battery (15-22hr claimed)
+  - GeekBench 5 Single/Multi core scores: 1940/14850.
+    - +80%/+123% over current machine.
+  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m2-pro-12-core-cpu-19-core-gpu-16-2023-specs.html
