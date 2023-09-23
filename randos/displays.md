@@ -46,6 +46,7 @@ the center of the screen.
     density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
+  - 16:9
   - This is the native resolution of my new Dell U2723QE monitor.
   - In cinema, 4k means 4096x2160 (called DCI 4k). In computing, 4k UHD
     is 3840x2160.
