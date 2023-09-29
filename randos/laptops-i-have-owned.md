@@ -43,7 +43,7 @@
   - 2.3GHz (4.8GHz turbo boost), 8 core, Intel Core i9. Coffee Lake
     (Refresh).
   - 16GB 2.6GHz DDR4 RAM
-  - 1TB SSD
+  - 1TB SSD (Using about 30% as of 2023-09-29).
   - Radeon Pro 5500M 4GB
   - 3072x1920 16" display
   - 100 Wh battery (11hr claimed)
@@ -52,10 +52,12 @@
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i9-2.3-eight-core-16-2019-scissor-specs.html
 - Current upgrade:
   - 2023 Mac Book Pro M2 Pro 12 CPU/19 GPU 16"
-  - $2700 before tax
+  - $2700 base price before tax.
   - 3.49GHz, 12 core, Apple M2 Pro.
-  - 16GB RAM. (Can be upgraded to 32GB)
-  - 1TB SSD.
+    - I think the M2 Max is an upgrade which mostly just adds more GPU
+      cores. Probably not necessary for me.
+  - 16GB RAM. (Can be upgraded to 32GB for $400).
+  - 1TB SSD. (Can be upgrade to 2TB for $400).
   - 19 core GPU integrated to M2 Pro.
   - 3456x2234 16.2" display
   - 100 Wh battery (15-22hr claimed)
