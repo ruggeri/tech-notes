@@ -38,14 +38,14 @@
     - +20%/+55% over previous machine.
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.2-15-mid-2018-true-tone-display-touch-bar-specs.html
 - 2019 MacBook Pro Core i9 2.3GHz 16"
-  - Purchased Mar 24 2020. Using as of July 2023.
+  - Purchased Mar 24 2020. Using as of September 2023.
   - $3,041.92
   - 2.3GHz (4.8GHz turbo boost), 8 core, Intel Core i9. Coffee Lake
     (Refresh).
   - 16GB 2.6GHz DDR4 RAM
   - 1TB SSD (Using about 30% as of 2023-09-29).
   - Radeon Pro 5500M 4GB
-  - 3072x1920 16" display
+  - 3072x1920 16" display (16:10 aspect ratio, 1.6:1)
   - 100 Wh battery (11hr claimed)
   - GeekBench 5 Single/Multi core scores: 1077/6637.
     - +12%/+40% over previous machine
@@ -59,7 +59,7 @@
   - 16GB RAM. (Can be upgraded to 32GB for $400).
   - 1TB SSD. (Can be upgrade to 2TB for $400).
   - 19 core GPU integrated to M2 Pro.
-  - 3456x2234 16.2" display
+  - 3456x2234 16.2" display (1.55:1 aspect ratio)
   - 100 Wh battery (15-22hr claimed)
   - GeekBench 5 Single/Multi core scores: 1940/14850.
     - +80%/+123% over current machine.

@@ -51,6 +51,10 @@ the center of the screen.
   - Notice that the 16" MBP screen is bigger than the 15", but pixel
     density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
+- 3456x2234
+  - 1.55:1
+  - This is the resolution for the 2023 Mac Book Pro 16".
+  - It's a little weirdly tall.
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
   - This is the native resolution of my current (as of Sept 2023) Dell
