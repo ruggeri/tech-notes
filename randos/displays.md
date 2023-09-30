@@ -17,6 +17,10 @@ the center of the screen.
   - 16:9
 - 1920x1080: called 1080p or FHD (Full HD)
   - 16:9
+  - This is sometimes called 2k (the horizontal resolution), though DCI
+    2k is technically a little wider (2048x1080). This allows easily
+    showing 1.85:1 (open matte) or 2.39:1 (Scope) films. Both formats
+    are wider than 16:9 (which is really more of a display format).
 - 2560x1440: called 1440p or QHD (Quad HD) or WQHD (Wide Quad HD)
   - 16:9
   - Notice this quadruples the size of HD.
@@ -32,14 +36,16 @@ the center of the screen.
     display.
 - 2880x1800
   - 16:10
-  - This is the resolution of my 2018 MacBook Pro 15" (and also the
-    prior MacBook Pro 15" I bought via App Academy).
+  - This is the resolution of my 2018 MacBook Pro 15" (the one that was
+    stolen) and also the prior MacBook Pro 15" I bought via App
+    Academy.
   - For 15" display: 221px/in, 87px/cm, 77px/degree (at 20" typical
     distance).
   - Apple gives this resolution/size "Retina" approval.
 - 3072x1920
   - 16:10
-  - This is the resolution of my 2019 MacBook Pro 16".
+  - This is the resolution of my 2019 MacBook Pro 16" (which I use as of
+    2023).
   - For 16" display: 226px/in, 89px/cm, 79px/degree (at 20" typical
     distance).
   - Notice that the 16" MBP screen is bigger than the 15", but pixel
@@ -47,7 +53,8 @@ the center of the screen.
   - Apple gives this resolution/size "Retina" approval.
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
-  - This is the native resolution of my new Dell U2723QE monitor.
+  - This is the native resolution of my current (as of Sept 2023) Dell
+    U2723QE monitor (cost ~$850).
   - In cinema, 4k means 4096x2160 (called DCI 4k). In computing, 4k UHD
     is 3840x2160.
   - At 27", this is 163px/inch. That is substantially lower PPI than the
