@@ -21,6 +21,7 @@ the center of the screen.
     2k is technically a little wider (2048x1080). This allows easily
     showing 1.85:1 (open matte) or 2.39:1 (Scope) films. Both formats
     are wider than 16:9 (which is really more of a display format).
+  - This is the resolution of my digital BenQ projector purchased 2014.
 - 2560x1440: called 1440p or QHD (Quad HD) or WQHD (Wide Quad HD)
   - 16:9
   - Notice this quadruples the size of HD.
@@ -156,6 +157,25 @@ Source: https://qasimk.io/screen-ppd/
   - I don't think I really care about daisy-chaining monitors. This is
     for the same reason that I don't desire a monitor larger than 27"
     anyway.
+
+## Display Types
+
+- Both my 2019 MacBook Pro and the Dell U2723QE use LCD displays, using
+  LEDs as the backlight. Both appear to use "IPS", which is maybe the
+  better of two LED backlit LCD technologies?
+- Plasma screens have a downside of poor contrast, and also run hot.
+  They are thicker. But they are apparently very good at showing motion.
+  They are generally a previous-generation technology and are no longer
+  produced.
+- OLED appears to be the best technology at the moment. Not in use for
+  Mac Books as of 2023, but is in use for iPhone since ~2017. Many
+  people appear to think this is the best display technology in 2023.
+  - It looks like 27" OLED monitors are still relatively uncommon as of
+    Sept 2023. I think maybe no Dell monitor is OLED in Sept 2023.
+- QLED is a new technology from Samsung. They improve on the LED backlit
+  LCD panels. But it sounds like most people still prefer OLED for TV.
+- For projectors, laser illumination seems to be preferred to bulbs.
+- Source: https://en.wikipedia.org/wiki/Comparison_of_CRT,_LCD,_plasma,_and_OLED_displays
 
 ## Recommendations
 
