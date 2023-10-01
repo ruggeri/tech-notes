@@ -54,7 +54,8 @@ the center of the screen.
   - Apple gives this resolution/size "Retina" approval.
 - 3456x2234
   - 1.55:1
-  - This is the resolution for the 2023 Mac Book Pro 16".
+  - This is the resolution for the 2023 Mac Book Pro 16" (which I don't
+    own as of Sept 2023).
   - It's a little weirdly tall.
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
