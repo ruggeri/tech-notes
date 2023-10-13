@@ -18,6 +18,13 @@ However, Intel's master key somehow leaked (Intel claims that it must
 have been reverse engineered). That means that anyone can sign a key
 as Intel.
 
+Presumably not all 4k UHD content needs to be sent with HDCP 2.2. This
+is required for licensed Blu Ray UHD hardware/software players. But rips
+of 4k UHD content can be played by an unlicensed player which presumably
+doesn't need to encrypt the data. In theory, 4k UHD can be played by a
+TV/monitor that doesn't support HDCP 2.2, but this would need to have
+HDMI 2.0, which tends to imply HDCP 2.2 conformance also.
+
 A few notes. HD DVD and Blu-Ray content is encrypted, and the required
 decryption keys have already leaked.
 
@@ -42,14 +49,14 @@ feasible to do this.
 
 ## AACS
 
-Under AACS, *every* device gets its own provisioned key. If any one
+Under AACS, _every_ device gets its own provisioned key. If any one
 key is extracted/compromised, then that single key can be
 revoked. That means only one device is bricked.
 
 AACS also uses a strategy where scenes are encoded several times, and
 a given player can only decrypt one of the versions. Presumably if
 there are 32 such segments and 2 options of each, this allows unique
-identification of 2**32 devices. Digital watermarks are put into each
+identification of 2\*\*32 devices. Digital watermarks are put into each
 of the scene versions, so that if content is leaked then the device
 responsible can be identified.
 
@@ -57,7 +64,13 @@ responsible can be identified.
 
 Software players of DVD content are inherently vulnerable, because the
 decryption keys can be stolen from main memory. Thus Trusted Computing
-et cetera where the chip does not allow access to decryption keys.
+et cetera where the chip does not allow access to decryption keys. For
+this reason, Blu Ray association requires that a licensed Blu Ray UHD
+software player use SGX (Intel Software Guard Extensions) to protect the
+memory. However, Intel dropped SGX starting 2022, so now no current
+Intel machine can play 4k UHD Blu Ray disks. Of course, it can play
+_rips_, because those have already decrypted the Blu Ray disk and
+extracted the video content.
 
 ## Practical
 
