@@ -405,9 +405,11 @@ expensive.
   - Source: https://www.youtube.com/watch?v=fJeRabV5hNU
 - However, for commercial power, I think it's common to give three
   phases of 208V live-to-live.
-  - Each phase is 120V above ground.
+  - Each phase is 120V above ground. This is 120/208V.
   - I think this also maybe happens in apartment buildings sometimes?
   - A lot of things can operate on 208V, but at lower power.
+- Last, there is _industrial power_. This is typical three-phase
+  277/480V.
 
 ## Synchronous Motor
 
