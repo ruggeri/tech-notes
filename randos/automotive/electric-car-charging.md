@@ -22,6 +22,31 @@ line-to-line voltage is less than the 240V you get from the split-phase
 Level 3 chargers are DC. Tesla's "Supercharger" line does
 100kW/120kW/250kW for v1/v2/v3. Electrify America does 50kW/150kW/350kW.
 
+What voltage do you use for Level 3 charging? Tesla uses 400V, but some
+cars use 800V charging. The advantage is that you can do higher wattage
+without higher current. But, a problem is that you are applying higher
+voltages to the car. That complicates the car's design.
+
+Also: you can only dump so much energy into a battery so fast. There is
+going to be heat produced, and it is more heat the faster the charging.
+This is a limitation. If the heat is due to _current_, then maybe a
+larger battery pack can limit the amount of current. But, I think that
+the limitation might be more about battery _chemistry_. Not exactly sure
+what comes into play here.
+
+I think that a main challenge in increasing voltages is switching so
+much voltage. The connectors are part of the problem. Tesla hasn't
+traditionally supported up to 1kV, but it is bringing that out
+eventually.
+
+I think that 400V batteries are just easier to work with, since 400V
+needs to be supplied to the motor. I don't think you can use 800V to
+charge a 400V battery? At least not with power transformation, in which
+case you have big currents in the on-board battery charger? GM gets
+around this by using a trick: they have two battery packs, and they wire
+them in series when charging at 800V, but wire them in parallel when
+driving.
+
 ## Charger Networks
 
 - Tesla
