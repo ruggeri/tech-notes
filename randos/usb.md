@@ -287,3 +287,24 @@ Mar 1 2022, it is broken and has been since Nov 2020 I think!
 Source: https://www.bigmessowires.com/2019/05/19/explaining-4k-60hz-video-through-usb-c-hub/
 Source: https://www.reddit.com/r/Monitors/comments/phkcxl/4k_144hz_intel_or_just_amd_macs_macos_monterey/
 Source: https://en.wikipedia.org/wiki/USB_hardware#Connectors
+
+## Cabling Needs
+
+- I have a few USB-A slots I use. These are for my Logitech mouse and my
+  keyboard. I plug these into my monitor. They are fine.
+- I have a number of micro USB devices, though they are becoming fewer I
+  believe. They include my wireless speaker and my Kindle. I don't carry
+  these with me often.
+- I need Lightning connectors for my iPhone 13 Pro and my AirPods. I
+  might upgrade my AirPods in the near future, but I will have the
+  iPhone 13 Pro for many years. Thus, I must retain Lightning connectors
+  for some time.
+  - Upgrading AirPods will require that I carry double-ended USB-C
+    cables more places, which is a bit of a nuisance. Thus, I might
+    avoid upgrading as long as possible?
+- I have a number of UBS-C items. My MacBook Pro. Ethernet adapter and
+  SD card reader. Monitor. However, most of these are for computer
+  peripherals, not for charging (the exception is the MacBook Pro).
+- I feel like I should always carry a USB-C to Lightning and a USB-C to
+  USB-C charging cable with my portable battery. I don't suppose I need
+  a USB-C to micro-USB cable unless I am taking my Kindle with me.
