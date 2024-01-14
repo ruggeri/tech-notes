@@ -32,6 +32,9 @@
   - It says 128GB capacity.
   - It is marked SDXC, which corresponds to size format and capacity.
   - It says 300MB/s, which is a reference to bus speed.
-  - Likewise, it is marked UHS-II.
-  - It is marked U3, which means it does 30MBps+ write.
-  - It is further marked V90, which means it does 90MBps+ write.
+  - Likewise, it is marked UHS-II. This is listed simply as roman
+    numerals.
+  - It is marked U3, which means it does 30MBps+ write. This is listed
+    as the numeral 3 in a U (looks like in a garbage can).
+  - It is further marked V90, which means it does 90MBps+ write. This is
+    a V followed by the number 90.
