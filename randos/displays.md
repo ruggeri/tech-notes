@@ -53,7 +53,7 @@ the center of the screen.
     density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
 - 3456x2234
-  - 1.55:1
+  - 1.55:1 (a little taller than 16:10)
   - This is the resolution for the 2023 Mac Book Pro 16" (which I don't
     own as of Sept 2023).
   - It's a little weirdly tall.
