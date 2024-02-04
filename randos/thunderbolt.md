@@ -24,8 +24,34 @@ You have your usual DisplayPort connector, but this is a little chunky
 for a laptop. Thus, Apple created **Mini DisplayPort**. It's just a
 different shape for the same connectors. It's not a different protocol.
 
+HDMI also comes in several flavors. Type A is the standard plug size.
+Type B has never been implemented. There is Type C, which I don't
+believe I ever see. And there is Type D, which is about the size of
+micro USB; I have a converter for this type, though I don't know that
+I've used it?
+
 Apple has done this a number of times: Mini-VGA on the iBook, Mini-DVI
 on the PowerBook G4.
+
+## HDMI to DisplayPort and DispalyPort to HDMI
+
+Say you have a device that outputs DisplayPort, but a monitor that
+accepts HDMI. Then some DisplayPort output ports (if they support
+Dual-Mode, also called DP++), can connect to an HDMI display with a
+_passive_ adapter. The DisplayPort output device will do the necessary
+conversion.
+
+However, it is very important to note this does _not_ work in the
+opposite direction. You cannot plug an HDMI output into a DisplayPort
+input. Dual-Mode is _unidirectional_. Wow, what a terrible cable to
+exist! You _think_ it might work HDMI -> DP, but it won't!
+
+They do make _active_ adapters that can do this, but I don't have one. I
+_do_ have a passive DP -> HDMI adapter, but it didn't work from my Sony
+A7RV HDMI output to my Dell monitor DP input.
+
+Source: https://en.wikipedia.org/wiki/DisplayPort#DisplayPort_Dual-Mode_(DP++)
+Source: https://www.makeuseof.com/difference-between-converting-hdmi-displayport/
 
 ## Thunderbolt 1 and 2
 
