@@ -60,21 +60,36 @@ driving.
   - It doesn't support DC charging.
   - Thus it can't do fast charging.
   - This was also used in Japan.
+  - 1 pin live, 1 pin neutral, 1 pin protective earth. Two signalling
+    pins.
   - Standardized as IEC 62196 Type 1.
     - There is a European IEC 62196 Type 2. This can connect 1 or 3
       phases. It has two extra pins, of course.
+      - They are in a different arrangement than the J1772.
     - There is even a IEC 62196 Type 3 that was used in Italy or France.
       It was a different physical format, but same idea as Type 2.
-  - I don't believe new electric vehicles really use SAE J1772 anymore.
-    It can't do enough power.
+  - I don't believe new battery electric vehicles really use SAE J1772
+    anymore. It can't do enough power.
+    - Plug-in hybrid vehicles with small wattage on-board chargers (like
+      the RAV4 Prime) do often use SAE J1772.
 - CCS: Combined Charging System
-  - This extends SAE J1772. It adds two DC pins. This is CCS Type 1.
+  - CCS1 extends SAE J1772. It adds two DC pins. This is CCS Type 1.
+    - The CCS1 connector doesn't have the AC pins. But the port accepts
+      them.
+    - Thus J1772 connector can fit CCS1 port. But CCS1 connector can't
+      fit J1772.
   - There is also CCS Type 2. That extends IEC 62196 Type 2.
-  - Weirdly, while a CCS Combo 1 connector has two AC pins, these are
-    not used?
-  - The CCS Combo 2 removes the AC pins.
-  - In both cases, the inlet will retain the AC pins so that AC charging
-    can be performed.
+    - IEC 92196 Type 2 connector can fit CCS2. But of course CCS2 won't
+      fit IEC 92196 Type 2.
+  - The CCS1 and CCS2 connectors/ports are shaped differently so that
+    one cannot be plugged into the other. That's a little unfortunate,
+    if you take your American BEV car to Europe (or vice versa).
+    - This is a result of the two different IEC 6196 (types 1 and 2)
+      that cannot connect to each other.
+  - In both CCS types, the inlet will retain the AC pins so that AC
+    charging can be performed.
+    - I believe the CCS1 connector retains the AC pins, but I don't know
+      why? The CCS2 connector doesn't retain the AC pins.
   - Most non-Tesla, non-Japan manufacturers are going with CCS.
 - CHAdeMO
   - Some weird pun that means tea?
