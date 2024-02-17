@@ -20,149 +20,7 @@
 
 ## Engine Configurations
 
-**Single (AKA Thumper)**
-
-- Simpler than multi-piston engines.
-- Smaller displacement, usually less power, but also lower weight, and
-  smaller volume.
-  - All singles on my motorcycle list make less than 50hp.
-- You can increase RPM to increase power, but that tends to wear the
-  engine out faster.
-  - If you do higher RPMs, you need stronger connecting rods, for
-    instance. Because the pistons are going to pull trying to tear
-    them apart.
-  - KTM makes a thumper that does 77hp. But that's not enough for most
-    people on the highway.
-- Can sometimes get away with air cooling because air isn't blocked
-  from any of the cylinders.
-- They have pulsing power delivery and a lot of vibration.
-  - This is because the engine is not _balanced_. We'll talk more
-    about that later.
-- To even out power pulsation, they'll use a larger than typical
-  _flywheel_. The flywheel stores power as rotational inertia.
-  - Note that the pulsation will also get worse as you increase stroke
-    or bore. That's another limit on the displacement.
-- You can use a counterweight to try to balance the engine. But this
-  won't be perfect, because a counterweight spins with the crankshaft,
-  and its motion is thus not perfectly opposed to the piston motion.
-  - If you use a counterweight that balances 100% of the vertical net
-    force, then at 90deg, there will be a net force horizontally.
-  - You've just rotated the plane in which the force acts.
-  - The best you can do (with a simple counterweight) is to reduce the
-    magnitude of the shake by half and constantly rotate the direction
-    of the shake.
-- To even out vibration, you can start adding _balance shafts_ to
-  counteract vibrations. But soon enough it will be easier to build a
-  multi-cylinder engine.
-- Single cylinder tends to be more fuel efficient. But is that just
-  because it is lower power?
-- At same displacement, will make more low-end torque than a twin?
-  - **TODO**: Why??
-
-**Inline-Twin**
-
-- Also called: "straight-twin," "vertical-twin," "parallel-twin."
-- Two cylinders that are mounted side-by-side.
-- Typically transverse mounted. Cylinders are side-by-side,
-  perpendicular to the bike. Crank runs perpendicular to the bike axis.
-  - Only 1 motorcycle ever did a straight twin longitudinal.
-- Are typically more compact and easier to design than flat-twins or
-  V-twins.
-- Most make between 40-80hp. But there are some that go up to 115hp.
-- Crankshaft angle
-  - 360deg: both pistons move together.
-    - Some people use "parallel twin" to refer specifically to this
-      crankshaft angle.
-    - Firing is offset by 360deg. This is an even firing interval, which
-      contributes to smoothness of the engine.
-    - However, the forces are not balanced. Both pistons need to be
-      pulled by the connecting rod in the same direction at the same
-      time. This doubles the vibration.
-    - Typical of older British bikes. Modern Kawasaki K800 (which is
-      like a retro bike) is the only example manufactured today?
-    - You need balancing shafts to cancel out the net forces.
-  - 180deg: pistons are always opposite to each other.
-    - Some people use "vertical twin" to refer specifically to this
-      crankshaft angle.
-    - Because mass of pistons is always opposite, there is no net force
-      when firing.
-    - Typical of older Japanese bikes. Less vibration let them hit
-      higher revs and power.
-    - Still typical of Kawasaki (including my Ninja 650) and Honda
-      twins. They don't make big twins. Also 300cc bikes from Yamaha and
-      Suzuki.
-    - Firing of second cylinder is 180deg after first (0deg of silence),
-      but then you wait another 540deg (360deg silence) until the first
-      cylinder fires again. This gives pulsing power.
-    - Because the forces aren't exactly opposite, they will want to
-      rotate around their center. They're applying a torque.
-    - The rotational vibration also is typically balanced out, but this
-      appears to be easier. Also, I think the rotational vibration is
-      less.
-  - 270deg: pistons are offset by 90deg.
-    - Appears to be a newer design.
-    - Some people say this ends up being similar to a V-Twin.
-    - Typical of Triumph and Yamaha twins. Also the BMW and Aprilia
-      parallel twins. Most popular of these three.
-    - These makers make somewhat bigger twins than Kawi and Honda, and
-      270deg seems to be popular if you're trying to get a torquier
-      engine.
-    - The Aprilia Tuono 660 has this configuration.
-    - Firing interval is 270, 450, 270. This is less uneven than the
-      180deg engine.
-    - We'll learn that this is the same interval as the 90deg V-Twin.
-      Which is why they have similar sound.
-    - The primary balance is not perfect. At 45deg you'll hit a max net
-      force of 1.5x. But this is less than the 360deg. And you'll also
-      have some rotational vibration.
-    - These will need to be balanced out.
-  - KTM 890 engine has 75deg crank angle and 285-435deg firing interval.
-    This is equivalent to a 75deg V-Twin with a 360deg firing crank
-    angle (the setup of the KTM 1290 engine).
-- Can be prone to vibration either because (1) unbalanced mass in the
-  360deg version or (2) irregular firing in the 180deg version.
-- Also, in 180deg version, there is rocking, which is the desire to
-  rotate.
-- The 180deg version can normally do higher revs than the 360deg,
-  because of less vibration.
-- A helpful source: https://www.youtube.com/watch?v=a9ZFZABaLbg
-- Secondary acceleration
-  - The geometry of how the piston is connected to the crankshaft
-    matters.
-  - Imagine rotating the crank at steady RPM. What happens to the
-    piston because of the changing geometric relationship?
-  - As the piston is pulled away from top, it needs to be accelerated
-    because there is movement in the x-direction. This x movement pulls
-    the piston down.
-  - However, the second-derivative change in the connecting rod motion
-    reaches its highest rate at 45deg. By 90deg, the rate of change in
-    connecting rod orientation has reversed.
-  - At 90deg, it wants to exert an opposing force on the piston. That's
-    because the y-change in the crank pin can be explained through a
-    smaller piston movement but a larger connecting rod rotation.
-  - This explains why secondary vibration is at twice the rate of
-    primary vibration.
-  - Secondary vibration is smaller than primary vibration.
-- Thus, we see that a 270deg engine will have secondary balance.
-  - The 180deg and 360deg will both double the secondary vibration.
-  - Though we do note that the 270deg will still have a rocking couple
-    with respect to secondary balance.
-  - But that's even smaller than the secondary balance problem would
-    have been.
-- In summary
-  - 270deg primary imbalance isn't so bad, and not so hard to engineer
-    out.
-  - Market research seems to show consumers like the imbalance of the
-    270deg versus the 180deg.
-  - 270deg sounds a lot like a V-Twin, which people like.
-  - But all twins have advantage over V-Twin of being easier to fit in
-    the bike, and cheaper to manufacturer because can use a single
-    cylinder head and valvetrain.
-  - 270deg seems to develop torque lower in rev range - why?
-- People also talk about pumping losses. The crankcase space (which is
-  the inverse of the compression chamber) is constantly changing with
-  the 360deg, which is basically efficiency loss, and thus lower gas
-  mileage. The 180deg does the best here.
+In progress: moving engine configurations to their own documents.
 
 **Flat (Boxer) Twin**
 
@@ -486,6 +344,51 @@
 **V4**
 
 - **TODO**
+
+**Future Engines to Study**
+
+- V6 and V8: these are popular in muscle cars.
+- I6: Engine with perfect primary and secondary balance.
+- I know that D4A has a video about different 6-cylinder types.
+- V10: Sounds like it is a very unpopular choice?
+- V12: Two I6s. I think just provides more even power delivery (because
+  more cylinders). Also, smaller cylinders means can rev higher at same
+  displacement. More power.
+  - This is the biggest engine typically used in cars.
+  - Supercars would have this engine. Very smooth and very powerful.
+  - Obviously, complicated.
+  - Can't do I12, because too long (and torsion along crankshaft). Also,
+    the car can't fit it.
+- Flat 12: Compare to V12?
+
+## Displacement and HP
+
+- Here are some references.
+- 1L motorcycles with 4 cylinders can make like 175-200HP. Those are
+  really fast bikes.
+  - They may also weigh about ~400lbs (like my Ninja 650, which makes
+    about 65HP).
+- A Toyota RAV4 Prime makes ~300HP. However, it weighs about 4,235 lbs.
+  - Thus the sport bike has about a 5x advantage in power-to-weight.
+- Here are some historical references:
+  - In 1963, first 425HP car (a Plymouth).
+  - In 1988, first 500HP car (Porsche 959 S).
+  - In 1992, first 600HP car (McLaren F1).
+- Today, about 600HP is typical of a powerful V8 sports car.
+- But at the same time, as cars got a lot more powerful, they were also
+  getting a lot heavier.
+  - Original 1989 Miata made 115HP but weighed only 2,210lbs.
+- A very big automotive engine might be 6L. This compares to motorcycles
+  which top out about 1L.
+- Another change is that cars have become turbocharged. This improves
+  efficiency and emissions, which matter a lot more today. But they also
+  change the responsiveness of the engine (turbo lag).
+- Last, manual transmission cars are being phased out because people
+  don't want them.
+  - DCT used to be the performance option, but it looks like higher end
+    sports cars are more typically using automatic transmissions.
+  - I think maybe automatic transmissions have gotten better, and they
+    maybe are less of a hassle to maintain than DCT?
 
 ## Sources
 
