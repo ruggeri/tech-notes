@@ -1,0 +1,104 @@
+## V-Twin
+
+**Mounting**
+
+- Almost always transverse mounted (crankshaft perpendicular to bike
+  body; easily drives chain).
+  - Exception is Moto Guzzi, which mounts longitudinal (crankshaft
+    parallel to bike body).
+  - That's an advantage for air cooling, but a disadvantage for width.
+  - I believe Moto Guzzi uses a crank shaft.
+
+**Common Examples**
+
+- V-Twins are typical of European bikes. It's not common on Japanese
+  bikes (which tend to be inline twins), with the exception of Suzuki.
+  - Maybe that's because V-Twins are more expensive, and Japanese bikes
+    compete on cost.
+- Ducati V-twins are 90deg and mounted with one cylinder pointing almost
+  forward; they thus call it L-Twin.
+  - They sometimes call this engine "Testastretta 11°"; the 11 refers to
+    something totally unrelated to what we're discussing (valve
+    overlap).
+  - Like all 90deg V-Twins I know, uses a shared crank pin and fires on
+    a 270-450 interval.
+  - Transverse mounted.
+  - No rocking couple because of single crank pin.
+    - Well, that isn't true. Even though there's one crank pin, there
+      are two side-by-side connecting rods. Which means you have some
+      rotational imbalance.
+  - Ducati doesn't do any parallel twins. V-Twins are used for their
+    smaller displacement bikes.
+  - A downside to this design is that you need a longer wheelbase to
+    accommodate the horizontal cylinder. That impacts maneuverability.
+    - Though it's not a big problem for cruiser bikes.
+- Moto Guzzi V7 Engine
+  - Longitudinal mounted, 90deg V-twin.
+  - Uses a single crank pin. 270-450 firing interval.
+  - No rocking couple because of single crank pin.
+- Suzuki V-Twins (SV650 and V-Strom bikes)
+  - 90deg angle. Fires on 270-450 interval like every other 90deg
+    V-Twin.
+- I think the major downside to 90deg V-Twin is that it has a lot of
+  deadspace between the cylinders and it's hard to fit. That's why
+  Suzuki might use it on V-Stroms which aren't intended to be that
+  maneuverable, or Moto Guzzi might try to mount longitudinally.
+  - Note that the Ducati Supersport 950 does have a fairly long
+    wheelbase for this class of bike.
+
+## Operation
+
+- When left cylinder is at top, right cylinder is at middle. This is
+  what you need for a 270-450 firing interval. Note that you achieve
+  this with a shared crank pin and a 90deg V angle.
+  - At 90deg, right cylinder has finished exhaust. At 180deg, left
+    cylinder is done with combustion, right cylinder is halfway
+    through intake.
+  - At 270deg, right cylinder has completed intake, and left cylinder
+    is halfway through exhaust. At 360deg, left cylinder is done with
+    exhaust, and right cylinder is halfway through compression.
+  - At 450deg, now we start combustion in right cylinder. Left
+    cylinder is halfway through intake. At 540deg, left cylinder is
+    done with intake, and right cylinder is halfway through
+    compression.
+  - At 630deg, right cylinder is done with combustion, and left
+    cylinder is halfway through compression.
+  - And at 720deg, we are back where we started. Left cylinder starts
+    combustion, and right cylinder is halfway through exhaust.
+  - This explains the 270-450 firing interval. Notice the uneven 90deg
+    and 270deg of silence.
+- You can use a counterweight that is at 180deg from the crankpin.
+  This will always rotate opposite the crankpin. This will be
+  positioned exactly opposite to the cylinder whenever it fires.
+- Without the counterweight, you will have a rotating imbalance in the
+  engine. With the counterweight, you achieve perfect primary balance.
+- Well: I should note that with two crank pins, you'll have a rocking
+  couple so not totally perfect primary balance.
+- Also: you will have _secondary_ imbalance, just like with an inline
+  twin.
+- In terms of rotational imbalance: this should be better than with
+  inline, because the two cylinders share a crankpin.
+
+## Comparison With Inline Twins
+
+- The uneven firing interval gives a characteristic sound, but it also
+  means uneven power delivery.
+  - This could be good on dirt, because it allows the tire to recover
+    traction.
+- The 270deg parallel twins have a lot of the same characteristics as
+  the V-twins.
+- I can't find any justification for the belief that V-Twins make more
+  low-end torque than inline twins.
+- I think that the main tradeoff is really about packaging and cost.
+  - It's easier to fit an inline twin into a bike.
+  - Cost to produce and maintenance are cheaper on the inline twin. You
+    only have one case, valvetrain, et cetera.
+
+## Sources
+
+- Source:
+  https://www.cycleworld.com/2015/12/03/ask-kevin-cameron-honda-africa-twin-parallel-twin-engine-vs-v-twin-engine/
+  - Here, Kevin talks about some pros/cons of inline vs v-twins.
+  - But it's mostly about packaging, cost, and balancing.
+  - He doesn't otherwise suggest that a V-twin could make more low-end
+    torque, like you hear a lot of people say.

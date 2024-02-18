@@ -1,6 +1,7 @@
 ## Single (AKA Thumper)
 
 - Simpler than multi-piston engines.
+- And lower cost!
 - Smaller displacement, usually less power, but also lower weight, and
   smaller volume.
   - All singles on my motorcycle list make less than 50hp.
@@ -33,5 +34,11 @@
   because it is lower power?
 - At same displacement, will make more low-end torque than a twin?
   - **TODO**: Why?? Is this even true?
+- Some people don't like the sound, which has long gaps between
+  combustion.
+- Single cylinder can do well in dirt, because 75% of the time the tire
+  is not under power, which means it has more time to recover traction.
+- Because singles have a lot of vibration, they can't reach high RPMs,
+  which is going to limit the power they can produce.
 
 **TODO**: Sources??
