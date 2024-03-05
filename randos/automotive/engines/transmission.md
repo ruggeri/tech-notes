@@ -171,6 +171,8 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
   different layshafts. There are two clutches; the even clutch connects
   to the even input shaft and layshaft, and the odd clutch connects to
   the odd input shaft and layshaft.
+  - DCT only really came out for production roadcars in 2003 with the
+    Volkswagen Golf R32.
   - Let's say you are in gear four. Then the clutch is not engaged. You
     can select gear five (or three), then you clutch in on the even
     shaft exactly as you clutch out on the odd shaft.
@@ -181,6 +183,8 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
     faster.
   - But it sounds like BMW thinks DCT won't stick around, and that
     automatic will win.
+    - Source: https://www.youtube.com/watch?v=u0BZhs4Ugage
+    - Source: https://www.bmwblog.com/2021/01/11/goodbye-dual-clutch-transmission
 - In summary:
   - Automatic is the original easy method that uses a _torque converter_
     which is lower efficiency.
@@ -216,6 +220,7 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
 - There are relatively few made by higher-end producers. Here is a
   basically complete list of higher end models with manual transmission.
 - On the other hand, DCT does seem very popular.
+  - Except, as mentioned, BMW is getting rid of it.
 - BMW M2, M3, M4
 - Mazda 3, MX-5 Miata
 - Porsche 911
