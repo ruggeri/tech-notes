@@ -89,10 +89,19 @@
   the V-twins.
 - I can't find any justification for the belief that V-Twins make more
   low-end torque than inline twins.
+  - I think that maybe V-Twins tend to have longer strokes, because of
+    their geometry.
+  - But then we ask again whether longer strokes even make more torque.
+  - And we also have the question: do we care about engine torque if we
+    can always adjust gearing to produce more torque at the wheel?
+  - I think that if the engine produces more torque down low, you can
+    accelerate better in first gear?
 - I think that the main tradeoff is really about packaging and cost.
   - It's easier to fit an inline twin into a bike.
   - Cost to produce and maintenance are cheaper on the inline twin. You
     only have one case, valvetrain, et cetera.
+- OTOH, V-Twin might be narrower (when mounted transversely), because
+  it's only one cylinder.
 
 ## Sources
 
@@ -102,3 +111,6 @@
   - But it's mostly about packaging, cost, and balancing.
   - He doesn't otherwise suggest that a V-twin could make more low-end
     torque, like you hear a lot of people say.
+- Source:
+  https://www.cycleworld.com/2016/02/01/motorcycle-v-twin-and-parallel-twin-and-flat-twin-engine-tech-sound-insights/
+  - Another good article by Kevin that compares a lot of twin engines.
