@@ -1,16 +1,12 @@
-# Engines
-
-This is a random and incomplete source of information about engines.
-
 ## Engine Power
 
-Engines can provide a certain amount of *engine power*. This is
+Engines can provide a certain amount of _engine power_. This is
 measured in **watts**, or **Joules per second**. A common unit in the
 context of engines is **horsepower**. One horsepower is 745 watts.
 
 **Energy/Work**
 
-The engine power describes how much *work* can be done per second. Work
+The engine power describes how much _work_ can be done per second. Work
 is measured in **Joules**, which is defined as one **Newton meters**. To
 hoist a 1kg object one meter into the air, we must move it through a
 gravitational field that wants to accelerate it downward at 9.8m/s^2.
@@ -18,7 +14,7 @@ Thus the 'weight' of the object is `9.8kg m/s^2 = 9.8N`, and the work
 done to lift it one meter is 9.8J.
 
 Question: can a force of less than 9.8N lift a 1kg mass? If a force less
-than 9.8N is applied *directly* to the mass, then no. But if a 1N force
+than 9.8N is applied _directly_ to the mass, then no. But if a 1N force
 is applied using a lever with a **mechanical advantage** of at least
 9.8x, then the small force can lift the mass.
 
@@ -47,18 +43,18 @@ to convert feet to miles. This works out to at least 53mph.
 
 So how can you run the car at a lower speed? The answer is gearing. Each
 revolution of the crankshaft should correspond to only a fractional turn
-of the wheels. First gear on a Camry is 5:1, so at 600RPM maybe this
-corresponds to about 10mph.
+of the wheels. First gear on a Toyota Camry is 5:1, so at 600RPM maybe
+this corresponds to about 10mph.
 
-The sixth gear on a Camry is 1:1, which is called *direct drive*. But
+The sixth gear on a Camry is 1:1, which is called _direct drive_. But
 the 8th gear is 0.67:1. At 600RPM, this corresponds to 800MPH. Gears
-that are less than 1:1 are called *overdrive*.
+that are less than 1:1 are called _overdrive_.
 
 All else equal, you would like to run the engine at lower RPM. This is
 more fuel efficient, because the engine does not need to run at full
 power.
 
-## Torque
+## Torque And Hill Climbing
 
 Imagine trying to climb a hill. If it is a 100% grade (huge!), then this
 is a 45deg angle. In that case, the force that wants to roll the car
@@ -75,7 +71,7 @@ engine will be too low to turn the wheels and keep the car from rolling
 downhill.
 
 The radius of the wheels and the gear ratio both matter. This is why we
-talk about engine *torque* and not *force*. Perhaps unexpectedly, the
+talk about engine _torque_ and not _force_. Perhaps unexpectedly, the
 bigger your wheels are, the lower the torque "at the wheel." The smaller
 the wheel, the less roadway travel per rotation. And the less roadway
 travel, the less climbing. Thus: with small enough wheels, you can climb

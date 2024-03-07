@@ -2,7 +2,9 @@
 
 Acceleration depends on the force where the tire meets the road. This
 force is equal to wheel torque divided by wheel radius. Smaller wheels
-should give faster acceleration, I suppose, at expense of top speed.
+should give faster acceleration, I suppose, at expense of top speed. On
+the other hand, if you want larger wheels for another reason (like
+handling), you should be able to adjust gearing to compensate.
 
 To maximize acceleration, you maximize force. Which means you want to
 maximize wheel torque. What goes into wheel torque?
@@ -85,14 +87,18 @@ Let's justify this mathematically:
 # The relevant comparison
 current_wheel_torque ? next_wheel_torque
 current_engine_torque * current_gear_ratio ? next_engine_torque * next_gear_ratio
+
 # Multiply both sides by current_rpms, and divide by current_gear_ratio
 current_engine_torque * current_rpms
 ?
 next_engine_torque * (current_rpms * next_gear_ratio/current_gear_ratio)
+
 # Note this equality
 next_rpms = current_rpms * next_gear_ratio/current_gear_ratio
+
 # So substitute
 current_engine_torque * current_rpms ? next_engine_torque * next_rpms
+
 # Last, note that torque * rpms = HP (well, with a constant factor).
 # Thus we can reduce to:
 current_hp ? next_hp
@@ -112,7 +118,8 @@ what we see on the dynograph for a BMW 1250GS.
 Source: https://www.cycleworld.com/how-much-power-does-2019-bmw-r1250gs-adventure-make/
 
 Given a horsepower curve like this, we know you should never upshift
-before peak horsepower.
+before peak horsepower, since upshifting before peak horsepower always
+throws you to lower horsepower.
 
 Once past the peak horsepower, you would like to upshift to increase
 back to peak horsepower. However, if
@@ -140,9 +147,10 @@ upshifts:
 5th-to-6th: 0.900x
 ```
 
-Let's consider that we upshift from 1st-to-2nd at 9k RPMs. Our new RPMs
-will be about 6.3k RPM. We can see that horsepower at 9k RPMs is about
-100HP and horsepower at 6.3k RPM is maybe ever-so-slightly more.
+Let's consider that we upshift from 1st-to-2nd at 9k RPMs (redline). Our
+new RPMs will be about 6.3k RPM. We can see that horsepower at 9k RPMs
+is about 100HP and horsepower at 6.3k RPM is maybe ever-so-slightly
+more.
 
 Shifting before redline would mean that pre-shift horsepower would be
 greater, and post-shift horsepower would be less.
@@ -153,9 +161,10 @@ changes are "taller" in lower gears (the change in gear ratio is great).
 
 As the gear changes get "shorter", then your RPMs will drop less as you
 shift. Let's say that `max_hp_rpms` is the RPMs at which horsepower is
-maximized; for the BMW 1250GS this is 7.5k RPMs. Then of course we will
-want to shift no later than `max_hp_rpms / (next_gear_ratio/current_gear_ratio)`. We can calculate this for some
-upper-bounds on when to shift:
+maximized; for the BMW 1250GS this is 7.5k RPMs. Let's assume
+momentarily that past 7.5k RPM, HP stays constant. Then of course we
+will want to shift no later than `max_hp_rpms / (next_gear_ratio/current_gear_ratio)`.
+We can calculate this for some upper-bounds on when to shift:
 
 ```
 1st-to-2nd: 10.66k RPM (past redline)
@@ -165,12 +174,75 @@ upper-bounds on when to shift:
 5th-to-6th:  8.33k RPM
 ```
 
+Note that you may want to upshift earlier than these calculations, since
+HP will be dropping past the peak-HP RPM number. If this post-peak drop
+in HP is steeper than the pre-peak rise in HP, you might want to shift
+earlier.
+
+## Comparing Torque and Horsepower
+
+Perhaps a "perfect" engine would have constant torque throughout the
+rev-range, implying a linear horsepower curve. This means that, as you
+rode in a gear with throttle full-open, you would accelerate linearly. This is because:
+
+```
+KE = 1/2 m v^2
+\fpartial{KE}{t} = m v a
+```
+
+That is: if you travel at twice the velocity, you need twice the power
+to maintain the same acceleration. That's what a linear horsepower curve
+would do.
+
+Granted, because of drag and friction, a linear HP curve would still not
+give you constant acceleration; some of the engine power would be lost
+cutting through the wind at higher speeds.
+
+Of course, as you approached redline, you would eventually have to
+change gears so that you can continue to increase your speed further.
+The engine torque would not change in the ideal engine (though the wheel
+torque would, of course). The horsepower would change; and that is why
+you would accelerate more slowly.
+
+## Torquey and Peaky
+
+Another note: let's compare two engines with the same rev range, but the
+first has higher HP everywhere through the range. Then it follows that
+it also has higher torque everywhere through the range.
+
+So what do people mean when they say a bike is "torquey" rather than
+"peaky"? What they presumably mean is that the torquey bike makes more
+torque (and more horsepower!) low in the rev range, whereas the peakier
+bike makes more power (and more torque!) high in the rev range (or
+simply revs higher).
+
+It's not really that one bike has "more" torque or "more" horsepower,
+while it lacks the other. A bike makes _more horsepower_ at exactly
+every RPM where it makes _more torque_ (and vice versa). But wherever a
+bike makes more HP, it will accelerate harder at that RPM.
+
+That said, a "torqueier" bike would be the one that makes more peak
+torque, when compared to a "peakier" bike that makes more HP at a higher
+RPM (with less torque). The torquier bike is going to accelerate harder
+at the lower RPMs, whereas the peakier bike accelerates harder once it
+is reving high.
+
+Which engine accelerates faster from a stop? The engine that makes power
+lower in the rev range should have the advantage for a start, until the
+peakier engine gets into the rev range where it is producing more power.
+
+If the peaky engine has a very short first gear, it should be able to
+spin up quickly to peak RPM. But then you're going to have to upshift,
+which loses time, and also it might push you down the peak HP curve.
+And, if the upshift doesn't push you too high down the HP curve, you're
+going to have to shift again very soon as you approach redline again.
+
 ## Summary
 
 - Never shift before obtaining peak horsepower.
 - In lower gears, when upshifting results in a greater drop in RPMs,
   ride the engine out closer to redline.
-- In higher gears, don't wait until redline.
+- In higher gears, don't necessarily wait all the way until redline.
 
 ## Non `^` Shaped Graphs
 
