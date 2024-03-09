@@ -11,10 +11,14 @@
 
 **Common Examples**
 
-- V-Twins are typical of European bikes. It's not common on Japanese
-  bikes (which tend to be inline twins), with the exception of Suzuki.
-  - Maybe that's because V-Twins are more expensive, and Japanese bikes
-    compete on cost.
+- V-Twins are not that common in bikes.
+  - Harley-Davidson bikes.
+  - Ducati focuses on V-twins. KTM's biggest adventure bikes. And
+    Suzuki's V-Stroms.
+  - BMW doesn't make any (they do flat twin), nor does Honda, Kawasaki,
+    or Triumph.
+  - Probably Japan didn't do them because a V-Twin tends to be more
+    expensive (two cylinder heads).
 - Ducati V-twins are 90deg and mounted with one cylinder pointing almost
   forward; they thus call it L-Twin.
   - They sometimes call this engine "Testastretta 11°"; the 11 refers to
@@ -22,16 +26,20 @@
     overlap).
   - Like all 90deg V-Twins I know, uses a shared crank pin and fires on
     a 270-450 interval.
+    - 180deg of power, 90deg of silence, 180deg of power, 270deg of
+      silence.
   - Transverse mounted.
   - No rocking couple because of single crank pin.
     - Well, that isn't true. Even though there's one crank pin, there
       are two side-by-side connecting rods. Which means you have some
       rotational imbalance.
+    - But it's a lot less.
   - Ducati doesn't do any parallel twins. V-Twins are used for their
     smaller displacement bikes.
   - A downside to this design is that you need a longer wheelbase to
     accommodate the horizontal cylinder. That impacts maneuverability.
-    - Though it's not a big problem for cruiser bikes.
+    - Though it's not a big problem for cruiser bikes or adventure
+      bikes.
 - Moto Guzzi V7 Engine
   - Longitudinal mounted, 90deg V-twin.
   - Uses a single crank pin. 270-450 firing interval.
@@ -44,7 +52,10 @@
   Suzuki might use it on V-Stroms which aren't intended to be that
   maneuverable, or Moto Guzzi might try to mount longitudinally.
   - Note that the Ducati Supersport 950 does have a fairly long
-    wheelbase for this class of bike.
+    wheelbase for an alleged sport-bike.
+- I think geometry might allow you to get longer stroke than in an
+  inline engine. That might help with displacement vs an inline twin,
+  for the same bike height.
 
 ## Operation
 
@@ -72,17 +83,17 @@
   positioned exactly opposite to the cylinder whenever it fires.
 - Without the counterweight, you will have a rotating imbalance in the
   engine. With the counterweight, you achieve perfect primary balance.
-- Well: I should note that with two crank pins, you'll have a rocking
-  couple so not totally perfect primary balance.
+- Technically you do have a rocking couple, but it is minimized because
+  the shared crank pin means the cylinders are almost in same plane.
 - Also: you will have _secondary_ imbalance, just like with an inline
   twin.
-- In terms of rotational imbalance: this should be better than with
-  inline, because the two cylinders share a crankpin.
+  - **TODO**: What is the magnitude?
 
 ## Comparison With Inline Twins
 
 - The uneven firing interval gives a characteristic sound, but it also
   means uneven power delivery.
+  - Not worse than the 180deg inline twin though...
   - This could be good on dirt, because it allows the tire to recover
     traction.
 - The 270deg parallel twins have a lot of the same characteristics as
@@ -94,6 +105,8 @@
   - But then we ask again whether longer strokes even make more torque.
   - And we also have the question: do we care about engine torque if we
     can always adjust gearing to produce more torque at the wheel?
+    - I think we do. Broader torque means we spend less time clicking
+      through gears.
   - I think that if the engine produces more torque down low, you can
     accelerate better in first gear?
 - I think that the main tradeoff is really about packaging and cost.

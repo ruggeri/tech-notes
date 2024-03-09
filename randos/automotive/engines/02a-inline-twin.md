@@ -23,10 +23,11 @@
     crankshaft angle.
   - Firing is offset by 360deg. This is an even firing interval, which
     contributes some smoothness to the engine.
-  - However, this isn't a smooth engine.
-  - However, the forces are not balanced. Both pistons need to be
-    pulled by the connecting rod in the same direction at the same
-    time. This doubles the vibration.
+    - 180deg of power, 180deg of silence, 180deg of power, 180deg of
+      silence.
+  - However, this isn't a smooth engine. The forces are not balanced.
+    Both pistons need to be pulled by the connecting rod in the same
+    direction at the same time. This doubles the vibration.
   - Typical of older British bikes. Modern Kawasaki K800 (which is
     like a retro bike) is the only example manufactured today?
   - You need balancing shafts to cancel out the net forces.
@@ -36,27 +37,37 @@
     crankshaft angle.
   - Because mass of pistons is always opposite, there is no net force
     when firing.
-  - Typical of older Japanese bikes. Less vibration let them hit
-    higher revs and power.
+    - That is, the engine has primary reciprocating balance. We'll see
+      later that it doesn't have secondary reciprocating balance.
+  - Typical of Japanese bikes (at least before the current 270deg
+    crankshaft vogue). Less vibration lets them hit higher revs and
+    power.
   - Still typical of Kawasaki (including my Ninja 650) and Honda
     twins. They don't make big twins. Also 300cc bikes from Yamaha and
     Suzuki.
   - Firing of second cylinder is 180deg after first (0deg of silence),
     but then you wait another 540deg (360deg silence) until the first
     cylinder fires again. This gives pulsing power.
+    - 180deg of power, 180deg of power, 360deg of silence.
+    - This is a very uneven firing interval.
   - Because the forces aren't exactly opposite, they will want to
     rotate around their center. They're applying a torque.
   - The rotational vibration also is typically balanced out, but this
     appears to be easier. Also, I think the rotational vibration is
     less.
 - 270deg: pistons are offset by 90deg.
+  - Sometimes called "crossplane" because crankpins don't lie in a plane
+    with the crankshaft; they're offset by 90deg.
   - Firing interval is 270, 450, 270. This is less uneven than the
     180deg engine.
+    - 180deg of power, 90deg of silence, 180deg of power, 270deg of
+      silence.
   - We'll learn that this is the same interval as the 90deg V-Twin.
     Which is why they have similar sound.
   - Appears to be a newer design.
   - Some people say this ends up being similar to a V-Twin. Especially
-    in sound.
+    in sound. That makes sense, because sound comes from exhaust and is
+    largely a function of firing interval.
   - Typical of Triumph and Yamaha twins. Also the BMW and Aprilia
     parallel twins. Most popular of these three.
     - The 270deg twin is becoming very popular. I think it's also
@@ -94,6 +105,9 @@
 - This explains why secondary vibration is at twice the rate of primary
   vibration.
 - Secondary vibration is smaller than primary vibration.
+  - Well, perhaps in theory it could be greater. But it's smaller
+    because the accelerations of the pistons due to the secondary effect
+    of connecting rod position are smaller.
 - The 180deg and 360deg will both double the secondary vibration.
 - Though we do note that the 270deg will still have a rocking couple
   with respect to secondary balance.
@@ -125,6 +139,15 @@
   bike, and cheaper to manufacturer because can use a single cylinder
   head and valvetrain.
 - 270deg seems to develop torque lower in rev range - why?
+  - I'd like to see a source for this. I am not convinced this is true.
+- I see lots of bikes (mostly Japanese) up to 650cc class bikes use
+  inline twin.
+  - Triumph makes a fair number of 900cc and 1200cc twins. I think this
+    is for their torquey street bikes. These are probably the most
+    attractive inline twin bikes to me, because they are large enough to
+    make a lot of torque.
+  - Also BMW's smaller displacement bikes (800-900cc).
+  - And some adventure off-road bikes (Africa Twin, Tenere).
 
 ## Sources
 

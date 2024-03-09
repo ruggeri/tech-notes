@@ -1,7 +1,7 @@
 - Typically mounted transverse, and the headers will look like a
   "trident" a bit.
   - Exception is Rocket III which has a longitudinal mounted engine.
-- Yamaha makes some triples, but Triumph is most associated with them.
+- Yamaha and Triumph are the only bikes that make triples.
 - Typically make about 80-120HP.
 - The "typical" setup is 120deg crank offset.
   - Yamaha calls this "CP3" (Crossplane 3). But this is the typical and
@@ -17,6 +17,7 @@
     - Note: power delivery is not perfectly even, because there are
       moments when there are no power strokes occurring (180deg to
       240deg, 420deg to 480deg).
+    - However, this is more even power delivery than any twin engine.
     - There is an even 60deg of silence between combustion cycles.
   - Perfect primary reciprocating balance is achieved.
   - I can also prove that secondary reciprocating balance is perfect.
@@ -40,10 +41,11 @@
 - Triumph
   - Trident 660, Speed Triple, and Street Triple have crank angles of
     120deg. We've already discussed that setup.
-  - Tiger 850, 900, 1200 have T-Plane.
+  - Tiger 850, 900, 1200 have "T-Plane."
   - T-Plane has crank angles of 0deg, 270deg, and 180deg.
-  - Thus fires cylinder 1 at 0deg, cylinder 3 at 180deg, and then
-    cylinder 2 at 450deg.
+  - Cylinder 1 fires 0-180deg. Then cylinder 3 fires 180-360deg. Then
+    360-450deg is 90deg silence. Then cylinder 2 fires 450-630deg. Then
+    630-720deg is 90deg of silence.
   - That gives firing intervals of 180-270-270.
     - Or: 0deg silence, 90deg silence, 90deg silence.
   - The engine loses primary and secondary balance.
@@ -65,7 +67,7 @@
     - Which is why I think they don't use it on street bikes, where
       there is less benefit.
     - Higher vibration is presumably going to limit overall power.
-  - Another benefit is that the soundtrack is nice.
+  - Another benefit is that the sound is nice.
   - For this reason, twins with 270 crank throws are also popular
     off-road.
-  - https://www.youtube.com/watch?v=vU7faKiQleM
+  - D4A: https://www.youtube.com/watch?v=vU7faKiQleM
