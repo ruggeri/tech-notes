@@ -4,6 +4,7 @@
   motorcycles.
   - I think they only do it on their larger displacement engines of at
     least 1200cc.
+  - They make about 130HP.
 - Two cylinders are opposed 180 degrees across the crankshaft.
 - Typically longitudinal mounted.
   - Means crank runs parallel to bike axis. Cylinders stick out
@@ -49,6 +50,6 @@
 - Ultimately, to make really high HP without having a crazy huge engine,
   you need to reach high revs. And this is going to be easier to achieve
   with more cylinders.
-- BMWs flat twins are big and have high torque numbers down low. But
-  they're heavy, maybe not that maneuverable, presumably expensive to
-  maintain.
+- BMWs flat twins are big (about 1200cc) and have high torque numbers
+  down low. But they're heavy, maybe not that maneuverable, presumably
+  expensive to maintain.

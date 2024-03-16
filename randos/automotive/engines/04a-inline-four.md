@@ -1,5 +1,5 @@
 - Generally used for high revving, high horsepower machines.
-- Kawisaki, Honda, and Suzuki all make supersports. Also BMW.
+- Kawasaki, Honda, Suzuki, Yamaha all make supersports. Also BMW.
   - Ducati and Aprilia prefer V4s, which we'll talk about later.
   - Triumph builds threes.
 - Fours generally are built when you want at least 100HP. Otherwise, you
@@ -30,11 +30,17 @@
     even. This gives a screaming sound at high RPM.
 - Crossplane Design
   - Yamaha is the only one currently doing this for inline fours.
-  - Crank angle is 90deg. So pistons are at 0deg, 270deg, 90deg, 180deg
+  - The YZF-R1 is the only bike that uses this. It's a 150HP liter bike.
+  - Crank angle is 90deg. So pistons are at 0deg, 270deg, 450deg, 180deg
     with respect to each other.
-    - Cylinder 1 fires at 0 deg, cylinder 3 at 270deg, cylinder 2 at
-      450deg, and cylinder 4 at 540deg.
-    - Firing intervals are 270-180-90-180...
+    - This is "crossplane" because the cylinders do lie in two planes
+      that intersect at the crankshaft.
+    - Notice that the firing order is 1-3-2-4. (Again, could have
+      arranged 1-2-3-4, or even 1-4-2-3).
+    - Cylinder 1 fires 0deg-180deg, 180deg-270deg of silence, cylinder 3
+      fires 270deg-450deg, cylinder 2 fires 450deg-630deg, and cylinder
+      4 fires 540deg-720deg.
+    - Notice there is 90deg of silence, and 90deg of overlap.
   - So let's talk balance. You should have primary reciprocating
     balance. But you should have rocking about the center of mass.
   - So you have two rocking couples.
@@ -63,9 +69,30 @@
       firing intervals. But it's on that spectrum.
     - The R6 doesn't use crossplane because the 600 class is not
       overpowered for the exit.
-  - Basically, this like the bike will have more vibration, and this
+  - Basically, this means the bike will have more vibration, and this
     really only benefits you when pushing to the absolute limit in
     cornering.
   - Last, I believe this is why you only see this in the Yamaha R1,
     which makes like 160+ HP and is meant for racing.
   - Source: https://www.youtube.com/watch?v=uM-ycHS9uvw&t=180s
+
+## Examples/Uses
+
+- You have a lot of 1000cc inline 4 liter bikes.
+  - Suzuki GSX-R1000, Honda CBR1000RR, Kawasaki Ninja ZX-10R, BMW
+    S1000R, Yamaha MT-10, Yamaha YZF-R1.
+  - Most of these are set up as nakeds. A number are also set up with
+    fairings as race bikes.
+  - But they typically have a sport tourer version: Suzuki GSX-S1000GT,
+    BMW S1000XR.
+  - These all make about 150-200HP.
+- There's also typically a huge tourer version: the Kawasaki Concours14
+  (canceled?), Yamaha FJR1300ES, for instance. Those are huge and heavy.
+- Then you have a bunch of supersport bikes that are around 650cc.
+  - They tend to make about 100HP.
+  - Examples include Honda CBR650R, Kawasaki ZX-6R, Suzuki GSX-R600,
+    Yamaha YZF-R6.
+  - These bikes are agile and smaller. But they would be wildly
+    impractical for anything other than racing (a passenger, luggage,
+    highway comfort).
+-
