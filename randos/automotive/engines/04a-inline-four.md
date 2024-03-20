@@ -95,4 +95,5 @@
   - These bikes are agile and smaller. But they would be wildly
     impractical for anything other than racing (a passenger, luggage,
     highway comfort).
--
+- Just a few brands make a 1000cc bike which makes ~100HP.
+  - Kawasaki doesn't make triples, so it offers the Ninja 1000SX.
