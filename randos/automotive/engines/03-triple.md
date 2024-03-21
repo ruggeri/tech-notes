@@ -2,7 +2,7 @@
 
 ```
 # 120deg crank. Three crankpins, each offset by 120deg.
-# Let's assume pin 1 is at 0deg, pin 2 at 120deg, pin 3 at 240deg, in the direction of crank rotation.
+# Pin 1 is at 0deg, pin 2 at 120deg, pin 3 at 240deg, in the direction of crank rotation.
 
 -   0deg -  60deg: P1 combustion,  P3 intake,      P2 exhaust     (power)
 -  60deg - 120deg: P1 combustion,  P3 compression, P2 exhaust     (power)
@@ -19,6 +19,8 @@
 
 # We see that 180deg of power is followed by 60deg of silence.
 # Power is delivered evenly.
+
+# TODO: T-Plane configuration.
 ```
 
 - Typically mounted transverse, and the headers will look like a

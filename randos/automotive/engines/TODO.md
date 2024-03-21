@@ -1,5 +1,12 @@
 ## TODO
 
+Bore vs stroke
+
+https://www.youtube.com/watch?v=UV3RwBPqznU
+https://www.youtube.com/watch?v=j8DSBH2GG8s&t=1220s
+https://www.youtube.com/watch?v=C_YNn3ZkJmU&t=100s
+https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
+
 - https://en.wikipedia.org/wiki/Internal_combustion_engine
 - Have to talk about stuff like cams.
   - https://en.wikipedia.org/wiki/Valvetrain

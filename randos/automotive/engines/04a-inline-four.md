@@ -1,19 +1,21 @@
 ```
 # Flatplane crank
-# Four crankpins. P1 and P4 will move together, and P2 and P3 will move
-# against them. This will achieve primary reciprocating balance, and
-# also primary rotational balance.
+# Pin 1 is at 0deg, Pin 2 is at 180deg, Pin 3 is at 180deg, and Pin 4 is at 0deg.
+#
+# This is like running two nested 360deg twins. We expect primary
+# rotational balance, balance, which a 360deg already has.
+#
+# A 360deg twin does not have primary reciprocating balance, but we gain
+# that because the two copies are 180deg out of phase.
 
--   0deg -  90deg: P1 combustion,  P2 compression, P3 exhaust,     P4 intake
--  90deg - 180deg: P1 combustion,  P2 compression, P3 exhaust,     P4 intake
-- 180deg - 270deg: P1 exhaust,     P2 combustion,  P3 intake,      P4 compression
-- 270deg - 360deg: P1 exhaust,     P2 combustion,  P3 intake,      P4 compression
-- 360deg - 450deg: P1 intake,      P2 exhaust,     P3 compression, P4 combustion
-- 450deg - 540deg: P1 intake,      P2 exhaust,     P3 compression, P4 combustion
-- 540deg - 630deg: P1 compression, P2 intake,      P3 combustion,  P4 exhaust
-- 630deg - 720deg: P1 compression, P2 intake,      P3 combustion,  P4 exhaust
+-   0deg - 180deg: P1 combustion,  P2 compression, P3 exhaust,     P4 intake
+- 180deg - 360deg: P1 exhaust,     P2 combustion,  P3 intake,      P4 compression
+- 360deg - 540deg: P1 intake,      P2 exhaust,     P3 compression, P4 combustion
+- 540deg - 720deg: P1 compression, P2 intake,      P3 combustion,  P4 exhaust
 
 # Power is constantly being delivered, with no silence between power strokes.
+
+## TODO: CP4.
 ```
 
 - Generally used for high revving, high horsepower machines.
@@ -32,9 +34,19 @@
   - I believe you can eliminate the rocking, if the cylinders are at
     0deg, 180deg, 540deg, 360deg. They should have no moment about their
     center of mass.
-    - The firing order is thus: 1-3-4-2.
-    - You could easily design an engine which fires 1-2-4-3, which has
-      been done. I think it would basically give the same result.
+    - Could you do 0deg, 0deg, 180deg, 180deg? That is like nesting two
+      180 deg twins, so they would have primary reciprocating balance.
+      But it wouldn't have _rotational balance_. The two twins would
+      combine their rocking forces.
+    - What about 0deg, 180deg, 0deg, 180deg? That wouldn't quite work.
+      This is like nesting two 180deg twins, but in opposite
+      orientations. They would rock in opposite directions, so there
+      would be better rotational balance. But the outer twin operates at
+      a greater distance from the central pivot, so the magnitude of its
+      rocking torque is greater.
+  - The firing order is thus: 1-3-4-2.
+  - You could easily design an engine which fires 1-2-4-3, which has
+    been done. I think it would basically give the same result.
   - I believe you will still have secondary imbalance. This should be
     doubled.
     - I believe balance shafts are used on higher displacement engines

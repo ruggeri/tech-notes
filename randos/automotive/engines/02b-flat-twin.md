@@ -2,14 +2,14 @@
 
 ```
 # 180deg crankpin offset. Cylinders will move in opposite direction along same axis.
-# Will sound the same as 360deg inline twin. But forces are arranged differently.
 
 -   0deg - 180deg: Piston 1 combustion,  Piston 2 intake      (power)
 - 180deg - 360deg: Piston 1 exhaust,     Piston 2 compression (silence)
 - 360deg - 480deg: Piston 1 intake,      Piston 2 combustion  (power)
 - 480deg - 640deg: Piston 1 compression, Piston 2 exhaust     (silence)
 
-# Note: alternates between 180deg of power and 180deg of silence.
+# Note: Alternates between 180deg of power and 180deg of silence.
+# Note: This is the same timing as a 360deg inline twin, so should have same exhaust note.
 ```
 
 - This is typical of BMW motorcycles. Nobody else does flat engine
