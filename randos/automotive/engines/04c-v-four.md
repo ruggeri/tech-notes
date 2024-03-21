@@ -1,12 +1,23 @@
-In a typical setup, the engine fires like this:
-
 ```
--   0deg -  90deg: Cylinder left1 firing.
--  90deg - 180deg: Both cylinder left1 and right1 firing.
-- 180deg - 270deg: Cylinder right1 firing.
-- 270deg - 360deg: Silence.
-- 360deg - 450deg: Cylinder left2 firing.
-- 450deg - 540deg: Both left2 and right2 firing.
-- 540deg - 630deg: Cylinder right 2 firing.
-- 630deg - 720deg: Silence.
+# We have two cylinder banks. The left and right banks are offset by 90deg.
+# L1 and R1 will share a crankpin. L2 and R2 will share a crankpin.
+# The crankpins are offset by 180deg.
+# We will start with L1 firing and crank toward the right bank.
+
+-   0deg -  90deg: L1 combustion,  R1 compression, L2 intake,      R2 exhaust     (1x power)
+-  90deg - 180deg: L1 combustion,  R1 combustion,  L2 intake,      R2 intake      (2x power)
+- 180deg - 270deg: L1 exhaust,     R1 combustion,  L2 compression, R2 intake      (1x power)
+- 270deg - 360deg: L1 exhaust,     R1 exhaust,     L2 compression, R2 compression (silence)
+- 360deg - 450deg: L1 intake,      R1 exhaust,     L2 combustion,  R2 compression (1x power)
+- 450deg - 540deg: L1 intake,      R1 intake,      L2 combustion,  R2 combustion  (2x power)
+- 540deg - 630deg: L1 compression, R1 intake,      L2 exhaust,     R2 combustion  (1x power)
+- 630deg - 720deg: L1 compression, R1 compression, L2 exhaust,     R2 exhaust     (silence)
+
+# Aprilia RSV4: 65deg V4 with 180deg crank offset.
+# Aprilia Tuono V4: 65deg V4 with 180deg crank offset.
+# Ducati Multistrada V4: 90deg V4 with 70deg crank offset.
+# Ducati Panigale V4: 90deg V4 with 70deg offset.
+# Honda RC213V-S: 90deg V4 with 360deg crank offset. (homologation bike; no longer produced)
+# VFR800: 90deg V4 with 180deg crank offset. (Discontinued)
+# Yamaha V-MAX: 70deg V4, ??? crank offset?
 ```

@@ -1,3 +1,26 @@
+## Triple
+
+```
+# 120deg crank. Three crankpins, each offset by 120deg.
+# Let's assume pin 1 is at 0deg, pin 2 at 120deg, pin 3 at 240deg, in the direction of crank rotation.
+
+-   0deg -  60deg: P1 combustion,  P3 intake,      P2 exhaust     (power)
+-  60deg - 120deg: P1 combustion,  P3 compression, P2 exhaust     (power)
+- 120deg - 180deg: P1 combustion,  P3 compression, P2 intake      (power)
+- 180deg - 240deg: P1 exhaust,     P3 compression, P2 intake      (silence)
+- 240deg - 300deg: P1 exhaust,     P3 combustion,  P2 intake      (power)
+- 300deg - 360deg: P1 exhaust,     P3 combustion,  P2 compression (power)
+- 360deg - 420deg: P1 intake,      P3 combustion,  P2 compression (power)
+- 420deg - 480deg: P1 intake,      P3 exhaust,     P2 compression (silence)
+- 480deg - 540deg: P1 intake,      P3 exhaust,     P2 combustion  (power)
+- 540deg - 600deg: P1 compression, P3 exhaust,     P2 combustion  (power)
+- 600deg - 660deg: P1 compression, P3 intake,      P2 combustion  (power)
+- 660deg - 720deg: P1 compression, P2 intake,      P2 exhaust     (silence)
+
+# We see that 180deg of power is followed by 60deg of silence.
+# Power is delivered evenly.
+```
+
 - Typically mounted transverse, and the headers will look like a
   "trident" a bit.
   - Exception is Rocket III which has a longitudinal mounted engine.

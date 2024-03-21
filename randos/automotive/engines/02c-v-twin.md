@@ -59,25 +59,23 @@
 
 ## Operation
 
-- When left cylinder is at top, right cylinder is at middle. This is
-  what you need for a 270-450 firing interval. Note that you achieve
-  this with a shared crank pin and a 90deg V angle.
-  - At 90deg, right cylinder has finished exhaust. At 180deg, left
-    cylinder is done with combustion, right cylinder is halfway
-    through intake.
-  - At 270deg, right cylinder has completed intake, and left cylinder
-    is halfway through exhaust. At 360deg, left cylinder is done with
-    exhaust, and right cylinder is halfway through compression.
-  - At 450deg, now we start combustion in right cylinder. Left
-    cylinder is halfway through intake. At 540deg, left cylinder is
-    done with intake, and right cylinder is halfway through
-    compression.
-  - At 630deg, right cylinder is done with combustion, and left
-    cylinder is halfway through compression.
-  - And at 720deg, we are back where we started. Left cylinder starts
-    combustion, and right cylinder is halfway through exhaust.
-  - This explains the 270-450 firing interval. Notice the uneven 90deg
-    and 270deg of silence.
+```
+# Shared crank pin. But piston movement is out of phase by 90deg.
+# We'll see that this is the same sound as the 270deg inline twin, but the forces are arranged differently.
+# I'll imagine crankshaft spins from left piston to right. Right will fire first.
+
+-   0deg -  90deg: Piston R combustion A,  Piston L intake B      (power)
+-  90deg - 180deg: Piston R combustion B,  Piston L compression A (power)
+- 180deg - 270deg: Piston R exhaust A,     Piston L compression B (silence)
+- 270deg - 360deg: Piston R exhaust B,     Piston L combustion A  (power)
+- 360deg - 450deg: Piston R intake A,      Piston L combustion B  (power)
+- 450deg - 540deg: Piston R intake B,      Piston L exhaust A     (silence)
+- 540deg - 630deg: Piston R compression A, Piston L exhaust B     (silence)
+- 630deg - 720deg: Piston R compression B, Piston L intake A      (silence)
+
+# Note: uneven interval of silence between power pulses. 90deg then 270deg of silence between pulses.
+```
+
 - You can use a counterweight that is at 180deg from the crankpin.
   This will always rotate opposite the crankpin. This will be
   positioned exactly opposite to the cylinder whenever it fires.

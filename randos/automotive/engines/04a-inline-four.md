@@ -1,3 +1,21 @@
+```
+# Flatplane crank
+# Four crankpins. P1 and P4 will move together, and P2 and P3 will move
+# against them. This will achieve primary reciprocating balance, and
+# also primary rotational balance.
+
+-   0deg -  90deg: P1 combustion,  P2 compression, P3 exhaust,     P4 intake
+-  90deg - 180deg: P1 combustion,  P2 compression, P3 exhaust,     P4 intake
+- 180deg - 270deg: P1 exhaust,     P2 combustion,  P3 intake,      P4 compression
+- 270deg - 360deg: P1 exhaust,     P2 combustion,  P3 intake,      P4 compression
+- 360deg - 450deg: P1 intake,      P2 exhaust,     P3 compression, P4 combustion
+- 450deg - 540deg: P1 intake,      P2 exhaust,     P3 compression, P4 combustion
+- 540deg - 630deg: P1 compression, P2 intake,      P3 combustion,  P4 exhaust
+- 630deg - 720deg: P1 compression, P2 intake,      P3 combustion,  P4 exhaust
+
+# Power is constantly being delivered, with no silence between power strokes.
+```
+
 - Generally used for high revving, high horsepower machines.
 - Kawasaki, Honda, Suzuki, Yamaha all make supersports. Also BMW.
   - Ducati and Aprilia prefer V4s, which we'll talk about later.

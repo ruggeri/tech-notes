@@ -18,6 +18,40 @@
 
 **Crankshaft Angle**
 
+```
+# 360deg crank
+# Crank journals are offset by 0deg. Pistons move together.
+
+-   0deg - 180deg: Piston 1 combustion,  Piston 2 intake      (power)
+- 180deg - 360deg: Piston 1 exhaust,     Piston 2 compression (silence)
+- 360deg - 540deg: Piston 1 intake,      Piston 2 combustion  (power)
+- 540deg - 720deg: Piston 1 compression, Piston 2 exhaust     (silence)
+
+# Note: alternates between 180deg of power and 180deg of silence.
+
+# 180deg crank
+# Crank journals are offset by 180deg. Pistons move in opposite direction.
+-   0deg - 180deg: Piston 1 combustion,  Piston 2 compression (power)
+- 180deg - 360deg: Piston 1 exhaust,     Piston 2 combustion  (power)
+- 360deg - 540deg: Piston 1 intake,      Piston 2 exhaust     (silence)
+- 540deg - 720deg: Piston 1 compression, Piston 2 intake      (silence)
+
+# Note: alternates between 360deg of power and 360deg of silence.
+
+# 270deg crank
+# Crank journals are offset by 90deg. Piston movement is out of phase by 90deg.
+-   0deg -  90deg: Piston 1 combustion A,  Piston 2 intake B      (power)
+-  90deg - 180deg: Piston 1 combustion B,  Piston 2 compression A (power)
+- 180deg - 270deg: Piston 1 exhaust A,     Piston 2 compression B (silence)
+- 270deg - 360deg: Piston 1 exhaust B,     Piston 2 combustion A  (power)
+- 360deg - 450deg: Piston 1 intake A,      Piston 2 combustion B  (power)
+- 450deg - 540deg: Piston 1 intake B,      Piston 2 exhaust A     (silence)
+- 540deg - 630deg: Piston 1 compression A, Piston 2 exhaust B     (silence)
+- 630deg - 720deg: Piston 1 compression B, Piston 2 intake A      (silence)
+
+# Note: uneven interval of silence between power pulses. 90deg then 270deg of silence between pulses.
+```
+
 - 360deg: both pistons move together.
   - Some people use "parallel twin" to refer specifically to this
     crankshaft angle.

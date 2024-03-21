@@ -1,5 +1,14 @@
 ## Single (AKA Thumper)
 
+```
+-   0deg - 180deg: Piston combustion  (power)
+- 180deg - 360deg: Piston exhaust     (silence)
+- 360deg - 540deg: Piston intake      (silence)
+- 540deg - 720deg: Piston compression (silence)
+
+# Note: 180deg of power followed by 540deg of silence.
+```
+
 - Simpler than multi-piston engines.
 - And lower cost!
 - Smaller displacement, usually less power, but also lower weight, and
