@@ -1,7 +1,10 @@
-**Flat (Boxer) Twin**
+# Flat (Boxer) Twin
+
+**Timing**
 
 ```
-# 180deg crankpin offset. Cylinders will move in opposite direction along same axis.
+# 180deg crankpin offset. Cylinders will move in opposite direction
+# along the same axis.
 
 -   0deg - 180deg: Piston 1 combustion,  Piston 2 intake      (power)
 - 180deg - 360deg: Piston 1 exhaust,     Piston 2 compression (silence)
@@ -9,8 +12,35 @@
 - 480deg - 640deg: Piston 1 compression, Piston 2 exhaust     (silence)
 
 # Note: Alternates between 180deg of power and 180deg of silence.
-# Note: This is the same timing as a 360deg inline twin, so should have same exhaust note.
+
+# Note: This is the same timing as a 360deg inline twin, so should have
+# same exhaust note.
+
+# Note: Perfect reciprocating primary and secondary balance. Has primary
+# and secondary rotational imbalance, but this may not be very great
+# because pistons are almost opposite each other.
 ```
+
+**Balance Analysis**
+
+- Primary reciprocating balance: take individual force waveforms. They
+  are identical, but direction of force of one waveform is inverted.
+  Thus, summing them results in perfect destruction of the waveforms,
+  and perfect reciprocating balance.
+- Primary rotational imbalance: here, we invert one waveform. Thus they
+  perfectly constructively interfere. However, the magnitude of the
+  resulting rotational imbalance depends on the distance between
+  cylinder centers. That is as small as having two separate crank pins
+  allows.
+- Secondary reciprocating balance: again, take two identical waveforms
+  (running at twice the crank frequency), except that one is inverted.
+  Thus, they destructively interfere.
+- Secondary rotational imbalance: again, we invert one waveform, and
+  they constructively interfere. Again, the resulting torque may not be
+  very significant, because the distance between cylinder centers is as
+  small as having two separate crankpins allows.
+
+## Discussion
 
 - This is typical of BMW motorcycles. Nobody else does flat engine
   motorcycles.
@@ -24,7 +54,7 @@
   - Can do aircooling this way. However, modern BMW engines are liquid
     cooled.
   - Low center of gravity.
-  - Danger to the cylinders in a collision.
+  - Danger to the cylinders in a tip-over collision with the roadway.
   - I believe that shaft drive is more attractive in this configuration.
     Which is why BMWs very frequently use shaft drives.
 - Cylinder firing is offset by 360deg. This gives even power with 180deg
@@ -40,7 +70,8 @@
 - Secondary reciprocating balance is also perfect, btw.
   - This is because of the opposition of the pistons. This is superior
     to the 180deg parallel twin.
-  - There is secondary rotational imbalance, though.
+  - There is secondary rotational imbalance, though, unlike a 180deg
+    twin.
 - I believe that if you use a single crank pin (sometimes called a
   180degree V-twin), you can get rid of the rotational imbalance.
   - If you do this, then the engine is no longer a boxer. And it will
