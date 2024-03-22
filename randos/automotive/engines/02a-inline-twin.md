@@ -28,6 +28,8 @@
 - 540deg - 720deg: Piston 1 compression, Piston 2 exhaust     (silence)
 
 # Note: Alternates between 180deg of power and 180deg of silence.
+# Note: No primary or secondary reciprocating balance. Perfect primary
+# and secondary rotational balance.
 
 # 180deg crank
 # Crank journals are offset by 180deg. Pistons move in opposite direction.
@@ -38,6 +40,12 @@
 - 540deg - 720deg: Piston 1 compression, Piston 2 intake      (silence)
 
 # Note: Alternates between 360deg of power and 360deg of silence.
+# Note: Primary reciprocating balance the result of perfectly
+# destructive interference. Primary rotational imbalance the result of
+# perfectly constructive interference.
+# Note: Secondary reciprocating imbalance the result of perfectly
+# constructive interference. Secondary rotational balance the result of
+# perfectly destructive interference.
 
 # 270deg crank
 # Crank journals are offset by 90deg. Piston movement is out of phase by 90deg.
@@ -51,15 +59,75 @@
 - 540deg - 630deg: Piston 1 compression A, Piston 2 exhaust B     (silence)
 - 630deg - 720deg: Piston 1 compression B, Piston 2 intake A      (silence)
 
-# Note: Uneven interval of silence between power pulses. 90deg then 270deg of silence between pulses.
-# Note: This is the same timing as a 90deg V-twin. The exhaust note should be the same.
+# Note: Uneven interval of silence between power pulses. 90deg then
+# 270deg of silence between pulses.
+# Note: This is the same timing as a 90deg V-twin. The exhaust note
+# should be the same.
 ```
 
-- 360deg: both pistons move together.
+**Balance Analysis**
+
+- 360deg crank
+  - Primary reciprocating imbalance: add the two individual cylinder
+    primary reciprocating force waveforms. They are offset by 0deg.
+    Thus, the waveform is amplified by 2x.
+  - Primary rotational balance: add the two individual cylinder primary
+    reciprocating waveforms, but first invert one (because this is
+    _rotational_ balance). The waveforms are offset by 0deg, so adding
+    an inversion results in zero rotational imbalance.
+  - Secondary reciprocating imbalance: again, add the two individual
+    cylinder secondary waveforms, which are the same and offset by zero
+    degrees. Again, the amplitude is doubled.
+  - Secondary rotational imbalance: again, add the two individual
+    secondary waveforms, but invert one first. Again, because these
+    waveforms are offset by 0deg, they cancel.
+- 180deg crank
+  - Primary reciprocating balance: add the two individual cylinder
+    primary reciprocating force waveforms. They are offset by 180deg,
+    which is equivalent to an inversion of amplitude. Thus, they cancel.
+  - Primary rotational imbalance: add the two individual cylinder
+    primary reciprocating force waveforms, but first invert one. This
+    "undoes" the inversion that resulted from one waveform being offset
+    by 180deg. Thus, a rotational imbalance is created. Its magnitude
+    depends on (1) primary reciprocating imbalance in a single cylinder,
+    and (2) distance between piston centers.
+  - Secondary reciprocating imbalance: again, you add two individual
+    secondary imbalance waveforms. These waveforms are offset by 180deg
+    of crank rotation, but secondary frequencies run at twice the
+    frequency of the crank. Thus, the two waveforms added will be offset
+    by 360deg, and thus do not cancel. They sum! Thus, we have secondary
+    reciprocating imbalance.
+  - Secondary rotational balance: we invert one of the individual
+    secondary waveforms and sum. The individual secondary waveforms are
+    identical, so they negate each other when one is inverted. We
+    achieve perfect secondary rotational balance.
+- 270deg crank
+  - Primary reciprocating imbalance: we sum the two individual cylinder
+    primary reciprocating force waveforms. They are offset by **90deg**.
+    This is like adding sine and cosine, and the result is a sinusoidal
+    wave that has an amplitude of sqrt(2) ~ 1.4. Thus, the primary
+    reciprocating imbalance is not eliminated, but is 1/1.4 the
+    magnitude of the 360deg twin primary reciprocating imbalance.
+  - Primary rotational imbalance: when we invert one of the waveforms,
+    they will still be 90deg out-of-phase. Thus, the waveforms do
+    destructively interfere somewhat, exactly as with the reciprocating
+    imbalance. Compared to the 180deg crank setup, the rotational
+    imbalance is 1/1.4 the magnitude.
+  - Secondary reciprocating imbalance: we sum the two individual
+    secondary waveforms. They are offset by 90deg of crank rotation, but
+    because secondary vibration runs at twice the frequency, this is
+    equivalent to an offset of 180deg. Thus, the secondary forces
+    cancel.
+  - Secondary rotational imbalance: We invert one of the secondary
+    waveforms. Since they started out 180deg out-of-phase, the inversion
+    brings them back into phase, and thus they constructively interfere.
+
+## Benefits/Disadvantages of Various Crank Configurations
+
+- 360deg
   - Some people use "parallel twin" to refer specifically to this
     crankshaft angle.
-  - Firing is offset by 360deg. This is an even firing interval, which
-    contributes some smoothness to the engine.
+  - Even firing interval. Contributes to smoothness.
     - 180deg of power, 180deg of silence, 180deg of power, 180deg of
       silence.
   - However, this isn't a smooth engine. The forces are not balanced.
@@ -68,30 +136,26 @@
   - Typical of older British bikes. Modern Kawasaki K800 (which is
     like a retro bike) is the only example manufactured today?
   - You need balancing shafts to cancel out the net forces.
-  - This is really a classic British design, and just not used today.
+  - This is really a classic British design, and not used today except
+    on a very few retro bikes (Kawasaki W800 for instance).
 - 180deg: pistons are always opposite to each other.
   - Some people use "vertical twin" to refer specifically to this
     crankshaft angle.
-  - Because mass of pistons is always opposite, there is no net force
-    when firing.
-    - That is, the engine has primary reciprocating balance. We'll see
-      later that it doesn't have secondary reciprocating balance.
   - Typical of Japanese bikes (at least before the current 270deg
-    crankshaft vogue). Less vibration lets them hit higher revs and
+    crankshaft vogue).
+  - The rotational vibration is typically balanced out.
+    - **TODO**: Is that easy? What are the downsides?
+  - With primary balance, can typically hit higher RPMs and make more
     power.
+    - **TODO**: Verify that secondary vibration is less important?
+      Because an individual cylinder's secondary force waveform must
+      always have smaller amplitude than its primary force waveform?
+      Because rod-ratio?
   - Still typical of Kawasaki (including my Ninja 650) and Honda
     twins. They don't make big twins. Also 300cc bikes from Yamaha and
     Suzuki.
-  - Firing of second cylinder is 180deg after first (0deg of silence),
-    but then you wait another 540deg (360deg silence) until the first
-    cylinder fires again. This gives pulsing power.
-    - 180deg of power, 180deg of power, 360deg of silence.
-    - This is a very uneven firing interval.
-  - Because the forces aren't exactly opposite, they will want to
-    rotate around their center. They're applying a torque.
-  - The rotational vibration also is typically balanced out, but this
-    appears to be easier. Also, I think the rotational vibration is
-    less.
+  - Uneven firing order (180deg then 540deg) results in "lumpy" power
+    delivery.
 - 270deg: pistons are offset by 90deg.
   - Sometimes called "crossplane" because crankpins don't lie in a plane
     with the crankshaft; they're offset by 90deg.
@@ -99,8 +163,8 @@
     180deg engine.
     - 180deg of power, 90deg of silence, 180deg of power, 270deg of
       silence.
-  - We'll learn that this is the same interval as the 90deg V-Twin.
-    Which is why they have similar sound.
+  - We'll learn later that this is the same interval as the 90deg
+    V-Twin. Which is why they have similar sound.
   - Appears to be a newer design.
   - Some people say this ends up being similar to a V-Twin. Especially
     in sound. That makes sense, because sound comes from exhaust and is
@@ -114,15 +178,18 @@
     270deg seems to be popular if you're trying to get a torquier
     engine.
     - **TODO**: Is this true? Who says that a 270deg is torquier? Is
-      there a source for that?
+      there a source for that? I don't believe it.
   - The Aprilia Tuono 660 has this configuration.
-  - The primary balance is not perfect. At 45deg you'll hit a max net
-    force of 1.5x. But this is less than the 360deg. And you'll also
-    have some rotational vibration.
-  - These will need to be balanced out.
-- KTM 890 engine has 75deg crank angle and 285-435deg firing interval.
-  This is equivalent to a 75deg V-Twin with a 360deg firing crank
-  angle (the setup of the KTM 1290 engine).
+  - The primary reciprocating and rotational balances are not perfect,
+    but superior to the 360deg twin (attenuated by a factor of 1.4x).
+  - The secondary reciprocating balance is perfect (unlike the 180deg or
+    360deg twins), but the secondary rotational imbalance is as bad as
+    possible (unlike the 180deg or 360deg twins).
+- KTM 890 engine has 75deg crank angle.
+  - This results in 180deg of power, 105deg of silence, 180deg of power,
+    255deg of silence.
+  - This is intended to mimic the 75deg V-Twin that KTM uses in its
+    1290cc engine.
   - **TODO**: Why did they choose this?
 
 **Secondary Vibration**
@@ -145,11 +212,7 @@
   - Well, perhaps in theory it could be greater. But it's smaller
     because the accelerations of the pistons due to the secondary effect
     of connecting rod position are smaller.
-- The 180deg and 360deg will both double the secondary vibration.
-- Though we do note that the 270deg will still have a rocking couple
-  with respect to secondary balance.
-- But that's even smaller than the secondary balance problem would have
-  been.
+  - **TODO**: Can we explore this? I believe it depends on rod-ratio.
 
 **Pumping Losses**
 
