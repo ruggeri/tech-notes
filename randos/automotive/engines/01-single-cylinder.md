@@ -7,6 +7,7 @@
 - 540deg - 720deg: Piston compression (silence)
 
 # Note: 180deg of power followed by 540deg of silence.
+# Note: No primary balance. No secondary balance.
 ```
 
 - Simpler than multi-piston engines.
@@ -17,14 +18,15 @@
 - You can increase RPM to increase power, but that tends to wear the
   engine out faster.
   - If you do higher RPMs, you need stronger connecting rods, for
-    instance. Because the pistons are trying to tear them apart.
+    instance. For the piston to change velocity/direction requires a
+    force through the connecting rod. This basically tries to tear the
+    rod apart.
   - KTM makes a thumper that does 77hp. But that's not enough for most
     people on the highway.
 - Can sometimes get away with air cooling because air isn't blocked
   from any of the cylinders.
-- They have pulsing power delivery and a lot of vibration.
-  - This is because the engine is not _balanced_. We'll talk more
-    about that later.
+- They have pulsing power delivery and a lot of vibration because the
+  engine is not balanced.
 - To even out power pulsation, they'll use a larger than typical
   _flywheel_. The flywheel stores power as rotational inertia.
   - A heavy flywheel increases rotational inertia and makes changes in
@@ -46,16 +48,20 @@
 - At same displacement, will make more low-end torque than a twin?
   - I'm not sure this is necessarily true. However, we expect the twin
     to rev higher than the single. So we expect that valve timing will
-    be optimized for higher revs on the twin.
-  - Also, we expect the stroke of the single to be longer, and maybe
-    that means more torque? Check the article on stroke-bore ratio...
+    be optimized for higher revs on the twin, and lower revs on the
+    single.
+  - Since we don't need large valves to support high RPM, we may expect
+    a longer stroke relative to the bore. Elsewhere I think we find that
+    a smaller bore-to-stroke engine develops more torque and at lower
+    RPM?
 - Some people don't like the sound, which has long gaps between
-  combustion. Sounds like a lawnmower.
+  combustion. Sounds like a lawnmower, because this is what lawnmowers
+  use.
 - Single cylinder can do well in dirt, because 75% of the time the tire
   is not under power, which means it has more time to recover traction.
 - Because singles have a lot of vibration, they can't reach high RPMs,
   which is going to limit the power they can produce.
 - Bikes using this are typically under 400cc and produce very low power.
-  Normally entry level.
+  Normally entry level. And especially dirt bikes.
 
 **TODO**: Sources??
