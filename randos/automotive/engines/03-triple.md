@@ -96,13 +96,16 @@
 - Perfect primary and secondary reciprocating balance is achieved, as
   noted above.
 - A 120deg triple will have some primary rotational imbalance.
-  - The pivot point actually moves. And the magnitude of the
-    rotational imbalance changes throughout the combustion cycle.
-  - It is zero when central piston is at TDC.
-  - But it is maximum when piston 1 (or 3) is at TDC. But note that
-    the pivot point is _not_ at the center piston. It is in between
-    the first and center piston.
-  - It appears that a balance shaft is needed to even this out.
+- Compared to 180deg inline twin of 2/3 displacement, I think this has
+  (1) equivalent primary reciprocating balance, (2) equivalent primary
+  rotational _imbalance_, (3) superior secondary reciprocating balance
+  (in fact, perfect), (4) inferior secondary rotational imbalance.
+  - You might be able to argue that the inferiority in point (4) is
+    equal to the superiority in point (3).
+  - In that case, the triple is equivalently balanced to an 180deg
+    inline twin of 2/3rds the displacement.
+  - In which case, you're getting a third cylinder (and +50%
+    displacement) for free.
 
 ## T-Plane Timing
 
