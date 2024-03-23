@@ -1,4 +1,6 @@
-## Triple
+# Triple
+
+## 120deg Crank Timing
 
 ```
 # 120deg crank. Three crankpins, each offset by 120deg.
@@ -19,14 +21,63 @@
 
 # We see that 180deg of power is followed by 60deg of silence.
 # Power is delivered evenly.
-
-# TODO: T-Plane configuration.
 ```
+
+## 120deg Crank Balance Analysis
+
+- Primary reciprocating balance.
+  - This is the sum of the three individual primary force waveforms.
+    They are identical, except each is offset by 120deg.
+  - I have proven elsewhere that the sum of evenly offset waveforms is
+    always zero. This is the sum of three third-degree roots of unity.
+  - Thus, we have perfect primary reciprocating balance.
+- Primary rotational imbalance.
+  - We will focus on rotational imbalance about the center-of-mass of
+    the engine, since that is what matters in terms of transmission of
+    vibration to frame.
+  - The center of mass lies approximately at the center piston.
+  - Thus, the center piston contributes nothing to the rotational
+    imbalance.
+  - We must sum the primary forces of the two outside pistons, after
+    inverting one of them (because this is a rotational calculation).
+  - The two pistons start out at 240deg out-of-phase. That's 120deg
+    out-of-phase if just looked at with a reversed perspective. And thus
+    we see that inversion doesn't change anything.
+  - What is the sum of two waveforms that are 120deg out-of-phase? We
+    know it's the third waveform inverted.
+  - The outside cylinders are placed about twice as far away as they
+    would be in an inline twin of 2/3s the displacement.
+  - Thus, the primary rotational imbalance should be about equivalent to
+    a 180deg twin of 2/3s the displacement.
+- Secondary reciprocating balance.
+  - We need to sum the three individual secondary force waveforms. These
+    are again offset by 120deg, but the secondary force waveform runs at
+    twice the frequency.
+  - Thus, they are each offset by 240deg. But wait, that means they're
+    still offset by 120deg each, just in the opposite direction as
+    before.
+  - Thus, the summation is exactly the same as before, resulting in
+    perfect secondary reciprocating balance.
+- Secondary rotational imbalance
+  - Again, we ignore the central cylinder. We sum the other two
+    cylinder secondary force waveforms, negating one.
+  - Again, those waveforms start out 120deg out of phase. One is
+    negated, but that just changes the waveforms to be 240deg out of
+    phase.
+  - So their sum is again a sinusoidal of the same amplitude, just as
+    with the primary rotational imbalance.
+- D4A: https://www.youtube.com/watch?v=82rxavW0A3c
+  - Describes inline three balance. Verifies primary reciprocating
+    balance is good, but primary rotational balance is imperfect.
+  - Claims perfect secondary balance; I think he means just secondary
+    reciprocating balance.
+
+## 120deg Crank Discussion
 
 - Typically mounted transverse, and the headers will look like a
   "trident" a bit.
   - Exception is Rocket III which has a longitudinal mounted engine.
-- Yamaha and Triumph are the only bikes that make triples.
+- Yamaha and Triumph are the only manufacturers that make triples.
 - Typically make about 80-120HP.
 - The "typical" setup is 120deg crank offset.
   - Yamaha calls this "CP3" (Crossplane 3). But this is the typical and
@@ -34,65 +85,68 @@
   - All Yamaha triples use this setup.
   - The branding matches CP2 (their 270deg twin) and CP4 (a crossplane 4
     engine) that Yamaha sells.
-  - The firing interval is an even 240deg. The first cylinder fires,
-    then the third, then the second.
-    - That is: 0-180 is cylinder 1 firing. 180-240 is silence. 240-420
-      is cylinder 3 firing. 420-480 is silence. 480-660 is cylinder 2
-      firing. And last 660-720 is silence.
-    - Note: power delivery is not perfectly even, because there are
-      moments when there are no power strokes occurring (180deg to
-      240deg, 420deg to 480deg).
-    - However, this is more even power delivery than any twin engine.
-    - There is an even 60deg of silence between combustion cycles.
-  - Perfect primary reciprocating balance is achieved.
-  - I can also prove that secondary reciprocating balance is perfect.
-    - Angles of 0,120,240 correspond to doubled angles of 0,240,120.
-    - Thus, if we double the frequency, these angles get swapped, but
-      their relative position stays the same.
-    - Thus, by the same argument that primary forces are balanced, we
-      argue that secondary forces are balanced.
-    - Note that it doesn't work for tertiary forces; 0,120,240 become
-      0,0,0 in the tripled frequency domain. Thus, tertiary imbalance is
-      magnified by 3x in this engine.
-    - But I don't believe there are any tertiary imbalances?
-  - A 120deg triple will have some primary rotational imbalance.
-    - The pivot point actually moves. And the magnitude of the
-      rotational imbalance changes throughout the combustion cycle.
-    - It is zero when central piston is at TDC.
-    - But it is maximum when piston 1 (or 3) is at TDC. But note that
-      the pivot point is _not_ at the center piston. It is in between
-      the first and center piston.
-    - It appears that a balance shaft is needed to even this out.
-- Triumph
-  - Trident 660, Speed Triple, and Street Triple have crank angles of
-    120deg. We've already discussed that setup.
-  - Tiger 850, 900, 1200 have "T-Plane."
-  - T-Plane has crank angles of 0deg, 270deg, and 180deg.
-  - Cylinder 1 fires 0-180deg. Then cylinder 3 fires 180-360deg. Then
-    360-450deg is 90deg silence. Then cylinder 2 fires 450-630deg. Then
-    630-720deg is 90deg of silence.
-  - That gives firing intervals of 180-270-270.
-    - Or: 0deg silence, 90deg silence, 90deg silence.
-  - The engine loses primary and secondary balance.
-    - There is not primary reciprocating balance. Two pistons are 180deg
-      apart, but there is the third piston which is not balanced. So
-      that piston will not be balanced.
-    - For primary rotational balance, the two outer pistons form a
-      rocking couple.
-    - But, usefully, the primary rotational imbalance is about the
-      central piston, which is helpful.
-  - Why do this? And why only on the ADV bikes? The reason they say is
-    that even power delivery can mean that the tire is constantly under
-    power and breaks traction in dirt and starts to spin.
-  - By giving a longer interval under no power, the tire can find
-    traction, and then you give it a pulse of power.
-  - It seems implausible, but this was established on earlier big-bang
-    firing engines that are used in off-road motorsports.
-  - The downside is greater vibration.
-    - Which is why I think they don't use it on street bikes, where
-      there is less benefit.
-    - Higher vibration is presumably going to limit overall power.
-  - Another benefit is that the sound is nice.
-  - For this reason, twins with 270 crank throws are also popular
-    off-road.
-  - D4A: https://www.youtube.com/watch?v=vU7faKiQleM
+- As noted above, the firing interval is an even 240deg.
+- Firing order is either 1-3-2 or 1-2-3, depending on the orientation of
+  your cylinder numbering.
+- Power delivery is not perfectly even, because there are moments when
+  there are no power strokes occurring (180deg to 240deg, 420deg to
+  480deg).
+  - However, this is more even power delivery than any twin engine.
+  - There is an even 60deg of silence between combustion cycles.
+- Perfect primary and secondary reciprocating balance is achieved, as
+  noted above.
+- A 120deg triple will have some primary rotational imbalance.
+  - The pivot point actually moves. And the magnitude of the
+    rotational imbalance changes throughout the combustion cycle.
+  - It is zero when central piston is at TDC.
+  - But it is maximum when piston 1 (or 3) is at TDC. But note that
+    the pivot point is _not_ at the center piston. It is in between
+    the first and center piston.
+  - It appears that a balance shaft is needed to even this out.
+
+## T-Plane Timing
+
+```
+# TODO: T-Plane timing.
+```
+
+## T-Plane Frequency Analysis
+
+**TODO**
+
+## T-Plane Discussion
+
+**TODO**: Review this!
+
+- Triumph's Trident 660, Speed Triple, and Street Triple have crank
+  angles of 120deg. We've already discussed that setup.
+- Tiger 850, 900, 1200 have "T-Plane."
+- T-Plane has crank angles of 0deg, 270deg, and 180deg.
+- Cylinder 1 fires 0-180deg. Then cylinder 3 fires 180-360deg. Then
+  360-450deg is 90deg silence. Then cylinder 2 fires 450-630deg. Then
+  630-720deg is 90deg of silence.
+- That gives firing intervals of 180-270-270.
+  - Or: 0deg silence, 90deg silence, 90deg silence.
+- The engine loses primary and secondary balance.
+  - There is not primary reciprocating balance. Two pistons are 180deg
+    apart, but there is the third piston which is not balanced. So
+    that piston will not be balanced.
+  - For primary rotational balance, the two outer pistons form a
+    rocking couple.
+  - But, usefully, the primary rotational imbalance is about the
+    central piston, which is helpful.
+- Why do this? And why only on the ADV bikes? The reason they say is
+  that even power delivery can mean that the tire is constantly under
+  power and breaks traction in dirt and starts to spin.
+- By giving a longer interval under no power, the tire can find
+  traction, and then you give it a pulse of power.
+- It seems implausible, but this was established on earlier big-bang
+  firing engines that are used in off-road motorsports.
+- The downside is greater vibration.
+  - Which is why I think they don't use it on street bikes, where
+    there is less benefit.
+  - Higher vibration is presumably going to limit overall power.
+- Another benefit is that the sound is nice.
+- For this reason, twins with 270 crank throws are also popular
+  off-road.
+- D4A: https://www.youtube.com/watch?v=vU7faKiQleM

@@ -16,9 +16,10 @@
 # Note: This is the same timing as a 360deg inline twin, so should have
 # same exhaust note.
 
-# Note: Perfect reciprocating primary and secondary balance. Has primary
-# and secondary rotational imbalance, but this may not be very great
-# because pistons are almost opposite each other.
+# Note: Perfect primary reciprocating and secondary reciprocating
+# balance. Has primary rotational and secondary rotational imbalance,
+# but this may not be very great because pistons are almost opposite
+# each other.
 ```
 
 **Balance Analysis**

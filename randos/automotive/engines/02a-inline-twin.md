@@ -78,7 +78,7 @@
   - Secondary reciprocating imbalance: again, add the two individual
     cylinder secondary waveforms, which are the same and offset by zero
     degrees. Again, the amplitude is doubled.
-  - Secondary rotational imbalance: again, add the two individual
+  - Secondary rotational balance: again, add the two individual
     secondary waveforms, but invert one first. Again, because these
     waveforms are offset by 0deg, they cancel.
 - 180deg crank
