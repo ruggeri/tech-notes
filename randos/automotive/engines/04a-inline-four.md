@@ -95,61 +95,88 @@
 - Because there is always a cylinder firing, the exhaust note is very
   even. This gives a screaming sound at high RPM.
 
-## Crossplane Crank
+## Crossplane Crank Timing
 
-- **TODO**: Crossplane timing.
-- **TODO**: Crossplane frequency analysis.
+```
+# Crossplane Crank
+# Pin 1 is at 0deg, pin 2 is at 90deg, pin 3 is at 270deg, and pin 4 is
+# at 180deg.
+# This is called "crossplane" because the crankpins like in two
+# perpendicular planes that intersect at the crank axis.
+
+-   0deg -  90deg: P1 combustion,  P2 intake,      P3 exhaust,     P4 compression | (1x power)
+-  90deg - 180deg: P1 combustion,  P2 compression, P3 intake,      P4 compression | (1x power)
+- 180deg - 270deg: P1 exhaust,     P2 compression, P3 intake,      P4 combustion  | (1x power)
+- 270deg - 360deg: P1 exhaust,     P2 combustion,  P3 compression, P4 combustion  | (2x power)
+- 360deg - 450deg: P1 intake,      P2 combustion,  P3 compression, P4 compression | (1x power)
+- 450deg - 540deg: P1 intake,      P2 exhaust,     P3 combustion,  P4 compression | (1x power)
+- 540deg - 630deg: P1 compression, P2 exhaust,     P3 combustion,  P4 combustion  | (1x power)
+- 630deg - 720deg: P1 compression, P2 intake,      P3 exhaust,     P4 combustion  | (silence)
+
+# We see a firing intervals of 180deg, 90deg, 180deg, 270deg.
+# Firing order is 1, 4, 2, 3. (Or 1, 3, 2, 4, if you use the opposite
+# orientation).
+
+# Source: https://www.yamahapart.com/crossplanecrankshaft
+# Clearly indicates there is only 90deg of silence, and 90deg of overlap.
+```
+
+## Crossplane Crank Frequency Analysis
+
+- Primary reciprocating balance: sum four identical waveforms, each
+  offset by 90deg. But the 0deg and 180deg waveforms and the 90deg and
+  270deg waveforms negate. Thus we have perfect primary reciprocating
+  balance.
+- Primary rotational imbalance: We need to negate two of the primary
+  waveforms before summing them. This is equivalent to a 180deg
+  rotation. Thus, cylinder 1 and and cylinder 4's waveforms
+  constructively interfere, as do cylinder 2 and cylinder 3's. This is
+  worst-case primary rotational imbalance.
+  - Note that the outer cylinders contribute more as a rocking couple,
+    because they are more distant from the center-of-mass.
+- Secondary reciprocating balance: the secondary force waveforms run at
+  double the frequency. Thus, instead of four waveforms offset by 90deg,
+  they are each offset by 180deg. Thus cylinder 1 and cylinder 2 cancel
+  each other, as do cylinders 3 and 4.
+- Secondary rotational imbalance. We negate the waveforms for cylinders
+  3 and 4, so that we can calculate a torque. We also need to weight by
+  distance from the center of mass.
+  - Cylinders 1 and 4 have the same secondary waveform, so when cylinder
+    4's waveform is negated, it cancels the waveform of cylinder 1.
+  - Cylinders 2 and 3 also have the same secondary waveform before
+    cylinder 3's waveform is negated. They should cancel, too.
+
+## Crossplane Crank Discussion
 
 - Yamaha is the only one currently doing this for inline fours.
 - The YZF-R1 is the only bike that uses this. It's a 150HP liter bike.
-- Crank angle is 90deg. So pistons are at 0deg, 270deg, 450deg, 180deg
-  with respect to each other.
-  - This is "crossplane" because the cylinders do lie in two planes
-    that intersect at the crankshaft.
-  - Notice that the firing order is 1-3-2-4. (Again, could have
-    arranged 1-2-3-4, or even 1-4-2-3).
-  - Cylinder 1 fires 0deg-180deg, 180deg-270deg of silence, cylinder 3
-    fires 270deg-450deg, cylinder 2 fires 450deg-630deg, and cylinder
-    4 fires 540deg-720deg.
-  - Notice there is 90deg of silence, and 90deg of overlap.
-- So let's talk balance. You should have primary reciprocating
-  balance. But you should have rocking about the center of mass.
-- So you have two rocking couples.
-  - But the outer couple is placed further away, so it has more of an
-    impact.
-  - You could add counterweights at ends of crankshaft to reduced (but
-    not eliminate) this rocking couple. We talked about how you could
-    do that with 180deg parallel twins.
-  - Claims that a balance shaft is a better solution here because...
-    Why?
-- In good news, you have less secondary imbalance than a flatplane I4.
-  - That's because there is no net secondary force at 90deg/270deg.
-  - So you only have two pistons (the ones at 0deg, 180deg)
-    contributing to secondary imbalance.
-  - But this is not much of a win, because secondary imbalances are
-    already less important than primary imbalance.
-- Talks about big bang engines, which produce their torque/power
-  during a short phase of the cycle. The bangs are placed closer
-  together.
-  - This typically increases vibrations and reduces maximum possible
-    output.
-  - He talks about the advantage. Which is that in extreme high-speed
-    cornering, you're going to get recovery time during which the tire
-    is not under power. That way you can regain traction.
-  - The crossplane isn't as crazy as some I4s with even more absurd
-    firing intervals. But it's on that spectrum.
-  - The R6 doesn't use crossplane because the 600 class is not
-    overpowered for the exit.
+- There is 90deg of silence, and 90deg of overlap.
+- D4A suggests that you can use either a crankshaft counterweight or a
+  balance shaft.
+- D4A seems to suggest that that crossplane I4 still has some secondary
+  imbalance?
+  - I think he might be wrong?
+  - Cycle World seems to suggest he is:
+    https://www.cycleworld.com/sport-rider/crossplane-what/
+  - They explicitly reference primary and secondary balance, and
+    explicitly call out a "primary rocking couple." They don't mention a
+    secondary rocking couple.
+  - So I think they agree with me.
+- D4A describes why this bike exists. It's to give the tire recovery
+  time to find traction again on corner exit.
+  - He suggests that the R6 doesn't use crossplane because the 600 class
+    is not overpowered for the exit.
 - Basically, this means the bike will have more vibration, and this
   really only benefits you when pushing to the absolute limit in
   cornering.
 - Last, I believe this is why you only see this in the Yamaha R1,
   which makes like 160+ HP and is meant for racing.
-- Source: https://www.youtube.com/watch?v=uM-ycHS9uvw&t=180s
+- Source: https://www.youtube.com/watch?v=uM-ycHS9uvw
 
 ## Examples/Uses
 
-- You have a lot of 1000cc inline 4 liter bikes.
+- You have a lot of 1000cc inline 4 liter bikes. Especially amongst
+  Japanese bikes, but also BMW.
   - Suzuki GSX-R1000, Honda CBR1000RR, Kawasaki Ninja ZX-10R, BMW
     S1000R, Yamaha MT-10, Yamaha YZF-R1.
   - Most of these are set up as nakeds. A number are also set up with
@@ -159,6 +186,9 @@
   - These all make about 150-200HP.
 - There's also typically a huge tourer version: the Kawasaki Concours14
   (canceled?), Yamaha FJR1300ES, for instance. Those are huge and heavy.
+  - But those touring motorcycles start to compete with six cylinder
+    motorcycles like the Goldwing, which can give more power and run
+    smoother.
 - Then you have a bunch of supersport bikes that are around 650cc.
   - They tend to make about 100HP.
   - Examples include Honda CBR650R, Kawasaki ZX-6R, Suzuki GSX-R600,
@@ -166,5 +196,3 @@
   - These bikes are agile and smaller. But they would be wildly
     impractical for anything other than racing (a passenger, luggage,
     highway comfort).
-- Just a few brands make a 1000cc bike which makes ~100HP.
-  - Kawasaki doesn't make triples, so it offers the Ninja 1000SX.
