@@ -45,10 +45,16 @@
     we see that inversion doesn't change anything.
   - What is the sum of two waveforms that are 120deg out-of-phase? We
     know it's the third waveform inverted.
-  - The outside cylinders are placed about twice as far away as they
-    would be in an inline twin of 2/3s the displacement.
-  - Thus, the primary rotational imbalance should be about equivalent to
-    a 180deg twin of 2/3s the displacement.
+  - I believe that a triple should have rotational imbalance somewhere
+    between a 180deg twin of 66%-100% of the triple's displacement.
+    - Consider 2/3rds displacement 180deg twin.
+    - 180deg twin has more constructive interference of primary torques
+      (2x vs 1x).
+    - Cylinder size/shape is the same (assumes same bore-to-stroke). But
+      the cylinders are closer together (0.5x vs 1x).
+    - But also if compression is same, force in cylinders from
+      combustion should be less?
+    - Not entirely sure of this analysis.
 - Secondary reciprocating balance.
   - We need to sum the three individual secondary force waveforms. These
     are again offset by 120deg, but the secondary force waveform runs at
@@ -96,60 +102,81 @@
 - Perfect primary and secondary reciprocating balance is achieved, as
   noted above.
 - A 120deg triple will have some primary rotational imbalance.
-- Compared to 180deg inline twin of 2/3 displacement, I think this has
-  (1) equivalent primary reciprocating balance, (2) equivalent primary
-  rotational _imbalance_, (3) superior secondary reciprocating balance
-  (in fact, perfect), (4) inferior secondary rotational imbalance.
-  - You might be able to argue that the inferiority in point (4) is
-    equal to the superiority in point (3).
-  - In that case, the triple is equivalently balanced to an 180deg
-    inline twin of 2/3rds the displacement.
-  - In which case, you're getting a third cylinder (and +50%
-    displacement) for free.
 
 ## T-Plane Timing
 
 ```
-# TODO: T-Plane timing.
+# Three crankpins, each offset by 90deg. Pin 1 is at 0deg, pin 2 is at
+# 90deg, pin 3 is at 180deg.
+
+-   0deg- 90deg: P1 combustion,  P2 intake,      P3 exhaust     | (power)
+-  90deg-180deg: P1 combustion,  P2 compression, P3 exhaust     | (power)
+- 180deg-270deg: P1 exhaust,     P2 compression, P3 intake      | (silence)
+- 270deg-360deg: P1 exhaust,     P2 combustion,  P3 intake      | (power)
+- 360deg-450deg: P1 intake,      P2 combustion,  P3 compression | (power)
+- 450deg-540deg: P1 intake,      P2 exhaust,     P3 compression | (silence)
+- 540deg-630deg: P1 compression, P2 exhaust,     P3 combustion  | (power)
+- 630deg-720deg: P1 compression  P2 intake,      P3 combustion  | (power)
+
+# Firing interval is 180deg of combustion, 90deg silence, 180deg
+# combustion, 90deg silence, 180deg of combustion. Also notated as
+# 270deg, 270deg, 180deg.
 ```
 
 ## T-Plane Frequency Analysis
 
-**TODO**
+- Primary translational imbalance: we need to sum three primary force
+  waveforms each 90deg out-of-phase. The first and third cancel, but the
+  second waveform remains. Primary translational imbalance is thus
+  equivalent to a single-cylinder of 1/3rd the displacement.
+  - This is worse than the 120deg triple, which has no primary
+    translational imbalance.
+- Primary rotational imbalance: we need to sum the three primary force
+  waveforms, weighted by distance from the CoM. This allows us to ignore
+  the middle cylinder. We sum the outer cylinder waveforms, remembering
+  to invert one first. Since the outer cylinders start out 180deg
+  out-of-phase, inversion brings them into phase. Thus the waveforms
+  perfectly constructively interfere.
+  - This is 2x as bad as the conventional inline triple.
+- Secondary translational imbalance: secondary force waveforms are each
+  set 180deg apart. When summing them, one is left.
+  - This is inferior to the conventional triple crank configuration,
+    which has secondary translational balance.
+- Secondary rotational balance: We ignore the central cylinder and focus
+  on the outside cylinders. The outside cylinder secondary force
+  waveforms are in-phase, but because this is rotational imbalance, we
+  need to invert one. The outside cylinders are also at the same
+  distance from the CoM. Thus the torques cancel.
+  - This is superior to the conventional triple, which has an imbalance.
 
 ## T-Plane Discussion
-
-**TODO**: Review this!
 
 - Triumph's Trident 660, Speed Triple, and Street Triple have crank
   angles of 120deg. We've already discussed that setup.
 - Tiger 850, 900, 1200 have "T-Plane."
-- T-Plane has crank angles of 0deg, 270deg, and 180deg.
-- Cylinder 1 fires 0-180deg. Then cylinder 3 fires 180-360deg. Then
-  360-450deg is 90deg silence. Then cylinder 2 fires 450-630deg. Then
-  630-720deg is 90deg of silence.
-- That gives firing intervals of 180-270-270.
-  - Or: 0deg silence, 90deg silence, 90deg silence.
-- The engine loses primary and secondary balance.
-  - There is not primary reciprocating balance. Two pistons are 180deg
-    apart, but there is the third piston which is not balanced. So
-    that piston will not be balanced.
-  - For primary rotational balance, the two outer pistons form a
-    rocking couple.
-  - But, usefully, the primary rotational imbalance is about the
-    central piston, which is helpful.
-- Why do this? And why only on the ADV bikes? The reason they say is
-  that even power delivery can mean that the tire is constantly under
-  power and breaks traction in dirt and starts to spin.
-- By giving a longer interval under no power, the tire can find
-  traction, and then you give it a pulse of power.
-- It seems implausible, but this was established on earlier big-bang
-  firing engines that are used in off-road motorsports.
-- The downside is greater vibration.
+- The engine loses primary and secondary translational balance.
+- It also doubles the primary rotational imbalance, while eliminating
+  the secondary rotational imbalance.
+  - A bad deal, because secondary rotational balance is much smaller.
+- Triumph says the goal was to give more recovery time (during the 90deg
+  silence, 1/8th more than in 120deg triple). That could help mostly on
+  the dirt, where the tire may lose traction under power, but gets time
+  to find traction during the unpowered interval.
+- That would explain why only the Triumph ADV bikes have this setup. The
+  street ones use a conventional 120deg triple.
+- Another factor is to obtain a different sound. This can help your
+  motorcycle stand out from the crowd, or offering something unique that
+  people might want to pay for.
+- The downside is less balance greater vibration.
   - Which is why I think they don't use it on street bikes, where
     there is less benefit.
   - Higher vibration is presumably going to limit overall power.
-- Another benefit is that the sound is nice.
-- For this reason, twins with 270 crank throws are also popular
-  off-road.
-- D4A: https://www.youtube.com/watch?v=vU7faKiQleM
+- Last thought: Kevin Cameron suggests you need a balance shaft anyway
+  for a conventional triple (to eliminate the primary rotational
+  imbalance). In that case, maybe the T-Plane just requires a
+  reconfiguration of balance shaft weight, which can correct the
+  imbalances it introduces.
+  - I don't presently know enough about balance shafts to explore this
+    myself.
+- D4A T-Plane Discussion: https://www.youtube.com/watch?v=vU7faKiQleM
+- Source Kevin Cameron: https://www.cycleworld.com/story/bikes/triumphs-new-t-plane-firing-order-explained/
