@@ -64,6 +64,7 @@
 - These appear to be most identified with BMW, which continued to focus
   on I6 even as other manufacturers made V6s because they package
   better.
+  - I think Mercedes-Benz also made a lot?
 - Simple design, because one cylinder head, one set of camshafts, one
   exhaust manifold.
 - It has an even firing interval of 120deg. And there is 60deg of power
