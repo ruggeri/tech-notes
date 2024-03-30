@@ -1,4 +1,4 @@
-# Flat Four
+# Flat (Boxer) Four
 
 ## Timing
 
@@ -80,10 +80,14 @@
   - In the Subaru, I think they like that the weight is low.
   - I think also they prefer the flat four to the inline four maybe
     because it gives space for the AWD?
+- I am not aware of an 180deg v-angle V4 engines. I think they are just
+  inferior to the boxer four.
 - Compared to the boxer twin, this has no gaps in power, and gains
   primary rotational balance.
 - Compared to the inline four, the boxer four gains secondary
   reciprocating balance but loses secondary rotational balance.
   - However, because of the small offset of crank pins, maybe secondary
     imbalance is not very great. So this cold be better than the I4.
-- Source: https://www.youtube.com/watch?v=TQlyS2rw-sk
+  - Both have even firing interval of 180deg.
+- Source: https://youtu.be/TQlyS2rw-sk?t=1220
+  - D4A compares applications of inline four, V4 and boxer 4.
