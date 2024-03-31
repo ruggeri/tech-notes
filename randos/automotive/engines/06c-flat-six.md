@@ -87,9 +87,16 @@
   a lighter crankshaft.
 - Main downside versus inline six are that it is wide, so hard to fit in
   an engine bay, and it has two cylinder heads/camshafts/manifolds.
-- Compared to an H4, the H6 doesn't really gain perfect rotational
+- Compared to an H4, the H6 doesn't gain perfect secondary rotational
   balance. It even might lose some primary rotational balance.
+  - I do believe it has substantially better secondary rotational
+    balance than the H4, though.
+  - And the lost primary rotational balance is also minimal.
   - On the other hand, it has 60deg of overlap.
   - And of course it can make more power, probably by hitting higher RPM
     because each cylinder is smaller and each piston is lighter.
+- I think relative to an I6, the H6 is a lot easier to fit in a car.
+  From this analysis it feels like the balance is worse.
+  - And it gives a lower CoM, which improves handling.
+  - Which is why I think Porsche uses them in sporty vehicles.
 - Source: https://youtu.be/mTS48jX68YU?t=733
