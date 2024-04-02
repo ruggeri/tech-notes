@@ -17,7 +17,7 @@
 # Note: Secondary reciprocating imbalance. Secondary rotational balance.
 ```
 
-## Flatplane Crank Frequency Analysis
+## Flatplane Crank Balance Analysis
 
 - The flatplane crank engine is like running two nested 360deg twins.
   The outer cylinders are a 360deg twin, and the inner cylinders are a
