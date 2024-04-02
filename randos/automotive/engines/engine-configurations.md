@@ -18,21 +18,6 @@
   - More cylinders also means more fuel injectors and valves, which
     means you can give more fuel to the engine.
 
-## Engine Configurations
-
-In progress: moving engine configurations to their own documents.
-
-**V4**
-
-- **TODO**
-
-**Future Engines to Study**
-
-- V6 and V8: these are popular in muscle cars.
-- I6: Engine with perfect primary and secondary balance.
-- I know that D4A has a video about different 6-cylinder types.
-- Flat 12: Compare to V12?
-
 ## Displacement and HP
 
 - Here are some references.
@@ -106,29 +91,6 @@ In progress: moving engine configurations to their own documents.
   - Engineering Explained.
   - Explains three cylinder engine.
   - Explains crank angles, firing interval.
-
-## Cylinders
-
-why do single cylinders have more torque and less top-end power?
-
-Why might inline twin have less torque than
-
-Triple is a good middleground between twins and fours.
-Tiples don't have as much torque as v-twins, but not as much power as inline fours.
-
-Four cylinders have smooth power delivery, can put up high horsepower numbrs
-Not much power at bottom end
-Sound is high pitched scream
-
-V-Twin
-Great low end torque
-Sounds good
-
-V-Four
-Great torque and power, good sound exhaust
-
-Flat Twin
-Great torque
 
 ---
 
