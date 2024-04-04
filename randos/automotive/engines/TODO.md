@@ -1,5 +1,7 @@
 ## TODO
 
+Note source: Advanced Engine Technology.
+
 Bore vs stroke
 
 https://www.youtube.com/watch?v=UV3RwBPqznU

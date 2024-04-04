@@ -41,7 +41,7 @@
   - This should shake back-and-forward alone the line that is 45deg from
     each cylinder.
 - Secondary rotational balance
-  - Again, since the cylinders are almost int he same plane, we do not
+  - Again, since the cylinders are almost in the same plane, we do not
     expect a rotational imbalance.
 
 ## Counterweight Balancing
