@@ -13,11 +13,14 @@
 - 540deg - 630deg: L1 compression, R1 intake,      L2 exhaust,     R2 combustion  (1x power)
 - 630deg - 720deg: L1 compression, R1 compression, L2 exhaust,     R2 exhaust     (silence)
 
+Production motorcycles:
 # Aprilia RSV4: 65deg V4 with 180deg crank offset.
 # Aprilia Tuono V4: 65deg V4 with 180deg crank offset.
 # Ducati Multistrada V4: 90deg V4 with 70deg crank offset.
 # Ducati Panigale V4: 90deg V4 with 70deg offset.
+
+Homologations and discontinued bikes:
 # Honda RC213V-S: 90deg V4 with 360deg crank offset. (homologation bike; no longer produced)
-# VFR800: 90deg V4 with 180deg crank offset. (Discontinued)
+# Honda VFR800: 90deg V4 with 180deg crank offset. (Discontinued)
 # Yamaha V-MAX: 70deg V4, ??? crank offset?
 ```
