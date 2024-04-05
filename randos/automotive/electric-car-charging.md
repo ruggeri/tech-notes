@@ -55,8 +55,8 @@ driving.
 
 ## Charger Connectors
 
-- SAE J1772
-  - This is single-phase AC.
+- SAE J1772 (American name)
+  - This is single-phase AC. It can do 120V or 240V charging.
   - It doesn't support DC charging.
   - Thus it can't do fast charging.
   - This was also used in Japan.
@@ -65,22 +65,25 @@ driving.
   - Standardized as IEC 62196 Type 1.
     - There is a European IEC 62196 Type 2. This can connect 1 or 3
       phases. It has two extra pins, of course.
-      - They are in a different arrangement than the J1772.
+      - They are in a totally different arrangement than the J1772.
     - There is even a IEC 62196 Type 3 that was used in Italy or France.
       It was a different physical format, but same idea as Type 2.
   - I don't believe new battery electric vehicles really use SAE J1772
     anymore. It can't do enough power.
     - Plug-in hybrid vehicles with small wattage on-board chargers (like
       the RAV4 Prime) do often use SAE J1772.
+  - SAE J1772 is commonly used at home or as a travel-charger in the US.
 - CCS: Combined Charging System
   - CCS1 extends SAE J1772. It adds two DC pins. This is CCS Type 1.
     - The CCS1 connector doesn't have the AC pins. But the port accepts
       them.
     - Thus J1772 connector can fit CCS1 port. But CCS1 connector can't
       fit J1772.
+    - CCS1 is commonly found in the US.
   - There is also CCS Type 2. That extends IEC 62196 Type 2.
     - IEC 92196 Type 2 connector can fit CCS2. But of course CCS2 won't
       fit IEC 92196 Type 2.
+    - Agin, this is for the EU, not USA.
   - The CCS1 and CCS2 connectors/ports are shaped differently so that
     one cannot be plugged into the other. That's a little unfortunate,
     if you take your American BEV car to Europe (or vice versa).

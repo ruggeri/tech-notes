@@ -1,7 +1,7 @@
 ## All Wheel Drive
 
 - All wheel drive (AWD) means that power can be sent to all wheels.
-- Cars are typically either RWD (typically of performance cars) or FWD
+- Cars are typically either RWD (typical of performance cars) or FWD
   (more common). Only one axle (two wheels) are powered.
 - One way to achieve AWD is to assign an electric motor to each wheel.
   - Sometimes called individual wheel drive I think.
@@ -77,7 +77,7 @@
   The front wheels can spin freely and independently.
 - But let's go back to the 4WD. It will have a front axle. It might not
   have a differential at the front, though.
-- You want to switch it rom RWD to 4WD mode. The 4WD is going to lock
+- You want to switch it from RWD to 4WD mode. The 4WD is going to lock
   the front and rear axles. Now all wheels are locked together.
 - Question: if theres no differential up front, how do the front wheels
   navigate turns without binding in RWD mode?
