@@ -104,7 +104,7 @@ current_engine_torque * current_rpms ? next_engine_torque * next_rpms
 current_hp ? next_hp
 ```
 
-Thus we see that an upshift will increase acceleartion iff the upshift
+Thus we see that an upshift will increase acceleration iff the upshift
 increases wheel torque iff the upshift results in greater engine
 horsepower output. It is this last formulation that we can reason about
 most easily from a dynograph.
@@ -162,8 +162,12 @@ changes are "taller" in lower gears (the change in gear ratio is great).
 As the gear changes get "shorter", then your RPMs will drop less as you
 shift. Let's say that `max_hp_rpms` is the RPMs at which horsepower is
 maximized; for the BMW 1250GS this is 7.5k RPMs. Let's assume
-momentarily that past 7.5k RPM, HP stays constant. Then of course we
-will want to shift no later than `max_hp_rpms / (next_gear_ratio/current_gear_ratio)`.
+momentarily that past 7.5k RPM, HP stays constant. In this ideal
+scenario, there is harm in shifting at `max_hp_rpms /
+(next_gear_ratio/current_gear_ratio)`. This is an upper-bound; it will
+typically be better to shift before this RPM because HP will be dropping
+off.
+
 We can calculate this for some upper-bounds on when to shift:
 
 ```
@@ -178,6 +182,8 @@ Note that you may want to upshift earlier than these calculations, since
 HP will be dropping past the peak-HP RPM number. If this post-peak drop
 in HP is steeper than the pre-peak rise in HP, you might want to shift
 earlier.
+
+What we see is that we want to shift pretty close to redline.
 
 ## Comparing Torque and Horsepower
 
@@ -227,9 +233,10 @@ RPM (with less torque). The torquier bike is going to accelerate harder
 at the lower RPMs, whereas the peakier bike accelerates harder once it
 is reving high.
 
-Which engine accelerates faster from a stop? The engine that makes power
-lower in the rev range should have the advantage for a start, until the
-peakier engine gets into the rev range where it is producing more power.
+Which engine accelerates faster from a stop? If the gearing is the same,
+the engine that makes power lower in the rev range should have the
+advantage for a start, until the peakier engine gets into the rev range
+where it is producing more power.
 
 If the peaky engine has a very short first gear, it should be able to
 spin up quickly to peak RPM. But then you're going to have to upshift,
@@ -299,6 +306,28 @@ go, and because motorcycle gas mileage is already pretty decent, this is
 not that interesting to me.
 
 Source: https://www.youtube.com/watch?v=C6_FtVTjKng
+
+## Peak Torque, Peak Horsepower
+
+Manufacturers often list _peak_ torque and _peak_ horsepower numbers,
+but those are less useful than the dyno chart.
+
+If you had some kind of perfect CVT, then peak horsepower would really
+be the ideal. You would run the engine at peak HP, and you would vary
+the gear ratio as your speed increased, maintaining maximum
+acceleration.
+
+But either a peak torque or peak HP number might be misleading if the
+bike doesn't have a wide plateau of torque. If it doesn't, then upshifts
+are going to doubly hurt you by not just reducing RPM, but also reducing
+engine torque.
+
+An engine with high torque but low HP maxes out acceleration in a gear
+at a relatively low RPM. That means you're forced to upshift earlier.
+The bike might feel faster in first gear for a while, though.
+
+An engine with high HP but a low torque might accelerate more slowly at
+first, but then start to catch up as you reach higher RPM/speed.
 
 ## Sources
 
