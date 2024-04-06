@@ -17,6 +17,17 @@
     manually. This locks the center differential.
   - You're not supposed to do this if you will drive on pavement.
   - Systems like this are often billed as "4WD" or 4x4.
+- Toyota RAV4 is a good example.
+  - Non hybrid versions have an electromagnetic clutch that connects
+    rear and front axles. Power can be sent to the rear as necessary.
+  - A more sophisticated version on the Highlander has two clutches at
+    the rear to allow power to be sent to either the left or right rear
+    wheel.
+  - The RAV4 Prime doesn't have a driveshaft to send power to the rear.
+    It has electric motors at the rear. Under 15mph, these are always
+    used. Above 15mph, they are used as the computer deems necessary.
+  - Source:
+    https://www.kbb.com/car-news/what-you-need-to-know-about-toyotas-hybrid-all-wheel-drive/
 - A second method is to use an open or limited-slip differential to
   connect the axles.
   - If using an open differential, then a loss of traction at _any_ tire
