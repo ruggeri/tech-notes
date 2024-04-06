@@ -175,6 +175,7 @@ Source: https://www.youtube.com/watch?v=jj2BRE0Unck
   - The air spring just compresses air.
   - Air springs are lighter. So that matters to cyclists.
   - It's easier to adjust the spring rate by changing the pressure.
+    - I think this is similar to adjusting the preload on a coil system.
   - People say that coil springs give superior ride quality.
   - One reason is that you need tight seals for the air chamber, and
     that cause friction.
