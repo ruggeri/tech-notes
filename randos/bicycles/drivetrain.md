@@ -228,9 +228,9 @@
 
 - Important reminder: lower gear ratio means greater magnification of
   the input force. That is: lower gear ratio means easier pedalling.
-- The "granny" gear on a chainring is the _smallest_ one. This results
-  in the lowest gear ratio. It means that a turn of the pedals results
-  in the least turn of the rear wheels.
+- The "granny" gear on a chainring is the _biggest_ gear with the most
+  teeth. This results in the lowest gear ratio. It means that a turn of
+  the pedals results in the least turn of the rear wheels.
 - That means that the force required to turn the rear wheel with
   constant resistance is least.
 - Internal hub gears have a minimum _input_ gear ratio. This gear ratio

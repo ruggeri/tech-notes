@@ -13,7 +13,7 @@
     grease.
   - Simple green is a common choice.
 - You can also use other solvent-based degreaser.
-  - Some people literally poor gasoline over parts.
+  - Some people literally pour gasoline over parts.
   - You can use mineral spirits (also called white spirits, mineral
     turpentine, petroleum spirits, or solvent naptha). These are
     petroleum derived and are an alternative to plant-derived

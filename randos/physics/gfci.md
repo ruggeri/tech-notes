@@ -55,7 +55,7 @@ if the puddle includes a path to ground.
 Source: http://pressbooks-dev.oer.hawaii.edu/buildingmaintenance/chapter/electrical-safety/#:~:text=Skin%20Condition%2D%20The%20human%20body's,)%2D%20150%20ohms%20of%20resistance
 
 So what do these shaver outlets (called Shaver Supply Unit) do? First,
-they incorporate an isolating transformer. That means, you can only
+they incorporate an **isolating transformer**. That means, you can only
 complete the circuit by returning to the outlet. You cannot have a
 ground fault leak to a common ground.
 
