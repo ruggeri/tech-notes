@@ -140,6 +140,13 @@ Source: https://www.youtube.com/watch?v=jj2BRE0Unck
     at the bottom of the fork.
 - There are fancy systems that even let you set damping at different
   levels for different velocities of shocks!
+- https://www.youtube.com/watch?v=mRWmClH0bC0
+  - Here Ari installs cartridge emulators.
+  - These convert an orifice style damping system to a "cartridge"
+    version.
+  - The cartridge version has different valves (not just orifices) that
+    can respond differently to compression and rebound.
+  - https://racetech.com/emulators-how-they-work/
 
 ## More
 
