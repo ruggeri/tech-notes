@@ -104,9 +104,81 @@ Now when interacting with the `main` remote, git will SSH with a host of
 `somewhere.com`, but the identity used will be as specified in
 `.ssh/config`.
 
+## ssh-agent
+
+When using a passphrase for your private key, you will have to enter it
+every time you use it with SSH (and git). This can be annoying. You cold
+not use a passphrase, but then there is a danger it can be read off the
+disk.
+
+Instead, we would like to store the private key unencrypted in memory. A
+program should run for the life of our terminal session, eventually
+being terminated at logout.
+
+We must add something like this to our `.bash_profile`:
+
+```
+# Start the ssh-agent to hold unencrypted keys. By default, only hold
+# unencrypted key info for 1hr.
+eval `ssh-agent -t 3600`
+```
+
+What does `ssh-agent` do? It starts an ssh-agent daemon process, and
+sets the environment variables `SSH_AUTH_SOCK` and `SSH_AGENT_PID`. The
+`-t` flag says to keep the unencrypted key for only up to 3600 seconds
+(1hr).
+
+Later, if you run `ssh-agent -k`, it will automatically kill the daemon
+process with the PID specified by the environmental variable. You can
+again eval it to unset the environment variables.
+
+To clean up on shell logout, we add the following to `.bash_logout`:
+
+```
+# Clean up ssh-agent if one has been started
+if [[ -v SSH_AGENT_PID ]]; then
+        eval `ssh-agent -k`
+fi
+```
+
+Let's now use `ssh-add` to add a key to `ssh-agent`: `ssh-add
+~/.ssh/id_rsa`. This will prompt us for the passphrase and then store
+the unencrypted key. If you are using tmux, you can use `ssh-add` in any
+pane, and the key should be available to all other panes (because they
+all reference the same ssh-agent process via a common environment
+variable).
+
+**AddKeysToAgent yes**
+
+There is a mild nuisance. If you try to SSH somewhere, but the private
+key is not already loaded to ssh-agent, then the password will be
+requested. However, the unencrypted key will _not_ be loaded into
+ssh-agent. Thus, you might need to kill the SSH task you started, run
+`ssh-add`, and then re-run the SSH task. Else you would have to input
+the passphrase twice. This is a pain.
+
+You can avoid this by adding to the `.ssh/config`:
+
+```
+Host github.com
+    AddKeysToAgent yes
+```
+
+`AddKeysToAgent` says that any private key used will be added to the
+ssh-agent if needed. (NB: You may also want to specify IdentityFile at
+this time to specify the private key you wish to use). The default
+timeout will be used (none, if not already set).
+
+Now you should only have to use the secret key passphrase once per hour.
+
+## Using Apple Keychain TouchId
+
+**TODO**: I will explore this another time.
+
 ## Sources
 
 - Source: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 - Source: https://stackoverflow.com/questions/33243393/what-is-actually-in-known-hosts
 - Source: https://stackoverflow.com/questions/4565700/how-to-specify-the-private-ssh-key-to-use-when-executing-shell-command-on-git
 - Source: https://superuser.com/questions/503687/whats-the-difference-between-host-and-hostname-in-ssh-config
+- Source: https://superuser.com/questions/325662/how-to-make-ssh-agent-automatically-add-the-key-on-demand
