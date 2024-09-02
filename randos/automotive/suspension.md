@@ -31,12 +31,12 @@ Thus, energy of the spring is **absorbed** by the fork oil (the forks of
 a motorcycle are dashpots). This heats the fork oil, but hopefully the
 heat is dissipated. If not, the oil can boil which makes it a gas and
 compressible. It can also leak out then. You'll have a sudden loss of
-suspension.
+damping.
 
-Note that dashpots are component of door closers, to reduce the speed of
-their closing/stop them from slamming. Note that door closers also need
-a spring to store the input energy of opening them (which is used for
-closing).
+Note that dashpots are a component of door closers, to reduce the speed
+of their closing/stop them from slamming. Note that door closers also
+need a spring to store the input energy of opening them (which is used
+for closing).
 
 ## Factors
 
@@ -138,6 +138,9 @@ Source: https://www.youtube.com/watch?v=jj2BRE0Unck
   - Both can be configured (on adjustable forks anyway). The rebound is
     normally set at the top of the fork, and the compression will be set
     at the bottom of the fork.
+  - I believe the shim system means valves that open under different
+    speeds of fork compression/extension ("slider" speed). I believe
+    "shim" damping is the same as "cartridge".
 - There are fancy systems that even let you set damping at different
   levels for different velocities of shocks!
 - https://www.youtube.com/watch?v=mRWmClH0bC0
@@ -147,6 +150,25 @@ Source: https://www.youtube.com/watch?v=jj2BRE0Unck
   - The cartridge version has different valves (not just orifices) that
     can respond differently to compression and rebound.
   - https://racetech.com/emulators-how-they-work/
+- Brake dive
+  - When you brake hard, there is load transfer from the rear wheel to
+    the front. This tends to compress the front forks and can unsettle
+    the bike a bit.
+  - You can eliminate brake dive if the suspension were really hard. But
+    then it wouldn't be doing any suspension work for you...
+  - There used to be a lot of systems to reduce brake dive.
+  - Cartridge forks allow for different damping rates. For low slider
+    speeds, you set it to do hard damping, but then you reduce the
+    damping at greater slider speeds. This addresses brake dive
+    directly.
+  - The one special system that still is popular is BMW's telelever
+    suspension on the GS.
+- We can mention that an older era of motorcycle used twin shocks at the
+  rear. Nowadays, since the 1980s, a monoshock is typical. The
+  monoshock, maybe surprisingly, gives much better travel (typically
+  about 30cm of rear wheel travel) than older twinshock systems
+  (typically 10cm of rear wheel travel). The twinshock "era" is the
+  motorcycle world predating the 1980s.
 
 ## More
 
@@ -191,3 +213,43 @@ Source: https://www.youtube.com/watch?v=jj2BRE0Unck
   - TODO: I don't understand that.
 
 Source: https://www.rei.com/learn/expert-advice/suspension.html
+
+## Motorcycle Suspension Adjustability Types
+
+- Most bikes will allow you to at least adjust preload by tightening a
+  collar that compresses the spring.
+  - I think this is often directly turnable on a monoshock at the back.
+  - There are screws I think to do it in the front forks.
+  - Preload won't change the spring _rate_, of course. It will change
+    the amount of force necessary to begin compression of the spring. To
+    change spring rate, you would have to replace the springs
+    themselves.
+- Spring rate: as discussed, I believe you need to swap out the spring
+  itself. I do not believe this is typically adjustable.
+- For rebound/damping rates, some bikes will offer "clickers". As far as
+  I understand, these are screws you turn that change the orifice size
+  that the oil can pass through. There may be different settings for
+  compression and rebound, and even for high speed and low speed rebound
+  or damping.
+- A lot of lower spec bikes will not have these clickers. I don't
+  believe the Ninja 650 has them. I think the Tuono 660 only allows
+  rebound adjustments (front and back).
+- More and more newer bikes (especially fancier ones) have _electronic_
+  suspension adjustment (ESA). You can choose preload levels, and
+  damping levels (soft, normal, hard). They may not break out preload
+  and damping settings separately. These just work by controlling the
+  knobs you would otherwise turn with servo-actuated knobs.
+  - These systems are not _dynamic_; they do not respond to ride
+    conditions.
+  - Though some will measure your weight on the bike before you take off
+    to set the preload appropriately.
+- Source: https://www.motorcyclistonline.com/electronic-suspension-motorcycle-suspension-tips-mc-garage-how-to/
+- Some bikes have _semi-active suspension_. Here, the bike's computer
+  will adjust compression/rebound damping within 10ms to changing
+  conditions. This is typically done using solenoids, rather than
+  servos, because solenoids can work faster.
+  - This is also called "dynamic" suspension.
+- But what the hell would _active_ suspension be? That would be if
+  electronics controlled the extension/compression of the fork tubes.
+  But that is still done via springs and hydraulic fork tubes. The
+  "semi" means the electronics are only tweaking those systems.

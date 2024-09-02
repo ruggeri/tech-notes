@@ -115,3 +115,12 @@ equalized on both sides to ~1 ATM, and you will no longer have vacuum
 assisted braking.
 
 Source: https://www.youtube.com/watch?v=LThrL8Jjsgc
+
+## Brake Lines
+
+- Most hydraulic cables for brakes are made of rubber.
+- But when pressure at brake lever is applied, it can bend or balloon
+  the line. Especially over time the rubber gets more bendy.
+- The steel braided lines don't bend or balloon as much, and thus give
+  better brake feel. More of the brake lever force is transmitted to the
+  pads.
