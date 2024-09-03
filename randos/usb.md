@@ -239,6 +239,27 @@ voltage negotiable somehow.
 I'm not sure how that works. I don't know if you can use USB Power
 Delivery (up to 100W power) at the same time as using USB data.
 
+**Weird Charging**
+
+You may notice that some devices need specific charging cables to work.
+This commonly happens when the supplied cable has USB-C as an input to
+the device, but plug into a charger with USB-A.
+
+Why? The reason is that USB-C charging ports will only supply voltage to
+devices which say what voltage they want (+5V, +12V, +40V). It won't
+supply +5V by default like USB-A charging ports did.
+
+Devices like Upright GO, which have a USB-C port on the device, still
+expect to be plugged into a USB-A power supply port. They don't
+implement the USB-C logic to request the +5V they need.
+
+Why not just supply +5V by default? Because there isn't a pre-defined
+source and sink to USB-C. You can plug two laptops to each other using
+USB-C, and which one should be supplying the voltage? If they both tried
+to do so, this would create problems.
+
+Source: https://www.reddit.com/r/UsbCHardware/comments/c3q4s6/why_do_some_usbc_devices_not_charge_with_a_usbc/
+
 ## USB Alternate Mode
 
 Can USB-C cables be used to deliver video? Yes. This is called alternate
