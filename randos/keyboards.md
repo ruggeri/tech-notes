@@ -28,6 +28,46 @@
 - The keycaps are what you actually touch and mount on top of the keys.
   For my WASD keyboards I selected all blank keycaps.
 
+## Initial Impressions
+
+- I received my Keychron Q3 on 2024-09-05.
+- This has the same Cherry blue switches as my WASD keyboard.
+- The click is satisfying, but it does feel like the key travel is not
+  as deep? That must be an illusion?
+- Definitely this keyboard is quieter. I think it might be that the
+  metal keyboard frame is more substantial, and there is maybe
+  rubberized sound-deadening.
+- The switches do feel quite satisfying. I can type very fast on this
+  keyboard.
+- The keyboard itself feels quite satisfying. I like that it is
+  wireless, at least so far. The heft is substantial and the metal
+  aluminum feels high quality.
+- Maybe the WASD keyboard switches were a little too soft? The Keychron
+  and the Cherry blue switches feel like they give a little more
+  resistance, which maybe increases accuracy?
+- The keycaps are only of so-so quality. The printing is a bit odd, and
+  the kerning/placement of the characters is not always consistent. Some
+  keys look a bit bolded, while others seem to have normal font weight.
+- I do like the black/blue/teal colorscheme, though.
+- I think it is nice, and less gimmicky, to have keycaps with letters on
+  them. And I think the color design is nicer.
+- The WASD keyboard keycaps were starting to fade and get ugly.
+- It's also nice that these keycaps seem to have just a bit of texture,
+  which means I think my fingertips grip them just a little better.
+- This was an expensive purchase of about $325, which is a lot.
+  Hopefully this keyboard will last many years. I like that if a single
+  switch fails, I should just be able to swap it out. I like that if I
+  decide I want Cherry green switches (greater resistance), I could
+  simply swap those in.
+- This is definitely giving me a superior feel to my WASD keyboard,
+  which I purchased 2016-03-05 (I purchased a second 2017-01-05). Cost
+  of those was ~$165 and ~$195. Those are quite old, and I typed hard on
+  them, so maybe after ~8yrs of use, the switches were failing.
+  Definitely at least the "f" key on the WASD keyboard had failed and
+  would not consistently type when pressed.
+- So I did have to buy a new keyboard eventually. This seems like a
+  reasonable choice.
+
 ## Sources
 
 - https://www.daskeyboard.com/blog/what-is-tkl-keyboard/
