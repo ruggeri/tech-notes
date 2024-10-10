@@ -72,6 +72,41 @@ Intel machine can play 4k UHD Blu Ray disks. Of course, it can play
 _rips_, because those have already decrypted the Blu Ray disk and
 extracted the video content.
 
+**Cracking**
+
+- I don't know. It's crazy.
+- It looks like for AACS, you use the device key and something on the
+  disc called "Media Key Block" (MKB) to produce/decrypt a "Processing
+  Key".
+- The Processing Key and a datum from the MKB are used to produce the
+  "Media Key".
+- Last, this Media Key and the disc's Volume ID are used to calculate
+  the "Volume Unique Key." This is what is used to decrypt Bluray DVD
+  content.
+- I believe that a program like BackupHDDVD uses a supplied volume key
+  to decrypt the content and bypass the chain-of-trust.
+- Some people stole the volume key I think out of unprotected memory.
+- I think people can also steal the volume key if they have cracked a
+  device key or a processing key.
+- I think that volume keys databases trade online. So a lot of content
+  can be decrypted.
+- Maybe even there is some kind of bruteforcing of keys (or was that
+  only for DVDs?).
+  - There is, I believe some way to get the volume keys.
+- I believe that for BluRay UHD, they also added feature that the BluRay
+  UHD device will not give video data unless the player authenticates
+  itself.
+- I believe that software like MakeMKV tricks the device to read the
+  data directly off the disc.
+  - Because of the mutual authentication of BluRay UHD devices of the
+    player, I think you typically need to flash the device to bypass the
+    authentication.
+  - But even now, I don't believe that MakeMKV has cracked the
+    AACS 2.0 encryption. I think you need a volume key still.
+  - These can still be stolen and distributed in the old way.
+- https://media.ccc.de/v/37c3-12296-full_aacsess_exposing_and_exploiting_aacsv2_uhd_drm_for_your_viewing_pleasure
+  - This is a video from CCC and it seems like a very good explanation of AACS 1.0 and AACS 2.0.
+
 ## Practical
 
 It looks like Netflix restricts Firefox **and** Chrome to 720p! Safari
