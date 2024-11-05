@@ -1,0 +1,102 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-abstract-algebra}
+\usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
+
+\begin{document}
+
+\title{Quaternions}
+\maketitle
+
+\begin{enumerate}
+  \item We want a system that allows us to simply write rotations.
+
+  \item Consider rotations in a 2-dimensional plane. We know that these
+  can be written in matrix format as:
+
+  \begin{nedqn}
+    \begin{bmatrix}
+      \cos \theta & -\sin \theta \\
+      \sin \theta & \cos \theta
+    \end{bmatrix}
+  \end{nedqn}
+
+  \item The result of rotating a vector $\vv$ by $\theta$ degrees is
+  written as $\mtxQ \vv$.
+
+  \item If $\mtxQ_1, \mtxQ_2$ are two rotations, then the successive
+  operation of both rotations is given by $\mtxQ_2 \mtxQ_1$.
+
+  \item Note that this matrix approach easily generalizes from two to
+  three dimensions and in fact to arbitrary numbers of dimensions.
+
+  \item This matrix way is not the only way to represent, apply, and
+  compose rotations to vectors. Consider the two-dimensional case.
+  Represent $\vv$ as $\theta$, where $\vv = \cos\theta \ve_1 +
+  \sin\theta \ve_2$. Next, represent $\mtxQ$ as $\phi$. Then $\mtxQ \vv$
+  may be represented as $\phi + \theta$.
+
+  \item Likewise, we may represent $\mtxQ_2 \mtxQ_1$ as $\phi_1 +
+  \phi_2$. Note of course that this won't work if we are rotating in
+  more than two dimensions. Also note that if $\vv$ is already written
+  as a linear combination of $\ve_1, \ve_2$, and we want $\mtxQ\vv$ in
+  the same format, then the matrix approach may be preferred.
+
+  \item Certainly, we should note that the matrix formalism is less
+  dense than the angle representation in the two-dimensional case. It
+  may also be more convenient if we want to know the result in terms of
+  angle.
+
+  \item Let's consider a formalism for three-dimensional rotation. A
+  rotation occurs about some axis: call this $\vu$. How much rotation?
+  Call this $\theta$ radians. Note that $\vu$ should be normalized, so
+  it only has two degrees of freedom; a rotation can be defined by three
+  free parameters. Sometimes we combine $\vu$ and $\theta$ as $\theta
+  \vu$ which is called the \define{Euler vector}. This concisely
+  combines the three parameters, but it is not very useful for combining
+  successive rotations (or calculating the result of a single rotation
+  on a vector $\vv$). There is no obvious way to do this.
+
+  \item Let's consider the two-dimensional case a little bit more. We
+  noted that we can view $\vu$ as a rotation $\mtxQ$, where $\mtxQ \ve_1
+  = \vu$. Then the application of a rotation transformation to $\vu$ can
+  be seen simply as another successive rotation composition.
+
+  \item Equivalently, we can represent our $\mtxQ$ transformation as a
+  vector $\vu$, where $\vu = \mtxQ \ve_1$. Representation as $\vu$ loses
+  no information; there is a unique angle $\theta$ by which $\ve_1$ is
+  transformed to $\vu$. If we recovered that, we could easily rotate
+  $\ve_2$ by $\theta$ to compute the second column of $\mtxQ$.
+
+  \item A representation as $\vu$ will be convenient if it can also be
+  used to accumulate rotations. Let's write $\vu\vv$ to mean the result
+  of rotating $\vv$ by $\vu$.
+
+  We will require $\ve_1 \ve_1 = \ve_1$ and $\ve_1 \ve_2 = \ve_2$. We
+  will also want $\ve_2 \ve_1 = \ve_2$ and $\ve_2 \ve_2 = -\ve_1$.
+
+  Because rotation in two dimensions commutes, we have $\vu\vv =
+  \vv\vu$.
+
+  \item Last, we know that rotation distributes: $\parens{\vu_1 +
+  \vu_2}\vv = \vu_1\vv + \vu_2\vv$. I've talked about that elsewhere,
+  but won't bother here.
+
+  \item Commutativity and distributivity imply that a definition of
+  $\ve_1\ve_1 = \ve_1, \ve_1\ve_2 =\ve_2, \ve_2\ve_2=-\ve_1$ suffices to
+  allow easy computation. Because $\ve_1$ acts as an identity, we simply
+  call it $1$. Because $\ve_2$ acts as a root of $-1$, we call it $i$,
+  after the imaginary unit.
+
+  \item Let's now consider rotations in three dimensions.
+\end{enumerate}
+
+% Source: https://eater.net/quaternions
+% Source: https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
+
+\end{document}
