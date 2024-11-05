@@ -1,0 +1,25 @@
+#!/bin/sh
+
+TECH_NOTES_DIR="/Users/ruggeri/repos/ruggeri/tech-notes"
+
+FILES="
+  ordinary-differential-equations.tex
+"
+
+CMD="\
+  TEXINPUTS=\"$TECH_NOTES_DIR/math/stys:{//}:\" \
+  max_print_line=100000 \
+  pdflatex \
+  --file-line-error \
+  --synctex=1 \
+  --halt-on-error \
+  --output-directory {//} \
+  {.}\
+"
+
+echo $FILES | \
+  parallel -P 1 $CMD | \
+  grep -v "texlive" | \
+  grep --context=5 "^l"
+
+./clean-latex
