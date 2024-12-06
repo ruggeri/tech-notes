@@ -1,4 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env python
 
-# Clean all latex tmp files.
-gfind . -regex ".*\\.\\(aux\|fdb_latexmk\|fls\|log\|gz\|out\\)$" | parallel rm
+import sys
+sys.path.append("/Users/ruggeri/repos/ruggeri/tech-notes/lib")
+
+from make_latex import clean
+from pathlib import Path
+
+SOURCE_PATHS = [Path(f) for f in [
+  "./eigenvector-decomposition-2.tex"
+]]
+
+for p in SOURCE_PATHS:
+  clean(p)

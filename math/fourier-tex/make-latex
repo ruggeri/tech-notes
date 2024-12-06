@@ -1,25 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env python
 
-TECH_NOTES_DIR="/Users/ruggeri/repos/ruggeri/tech-notes"
+import sys
+sys.path.append("/Users/ruggeri/repos/ruggeri/tech-notes/lib")
 
-FILES="
-  fourier.tex
-"
+from make_latex import run
+from pathlib import Path
 
-CMD="\
-  TEXINPUTS=\"$TECH_NOTES_DIR/math/stys:{//}:\" \
-  max_print_line=100000 \
-  pdflatex \
-  --file-line-error \
-  --synctex=1 \
-  --halt-on-error \
-  --output-directory {//} \
-  {.}\
-"
+SOURCE_PATHS = [Path(f) for f in [
+  "./fourier.tex"
+]]
 
-echo $FILES | \
-  parallel -P 1 $CMD | \
-  grep -v "texlive" | \
-  grep --context=5 "^l"
-
-./clean-latex
+run(SOURCE_PATHS)
