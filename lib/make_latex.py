@@ -13,8 +13,9 @@ def run_pdflatex(source_path: Path):
     "max_print_line": "100000"
   }
 
+  # Prefer xelatex because supports unicode characters.
   cmd = [
-    "pdflatex",
+    "xelatex",
     "--file-line-error",
     "--synctex=1",
     "--halt-on-error",
