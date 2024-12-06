@@ -43,9 +43,11 @@ def clean(p: Path):
   suffixes = [".aux", ".log", ".out", ".synctex.gz"]
   for suffix in suffixes:
     subprocess.run([
-      "rm",
-      p.with_suffix(suffix)
-    ])
+        "rm",
+        p.with_suffix(suffix),
+      ],
+      stderr=subprocess.DEVNULL
+    )
 
 def run(source_paths: list[Path]):
   source_paths = [p.absolute() for p in source_paths]
