@@ -1,25 +1,35 @@
-#!/bin/sh
+#!/usr/bin/env python
 
-TECH_NOTES_DIR="/Users/ruggeri/repos/ruggeri/tech-notes"
+import sys
+sys.path.append("/Users/ruggeri/repos/ruggeri/tech-notes/lib")
 
-FILES="
-  feynman.tex
-"
+from make_latex import run
+from pathlib import Path
 
-CMD="\
-  TEXINPUTS=\"$TECH_NOTES_DIR/math/stys:{//}:\" \
-  max_print_line=100000 \
-  pdflatex \
-  --file-line-error \
-  --synctex=1 \
-  --halt-on-error \
-  --output-directory {//} \
-  {.}\
-"
+SOURCE_PATHS = [Path(f) for f in [
+  "./feynman.tex",
+  "./01-atoms-in-motion/01-atoms-in-motion.tex",
+  "./02-basic-physics/02-basic-physics.tex",
+  "./03-the-relation-of-physics-to-other-sciences/03-the-relation-of-physics-to-other-sciences.tex",
+  "./04-conservation-of-energy/04-conservation-of-energy.tex",
+  "./05-time-and-distance/05-time-and-distance.tex",
+  "./06-probability/06-probability.tex",
+  "./07-the-theory-of-gravitation/07-the-theory-of-gravitation.tex",
+  "./08-motion/08-motion.tex",
+  "./09-newtons-laws-of-dynamics/09-newtons-laws-of-dynamics.tex",
+  "./10-conservation-of-momentum/10-conservation-of-momentum.tex",
+  "./11-vectors/11-vectors.tex",
+  "./12-characteristics-of-force/12-characteristics-of-force.tex",
+  "./13-work-and-potential-energy-a/13-work-and-potential-energy-a.tex",
+  "./14-work-and-potential-energy-conclusion/14-work-and-potential-energy-conclusion.tex",
+  "./15-the-special-theory-of-relativity/15-the-special-theory-of-relativity.tex",
+  "./16-relativistic-energy-and-momentum/16-relativistic-energy-and-momentum.tex",
+  "./17-space-time/17-space-time.tex",
+  "./18-rotation-in-two-dimensions/18-rotation-in-two-dimensions.tex",
+  "./19-center-of-mass-moment-of-inertia/19-center-of-mass-moment-of-inertia.tex",
+  "./20-rotation-in-space/20-rotation-in-space.tex",
+  "./21-the-harmonic-oscillator/21-the-harmonic-oscillator.tex",
+  "./39-the-kinetic-theory-of-gases/39-the-kinetic-theory-of-gases.tex",
+]]
 
-echo $FILES | \
-  parallel -P 1 $CMD | \
-  grep -v "texlive" | \
-  grep --context=5 "^l"
-
-./clean-latex
+run(SOURCE_PATHS)
