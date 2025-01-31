@@ -5,3 +5,4 @@ Here are some of the largest bike manufacturers:
 - Trek
 - Giant
 - Bianchi
+- Canyon

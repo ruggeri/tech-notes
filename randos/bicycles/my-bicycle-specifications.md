@@ -58,6 +58,8 @@
     the saddle is mounted.
   - I adjusted recently from a height of 124mm to 138mm. That's about
     half an inch difference.
+- I don't believe this bike has any mounting points for a rear rack.
+  That's a shame!
 
 ## Gear Ratio Upgrade?
 

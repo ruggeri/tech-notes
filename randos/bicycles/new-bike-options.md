@@ -5,6 +5,7 @@
   - Hydraulic disc brakes.
   - Flat bars.
   - 1x11. 40T chainring and 11-speed 11-42T cassette.
+    - 2025: 40T front and 12-speed 11T-44T cassette.
     - GRX RX600 and SLX M7000.
   - 25.5 to 97.3 gear inches.
   - 382% gear range.
@@ -87,6 +88,10 @@
   - Drop bars.
   - Tires: 700x40.
   - GRX 46x30 chainset. Shimano 105 11-speed 11-34T.
+    - 2025 model now uses SRAM Apex 1x12 setup.
+    - 40T front cog and SRAM Apex XPLR, 11T-44T rear cogset.
+    - That's 25.3 inches to 101 inches.
+    - That's 14.5% easier, and 12% faster than my current bike.
   - 23.6 to 112 gear inches.
     - 20% easier in lowest gear. 24% faster in highest gear.
     - Compelling gear range.
@@ -208,3 +213,64 @@
   - Cheapest all-carbon 11-speed?
 - Ex: Cannondale Synapse Carbon 105 (Carbon frame, 11-speed) ($3,025).
 - Ex: Specialized Roubaix Sport (Carbon frame, 11-speed) ($3,500).
+
+## 2025-01-XX Thoughts
+
+- Mostly I think I want disc brakes. I really like those on Anastassia's
+  bike.
+- My current bike is 29.5 to 90.3 gear inches (1.10 to 3.38 ratio).
+  Mostly I want lower gearing for ease of going up very steep hills.
+  - Each gear is about 15% harder than the last.
+- I think an aluminum frame is fine with me. I don't think that carbon
+  makes sense. Expensive and fragile maybe.
+- I don't think either drop or flat bars makes a big difference to me.
+  The plus of flat bars is that I'm used to it. The pro of drop bars is
+  that I'd enjoy trying that position of my body.
+- I need mounting points for a rack.
+- Wireless shifting is not interesting to me. I don't want to pay for
+  it.
+- I'm ambivalent about tire size. I probably would enjoy wider tires,
+  which also probably brake a lot better. I have 25mm tires but I think
+  Anastassia has 35mm and those seem awfully nice to me.
+- A **1x12 40T 11-44T** setup runs about 25.3 gear inches to 101 gear
+  inches. That's about 15% easier and 12% faster than my Alfline 8.
+  - A big advantage is you never change your front chainring. Simplicity
+    like the Alfine 8 system. Not that big a change for me.
+  - I think the gear range sounds like a nice expansion from the Alfine 8.
+  - Everything about this setup sounds just a bit better than what I
+    have. Wider range, and especially easier gearing, just one
+    chainring...
+  - With 12-speed you have about 12% step between gears, which is better
+    than current ~15%. Almost as good as 10-11% for 2x10 setups.
+  - The Trek FX Sport 6 is 1x12 40% 11-44T. $3k and Electronic shifting.
+  - Trek Checkpoint ALR 5 is 1x12 40T 11-44T system too. $2.5k. Drop
+    bars. Uses SRAM Apex equipment.
+  - Other Treks are either 1x11 11-42T, or 1x10 11-48T.
+- A 2x11 46x30 11-34T cogset gives 24.5 to 116 gear inches (I assume
+  40mm tires). That's about 17% easier and 28% faster.
+  - Small chainring runs 24.5 to 64.2 inches (10 gears because no cross
+    chaining). That's 30% slower than my Alfine top gear. Which means
+    I'd probably exceed the small chainring often.
+  - Big chainring runs 42.7 to 116 gear inches. That's 44% faster than
+    the Alfine 8 low gear. No way could I stay in the big ring all the
+    time in the city.
+  - I think the problem is that in order to get the lowest gearing, you
+    force yourself to constantly change rings when biking on the flat
+    stop-and-go. That might be _worse_ than the 50x34 setup.
+  - About a 10-11% gap between successive gears.
+- A 2x11 50x34 11-34T setup runs about 26.8 gear inches to 122 gear
+  inches. That's about 10% easier and 35% faster.
+  - I think I want at least 34T at the back, otherwise the lowest gear
+    is 28.4 gear inches and only 5% easier than my Mission Bicycle.
+  - The small chainring runs 26.8 to 70.0 gear inches (only 10 low gears
+    because can't crosschain). That's 23% slower than my Alfine top
+    gear.
+  - The big chainring runs 44.6 to 122 ger inches (10 high gears because
+    can't crosschain). That's 52% faster than my lowest Alfine gear. So
+    I definitely don't think I could stay in the big ring all the time
+    in the city.
+  - You _might_ be able to stay in the low ring for most of city
+    streets.
+  - I doubt this is the best choice for me. I think a 46x30 has to make
+    more sense.
+  - Again, a 10-11% gap between successive gears.
