@@ -274,3 +274,22 @@
   - I doubt this is the best choice for me. I think a 46x30 has to make
     more sense.
   - Again, a 10-11% gap between successive gears.
+
+## New Bike Models
+
+- 1x12 46T 10-51T Canyon Roadlite 7. Shimano Deore.
+  - They only do direct to consumer...
+- 1x11 40T 11-42T Giant Revolt Advanced 1. Shimano Rival. $3k.
+  - Valencia, American Cyclery, Mikes Bikes SF.
+- 1x12 40T 10-45T Specialized Crux Comp. Shimano GRX 820. $3.2k. No rack
+  mount point though.
+  - Velocipede
+- Couldn't find a Cannondale that made sense.
+- Salsa Warbird C GRX 600 1x. 40T 11-42T. Claims to mount a rack with a
+  15kg capacity. Salsa seems to have a number of 1x bikes.
+  - Box Dog, American Cyclery, Mikes Bikes SF.
+- Bianchi. Couldn't find any that made sense? Impulso Pro doesn't have
+  rear rack option?
+  - American Cyclery, Bike Connection
+- Trek
+  - Valencia, Trek SOMA, Velocipede, Avenue Cyclery
