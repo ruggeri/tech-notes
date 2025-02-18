@@ -13,8 +13,9 @@ the center of the screen.
 
 ## Resolution
 
-- 1280x720: called 720p or HD
+- 1280x720: called 720p or HD.
   - 16:9
+  - 0.92MP.
 - 1920x1080: called 1080p or FHD (Full HD)
   - 16:9
   - This is sometimes called 2k (the horizontal resolution), though DCI
@@ -22,6 +23,7 @@ the center of the screen.
     showing 1.85:1 (open matte) or 2.39:1 (Scope) films. Both formats
     are wider than 16:9 (which is really more of a display format).
   - This is the resolution of my digital BenQ projector purchased 2014.
+  - 2.1MP
 - 2560x1440: called 1440p or QHD (Quad HD) or WQHD (Wide Quad HD)
   - 16:9
   - Notice this quadruples the size of HD.
@@ -35,6 +37,7 @@ the center of the screen.
   - This has a 109 PPI and a 49 PPD at 24" (40 at 20"). That is
     significantly lower than the UHD 27" monitor or the MBP Retina
     display.
+  - 3.7MP
 - 2880x1800
   - 16:10
   - This is the resolution of my 2018 MacBook Pro 15" (the one that was
@@ -43,20 +46,23 @@ the center of the screen.
   - For 15" display: 221px/in, 87px/cm, 77px/degree (at 20" typical
     distance).
   - Apple gives this resolution/size "Retina" approval.
+  - 5.2MP
 - 3072x1920
   - 16:10
   - This is the resolution of my 2019 MacBook Pro 16" (which I use as of
-    2023).
+    2025-02-XX).
   - For 16" display: 226px/in, 89px/cm, 79px/degree (at 20" typical
     distance).
   - Notice that the 16" MBP screen is bigger than the 15", but pixel
     density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
+  - 5.9MP
 - 3456x2234
   - 1.55:1 (a little taller than 16:10)
   - This is the resolution for the 2023 Mac Book Pro 16" (which I don't
-    own as of Sept 2023).
+    own as of 2025-02-XX).
   - It's a little weirdly tall.
+  - 7.7MP
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
   - This is the native resolution of my current (as of Sept 2023) Dell
@@ -73,6 +79,7 @@ the center of the screen.
     achieves retina quality.
   - I appear to be perfectly happy with my Dell U2723QE 27" UHD
     resolution and pixel density.
+  - 8.3MP
 - 5120x2880: 5K
   - 16:9
   - Apple recommends this for 27" screen size. They sell a 5K, 27" LG
@@ -85,10 +92,12 @@ the center of the screen.
   - This have 77% higher pixel density from same-size UHD screen.
   - It has 84-98 PPD at 20-24" distance. That's about the same as the
     MBP Retina display.
+  - 15MP.
 - 6016x3384: 6K
   - 16:9
   - Apple recommends this at 32". They sell the 32" Pro Display XDR at
     6K for $5k. And then you have to buy a $1k stand!
+  - 20MP.
 
 Source: https://en.wikipedia.org/wiki/Retina_display
 Source: https://qasimk.io/screen-ppd/
