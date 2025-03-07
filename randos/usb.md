@@ -24,15 +24,21 @@ transmission and the other pair is used for receiving. I believe that
 the differential pair is able to allow longer cable runs since EM
 interference can be cancelled.
 
-The USB-A connector had identical shape, so that a USB-A SuperSpeed
-cable could be plugged into any USB-A receptacle. The USB-B shape was
-somewhat changed, to add a "roof" to the house.
+The USB-A connector had identical shape, so that a USB-A 3.0 (AKA
+SuperSpeed) cable could be plugged into any USB-A receptacle. The USB-B
+shape was somewhat changed, to add a "roof" to the house. A USB-B 3.0
+connector cannot be plugged into a USB-B 2.0 port, though. Though a
+USB-B 2.0 connector _can_ be plugged into a USB-B 3.0 port (and protocol
+downgrades to USB 2.0).
 
 You can tell a SuperSpeed USB-A connector or receptacle because it is
-colored _blue_. This is for reference only; you can use a non-SuperSpeed
-cable in a SuperSpeed receptacle, or a SuperSpeed cable in a
-non-SuperSpeed receptacle. You just won't get the SuperSpeed. The
+colored **blue**. This is for reference only; you can use a
+non-SuperSpeed cable in a SuperSpeed receptacle, or a SuperSpeed cable
+in a non-SuperSpeed receptacle. You just won't get the SuperSpeed. The
 original four pin connection will be used.
+
+USB 3.1 Gen 2 USB-A ports (also called **SuperSpeed+**, and capable of
+10GBps bidirectional) are colored **teal**.
 
 **Micro-USB and Mini-USB**
 
@@ -88,7 +94,11 @@ In 2008, we got USB 3.0. It can do 5 Gbps.
 
 To support this, they added the five new pins of the **SuperSpeed**
 connectors. These added two (differential pair) _lanes_ (one transmit,
-one receive).
+one receive). As mentioned, you can use USB-A 3.0 cables with USB-A 2.0
+ports (and USB-A 2.0 cables with USB-A 3.0 ports); you'll just downgrade
+to USB 2.0. The connectors are physically compatible. But the USB-B 3.0
+connector cannot be plugged into a USB-B 2.0 port, though a USB-B 2.0
+connector _can_ be plugged into USB-B 3.0 port.
 
 Note that USB 3.0 protocol/cables are **full duplex**: they support 5
 Gbps in each direction (i.e., on each lane). That gives them total
@@ -111,8 +121,9 @@ differential pair lane, presumably by increased clock rate and lower
 protocol overhead.
 
 Somewhat confusingly, the USB 3.0 standard is incorporated into the USB
-3.1 standard as USB 3.1 **Gen 1**. This means that USB Gen 2 controllers
-must support the old USB 3.1 Gen 1 mode and its 5 Gbps protocol.
+3.1 standard as USB 3.1 **Gen 1**. This means that USB 3.1 Gen 2
+controllers must support the old USB 3.0 mode (now called USB 3.1 Gen 1)
+and its 5 Gbps protocol.
 
 Of course, there is no needed change in cabling, because we are just
 squeezing more Gbps out of the same physical format.
@@ -146,25 +157,30 @@ has the pins for the four data lanes.
 
 **USB 4**
 
-In 2019, USB 4 is released. This incorporates all the old USB standards:
+In 2019, USB 4 is released. This now supports 40GBps on a single lane!
+Thus you can do 80GBps bidirectional.
 
-- Note: there is no USB4 Gen 1; they don't bother incorporating that as
-  part of USB4.
-- USB4 Gen 2x1: 10Gbps using a single lane.
-- USB4 Gen 2x2: 20Gbps using both lanes.
-- USB4 Gen 3x1: 20Gbps using a single lane at double the USB 3.2 Gen 2
+This incorporates all the old USB standards as follows:
+
+- Note: there is no USB4 Gen 1; they don't bother incorporating a 5GBps
+  mode as part of USB4.
+- USB4 Gen 2x1: 10Gbps symmetric using a single lane.
+- USB4 Gen 2x2: 20Gbps symmetric using both lanes.
+- USB4 Gen 3x1: 20Gbps symmetric using a single lane at double the USB
+  3.2 Gen 2 data rate.
+  - I wonder if this is widely implemented. Why not just use USB4 Gen
+    2x2, which has wider
+- USB4 Gen 3x2: 40Gbps symmetric using both lanes at double the USB 3.2
+  Gen 2 data rate.
+- USB4 Gen 4x1: 40Gbps symmetric using a single data lane at 4x the
+  Gen 2x2 data rate!
+  - Again, I wonder if this is widely implemented; USB4 Gen 3x2 offers
+    the same GBps.
+- USB4 Gen 4x2: 80Gbps symmetric using both data lanes at 4x the Gen 2x2
   data rate.
-  - I wonder if this is widely used. Why not just use USB4 Gen 2x2?
-- USB4 Gen 3x2: 40Gbps using both lanes at double the USB 3.2 Gen 2 data
-  rate.
-- USB4 Gen 4x1: 40Gbps using a single data lane at double the Gen 3 data
-  rate!
-  - Again, I wonder if this is widely used anywhere.
-- USB4 Gen 4x2: 80Gbps using both data lanes at double the Gen 3 data
-  rate.
 - USB4 Gen 4 Asymmetric
   - Uses three data lanes, allocating only one for upstream.
-  - Thus, can do 120Gbps!
+  - Thus, can do 120Gbps in one direction.
 
 Note, USB4 was based on Thunderbolt 3.
 
