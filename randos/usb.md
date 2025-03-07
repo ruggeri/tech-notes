@@ -27,9 +27,9 @@ interference can be cancelled.
 The USB-A connector had identical shape, so that a USB-A 3.0 (AKA
 SuperSpeed) cable could be plugged into any USB-A receptacle. The USB-B
 shape was somewhat changed, to add a "roof" to the house. A USB-B 3.0
-connector cannot be plugged into a USB-B 2.0 port, though. Though a
-USB-B 2.0 connector _can_ be plugged into a USB-B 3.0 port (and protocol
-downgrades to USB 2.0).
+connector cannot be plugged into a USB-B 2.0 port. However, a USB-B 2.0
+connector _can_ be plugged into a USB-B 3.0 port (and protocol
+downgrades to USB 2.0 of course).
 
 You can tell a SuperSpeed USB-A connector or receptacle because it is
 colored **blue**. This is for reference only; you can use a
@@ -38,7 +38,7 @@ in a non-SuperSpeed receptacle. You just won't get the SuperSpeed. The
 original four pin connection will be used.
 
 USB 3.1 Gen 2 USB-A ports (also called **SuperSpeed+**, and capable of
-10GBps bidirectional) are colored **teal**.
+10Gbps bidirectional) are colored **teal**.
 
 **Micro-USB and Mini-USB**
 
@@ -158,11 +158,11 @@ has the pins for the four data lanes.
 **USB 4**
 
 In 2019, USB 4 is released. This now supports 40GBps on a single lane!
-Thus you can do 80GBps bidirectional.
+Thus you can do 80Gbps bidirectional.
 
 This incorporates all the old USB standards as follows:
 
-- Note: there is no USB4 Gen 1; they don't bother incorporating a 5GBps
+- Note: there is no USB4 Gen 1; they don't bother incorporating a 5Gbps
   mode as part of USB4.
 - USB4 Gen 2x1: 10Gbps symmetric using a single lane.
 - USB4 Gen 2x2: 20Gbps symmetric using both lanes.
@@ -175,7 +175,7 @@ This incorporates all the old USB standards as follows:
 - USB4 Gen 4x1: 40Gbps symmetric using a single data lane at 4x the
   Gen 2x2 data rate!
   - Again, I wonder if this is widely implemented; USB4 Gen 3x2 offers
-    the same GBps.
+    the same Gbps.
 - USB4 Gen 4x2: 80Gbps symmetric using both data lanes at 4x the Gen 2x2
   data rate.
 - USB4 Gen 4 Asymmetric
@@ -213,22 +213,32 @@ about half the USB-C cables in my household are for charging only.
 Now, let's talk about the _length_ of cables. Cables cannot be
 infinitely long, because of signal degradation.
 
-For USB 2.0, cables of 5m (~16ft) are the maximum recommended (by the
-standard?). For USB 3.0 and USB 3.1 cables, the maximum cable length is
-9 feet. That stayed the same in USB 3.2 Gen 2x2: remember, that just
-added more lanes so didn't change the datarate over the lane (and thus
-didn't change sensitivity to noise).
+For USB 2.0 (480Mbps), cables of 5m (16.4ft) are the maximum recommended
+(by the standard?). For USB 3.0 (5Gbps) and USB 3.1 cables (10Gbps), the
+maximum cable length is 3m or 9.8ft. That stayed the same in USB 3.2 Gen
+2x2 (20Gbps): remember, that just added a second data lane in each
+direction so didn't change the datarate over the lane (stayed at 10Gbps
+per lane). Thus this shouldn't change sensitivity to noise. (Anker says
+3.2 2x2 should be max 0.8m? But Cable Matters says 3m. I think Cable
+Matters is probably right?)
 
-(Note: this info on maximum cable lengths may be inaccurate. Some
-sources appear to disagree? But the general point is: as USB generations
-went by, maximum cable length has generally been shrinking.)
+I will note that TetherTools sells a 15ft USB-C cable that does USB
+3.0/USB3.1 Gen 1/USB 3.2 Gen 1 5Gbps. It does not use any kind of active
+cable. I guess if USB 3.1 Gen 2 cables can do 10Gbps per lane and 3m,
+then it feels like 5Gbps should be doable above 3m. And maybe the
+TetherTools cable rejects more interference than usual?
+
+Source: https://www.anker.com/blogs/cables/usb-cable-max-length
+Source: https://www.cablematters.com/Blog/USB-C/usb-cable-max-length
+TetherTools Cable: https://www.bhphotovideo.com/c/product/1387534-REG
 
 USB-C cables can be longer (up to 4m) if they are only used for power
 delivery!
 
-But now you want USB4 cables, which are supposed to do 40Gbps (at least
-for Gen 3x2). That restricts cable length to 0.8 meter (aka 2.6 feet).
-That's a pretty short cable!
+But now you want USB4 cables, which are supposed to do 20Gbps (Gen 3) or
+even 40Gbps (Gen 4) _per_ lane for up to 80Gbps of symmetric bandwidth!
+That restricts cable length to 0.8 meter (aka 2.6 feet). That's a pretty
+short cable!
 
 **Active Cables**
 
@@ -236,11 +246,12 @@ These use chips to deal with signal attenuation. Apparently there are
 USB 2.0 active cables of about 33 feet. That's crazy!
 
 If you want to do USB4 at 3 meters/9 feet, you need an active cable.
-I've linked one sold by Apple for $159!
+I've linked one sold by Apple for $159; it does 40Gbps (presumably USB4
+Gen3x2) at 3m (9.8ft)!
 
 Source: https://www.cablematters.com/Blog/USB-C/usb-cable-max-length
 Source: https://blog.tripplite.com/usb-cable-max-length
-Source: https://www.apple.com/shop/product/MWP02AM/A/thunderbolt-4-pro-cable-3-m
+Source: https://www.apple.com/shop/product/MW5H3AM/A/thunderbolt-4-usb%E2%80%91c-pro-cable-3-m
 
 ## USB Power
 
