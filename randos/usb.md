@@ -245,13 +245,18 @@ short cable!
 These use chips to deal with signal attenuation. Apparently there are
 USB 2.0 active cables of about 33 feet. That's crazy!
 
+Cable Matters does 20Gbps at 5m/16.4ft for $97. Compare to $19.99 for
+Cable Matters 2m/6.6ft 20Gbps cable.
+
 If you want to do USB4 at 3 meters/9 feet, you need an active cable.
 I've linked one sold by Apple for $159; it does 40Gbps (presumably USB4
-Gen3x2) at 3m (9.8ft)!
+Gen3x2) at 3m (9.8ft)! OWC does a 15ft optical 40Gbps cable for $130.
 
 Source: https://www.cablematters.com/Blog/USB-C/usb-cable-max-length
 Source: https://blog.tripplite.com/usb-cable-max-length
+Source: https://www.amazon.com/Cable-Matters-Charging-Compatible-Thunderbolt/dp/B0B5JJ55MB
 Source: https://www.apple.com/shop/product/MW5H3AM/A/thunderbolt-4-usb%E2%80%91c-pro-cable-3-m
+Source: https://www.owc.com/solutions/usb4-cables
 
 ## USB Power
 
@@ -294,7 +299,7 @@ mode. Lanes can be dedicated to DisplayPort communication (the most
 common alternate mode).
 
 Let's keep in mind a target goal: 4K at 60Hz. To do this, we need 18
-Gbps of bandwidth.
+Gbps of bandwidth. (Other sources say 12 Gbps?)
 
 With USB 3.1 Gen 2, you can use one Tx and one Rx lane for USB, and the
 other Tx/Rx lanes are given for two-lane DisplayPort. Note that
@@ -318,8 +323,10 @@ configured.
 **DisplayPort 1.4, 2.0 and DSC**
 
 DisplayPort 2.0 (2019) has a 10 Gbps per lane mode called UHBR 10. This
-could conceivably drive 4K@60Hz with just two USB-C lanes. The Radeon on
-my MacBook Pro doesn't do DisplayPort 2.0 though.
+could conceivably drive 4K@60Hz with just two USB-C lanes if it can do
+10Gbps per lane. Any USB 3.2 Gen 2x2 20Gbps cable could do this.
+
+The Radeon on my MacBook Pro doesn't do DisplayPort 2.0 though.
 
 Alternatively, DisplayPort 1.4 has a feature called DSC (Display Stream
 Compression). This does a 3:1 lossy compression on the image. They say
@@ -331,6 +338,15 @@ That would leave the Tx/Rx lanes needed for USB-C SuperSpeed 10 Gbps.
 It seems that maybe Apple broke/removed DSC support for MacOS
 post-Catalina? Maybe just for AMD GPUs? Maybe it will come back? As of
 Mar 1 2022, it is broken and has been since Nov 2020 I think!
+
+Last, let's consider 8k@60. That needs 4x the bandwidth of 4k:
+18Gbpsx4=72Gbps. Note that a USB 3.2 Gen 2x2 20Gbps cable wouldn't be
+enough _even if you used all four lanes!_ You need at least a 40Gbps
+cable, capable of doing 20Gbps per lane, and it would still need all
+four lanes with nothing left over for SuperSpeed data peripherals. You
+could also try a 80Gbps cable, but as of 2025-03-07 I've never seen
+that. So you probably need to use a dedicated DisplayPort or HDMI cable
+to drive a monitor like that.
 
 Source: https://www.bigmessowires.com/2019/05/19/explaining-4k-60hz-video-through-usb-c-hub/
 Source: https://www.reddit.com/r/Monitors/comments/phkcxl/4k_144hz_intel_or_just_amd_macs_macos_monterey/
