@@ -16,6 +16,16 @@ the center of the screen.
 - 1280x720: called 720p or HD.
   - 16:9
   - 0.92MP.
+- 1366x768: WXGA.
+  - Approx 16:9.
+  - I believe this was common transitional format as computer displays
+    shifted from 4:3 to 16:9.
+  - I had this on my 2012 11" MacBook Air.
+  - 1.05MP.
+- 1440x900. WXGA+.
+  - 16:10.
+  - A common format for laptop screens c2010.
+  - 1.3MP.
 - 1920x1080: called 1080p or FHD (Full HD)
   - 16:9
   - This is sometimes called 2k (the horizontal resolution), though DCI
@@ -38,8 +48,9 @@ the center of the screen.
     significantly lower than the UHD 27" monitor or the MBP Retina
     display.
   - 3.7MP
-- 2880x1800
+- 2880x1800. QWXGA+.
   - 16:10
+  - Quadruples WXGA+ to support "Retina."
   - This is the resolution of my 2018 MacBook Pro 15" (the one that was
     stolen) and also the prior MacBook Pro 15" I bought via App
     Academy.
@@ -56,6 +67,7 @@ the center of the screen.
   - Notice that the 16" MBP screen is bigger than the 15", but pixel
     density stayed the same.
   - Apple gives this resolution/size "Retina" approval.
+  - This resolution has no standardized name...
   - 5.9MP
 - 3456x2234
   - 1.55:1 (a little taller than 16:10)
@@ -65,7 +77,7 @@ the center of the screen.
   - 7.7MP
 - 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
-  - This is the native resolution of my current (as of Sept 2023) Dell
+  - This is the native resolution of my current (as of 2025-03-XX) Dell
     U2723QE monitor (cost ~$850).
   - In cinema, 4k means 4096x2160 (called DCI 4k). In computing, 4k UHD
     is 3840x2160.
