@@ -157,8 +157,9 @@ has the pins for the four data lanes.
 
 **USB 4**
 
-In 2019, USB 4 is released. This now supports 40GBps on a single lane!
-Thus you can do 80Gbps bidirectional.
+In 2019, USB 4 is released. This supports 20GBps on a single lane! Thus
+you can do 40Gbps bidirectional. And in 2022, USB4 2.0 (really!)
+supports 40GBps per lane, for 80Gbps bidirectional.
 
 This incorporates all the old USB standards as follows:
 

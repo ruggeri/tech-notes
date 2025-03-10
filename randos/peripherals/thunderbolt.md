@@ -111,11 +111,23 @@ Thunderbolt 3 to parity. At this point, Thunderbolt is becoming a
 brand-name more than a standard, since USB4 has all the same
 capabilities (though not the same minimum requirements).
 
-## Thunderbolt 4
+## Thunderbolt 4 and 5
 
 Thunderbolt 4 adds some features, but doesn't change the speed.
 Thunderbolt 4 will require cables to always support 40Gbps. It sounds
 like Thunderbolt 4 is basically just raising the minimum requirements to
 be Thunderbolt 4 certified. USB4 should already be capable of this.
 
+As of 2025-03-XX, it appears Thunderbolt 5 means USB4 v2. So 80Gbps
+bidirectional (or 120GBps/40Gbps asymmetric). I believe USB4 v2 is
+already supposed to support DisplayPort 2.1, but this is definitely part
+of Thunderbolt 5.
+
+Thunderbolt, as described, basically just _mandates_ some features which
+are otherwise _optional_ for USB4 v2. And to use Intel's Thunderbolt
+logo, you have to get your equipment tested in a laboratory. The main
+difference may be that Thunderbolt mandates 140W vs 100W power.
+
 Source: https://www.cablematters.com/blog/Thunderbolt/usb-c-vs-thunderbolt-3-which-one-is-better
+Source: https://www.cablematters.com/Blog/Thunderbolt/thunderbolt-5-vs-usb4
+Source: https://www.graniteriverlabs.com/en-us/technical-blog/a-complete-overview-of-differences-between-tbt5-tbt4-and-usb4
