@@ -83,3 +83,14 @@
   - GeekBench 6 Single/Multi core scores: 3870/22448.
     - +180%/+246% over current machine.
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m4-pro-14-core-cpu-20-core-gpu-16-2024-specs.html
+
+## iPhones
+
+- 2022-02-XX to 2025-03-XX (current): iPhone 13 Pro.
+- 2017-07-XX to 2025-02-XX: iPhone 7
+- 2016-02-XX to 2017-07-XX: iPhone 6s
+- 2013-10-XX to 2016-02-XX: iPhone 5
+- Probably an iPhone 4 during first App Academy Course? No record of
+  this.
+- 2010-09-XX to 2012-04-XX: HTC ADR6300
+  - Those dates are very approximate.
