@@ -1,9 +1,9 @@
 ## Monitor Size
 
 My Thunderbolt Display (released 2011) was 27". My 2022 Dell U2723QE is
-27". 27" is about as big as my eyes can reasonably look around at on a
-desk. Even then, I find myself centering VSCode or Firefox at the middle
-of the 27" screen area.
+27". I purchased it in 2022-02-XX. 27" is about as big as my eyes can
+reasonably look around at on a desk. Even then, I find myself centering
+VSCode or Firefox at the middle of the 27" screen area.
 
 A larger monitor, it feels to me, would just waste space. I wouldn't use
 the edges of the monitor, I think. Even if I started to want to do a
@@ -13,7 +13,7 @@ the center of the screen.
 
 ## Resolution
 
-- 1280x720: called 720p or HD.
+- **1280x720**: called 720p or HD.
   - 16:9
   - 0.92MP.
 - 1366x768: WXGA.
@@ -26,7 +26,7 @@ the center of the screen.
   - 16:10.
   - A common format for laptop screens c2010.
   - 1.3MP.
-- 1920x1080: called 1080p or FHD (Full HD)
+- **1920x1080**: called 1080p or FHD (Full HD)
   - 16:9
   - This is sometimes called 2k (the horizontal resolution), though DCI
     2k is technically a little wider (2048x1080). This allows easily
@@ -34,7 +34,7 @@ the center of the screen.
     are wider than 16:9 (which is really more of a display format).
   - This is the resolution of my digital BenQ projector purchased 2014.
   - 2.1MP
-- 2560x1440: called 1440p or QHD (Quad HD) or WQHD (Wide Quad HD)
+- **2560x1440**: called 1440p or QHD (Quad HD) or WQHD (Wide Quad HD)
   - 16:9
   - Notice this quadruples the size of HD.
   - It's not any "wider" than the other 16:9 HD formats. So this is not
@@ -75,7 +75,7 @@ the center of the screen.
     own as of 2025-02-XX).
   - It's a little weirdly tall.
   - 7.7MP
-- 3840x2160: called UHD (Ultra HD), 4k, and rarely called 2160p
+- **3840x2160**: called UHD (Ultra HD), 4k, and rarely called 2160p
   - 16:9
   - This is the native resolution of my current (as of 2025-03-XX) Dell
     U2723QE monitor (cost ~$850).
@@ -151,12 +151,13 @@ Source: https://qasimk.io/screen-ppd/
 - I want enough bandwidth over USB-C to run high-speed USB peripherals.
   - This is a nice-to-have in case I want to plug an external drive into
     my monitor.
-  - USB-C 3.2 doesn't have enough bandwidth to support UHD @ 60Hz _and_
-    speeds above USB 2.0 480Mbps.
+  - USB 3 Gen 2 doesn't have enough bandwidth to support UHD @ 60Hz
+    _and_ speeds above USB 2.0 480Mbps.
     - Well, see my discussion of USB Alternate Mode for more info.
     - In short: DisplayPort 1.2 can't do this. DisplayPort 1.4 can if
       you can enable DSC compression. DisplayPort 2.0 might be able to
-      do this without DSC.
+      do this without DSC. But this monitor only does DisplayPort 1.4...
+    - This monitor does claim DSC support.
   - That implies you want to use Thunderbolt 3/4 or USB 4. These can do
     enough bandwidth to run UHD @ 60Hz _and_ high speed USB peripherals.
   - I am making do fine with low speed USB with the Dell U2723QE. But it
@@ -164,6 +165,15 @@ Source: https://qasimk.io/screen-ppd/
     - Mar 2023 update: I think slow USB peripheral speed hasn't been a
       problem? There's only 480Mbps for keyboard, mouse, ethernet and
       webcam. But that is maybe enough??
+    - 2025-03-XX Update: Looks like I am running 4k@60hz with 30-bit
+      color. It says that "Stream Info: 5.4Gbps", which implies HBR2 is
+      being used. Now, even 2x HBR3 doesn't have the bandwidth to do
+      4k@60Hz with 30-bit color uncompressed. However, if I set "USB-C
+      Prioritization: High Data Speed", it now shows "8.1Gbps DSC" (HBR3
+      with DSC) and USB: USB3.1. Interesting! It looks like Apple fixed
+      DSC. Indeed, switching from USB 2.0 to USB 3.2 Gen 2 speed, I go
+      from 227Mbps down to 304Mbps down (up stays constant at 42Mbps). I
+      can't see any change in image quality with DSC.
 - I like having an integrated ethernet port.
   - This helps with internet reliability. And again, I don't want to
     plug more than one cable into my laptop.

@@ -299,8 +299,13 @@ Can USB-C cables be used to deliver video? Yes. This is called alternate
 mode. Lanes can be dedicated to DisplayPort communication (the most
 common alternate mode).
 
-Let's keep in mind a target goal: 4K at 60Hz. To do this, we need 18
-Gbps of bandwidth. (Other sources say 12 Gbps?)
+Let's keep in mind a target goal: 4K at 60Hz. To do this, we need
+perhaps 18 Gbps of bandwidth. Though, Wikipedia page on DisplayPort has
+a chart which says 4k@60 with 4:4:4 (uncompressed) 8-bit color is
+12.54Gbps. It says that 10-bit color requires 15.68Gbps. So there is
+some disagreement...
+
+Source: https://en.wikipedia.org/wiki/DisplayPort#Refresh_frequency_limits_for_standard_video
 
 With USB 3.1 Gen 2, you can use one Tx and one Rx lane for USB, and the
 other Tx/Rx lanes are given for two-lane DisplayPort. Note that
@@ -309,10 +314,16 @@ DisplayPort repurposes the Tx/Rx lanes for transmission.
 DisplayPort 1.2 (from 2010) does 5.4 Gbps per lane (this is called
 HBR2). So two HBR2 lanes (10.8 Gbps) is not enough for 4K@60Hz.
 DisplayPort 1.3/1.4 (from 2014/2016) does 8.1 Gbps (this is called
-HBR3), so we get close with two HBR3 lanes (16.2Gbps), but not enough
-for 4K@60Hz.
+HBR3), so two HBR3 lanes do 16.2Gbps. That is above some of the
+bandwidth numbers needed for 4K@60Hz, but below others...
 
-Note that even though a USB-C lane can do 10Gbps, DisplayPort
+But Wikipedia makes an essential note. HBR (2.7Gbps), HBR2 (5.4Gbps),
+and HBR3 (8.1Gbps) all use **8b/10b** encoding. That means that only 80%
+of the bandwidth transmits data; the other 20% is encoding overhead.
+Thus 2 lanes of HBR3 do not really give 16.2Gbps; they give 12.96Gbps.
+That cannot do 10-bit uncompressed 4k@60Hz.
+
+Note that even though a _single_ USB-C lane can do 10Gbps, DisplayPort
 under-utilizes the channel when it repurposes the USB-C lane as HBR2 or
 HRB3.
 
@@ -326,6 +337,10 @@ configured.
 DisplayPort 2.0 (2019) has a 10 Gbps per lane mode called UHBR 10. This
 could conceivably drive 4K@60Hz with just two USB-C lanes if it can do
 10Gbps per lane. Any USB 3.2 Gen 2x2 20Gbps cable could do this.
+DisplayPort 2.0 also defined UHBR 20, which is 20Gbps per lane; a USB 4
+Gen 3x2 cable should be able to do this.
+
+The UHBR modes use 128b/132b encoding, which is more efficient.
 
 The Radeon on my MacBook Pro doesn't do DisplayPort 2.0 though.
 
@@ -338,7 +353,9 @@ That would leave the Tx/Rx lanes needed for USB-C SuperSpeed 10 Gbps.
 
 It seems that maybe Apple broke/removed DSC support for MacOS
 post-Catalina? Maybe just for AMD GPUs? Maybe it will come back? As of
-Mar 1 2022, it is broken and has been since Nov 2020 I think!
+Mar 1 2022, it is broken and has been since Nov 2020 I think! Wow: I
+think around Nov 16, 2023 threads appeared that Apple had fixed DSC!
+Maybe it had been fixed in MacOS Sonoma?
 
 Last, let's consider 8k@60. That needs 4x the bandwidth of 4k:
 18Gbpsx4=72Gbps. Note that a USB 3.2 Gen 2x2 20Gbps cable wouldn't be
