@@ -38,7 +38,7 @@
     - +20%/+55% over previous machine.
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i7-2.2-15-mid-2018-true-tone-display-touch-bar-specs.html
 - 2019 MacBook Pro Core i9 2.3GHz 16"
-  - Purchased Mar 24 2020. Using as of 2025-03-XX. ~5yrs use so far!
+  - Purchased 2020-03-24. Using as of 2025-03-XX. ~5yrs use so far!
   - $3,041.92
   - 2.3GHz (4.8GHz turbo boost), 8 core, Intel Core i9. Coffee Lake
     (Refresh).
@@ -51,6 +51,11 @@
     - +12%/+40% over previous machine
   - GeekBench 6 Single/Multi core scores: 1380/6479.
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-core-i9-2.3-eight-core-16-2019-scissor-specs.html
+  - About 2025-03-29 I had the battery replaced. It is expected to last
+    about 5yrs and about 1k cycles (it had hit about 980 or so I
+    think?). It was at 77% health (6736 of 8790 mAh). I used `ioreg -l -w0 | grep Capacity` to get more info.
+  - Cost for battery replacement was $249. Battery is now 8653mAh of
+    8790mAh 98.4%. Cycle count is 2.
 - Current upgrade (as of 2025-03-XX):
   - 2024 Mac Book Pro 16" M4 Pro 14 CPU/20 GPU
   - $2.9k base price before tax.
