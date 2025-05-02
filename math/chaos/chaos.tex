@@ -1,0 +1,37 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+
+\begin{document}
+
+\title{Chaos}
+\maketitle
+
+\begin{enumerate}
+  \item Basically, I think we just want to give a definition of what it
+  means to be \define{chaotic}.
+
+  \item People talk about ``sensitive dependence'' on ``initial
+  conditions.'' But if the function that maps from initial condition to
+  output is required to be continuous and even differentiable, does that
+  just mean that the derivative should be large?
+
+  \item I think an important idea is that every open set in the space of
+  initial conditions (no matter how small) maps to \emph{the entire}
+  output space. In this sense, an approximation of the input will never
+  help approximate the output.
+
+  \item One possible idea: for every $x_0$ there exists a $\delta_0$
+  such that for any $\delta < \delta_0$ the image of the $\delta$ ball
+  around $x_0$ is the same as the image of the $\delta_0$ ball.
+
+  \item If a physical system is modeled by a chaotic function, then
+  arbitrarily small measurement error in the input implies that nothing
+  can be predicted about the output of a system.
+\end{enumerate}
+
+\end{document}
