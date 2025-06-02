@@ -204,6 +204,20 @@ Source: https://qasimk.io/screen-ppd/
   people appear to think this is the best display technology in 2023.
   - It looks like 27" OLED monitors are still relatively uncommon as of
     Sept 2023. I think maybe no Dell monitor is OLED in Sept 2023.
+  - I think OLED is supposed to have the highest _contrast_. This is the
+    difference between dark and bright. This can give very vibrant tones
+    and colors. LCD screens use a backlight which tends to reduce
+    contrast.
+  - Another aspect is _brightness_, measured in _nits_. OLED tends to
+    perform worse than LCD in terms of total brightness. Brightness can
+    matter when the room itself is not dark, so you need a brighter
+    image.
+  - So some people suggest OLED for darker rooms, and QLED for brighter
+    rooms.
+  - As a practical example, the OLED viewfinder in my A7RV looks way
+    more vibrant than my Dell U2723QE LCD (not QLED) display. Might also
+    be the pixel density (very high on viewfinder, but viewed very
+    close...), and maybe total lack of glare (because eyecup).
 - QLED is a new technology from Samsung. They improve on the LED backlit
   LCD panels. But it sounds like most people still prefer OLED for TV.
 - For projectors, laser illumination seems to be preferred to bulbs.
