@@ -43,9 +43,25 @@ So, when traveling, you mostly just need to adapt _plugs_.
   - This is an ungrounded plug.
   - This is not a national plug, but designed to work throughout
     Continental Europe.
-  - It is only supposed to pass small currents like 2.5A.
+  - It is only supposed to pass small currents up to 2.5A. This is a lot
+    lower than national plugs.
   - The Type C prongs are bent a little inward. This allows them to fit
     in a variety of hole diameters.
+  - Type C is only a _plug_, there is no specified _outlet_. Type C is
+    only a lowest-common denominator plug. No country uses Type C as
+    their national plug/outlet (again, there is no type C outlet).
+  - However, there are sometimes _nonstandard_ outlets that accept Type
+    C. These can accept unearthed variants of Type L and J so should
+    provide 10A. I believe I saw this on a powerstrip in Greece.
+  - You can always carry the appropriate national connector, which will
+    have a ground. Type C is maybe most useful in Italy (Type L) and
+    Switzerland (Type J), where type E/F cannot plug in. Even in Denmark
+    you can plug E/F into type K outlets (though not vice versa), so
+    long as you don't need grounding. So you don't really need Type C
+    there either.
+  - I try to avoid Type C because (1) it doesn't provide grounding and
+    (2) it tends to fit poorly. I prefer just to take the national plugs
+    I will need.
 - F is an earthed connector.
   - This is the German plug often called "Schuko".
   - It has a circular recessed socket, and circular based plug.
@@ -94,14 +110,17 @@ So, when traveling, you mostly just need to adapt _plugs_.
     - These outlets are typically not recessed.
     - Type E/F plugs cannot be plugged into a Type L 10A outlet. The
       4.8mm prongs are too big.
-    - However, the Type C Europlug fits nicely.
+    - However, the Type C Europlug fits nicely. However, since the
+      outlet is not recessed the plug is not physically supported by the
+      outlet.
     - CEI 23-50 S 10 is the two-prong unearthed plug.
     - CEI 23-50 S 11 is the three prong earthed plug.
     - I have seen this kind. I couldn't plug my Type E/F in, naturally.
   - The 16A Italian Type L has 5mm prongs, set 26mm apart.
     - These outlets are typically not recessed.
     - This socket doesn't accept Italian Type L 10A plugs (those pins
-      are spaced 19mm apart).
+      are spaced 19mm apart). It also can't accept Type C for the same
+      reason.
     - Likewise, the 16A Type L socket can't accept Type E/F plugs
       (pin/hole diameter basically matches, but Type E/F pins are spaced
       19mm apart).
@@ -133,8 +152,9 @@ So, when traveling, you mostly just need to adapt _plugs_.
     in a location similar to the American B type ground pin.
   - The prongs are again 4.8mm diameter and set at the same 19mm
     distance as Type E/F plugs.
-  - You can use Type C Europlug. It will fit, but a little loosely, as
-    usual.
+  - You can use Type C Europlug. It will fit, but a little loosely,
+    because the Type C prongs are smaller. Also, the E/F circular recess
+    shape doesn't support the lozenge that well.
   - You can plug in Type E and F plugs, but any ground will not connect.
   - You cannot plug a Type K plug into an E/F outlet, because the
     ground prong is not accepted by those outlets.
@@ -143,8 +163,11 @@ So, when traveling, you mostly just need to adapt _plugs_.
     prongs are set 19mm apart. A third (ground) prong is located
     offset in a triangular pattern (similar to Danish or American
     grounded plugs).
+  - There is a version without ground (Type 11) and a version with
+    ground (Type 12). All sockets are earthed though.
   - Thus, a Type C plug will fit into a Swiss Type J outlet nicely. It
-    will not provide grounding, of course.
+    will not provide grounding, of course. But it will be supported by
+    the lozenge shaped outlet, and the prongs are the right size.
   - The plug base is lozenge shaped, and the outlet is typically
     recessed.
   - Technically there are 10A and 16A versions. The 16A version has
@@ -155,6 +178,19 @@ So, when traveling, you mostly just need to adapt _plugs_.
 
 - Japan already uses A and B plug types. No conversion is needed.
 - Korea uses Type F.
+
+**Random**
+
+- Type D is used in India and is similar to South Africa, except prongs
+  are smaller and not sheathed.
+- Type H is Israel and Palestine. It has three prongs. It used to have
+  have blades, but since 1989 new outlets accept both blades and round
+  pins so that they can accept Type C plugs. Maybe very old outlets only
+  accept the blades.
+- Type M is South Africa. It does 16A, has sheathed pins, and big
+  prongs.
+- Type N is Brazil and is similar to Swiss Type J but with a different
+  offset of ground plug.
 
 ## Converters
 
