@@ -9,7 +9,8 @@ won't be used for this application. Anyway, you want to install a 50A
 circuit. 240V times 50A gives 12kW.
 
 (Actually, it looks like Tesla sells an adapter for NEMA 6-50 which
-doesn't have neutral).
+doesn't have neutral. Why would you want neutral anyway? I think it's
+because sometimes you want 120V power to power some of the electronics).
 
 Note: Level 2 charging can also happen at 208V. 208/120V is common in
 commercial usage. In big box stores and industrial you can have

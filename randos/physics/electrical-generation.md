@@ -400,14 +400,26 @@ expensive.
   - Half the circuits connect to one live wire, and the other half to
     the other.
   - Of course, we have special plugs for 240V outlets. Some of them also
-    give you a neutral wire in case part of the appliance wants 120V.
+    give you a neutral wire in case part of the appliance wants 120V
+    (for instance maybe some electronics controlling the appliance).
+  - You will see the voltage written as 120VAC (hot and neutral), 240VAC
+    (hot-to-hot), or 120/240VAC (hot-to-hot is 240VAC and a neutral is
+    provided for two 120VAC hot-to-neutral connections 180deg out of
+    phase).
   - Source: https://www.youtube.com/watch?v=jMmUoZh3Hq4
   - Source: https://www.youtube.com/watch?v=fJeRabV5hNU
-- However, for commercial power, I think it's common to give three
-  phases of 208V live-to-live.
-  - Each phase is 120V above ground. This is 120/208V.
-  - I think this also maybe happens in apartment buildings sometimes?
+- However, for commercial power, I think it's common to give a building
+  three phases of 208V live-to-live.
+  - Each phase is 120V above neutral. This is 120/208V.
+  - Each unit of the building is given two of the phases.
+  - The 208V is measured live-to-live. The phases are 120deg
+    out-of-phase. This is two legs of the three-phase power from the
+    utility.
   - A lot of things can operate on 208V, but at lower power.
+  - For the same reason 3-phase is more efficient (in terms of conductor
+    material) than single phase for power delivery, I believe 3-phase in
+    a condo building can deliver the same total power to a building for
+    less conductive material.
 - Last, there is _industrial power_. This is typical three-phase
   277/480V.
 
