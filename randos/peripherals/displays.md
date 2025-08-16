@@ -165,15 +165,28 @@ Source: https://qasimk.io/screen-ppd/
     - Mar 2023 update: I think slow USB peripheral speed hasn't been a
       problem? There's only 480Mbps for keyboard, mouse, ethernet and
       webcam. But that is maybe enough??
-    - 2025-03-XX Update: Looks like I am running 4k@60hz with 30-bit
-      color. It says that "Stream Info: 5.4Gbps", which implies HBR2 is
-      being used. Now, even 2x HBR3 doesn't have the bandwidth to do
-      4k@60Hz with 30-bit color uncompressed. However, if I set "USB-C
-      Prioritization: High Data Speed", it now shows "8.1Gbps DSC" (HBR3
-      with DSC) and USB: USB3.1. Interesting! It looks like Apple fixed
-      DSC. Indeed, switching from USB 2.0 to USB 3.2 Gen 2 speed, I go
-      from 227Mbps down to 304Mbps down (up stays constant at 42Mbps). I
-      can't see any change in image quality with DSC.
+    - 2025-03-XX Update: Looks like I have been running 4k@60hz with
+      30-bit color. With "USB-C Prioritization: High Resolution", it
+      says that "Stream Info: 5.4Gbps" and "USB: USB2.0". Does this
+      imply HBR2 is being used? Does 2x HBR3 doesn't have the bandwidth
+      to do 4k@60Hz with 30-bit color uncompressed and USB3? However, if
+      I set "USB-C Prioritization: High Data Speed", it now shows
+      "Resolution: 3840x2160, 60Hz, 30-bit" (4k@60Hz 30-bit), "USB:
+      USB3.1", "Stream Info: 8.1Gbps DSC" (does that mean HBR3 with
+      DSC?). Interesting! It looks like Apple fixed DSC. Indeed,
+      switching from USB 2.0 to USB 3.2 Gen 2 speed, I go from 227Mbps
+      down to 304Mbps down (up stays constant at 42Mbps). I can't see
+      any change in image quality with DSC.
+      - 2025-08-16: I tried to update these notes to more accurately
+        record the settings on the monitor. However, at this time I
+        cannot remember all the various HBR
+        bandwidths/settings/capabilities/requirements. So I just updated
+        and recorded the available monitor settings and tried to make
+        clear my guesses about HBR are speculation. Nothing on the "Dell
+        Display Info" say anything about HBR explicitly. The reason I
+        revisited this at all was because the monitor slipped into 30Hz
+        mode. I just restarted the MacBook and toggled between High-Data
+        and High-Resolution modes.
 - I like having an integrated ethernet port.
   - This helps with internet reliability. And again, I don't want to
     plug more than one cable into my laptop.
