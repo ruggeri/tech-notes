@@ -84,4 +84,50 @@
 
 # What is Latent Heat?
 
-- **TODO**: Explain why substances get hotter when they condense.
+- Why should a substance get _hotter_ when it condenses from gas to
+  liquid?
+- We know that being a liquid means the molecules of the substance are
+  held together by "intermolecular bonds of intermediate strength."
+- When we add heat to the liquid, the molecules start jiggling more. A
+  lot of times, they will jiggle a bit away from the other molecules to
+  which they have some attraction. But they are pulled back in until an
+  opposing force grows and repels them again.
+- However, if the temperature is high enough, molecules will be knocked
+  away from each other and given a momentum that the intermolecular
+  force is not strong enough to arrest and reverse. The molecule is then
+  "freed"; the intermolecular force becomes negligible at that distance.
+  This is the process of changing phase into a gas.
+- However, note that the intermolecular force will have resisted the
+  breakaway of the molecule. This reduces the velocity of the escaped,
+  gasified molecule. This reduction in velocity is a reduction of
+  translation kinetic energy which is a reduction in temperature.
+- Thus we see that the breaking of bonds is **endothermic** - it takes
+  energy.
+- Conversely, forming bonds is **exothermic**. A bond is formed when one
+  molecule is moving toward the other. As the bond forms, both molecules
+  accelerate toward each other.
+  - **TODO**: It would be good to develop a kinetic model intuition of
+    this.
+- We have previously intuited why liquids, when heated, will eventually
+  evaporate into a gas. It's because the molecules are knocked away from
+  each other. But what we may not have previously noticed was that some
+  of the heat (translational kinetic energy) used for evaporation will
+  be lost as the intermolecular bond is broken.
+- Similarly, we see that a gas, when cooled, will lose kinetic energy
+  and this allows for intermolecular bonds to stably form. But what we
+  might not have previously noticed is that this bond formation will add
+  some kinetic energy to the molecules (as they snap together) and thus
+  raise the temperature.
+- We can now discuss why pressure also matters. When pressure is high,
+  molecules have less space to fly away before they are pushed back.
+  When they are close enough to form an intermolecular bond, they find
+  it difficult to get away far enough for the bond to be broken (have
+  negligible force).
+- Likewise, when pressure is low, a molecule that is knocked away can
+  more easily break away and never return.
+- As you compress a gas, it will generally get hotter. But let's assume
+  that it then loses this heat to the environment. What is striking is
+  that eventually the gas will begin to condense, and at this moment, it
+  will get quite a bit hotter. This hotness is not due to the work
+  needed to compress the gas, but because the gas has condensed to a
+  liquid.
