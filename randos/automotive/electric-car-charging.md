@@ -1,16 +1,31 @@
+# Level 1 Charging
+
 In the US, if you plug in your electric car to a typical outlet, you are
-going to charge with 120V. Your typical circuit is going to do 20A.
-That's 2.4kW of power. This is called Level 1 charging.
+going to charge with 120V AC. Your typical circuit is going to do 15A.
+But you are only supposed to use 80% of the sustained circuit current
+capacity. You get 12A sustained, and that gives 1.44kW of power. You
+will connect to a typical NEMA 5-15 receptacle.
 
-The next level up is 240V charging. Here you combine the two 120V phases
-of the residential power. You need to install a NEMA 14-50 outlet; this
-has two live wires, a ground, and a neutral. Technically, the neutral
-won't be used for this application. Anyway, you want to install a 50A
-circuit. 240V times 50A gives 12kW.
+If you have a 20A circuit, a NEMA 5-20 receptacle, and the right plug
+you can charge at 80% of 20A which is 16A. That gives 1.92kW.
 
-(Actually, it looks like Tesla sells an adapter for NEMA 6-50 which
-doesn't have neutral. Why would you want neutral anyway? I think it's
-because sometimes you want 120V power to power some of the electronics).
+The J1772 connector is limited to 16A on 120V power. Most vehicles will
+restrict further to 12A. I believe my Rav4 Prime XSE will allow you to
+select 16A.
+
+# Level 2 Charging
+
+The next level up is 240V AC charging. Here you combine the two 120V
+phases of the residential power.
+
+Depending on the circuit/receptacle, you can charge at 15A (2.88kW, NEMA
+6-15), 20A (3.84kW, NEMA 6-20), 30A (5.76kW, obsolete but common
+ungrounded NEMA 10-30 or modern NEMA 14-30), or 50A (9.6kW, no neutral
+NEMA 6-50 or NEMA 14-50, which offers neutral and thus both 120V and
+240V connections). A Tesla mobile connector has adapters for all these
+receptacles. These adapters are "smart" in that they tell the Tesla
+mobile connector how much current is available to draw. Otherwise, the
+Tesla mobile connector is just a cable to plug into the car.
 
 Note: Level 2 charging can also happen at 208V. 208/120V is common in
 commercial usage. In big box stores and industrial you can have
@@ -19,6 +34,8 @@ that equipment that needs to draw a lot of power might want to do so at
 high voltage and low amperage. However, in the case of 208/120V, the
 line-to-line voltage is less than the 240V you get from the split-phase
 240/120V.
+
+# Level 3 Charging
 
 Level 3 chargers are DC. Tesla's "Supercharger" line does
 100kW/120kW/250kW for v1/v2/v3. Electrify America does 50kW/150kW/350kW.
@@ -73,6 +90,8 @@ driving.
     anymore. It can't do enough power.
     - Plug-in hybrid vehicles with small wattage on-board chargers (like
       the RAV4 Prime) do often use SAE J1772.
+    - We will see that cars with a CCS1 port will accept a J1772
+      connector and charge slowly but surely.
   - SAE J1772 is commonly used at home or as a travel-charger in the US.
 - CCS: Combined Charging System
   - CCS1 extends SAE J1772. It adds two DC pins. This is CCS Type 1.
@@ -93,7 +112,8 @@ driving.
   - In both CCS types, the inlet will retain the AC pins so that AC
     charging can be performed.
     - I believe the CCS1 connector retains the AC pins, but I don't know
-      why? The CCS2 connector doesn't retain the AC pins.
+      why? Maybe some electronics on the car might be powered off AC?
+      The CCS2 connector doesn't retain the AC pins.
   - Most non-Tesla, non-Japan manufacturers are going with CCS.
 - CHAdeMO
   - Some weird pun that means tea?
@@ -105,26 +125,48 @@ driving.
     CCS outside Japan.
   - Only the Nissan Leaf and Mitsubishi Outlander PHEV use CHAdeMO in
     the US.
-- Tesla Charger
-  - Just two pins of DC.
-  - I believe that the connector for home has to do power transformation
-    to DC.
-- Key question: since CCS and Tesla are most common charger types in US,
-  can you use one with the other?
-  - Tesla sells a $250 adapter, which looks passive, to fit a CCS
-    charger to Tesla.
+- Tesla Charger (called NACS)
+  - Just two pins of AC or DC. The same pins are used for either AC or
+    DC. At home, AC is connected. At a Level 3 charger, DC is connected.
+
+# Outlet Compatibility
+
+- Toyota RAV4 Prime ships with an EVSE that plugs into NEMA 5-15.
+- J+Booster is a modular system for J1772 that allows you to select a
+  wide variety of plugs. But it costs $700.
+- Tesla Mobile Connector is $300. It comes with 5-15 (120V 15A) and
+  14-50 (240V 50A) connectors. You can buy Tesla branded 5-20 (120V 20A)
+  and 6-20 (240V 20A) for ~$35. The connector has a 20' cable, so it
+  should reach a car from quite a distance.
+  - You can buy a passive Tesla-to-J1772 converter. A Lectron adapter
+    (supports up to 250V 48A) costs $113.
+
+# NACS, J1772, and CCS1 Compatibility
+
+- J1772 to NACS: Tesla sells a $50 adapter which looks passive.
+- CCS1 to NACS
+  - As of 2025-09-05, Tesla sells a $300 adapter, which looks passive,
+    to fit a CCS connector into a NACS port.
   - Apparently Teslas manufactured before Oct 2020 need a "retrofit"; a
     firmware flash of something, I think.
-  - But this won't be available until 2023.
-  - First started selling this in South Korea where it was mandated.
-- Can you charge CCS on Tesla network?
-  - Tesla already uses CCS in Europe, where I believe it is mandated.
-  - They claim that the network will soon be opened to other vehicles. I
-    believe they will be able to charge at full rate.
-  - That would be interesting.
-  - I don't know how Tesla will accomplish this. Will they allow you to
-    bring your own Tesla-to-CCS1 adapter? Will they terminate with CCS1
-    at the supercharger? Wouldn't that annoy their customer base?
+  - Lectron sells a CCS to Tesla adapter for $135.
+- NACS to J1772
+  - Tesla runs a network of "Destination" chargers which offer 240V and
+    up to 48A.
+  - Lectron sells an adapter for $120. You can then plug your J1772 or
+    CCS1 vehicle into any Tesla Destination charger.
+- NACS to CCS1
+  - Sort of. Tesla has (1) Tesla-only superchargers, (2) All EV
+    superchargers which have a magic dock adapter, (3) NACS
+    superchargers which support _some_ EVs if you bring your own NACS to
+    CCS1 adapter.
+  - I don't know if the adapter can be third-party like from Lectron, or
+    if you must buy it from the vehicle manufacturer.
+  - Your vehicle manufacturer needs to sign an agreement with Tesla to
+    let you plug it into the Supercharger. There is some kind of
+    negotiation between your vehicle and the charger. As of 2025-09-05,
+    Toyota hasn't reached an agreement with Tesla?
+  - Now that NACS is open, many new BEVs will come with NACS ports.
 
 Source: https://www.tesla.com/support/home-charging#home-charging-options
 Source: https://freewiretech.com/difference-between-ev-charging-levels/
