@@ -114,7 +114,9 @@ driving.
     - I believe the CCS1 connector retains the AC pins, but I don't know
       why? Maybe some electronics on the car might be powered off AC?
       The CCS2 connector doesn't retain the AC pins.
-  - Most non-Tesla, non-Japan manufacturers are going with CCS.
+  - Most non-Tesla, non-Japan manufacturers were going with CCS.
+  - However, as of 2025-09-XX, NACS (Tesla) has won. Cars like the
+    2025 Hyundai Ioniq 5 have NACS and no CCS1.
 - CHAdeMO
   - Some weird pun that means tea?
   - Ubiquitous in Japan.
@@ -124,7 +126,7 @@ driving.
   - Toyota and Subaru equip vehicles with CCS outside Japan. Honda uses
     CCS outside Japan.
   - Only the Nissan Leaf and Mitsubishi Outlander PHEV use CHAdeMO in
-    the US.
+    the US. They still use it as of 2025-09-XX! Good luck with that!
 - Tesla Charger (called NACS)
   - Just two pins of AC or DC. The same pins are used for either AC or
     DC. At home, AC is connected. At a Level 3 charger, DC is connected.
@@ -139,22 +141,26 @@ driving.
   and 6-20 (240V 20A) for ~$35. The connector has a 20' cable, so it
   should reach a car from quite a distance.
   - You can buy a passive Tesla-to-J1772 converter. A Lectron adapter
-    (supports up to 250V 48A) costs $113.
+    (supports up to 250V 48A) costs $113. I bought one in 2025-09-XX.
 
 # NACS, J1772, and CCS1 Compatibility
 
-- J1772 to NACS: Tesla sells a $50 adapter which looks passive.
+- J1772 to NACS: Tesla sells a $50 adapter which looks passive. I
+  believe it comes with every Tesla.
 - CCS1 to NACS
   - As of 2025-09-05, Tesla sells a $300 adapter, which looks passive,
     to fit a CCS connector into a NACS port.
   - Apparently Teslas manufactured before Oct 2020 need a "retrofit"; a
     firmware flash of something, I think.
   - Lectron sells a CCS to Tesla adapter for $135.
+  - This could be handy for both Tesla and other NACS-port BEVs so they
+    can use Electrify America and other fast chargers.
 - NACS to J1772
   - Tesla runs a network of "Destination" chargers which offer 240V and
     up to 48A.
   - Lectron sells an adapter for $120. You can then plug your J1772 or
-    CCS1 vehicle into any Tesla Destination charger.
+    CCS1 vehicle into any Tesla Destination charger. I bought one in
+    2025-09-XX.
 - NACS to CCS1
   - Sort of. Tesla has (1) Tesla-only superchargers, (2) All EV
     superchargers which have a magic dock adapter, (3) NACS
@@ -167,6 +173,9 @@ driving.
     negotiation between your vehicle and the charger. As of 2025-09-05,
     Toyota hasn't reached an agreement with Tesla?
   - Now that NACS is open, many new BEVs will come with NACS ports.
+  - I'll never buy this because (1) the 2025 RAV4 Prime can't do Level 3
+    charging, (2) any future battery electric vehicle will use NACS,
+    CCS1 is going to die.
 
 Source: https://www.tesla.com/support/home-charging#home-charging-options
 Source: https://freewiretech.com/difference-between-ev-charging-levels/
