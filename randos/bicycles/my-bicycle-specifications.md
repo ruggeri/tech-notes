@@ -60,6 +60,14 @@
     half an inch difference.
 - I don't believe this bike has any mounting points for a rear rack.
   That's a shame!
+- Handlebars
+  - Handlebars have a stem clamp size (where they clamp to the stem) and
+    a grip area size.
+  - Nowadays, flat bars are typically 25.4mm at clamp and 22.2mm at
+    grip. Drop bars are often 25.4mm at clamp and 23.8mm at grip.
+  - I haven't measured my bars; probably standard 25.4mm/22.2mm would be
+    my guess.
+  - For children's bikes, you might have 19mm grips.
 
 ## Gear Ratio Upgrade?
 
