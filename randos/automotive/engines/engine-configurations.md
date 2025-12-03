@@ -94,40 +94,7 @@
 
 ---
 
-A major factor appears to be stroke and bore.
-
-The stroke length, as we have seen, is determined by the radius of the
-crank. We know that if you apply the same force at a greater distance
-from the crank, you will impart more torque on the shaft. Thus, longer
-stroke means more torque on the crankshaft.
-
-On the other hand, the larger the bore (diameter of cylinder), the more
-fuel can be put in the combustion chamber. This means more fuel is
-burned every cycle, which means more energy is delivered each cycle.
-
-More cylinders means a few things:
-
-- More intake ports for air. Less time to fill the cylinder with air.
-- Shorter stroke for pistons to travel. That means that the speed is
-  slower. Which means that at same RPM, forces on conrods can be less,
-  which stresses them less.
-- Also, and probably more important, the pistons are smaller, which
-  means they require less force to turn around and stop.
-
-Fewer cylinders at same displacement means:
-
-- Each stroke of power burns more fuel, and applies greater torque.
-
-There is also the _timing_ of the firing. A four cylinder will always be
-firing a cylinder, so there is consistent work being performed. Both a
-V-Twin and a parallel twin have intervals during which no expansion is
-occurring and thus no power is delivered.
-
-- Someone else says that it's a matter of tuning? That the V-Twin can
-  only reach 6k RPM, so you tune it for more torque down low?
-  - On the other hand, with an inline 4, since you can get it to do high
-    RPM, you want to tune it to produce the most torque there.
-  -
+these notes that follow are mostly about bore/stroke...
 
 https://www.reddit.com/r/motorcycles/comments/1v9uw2/why_do_v_twins_tend_to_have_comparatively_higher/
 
