@@ -21,8 +21,8 @@
     instance. For the piston to change velocity/direction requires a
     force through the connecting rod. This basically tries to tear the
     rod apart.
-  - KTM makes a thumper that does 77hp. But that's not enough for most
-    people on the highway.
+  - KTM 690 was a thumper that did ~75hp. But that pushed the limits, I
+    think mainly with high compression.
 - Can sometimes get away with air cooling because air isn't blocked
   from any of the cylinders.
 - They have pulsing power delivery and a lot of vibration because the
@@ -31,6 +31,7 @@
   _flywheel_. The flywheel stores power as rotational inertia.
   - A heavy flywheel increases rotational inertia and makes changes in
     revs slower.
+  - This can make the vehicle feel unresponsive.
 - You can use a counterweight to try to balance the engine. But this
   won't be perfect, because a counterweight spins with the crankshaft,
   and its motion is thus not perfectly opposed to the piston motion.
@@ -51,9 +52,9 @@
     be optimized for higher revs on the twin, and lower revs on the
     single.
   - Since we don't need large valves to support high RPM, we may expect
-    a longer stroke relative to the bore. Elsewhere I think we find that
-    a smaller bore-to-stroke engine develops more torque and at lower
-    RPM?
+    a longer stroke relative to the bore. Elsewhere we discuss why
+    undersquare engines tend to have broad torque curves (but not
+    revving as high and making less horsepower).
 - Some people don't like the sound, which has long gaps between
   combustion. Sounds like a lawnmower, because this is what lawnmowers
   use.

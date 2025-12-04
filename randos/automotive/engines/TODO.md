@@ -22,6 +22,14 @@ https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-st
 - Engine Power/Torque
   - https://en.wikipedia.org/wiki/Stroke_ratio
   - https://en.wikipedia.org/wiki/Compression_ratio
+    - Note that compression ratio doesn't increase power because there's
+      more air and thus you can burn more fuel. Compression ratio isn't
+      about shoving more air into the cylinder like turbo and
+      supercharging.
+    - It's that the peak temperature is higher, so more work is done on
+      expansion stroke. And the stroke is effectively longer. You can
+      imagine an engine with a _zero_ compression ratio; it obviously
+      doesn't do any work.
 - Fuel
   - https://en.wikipedia.org/wiki/Carburetor
   - https://en.wikipedia.org/wiki/Fuel_injection

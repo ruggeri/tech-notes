@@ -94,7 +94,7 @@
 - Because of the even firing order, you don't get the cool syncopated
   sound of the V-Twin or 270deg Parallel designs.
 - One thing people like about this configuration is that the weight is
-  down low.
+  down low. That helps with balance and maneuverability.
 - I think a major downside is clearance though while cornering. You
   can't really design a sportbike this way.
 - Other downsides versus an inline engine are the two cylinder heads,
@@ -102,6 +102,8 @@
 - Ultimately, to make really high HP without having a crazy huge engine,
   you need to reach high revs. And this is going to be easier to achieve
   with more cylinders.
+  - I think that BMW flat twins are fairly oversquare because they can't
+    have long strokes because the cylinders would stick out too much.
 - BMWs flat twins are big (about 1200cc) and have high torque numbers
   down low. But they're heavy, maybe not that maneuverable, presumably
   expensive to maintain.

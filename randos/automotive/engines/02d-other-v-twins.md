@@ -21,6 +21,9 @@ are/were mainly used on cruiser bikes.
 - Another note on sound: Harleys crank at lower RPMs, so you can hear
   the syncopation more than Ducatis, which crank at higher RPMs and
   start to sound more droney.
+  - That's an interesting point. Part of the appeal of big twins is the
+    low RPM rumble, which you kind of lose when you use a Ducati L-Twin
+    that cranks at high RPM.
 - Japanese Cruisers are ~55deg V-Twins
   - Honda Shadow (52deg), Suzuki Boulevard (C50: 45deg M109: 54deg),
     Kawisaki Vulcan (900: 55deg, 1700: 52deg), and Yamaha V-Star and

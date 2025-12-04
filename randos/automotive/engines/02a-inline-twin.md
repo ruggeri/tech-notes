@@ -7,9 +7,9 @@
 - Typically **transverse** mounted. Cylinders are side-by-side,
   perpendicular to the bike. Crank runs perpendicular to the bike axis.
   - Only 1 motorcycle ever did a straight twin longitudinal.
-- Are typically more compact and easier to design than flat-twins or
-  V-twins.
-  - Only one casmshaft and one cylinder head for instance.
+- Are typically more compact and easier to design and service than
+  flat-twins or V-twins.
+  - Only one camshaft and one cylinder head for instance.
 - Most make between 40-90hp. But there are some that go up to 115hp.
   - I'm talking motorcycles here.
   - These are really too small for cars. Also, I think you'd always have
@@ -240,6 +240,13 @@
   head and valvetrain.
 - 270deg seems to develop torque lower in rev range - why?
   - I'd like to see a source for this. I am not convinced this is true.
+  - Almost certain this is not true. I think it's really just a mental
+    perception people get because 270deg twin sounds/vibrates like a
+    V-twin and they are used to big V-twins.
+  - 270deg twin does give more traction recovery time so possibly more
+    traction feels like more torque can be put down to the road.
+  - Torque breadth is a function more of breathing and that doesn't
+    change with crank angle.
 - I see lots of bikes (mostly Japanese) up to 650cc class bikes use
   inline twin.
   - Triumph makes a fair number of 900cc and 1200cc twins. I think this

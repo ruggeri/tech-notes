@@ -73,12 +73,15 @@
   - Exception is Moto Guzzi, which mounts longitudinal (crankshaft
     parallel to bike body).
   - That's an advantage for air cooling, but a disadvantage for width.
+    Moto Guzzi still makes air cooled bikes, but it's not a modern
+    design (lower power and efficiency, though simpler).
   - I believe Moto Guzzi uses a crank shaft.
 
 ## Examples
 
 - V-Twins tend to be less common than inline twins.
-  - More expensive. And 270deg inline twin gets the sound people want.
+  - More expensive in parts and maintenance. And 270deg inline twin gets
+    the sound people want.
   - And V-twin is harder to "package" (fit into the motorcycle body).
 - Harley-Davidson bikes use a narrow V-angle (45deg) and large
   cylinders.
@@ -92,9 +95,12 @@
   - A downside to this design is that you need a longer wheelbase to
     accommodate the horizontal cylinder. That impacts maneuverability.
   - Thus the SuperSport 950 is actually pretty long.
+  - MotoGP of today used V4's with one cylinder bank almost parallel to
+    ground, and other vertical.
 - Moto Guzzi specializes in transverse 90deg V-twin.
 - Suzuki makes the V-Stroms and the SV650 with 90deg V-Twin.
 - KTM does use V-twins on their 1290 ADV bike. They use 75deg.
+  - I think this is a quite oversquare design.
 - Honda and Kawasaki don't make any V-twin or V4 bikes. Probably Japan
   doesn't do them in part because they are more expensive.
   - Also I think Japanese bikes were early to use water cooling and
@@ -110,9 +116,40 @@
   maneuverable, or Moto Guzzi might try to mount longitudinally.
   - Note that the Ducati Supersport 950 does have a fairly long
     wheelbase for an alleged sport-bike.
-- I think geometry might allow you to get longer stroke than in an
-  inline engine. That might help with displacement vs an inline twin,
-  for the same bike height.
+- A classic stereotype of V-Twins is that they are torquey.
+  - That comes from bikes like Harleys.
+  - The V-Twin can have wider bore because cylinders aren't
+    side-by-side. You can make the cylinders wider without increasing
+    bike width.
+  - You can also increase _stroke_ if engine is mounted so that
+    cylinders are symmetric across vertical. You can increase stroke
+    without increasing length nor height too much.
+  - So you increase displacement, which is good for power.
+  - And this layout favors an undersquare design. That favors tuning
+    for broad torque.
+  - Also, Harleys were traditionally aircooled so they couldn't make
+    make highpower anyway because they couldn't get rid of the heat
+    (especially with one cylinder oriented behind the other!).
+- So that's where V-twins get a reputation as torquey. It's not really
+  anything to do with the cylinder orientation. It's from how packaging
+  affects decisions about how much power the bike can make, and the
+  stroke/bore.
+- An exception is the Ducati L-Twins. Those are 90deg twins with a
+  horizontal and a vertical cylinder.
+  - With this orientation, you can't really increase stroke without
+    increasing engine height. So Ducati has big bore and shorter stroke,
+    which is very oversquare. Which favors high RPM performance.
+  - Cooling will also be better.
+  - But this is Ducati's choice. They want an oversquare design and an
+    engine tuned for high RPM engine because they are a more racey
+    company.
+  - So a Ducati L-Twin is _not_ going to feel like a traditional v-twin.
+  - I think the KTM 1290 also is very oversquare, for mostly the same
+    reasons. Except it is oriented with cylinders across vertical (and
+    with a 75deg angle). Maybe that makes a shorter wheelbase and more
+    agile.
+- In general: packaging of a V-twin can be difficult. And
+  parts/maintenance are going to be more expensive/complicated.
 
 ## Comparison With Inline Twins
 
@@ -128,6 +165,7 @@
   - I think that maybe V-Twins tend to have longer strokes, because of
     their geometry.
   - But then we ask again whether longer strokes even make more torque.
+  - Anyway, see discussion above.
 - I think that the main tradeoff is really about packaging and cost.
   - It's easier to fit an inline twin into a bike.
   - Cost to produce and maintenance are cheaper on the inline twin. You
@@ -136,6 +174,27 @@
   it's only one cylinder of width.
   - Though Kevin Cameron says you still need starter and alternator,
     which adds width too.
+  - Maybe that's why V-Twin isn't a crazy good idea if all you want to
+    do is to increase bore.
+- So we see that V-twin could be a natural idea for making a bigger
+  displacement engine tune for more/broader torque. But then Ducati
+  flips the script by increasing bore without really increasing stroke,
+  and tuning for high RPM and power.
+  - But at that point, why not go I4?
+  - A big reason is: racing regulations used to let you do 1L V-twin
+    limit and only 750cc I4 limit.
+  - Another reason is that V-Twin lets tire recover to get better
+    traction, which means harder acceleration out of corner. Now I4s can
+    do this with crossplane cranks...
+  - Engine width is narrower which gives better aerodynamics and lean
+    angle. And desmo system maybe worked better with just two cylinders
+    (I'm not getting into that here).
+  - Basically: Ducati's 90deg L-Twin design is a "heritage" of an
+    arbitrary rule that they figured out how to take advantage of. It's
+    not actually superior on the street to an I4 if you want a sporty
+    bike.
+  - Note: as soon as rule giving V-Twin a displacement advantage was
+    eliminated, Ducati switched to V4.
 
 ## Sources
 
