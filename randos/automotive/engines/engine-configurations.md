@@ -2,6 +2,21 @@
 
 - Engine displacement
   - Number of cylinders: more means more power.
+  - In general, as you scale a cylinder size, you basically increase
+    torque at the same RPM, but you will always have an RPM ceiling. You
+    can increase number of cylinders (increasing displacement), which at
+    same cylinder size will scale the amount of torque/power at the same
+    RPM (because more cylinders fire per revolution). Even at same
+    displacement, you can divide displacement across more, smaller
+    cylinders. This will let you rev higher (hitting higher HP at higher
+    RPM), but it will be harder for these cylinders to breathe equally
+    well at low RPM, so you will end up tuning a peaky engine.
+    - That is: torque curve characteristics are determined by per
+      cylinder breathing.
+    - So a twin 1200 GS probably has a torque curve twice as high but
+      just as broad as an I2 Ninja 650 with cylinders half the size. But
+      an I4 Kawi ZX-6R will make more power than either but its 250cc
+      cylinders won't support good torque at low RPM.
   - Size of each cylinder
     - Stroke length: how long each piston travels
     - Bore: diameter of cylinder

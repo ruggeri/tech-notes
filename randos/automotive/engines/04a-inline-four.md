@@ -75,6 +75,10 @@
   V4s. Triumph builds triples.
 - Fours generally are built when you want at least 100HP. Otherwise, you
   can more easily achieve it with a twin.
+  - An I4 with cylinders the same size as a twin will have similar
+    torque curve (per cylinder). But an I4 with same total displacement
+    as twin will rev higher, make more HP, but have worse low-end
+    torque.
 - To get this, presumably you're normally relying on the high revving of
   the engine to achieve greater HP. Thus, you'll tune it to produce peak
   torque high up in the rev range.
@@ -185,7 +189,8 @@
     BMW S1000XR.
   - These all make about 150-200HP.
 - There's also typically a huge tourer version: the Kawasaki Concours14
-  (canceled?), Yamaha FJR1300ES, for instance. Those are huge and heavy.
+  (canceled?), Yamaha FJR1300ES (discontinued in EU), for instance.
+  Those are huge and heavy.
   - But those touring motorcycles start to compete with six cylinder
     motorcycles like the Goldwing, which can give more power and run
     smoother.
