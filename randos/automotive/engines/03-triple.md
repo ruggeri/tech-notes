@@ -102,6 +102,11 @@
 - Perfect primary and secondary reciprocating balance is achieved, as
   noted above.
 - A 120deg triple will have some primary rotational imbalance.
+- I presume that the I3 is a bit intermediate between I2 and I4 (of same
+  displacement).
+  - Can rev higher than I2 of same displacement. But since it can't rev
+    as high as an I4, makes sense to tune it for lower RPM, and broader
+    torque.
 
 ## T-Plane Timing
 
