@@ -1,3 +1,49 @@
+## Otto Cycle
+
+- Four strokes:
+  - Intake stroke, in which air is pulled in through intake valves.
+    Occurs at atmospheric pressure, unless a supercharger or
+    turbocharger is used to pressurize air. The amount of air pulled in
+    during intake limits the amount of fuel that can be burned (see air
+    fuel ratio notes).
+    - Carburateurs supply fuel along with air intake. Fuel injection has
+      a little more control over when fuel is sprayed in.
+    - Otto cycle thermodynamic analysis ignores this stroke, since its
+      purpose is to breathe fluid and not for a thermodynamic purpose.
+      Otto cycle analysis imagines a "closed" cycle, and this intake
+      stroke is really about open, internal combustion operation.
+  - Compression stroke: engine must do work to compress the air. This is
+    modeled at an adiabatic compression starting at the cold
+    temperature.
+  - Ignition: we fire a spark to burn the fuel and release its heat.
+    This occurs when the piston has reached TDC. This is modeled as an
+    isochoric (constant voolume) heat addition. This spikes both
+    pressure and temperature.
+    - This isn't a stroke, but it is a "process" in the idealized Otto
+      cycle thermodynamic analysis.
+  - Power stroke: the gas mixture at the hot temperature is now allowed
+    to expand. This is modeled as an adiabatic expansion starting at the
+    hot temperature. Because this starts at a higher temperature than
+    the compression stroke, more work is done.
+    - However: please note that by the end of the power stroke, the gas
+      temperature has reached neither (1) atmospheric pressure, nor (2)
+      atmospheric air temperature. A hot gas needs to expand farther
+      than a cold gas to reach the same pressure, and even then it will
+      still be hotter than the cold gas after expansion. See: adiabatic
+      index.
+    - If we could expand further all the way until atmospheric pressure
+      is reached, we could extract more work out of the fluid. This is
+      the idea behind the **Atkinson cycle**. Even then, the gas would
+      still be hotter than atmospheric air temperature. That represents
+      unavoidable inefficiency; we'd have to modify the Otto cycle even
+      more to get closer to the Carnot efficiency limit.
+  - Exhaust stroke: exhaust gas is pushed out of the cylinder.
+    - This is modeled ideally as isochoric heat rejection (leftover heat
+      is rejected to atmosphere and lost), which is part of closed cycle
+      Otto analysis. We then push out the spent combustion charge, which
+      is ignored in the thermodynamic analysis, since it isn't for a
+      thermodynamic purpose.
+
 ## Diesel Cycle
 
 - Otto is more efficient at same compression ratio than Diesel.

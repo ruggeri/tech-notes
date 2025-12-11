@@ -45,4 +45,4 @@
     Engineering Explained video. Gives formula for Otto cycle thermal
     efficiency. Describes how increasing CR increases thermal
     efficiency and power (per liter).
-  - To review: https://www.youtube.com/watch?v=1pZqiuaZYGY
+  - TO REVIEW: https://www.youtube.com/watch?v=1pZqiuaZYGY D4A

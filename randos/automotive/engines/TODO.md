@@ -17,7 +17,11 @@ Note source: Advanced Engine Technology.
 - Fuel
   - https://en.wikipedia.org/wiki/Carburetor
   - https://en.wikipedia.org/wiki/Fuel_injection
+    - Port vs direct injection
   - https://en.wikipedia.org/wiki/Fuel_pump
+  - https://en.wikipedia.org/wiki/Air%E2%80%93fuel_ratio
+    - https://www.youtube.com/watch?v=9uFdrcPkMGE&pp=ygUVU3RvaWNoaW9tZXRyaWMgZW5naW5l EE TO REVIEW
+    - https://www.youtube.com/watch?v=vcgmEKhCFTs&pp=ygUVU3RvaWNoaW9tZXRyaWMgZW5naW5l EE TO REVIEW
 - Other Systems
   - Cooling system
   - Ignition system, Starting system, Alternator
@@ -25,4 +29,4 @@ Note source: Advanced Engine Technology.
   - Super and turbo chargers
 - Suspension.
 - Rod Ratio
-  - https://www.youtube.com/watch?v=C_YNn3ZkJmU
+  - https://www.youtube.com/watch?v=C_YNn3ZkJmU D4A
