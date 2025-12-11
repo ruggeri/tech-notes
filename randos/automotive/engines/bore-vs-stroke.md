@@ -153,3 +153,12 @@
   maximizing maximum power.
   - One solution is **variable valve timing**. This shifts between a low
     and a high RPM valve timing, allowing a best of both worlds...
+
+## Sources To Review
+
+- https://www.youtube.com/watch?v=UV3RwBPqznU
+  - EE modern discussion on bore and stroke. TO REVIEW
+- https://www.youtube.com/watch?v=j8DSBH2GG8s
+  - D4A on Bore vs Stroke, TO REVIEW
+- https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
+  - Kevin Cameron in Cycle World.
