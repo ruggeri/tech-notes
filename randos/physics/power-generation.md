@@ -14,7 +14,9 @@ We can then talk about solar power. Photovoltaic solar directly converts
 electromagnetic radiation to voltage - somehow. I don't understand how.
 
 The other form of solar power is concentrated solar power. Here, EMR is
-focused using mirrors on a central point, which is then heated.
+focused using mirrors on a central point, which is then heated. If you
+can boil water, then you can run a steam engine! The mirrors track the
+sun and are called "heliostats".
 
 This now takes us to our next series of power generation methods: heat
 engines. It's not obvious how turn heat energy into anything useful.
