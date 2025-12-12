@@ -45,4 +45,14 @@
     Engineering Explained video. Gives formula for Otto cycle thermal
     efficiency. Describes how increasing CR increases thermal
     efficiency and power (per liter).
-  - TO REVIEW: https://www.youtube.com/watch?v=1pZqiuaZYGY D4A
+  - https://www.youtube.com/watch?v=1pZqiuaZYGY D4A.
+    - Talks about flame front efficiency, fuel burned more thoroughly.
+    - Notes that CR limit comes from stress and temperature. Also,
+      higher temps increase NOx emissions. But of course knock
+      (pre-detonation) is the main problem.
+    - Talks about elements of engine geometry that change CR, and what
+      you can modify to tune your car.
+    - Talks about how you can create more HP more easily by adding
+      boost, rather than upping CR. However, turbos that give boost
+      often cause lag, which reduces responsiveness. CR doesn't have
+      that problem.

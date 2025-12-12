@@ -162,3 +162,69 @@
   - D4A on Bore vs Stroke, TO REVIEW
 - https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
   - Kevin Cameron in Cycle World.
+
+## TODO: Old Engineering Explained Notes To Re-integrate
+
+- https://www.youtube.com/watch?v=UV3RwBPqznU
+  - Engineering Explained.
+  - Bore vs Stroke
+  - Oversquare = short stroke/larger bore, undersquare = longer
+    stroke/smaller bore.
+  - It seems like it shouldn't make a difference? Isn't just engine
+    displacement what matters?
+  - He seems to indicate that the limitation is on piston speed. That
+    would suggest a shorter stroke will allow you to achieve higher RPM.
+  - But isn't the limitation on _force_ on the conrod? I believe I
+    showed this should be constant for a given displacement and RPM.
+  - With a shorter stroke, you can travel the necessary distance in a
+    shorter period of time (assuming maximum piston velocity is held
+    constant). If piston velocity is the problem, then you'll achieve
+    higher RPM for the same piston velocity if the stroke is shorter.
+    - Maybe velocity is a problem: like from friction on the sides?
+  - Certainly you can fit larger valves on a larger bore.
+    - **TODO**: He notes that large valves might be bad at low RPM. Why?
+  - He notes that the shape of the volume left for combustion at
+    ignition is most square shaped for oversquare designs. This means
+    that there is the least surface area for transmitting heat. That
+    means more energy is turned into expansion of the cylinder, which
+    means higher efficiency.
+  - He also notes that it's easier to burn all the fuel quicker in a
+    more cube shaped volume because the flame front can travel out in
+    more directions more easily. This is preferable because you want
+    maximum force to be generated from the very top.
+
+Wait.
+
+Consider the position of the piston:
+
+```
+cylinder_displacement = pi * (bore_diameter / 2)^2 * stroke_length
+      ~ bore_diameter^2 * stroke_length
+
+position = stroke_length + 1/2 * stroke_length * cos(omega t)
+velocity = 1/2 * stroke_length * omega * cos(omega t)
+acceleration = 1/2 * stroke_length * omega^2 * cos(omega t)
+
+RPM = omega / 2PI
+
+max velocity ~ stroke_length * RPM
+max acceleration ~ stroke_length * RPM^2
+
+## Assumption about piston mass
+m ~ pi * (bore_diameter / 2)^2
+
+## Let's consider the centripetal force required to keep the piston
+## spinning at a target RPM.
+max F = m * max acceleration
+      ~ bore_diameter^2 * stroke_length * RPM^2
+      ~ cylinder_displacement * RPM^2
+
+## Thus, the force to make a piston travel at a target RPM does not
+## depend on stroke or bore, but only the displacement.
+##
+## If we are worried about force breaking the connecting rod, we can see
+## that twiddling the stroke/bore ratio does not matter.
+
+## However, we can also see that decreasing a cylinder's displacement
+## will allow it to rev to higher RPM.
+```
