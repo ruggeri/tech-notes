@@ -6,6 +6,7 @@
   - Note that the square the bore (proportional to cylinder
     cross-sectional area) is more comparable to the stroke than simply
     the bore (a one dimensional diameter)...
+- From bore and stroke we can calculate displacement.
 - Typically we see race-optimized engines have a greater bore
   (oversquare) and "torque" optimized engines have a longer stroke
   (undersquare).
@@ -40,6 +41,10 @@
 - So basically: it's easier to make an undersquare engine rev higher
   without tearing the rod apart. High performance engines do use premium
   rod materials so this is clearly an important factor.
+  - If piston mass and (square of) bore were proportional, then
+    bore-stroke ratio wouldn't matter for rev potential. But since
+    piston mass scales sublinearly in (square of) bore, it means big
+    bore is a better way to rev high, and thus make more power.
 - Note: an engine with an undersquare design will make more engine
   torque because of the length of the crank. But this doesn't change the
   _shape_ of the torque curve, which is what we will later identify
@@ -53,8 +58,10 @@
   theoretically rev high but you can't get enough fresh air in, then it
   doesn't matter.
 - Larger bore means you can put more and larger ports on the engine. So
-  the engine can fill with air more efficiently on intake stroke. An
-  engine that breathes better can rev higher and make use of more air.
+  the engine can fill with air on the intake stroke, even at high RPM.
+  - The big ports don't really matter at low RPM, when there's the
+    duration of the strokes is long and there's plenty of time to pull
+    air in.
 - I believe if you have more intake ports, you can lift them more easily
   with lighter springs. The speed at which you can open and close valves
   also limits redline.
@@ -129,10 +136,13 @@
   that intake stays open even after piston reaches BDC and starts to
   rise. At high air velocity, due to inertia, the flow will actually
   continue to pack air into the cylinder (even as piston rises),
-  increasing efficiency.
+  increasing efficiency. This helps breathing at high RPM.
 - But at low RPM, the air will start to get pushed out! This is a reason
   why work done per revolution will drop for supersports operating at
   low RPM.
+  - Less work per revolution is the definition of less torque. And
+    because fuel charge is the same, we are getting lower thermal
+    efficiency.
 - There is also the question of valve overlap: the exhaust and intake
   valves may both be open at the same time on supersports! Why? At end
   of combustion cycle, you open exhaust, and start flowing exhaust. But
@@ -154,77 +164,36 @@
   - One solution is **variable valve timing**. This shifts between a low
     and a high RPM valve timing, allowing a best of both worlds...
 
-## Sources To Review
+## Sources
 
 - https://www.youtube.com/watch?v=UV3RwBPqznU
-  - EE modern discussion on bore and stroke. TO REVIEW
+  - Engineering Explained bore vs stroke video about which makes more
+    power.
+  - Takes as an assumption max piston velocity. This clearly implies
+    that higher RPM operation requires greater bore-to-stroke. Doesn't
+    justify this assumption though. Like I said, I think it's because
+    piston mass is sublinear in (square of) bore.
+  - Notes you can fit larger valves, that allow more airflow to support
+    high RPM operation. Notes that larger valves can mean worse
+    volumetric efficiency at low RPM, but doesn't say why. I know from
+    elsewhere that it's because of poor air fuel mixture at low intake
+    RPM.
+  - Explores efficiency tradeoffs because of heat rejection. He finds
+    that an undersquare design has the most cube-shaped volume **at
+    TDC** when ignition and highest pressure/temps happen. So less heat
+    is rejected to cylinder wall. Assumes constant compression ratio,
+    which is fair.
+  - Last note is that burn duration is fastest in the undersquare's most
+    cube-shaped volume at TDC. The reason is that flame can propagate
+    the same distance in all dimensions, so it's fastest to burn all the
+    fuel. This generates more of temperature at the highest compression,
+    behaving most like pure isochoric heat addition. That gives you your
+    most ideal torque and thermal efficiency. The alternative in an
+    undersquare design is adding heat as the piston is on the power
+    stroke, but that means a less efficient use of the added energy.
+  - At end of video does discuss that there is better mixing on
+    undersquare designs.
 - https://www.youtube.com/watch?v=j8DSBH2GG8s
   - D4A on Bore vs Stroke, TO REVIEW
 - https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
   - Kevin Cameron in Cycle World.
-
-## TODO: Old Engineering Explained Notes To Re-integrate
-
-- https://www.youtube.com/watch?v=UV3RwBPqznU
-  - Engineering Explained.
-  - Bore vs Stroke
-  - Oversquare = short stroke/larger bore, undersquare = longer
-    stroke/smaller bore.
-  - It seems like it shouldn't make a difference? Isn't just engine
-    displacement what matters?
-  - He seems to indicate that the limitation is on piston speed. That
-    would suggest a shorter stroke will allow you to achieve higher RPM.
-  - But isn't the limitation on _force_ on the conrod? I believe I
-    showed this should be constant for a given displacement and RPM.
-  - With a shorter stroke, you can travel the necessary distance in a
-    shorter period of time (assuming maximum piston velocity is held
-    constant). If piston velocity is the problem, then you'll achieve
-    higher RPM for the same piston velocity if the stroke is shorter.
-    - Maybe velocity is a problem: like from friction on the sides?
-  - Certainly you can fit larger valves on a larger bore.
-    - **TODO**: He notes that large valves might be bad at low RPM. Why?
-  - He notes that the shape of the volume left for combustion at
-    ignition is most square shaped for oversquare designs. This means
-    that there is the least surface area for transmitting heat. That
-    means more energy is turned into expansion of the cylinder, which
-    means higher efficiency.
-  - He also notes that it's easier to burn all the fuel quicker in a
-    more cube shaped volume because the flame front can travel out in
-    more directions more easily. This is preferable because you want
-    maximum force to be generated from the very top.
-
-Wait.
-
-Consider the position of the piston:
-
-```
-cylinder_displacement = pi * (bore_diameter / 2)^2 * stroke_length
-      ~ bore_diameter^2 * stroke_length
-
-position = stroke_length + 1/2 * stroke_length * cos(omega t)
-velocity = 1/2 * stroke_length * omega * cos(omega t)
-acceleration = 1/2 * stroke_length * omega^2 * cos(omega t)
-
-RPM = omega / 2PI
-
-max velocity ~ stroke_length * RPM
-max acceleration ~ stroke_length * RPM^2
-
-## Assumption about piston mass
-m ~ pi * (bore_diameter / 2)^2
-
-## Let's consider the centripetal force required to keep the piston
-## spinning at a target RPM.
-max F = m * max acceleration
-      ~ bore_diameter^2 * stroke_length * RPM^2
-      ~ cylinder_displacement * RPM^2
-
-## Thus, the force to make a piston travel at a target RPM does not
-## depend on stroke or bore, but only the displacement.
-##
-## If we are worried about force breaking the connecting rod, we can see
-## that twiddling the stroke/bore ratio does not matter.
-
-## However, we can also see that decreasing a cylinder's displacement
-## will allow it to rev to higher RPM.
-```
