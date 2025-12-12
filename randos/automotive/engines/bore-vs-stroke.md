@@ -189,11 +189,36 @@
     fuel. This generates more of temperature at the highest compression,
     behaving most like pure isochoric heat addition. That gives you your
     most ideal torque and thermal efficiency. The alternative in an
-    undersquare design is adding heat as the piston is on the power
+    oversquare design is adding heat as the piston is on the power
     stroke, but that means a less efficient use of the added energy.
   - At end of video does discuss that there is better mixing on
     undersquare designs.
 - https://www.youtube.com/watch?v=j8DSBH2GG8s
-  - D4A on Bore vs Stroke, TO REVIEW
+  - D4A on Bore vs Stroke
+  - Starts by saying that torque depends on (1) force on the piston and
+    (2) the length of the crank. He says that length of crank is a
+    linear dependence on stroke length. But he says that force on piston
+    isn't necessarily proportional to increase in bore.
+    - Why _would_ it be? If compression is held constant, then energy
+      added at TDC is constant, and so is pressure. But I guess the
+      force is pressure times square of area, so yeah, there's more
+      force on the bigger bore.
+    - So yeah, torque should stay constant before taking into account
+      effects like breathing and efficiency.
+  - Notes that we can only optimize breathing for a narrower RPM range.
+  - Notes that air quantity breathed can be optimized by bigger valves,
+    but that it trades off with air velocity (at least at low RPM),
+    resulting in worse mixing. But as RPM increases, mixing gets better
+    and torque increases.
+  - Notes that you can't get high RPM out of undersquare designs because
+    of force on rods.
+  - Notes that geometry means that an oversquare design takes less space
+    than an equivalent displacement undersquare design. So undersquare
+    only works on big cruisers.
+  - Explores rod ratio a bit: basically, an undersquare design with an
+    equivalent rod ratio will get up to mean speed faster, which helps
+    even more in creating airflow.
+  - Notes that undersquare will be more thermally efficient because less
+    surface area at time ignition. Same as EE.
 - https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
   - Kevin Cameron in Cycle World.
