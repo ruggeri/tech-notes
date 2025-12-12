@@ -104,6 +104,9 @@
     tank.
   - This is called a _thermosiphon_, and will use convection (without a
     pump), to circulate water so that the entire tank is heated.
+  - Note: the density of heated water is only just a little less dense
+    than cold water (at 4C water is 1kg/L, and at 100C it is 0.958kg/L),
+    but it matters enough to drive convection!
 - Conclusions
   - If you have a lot of people in your household who take serial
     showers, tankless might make sense.
