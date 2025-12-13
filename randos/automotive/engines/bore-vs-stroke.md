@@ -222,3 +222,4 @@
     surface area at time ignition. Same as EE.
 - https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
   - Kevin Cameron in Cycle World.
+  - TODO: review it again
