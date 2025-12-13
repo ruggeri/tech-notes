@@ -143,7 +143,7 @@ https://www.reddit.com/r/motorcycles/comments/1v9uw2/why_do_v_twins_tend_to_have
   - This is the idea of an undersquare engine.
 - I believe another factor is the valve size. Basically, one would
   expect that larger is always better.
-
+- Ignition timing?
 - What limits redline?
   - Valve float. Valves can't close fast enough. This is going to start
     hurting output/emissions, and also threatens a collision with the
@@ -167,17 +167,3 @@ https://www.reddit.com/r/motorcycles/comments/1v9uw2/why_do_v_twins_tend_to_have
 
 - TODO: https://www.youtube.com/watch?v=PXD_AvKbCMg
   - Talks about why 4 valves better than two. Might explain valve sizing.
-- https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
-  - Kind of all over the place. Does mention that undersquare engines
-    have the advantage of being able to rev higher, and also to breathe
-    at higher RPM (bigger bore means more valve space).
-  - Does note that larger bores are harder to cool.
-  - Mentions that long stroke doesn't really increase torque. Small
-    bores meant small valves. These small valves can fill the cylinder
-    best at low RPM.
-  - Question though: why would large valves _not_? I think it's because
-    of the _velocity_ of the air in the cylinder, which is actually
-    important.
-  - **TODO**: It seems really clear that I wish I understood why bigger
-    is not always better for valve sizing (and lift). I think that for
-    low-end torque, you don't want them too big.

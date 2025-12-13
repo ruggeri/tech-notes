@@ -222,4 +222,13 @@
     surface area at time ignition. Same as EE.
 - https://www.cycleworld.com/story/blogs/ask-kevin/how-motorcycle-cylinder-bore-stroke-affect-engine-performance/
   - Kevin Cameron in Cycle World.
-  - TODO: review it again
+  - All over the place. Talks about how oversquare engines can rev
+    higher and breathe at higher RPM. Talks about how undersquare can
+    mix better.
+  - Does note that larger bores are harder to cool.
+  - Mentions myth that long stroke increases torque. Explains that the
+    lever arm effect is negated by greater area of piston, just like
+    D4A. Of course, undersquare mixes better at low RPM because of
+    higher intake velocity.
+  - Last, mentions that overall efficiency of an undersquare design
+    might be better, because of less surface area for loss of heat.
