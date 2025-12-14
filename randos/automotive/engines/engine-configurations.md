@@ -1,39 +1,54 @@
-## Engine Power
+## Engine Configuration: Basic Variables
 
-- Engine displacement
-  - Number of cylinders: more means more power.
-  - In general, as you scale a cylinder size, you basically increase
-    torque at the same RPM, but you will always have an RPM ceiling. You
-    can increase number of cylinders (increasing displacement), which at
-    same cylinder size will scale the amount of torque/power at the same
-    RPM (because more cylinders fire per revolution). Even at same
-    displacement, you can divide displacement across more, smaller
-    cylinders. This will let you rev higher (hitting higher HP at higher
-    RPM), but it will be harder for these cylinders to breathe equally
-    well at low RPM, so you will end up tuning a peaky engine.
-    - That is: torque curve characteristics are determined by per
-      cylinder breathing.
-    - So a twin 1200 GS probably has a torque curve twice as high but
-      just as broad as an I2 Ninja 650 with cylinders half the size. But
-      an I4 Kawi ZX-6R will make more power than either but its 250cc
-      cylinders won't support good torque at low RPM.
-  - Size of each cylinder
-    - Stroke length: how long each piston travels
-    - Bore: diameter of cylinder
-- Compression ratio
-- Maximum RPM
-  - Typically can be greater for smaller cylinders. That's because a
-    piston head needs to accelerate from high speed to a dead stop, and
-    that puts stress on the connecting rods. The connecting rods want to
-    be torn apart. The problem is worse at high RPMs, and for heavy
-    pistons.
-  - So an engine with more but smaller cylinders can achieve higher RPM
-    for a given displacement.
-- Fueling
-  - More cylinders also means more fuel injectors and valves, which
-    means you can give more fuel to the engine.
+- Displacement: how much volume in all the cylinders. More displacement
+  basically means more torque and more power, but bigger engine.
+- Number of cylinders
+  - More cylinders (at same displacement) generally means more valves
+    (better top end breathing), lower piston accelerations forces
+    (higher redline, thus higher HP). But more complexity, and often
+    worse low end torque because valves are now _too_ big for best low
+    RPM breathing/mixing (mostly covered in bore-vs-stroke notes).
+    - Typical example is I4 650 supersports, which have same
+      displacement as my Ninja 650, but make way more power (though have
+      way peakier torque curves), because each cylinder (half the size
+      of mine) can rev so much higher.
+- Cylinder arrangement and crank geometry
+  - More cylinders often allows arrangements that give better balance
+    and smoother power delivery, which improves vibrations (important
+    for motos), and also lets engine rev higher.
+  - Crankshaft angles are a function of cylinder arrangement. Often
+    optimizing for best engine balance, sometimes for tire recovery in
+    off-road or race applications.
+- Per-cylinder displacement
+  - In general, bigger cylinder means more torque. Because bigger always
+    means that. More fuel and air can be pulled in and combusted per
+    revolution.
+  - If you want highest HP, you typically go more cylinders to unlock
+    more RPM and more breathing. So if you go fewer cylinders for a
+    given displacement, you probably care about torque breadth.
+  - So you will tend to tune for better torque breadth. You'll probably
+    go longer stroke and smaller valves.
+    - Classic is a twin 1200 GS. Each cylinder is double the size of
+      my Ninja 650, so it makes stonking torque.
+    - Exception is probably Ducati V2s which rev very high, and have
+      high bore-to-stroke.
+- Other major variables
+  - Bore vs stroke: see my notes, but we've already touched on this.
+  - Compression ratio: always increases efficiency and horsepower, but
+    requires higher grade fuel, more stress on engine parts. See notes
+    elsewhere.
+  - Turbocharging: see elsewhere, but this increases air that flow into
+    engine, allowing you to burn more fuel and creating more torque.
+    Rare in motos, but common in cars where highest HP is desired (even
+    if less responsive/driveable) or non-performance cars just
+    optimizing MPG.
+  - Fuel delivery: carbs, port, or direct injection? Will build out
+    notes elsewhere to explain/explore.
+  - Valvetrain: how many valves, how are they timed, how much lift
+    (Ducati's desmo tech). Variable timing? How are they opened and
+    closed?
 
-## Displacement and HP
+## Displacement, HP, Timeline
 
 - Here are some references.
 - 1L motorcycles with 4 cylinders can make like 175-200HP. Those are
@@ -62,8 +77,11 @@
   - I think maybe automatic transmissions have gotten better, and they
     maybe are less of a hassle to maintain than DCT?
 
-## Sources
+## Balancing Sources
 
+- As of 2025-12-14, it has been a long time since I reviewed these
+  resources. But I think I understand this kind of stuff well, so I
+  won't re-review.
 - https://www.youtube.com/watch?v=9Bdc9CuBOzc
   - Explains primary reciprocating balance well.
   - From Engineering Explained.
@@ -106,64 +124,3 @@
   - Engineering Explained.
   - Explains three cylinder engine.
   - Explains crank angles, firing interval.
-
----
-
-these notes that follow are mostly about bore/stroke...
-
-https://www.reddit.com/r/motorcycles/comments/1v9uw2/why_do_v_twins_tend_to_have_comparatively_higher/
-
-- Source: https://www.cycleworld.com/horsepower-vs-torque/
-  - A very useful source.
-  - Says that touring bikes have no valve overlap. That basically means
-    that they aren't open long enough to let enough air in at high revs.
-  - Says that longer valve timings are better for higher RPM bikes so
-    that they have more opportunity to fill up with air.
-  - What happens when intake valve is open during compression? At low
-    RPM, this is bad. Some fuel is pumped back out by compression. That
-    lowers total fuel for ignition, and thus lowers torque.
-    - But at high RPM, there is actually substantial intake velocity.
-      That creates momentum into the cylinder even despite the rising
-      piston.
-  - Thus, if tuned this way, engines designed to rev at high RPM can
-    produce their most torque at highest RPM, which is how you maximize
-    horsepower.
-  - This is why variable valve timing is an exciting technology.
-    - They can get more torque out of low end without sacrificing so
-      much at high end.
-- https://en.wikipedia.org/wiki/Valve_timing
-  - As discussed, valve timing makes a difference for where an engine
-    produces the most torque.
-- The location of peak torque is determined by where the engine breathes
-  best. The amount of torque depends on how much fuel is filled.
-  - Torque is clearly related to HP, but it's RPM neutral.
-  - You want to maximize torque within the RPM that your bike is
-    intended to operate at.
-- Some people claim that a longer stroke will produce more torque?
-  - This is the idea of an undersquare engine.
-- I believe another factor is the valve size. Basically, one would
-  expect that larger is always better.
-- Ignition timing?
-- What limits redline?
-  - Valve float. Valves can't close fast enough. This is going to start
-    hurting output/emissions, and also threatens a collision with the
-    piston in an interference engine.
-  - People do say that longer stroke engines can't do higher RPMs
-    because the piston moves at a higher velocity. But isn't it the
-    _acceleration_ that matters?
-  - They also mention that there will be a breathing problem at higher
-    RPM.
-  - I mean, we know that displacement will limit redline. But that
-    doesn't care about the length of the stroke.
-- https://www.cycleworld.com/story/blogs/ask-kevin/motorcycle-redline-determines-horsepower/
-
-  - This lists valve train then connecting rods.
-  - He mentions that load is proportional to RPM^2 and piston stroke.
-  - But why does the piston mass not matter?
-  - He does note some problems with large bores: cooling the large
-    pistons, and flame propagation (I guess it's harder to propagate
-    flame through a small pancake).
-  - Larger bore allows for larger valves.
-
-- TODO: https://www.youtube.com/watch?v=PXD_AvKbCMg
-  - Talks about why 4 valves better than two. Might explain valve sizing.
