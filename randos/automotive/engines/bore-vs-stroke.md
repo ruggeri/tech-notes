@@ -1,8 +1,8 @@
 - Bore is the diameter of the cylinder.
 - Stroke is the length of the cylinder.
-- A square engine has bore equal to stroke. An oversquare engine has a
-  bore greater than stroke. An undersquare engine has a stroker longer
-  than the bore.
+- A **square** engine has bore equal to stroke. An **oversquare** engine
+  has a bore greater than stroke. An **undersquare** engine has a
+  stroker longer than the bore.
   - Note that the square the bore (proportional to cylinder
     cross-sectional area) is more comparable to the stroke than simply
     the bore (a one dimensional diameter)...
@@ -14,12 +14,18 @@
 ## Number of Cylinders
 
 - There are a number of advantages of multiple cylinders: better
-  balance, smoother power delivery. And also higher power output per
-  unit of displacement.
-- So while multi-cylinder engines might not all be tuned for high RPM
-  performance, it is something they can be good at.
+  balance, smoother power delivery, more total valves.
+- They also have a higher readline because each cylinder has less
+  reciprocating mass pulling the connecting rod.
+- For this reason, cylinders (and complexity) are added to increase
+  total power for a given displacement. And they are typically _tuned_
+  for high RPM performance, because higher revs are one of the biggest
+  advantages adding more cylinders unlocks.
+  - That said, some engines add more cylinders for balance/smoothness,
+    and stay tuned for low end performance.
 - Whereas we will see that twins might run out of RPM limit to really
-  make a lot of power at a given displacement. So they might be tuned
+  make a lot of power at a given displacement. Since high power per
+  liter is not something they can easily achieve, twins tend be tuned
   more for broad and low torque, rather than try to make them do
   something they are not good at (high RPM and maximum power).
 
@@ -70,6 +76,8 @@
 
 ## Review of Torquey/Peaky Torque Curves
 
+- **TODO**: It sounds like this should really be in the horsepower
+  notes...
 - So it sounds like because of conn rod forces and more/larger ports,
   oversquare engines (with big bores) will produce more horsepower than
   equivalent displacement undersquare (long stroke) engines. And that is

@@ -200,4 +200,5 @@
 - https://www.youtube.com/watch?v=l6ECwRnJ0Sg TO REVIEW. EE petrol vs
   hydrogen.
 - https://www.youtube.com/watch?v=tDoPSofACAE TO REVIEW. D4A diesel vs
-  EV, Hydrogen, LPG...
+  EV, Hydrogen, LPG... I think with a focus on what diesel does well
+  (and wear alternatives fall down).

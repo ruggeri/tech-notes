@@ -25,6 +25,7 @@ Note source: Advanced Engine Technology.
 - Other Systems
   - Cooling system
   - Ignition system, Starting system, Alternator
+  - Ignition timing. "Advance" or "retard" ignition?
   - Lubrication system
   - Super and turbo chargers
 - Suspension.

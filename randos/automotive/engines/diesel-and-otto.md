@@ -103,10 +103,22 @@
       engine down (drop in power), lug the engine (excess vibration
       from too much load on engine producing too little torque), or
       stall it (engine stops running).
+- **TODO**: I don't think I talk about how diesel doesn't need spark
+  plugs, and what that means.
 - Sources:
-  - https://www.youtube.com/watch?v=tDoPSofACAE D4A TO REVIEW
-  - https://www.youtube.com/watch?v=w8r2xnITnqA D4A TO REVIEW
-  - https://www.youtube.com/watch?v=aWeqyAxlM2M D4A TO REVIEW
-  - https://www.youtube.com/watch?v=rXVJG9n6BAs EE TO REVIEW
-  - https://www.youtube.com/watch?v=rXVJG9n6BAs EE TO REVIEW
-  - https://www.youtube.com/watch?v=8Rsl8jzlgno EE TO REVIEW
+  - https://www.youtube.com/watch?v=tDoPSofACAE D4A TO REVIEW. Studies
+    unique advantages of diesel in industrial context, and weaknesses of
+    alternatives.
+  - https://www.youtube.com/watch?v=w8r2xnITnqA D4A TO REVIEW. Discusses
+    diesel policies in Europe that drove diesel adoption. Discusses that
+    emissions aren't great relative to petrol (when you scale diesel to
+    make more power), and that NOx is a bad problem (VW cheated in the
+    United States).
+  - https://www.youtube.com/watch?v=aWeqyAxlM2M D4A TO REVIEW.
+    Petrol/diesel comparison.
+  - https://www.youtube.com/watch?v=rXVJG9n6BAs EE TO REVIEW.
+    Petrol/diesel comparison.
+  - https://www.youtube.com/watch?v=D6YmAecTolQ EE TO REVIEW.
+    Specifically about diesel torque.
+  - https://www.youtube.com/watch?v=8Rsl8jzlgno EE TO REVIEW. Older
+    petrol/diesel comparison.
