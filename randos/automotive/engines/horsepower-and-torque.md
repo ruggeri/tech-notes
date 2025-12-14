@@ -96,3 +96,37 @@ per minute. This is returning us to horsepower/kilowatts.
 In summary, this explains a practical limit on the speed of a vehicle
 during a climb. Climbing takes energy, and the faster you climb, the
 more power is required.
+
+## Sources
+
+- https://www.youtube.com/watch?v=u-MH4sf5xkY TO REVIEW EE Basic
+  HP/torque discussion.
+- https://www.youtube.com/watch?v=lt7iUBE3_AE TO REVIEW EE explanation
+  focused on why HP/torque curves cross?
+- https://www.youtube.com/watch?v=Nbev14oIH6I D4A explains why
+  HP, torque are curved.
+  - His first point is that when you hit pedal, you open butterfly valve
+    to let more air flow to engine. Either (1) the carb will pull more
+    fuel with the faster airflow, or (2) the ECU will inject more
+  - Basically, you make low torque when you suck in little air (and fuel
+    if carbed). And at low RPM, even with appropriately sized or even
+    very large valves, it's hard to suck in enough air because the
+    piston is not moving fast enough to generate a strong enough vacuum
+    to get air flowing.
+  - Eventually, piston speed is doing a great job pulling in air, but
+    the valves then start becoming the limit which limits top-end power.
+    That's why torque will fall off.
+  - You can use turbo/super, but since the boost of those is a function
+    of RPM, you'll still have a torque curve that ramps up from idle.
+    Electric turbo would be a bit of an exception.
+  - Discusses why HP will eventually peak post peak torque because HP is
+    torque times RPM.
+  - Kind of handwaves about designing a race engine meant to make big HP
+    and a more usable street engine. The race engine will have large
+    throttle bodies and valves, and hit high RPM. The street engine
+    wants a broad torque curve. The race engine can be very peaky, but
+    that's okay because it will spend most of its time at peak RPM. It's
+    a little handwavy because he doesn't really tell you why tuning for
+    low RPM torque gives you a _broad_ torque curve.
+  - Does discuss why electric motors give back EMF which explains why
+    torque eventually falls off for electric motors.
