@@ -2,7 +2,9 @@ Motorcycles typically have hydraulically actuated disc brakes. Old bikes
 used to use drum brakes at the rear, but that is no longer the case.
 
 Medium sized bikes and larger will typically have two rotors at the
-front, and one in the back.
+front, and one in the back. Why more at the front? Because with heavy
+braking, load will transfer to the front. More traction at the front
+means more braking can be done there.
 
 Hydraulic brakes are superior to cable actuation because there is less
 frictional loss, and better feel.
@@ -14,15 +16,21 @@ you would break traction. In fact, ABS should kick in!
 Then why do bigger bikes have bigger rotor diameters? It is true that a
 bigger rotor should have more leverage. A more massive bike should
 probably have bigger rotors because it has more traction (due to
-increased mass).
+increased mass), so you need more brake force to stop the vehicle (or
+for that matter, lock the tire).
 
-Would swapping stock rotors for bigger ones help? Probably not. The
-stock brakes should have already been sized big enough to brake
-traction/engage ABS. The larger rotors could act as better heat
-sinks/dissipators. As we know, as the rotors get hot, braking
-performance is going to drop. One reason is that the hydraulic fluid can
-vaporize, which will make it a compressible gas. Then squeezing the
-brake will compress the gas, rather than squeeze the brake.
+But stock brakes should have already been sized big enough to break
+traction/engage ABS. For autos this is actually required by legislation
+(says D4A in follow-up video). So swapping for bigger rotors won't give
+more stopping power in the sense that you're always already going to
+eventually be traction limited.
+
+The larger rotors could act as better heat sinks/dissipators. As we
+know, as the rotors get hot, braking performance is going to drop. One
+reason is that the hydraulic fluid can vaporize, which will make it a
+compressible gas. Then squeezing the brake will compress the gas, rather
+than squeeze the brake. But even before that, hotter materials just have
+lower coefficient of friction.
 
 Driving 4 Answers makes clear that he thinks that upgrading to larger
 brake rotors is typically useless. Unless the problem is brake fade/heat
@@ -46,6 +54,22 @@ brakes are all about heat dissipation.
 
 He recommends upgrading _tires_ to improve braking distance. That makes
 total sense, as this increases the traction of the vehicle.
+
+ChatGPT suggests that larger rotors (specifically with more leverage)
+can lead to better brake _modulation_/feel. First, larger rotors will
+require less braking power at the handle, which can make them easier to
+operate (with less force). Second, hydraulic braking systems have flex
+(in lines, and seals at caliper). As you add pull the lever, you'll
+start to flex these. Some of your effort goes into pushing the calipers,
+but other effort goes into flexing. But the lines and seals will stiffen
+up. Eventually all your effort is going into pushing the calipers. That
+causes a nonlinear jump in the ratio of braking to further lever pull.
+
+The point is: if you shift the pressure needed for peak braking (by
+getting more rotor leverage), then you operate in the range where the
+flexing hasn't totally ramped up. Now that peak braking is at lower
+pressure, we have better feel _near_ peak braking, because the system
+still has relatively consistent flex.
 
 ## Where Does Braking Power Come From?
 
@@ -74,8 +98,12 @@ Thus the two factors cancel out, making friction force independent of
 This is just a model, and it's not perfectly true. But it is supposedly
 fairly accurate and explains the phenomenon.
 
-Source: https://www.youtube.com/watch?v=CyH5xOcsXxs
-Source: https://physics.stackexchange.com/questions/307902/why-does-friction-does-not-depend-upon-area-of-contact
+- Source: https://www.youtube.com/watch?v=CyH5xOcsXxs
+- Source: https://www.youtube.com/watch?v=Ql9eYh31kTw (D4A followup)
+  - Argues that brakes by legislation are already enough to lock wheels
+    and trigger ABS.
+  - Notes that the tire define the limit.
+- Source: https://physics.stackexchange.com/questions/307902/why-does-friction-does-not-depend-upon-area-of-contact
 
 ## What about tires?
 
@@ -114,6 +142,9 @@ assisted braking. Now release them. Try again. The pressure will have
 equalized on both sides to ~1 ATM, and you will no longer have vacuum
 assisted braking.
 
+Of course, motorcycles don't use vacuum powered brakes, but then they
+already have sufficient power to lock up the wheels (because less mass).
+
 Source: https://www.youtube.com/watch?v=LThrL8Jjsgc
 
 ## Brake Lines
@@ -124,3 +155,44 @@ Source: https://www.youtube.com/watch?v=LThrL8Jjsgc
 - The steel braided lines don't bend or balloon as much, and thus give
   better brake feel. More of the brake lever force is transmitted to the
   pads.
+- I think especially they have strong initial bite, because they won't
+  bend very much at the beginning. Since even unbraided lines stiffen up
+  and use up their compliance, the difference isn't really at the
+  highest end, but in terms of initial bite.
+
+## ABS
+
+- System monitors wheel rotation rate. It doesn't wait for the wheel to
+  totally stop. It detects when wheel rotation rate is insufficient to
+  match (estimated) vehicle speed.
+  - Best braking occurs at a given _slip ratio_. The wheel is still
+    rotating but it slipping.
+- ABS modulates pressure in an attempt to apply just enough pressure to
+  maximize that slip rate without going over.
+- A very skilled rider can hold the tire close to the maximum amount of
+  braking without locking up. They might hunt less than ABS. And they
+  may better understand how much grip is truly available to them in the
+  road conditions. ABS needs to be conservative about the amount of
+  traction available.
+- Challenges of ABS:
+  - ABS doesn't know actual speed perfectly, so it has a noisy estimate
+    of slip rate.
+  - It doesn't actually know tire grip, which I believe affects ideal
+    slip rate. It doesn't know temperature, road surface, load. And
+    these can change even during braking!
+  - So ABS intervenes conservatively to avoid lock, backs off pressure
+    more than might be minimally necessary, and only then reapplies.
+  - Also: ABS doesn't know if you're in a turn (at least without IMU).
+    So it is tuned to be conservative about braking too hard, because it
+    doesn't want to unsettle the bike in a turn.
+- Lean Sensitive ABS
+  - IMU detects lean angle, and realizes that some of the friction
+    budget must be used for cornering.
+  - Without IMU, ABS doesn't know how much longitudinal braking to
+    allow. It's conservative, so ABS doesn't give you enough braking in
+    straights, but it also allows you to apply _too_ much pressure in
+    tighter turns.
+  - So you shouldn't panic brake mid corner and rely on regular ABS. But
+    that's what lean sensitive ABS is supposed to help with.
+  - Lean sensitivity isn't perfect, and you shouldn't slam on the brakes
+    mid corner, but it is helpful.
