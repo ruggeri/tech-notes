@@ -190,9 +190,13 @@ Source: https://www.youtube.com/watch?v=LThrL8Jjsgc
     budget must be used for cornering.
   - Without IMU, ABS doesn't know how much longitudinal braking to
     allow. It's conservative, so ABS doesn't give you enough braking in
-    straights, but it also allows you to apply _too_ much pressure in
-    tighter turns.
-  - So you shouldn't panic brake mid corner and rely on regular ABS. But
-    that's what lean sensitive ABS is supposed to help with.
-  - Lean sensitivity isn't perfect, and you shouldn't slam on the brakes
-    mid corner, but it is helpful.
+    straights, but it also allows _too_ much braking in tight turns.
+  - Also: when leaned over, you don't want to _change_ braking too
+    quickly. It's not just that you'll use up all your traction budget
+    quicker because some budget is going toward lateral
+    traction/cornering. It's that changes in the amount of braking
+    _also_ change chassis dynamics, suspension loading, and upsetting
+    these can cause the front tire to give. So when leaned over, you
+    want to adjust braking power less aggressively. Without IMU, you
+    can't know how much you're leaned over, so the system is tuned to be
+    conservative with change in brake application.

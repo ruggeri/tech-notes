@@ -99,6 +99,28 @@ more power is required.
 
 ## Sources
 
+- https://www.youtube.com/watch?v=mUO5bp-wyLU EE 5 reasons you shouldn't
+  care about HP (as much)
+  - HP is only a peak number. Yes, it can help you hit high top speed.
+    But for acceleration, especially from low speed, it matters where
+    torque is made. Electric engines can make lower HP but provide
+    instant torque and accelerate faster.
+  - You're often traction limited, so excessive HP cannot accelerate you
+    faster from low speeds. HP starts to play more of a factor when
+    you've accelerated and where you can sustain high torque at high
+    RPM.
+  - How much torque you can put down depends on RWD/FWD/AWD. The more
+    tires that can deliver torque, the better.
+  - Most ways to produce more HP involve greater weight (bigger engine,
+    turbos). Weight is not really a penalty for top speed (aerodynamic
+    drag and HP are primary variables), but it _does_ matter for
+    acceleration. So increasing HP might not increase acceleration if
+    you must also increase weight. Weight also hurts cornering.
+  - Many ways to make more HP reduce responsiveness. Think turbos (with
+    lag), or small bore (struggle to breathe at low RPM).
+  - His point is: maximum HP doesn't mean maximum fun. You'll neglect
+    other important variables: shape of torque curve, weight,
+    responsiveness to change in throttle input.
 - https://www.youtube.com/watch?v=u-MH4sf5xkY TO REVIEW EE Basic
   HP/torque discussion.
 - https://www.youtube.com/watch?v=lt7iUBE3_AE TO REVIEW EE explanation
