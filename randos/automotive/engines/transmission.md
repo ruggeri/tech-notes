@@ -167,15 +167,30 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
   engaging with cones. The correct ratio can be continuously adjusted by
   the system. There is no shifting between discrete gears.
 - The last thing to try to understand is _dual clutch transmission_.
-  Basically, there are two clutches. The odd and the even gears are on
-  different layshafts. There are two clutches; the even clutch connects
-  to the even input shaft and layshaft, and the odd clutch connects to
-  the odd input shaft and layshaft.
+  - When shifting a regular manual, you must (1) disengage clutch, (2)
+    disengage either constant-mesh or synchromesh "collar" to change the
+    selected gear, (3) re-engage the clutch.
+  - In dual-clutch, you have two clutches and two layshafts. The odd and
+    the even gears are on different layshafts. There are two clutches;
+    the even clutch connects to the even input shaft and layshaft, and
+    the odd clutch connects to the odd input shaft and layshaft.
+  - Let's say you are in gear four. You can pre-select gear five (or
+    three), doing so requires moving the collar on the non-driven shaft.
+    This is, as usual, very fast. The non-driven layshaft is at the
+    right speed for the wheels.
+  - When you execute the shift, the driven shaft (the even one in this
+    example) is disengaged by releasing that clutch. Simultaneously, the
+    clutch is engaged to being driving the odd shaft. This is very fast.
+  - The system will rev-match for you. When upshifting, it will briefly
+    lift throttle to allow engine revs to fall appropriately so that
+    upon re-engagement the engine speed is lower and matches what is now
+    required. Throttle can then be re-applied. Downshifting involves
+    autoblipping.
+    - This is basically what is done when quickshifting on a
+      single-clutch motorcycle does, but the DCT can more quickly
+      re-engage clutch.
   - DCT only really came out for production roadcars in 2003 with the
     Volkswagen Golf R32.
-  - Let's say you are in gear four. Then the clutch is not engaged. You
-    can select gear five (or three), then you clutch in on the even
-    shaft exactly as you clutch out on the odd shaft.
   - This is a very fast change. So you don't have any dead time while
     shifting.
   - DCT can be driven just like an automatic transmission. So it is
