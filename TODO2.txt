@@ -2,7 +2,6 @@
 2026-03-31: updated, especially with thought that I can use LLMs to extend my notes.
 
 - Bittorrent: really explain how it works?
-- Rsync.
 - AI/ML return
   - Especially using for self-learning.
   - Alpha Go, Alpha Zero.
