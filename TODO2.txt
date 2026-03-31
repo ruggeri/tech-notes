@@ -26,6 +26,8 @@
 - Gyroscopes?
 - Finish notes on curl operator.
 - Electromagnetic induction: pickups, et cetera.
+- Reactance in electrical circuits.
+- Chemical bonds: more about Gibbs, entropy, et cetera...
 
 ## TO REVIEW
 
@@ -63,7 +65,6 @@
 ./randos/make-electronics/make-electronics.synctex.gz
 ./randos/make-electronics/make-electronics.tex
 ./randos/online-electircal-engineering-courses.md
-./randos/passkeys.md
 ./randos/physics
 ./randos/physics/am-vs-fm.txt
 ./randos/physics/art-of-electronics.md
@@ -80,4 +81,3 @@
 ./randos/turbojets.md
 ./randos/zero-knowledge-proof.md
 ./randos/zk-snarks.md
-

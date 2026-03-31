@@ -28,17 +28,17 @@ A reaction in which only bonds are formed is necessarily exothermic:
 energy is converted into kinetic energy, which can be used for work.
 
 Note that an exothermic reaction might take some energy to get
-started. For instance, say you mix hydrogen H\_2 gas with oxygen O\_2
-gas. This can produce H\_2O plus some net energy. But first you have
+started. For instance, say you mix hydrogen H_2 gas with oxygen O_2
+gas. This can produce H_2O plus some net energy. But first you have
 to break the existing bonds.
 
 The energy released in forming two covalent bonds between two
 hydrogens and an oxygen is greater than the energy required to break
-the H\_2 and O\_2 bonds. Note, however, that we do need some energy to
-break the H\_2, O\_2 bonds. They won't break spontaneously.
+the H_2 and O_2 bonds. Note, however, that we do need some energy to
+break the H_2, O_2 bonds. They won't break spontaneously.
 
 So we put in some energy to start breaking the hydrogen and oxygen
-bonds. They form H\_2O, the formation of which releases even more
+bonds. They form H_2O, the formation of which releases even more
 energy, which can be used to break more hydrogen and oxygen bonds and
 continue the reaction until the inputs are exhausted.
 
@@ -54,7 +54,7 @@ doesn't it make sense to say that the methane "stores" energy? Is it a
 chemical property - of methane alone - that determines how much energy
 can be extracted from it?
 
-I think the answer is *no*. There is a "standard enthalpy of
+I think the answer is _no_. There is a "standard enthalpy of
 combustion," which tells you how much energy is released when the
 methane is combusted with oxygen. But that is specific in relation to
 oxygen.
@@ -67,11 +67,11 @@ pressure matter, and these are assumed to be standard values.
 Likewise, biologists sometimes say that energy is made available by
 the breakdown of sugar. But the chemical truth is that the energy is
 made available by the production of strong bonds in the products. The
-breakdown of the sugar, of course, *takes* energy.
+breakdown of the sugar, of course, _takes_ energy.
 
 ## Endothermic Reactions
 
-We've talked about exothermic reactions. But what about *endothermic*
+We've talked about exothermic reactions. But what about _endothermic_
 reactions? Those involve spending more energy to break bonds then can
 be harvested by forming new ones. Why would such a reaction ever
 happen?
@@ -85,48 +85,46 @@ breaking the original bonds. Why do they not just reconstitute the
 original reactants? Because then they would have the same kinetic
 energy afterwards, and be torn apart again.
 
-I believe this describes the melting of solid ice to liquid
-water. Kinetic energy is transfered to the ice, shaking the H2O
-molecules out of the ice latice. They cannot stably remain in the
-latice without wandering off. The ice cannot simply reform, because
-the H2O molecules have too much heat to stay in the latice stably.
+I believe this describes the melting of solid ice to liquid water.
+Kinetic energy is transferred to the ice, shaking the H2O molecules out
+of the ice lattice. They cannot stably remain in the lattice without
+wandering off. The ice cannot simply reform, because the H2O molecules
+have too much heat to stay in the lattice stably.
 
 ## Entropy vs Exo/Endothermic
 
 We typically presume that exothermic reactions will "spontaneously"
 occur. Of course, we saw that this isn't necessarily true without some
 input energy to start the reaction. But why would endothermic
-reactions ever occur?
+reactions _ever_ occur?
 
-Imagine ice melting. Why did it do that? For the system (the ice) to
-run the process (melt), energy had to be transfered from the
-surroundings (the universe) to the system (the ice). But isn't that
-unfavorable?
+Imagine ice melting. Why did it do that? For the system (the ice) to run
+the process (melt), energy had to be transferred from the surroundings
+(the universe) to the system (the ice). But isn't that unfavorable?
 
 But energy transfer cannot be the whole story of whether something
 will spontaneously occur or not. If we reverse our conception of "the
 system" and "the surroundings," it will flip whether we see an
 endothermic or an exothermic process taking place. This shows that we
-need to know something about the system *and* the surroundings.
+need to know something about the system _and_ the surroundings.
 
 Ice in a hot universe will spontaneously melt, even though this is an
 endothermic process. Whereas water in a cold universe will want to
-freeze (an exothermic process). The fact that heat is transfered in
-one direction or another is not enough to say which process will
-occur.
+freeze (an exothermic process). The fact that heat is transferred in one
+direction or another is not enough to say which process will occur.
 
 The answer is to inquire whether total **entropy** (both of the system
 and of the surroundings) is increased or decreased. Entropy is always
 non-decreasing. When total entropy change is zero, the process is
-reversable. When entropy change is positive, the process is
-irreversable and in fact spontaneous.
+reversible. When entropy change is positive, the process is irreversible
+and in fact spontaneous.
 
 The second law of thermodynamics (that entropy is always increasing)
-outlaws many things that would *not* violate conservation of energy.
+outlaws many things that would _not_ violate conservation of energy.
 
 In particular, the second law forbids that, all else equal, heat never
 flows from a cold region to a hot region. A simpler example: two ideal
-gases mix together, not because that is energetically prefered, but
+gases mix together, not because that is energetically preferred, but
 simply because processes that increase entropy are spontaneously
 preferred. Note also that in this gas scenario, the temperature of the
 gases is not relevant in order for the mixing to take place.
