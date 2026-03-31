@@ -1,0 +1,84 @@
+2024-04-08: Looking for future research interests...
+2026-03-31: updated, especially with thought that I can use LLMs to extend my notes.
+
+- Bittorrent: really explain how it works?
+- Rsync.
+- AI/ML return
+  - Especially using for self-learning.
+  - Alpha Go, Alpha Zero.
+  - Try to get a reinforcement learner working better?
+  - Kernel trick
+- Carnot efficiency
+- Induction motors
+- Refrigeration cycle
+- Role of cooling towers in maintaining pressure or something?
+- Photovoltaic cells
+- Power inverter
+- Transistors
+- Error correcting codes
+- CS
+  - Transformers
+  - Review alpha go
+  - Kernel trick?
+  - Operational transforms
+- More basic electronics.
+- How amplifiers work 2.0.
+- Maybe explore lower-level CUDA programming or GPU architecture.
+- Gyroscopes?
+- Finish notes on curl operator.
+- Electromagnetic induction: pickups, et cetera.
+
+## TO REVIEW
+
+./math/proof-of-quadratic-formulas.md
+./math/quadratic-optimization.md
+./math/quaternions.aux
+./math/quaternions.log
+./math/quaternions.out
+./math/quaternions.pdf
+./math/quaternions.synctex.gz
+./math/quaternions.tex
+./math/riemann-hypothesis
+./math/riemann-hypothesis/clean-latex
+./math/riemann-hypothesis/make-latex
+./math/riemann-hypothesis/riemann-hypothesis.pdf
+./math/riemann-hypothesis/riemann-hypothesis.tex
+./math/singular-value-decomposition.md
+./math/space-of-sinusoidal-functions.md
+./math/trigonometry-and-complex-numbers.md
+./math/variational-inference.md
+./randos/automotive/engines/TODO.md
+./randos/computer-science-problem-areas.md
+./randos/consciousness.md
+./randos/cpu-architecture.md
+./randos/crypto.md
+./randos/descent.md
+./randos/heating-and-cooling.md
+./randos/inventions.md
+./randos/lattice-based-crypto.md
+./randos/make-electronics
+./randos/make-electronics/make-electronics.aux
+./randos/make-electronics/make-electronics.log
+./randos/make-electronics/make-electronics.out
+./randos/make-electronics/make-electronics.pdf
+./randos/make-electronics/make-electronics.synctex.gz
+./randos/make-electronics/make-electronics.tex
+./randos/online-electircal-engineering-courses.md
+./randos/passkeys.md
+./randos/physics
+./randos/physics/am-vs-fm.txt
+./randos/physics/art-of-electronics.md
+./randos/physics/cells-and-batteries.md
+./randos/physics/drude-model.md
+./randos/physics/electrical-generation.md
+./randos/physics/electrical-transformers.md
+./randos/physics/electricity.md
+./randos/physics/electricity2.md
+./randos/physics/endothermic-and-exothermic-reactions.md
+./randos/physics/hydraulic-pressure.md
+./randos/physics/power-generation.md
+./randos/pumps.md
+./randos/turbojets.md
+./randos/zero-knowledge-proof.md
+./randos/zk-snarks.md
+
