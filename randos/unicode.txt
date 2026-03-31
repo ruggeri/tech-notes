@@ -50,9 +50,13 @@ point is 21 bit long).
 
 Question: should the 32-bit UTF-32 representation be stored
 *little-endian* or *big-endian*? This is the purpose of the *byte order
-mark* (BOM). The BOM has codepoint U+FEFF. You store the BOM at the
+mark* (BOM). The BE BOM has codepoint U+FEFF. You store the BOM at the
 start of a file. If the file starts with the bytes 0000FEFF, you know it
 is big-endian. If it starts FFFE0000, then you know it is little-endian.
+
+Be careful how you read these. U+FEFF needs at least two bytes: FE FF
+(big endian) or FF FE (little endian). You swap pairs of hex characters,
+not reverse the entire hex.
 
 Note: we're relying on the implicit assumption that U+FFFE is invalid.
 Of course, for exactly this reason Unicode declares U+FFFE invalid.
@@ -95,7 +99,7 @@ UTF-8 is the same as ASCII if only encoding ASCII text.
 Unicode has restricted itself to 21 bits worth of code points. That
 means that all code points can be represented in UTF-8 with at most four
 bytes (3bits + 6bits + 6bits + 6bits). This means that UTF-8 is always
-as efficient as UTF-32.
+at least as efficient as UTF-32.
 
 If Unicode were to go back on its word and allow more than 21 bits worth
 of code points, then sometimes UTF-32 might be more efficient.
