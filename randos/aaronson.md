@@ -2,13 +2,30 @@
 
 **Godel's Completeness Theorem**
 
-This says that everything which is true in every model of the theory
-is provable. There are two ideas here: _logical validity_ of a
-statement means that in every model of the theory the statement is
-assigned true; a theory is called _complete_ if every logically valid
-statement is provable in the system. Basically, Godel says that every
-_sound_ theory (one where only logically valid formulas are provable)
-must be complete.
+- This theorem is about first-order logic. Godel specifically studied
+  the Hilbert-Ackermann proof system.
+- A statement $\phi$ is _logically valid_ if it is true in every model
+  of the theory. That is: if for every "interpretation" of the theory (a
+  model), the interpreted statement $\phi$ is true.
+- A theory is _sound_ if only logically valid statements can be proven.
+  Otherwise, there would be an interpretation of the theory for which
+  you could prove a statement $\phi$, yet the interpretation of $\phi$
+  is not true.
+  - Soundness (don't prove false statements) implies consistency (don't
+    prove two contradicting statements).
+  - A system can be consistent and potentially unsound. Not quite sure
+    how.
+- A theory is _complete_ if every logically valid statement can be
+  _proven_. That is, if every logically valid statement $\phi$ has a
+  proof.
+  - Note: a theory may be complete but still not be able to prove
+    certain statements. An unproveable statement $\phi$ must have a
+    model in which $\phi$ is true, and another for which $\phi$ is
+    false.
+  - Note that this is _different_ from the definition of "incomplete" we
+    will use in a moment in the incompleteness theorems.
+  - Sometimes we say that the theory is _semantically complete_.
+- Godel says that a sound theory of first-order logic must be complete.
 
 How is this proven? Basically, you need to produce a model where
 statements are assigned true if they are provable (this is required by
@@ -25,11 +42,17 @@ true in every model of the theory, then that statement is provable.
 
 **First Incompleteness Theorem**
 
-Godel's Incompleteness Theorem says that any consistent system
-contains a statement that cannot be proven. This follows from the
-halting problem. The halting problem says you can't construct a
-meta-TM that takes as input a TM description and an input and
-determines whether the described machine halts on the given input.
+Godel's Incompleteness Theorem says that any consistent first-order
+system (with the power to encode arithmetic) contains a statement that
+cannot be proven. This is called _(syntactic) incompleteness_: there is
+a statement $\phi$ for which we can neither prove $\phi$ nor $\neg\phi$.
+There are models of the theory in which $\phi$ is interpreted true, and
+other models of the theory in which $\phi$ is interpreted false.
+
+This follows from the halting problem. The halting problem says you
+can't construct a meta-TM that takes as input a TM description and an
+input and determines whether the described machine halts on the given
+input.
 
 If this existed, you could modify the machine to tell you whether an
 input machine, _given its own description as input_, would
@@ -47,6 +70,16 @@ input or (b) a proof the input does not halt. If that worked, we'd
 have a machine solve the halting problem. Therefore there are machines
 where there is no proof whether they halt or not. That's Godel's First
 Incompleteness Theorem.
+
+Very similarly: there is no machine that "decides" whether a statement
+$\phi$ is a theorem. We can semi-decide by enumerating all statements.
+But if $\phi$ is independent of the axioms, we will never find a proof
+or disproof by that method. If we could decide, we could solve the
+halting problem: let $\phi$ be "There exists a proof that machine M
+halts on input I". Obviously there _is_ a proof of $\phi$ if M really
+does halt on I. If a machine could decide that $\phi$ is _not_
+proveable, then it would know that M does not halt. The machine would be
+solving the halting problem.
 
 What this is implying is that, in some models, this TM could halt, and
 in others this TM could not halt. Basically: there's more than one
@@ -146,7 +179,43 @@ Another point: perhaps mathematics is not going to take us out of the
 wilderness all by itself. We are crafting a mathematical model to a
 physical system. There are many more choices to make. There's more
 than one model consistent with the theory. As we observe new
-phenomena, we may need to grow outr theory.
+phenomena, we may need to grow our theory.
+
+**Other**
+
+- This isn't directly from Aaronson, but these notes are maybe the best
+  place for logic related ideas.
+- We've shown that theories that can encode arithmetic cannot be
+  complete. There are statements which are true in the intended model,
+  but which we cannot prove (because they are false in some alternative
+  model).
+- Moreover, we have shown that we cannot prove consistency of a theory
+  that can encode arithmetic.
+  - You might ask: why would we want to do that, anyway? Why would we
+    trust a proof in a system that the system is trustworthy?
+  - One reason is that it shows that not even any sub-theory we trust
+    could prove both itself and the full theory consistent.
+  - Consider Peano arithmetic (which directly makes statements about
+    arithmetic) and ZFC (which is about sets). Well, you can encode
+    arithmetic as statements about sets, so PA can be encoded in ZFC
+    (von Neumann construction). And ZFC can prove consistency of PA
+    axioms. That tells you that PA cannot prove ZFC.
+- Decidability: is there a machine that can recognize statements that
+  have neither proof nor disproof?
+  - Note: a statement is "decidable" in logic if either it or its
+    negation is proveable in the system. A set of (infinite) bitstrings
+    is "decidable" in computer science if there is a machine which
+    answers YES iff the input is in the set.
+  - Those are _two different meanings_.
+  - Sometimes we use "independent" instead of "decidable" in logic. The
+    Continuum Hypothesis is a statement "independent of ZFC". We also
+    say that the Continuum Hypothesis is "undecidable in ZFC."
+  - The theorems of ZFC are "semi-decidable": there is a machine that
+    will output YES if a statement $\phi$ is proveable in ZFC. It can
+    either output NO or never halty if $\phi$ is not a theorem of ZFC.
+    You do this simply by enumerating theorems of ZFC.
+  - The Halting Problems shows that the theorems of ZFC are not only
+    incomplete, but not even decidable.
 
 ## Ch 4: Minds and Machines
 
