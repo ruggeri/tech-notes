@@ -1,0 +1,186 @@
+\documentclass[11pt, oneside]{amsart}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{ned-common}
+\usepackage{ned-calculus}
+
+\begin{document}
+\title{Root Mean Square}
+\maketitle
+
+\section{Root Mean Square Voltage}
+
+\begin{enumerate}
+  \item Say you attach a purely resistive circuit to an AC power source.
+
+  \item We will be assuming that AC is a sinusoidal running at angular
+  frequency $\omega$. That is: $v(t) = V_\text{max} \cos \omega t$.
+
+  \item The \define{instantaneous power} dissipated is $p(t) = v(t) i(t)
+  = v^2(t) / R = V^2_\text{max} \cos^2{\omega t} / R$.
+
+  \item We can also define the \define{average power}. This is
+
+  \begin{nedqn}
+    P
+  \eqcol
+    \frac{1}{T}
+    \int_0^T v^2(t) / R \dt
+  \\
+  \eqcol
+    \frac{1}{T}
+    \int_0^T
+      V^2_\text{max} \cos^2{\omega t}
+      / R
+      \dt
+  \end{nedqn}
+
+  \noindent
+  This is also often called the \define{real power}, and also
+  \define{active power}.
+
+  \item Can we simplify the expression for real power? We can't replace
+  $v^2(t)$ with $V_\text{AVG}^2$, since $V_\text{AVG} = 0$!
+
+  \item We also cannot say $P = V_\text{max}^2 / R$; that's the peak
+  \emph{instantaneous} power, but almost everywhere less power is
+  consumed!
+
+  \item Let's imagine a non-sinusoidal voltage source. Consider a 1V DC
+  source attached for 2sec to a $1\Omega$ circuit. This gives
+  instantaneous power of $p(t) = 1 \text{W}$. Next, consider a 2V DC
+  source attached for 1sec, and then 0V for 1sec. This gives $p(t) = 4
+  \text{W}$ for 1sec, and then $p(t) = 0\text{W}$ for 1sec. Even though
+  both examples have the same average voltage applied, the second
+  circuit draws 2W of real (average) power over the 2sec cycle, versus
+  1W.
+
+  \item However, we may define the \define{root mean square} voltage:
+
+  \begin{nedqn}
+    V_\text{RMS}
+  \eqcol
+    \sqrt{\frac{1}{T} \int_0^T v^2(t) \dt}
+  \intertext{That will allow us to write (for resistive circuits, at least):}
+    P
+  \eqcol
+    V_\text{RMS}^2 / R
+  \end{nedqn}
+
+  \item The RMS voltage is the voltage that, if applied continuously to
+  the (purely resistive) circuit, would draw as much real power as the
+  alternating voltage supply.
+
+  \item Per our earlier example of 1sec 2V and 1sec 0V: $V_\text{RMS} =
+  \sqrt{2}\text{V}$.
+
+  \item Let's return to our typical case where the circuit is driven by
+  a sinusoidal voltage running at angular frequency $\omega$. Then I
+  argue
+
+  \begin{nedqn}
+    V^2_\text{RMS}
+  \eqcol
+    \frac{1}{T}
+    \int_0^T V^2_\text{max} \cos^2\omega t \dt
+  \\\eqcol
+    0.5 V^2_\text{max}
+  \end{nedqn}
+
+  \noindent
+  This follows from the typical identity about symmetry of
+  sinusoids/circles.
+\end{enumerate}
+
+\section{Impedance}
+
+\begin{enumerate}
+  \item We already know about resistance, denoted $R$ and measured in
+  Ohms ($\Omega$). Through a pure resistor, $V = IR$. The voltage drop
+  across a pure resistor is proportional to the magnitude of the
+  current.
+
+  \item An \define{inductor} ``opposes'' change in current.
+
+  \item When current (magnitude) is rising, energy is stored in the
+  magnetic field. Electromagnetic induction is the property that an
+  increasing current magnitude will store energy in the magnetic field
+  (and a decreasing current magnitude will consume stored energy).
+  Because the energy stored must be paid for, that gives a voltage drop
+  across the inductor when the inductor is charging. It gives a voltage
+  rise across the inductor when the inductor is discharging.
+
+  \item When current is zero, the inductor has stored no energy in the
+  magnetic field. We don't say that the magnetic flux through the
+  inductor core is zero (maybe there some external EMF), only that the
+  inductor hasn't stored any energy there. The inductor charges no
+  matter which direction you start flowing current across it. It will
+  discharge this energy as you slow current and return it to zero
+  current.
+
+  \item You \emph{might} be tempted to think of the inductor charging as
+  posing a \emph{resistance} to current flow through the inductor. But
+  don't do that! Resistance taxes more energy per charge the faster you
+  push charges through (proportionate to current). For an inductor, the
+  energy taxed for pushing charge through is constant for any level of
+  current, for a given rate of current change.
+
+  \item When current stops rising, energy stops being stored in magnetic
+  field, and voltage drop across inductor is zero. As long as the
+  current remains constant, no energy stored in the field will be
+  ``consumed.'' The energy stored remains constant, ready to be returned
+  when current begins to slow.
+
+  \item When you begin to decrease the current, the inductor begins to
+  deliver the power stored in the magnetic field, which is a voltage
+  \emph{increase} (rather than drop) across the inductor. Again, do not
+  think of this as a ``negative resistance,'' since the energy ``push''
+  given each unit charge is constant, and not proportional to current
+  magnitude.
+
+  \item Note that energy is stored no matter whether you rise from zero
+  current or fall to ``negative'' current. This is just a matter of
+  orientation. It's really the current \emph{magnitude} that matters. Of
+  course, the charging and discharging push direction swaps orientation.
+  But you can't fall below ``zero energy stored.''
+
+  \item At the same current magnitude, always the same amount of energy
+  has been stored in the field. You can raise current slowly over a long
+  time, which increases stored energy slowly. But then if you try to
+  bring current back down quickly, the stored energy will ``resist''
+  harder, but for a shorter period of time.
+
+  \item The Henry (H) is equivalent to Volts (of back-EMF) per ampere
+  per second (rate of change). The symbol $L$ is for Heinrich Lenz, but
+  the unit is for Joseph Henry.
+
+  \item Anyway, the voltage drop across an inductor is:
+
+  \begin{nedqn}
+    v(t)
+  \eqcol
+    L \fpartial[i(t)]{t}
+  \end{nedqn}
+
+  \item The energy stored in an inductor is:
+
+  \begin{nedqn}
+    U
+  \eqcol
+    \int_0^T v(t) i(t) \dt
+  \\\eqcol
+    \int_0^T L \fpartial[i(t)]{t} i(t) \dt
+  \\\eqcol
+    \int_0^I L i \diff{i}
+  \nedcomment{change of variables}%
+  \\\eqcol
+    \frac{1}{2} L I^2
+  \end{nedqn}
+
+  \noindent
+  Maybe be careful to note that change-of-variables only works if
+  current started at zero at time zero.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import sys
+sys.path.append("/Users/ruggeri/repos/ruggeri/tech-notes/lib")
+
+from make_latex import clean
+from pathlib import Path
+
+SOURCE_PATHS = [Path(f) for f in [
+  "./root-mean-square.tex"
+]]
+
+for p in SOURCE_PATHS:
+  clean(p)
