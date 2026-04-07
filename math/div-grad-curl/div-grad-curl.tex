@@ -454,40 +454,13 @@ depends on (1) how much differences in $x$ and $y$ get stretched, and
 
 \end{enumerate}
 
-\section{Divergence}
+\section{Flux and Divergence}
 
+\subsection{Flux}
 \begin{enumerate}
 
-\item We can finally define the \define{divergence} of a vector field
-$\mtxF$ at a point $\vu$:
-
-\begin{nedqn}
-  \operatorname{div} \mtxF(\vu)
-\defeqcol
-  \lim_{V \to 0}
-  \frac{1}{\abs{V}}
-  \iint_{S(V)}
-  \mtxF(\vx) \cdot \vn(\vx)
-  \diff{\vx}
-\end{nedqn}
-
-\noindent
-What the hell does this mean? First, we will $V$ is a volume which
-contains $\vu$. The limit is expressing that we take a series of volumes
-where the volume of $V$ (denoted $|V|$) is approaching zero. For
-instance, $V$ could be a series of $\epsilon$-balls, where $\epsilon \to
-0$.
-
-Next, we are going to do a surface integral. The surface we integrate
-over will be the surface of the volume. This could, for instance, be the
-$\epsilon$-shell.
-
-What will we integrate? $\mtxF(\vx) \cdot \vn(\vx)$. What is $\vn(\vx)$?
-It will be the unit-vector that is \define{normal} to the surface $S(V)$
-at position $\vx$.
-
 \item For a field $\mtxF$, we define the \define{flux} $\Phi_{\mtxF}(S)$
-to because
+of $\mtxF$ through the surface $S$ to be:
 
 \begin{nedqn}
   \Phi_{\mtxF}(S)
@@ -498,29 +471,80 @@ to because
 \end{nedqn}
 
 \noindent
-Thus, with this definition, we can equivalently define:
+What are we integrating? $\mtxF(\vu) \cdot \vn(\vu)$. What is
+$\vn(\vu)$? It will be the unit-vector that is \define{normal} to the
+surface $S(V)$ at position $\vu$. Sometimes we call $\mtxF(\vu) \cdot
+\vn(\vu)$ the \define{flux density} of $\mtxF$ at $\vu$.
+
+\item We sometimes write $\Phi_{\mtxF}(S) \defeq \iint_S \mtxF \cdot
+\diff{\mtx{S}}$.
+
+\item Examples are fluid flow through a surface (a mass flux), electric
+flux, magnetic flux, heat flux (amount of heat transfer across a
+surface).
+
+\item The idea is, this is the amount of transfer across a surface. We
+need to take the inner product of $\mtxF$ with $\vn$ to ignore the
+component which is directed \emph{parallel} to the surface, so that we
+can isolate the component \emph{across} the surface. The flux is scalar
+valued, because it is the \emph{amount} of $\mtxF$ directed across the
+surface $S$, which doesn't possess a single ``direction.''
+
+\end{enumerate}
+
+\subsection{Divergence}
+\begin{enumerate}
+
+\item The flux is not measured at a single point. It is measured across
+a surface. However, we can define the \define{divergence} of a vector
+field $\mtxF$ at a point $\vu$:
 
 \begin{nedqn}
   \operatorname{div} \mtxF(\vu)
 \defeqcol
-  \lim_{\abs{V_i} \to 0}
+  \lim_{\operatorname{Vol} V_i \to 0}
   \frac{
-    \Phi_{\mtxF}(S_i)
+    \Phi_{\mtxF}(V_i)
   }{
-    \abs{V_i}
+    \operatorname{Vol} V_i
   }
 \end{nedqn}
 
-\item So the flux through a surface is something like the amount being
-pushed out through the surface. If the vector field defines the velocity
-of a fluid, then the flux is the instantaneous rate of fluid flow across
-the surface.
+\noindent
+$V_i$ is a series of volumes about $\vu$ with volume $\operatorname{Vol}
+V_i$ converging to zero. For instance, we could consider
+$\epsilon$-balls about $\vu$ with radius falling to zero.
 
-\item The divergence is similar. It is the amount of flux \emph{per unit
-area} across an infinitesimal ball centered at a point $\vx$.
+\begin{nedqn}
+  \operatorname{div} \mtxF(\vu)
+\defeqcol
+  \lim_{\operatorname{Vol} V_i \to 0}
+  \frac{1}{\operatorname{Vol} V_i}
+  \iint_{S(V_i)}
+  \mtxF(\vu) \cdot \vn(\vu)
+  \diff{\vu}
+\end{nedqn}
 
+\noindent
+Here, $S(V_i)$ is the surface of the solid sphere $V_i$.
+
+\item It might appear slightly odd at first that we are dividing by the
+\emph{volume} of the ball, while we are integrating across a
+two-dimensional surface. But I believe this works out if we want the
+divergence to be an infinitesimal \emph{flux density}. That is, the
+amount of flux emph{per unit area} of an infinitesimal ball centered at
+$\vu$. We need to divide by volume because we need to divide by surface
+area (to get a flux density) times radius (to make this an
+infinitesimal).
+
+\item \TODO{Prove that divergence is sum of partials. Show notation of
+gradient dot.}
+\item \TODO{Notation for integration; what is the differential symbol
+for}?
 \item \TODO{Define nabla differential operator}.
+\item \TODO{Show nabla dot operation for divergence}.
 \item \TODO{Define curl}.
+\item \TODO{Show nabla cross product notation for curl}.
 
 \end{enumerate}
 
