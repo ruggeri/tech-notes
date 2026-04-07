@@ -35,7 +35,7 @@
 \\\eqcol
   \lim_{t \to 0}
   \frac{
-    f(x_0 + t) - f(x_0)
+    f(x + t) - f(x)
   }{
     t
   }
@@ -55,13 +55,13 @@ of many variables. For now, we'll keep $f$ mapping to a single real
 variable. Then we define the \define{partial derivative}:
 
 \begin{nedqn}
-  \fpartial{x_i} f(x_0, \ldots, x_n)
+  \fpartial{x_i} f(x_1, \ldots, x_n)
 \eqcol
   \lim_{t \to 0}
   \frac{
-    f(x_0, \ldots, x_i + t, \ldots, x_n)
+    f(x_1, \ldots, x_i + t, \ldots, x_n)
     -
-    f(x_0, \ldots, x_n)
+    f(x_1, \ldots, x_n)
   }{
     t
   }
@@ -86,7 +86,7 @@ very typical case will be $f: \R^n \to \R$. In that case:
 \intertext{where}
   \tilde{\vx}
 \eqcol
-  \parens{\vx_0, \ldots,a, \ldots, \vx_n}
+  \parens{\vx_1, \ldots,a, \ldots, \vx_n}
 \intertext{we can also write}
   \fpartial{x_i} f(\vx)
 \eqcol
@@ -106,12 +106,12 @@ direction of $x_i$.
 The first looks like a restriction of the function $f$ to the
 $x$-variable, instead of a derivative; I wouldn't use that. $f'_x(x, y)$
 is similar to the Lagrange notation, but I like the Leibniz notation
-better.
+better ($\fpartial{x}$). The Euler notation $\opD_x$ is also good.
 
 \item We typically say ``partial derivative'' when we are talking about
 a derivative with respect to either an individual ``parameter'' or a
 ``coordinate'' basis vector. But that might be a bit arbitrary of us. If
-$f$ maps from a vector space, we can take a derivative along any
+$f$ maps from a vector space, we can take a derivative along \emph{any}
 direction in the space. We call this a \define{directional derivative}:
 
 \begin{nedqn}
@@ -140,8 +140,8 @@ One downside is that, if $f$ is not (total) differentiable at $\vx$, use
 of $\opD_{\vv} f(\vx)$ might be misleading if it suggests the total
 derivative $\opD f(\vx)$ exists.
 
-\item A function $g$ is a first-order approximation of $f$ if at $\vx$
-if, for any direction $\vu$:
+\item A function $g$ is a \define{first-order approximation} of $f$ if
+at $\vx$ if, for any direction $\vu$:
 
 \begin{nedqn}
   \lim_{t \to 0}
@@ -155,12 +155,14 @@ if, for any direction $\vu$:
 \end{nedqn}
 
 \item The function $g(\vu) = f(\vx) + \opD_{\vu} f(\vx)$ is a
-first-order approximation of $f$ at $\vx$. However, if $\opD_{\vu}
-f(\vx)$ is too ``weird'' (directional derivative changes too wildly as
-direction changes), we will not call $f$ \define{(total) differentiable}
-at $\vx$.
+first-order approximation of $f$ at $\vx$, almost by definition. Of
+course, this first-order approximation only exists if $\opD_{\vu}$
+exists.
 
-To be (total) differentiable, we will require that there exists an
+However, if $\opD_{\vu} f(\vx)$ is too ``weird'' (directional derivative
+changes too wildly as direction changes), we will not call $f$
+\define{(total) differentiable} at $\vx$. For $f$ to be considered
+(total) differentiable at $\vx$, we will require that there exists an
 \define{affine} first-order approximation. This occurs exactly when
 $\opD_{\vu} f(\vx)$, when treated as a function of $\vu$, is
 \emph{linear}. At this point, we define $\opD f(\vx)$ to be the linear
@@ -180,16 +182,19 @@ approximation for $f$ at $\vx$.
 \item In the univariate case, there was no need to separate the ideas of
 partial/directional derivative and total derivative. In the multivariate
 case, the existence of a directional derivative along every direction
-does not imply that a \emph{linear} total derivative exists.
+does not imply that a \emph{linear} total derivative exists. The
+linearity of directional derivatives is exactly what is needed
+for a first-order approximation of $f$ at $\vx$ to exist.
 
-\item We can define the \define{gradient}. To write it down, we need to
-have fixed a coordinate basis. The gradient is defined:
+\item We can define the \define{gradient}. It is a vector, and to write
+it down, we need to have fixed a coordinate basis. The gradient is
+defined:
 
 \begin{nedqn}
   \gradient f(\vx)
 \eqcol
   \begin{pmatrix}
-    \fpartial{x_0} \ff{\vx}
+    \fpartial{x_1} \ff{\vx}
     \\
     \vdots
     \\
@@ -266,24 +271,32 @@ fields, gravitational fields, fluid velocity fields.
 derivative) will still apply. We just need to note that the numerator in
 those definition is a vector. We'll need a normed vector space.
 
+We will need the vector space to be \emph{normed}, because we need a
+notion of convergence so that a limit can be defined.
+
 \item Instead of generalizing the gradient, we'll generalize the total
 derivative. That was equivalent to a co-vector (a matrix of one row, the
 transpose of the gradient vector). The vector-valued total derivative
 will correspond to a \emph{matrix} that we call the \define{Jacobian}:
 
 \begin{nedqn}
-  \mJ(\vx)
+  \mJ_{\vec{f}}(\vx)
 \eqcol
   \begin{bmatrix}
-    \grad\tran f(\vx)_0 \\
     \grad\tran f(\vx)_1 \\
+    \grad\tran f(\vx)_2 \\
     \vdots \\
     \grad\tran f(\vx)_n \\
   \end{bmatrix}
 \end{nedqn}
 
+\noindent
+Here, I $f(\vx)_1$ just means the restriction of the value of $f$ to the
+first-coordinate. $\gradient\tran f(\vx)_1$ is effectively the
+representation of the linear functional $\opD_{f_1}(\vx)$.
+
 \item As before, provided the function really is differentiable and thus
-the total derivative exists:
+the total derivative exists, then:
 
 \begin{nedqn}
   (\opD \vec{f} (\vx)) \vv
@@ -292,24 +305,29 @@ the total derivative exists:
 \end{nedqn}
 
 \noindent
-Note that the Jacobian is more like the total derivative than the
-gradient is, in the sense that you don't have to transpose it.
+Note that the Jacobian is more like a representation the total
+derivative than the gradient is, in the sense that you don't have to
+transpose it.
 
 \end{enumerate}
 
 \section{Line and Surface Integrals}
 
+\subsection{Line Integral}
+
 \begin{enumerate}
 
 \item We can next define a \define{line integral} (also called a path
-integral). First we have to define a \define{curve}. A curve
-$\calC$ is a subset of $\R^m$ with the following requirement:
-there is a continuous map $r: [a, b] \to \R^m$, and the image of $r$ is
-$\calC$ ($[a, b]$ is a closed interval in $\R$, of course). In
-this case, we'll want $r$ to be piecewise differentiable.
+integral). First we have to define a \define{curve}. A curve $\calC$ is
+a subset of a vector space (usually $\R^n$) with the following
+requirement: there is a continuous map $r: [a, b] \to \R^n$, and the
+image of $r$ is $\calC$ ($[a, b]$ is a closed interval in $\R$, of
+course). Everything probably remains fine whether the curve is closed or
+open.
 
-\item Now we can define the line integral of $f$ along a curve
-$\calC$ defined by $r$. It is defined to be:
+\item Now we can define the line integral of $f$ along a curve $\calC$
+defined by $r$. We'll want $r$ to be piecewise differentiable. It is
+defined to be:
 
 \begin{nedqn}
   \int_\calC
@@ -324,60 +342,62 @@ $\calC$ defined by $r$. It is defined to be:
 \noindent
 Here the notation $\vr(t)$ emphasizes that this is a vector-valued
 function of $t$. Note that the ``rate'' at which we move through the
-curve (which is arbitrary) is corrected by $\norm{\vr'(t)}$. This makes
-the line integral independent on the parameterization of $\calC$.
+curve (which is arbitrary) is corrected by $\norm{\vr'(t)}$. This seems
+to make the line integral independent on the parameterization of
+$\calC$, but in fact any parameterization will give the same integral
+result (would need proof!).
+
+\item We define the \define{length} of a curve as $\int_\calC 1
+\diff{s}$.
 
 \item For now, I will consider $\int_\calC f \diff{s}$ as pure
-notation. It feels meaningless and arbitrary at present.
+notation. It feels pretty meaningless and arbitrary at present.
 
 \item Note that the path-integral concept trivially generalizes to a
-vector-valued $f$.
+vector-valued function $\vec{f}$.
 
-\item It feels a little unfortunate that $\vr$ is required to be
-piecewise differentiable. It would be nicer if the only requirement were
-that $r$ be continuous.
+\item It feels a little bit like length should be a property of the
+curve in the vector space itself and a definition of unit length for
+unit vectors. It feels like a bit of an intrusion that we would need to
+introduce to a parameterization like $\vr$, and use it so centrally in
+the definition of the length of a curve.
 
-\item Maybe we can consider this a moment. The \define{length} of a path
-can be defined as $\int_\calC 1 \diff{s}$. Is there any other way
-to define a length? Could we not talk about line-segments in $\R^n$: the
-interpolation between two points? A line-segment has a natural
-definition of length; it's the norm of the difference between the two
-points.
+\item But I believe differentiability of the curve will always be
+necessary because length of the curve has to do with a integral of the
+magnitude of the tangency vector. And you will want to control the rate
+at which you trace the curve, so that you don't ``cheat'' by moving
+through different parts at different rates.
 
-Can we then break up $\calC$ into a sequence of line-segments? Of course
-not if $\calC$ is curved. Could we have a sequence of progressively
-better approximations for $\calC$? It \emph{seems} intuitive, but it's
-not exactly clear how we could do this. We can't appeal to dividing up
-the length of $\calC$ into $k$-evenly spaced points on $\calC$ - that
-would put the cart before the horse!
+I can't see a cleaner, simpler way to do this than by introducing $\vr$.
+Whatever we do probably will always end up equivalent to introducing
+$\vr$.
 
-\item If it makes one feel happier, there is only one $\vr$ that traces
-$\mathcal{C}$ at a constant velocity $\vr' = 1$. So the appearance of
-$\norm{\vr'(t)}$ in the integral is just to correct for an arbitrarily
-stretched choice of $\vr$. Also, the requirement that $\vr'$ exists
-(almost everywhere) simply demands that there be a well-defined notion
-of tangency everywhere on the path.
+\end{enumerate}
 
-\item Once we can break up the path into equal-length segments, I
-believe we can do the typical thing of using the convergence of upper
-and lower sums to calculate the path interval of a function $f$ along
-$\calC$.
+\subsection{Surface Integral}
+
+\begin{enumerate}
 
 \item We can define a corresponding \define{surface integral}. We must
 again first define what we mean by a \define{surface}. A surface $S$ is
-a subset of $R^n$ with the following property: there exists a continuous
-mapping $r: U \to \R^n$ ($U$ should be an open set in $\R^n$) where
-$S$ is the image of $r$.
+a subset of a vector space (typically $R^n$) with the following
+property: there exists a continuous mapping $r: U \to \R^n$ ($U$ should
+be an open set in $\R^2$) where $S$ is the image of $r$.
+
+I think that it's fine whether the set is open or closed, so long as
+it's not too misbehaved. It would probably be best if the
+parameterization is bijective, but that probably isn't strictly
+necessary.
 
 \item We should next define the notion of \define{surface area} (just as
-we defined curve length). We could try to define this as:
+we defined curve length). My first attempt was to try define this as:
 
 \begin{nedqn}
   \iint_S
-  1 \diff{s}
+  1 \diff{S}
 & \stackrel{?}{=} &
   \iint_U
-  \det \mtxJ_{\vr}(\vu)
+  \det \left(\mtxJ_{\vr}(\vu)\right)
   \diff{\vu}
 \end{nedqn}
 
@@ -387,17 +407,11 @@ stretched by $\vr$ in the vicinity of $\vu$. However, since $\det$ is
 only defined for \emph{square} matrices, this won't work when we are
 mapping from two-dimensions to three!
 
-\item Of course, the coordinate axes in $\R^n$ are arbitrary, so we
-could rotate them so that $\mtxJ$ had all zeros outside the first two
-rows. Then, to find the stretching of an input area, we would just need
-to calculate the determinate of a (square) 2x2 matrix.
-
-\item Let's consider the specific case of two dimensions. I will note
-first that Wikipedia defines surface area as:
+\item Really, we should use the cross-product:
 
 \begin{nedqn}
   \iint_S
-  1 \diff{s}
+  1 \diff{S}
 \eqcol
   \iint_T
   \norm{
@@ -409,8 +423,11 @@ first that Wikipedia defines surface area as:
 \end{nedqn}
 
 \noindent
-Already, the norm of this cross-product \emph{looks} like it should be
-equal to $\det \mtxJ_{\vr}(\vu)$. We can verify this quickly. First,
+This is correct, because $\va \cross \vb$ has magnitude equal to the
+area spanned by the two vectors: $\va \cross \vb = \norm{\va}\norm{\vb}
+\sin(\theta)$.
+
+\item We can match this to my intuition to use the determinant. First,
 note:
 
 \begin{nedqn}
@@ -425,15 +442,21 @@ note:
   } \vk
 \end{nedqn}
 
-\item Anyway, we can see that my $\det \mtxJ$ idea is not totally silly.
-However, it isn't quite right, and the cross-product way expresses what
-we want to do simpler, and accurately.
+\noindent
+So while the correct definition is definitely to use the cross-product,
+the determinant idea was on the right track.
 
-I would note that area is defined by height times width, where those are
-measured orthogonally. We're assuming that $x$ and $y$ are orthogonal
-directions in the space. So the local stretching of a space depends on
-(1) how much differences in $x$ and $y$ get stretched, and (2) how much
-they remain orthogonal in the target space.
+\item I would note that area is defined by height times width, where
+those are measured orthogonally. We're assuming that $x$ and $y$ are
+orthogonal directions in the space. So the local stretching of a space
+depends on (1) how much differences in $x$ and $y$ get stretched, and
+(2) how much they remain orthogonal in the target space.
+
+\end{enumerate}
+
+\section{Divergence}
+
+\begin{enumerate}
 
 \item We can finally define the \define{divergence} of a vector field
 $\mtxF$ at a point $\vu$:
