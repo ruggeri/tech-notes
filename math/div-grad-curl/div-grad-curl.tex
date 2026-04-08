@@ -2,6 +2,7 @@
 
 \newcommand{\calC}{\mathcal{C}}
 \newcommand{\opD}{\operatorname{D}}
+\newcommand{\opDiv}{\operatorname{div}}
 
 \usepackage{geometry}
 \geometry{letterpaper}
@@ -18,6 +19,7 @@
 
 \section{Real-Valued Derivative, Partials, and Gradient}
 
+\subsection{Derivative}
 \begin{enumerate}
 
 \item With a function of a single variable, we have already defined the
@@ -49,7 +51,11 @@ There is \define{Newton notation}, where we write $\dot f$; this is used
 in physics sometimes, the presumption is always that we are
 differentiating against time. Last, there is \define{Euler notation},
 where we write $\opD_x f(x)$.
+\end{enumerate}
 
+\subsection{Partial Derivative, Directional Derivative}
+
+\begin{enumerate}
 \item Let's begin to generalize the univariate derivative to a function
 of many variables. For now, we'll keep $f$ mapping to a single real
 variable. Then we define the \define{partial derivative}:
@@ -139,7 +145,10 @@ think maybe the $\opD_{\vv}$ notation is probably the most preferred.
 One downside is that, if $f$ is not (total) differentiable at $\vx$, use
 of $\opD_{\vv} f(\vx)$ might be misleading if it suggests the total
 derivative $\opD f(\vx)$ exists.
+\end{enumerate}
 
+\subsection{Total Derivative}
+\begin{enumerate}
 \item A function $g$ is a \define{first-order approximation} of $f$ if
 at $\vx$ if, for any direction $\vu$:
 
@@ -185,7 +194,10 @@ case, the existence of a directional derivative along every direction
 does not imply that a \emph{linear} total derivative exists. The
 linearity of directional derivatives is exactly what is needed
 for a first-order approximation of $f$ at $\vx$ to exist.
+\end{enumerate}
 
+\subsection{Gradient}
+\begin{enumerate}
 \item We can define the \define{gradient}. It is a vector, and to write
 it down, we need to have fixed a coordinate basis. The gradient is
 defined:
@@ -218,6 +230,30 @@ Provided the function is relatively well-behaved, the gradient allows us
 to calculate the directional derivative in any direction. Because $\opD
 f(\vx)$ is required to be linear, its value at $n$ basis vectors is
 enough to specify it.
+
+\item Sometimes the $\gradient$ symbol is treated as a column of partial
+derivative operators:
+
+\begin{nedqn}
+  \gradient
+\eqcol
+  \begin{pmatrix}
+    \fpartial{x_1}
+    \\
+    \vdots
+    \\
+    \fpartial{x_n}
+  \end{pmatrix}
+\end{nedqn}
+
+\noindent
+In which case, $\gradient f(\vx)$ is treated as if it were a vector
+($\gradient$) times a scalar: $f(\vx)$. We'll see other differential
+operators (divergence and curl) are defined with notation that is based
+on this interpretation of the $\gradient$ symbol. Still, I think the
+notation is really secondary to the underlying concepts/definitions. We
+should try to understand things in terms of the underlying concepts, not
+the notation.
 
 \item Note that our gradient has the shape of a ``column'' vector in the
 space, so the gradient is often interpreted as a \emph{direction}
@@ -269,31 +305,43 @@ fields, gravitational fields, fluid velocity fields.
 
 \item Our prior definition of a partial derivative (and of a directional
 derivative) will still apply. We just need to note that the numerator in
-those definition is a vector. We'll need a normed vector space.
+those definition is a vector.
 
 We will need the vector space to be \emph{normed}, because we need a
 notion of convergence so that a limit can be defined.
 
-\item Instead of generalizing the gradient, we'll generalize the total
-derivative. That was equivalent to a co-vector (a matrix of one row, the
-transpose of the gradient vector). The vector-valued total derivative
-will correspond to a \emph{matrix} that we call the \define{Jacobian}:
+\item We will also generalize the total derivative. We previously had
+that $\opD f(\vx)$ was the linear transformation that mapped a vector to
+the directional derivative of $f$ at $\vx$ along that vector.
+$\left(\opD \mtx{F}(\vx)\right)(\vu)$ will remain the same: except now
+the directional derivative of $\mtx{F}$ at $\vx$ along $\vu$ is
+\emph{vector-valued}.
+
+\item In the scalar-valued case because $\opD f(\vx)$ is a linear
+functional, we could represent it as a row vector. The vector-valued
+total derivative will correspond to a \emph{matrix} that we call the
+\define{Jacobian}:
 
 \begin{nedqn}
-  \mJ_{\vec{f}}(\vx)
+  \mJ_{\mtx{F}}(\vx)
 \eqcol
   \begin{bmatrix}
-    \grad\tran f(\vx)_1 \\
-    \grad\tran f(\vx)_2 \\
+    \grad\tran \mtx{F}(\vx)_1 \\
+    \grad\tran \mtx{F}(\vx)_2 \\
     \vdots \\
-    \grad\tran f(\vx)_n \\
+    \grad\tran \mtx{F}(\vx)_n \\
   \end{bmatrix}
 \end{nedqn}
 
 \noindent
-Here, I $f(\vx)_1$ just means the restriction of the value of $f$ to the
-first-coordinate. $\gradient\tran f(\vx)_1$ is effectively the
-representation of the linear functional $\opD_{f_1}(\vx)$.
+Here, $\mtx{F}(\vx)_i$ just means the restriction of the value of
+$\mtx{F}$ to the $i$th-coordinate. $\gradient\tran \mtx{F}(\vx)_i$ is
+effectively the representation of the linear functional
+$\opD_{\mtx{F}_i}(\vx)$.
+
+For $\mtxF : \R^m \to \R^n$, $\mJ_{\mtx{F}}(\vx)$ is an $n$-by-$m$
+matrix. It maps vectors of $\R^m$ to the vector-valued directional
+derivative along that vector.
 
 \item As before, provided the function really is differentiable and thus
 the total derivative exists, then:
@@ -305,9 +353,12 @@ the total derivative exists, then:
 \end{nedqn}
 
 \noindent
-Note that the Jacobian is more like a representation the total
+Note that the Jacobian is more a proper representation of the total
 derivative than the gradient is, in the sense that you don't have to
 transpose it.
+
+\item We don't really define an analogue of the gradient for
+vector-valued functions.
 
 \end{enumerate}
 
@@ -354,7 +405,7 @@ result (would need proof!).
 notation. It feels pretty meaningless and arbitrary at present.
 
 \item Note that the path-integral concept trivially generalizes to a
-vector-valued function $\vec{f}$.
+vector-valued function $\mtx{F}$.
 
 \item It feels a little bit like length should be a property of the
 curve in the vector space itself and a definition of unit length for
@@ -380,7 +431,7 @@ $\vr$.
 
 \item We can define a corresponding \define{surface integral}. We must
 again first define what we mean by a \define{surface}. A surface $S$ is
-a subset of a vector space (typically $R^n$) with the following
+a subset of a vector space (typically $\R^n$) with the following
 property: there exists a continuous mapping $r: U \to \R^n$ ($U$ should
 be an open set in $\R^2$) where $S$ is the image of $r$.
 
@@ -395,7 +446,7 @@ we defined curve length). My first attempt was to try define this as:
 \begin{nedqn}
   \iint_S
   1 \diff{S}
-& \stackrel{?}{=} &
+& \stackrel{?}{:=} &
   \iint_U
   \det \left(\mtxJ_{\vr}(\vu)\right)
   \diff{\vu}
@@ -404,15 +455,15 @@ we defined curve length). My first attempt was to try define this as:
 \noindent
 Here we use that $\det \mtxJ_{\vr}(\vu)$ is the amount by which area is
 stretched by $\vr$ in the vicinity of $\vu$. However, since $\det$ is
-only defined for \emph{square} matrices, this won't work when we are
-mapping from two-dimensions to three!
+only defined for \emph{square} matrices, this won't quite work when we
+are mapping from two-dimensions to three!
 
 \item Really, we should use the cross-product:
 
 \begin{nedqn}
   \iint_S
   1 \diff{S}
-\eqcol
+\defeqcol
   \iint_T
   \norm{
     \frac{\partial \vr}{\partial x}(\vu)
@@ -452,6 +503,11 @@ orthogonal directions in the space. So the local stretching of a space
 depends on (1) how much differences in $x$ and $y$ get stretched, and
 (2) how much they remain orthogonal in the target space.
 
+\item Our definition in terms of cross-product of partial derivatives
+kind of only works if $\mtxF$ has values in $\R^3$. But you can probably
+use some variation of my determinant idea for hypersurfaces of dimension
+in $n-1$ in spaces of $n>3$ dimensions.
+
 \end{enumerate}
 
 \section{Flux and Divergence}
@@ -459,8 +515,9 @@ depends on (1) how much differences in $x$ and $y$ get stretched, and
 \subsection{Flux}
 \begin{enumerate}
 
-\item For a field $\mtxF$, we define the \define{flux} $\Phi_{\mtxF}(S)$
-of $\mtxF$ through the surface $S$ to be:
+\item For a field $\mtxF: \R^n\to\R^n$ (typically $n=3$), we define the
+\define{flux} $\Phi_{\mtxF}(S)$ of $\mtxF$ through the surface $S$ to
+be:
 
 \begin{nedqn}
   \Phi_{\mtxF}(S)
@@ -500,7 +557,7 @@ a surface. However, we can define the \define{divergence} of a vector
 field $\mtxF$ at a point $\vu$:
 
 \begin{nedqn}
-  \operatorname{div} \mtxF(\vu)
+  \opDiv \mtxF(\vu)
 \defeqcol
   \lim_{\operatorname{Vol} V_i \to 0}
   \frac{
@@ -513,38 +570,72 @@ field $\mtxF$ at a point $\vu$:
 \noindent
 $V_i$ is a series of volumes about $\vu$ with volume $\operatorname{Vol}
 V_i$ converging to zero. For instance, we could consider
-$\epsilon$-balls about $\vu$ with radius falling to zero.
+$\epsilon$-balls about $\vu$ with radius falling to zero:
 
 \begin{nedqn}
-  \operatorname{div} \mtxF(\vu)
+  \opDiv \mtxF(\vu)
 \defeqcol
-  \lim_{\operatorname{Vol} V_i \to 0}
-  \frac{1}{\operatorname{Vol} V_i}
-  \iint_{S(V_i)}
-  \mtxF(\vu) \cdot \vn(\vu)
-  \diff{\vu}
+  \lim_{\epsilon \to 0}
+  \frac{1}{\operatorname{Vol} B_\epsilon(\vu)}
+  \iint_{S_\epsilon(\vu)}
+  \mtxF(\vx) \cdot \vn(\vx)
+  \diff{\vx}
 \end{nedqn}
 
 \noindent
-Here, $S(V_i)$ is the surface of the solid sphere $V_i$.
+Here, $S_\epsilon(\vu)$ is the $\epsilon$-sphere centered at $\vu$.
 
 \item It might appear slightly odd at first that we are dividing by the
 \emph{volume} of the ball, while we are integrating across a
 two-dimensional surface. But I believe this works out if we want the
 divergence to be an infinitesimal \emph{flux density}. That is, the
-amount of flux emph{per unit area} of an infinitesimal ball centered at
+amount of flux \emph{per unit area} of an infinitesimal ball centered at
 $\vu$. We need to divide by volume because we need to divide by surface
 area (to get a flux density) times radius (to make this an
 infinitesimal).
 
-\item \TODO{Prove that divergence is sum of partials. Show notation of
-gradient dot.}
+\item Soon we will prove that, if $\mtxF$ is differentiable at $\vu$,
+then:
+
+\begin{nedqn}
+  \opDiv \mtx(\vu)
+\eqcol
+  \sum_i \fpartial{x_i} \mtxF(\vx) \cdot \ve_i
+=
+  \sum_i \fpartial{x_i} F_i(\vx)
+\end{nedqn}
+
+\noindent
+Where $F_i(\vx)$ is the $i$-th coordinate of $\mtx{(\vx)}$.
+
+Note that if the equality holds, then the summation must be constant
+regardless choice of basis. The obvious requirement is that the basis
+must be orthonormal.
+
+\item If you treat the nabla operator $\nabla$ as a vector of partial
+operators, then you have:
+
+\begin{nedqn}
+  \gradient \cdot \mtxF
+\eqcol
+  \sum_i \fpartial{x_i} F_i
+= \opDiv \mtxF
+\end{nedqn}
+
+\noindent
+You don't have to take this \emph{too} literally. But this is a common
+way to notate $\opDiv \mtxF$.
+
+\item \TODO{Prove that divergence is sum of partials.}
 \item \TODO{Notation for integration; what is the differential symbol
 for}?
-\item \TODO{Define nabla differential operator}.
-\item \TODO{Show nabla dot operation for divergence}.
+\item \TODO{What does it mean to do a dot product with an infinitesimal
+in an integral? What is that notation? Used in flux formula, for
+instance.}
 \item \TODO{Define curl}.
 \item \TODO{Show nabla cross product notation for curl}.
+\item \TODO{Laplacian?}
+\item \TODO{Line integral independent of path in conservative fields}
 
 \end{enumerate}
 
