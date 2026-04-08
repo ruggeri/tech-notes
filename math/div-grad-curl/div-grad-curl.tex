@@ -568,9 +568,9 @@ field $\mtxF$ at a point $\vu$:
 \end{nedqn}
 
 \noindent
-$V_i$ is a series of volumes about $\vu$ with volume $\operatorname{Vol}
-V_i$ converging to zero. For instance, we could consider
-$\epsilon$-balls about $\vu$ with radius falling to zero:
+$V_i$ is a series of closed surfaces about $\vu$ with volume
+$\operatorname{Vol} V_i$ converging to zero. For instance, we could
+consider $\epsilon$-balls about $\vu$ with radius falling to zero:
 
 \begin{nedqn}
   \opDiv \mtxF(\vu)
@@ -594,11 +594,10 @@ $\vu$. We need to divide by volume because we need to divide by surface
 area (to get a flux density) times radius (to make this an
 infinitesimal).
 
-\item Soon we will prove that, if $\mtxF$ is differentiable at $\vu$,
-then:
+\item We will prove that, if $\mtxF$ is differentiable at $\vu$, then:
 
 \begin{nedqn}
-  \opDiv \mtx(\vu)
+  \opDiv \mtxF(\vu)
 \eqcol
   \sum_i \fpartial{x_i} \mtxF(\vx) \cdot \ve_i
 =
@@ -612,6 +611,23 @@ Note that if the equality holds, then the summation must be constant
 regardless choice of basis. The obvious requirement is that the basis
 must be orthonormal.
 
+\item The basic proof idea is to consider a series of $\epsilon$ boxes
+about $\vu$. The volume is $8\epsilon^3$. Each face has equal area of
+$4\epsilon^2$; two faces are perpendicular to $(e_1)$, two faces are
+perpendicular to $e_2$, two faces are perpendicular to $e_3$. You can
+break the surface integral on the box into 6 surface integrals on the
+faces.
+
+For the face parallel to the $(j, k)$ plane, only the $i$-th component
+of $\mtxF$ contributes to the flux. And you can pull in $1/4\epsilon$ to
+calculate the average flux density. Because of differentiability, the
+average flux density through this face thus converges to $\epsilon
+F_i(\vu)$; there are two such faces. Thus we can cancel a final factor
+of $2\epsilon$.
+
+This is obviously super hand-wavy, but it does give the idea that
+$\opDiv \mtxF(\vu) = \sum_i \fpartial{x_i} F_i(\vx)$.
+
 \item If you treat the nabla operator $\nabla$ as a vector of partial
 operators, then you have:
 
@@ -623,10 +639,12 @@ operators, then you have:
 \end{nedqn}
 
 \noindent
-You don't have to take this \emph{too} literally. But this is a common
-way to notate $\opDiv \mtxF$.
+Is there deepness in this notation? Is $\gradient$ really something like
+a vector of partials that you can somehow dot with a vector of scalar
+valued functions? You don't have to take this \emph{too} literally or
+attribute much meaning here. But this is a common and convenient way to
+notate $\opDiv \mtxF$.
 
-\item \TODO{Prove that divergence is sum of partials.}
 \item \TODO{Notation for integration; what is the differential symbol
 for}?
 \item \TODO{What does it mean to do a dot product with an infinitesimal
