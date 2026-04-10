@@ -2,6 +2,7 @@
 2026-03-31: updated, especially with thought that I can use LLMs to extend my notes.
 
 - AI/ML
+  - Review all AI notes to find more stuff to re-review?
   - Especially using for self-learning.
   - Alpha Go, Alpha Zero.
   - Try to get a reinforcement learner working better?
@@ -26,13 +27,22 @@
   - More basic electronics.
   - How amplifiers work 2.0.
   - Reactance
+- Bernoulli's principle (important for carborateurs)
 - OTHER
 - Maybe explore lower-level CUDA programming or GPU architecture.
 - Gyroscopes?
 - Finish notes on curl operator.
 - Microwave oven; MRI.
+- Explore weaknesses of bitcoin?
+- Review operational transforms and CRDTs
+- Quaternions.
+- Reed Solomon error correcting codes.
+- Traveling Salesperson
 
 ## TO REVIEW
+
+This is from a earlier, weaker review, that didn't look at each file's
+contents carefully.
 
 ./math/quadratic-optimization.md
 ./math/quaternions.pdf
@@ -61,9 +71,55 @@
 ./randos/physics/electricity.md
 ./randos/physics/electricity2.md
 ./randos/physics/endothermic-and-exothermic-reactions.md
-./randos/physics/hydraulic-pressure.md
 ./randos/physics/power-generation.md
 ./randos/pumps.md
 ./randos/turbojets.md
 ./randos/zero-knowledge-proof.md
 ./randos/zk-snarks.md
+
+-- RE-RE-REVIEW
+
+Closely this time, looking at each file's contents. This is quite
+comprehensive. I am going folder-by-folder.
+
+Also review old Github repositories!
+Review my personal notes? There is tech stuff there?
+
+not yet reviewed:
+ai
+databases
+distributed-systems
+math
+randos
+TODO.txt
+
+algos:
+art-of-multiprocessor.md
+bloom-filter.md
+bloom-filter2.md
+concurrent-hash-map.md
+dynamic-programming.md
+esoteric-data-structures.md
+graphs.md
+hash-map-tricks.md
+heaps.md
+lock-free-algos.md
+lsh.md
+randomized-algos.md
+string-matching.md
+trees.md
+tries.md
+tries2.md
+
+Closest pair of points randomized algorithm.
+
+sorts-parallel2.md
+
+From my old algorithms curriculum:
+Hash table implementation
+BST traversals.
+AVL and Red-Black implementations
+Heaps and priority queues
+
+truffle ruby? invokedynamic?
+I have no notes on web assembly/wasm?
