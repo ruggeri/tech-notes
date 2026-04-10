@@ -82,7 +82,7 @@ to. But I'm fucked if I care to find out.
 Clojure does this with what is effectively a BST, except all values
 are stored at the bottom of the tree. The leaves store the vector
 values in order. When you update at an idx, you just rewrite the
-appropriate *path*. Get is similarly easy, and append just involves
+appropriate _path_. Get is similarly easy, and append just involves
 maybe adding more leaves. Blah blah blah.
 
 Of course, the depth is logarithmic, but Clojure deals with this by
@@ -92,21 +92,36 @@ I believe there are a couple tweaks, but this is the general idea.
 
 I think the tweaks are:
 
-* Store the tail stuff at the root so you don't need to chase down the
-  tree and rewrite the path.
-* Presumably this can be done with the head as well.
-* There's also this thing called a "transient", which is mutable, but
-  then gets "frozen" into a persistent structure.
-    * Can do this by actually mutating the tail.
-    * Okay, that's not actually what transients are, not even close.
-    * But the general idea is that you know it's safe to mutate for a
-      little while.
+- Store up to 32 tail elements at the root so you don't need to chase
+  down the tree and rewrite the path for every push_back/pop.
+  - When tail is full, you just write that block into the tree and now
+    you have an empty tail.
+  - Of course, an unlucky series of pushes/pops can trigger
+    flushing/extracting the tail from the tree. That would just bring
+    you back to performance as if you didn't have a tail, so tail
+    doesn't really lose you anything.
+- There's also this thing called a "transient".
+  - Basically, I think you start an editing session. You can then do a
+    bunch of edit operations (for example, a bunch of `conj!` appends,
+    but also you can do any `assoc!` to write at any index).
+  - The edits will mostly use the usual immutable/copying logic. But
+    wherever new nodes are created, it will know that this is part of
+    the editing session.
+  - Whenever it sees that you "own" a node (it was created in the
+    editing session), it will feel free to modify this.
+  - At the end, you close the session and freeze back with
+    `persistent!`.
+  - Typical usecase is you want to append a lot.
+  - You should not share an active transient session across threads.
+    That would not be safe!
 
 Note: updates on random elements appears to be approximately 10x
 slower than `ArrayList`. So this isn't crazy fast. But neither is it
 insanely slow. (Access at ends is much better, BTW)
 
-http://hypirion.com/musings/persistent-vector-performance-summarised
+- Sources:
+  - https://hypirion.com/musings/understanding-persistent-vector-pt-3
+  - http://hypirion.com/musings/persistent-vector-performance-summarised
 
 ## Hash Trees
 
@@ -116,3 +131,13 @@ Basically, a trie where the "strings" are the hashes of the keys, and
 of course you can have some value associated. This is typically
 implemented using a AMT, which is a micro-optimized specification of
 the idea of a trie. I believe this is what PersistentHashMap uses.
+
+## Sources
+
+- I believe maybe Buck Shlegeris introduced me to Chris Okasaki's book
+  Purely Functional Data Structures. I bought that book but let it go at
+  some point.
+- I recall spending time at a whiteboard in Simon Chaffetz, who was
+  maybe the only person polite enough to listen to me talk about this
+  stuff at length.
+- I probably was also intrigued because I was interested in Clojure.
