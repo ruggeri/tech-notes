@@ -45,32 +45,30 @@ supposed to be satisfied quickly. We saw that problems arise when some
 requests take longer than expected: we need to add a load-balancer to
 distribute work.
 
-What if the connection is in fact long-lived: for instance, let's say
-we are using websockets. The server may also collect state over the
-course of the websocket.
+What if the connection is in fact long-lived: for instance, let's say we
+are using websockets. The server may also collect state over the course
+of the websocket.
 
 At some point you can't run a socket per server. I guess the point is
 that performance is bad even if you run a socket per thread? Enter
-greenthreads/async ala Go/Node? I guess the scheduler gets angry if
-you try to use too many threads? **Still find this surprising.**
+greenthreads/async ala Go/Node? I guess the scheduler gets angry if you
+try to use too many threads? **Still find this surprising.**
 
-## Locking primatives
+## Locking primitives
 
-Mutual exclusion is a property. We need hardware/software to acheive
-it. A **lock** or **mutex** enforces mutual exclusion. Pthreads
-provides one. It probably uses test-and-set/compare-and-swap.
+Mutual exclusion is a property. We need hardware/software to achieve it.
+A **lock** or **mutex** enforces mutual exclusion. pthreads provides
+one. It probably uses test-and-set/compare-and-swap.
 
-Because pthreads provides mutex through the kernel, it doesn't
-busy-wait and waste time slices. Instead, the kernel marks it as not
-runnable. When the mutex is released, the kernel will mark it as
-runnable.
+Because pthreads provides mutex through the kernel, it doesn't busy-wait
+and waste time slices. Instead, the kernel marks it as not runnable.
+When the mutex is released, the kernel will mark it as runnable.
 
-A lock is a binary semaphore. A semaphore is a generalization of a
-lock, where multiple resources are available.
+A lock is a binary semaphore. A semaphore is a generalization of a lock,
+where multiple resources are available.
 
 I should note: there are algorithms that implement mutual exclusion
-without special instructions. Lamport's Bakery algorithm is one
-example.
+without special instructions. Lamport's Bakery algorithm is one example.
 
 **Condition Variables**: a common pattern is:
 
@@ -88,89 +86,89 @@ while (true) {
 
 The idea is that the thread is waiting for some predicate to be true
 before proceeding into the critical section. To do this, it grabs the
-mutex and checks for the condition. If the condition does not hold,
-then it needs to allow other people to work on the state, so it
-releases the mutex, it then sleeps to give some time to the other
-work, before trying again.
+mutex and checks for the condition. If the condition does not hold, then
+it needs to allow other people to work on the state, so it releases the
+mutex, it then sleeps to give some time to the other work, before trying
+again.
 
-This is silly; effectively it's busy-waiting. To avoid this, you can
-use a **condition variable** (an implementation is in pthreads). You
-can register a lambda that determines whether you should wake the
-thread. Now, instead of just releasing the mutex, a thread will also
-check if it should wake somoene. It then signals the kernel to wake
-this thread, and releases the mutex.
+This is silly; effectively it's busy-waiting. To avoid this, you can use
+a **condition variable** (an implementation is in pthreads). You can
+register a lambda that determines whether you should wake the thread.
+Now, instead of just releasing the mutex, a thread will also check if it
+should wake somoene. It then signals the kernel to wake this thread, and
+releases the mutex.
 
 ## Concurrency Approaches
 
-* Processes
-    * Lots of memory usage. Possible address space exhaustion.
-    * COW should help, but maybe GC causes problems?
-    * TLB flushes across processes? But does it need to do a lot of
-      work saving stacks or whatnot?
-* Native Threads
-    * Callstacks take up space, but I don't see why it's so much.
-    * Is the kernel so dumb that deciding what processes are runnable
-      is so hard? Is it because of fairness?
-    * Takes more effort to be thread safe. Have to trust all the
-      libraries.
-* Green Threads
-    * Ideally built into the language is sleeping on blocking IO. Go
-      and Ruby do this but not Clojure.
-    * Less context switching?
-* STM
-    * Haskell, Clojure
-    * Readers don't block writers.
-    * Difficult to understand sometimes.
-    * Not appropriate for transactions with side-effects.
-        * Which happens all the time so WTF.
-    * Clojure does this with *refs*.
-    * Clojure also has *atoms* which don't use STM, they just do a
-      compare-and-swap type deal. Atoms are more efficient, because
-      you only need to lock/unlock one thing.
-* Actors
-    * Erlang, Scala
-    * You send messages instead of functions.
-    * Actors are *closed* (Rich Hickey's term) because they need to
-      recognize the message.
-    * Requires a second message to inform of internal state.
-    * Works good for Raft.
-    * Couldn't code be the payload of the message?
-* Agents
-    * Clojure
-    * A function sent to an agent is performed asynchronously.
-    * Can observe at any moment.
-    * This is run in a thread-pool.
-    * As ever, Clojure is stupid and won't realize if the function
-      blocks, which stops any work on the thread-pool. Christ.
-* Pure Async
-    * Node, C
-    * All I/O is async.
-    * You have to pass callbacks *everywhere*. Infects everything.
-* Promises/Task/Future
-    * JS, Java, C#
-    * Two typical choices: pass callbacks in, or return an object
-      representing future result.
-    * Promise standardizes interface, which is nice.
-    * Provides a standard for error handling.
-    * Sync fns can call async if they don't need the actual result,
-      just the promise. Otherwise async infects everywhere.
-* async/await
-    * C#
-    * Extends promises with syntax in the language.
-    * Pauses your fn, then resumes it when the async call is done.
-    * Allows you to write async code in a sync looking style.
-    * But creates a 2nd class of functions you call in a weird way.
-    * BTW: the `async` keyword is needed only because previously
-      `await` was a valid keyword.
-* Channels
-    * Go.
-    * Like a promise, but can resolve multiple times.
-    * Like async in that waiting on a channel looks sync, but
-      deschedules your thread.
+- Processes
+  - Lots of memory usage. Possible address space exhaustion.
+  - COW should help, but maybe GC causes problems?
+  - TLB flushes across processes? But does it need to do a lot of
+    work saving stacks or whatnot?
+- Native Threads
+  - Callstacks take up space, but I don't see why it's so much.
+  - Is the kernel so dumb that deciding what processes are runnable
+    is so hard? Is it because of fairness?
+  - Takes more effort to be thread safe. Have to trust all the
+    libraries.
+- Green Threads
+  - Ideally built into the language is sleeping on blocking IO. Go and
+    Ruby do this but not Clojure.
+  - Less context switching?
+- STM
+  - Haskell, Clojure
+  - Readers don't block writers.
+  - Difficult to understand sometimes.
+  - Not appropriate for transactions with side-effects.
+    - Which happens all the time so WTF.
+  - Clojure does this with _refs_.
+  - Clojure also has _atoms_ which don't use STM, they just do a
+    compare-and-swap type deal. Atoms are more efficient, because
+    you only need to lock/unlock one thing.
+- Actors
+  - Erlang, Scala
+  - You send messages instead of functions.
+  - Actors are _closed_ (Rich Hickey's term) because they need to
+    recognize the message.
+  - Requires a second message to inform of internal state.
+  - Works well for Raft.
+  - Couldn't code be the payload of the message?
+- Agents
+  - Clojure
+  - A function sent to an agent is performed asynchronously.
+  - Can observe at any moment.
+  - This is run in a thread-pool.
+  - As ever, Clojure is stupid and won't realize if the function
+    blocks, which stops any work on the thread-pool. Christ.
+- Pure Async
+  - Node, C
+  - All I/O is async.
+  - You have to pass callbacks _everywhere_. Infects everything.
+- Promises/Task/Future
+  - JS, Java, C#
+  - Two typical choices: pass callbacks in, or return an object
+    representing future result.
+  - Promise standardizes interface, which is nice.
+  - Provides a standard for error handling.
+  - Sync fns can call async if they don't need the actual result,
+    just the promise. Otherwise async infects everywhere.
+- async/await
+  - C#
+  - Extends promises with syntax in the language.
+  - Pauses your fn, then resumes it when the async call is done.
+  - Allows you to write async code in a sync looking style.
+  - But creates a 2nd class of functions you call in a weird way.
+  - BTW: the `async` keyword is needed only because previously
+    `await` was a valid keyword.
+- Channels
+  - Go.
+  - Like a promise, but can resolve multiple times.
+  - Like async in that waiting on a channel looks sync, but
+    deschedules your thread.
 
 So the notion of a thread is valuable: the async style, even when
-band-aided by promises or async/await, is kind of a pain. The idea of
-a thread doing some work sequentially in a normal way, but without
+band-aided by promises or async/await, is kind of a pain. The idea of a
+thread doing some work sequentially in a normal way, but without
 stopping someone else from doing their work, seems totally reasonable.
 
 Mutable shared state was never okay with threads. Channels are not
@@ -187,3 +185,21 @@ light thread of course... I guess any code that wanted to block would
 block all of Ruby? But isn't the answer to write wrappers to pollable
 C code? Also, Go is going to have the same problem. Even Node can have
 that problem if the C API writer is stupid.
+
+## C10k
+
+- In 2026-04-XX, I am talking with ChatGPT about the old c10k problem:
+  handling 10k simultaneous connections.
+- It again says that you have 10k stacks each of which needs memory.
+  That's GBs of memory just for the stacks. Too much memory pressure!
+- It says that even if most threads are sleeping, it's a lot of pressure
+  on the scheduler. Thread switching disturbs caches, TLB, branch
+  predictor state. GC can slow down because lots of stacks to search
+  from.
+- There's not a lot of _benefit_ from just spinning up threads, because
+  they're all waiting on IO basically.
+- Basically, threads are not really optimized for this use case. The
+  weight of threads is heavier because it is expected that the threads
+  are _mostly doing something_.
+- So approaches like doing async io, or having a green thread
+  implementation built into the runtime still helps.
