@@ -12,6 +12,9 @@ equal to the size of the symbol space. That allows the quickest lookup
 of the successor; you index into the array by the successor token, and
 then go to that node (or identify it as NULL).
 
+Note that you need a boolean like `is_end` because a key can both be
+present, AND be a prefix for a longer present key.
+
 Ideally, you want depth of the tree to be short. That suggests a large
 symbol space is an advantage. For multibyte values, you might use a byte
 as a symbol (branching factor of 256). This gives a very shallow tree,
@@ -134,6 +137,45 @@ discussion scope, though.
   - Only on insertion of a second key with tops bits matching, you'll
     create a new node to hold both values.
 
+## Ternary Search Tree
+
+Basic idea is going to be to (1) avoid excessive memory use by naive
+array backed implementation, (2) avoid slow iteration of children by
+replacing array implementation with LL.
+
+TST implementation will be:
+
+- A `char` for the present token.
+- `left` for a node that replaces present token with a lesser token.
+- `eq` for a node that _extends_ present value.
+- `right` for a node that replaces present token wiht a greater token.
+
+This is "ternary" because there are three "children", though left/right
+are not really children, but siblings.
+
+Insertion/search is relatively naive. Descend like a trie. To descend to
+next node on path, you may have to move left/right from the stored `eq`.
+I believe the idea is that if `eq` tends to be approximately the median
+value of the children, then you'll have approximately `O(k log C)`
+lookup, where `k` is the length of the string, and `C` is the size of
+the alphabet. So this is "better" than a LL representation of children
+only in the sense that you get to jump into the middle...
+
+I suppose a TST can be better than a BST if there is a lot of space
+savings via structure sharing of common prefixes. OTOH, you have a lot
+of pointer chasing sideways if branching factor is relatively high and
+there are a lot of extensions of current prefix. Then again, a BST has
+low branching factor so higher depth, which also means a lot of chasing
+downward...
+
+Doesn't feel like an amazing advantage over BST, which is also fairly
+good at prefix matches and iteration of completions. You do get to avoid
+repeated initial prefix comparisons (as with BST), because a subtree of
+TST _always_ represents completions of a prefix. And you maybe get
+savings from avoided repeated re-representation of initial prefixes.
+Probably storage efficiency of TST grows with density of strings. But
+honestly, TST may be a niche application...
+
 ## Radix Tree
 
 **TODO**: Finish reviewing me!
@@ -155,22 +197,6 @@ A radix tree can use less memory and involve less jumping.
   representing the letters that strings have in common.
 - This is sometimes also called a PATRICIA tree when the radix is 2,
   meaning that you compare by bit.
-
-## Ternary Search Tree
-
-**TODO**: Finish reviewing me!
-
-Another approach is a _ternary search tree_. Each vertex has `(symbol,
-child, next)`. The `child` extends the prefix, while `next` changes
-the last `symbol`.
-
-As discussed above, is just a way to space-efficiently store children
-in a regular prefix trie.
-
-Another common approach is a _ternary search tree_. Here, you have
-left and right to search for a different letter at this position, and
-middle path for extending the word. This stores fewer pointers when
-the extensions are sparse.
 
 ## Suffix Tree
 
