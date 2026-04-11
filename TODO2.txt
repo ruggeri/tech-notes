@@ -106,7 +106,6 @@ lock-free-algos.md
 lsh.md
 randomized-algos.md
 string-matching.md
-tries2.md
 
 Closest pair of points randomized algorithm.
 

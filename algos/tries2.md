@@ -207,37 +207,49 @@ word (one prefix extension, multiple suffixes).
 
 ## Suffix Tree
 
-**TODO**: Finish reviewing me!
+Suffix tree is used for fast substring matching. It's a trie; you'll use
+it as a key-value map mapping of every suffix to its start position in
+the target string. It is expected to use radix "compression" idea; allow
+a node to store multiple characters if it is the unique continuation.
+Otherwise, it's an orthogonal decision as to how to store children.
 
-Suffix tree for a string `S` is a compressed trie all
-suffixes. Suffixes end in `$` so all values stored at leaf nodes.
+In Wikipedia's example, they append `$` to every suffix. In that case,
+start position values are only stored in leaf nodes, which is probably
+cleanest.
 
-Allows rapidly finding whether a substring. That's because any
-substring is the _prefix_ of a suffix. Which means that we can just
-travel down the tree with our query.
+Allows rapidly finding whether a substring. That's because any substring
+is the _prefix_ of a suffix. Which means that we can just travel down
+the tree with our query. If our query is a substring but not a suffix,
+then we might stop in the interior trie (in which case all descendants
+are matches). Whenever we encounter compression (multiple characters
+stored at a node), we only have to match up to the characters we have
+left of the query.
 
-Likewise easy to see if a string is a suffix, of course.
+Likewise easy to see if a string is a suffix, of course. In that case,
+we insist that we match all the way to the terminal.
 
-Can count how many times a string occurs by counting leaf nodes.
+There are a number of algorithms for constructing the trie efficiently.
+Ukkonen's algorithm is one. They are surprisingly fast: linear time!
 
-Can find longest repeated substring by searching for deepest node that
-has two children.
+The construction algorithms tend to store/use an additional field per
+node: the "suffix link". This points to the node which represents the
+suffix that started one character after this one started. That is, the
+node for `xyz$` points to the node for `yz$`.
 
-Suffix links: points to the node which represents the suffix that
-started one character after this one started. That is, the node for
-`xyz$` points to the node for `yz$`.
+You can use these links after construction. For instance, to find the
+longest common substring of `s1` in the suffix tree for `s2`: you start
+matching at start of `s1`. You eventually exhaust, which tells you the
+longest _prefix_ of `s1` that is also in `s2`. Next, you follow the
+suffix link to move forward a starting letter in your query (the prefix
+of `s1`). As you move through, keep track of the longest match. This is
+linear in length of `s1`.
 
-Finding the longest common substring of `s1` in the suffix tree for
-`s2`. You start matching at start of `s1`. You eventually exhaust. But
-then you follow the suffix link to move forward a starting letter in
-`s1`.
-
-You want your suffix tree to be a compressed trie. Ukkonen's algorithm
-is used to do this. Memory usage appears to be linear.
+This kind of stuff is useful in bioinformatics.
 
 ## Use Cases for Tries
 
-**TODO**: Finish reviewing me!
+**TODO**: This part is a bit weak, and not very well reviewed. But I
+don't think I care more right now...
 
 Autocompletion, T9 autocomplete. Longest prefix is used by IP routing;
 how many bytes of the code do you have a match for?
@@ -258,14 +270,6 @@ a BST too.
 
 We know that a suffix tree can be stored in length `O(n)`. And we know
 that suffix tree lets us very rapidly find partial matches.
-
-## TODO
-
-These are very old, I'm not sure I'm interested any more...
-
-https://en.wikipedia.org/wiki/Deterministic_acyclic_finite_state_automaton
-https://en.wikipedia.org/wiki/Hashed_array_tree
-https://en.wikipedia.org/wiki/HAT-trie
 
 ## Resources
 
