@@ -10,8 +10,8 @@
   - Transformers
 - Computer Science
   - Bittorrent: really explain how it works?
-  - Error correcting codes
-  - Operational transforms
+  - Error correcting codes (parity, CRC, Reed Solomon)
+  - Operational transforms and CRDTs
 - Thermodynamics, Refrigeration
   - Carnot efficiency
   - Refrigeration cycle
@@ -34,10 +34,9 @@
 - Finish notes on curl operator.
 - Microwave oven; MRI.
 - Explore weaknesses of bitcoin?
-- Review operational transforms and CRDTs
 - Quaternions.
-- Reed Solomon error correcting codes.
 - Traveling Salesperson
+- Axiom of Choice: I wrote a lot of notes in Notion I think?
 
 ## TO REVIEW
 
@@ -107,8 +106,6 @@ lock-free-algos.md
 lsh.md
 randomized-algos.md
 string-matching.md
-trees.md
-tries.md
 tries2.md
 
 Closest pair of points randomized algorithm.
