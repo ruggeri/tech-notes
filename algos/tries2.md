@@ -176,27 +176,34 @@ savings from avoided repeated re-representation of initial prefixes.
 Probably storage efficiency of TST grows with density of strings. But
 honestly, TST may be a niche application...
 
-## Radix Tree
+## Radix Tree, Compressed Trie, PATRICIA Trie
 
-**TODO**: Finish reviewing me!
+**Radix tries** (also called **compressed tries**) allow a parent-child
+edge to have multiple characters. In a naive implementation, a node adds
+a _string_ field like `key`. Children can still be indexed by next char.
+The choice of array node storage, linked list, or the AMT concept is all
+relatively orthogonal to the radix trie idea.
 
-They appear to be "compressed" tries in the sense that each edge can
-have multiple characters. If a node has only one child, you can do a
-compression. They are sometimes called _compressed tries_ or _compact
-prefix trees_.
+When there are "gaps" in the trie - where there is only a single
+extension - you can save levels of nodes. This saves the memory to store
+those intermediate nodes, but every node will have to be a bit larger.
+You save some pointer chasing about memory, though there might be
+indirection for storage of the string. You can probably be careful with
+unions to avoid the worst of this.
 
-A binary radix tree says that you can have only up to two
-children. But a 26-way tree would allow to have many out branches,
-reducing depth. The number of ways out is called the _radix_.
+When searching/inserting, you need a little extra logic to check whether
+the next node actually matches not just the next character, but maybe
+even more characters.
 
-I think a bitwise radix tree is called a _Patricia_ tree.
+In this setting we call the size of the alphabet the _radix_. A _binary_
+radix trie has at most two children, of course; it is basically just a
+bitwise trie, with this multiple-character technique.
 
-A radix tree can use less memory and involve less jumping.
+A binary radix trie is called a PATRICIA trie (it's an initialization).
 
-- This is a space-compressed version where the edges are strings,
-  representing the letters that strings have in common.
-- This is sometimes also called a PATRICIA tree when the radix is 2,
-  meaning that you compare by bit.
+You could see this idea being useful for internal autocomplete:
+completing not the rest of the word, but maybe just the next part of the
+word (one prefix extension, multiple suffixes).
 
 ## Suffix Tree
 
