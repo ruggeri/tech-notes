@@ -1,22 +1,31 @@
 2024-04-08: Looking for future research interests...
 2026-03-31: updated, especially with thought that I can use LLMs to extend my notes.
 
+- Math
+  - Make sure eigenvector, SVD notes are complete/accurate.
+  - Some basic ordinary differential equation stuff?
 - AI/ML
   - Review all AI notes to find more stuff to re-review?
   - Especially using for self-learning.
   - Alpha Go, Alpha Zero.
-  - Try to get a reinforcement learner working better?
+  - Try to get a reinforcement learner working better? Get my Deep Q Network to work.
   - Kernel trick
-  - Transformers
+  - Transformer models. Attention models.
+  - Make sure monte carlo tree search writeup is tight.
+  - I think Neural Turing Machine didn't go anywhere? Do I have a writeup?
 - Computer Science
-  - Bittorrent: really explain how it works?
   - Error correcting codes (parity, CRC, Reed Solomon)
   - Operational transforms and CRDTs
+  - Reverse image search
+  - Anything else important in text search/information retrieval?
+  - Review crypto stuff? Maybe review cryptocurrency weaknesses?
+  - Elliptical Curves? Lattice based crypto?
+  - Zero knowledge proofs, interactive proofs, zcash.
 - Thermodynamics, Refrigeration
   - Carnot efficiency
   - Refrigeration cycle
   - Role of cooling towers in maintaining pressure or something?
-  - Gibbs, entropy, et cetera.
+  - Gibbs, entropy, et cetera. What drives endothermic/exothermic reactions.
   - Turbines.
 - Electronics, Electromagnetism
   - Induction motors
@@ -27,6 +36,7 @@
   - More basic electronics.
   - How amplifiers work 2.0.
   - Reactance
+  - What is cause of transparency of materials.
 - Bernoulli's principle (important for carborateurs)
 - OTHER
 - Maybe explore lower-level CUDA programming or GPU architecture.
@@ -37,6 +47,14 @@
 - Quaternions.
 - Traveling Salesperson
 - Axiom of Choice: I wrote a lot of notes in Notion I think?
+- Optics/lens making
+- Chaos theory needs to be better described?
+- AM vs FM transmission: do I have it figured out?
+- Amplifiers.
+- Wavelet transform. Laplace transform.
+- Make sure Arrow impossibility theorem result is tightly explained? Gibbard–Satterthwaite theorem.
+- What was that Freeman Dyson paper on Prisoner's dilemma?
+- Distributed reputation systems?
 
 ## TO REVIEW
 
@@ -90,7 +108,6 @@ databases
 distributed-systems
 math
 randos
-TODO.txt
 
 algos:
 art-of-multiprocessor.md
@@ -103,7 +120,6 @@ graphs.md
 hash-map-tricks.md
 heaps.md
 lock-free-algos.md
-lsh.md
 randomized-algos.md
 string-matching.md
 
@@ -119,3 +135,4 @@ Heaps and priority queues
 
 truffle ruby? invokedynamic?
 I have no notes on web assembly/wasm?
+What is a universal hash?
