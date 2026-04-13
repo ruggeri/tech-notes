@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import sys
+sys.path.append("/Users/ruggeri/repos/ruggeri/tech-notes/lib")
+
+from make_latex import run
+from pathlib import Path
+
+SOURCE_PATHS = [Path(f) for f in [
+  "./bloom-filter.tex",
+]]
+
+run(SOURCE_PATHS)
