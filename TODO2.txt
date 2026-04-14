@@ -44,7 +44,7 @@
 - Finish notes on curl operator.
 - Microwave oven; MRI.
 - Explore weaknesses of bitcoin?
-- Quaternions.
+- Quaternions. Euler rotations.
 - Traveling Salesperson
 - Axiom of Choice: I wrote a lot of notes in Notion I think?
 - Optics/lens making
@@ -111,14 +111,10 @@ randos
 
 algos:
 art-of-multiprocessor.md
-bloom-filter.md
-bloom-filter2.md
 concurrent-hash-map.md
-dynamic-programming.md
 esoteric-data-structures.md
 graphs.md
 hash-map-tricks.md
-heaps.md
 lock-free-algos.md
 randomized-algos.md
 string-matching.md
@@ -131,8 +127,8 @@ From my old algorithms curriculum:
 Hash table implementation
 BST traversals.
 AVL and Red-Black implementations
-Heaps and priority queues
 
 truffle ruby? invokedynamic?
 I have no notes on web assembly/wasm?
 What is a universal hash?
+cuckoo hashing
