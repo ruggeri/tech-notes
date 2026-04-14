@@ -162,6 +162,16 @@ https://en.wikipedia.org/wiki/File:Gearbox_4gears.gif
   - It's still fundamentally an automatic transmission.
 - Automated manual transmission is generally built around a typical
   transmission system, but controls shifts from a computer.
+  - We drove a Suzuki Celerio with an "AGS", automated gear shift. It's
+    basically a manual with computer controlled clutch and gear shift.
+  - It was terrible, especially at slow speed. This is a common review
+    of automated manuals. Basically only used on shitboxes in Europe.
+  - It's surprising this kind of transmission is so bad. One reason is
+    that people drive it like an automatic, even though it's really a
+    manual. You would drive _differently_ if you knew you were driving a
+    manual. This is especially true when creeping.
+  - Since this is only intended for garbage vehicles, there was no
+    incentive to make the system very good.
 - A continuous variable transmission is quite different. It's used by, I
   think scooters. Basically, there are no gears, but rather belts
   engaging with cones. The correct ratio can be continuously adjusted by
