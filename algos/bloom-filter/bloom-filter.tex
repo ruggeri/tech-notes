@@ -10,4 +10,251 @@
 \title{Bloom Filters}
 \maketitle
 
+\newcommand{\bigO}[0]{\mathcal{O}}
+
+\section{Setup}
+
+\begin{enumerate}
+
+\item The goal is to do a fast, space-efficient set membership. Our
+scenario is that we don't otherwise have enough main memory to store all
+the items.
+
+\item To save memory, you are willing to suffer some \emph{false
+positives}: \texttt{set.contains?(key)} is allowed to return
+\texttt{true} even if \texttt{key} was never stored in \texttt{set}.
+However, you insist on no \emph{false negatives}:
+\texttt{set.contains?(key)} must return \texttt{true} if \texttt{key}
+was ever stored in \texttt{set}.
+
+\item This setup especially makes sense if there is some further, but
+more costly, processing that can eliminate the false positives. For
+instance, if we want to check if a key is an database, we might first
+check a probabilistic datastructure, and only on a match (maybe true
+positive, maybe false positive) do we load a block of the database from
+disk.
+
+\item Another example comes from Akamai. They don't cache anything until
+it is requested at least twice. So when a key is first queried, they put
+it in a bloom filter. When it is queried a second time, only then do
+they put it into their cache.
+
+\end{enumerate}
+
+\section{Hash Set}
+
+\begin{enumerate}
+
+\item A simple first approach is to use a hash set. You hash the key to
+$k$ bits, and store the key in the corresponding bucket. With this
+approach, you have neither any false negatives (which would not be
+tolerated), nor do you have any false positives (because you always
+check the key). However, you must store every key! That can take a lot
+of memory.
+
+\item You may reduce memory by storing only the hash for a key, but not
+the key itself. This does not introduce false negatives, but it creates
+the possibility for a false positive: when the hash of the query
+collides with a hash of a previously stored (but different) key.
+
+\item The false positive rate depends on the number of bits used for the
+hash, and the number of items stored in the hash set. Let's call the
+number of bits of hash $B$, and the number of hash values $m = 2^B$. The
+probability that a pair of distinct keys will suffer a hash collision is
+$\frac{1}{m} = 2^{-B}$.
+
+\item What is the probability that a next key will hash collide with
+\emph{any} of $n$ previously stored hashes? The probability can be
+\emph{no worse} than $\epsilon \approx \frac{n}{m} = n 2^{-B}$. This is
+a worst-case estimate, because it presumes that there were \emph{no}
+hash collisions amongst the prior $n$ entries. To achieve a false
+positive rate of $\epsilon$, we need no more than  $B \approx
+\log_2{n/\epsilon}$ bits of hash per key. Total storage for $n$ items is
+thus $\bigO(n \log n)$.
+
+\item In fact, a nice fact about the hash-set approach is that we could
+choose $B$ very conservatively: maybe $B = \log_2 N / \epsilon$, where
+$N$ is the \emph{most} number of keys we could consider storing. Then
+our hash set storage is $\bigO(n \log_2 N / \epsilon)$. This is linear
+in the number of keys \emph{actually} stored, and logarithmic in the
+most keys we would ever want to store. This could be helpful if the hash
+set is online and is dynamically updated, and we don't know at the start
+how many hashes we will actually want to store.
+
+\item A downside to the hash set implementation is that it can have
+somewhat high overhead. We need to have a resizable array of buckets,
+which typically incurs some indirection/poor locality.
+
+\end{enumerate}
+
+\section{Bloom Filter Intuition}
+
+\begin{enumerate}
+
+\item How can we reduce the memory requirement for storing our hash set?
+Well, notice that we are storing hash values in the hash set. Each has
+takes $B \approx \log_2 n / \epsilon$ bits. But this hash value sort-of
+duplicates information already implicit in the \emph{location} of the
+hash value in the hash set. Maybe there is a way to eliminate this
+``duplication.''
+
+\item One idea is to avoid storing the low bits of the hash values,
+since this is already implicit in the bucket location. You can just
+store the top bits in the bucket. I believe this is more-or-less the
+idea behind \define{quotient filters}. I kind of came up with this
+myself. It should allow resizing. This works easiest bitwise if you
+always use $2^k$ buckets, for some $k$ that can change.
+
+\item Consider an alternative in which, at each bucket, we only store
+one-bit: whether an item has been previously stored in the bucket. We
+will pop a bit at index $i$ if an item with hash $i$ is stored. Because
+we won't store hash values explicitly, we need a bit-array of $2^B$
+positions. Of course, this uses \emph{even more} memory than our hash
+set.
+
+\item Still, this is already an example of a Bloom Filter. A Bloom
+Filter will have two parameters: $m$, the number of bits in the
+bit-array, and $k$, the number of hashes used to probe the bit-array. In
+this example, we have $m = 2^B$, and $k=1$. We will stop worrying about
+$B$ and focus on $m$, because we're just going to use a hash value to
+uniformly select one of $m$ buckets to query or pop.
+
+\item We will now explore whether we can tune the $m, k$ parameters to
+get the same target false-positive rate but with less memory. Imagine
+doubling $k$ from 1 to 2. Now, when adding to the bloom filter, you
+calculate two hashes and you pop two bits. To query, you check two bits.
+
+\item Let's consider what happens when you double the number of hash
+functions. What happens to the probability of a false positive?
+
+\begin{IEEEeqnarray*}{rClrCl}
+  p_\text{bit}
+\eqcol
+  \frac{kn}{m}
+&\quad
+  p'_\text{bit}
+\eqcol
+  \frac{2kn}{m}
+\\
+  p_\text{k-query}
+\eqcol
+  \left( \frac{kn}{m} \right)^k
+&\quad
+  p'_\text{k-query}
+\eqcol
+  \left( \frac{2kn}{m} \right)^k
+\end{IEEEeqnarray*}
+
+\noindent
+Then, because we probe double the positions:
+
+\begin{nedqn}
+  p'_\text{2k-query}
+\eqcol
+  \left( \frac{2kn}{m} \right)^{2k}
+\\
+\eqcol
+  2^{2k}
+  p_\text{bit}^{2k}
+\end{nedqn}
+
+\noindent
+This suggests that you should continue to increase $k$ while
+$p_\text{bit}$ is less than 50\%. So we believe that $k = \frac{m}{2n}$
+is optimal.
+
+\item In that case, what size $m$ should we pick to achieve a target
+false positive rate of $\epsilon$? We want:
+
+\begin{nedqn}
+  p_\text{$k$-query}
+\eqcol
+  \left( \frac{kn}{m} \right)^k
+= \epsilon
+\\
+  0.5 ^ {\frac{m}{2n}}
+\eqcol
+  \epsilon
+\\
+  \frac{m}{2n} \log_2{0.5}
+\eqcol
+  \log_2 \epsilon
+\\
+  m
+\eqcol
+  -2n \log_2 \epsilon
+\intertext{thus we also know}
+  k
+\eqcol
+  -\log_2 \epsilon
+\end{nedqn}
+
+\item This is \emph{basically} correct. However, it is too conservative
+to believe that $kn/m$ bits will be popped on entry of $n$ items.
+Probably there is \emph{some} overlap, which means that false-positive
+rate of a query after $n$ insertions is actually lower than we plugged
+in. When we correct for this, we get:
+
+\begin{nedqn}
+  m
+\eqcol
+  -n \frac{\ln \epsilon}{\ln(2)^2}
+\\
+  m
+&\approx&
+  -1.44 n \log_2 \epsilon
+\intertext{and}
+  k
+\eqcol
+  -\frac{\ln \epsilon}{\ln(2)}
+\\
+  k
+\eqcol
+  -\log_2 \epsilon
+\end{nedqn}
+
+\end{enumerate}
+
+\section{Final Notes}
+
+\begin{enumerate}
+
+\item The false positive rate will be start at zero and grow (degrade)
+as you add items. You can keep adding items until half the bits are
+popped without pushing beyond the goal false positive rate. Indeed, you
+can keep adding items even after reaching half of the bits popped. What
+will happen is that the false positive rate will continue to degrade,
+but of course the bloom filter will otherwise still function.
+
+\item You can do union easily with Bloom filters. You can also do
+intersection, with some error (since the same bit can be set in both
+filters as a result of inserting different elements).
+
+\item There is a simple formula to calculate the expected count in a
+bloom filter. The naive version is $n = \frac{\text{num bits
+popped}}{k}$, but this is too small, because of possibility of prior
+collisions in the bit array.
+
+\item There are attempts to allow you to delete, by keeping a count at
+each array position. However, this is not easy and I think all attempts
+to solve this have tradeoffs.
+
+\end{enumerate}
+
 \end{document}
+
+% ## Cuckoo Filter
+
+% Conceptually: add a fingerprint of the key into a hash set. This will
+% allow probabilistic removal, btw. Chaining is done via cuckoo hashing,
+% so lookup is O(1). One advantage is that you will only look in at most
+% 2 locations for the fingerprint, whereas you need to look in `k`
+% locations for a bloom filter.
+
+% In a Cuckoo filter, it is common to have a bucket store multiple
+% fingerprints.
+
+% Sources:
+
+% * https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+% * https://news.ycombinator.com/item?id=13056726
