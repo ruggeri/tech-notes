@@ -51,7 +51,61 @@ bit to mark a node deleted. Then you will avoid the need to rescan
 unless `pred` really _was_ deleted. In fact, I think they _do_ do this,
 and call the class `LazyList`.
 
+## Queues and Stacks
+
+p223-p241 and p245-p255
+
+They have a few chapters on queues and stacks. Maybe I didn't take notes
+because I cover this in my `lock-free-algos.md` document?
+
 ## Hash Maps
+
+p299-p327
+
+**Hash Maps With Locks**
+
+They implement a version with a coarse, whole-map lock. You take a lock
+on the entire hash set in order to add or query it.
+
+They show a finer-grained version where they _stripe_ the locks. Each
+lock only manages a fraction of the table. However, resize still
+requires taking _all_ the locks: it is a stop-the-world operation.
+
+They next show a version where the number of locks are allowed to grow
+on resize. Basically, someone is going to do a CAS to claim the job of
+resizing the hash map. When they do, they are going to stop everyone
+accessing it. They will wait for everyone using locks currently to
+finish. Then they will resize the buckets, rehash everything, and
+allocate new locks.
+
+Users of the hash map will be careful to check if another thread has
+claimed resizing of the lock array. They'll then claim the bucket lock
+they need. They then check two things: (1) that the locks array has not
+been concurrently reallocated (else we've locked access to a bucket that
+is no longer in use), and (2) that a resize operation is not underway.
+
+I believe the second CAS operation in `acquire` is necessary to create a
+"happens-before" relationship so that checking that the locks array did
+not get reassigned will actually see concurrent modification.
+
+It feels like we might be able to eliminate the check for (2) if we set
+the resized locks array at the beginning of the resize (immediately
+after using CAS to claim the resize). Maybe that really would work, but
+we'd need another CAS on the atomic reference to make sure other threads
+_see_ that we set the locks array. That's slower. And ultimately, it's
+probably cleaner to handle the two cases of (1) a resize completed or
+(2) a resize is in progress, rather than "smush" both those situations
+into one variable.
+
+`acquire` checks whether _it_ is the thread that has claimed the flag.
+This is possibly unnecessary, but allows re-entrancy from code that has
+claimed the flag, and is probably just safer.
+
+Clearly, even this simple code is still fairly subtle!
+
+**Lock Free Hash Sets**
+
+**TODO**: start review from p309
 
 Talks about coarse and fine-grained locks on buckets. Talks about
 split-ordered list.
@@ -87,3 +141,18 @@ one is to use a skip list! The only trouble is removing the min. That
 takes `O(1)` time to peek at. You can easily mark it as removed in
 `O(1)` time. Then you waste `O(log n)` time updating the heads of the
 lanes.
+
+## Source
+
+- These notes are from The Art of Multiprocessor Programming by Herlihy
+  and Shavit.
+- I liked this book a lot. However, these notes taken at the time were
+  probably too high level and not detailed enough. These notes seem to
+  leave out a lot of interesting material. Possibly material was robbed
+  from here and put in a variety of other concurrency related writeups,
+  though.
+- I left out material on stacks and queues; I believe my notes on lock
+  free data structures might cover a lot of what the book covered?
+- I believe my notes on mutexes cover some of what this book covers? But
+  I think they cover more about how atomic operations are implemented in
+  hardware? Maybe that is covered in my cache coherency notes...
