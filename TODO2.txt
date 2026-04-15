@@ -110,12 +110,12 @@ math
 randos
 
 algos:
-art-of-multiprocessor.md
+art-of-multiprocessor.md: specifically lock free hash map starting p309
 concurrent-hash-map.md
 esoteric-data-structures.md
 graphs.md
 hash-map-tricks.md
-lock-free-algos.md
+lock-free-algos.md (maybe make sure covers queue/stack stuff from Herlihy?)
 randomized-algos.md
 string-matching.md
 
@@ -129,6 +129,14 @@ BST traversals.
 AVL and Red-Black implementations
 
 truffle ruby? invokedynamic?
-I have no notes on web assembly/wasm?
+I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 What is a universal hash?
 cuckoo hashing
+open vs closed hashing
+
+Are mutexes built on atomic operations? What is the cost of atomic ops
+vs mutexes? Maybe I should compare Lamport bakery and other mutex
+implementations? Also, I don't think any of the algorithms will work
+unless you have some operations that force memory ordering. Else threads
+cannot see work from other threads! Add to my mutex writeup. Or maybe
+cache coherency?
