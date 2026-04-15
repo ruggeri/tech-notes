@@ -17,13 +17,39 @@ sleep the thread).
 
 Also had a chapter on condition variables.
 
-## Locking and LL
+## Locking for Linked Lists
 
-You can do add/remove from a LL with "hand-over-hand" locking. Showed
-an optimistic version that doesn't do hand-over-hand, speeding through
-to the point of the add/remove, then locking these, then speeding
-through, seeing if it missed any removals. If not, then you can insert
-here.
+p200-p213
+
+First shows a list with a lock in the list class. You lock the entire
+list when you want to add or remove from the sorted list. He calls this
+"coarse grain locking."
+
+It then shows how to do add/remove to a LL with "hand-over-hand"
+locking. He calls this "fine grain locking." To insert between two
+nodes, you first get a lock on the predecessor, and then on the
+successor. When you have those two locks, you can insert between them.
+BTW, you only need a lock on the successor if you plan to support
+deletion.
+
+To delete a node, you need to have a lock on first the predecessor and
+then the node to remove. You must lock the predecessor because you plan
+to update it. But you also must lock the current node, because otherwise
+someone could update the node concurrently (by deletion of
+`current->next`).
+
+Showed an optimistic version that doesn't do hand-over-hand, speeding
+through to the point of the add/remove (between `pred` and `curr`). Only
+then does he lock `pred` then `curr`. Because `pred` could have been
+removed concurrently, or an item placed between, he rescans from `head`,
+looking for `pred`. If it is never found, it must be deleted, and the
+insert is retried. If `pred->next` has changed, we should also retry
+(anyway, that's the simplest logic)e.
+
+One bother with the optimistic version: I feel like you should keep a
+bit to mark a node deleted. Then you will avoid the need to rescan
+unless `pred` really _was_ deleted. In fact, I think they _do_ do this,
+and call the class `LazyList`.
 
 ## Hash Maps
 
