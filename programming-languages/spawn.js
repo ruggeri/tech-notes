@@ -205,6 +205,9 @@ function runVersionThree () {
 
 runVersionThree();
 
+// This work (from 2016 or maybe even earlier I think?) all predates
+// async/await. Those was added in ECMAScript 8 published 2017.
+
 // Version 4: An Alternative Approach With Go
 //
 // Look: JS doesn't have threads which means every function is one of

@@ -128,7 +128,7 @@ Hash table implementation
 BST traversals.
 AVL and Red-Black implementations
 
-truffle ruby? invokedynamic?
+truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 What is a universal hash?
 cuckoo hashing

@@ -1,8 +1,10 @@
+**I believe this stuff may be better covered in my concurrency document...**
+
 Everyone says that native threads don't scale because memory. Stack
 size is typically 2MB. So thousands of threads means GBs of memory for
 the stacks.
 
-But that is crazy, because VM. Uses 2MB of *address space*, but not
+But that is crazy, because VM. Uses 2MB of _address space_, but not
 2MB of physical memory. More like 4KB prolly. With 64bit system,
 address space is virtually unlimited.
 
@@ -25,7 +27,7 @@ https://stackoverflow.com/questions/9964899/why-are-os-threads-considered-expens
 
 Hgih quality resource! He says that thread switching on Linux is now
 super fast. He does indicate that Goroutines seem to be many orders
-less overhead. BUT he also notes that the amount of *actual* work done
+less overhead. BUT he also notes that the amount of _actual_ work done
 should be orders of magnitude more than the switching cost. His
 synthetic benchmark did basically nothing.
 
