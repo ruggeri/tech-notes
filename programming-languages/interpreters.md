@@ -3,19 +3,32 @@ C. These are MRI and CPython. MRI and CPython are both extremely
 popular.
 
 Both have versions written in Java. These are JRuby and Jython. JRuby is
-fairly popular, while Jython is not. The biggest downsides to JRuby are
-(1) startup speed (doesn't matter for servers) and (2) compatibility
-with existing C modules. A major advantage to these implementations is
-the removal of the Global Interpreter Lock. You also get to use Java
-code from Ruby, if you want that.
+fairly popular, while Jython is not. Jython is stuck on Python 2.7 as of
+2026; it's basically dead. The biggest downsides to JRuby are (1)
+startup speed (doesn't matter for servers) and (2) compatibility with
+existing C modules. A major advantage to these implementations is the
+removal of the Global Interpreter Lock. You also get to use Java code
+from Ruby, if you want that.
 
 Both CPython and MRI use a GIL so that no two threads can be
 interpreting Ruby code simultaneously. This is (1) for simplicity and
-(2) because fine-grained locking can be slower for single-threaded code.
-Note that C module code can be multi-threaded. Also, you can still fork
-threads, and when they block on IO, other threads can be running. A lot
-of software is mostly IO bound, so the GIL doesn't detract from the
-performance of these applications.
+(2) because fine-grained locking adds overhead. When there is only a
+single core, fine locking doesn't buy you anything, but you do pay for
+it.
+
+In Python and Ruby, you can still fork threads despite the GIL. They are
+typically real native threads that can be scheduled by the operating
+system. They just won't simultaneously execute Ruby or Python code.
+However, Python/Ruby functions that block on IO will release the GIL.
+For workloads where IO dominates and single-core CPU utilization doesn't
+hit 100%, this is already basically ideal. Typical way to use more CPU
+in Python and Ruby is to spawn more processes, though this can use more
+memory. (This is covered in my concurrency document).
+
+Note that C module code can be multi-threaded under the hood. This can
+be good, but it also lets in concurrency problems if you use the C
+module the wrong way. Also, synchronous IO initiated from the C module
+might block the interpreter if the module forgets to release the GIL.
 
 JRuby is complete enough to run Rails. It is basically an interpreter
 written in Java, but it also has the ability to do both JIT and AOT
@@ -25,8 +38,8 @@ PyPy is a JIT interpreter for Python written in Python. It can compile
 Python code to native code. It has better performance than Python, and
 can run major projects like Django. PyPy still has a GIL, though.
 
-Rubinius seems much in the same vein, but while PyPy is very popular,
-Rubinius seems to be going nowhere.
+Rubinius seems much in the same vein as PyPy, but while PyPy is very
+popular, Rubinius seems to be going nowhere.
 
 Cython is a compiled language. You write Python, which is translated to
 C, and can now be loaded by Python as a C module. In particular, you
@@ -39,3 +52,5 @@ Python.
 
 IronPython runs on the CLI. It primarily finds use as a way to write
 scripts for a CLI framework.
+
+**TODO**: TruffleRuby and GraalPy
