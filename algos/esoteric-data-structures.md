@@ -4,7 +4,7 @@ A finger tree is a functional data structure: it is a twist on a 2-3
 tree (a tree where nodes have branching factor of 2 or 3, and all
 values are in the last level).
 
-The idea is you keep *fingers* to the front and back; fingers are
+The idea is you keep _fingers_ to the front and back; fingers are
 basically pointers to the interior of the tree so you can have fast
 access.
 
@@ -22,22 +22,40 @@ A linked list with several "express lanes". If the express lanes are
 each twice as fast as the previous one, then lookup is `O(log(n))` in
 a sorted list.
 
-How to insert/remove? If you want to keep everything balanced, you
-have to adjust all the lanes.
+How to insert/remove? If you want to keep everything perfectly balanced,
+you would have to adjust all the lanes.
 
-Randomize the structure. Flip a coin to be in the 2x lane. If so, then
-flip a coin if you should be in the 4x lane. Etc. You can insert into
-these lanes in `O(log(n))` time.
+Let's do insert: search for where key belongs. Then, decide the height:
+100% at height zero, 50% at height two, 25% at height three... Keep
+flipping coin to determine the height. Splice the key into each of the
+levels it belongs to.
 
-Likewise, you can create an indexable version if you store the
-"widths" of each node. On insert/delete, it takes `O(log(n))` time to
-find the previous nodes in each lane, updating the widths
-appropriately.
+This takes `O(log(n))` time. If you exceed `2**num_levels` items, you'll
+have to build a new level from the top one (promoting half the entries).
+Even that takes only `O(log(n))` time.
 
-Skip lists compete with self-balancing BSTs. They have a potential
-advantage in distributed computing because they do not require global
-locking; they can likely even be used in a lockfree way. But they have
-poor data locality, which B-Trees addressed.
+Now the skip list isn't perfect, but it should retain on average
+`O(log(n))` lookup.
+
+Deletion is also pretty simple: just delete a key at each level it
+appears in. Deletes should not break expected `O(log(n))` performance.
+
+There is never any active rebalancing.
+
+You can even create an indexable version if you store the "widths" of
+each node. On insert/delete, it takes `O(log(n))` time to find the
+previous nodes in each lane, updating the widths appropriately.
+
+Skip lists compete with self-balancing BSTs. The skip list time bounds
+are in expectation, not worst-case; that's usually fine. The bad thing
+for skip lists is even more pointer overhead than for a BST.
+
+But because skip lists don't need "repair", they tend to require a lot
+less locking, which makes concurrent edits easier to do. BSTs can handle
+concurrent edits, but it's a good deal trickier.
+
+You can even update skip lists in a lock-free way, presumably using
+similar lock-free tricks that you would use on Linked Lists.
 
 ## Splay Tree
 
@@ -45,17 +63,17 @@ The idea here is that each time you access a node, via tree-rotations,
 you bring it to the top. Ammortized, this gives `O(log n)` access
 time; basically, frequently used stuff is at the top and fast to
 access, and infrequently used may be farther. This is accomplished
-*without* keeping any depth information.
+_without_ keeping any depth information.
 
 The basic idea is to replace AVL with something which doesn't keep
 track of that level of information.
 
-A downside is that each *access* requires `O(log n)` tree
+A downside is that each _access_ requires `O(log n)` tree
 rotations. That can really hurt with paged memory, and is even worse
 than AVL, which doesn't modify a tree when reading. This can hurt in
 threaded environments.
 
-Also, for a series of *non-random* accesses, splay trees can perform
+Also, for a series of _non-random_ accesses, splay trees can perform
 better than other trees, since frequently used stuff is nearer to the
 top.
 
@@ -83,7 +101,7 @@ you update the priority and heapify up. This moves more frequently
 accessed stuff up the tree. (My own thought: You could probably even
 do some time decaying to make this more sensitive to recent use!).
 
-Versus a splay tree: has *expected* (not ammortized) logarithmic
+Versus a splay tree: has _expected_ (not ammortized) logarithmic
 performance, but does fewer rotations. I think the rest of the
 tradeoffs to an AVL still apply: modifies structure on reads, has less
 bookkeeping, performs better given non-random access.
@@ -128,7 +146,7 @@ and since each cluster is of size `N**(1/2**i)`, there are only
 But consider finding the minimum. We need to do a search in the
 summary proto-vEB, just to find the right cluster that we then recurse
 into. What's happening here is that even though our problem is going
-down by a sqrt, we are also *doubling* our problems each time! We
+down by a sqrt, we are also _doubling_ our problems each time! We
 can solve this:
 
 ```
@@ -143,7 +161,7 @@ need to stop creating two new problems each time!
 **Solution**
 
 To prevent the double recursion, we store a `min` attribute in a
-node. An important note is that we *will not* store the min in any
+node. An important note is that we _will not_ store the min in any
 child. This is very important.
 
 Peeking the min is `O(1)` obviously. Let's try to delete the min. The
@@ -157,7 +175,7 @@ single recursion and all is well.
 
 In the case that this is the last element in the child, note that
 we'll see this in the child's summary table in `O(1)`. We must update
-*our* summary table. This is a matter of a delete in the summary
+_our_ summary table. This is a matter of a delete in the summary
 table. That's a single recursion.
 
 BAM! Drop the mic.
@@ -168,9 +186,9 @@ too. But I'm lazy and won't do that right now.
 
 ## Other
 
-* Unrolled LL.
-* CDR Coding
-* Gap Buffer
-* Hashed Array Tree
-* Judy Array
-* Doubly Ended Priority Queue
+- Unrolled LL.
+- CDR Coding
+- Gap Buffer
+- Hashed Array Tree
+- Judy Array
+- Doubly Ended Priority Queue

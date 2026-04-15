@@ -13,8 +13,8 @@ risk of sacrificing liveness: you don't want your data structure to
 get wedged.
 
 Nowadays, with parallel execution, the term has expanded to include
-what used to be separately denoted *shared data structures*. These are
-ones which are also safe to use in *parallel* code, where multiple
+what used to be separately denoted _shared data structures_. These are
+ones which are also safe to use in _parallel_ code, where multiple
 threads might be running.
 
 To acheive this, you might use locks, which may limit
@@ -23,28 +23,28 @@ algorithms.
 
 ## Disadvantages of Locks
 
-* Contention: when someone has the lock, other people can't do
+- Contention: when someone has the lock, other people can't do
   anything when that thread goes to sleep. That's kind of annoying,
   because the OS isn't necessarily going to know that threads can't
   make progress before switching.
-    * This is especially problematic if the thread dies without
-      releasing the lock, or if it enters an infinite loop.
-    * OTOH: those are actual bugs. But they could be real if client
-      code is executed while you have a lock.
-* Overhead: tends to be expensive to obtain locks relative to lock
+  - This is especially problematic if the thread dies without
+    releasing the lock, or if it enters an infinite loop.
+  - OTOH: those are actual bugs. But they could be real if client
+    code is executed while you have a lock.
+- Overhead: tends to be expensive to obtain locks relative to lock
   free test-and-set stuff. When contention is low, locking can be
   unnecessarily expensive.
-    * When contention is high, test-and-set can be wasteful.
-* Bugs: Difficult to prevent deadlock. Difficult to debug. Locks can
+  - When contention is high, test-and-set can be wasteful.
+- Bugs: Difficult to prevent deadlock. Difficult to debug. Locks can
   "compose" poorly; you may inadvertanly cause deadlocks.
-* Priority inversion: if a low-priority thread has a lock, it may stop
+- Priority inversion: if a low-priority thread has a lock, it may stop
   high-priority threds from running.
 
 Alternatives include:
 
-* Message passing for synchronization.
-* Software transactional memory.
-* Other custom lock-free, wait-free data-structures.
+- Message passing for synchronization.
+- Software transactional memory.
+- Other custom lock-free, wait-free data-structures.
 
 ## Lock Free
 
@@ -91,7 +91,7 @@ stack below illustrates this).
 ## Wait Free
 
 We've seen lock-free code can suffer from arbitrarily delays to a
-single thread. A stronger guarantee is *wait-free*. This guarantees
+single thread. A stronger guarantee is _wait-free_. This guarantees
 that every operation will succeed in a fixed number of steps: no
 operation can be arbitrarily delayed. This is possibly useful for
 "realtime" tasks; normally there is additional overhead for wait-free
@@ -120,7 +120,7 @@ confused.
 
 Basically, the equality check of the top can't ensure the stack wasn't
 modified. The problem here arrises because you can push and pop
-*nodes*. If you created a new node for every push, you'd be
+_nodes_. If you created a new node for every push, you'd be
 okay. Except when your memory allocator re-uses that memory... Thus
 you might keep an incrementing "version" number in the node, thus
 you're safe for re-use of a node. Note that the version number can
@@ -132,7 +132,7 @@ it is not wait-free, as the threads could keep successfully CASing the
 head, while the starved thread keeps failing over and over.
 
 Another problem: what about deletion of popped nodes? Specifically,
-let's focus on the *node*, not the value. I want to focus on the node
+let's focus on the _node_, not the value. I want to focus on the node
 so that we don't confuse ourselves with ownership semantics of values.
 
 We could try to delete the node after the CAS in the pop. But then
@@ -163,15 +163,15 @@ tail.
 
 The idea is this. Start with an empty node. When pushing, always add
 items after the node. This operation just modifies the tail. When
-shifting, remove the head node, *but return the next value*. If you
+shifting, remove the head node, _but return the next value_. If you
 want, you can delete the value in the next, thus restoring the
 invariant. This trick is from Michael and Scott.
 
 The reason the trick is needed is because otherwise, when shifting off
-the last item, you'd have to modify *both* the head and
+the last item, you'd have to modify _both_ the head and
 tail. Likewise, when adding to an empty queue, you'd have to modify
 both the head and the tail. This way, you only need one lock for
-each. TODO3: Would it be okay if you *did* need to acquire both locks?
+each. TODO3: Would it be okay if you _did_ need to acquire both locks?
 
 When someone tries to shift from an empty queue, you could raise an
 error, or (more likely) otherwise indicate failure. To have a blocking
@@ -182,7 +182,7 @@ something on.
 **Why do you need dummy?** Without the dummy, some operations require
 you modify both head and tail, meaning you need to take lock on both
 sides. I don't think deadlock can arise, since it shouldn't ever be
-the case that *both* sides want to take both locks. But you are
+the case that _both_ sides want to take both locks. But you are
 basically serializing access to the queue when the queue has ~1 item
 in it?
 
@@ -200,7 +200,7 @@ have a single producer/consumer on each side.
 You can do this in an array if your queue is of bounded size and the
 producer should just block when full. In that case, the `next` is
 always the next idx in the array (with wraparound). You can instead
-set a bit per idx for whether there *is* a successor item. In fact,
+set a bit per idx for whether there _is_ a successor item. In fact,
 you only need a single int to specify the idx of the last item.
 
 ## Lock Free Queue: Multiple threads on each side
@@ -227,26 +227,29 @@ Treiber stack.
 
 ## Lock Free Singly Linked List
 
-This is due to Harris. Want to have arbitrary insertion/deletion at
-any point. Insertion is easy, just a CAS on the previous element's
-next.
+This is due to Harris. Want to have arbitrary insertion/deletion at any
+point. Insertion between `n1` and `n2` is easy. You create `x =
+Node{val=val, next=n2}`. You then CAS on `n1->next`.
 
-Deletion is a little tricky. You could try to do a CAS on `prev->next`
-to your `next` (thus protecting against possibility that that node had
-someone insert afterward). But what if, concurrently, someone has
-modified your own `next` by either inserting after you, or deleting
-the next item? In that case you would lose the insert, or restore the
-deleted item.
+Supporting deletion is a little tricky. To delete `x`, you could try to
+do a CAS on `prev->next` to `x->next` (thus protecting against
+possibility that that prior node had someone insert afterward). But what
+if, concurrently, someone has modified `x->next` by either inserting
+after you, or deleting the next item? In that case you would lose the
+insert, or restore the deleted item.
 
-One solution is to do a CAS to *mark* your next pointer, which signals
-people not to add after you. Attempted `insert-after`s after a marked
-node should fail. Concurrent deletions after a marked node don't need
-to fail; though you should be careful when setting `prev->next` to
-maintain the marking. Your delete may be "lost", in that the link may
-not be removed, but at least it is properly marked and can be cleaned
-up later.
+One solution is to do a CAS to _mark_ `x->next`. You do this by popping
+a high-order bit reserved for marking. This steals a bit from the
+pointer, and must be masked out for dereferencing. Insert after logic
+should check the marker bit; if it is marked, you know this node is
+being deleted. You must retry from the beginning.
 
-To mark a pointer, we can just set a low order bit.
+After marking `x->next`, you may CAS on `prev->next`. If `x->next` has
+been updated to a new node (because of concurrent insertion after `prev`
+and before `x`), you can scan forward. However, if `x->next` has itself
+been marked, you give up on cleaning out this node. It's okay to leave
+it in the list. Future scans through the list should try to clean out
+nodes they encounter that are marked deleted.
 
 Harris uses this to implement a set; he keeps the keys in sorted order
 and just scrolls through again to the right position on every fail.
@@ -306,67 +309,67 @@ low.
 NB: you have to update a count on every insert. That is a point of
 possible contention. But note that the greatest majority of insert
 time is spent hashing; so contention on a simple increment shouldn't
-be very high, unless we have *many* processors.
+be very high, unless we have _many_ processors.
 
 Another alternative is a ctrie; which is basically a HAMT updated in a
 CAS manner. The one trick is to handle concurrent modifications to the
 same node without losing other updates. To do this, they add
 intermediary nodes between every pair of nodes.
 
-* Ctrie: http://infoscience.epfl.ch/record/166908/files/ctries-techreport.pdf
-    * From 2011; maybe more 
-* Ctrie: http://lampwww.epfl.ch/~prokopec/ctries-snapshot.pdf
-* Split-ordered list: http://cs.ucf.edu/~dcm/Teaching/COT4810-Spring2011/Literature/SplitOrderedLists.pdf
-    * From 2006
+- Ctrie: http://infoscience.epfl.ch/record/166908/files/ctries-techreport.pdf
+  - From 2011; maybe more
+- Ctrie: http://lampwww.epfl.ch/~prokopec/ctries-snapshot.pdf
+- Split-ordered list: http://cs.ucf.edu/~dcm/Teaching/COT4810-Spring2011/Literature/SplitOrderedLists.pdf
+  - From 2006
 
 I think that these hash maps should have good opportunity for
 scalability.
 
 ## More Notes
 
-* On modern machines, when writing a single word, another thread can't
+- On modern machines, when writing a single word, another thread can't
   see a partial update. Read/Writes of a single word are atomic.
-* TODO: Memory ordering can be a problem.
-* Futex is "fast userspace mutex". It uses some shared memory and
+- TODO: Memory ordering can be a problem.
+- Futex is "fast userspace mutex". It uses some shared memory and
   atomic operations so that taking the uncontended lock happens in
   userspace. If that doesn't work, then the thread needs to call into
   the kernel to puts itself on a kernel waitqueue.
 
 ## References
 
-* http://www.cs.tau.ac.il/~shanir/concurrent-data-structures.pdf
-    * Excellent summary.
-    * Chapter is From: http://www.amazon.com/Handbook-Structures-Applications-Computer-Information/dp/1584884355
-* Alex Andrescui (Basic ideas)
-    * http://www.drdobbs.com/lock-free-data-structures/184401865
-* Herb Sutter (I actually didn't find these too useful)
-    * http://www.drdobbs.com/cpp/the-trouble-with-locks/184401930
-    * http://www.drdobbs.com/cpp/lock-free-code-a-false-sense-of-security/210600279
-    * http://www.drdobbs.com/parallel/writing-lock-free-code-a-corrected-queue/210604448
-    * http://www.drdobbs.com/parallel/writing-a-generalized-concurrent-queue/211601363
-* Buildling a locked queue
-    * http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures1/index.html
-    * People note that the two-lock queue is incorrect! It doesn't
-      have the Michael/Scott trick.
-* Building a (half-assed) Treiber stack
-    * http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures2/index.html
-    * I have a lot more detail than this...
-* Michael and Scott paper
-    * https://www.research.ibm.com/people/m/michael/podc-1996.pdf
-* https://aturon.github.io/blog/2015/08/27/epoch/
-    * Had good info about epochs.
-* https://wiki.eecs.yorku.ca/course_archive/2007-08/F/6490A/_media/presentations:a2pres.ppt
-    * Two lock queue powerpoint with images!
-* https://www.youtube.com/watch?v=HJ-719EGIts&feature=youtu.be
-    * Cliff Click describes Azul's version of a concurrent HM. It's
-      lock free and does resizing.
-    * A lot about memory fencing.
-    * I have an email thread where Doug Lea is considering updating
-      the CHM to either Click's or Shalev-Shavit. So those do seem
-      like two leading contenders.
+- http://www.cs.tau.ac.il/~shanir/concurrent-data-structures.pdf
+  - Excellent summary.
+  - Chapter is From: http://www.amazon.com/Handbook-Structures-Applications-Computer-Information/dp/1584884355
+- Alex Andrescui (Basic ideas)
+  - http://www.drdobbs.com/lock-free-data-structures/184401865
+- Herb Sutter (I actually didn't find these too useful)
+  - http://www.drdobbs.com/cpp/the-trouble-with-locks/184401930
+  - http://www.drdobbs.com/cpp/lock-free-code-a-false-sense-of-security/210600279
+  - http://www.drdobbs.com/parallel/writing-lock-free-code-a-corrected-queue/210604448
+  - http://www.drdobbs.com/parallel/writing-a-generalized-concurrent-queue/211601363
+- Buildling a locked queue
+  - http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures1/index.html
+  - People note that the two-lock queue is incorrect! It doesn't
+    have the Michael/Scott trick.
+- Building a (half-assed) Treiber stack
+  - http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures2/index.html
+  - I have a lot more detail than this...
+- Michael and Scott paper
+  - https://www.research.ibm.com/people/m/michael/podc-1996.pdf
+- https://aturon.github.io/blog/2015/08/27/epoch/
+  - Had good info about epochs.
+- https://wiki.eecs.yorku.ca/course_archive/2007-08/F/6490A/_media/presentations:a2pres.ppt
+  - Two lock queue powerpoint with images!
+- https://www.youtube.com/watch?v=HJ-719EGIts&feature=youtu.be
+  - Cliff Click describes Azul's version of a concurrent HM. It's
+    lock free and does resizing.
+  - A lot about memory fencing.
+  - I have an email thread where Doug Lea is considering updating
+    the CHM to either Click's or Shalev-Shavit. So those do seem
+    like two leading contenders.
 
 ## More Books
 
-* bought these.
-* http://www.amazon.com/Art-Multiprocessor-Programming-Revised-Reprint/dp/0123973376/ref=sr_1_1?ie=UTF8&qid=1454457397&sr=8-1&keywords=The+Art+of+Multiprocessor+Programming
-* http://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770/ref=pd_sim_14_2?ie=UTF8&dpID=51nuLYxU2iL&dpSrc=sims&preST=_AC_UL160_SR128%2C160_&refRID=0YEA0ZVEF4BAN3S843WM
+- bought these.
+- http://www.amazon.com/Art-Multiprocessor-Programming-Revised-Reprint/dp/0123973376/ref=sr_1_1?ie=UTF8&qid=1454457397&sr=8-1&keywords=The+Art+of+Multiprocessor+Programming
+- http://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770/ref=pd_sim_14_2?ie=UTF8&dpID=51nuLYxU2iL&dpSrc=sims&preST=_AC_UL160_SR128%2C160_&refRID=0YEA0ZVEF4BAN3S843WM

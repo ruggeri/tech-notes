@@ -4,7 +4,7 @@ Before doing a TAS in a spinloop, try first doing a test that it's
 even the value you're interested in. Otherwise, there's no need to do
 a lock of the bus to set the value. This reduces overhead.
 
-You can also do an exponentional backoff to reduce contention.
+You can also do an exponential backoff to reduce contention.
 
 Or instead you can do a queue lock. That way you don't even need to do
 pointless spinning. This is basically a wait queue.
@@ -15,7 +15,7 @@ locks (just a lock with a count, you just check your thread ID as you
 reacquire), and semaphores (again with a count, you use `Condition` to
 sleep the thread).
 
-Also had a chapter on codition variables.
+Also had a chapter on condition variables.
 
 ## Locking and LL
 
@@ -45,24 +45,14 @@ inserting (still expected `O(1)`). Prolly has mediocre cache
 performance.
 
 It looks they bring up Cuckoo just to show an example where we need to
-coordinate a long sequence of swaps. It isn't ammenable to a lock-free
+coordinate a long sequence of swaps. It isn't amenable to a lock-free
 version. Bah.
 
-No discussion of a lock-free, open addressed version of a HM.
+No discussion of a lock-free, open addressed version of a hash map.
 
 ## Skip List
 
-It's a sorted structure. When you insert, you randomly choose
-height. You're in level `i` with probability `p**i`. This works out to
-allow expected logarithmic lookup.
-
-This works in the face of deletes, which are themselves random.
-
-Inserts/removals don't require rebalancing, or any global
-restructuring, so this competes in parallel applications with BST.
-
-It seems easy to, when inserting, to slowly add the link at each
-level in a lock free way. Indeed, it is.
+See my notes in `esoteric-data-structures.md`.
 
 ## Priority Queue
 
