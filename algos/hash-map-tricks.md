@@ -81,6 +81,114 @@
 - Instead of doing MOD, use a power of 2 number buckets and do an AND.
   That helps because MOD is 30x slower than AND.
 
+# Perfect Hashing
+
+- If you have a set of size `|S|`, you ideally want to map each key `s`
+  to a unique value in `0...|S|`. Each key needs `log_(|S|)` bits.
+  - This is called a _minimal_ perfect hash. There are no collisions.
+  - If you map keys `s` to a value `0...N` with `h(s1) != h(s2)`
+    whenever `s1 != s2`, that is a perfect hash. If `N > |S|`, then it's
+    not minimal.
+- To construct a perfect hash, you generally must know the size of the
+  set that you are hashing in advance.
+- If the keys are integers `0...N`, then the identity function is
+  already a minimal perfect hash.
+  - But if the keys are integers `{100, 345, 999}` or something, then
+    identity function is a _perfect hash_, but not a _minimal_ perfect
+    hash.
+- Consider strings of four 8bit chars. You can interpret this as a 32bit
+  integer. The mapping from four-char string to 32bit integer is a
+  minimal perfect hash for the set of four char strings.
+- The point of perfect hashing is when you have _irregular_ sets.
+  - For instance, your key set will be 50 strings, each consisting of 4
+    8bit chars.
+  - Yes, the mapping of the string to a 32bit integer is still a perfect
+    hashing.
+  - But it is no longer _minimal_. If you achieve minimality, you can
+    create a hash map for these 50 strings using exactly 50 buckets,
+    with open addressing, O(1) lookup and insert.
+- An example would be mapping enum names to values.
+  - Yes, the compiler will just translate the names to values for you.
+  - But how does the compiler lookup those values at compile time? It
+    could just iterate the list of enum names.
+  - But that is proportional to the length of the enum set.
+  - It's fine for a compiler, which will only compile the program once.
+    But we can imagine programs which dynamically generate new enums and
+    must lookup enum values by name on-the-fly.
+- There are some fancy algorithms that can:
+  - Build a perfect hash function in `O(n)` time.
+  - The hash function requires `O(n)` storage of "hints" to help
+    calculate the hash.
+  - The hash function takes `O(1)` time to consult the hints and compute
+    the perfect hash.
+- Perfect hashing can be useful when you have static keyword tables or
+  dictionaries. It isn't an entirely theoretical idea, but it isn't
+  general-purpose either.
+  - There are even dynamic versions that will allow keys to be added?
+    See Dietzfelbinger. Not sure if this is even more niche...
+
+# Universal Hashing
+
+- Say you want to analyze hash map performance. You want to find
+  _expected_ run time.
+  - But expected with respect to what? Are you fixing a hash function,
+    and then assuming random key selection? Maybe uniform key selection?
+  - But what if key selection is _not_ random? What if it is possibly
+    even _adversarial_?
+- Instead, you can randomize with respect to choice of _hash function_.
+  - A _family_ `H` of hash functions is called universal if, for every
+    pair of keys `x, y`, the probability that `h` sampled from `H` gives
+    `h(x) = h(y)` is less than `1/m` (where `m` is the number of
+    buckets).
+- You can prove chaining hash maps have `O(1)` expected time so long as
+  the hash function meets this definition of universality.
+- However, to prove `O(1)` bounds for linear probe open addressing, you
+  do need a stronger property...
+- Universal Hashing For Integer
+  - To hash an integer, `h_{a, b} = ((ax + b) mod p) mod m`.
+  - `p` must be a prime greater than the largest value to hash. `m` is
+    the number of buckets (must be less than `p`).
+  - `a, b` are chosen randomly.
+  - Note: I don't prove here this actually is a universal hash function.
+    I'm just trying to give an example.
+  - If we are hashing 32-bit words, then `MAX_VALUE = 2**32 - 1`. And
+    we're supposed to have `p > MAX_VALUE`.
+  - You could definitely put `p` in a 64-bit word. Then, you promote
+    your 32-bit word to hash to a 64-bit word, and do all math in 64
+    bits.
+- Practical Universal Hashing
+  - To hash a 32-bit number, you can instead choose uniformly `uint64_t
+a`.
+  - To calculate an `r`-bit hash you do: `uint32_t ((ax) >> (64 - r))`.
+  - I believe this does not meet the strict universal hashing property.
+    But it has a weaker property which I think is good enough for hash
+    map bounds.
+- You can extend to a hash of a string (an array of bytes). This is
+  something like:
+
+```C
+uint hash(String x, int a, int p)
+	uint h = INITIAL_VALUE
+	for (uint i = 0; i < x.length; ++i)
+		h = ((h*a) + x[i]) mod p
+	return h
+```
+
+- Universal hashing has an "oblivious adversary".
+  - That is, the adversary doesn't get to see the hash values. They can
+    know the hash family, but not its parameters.
+  - They might be able to easily compute those parameters if they saw
+    the values of the hash function for selected keys.
+  - Even if they just see some hash values, but neither get to select
+    the keys, nor even _see the keys_, they might recover the
+    parameters.
+  - That suggests that these constructions aren't really secure to a lot
+    of attacker models.
+    - Consider even an attacker who can observe how long key
+      lookup/insert takes. That could be a form of timing attack which
+      could leak information about parameters.
+  - They really are more about proving bounds on hash set performance.
+
 ## TODO
 
 - Incremental resize:
@@ -107,25 +215,7 @@
   - When you add a bucket, you might have to split up a bucket. But
     that's O(1) work.
 
-## Perfect Hashing
-
-- Ideal hash function takes in items, and in constant time produces a
-  hash, which is unique for that item.
-- If you have a set of size `|S|`, you could theoretically do this
-  with `log(|S|)` bits.
-  - But can you really compute such a hash in constant time?
-- TODO: I don't actually know how to make a perfect hash.
-- I think the idea is that you're going to have an array of size `|S|`
-  and use perfect hashing to map `S` to indices, allowing all WC
-  `O(1)` operations.
-- Cuckoo hashing would get you most of the way there, except insert
-  could be unbounded.
-- Also wouldn't be s cache friendly.
-- Whatever, I don't think I care!
-
 ## TODO
 
-- Finish perfect hashing.
 - Consistent hashing (minimize rehashing work)
 - Extendible hashing
-- Universal Hashing

@@ -129,7 +129,6 @@ AVL and Red-Black implementations
 
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
-What is a universal hash?
 
 Are mutexes built on atomic operations? What is the cost of atomic ops
 vs mutexes? Maybe I should compare Lamport bakery and other mutex
