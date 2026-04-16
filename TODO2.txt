@@ -124,15 +124,12 @@ Closest pair of points randomized algorithm.
 sorts-parallel2.md
 
 From my old algorithms curriculum:
-Hash table implementation
 BST traversals.
 AVL and Red-Black implementations
 
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 What is a universal hash?
-cuckoo hashing
-open vs closed hashing
 
 Are mutexes built on atomic operations? What is the cost of atomic ops
 vs mutexes? Maybe I should compare Lamport bakery and other mutex
