@@ -1,3 +1,6 @@
+This is really more like a lot of ideas in hashing and hash maps, rather
+than a collection of "tricks".
+
 # Closed vs Open Hashing
 
 - "Open Hashing" is also called "separate chaining."
@@ -80,6 +83,15 @@
   - This saves time if key comparison is deep/expensive.
 - Instead of doing MOD, use a power of 2 number buckets and do an AND.
   That helps because MOD is 30x slower than AND.
+- Incremental resize/rehashing:
+  - This is the typical deamortization idea. With a dynamic array, it
+    involves allocating a 2nd buffer at 50% full, and copying over two
+    items for every one you insert.
+  - You can do the same thing with a hash map.
+  - Approximately triples memory use. But can make sense if you care
+    more about latency than memory use.
+  - Will work easier with chaining rather than open addressing (where
+    items can maybe move around on you).
 
 # Perfect Hashing
 
@@ -121,6 +133,8 @@
     calculate the hash.
   - The hash function takes `O(1)` time to consult the hints and compute
     the perfect hash.
+  - I'm not going to actually explore constructing a perfect hash, I
+    just wanted to define what perfect hashing _is_.
 - Perfect hashing can be useful when you have static keyword tables or
   dictionaries. It isn't an entirely theoretical idea, but it isn't
   general-purpose either.
@@ -174,6 +188,9 @@ uint hash(String x, int a, int p)
 	return h
 ```
 
+- Like I said, I won't prove that these actually have the universal hash
+  property. That could be worthwhile, but it's not my goal. I just want
+  to describe what universal hashing is.
 - Universal hashing has an "oblivious adversary".
   - That is, the adversary doesn't get to see the hash values. They can
     know the hash family, but not its parameters.
@@ -189,33 +206,108 @@ uint hash(String x, int a, int p)
       could leak information about parameters.
   - They really are more about proving bounds on hash set performance.
 
-## TODO
+# Extensible Hash Table
 
-- Incremental resize:
-  - You can do this by keeping two copies of the hash map and
-    performing resize over time.
-  - But it doesn't help you avoid rehashing.
-- Linear hashing:
-  - Summarized in the databases book. Really for on-disk hash maps.
-  - Always have hashes modulo a power of large power of two (like
-    2\*\*64).
-    - If there are `i` buckets, use the last `log(i)` bits to
-      place the item.
-    - If the hash is greater than the current number of buckets,
-      drop the top bit.
-  - "Add" one bucket per insertion.
-  - Notice that you will need to allocate more blocks; you're not
-    going to be copying anything over.
-    - Though you could still have copying, just no rehashing...
-    - This means indexing means looking up blocks, which could be
-      `O(#blocks)` if stored in a LL. Or could have a dynarray of
-      blocks.
-    - Whatever, the most important thing is to avoid reading from
-      disk!
-  - When you add a bucket, you might have to split up a bucket. But
-    that's O(1) work.
+- Also called "extendible hashing". My notes summarize the Garcia-Molina
+  et al Databases book (p652). The context is on-disk block storage.
+- All keys will get hashed to `k` bits, where `k` is large.
+- There will be a block index, mapping `i < k` high-order bits from the
+  hash to blocks. The block index will always have size `2 ** i`.
+- The block index values are handles to disk blocks. Blocks have a fixed
+  size: `BLOCK_SIZE`. We will load the block from disk to RAM, and then
+  linearly search. The values stored in the blocks are unsorted.
+  - This avoids overhead for keeping things sorted inside a block.
+  - Disk read time dominates, so optimizing for search within a loaded
+    block is not important.
+- Here is our goal: when a block fills up, we want to split it, but we
+  (1) don't want to always resize the whole block index, (2) we don't
+  want to rehash items in other blocks.
+- Each block is going to keep a "nub" value `j`.
+  - When we first build the block index and allocate the blocks, we will
+    set `j = i`.
+  - Keys placed in the block will always match in the last `j` bits.
+  - When a block reaches capacity, we will split it. The new blocks have
+    `j' = j + 1`. We divide keys between the two new blocks based on the
+    last `j` keys.
+- When `j > i`, we will also double the size of the block index.
+  - Say `i = 4` and it is time to double block index size to `i = 5`.
+  - Then bucket at `0101` will be stored at _both_ `00101` and `10101`.
+  - This bucket will still have `j <= 4`.
+- Pros/Cons
+  - Yes, resizing the block array still stops-the-world. But it is
+    simply doubling the size of an in-memory datastructure. Most of it
+    is just copying.
+  - You avoid reading all the blocks when one bucket needs to be split.
+    Pulling those from disk (and writing them back out after splitting)
+    would be terribly painful.
+  - You could use this technique for in-memory hash maps with chaining.
+    But you would not get a great deal of benefit. You have `num_buckets
+~ num_elements`, so the work of allocating a new buckets array is
+    already approximately equal to the work of just creating new
+    buckets and copying elements to their proper place.
+  - The real payoff comes when you have big blocks, and time to fetch
+    them dominates.
+
+# Linear Hash Table
+
+- Summarized in the databases book (p655). Again, for on-disk hash maps.
+- We are going to have still use hashes of `k` bits.
+- There will be `n` buckets, but we will allow `n` not to be a power of
+  two. We will let `i = ceil(log_2(n))`. `i` is the number of bits to
+  specify one of `n` buckets.
+- To query/place a key, calculate its hash, and mask the low `i` bits.
+  If the hash `h < n`, query/place the key at bucket `h`.
+  - If `h >= n`, then set `h <- h - 2**(i-1)`, and query there.
+- When inserting, we may run out of space in a disk block. When that
+  happens, we chain a second block.
+- Now, we are also tracking the load factor: `num_items / n`. Whenever
+  this exceeds a threshold after an insertion, we will "add" a bucket.
+  - We are adding bucket `n`, the `n+1` bucket. We know that the `i`-th
+    bit of `n` is necessarily 1.
+  - Therefore, we must split the bucket that just replaces the `i`-th
+    bit of `n` with a zero.
+- When adding a new bucket would roll over `n` to a power of two, and
+  increase `i` by one, you must reallocate the bucket array.
+  - This is still fairly cheap. You only need to copy the `n` buckets,
+    you don't even need to set the unused buckets yet.
+- Now the overflow of a single bucket does not trigger a resize of the
+  entire block array.
+  - That is helpful, because extensible hash table block array can run
+    away in size if we are unlucky and keep splitting one unlucky block.
+  - With linear hash table, in _expectation_, we still only look at one
+    block when querying. In expectation, we only have to read one block.
+- With both extensible and linear hash tables, it feels like you should
+  allocate the block index as big as you can up front.
+  - That way you _never_ need to allocate a new array. Plenty of space
+    for linear hash table buckets to grow into. And entire extensible
+    hash table bucket array is set from the start.
+  - But you only create a few blocks up front. You can split along the
+    way.
+  - Could make sense for a database machine managing a single table. On
+    the other hand, this isn't the only table and index on the system,
+    so you may want it to only take space proportional to the number of
+    elements stored.
+- Even if you start with a short buckets array for extensible hash map,
+  it is not costly to grow.
+  - You copy `O(n / BLOCK_SIZE)` bucket pointers. That's all in memory;
+    it's not expensive.
+  - Yes, "unlucky" buckets that get overfull can trigger early splits.
+    But when `BLOCK_SIZE` is large, that is very unlikely, because of
+    law of large numbers.
+- So when `BLOCK_SIZE` is large, it feels like extensible hash table
+  doesn't have a real problem...
+  - So maybe linear hash table is better when `BLOCK_SIZE` is small?
+  - Maybe, but that would only make sense for an in-memory map.
+  - In that case, I suppose linear hash table might make sense as a
+    deamortized of a chained hash table?
+  - With that said, you must re-initialize the buckets array with the
+    existing buckets (that's `O(n)`).
+  - Why not create all `2n` new buckets? It's only double the work. And
+    then, the items are already resident in memory, is it really so
+    costly to put them in the new buckets?
+- In conclusion: I doubt that the linear hash table idea is some
+  phenomenal win ever.
 
 ## TODO
 
 - Consistent hashing (minimize rehashing work)
-- Extendible hashing
