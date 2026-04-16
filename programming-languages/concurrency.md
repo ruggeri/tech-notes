@@ -203,3 +203,80 @@ that problem if the C API writer is stupid.
   are _mostly doing something_.
 - So approaches like doing async io, or having a green thread
   implementation built into the runtime still helps.
+
+# Threading Model
+
+- These notes are current as of 2026-04-XX. Language features change
+  somewhat quickly.
+- C and C++ have 1:1 threading if you directly use POSIX. And I think
+  the thread stuff in the standard library is also 1:1.
+  - Also Rust and C#/.NET.
+- Node's default is no multithreading, only async.
+  - Node's own libraries may use multiple threads underneath, when doing
+    IO, crypto, compression. Basically, when you call to native code
+    that might spawn threads. But you can't see that from inside Node
+    JavaScript code.
+  - You _can_ use `worker_threads` to run multiple threads, but I think
+    this is not typical.
+  - At first Node managed async through callbacks, then promises.
+    Finally, `async`/`await` support was added.
+- Ruby, Python, and Java (by default) all use 1:1 threading. That is:
+  they create one kernel thread per language thread.
+  - Python offers asyncio. It also supports multiple processes/IPC, and
+    multiple 1:1 threads. Asyncio is supported mostly via
+    `async`/`await`.
+    - Python has history with async event loops going back to Twisted
+      (2002).
+  - Ruby doesn't give an async keyword. But you can use the `async` gem.
+    The basic idea is that you end up using Fibers, which are
+    cooperatively scheduled on an event loop. More-or-less, it
+    implements coroutines via a trampoline and fibers.
+  - Java provides Loom.
+- Go and Erlang both run M:N threading. In these languages, it is
+  typical to create very many thread objects, vastly more than available
+  CPU parallelization width.
+  - Java also has a "virtual thread" idea; this is introduced by Project
+    Loom. The idea is to (as usual) support many, many threads, mostly
+    all waiting on IO.
+- A note: Node.js was a progenitor of the event loop idea.
+  - Node.js (launched 2009) predates widespread use of `Promise`
+    (EcmaScript 6 2015). Probably success of event loop idea drove
+    adoption of `async`/`await` in 2017. It existed in Babel (and in
+    TypeScript) since 2015.
+  - Go was published approximately the same time. Goal is to solve a
+    similar problem.
+  - Python added `async`/`await` in 2015.
+  - What we see is that the big idea of Node.js pushed a lot of other
+    language development forward.
+
+# M:N Threading
+
+The problem both asyncio (JavaScript, Python) and M:N threading (Go,
+Erlang, Java Loom) try to solve is: too many threads waiting for IO,
+waking briefly, and going back to sleep. Basically: very little work
+done per task switch, which means task switching overhead dominates CPU
+utilization. Also, simply too many tasks: too many thread stacks eating
+up all the memory.
+
+But this begs the question: why is the OS committed to a model of large
+stack and expensive thread switching? Why must the runtime implement the
+lightweight threads? The reasons are a little unsatisfyingly subtle.
+
+First, stack size. Traditionally, everything assumed fixed stack sizes.
+Stacks had to be big enough not to get blown out. You _can_ have
+dynamically growable stacks. These could either be "linked" or they
+could be contiguous but growable. But this is less performant. In
+particular, every function call must now pay a tax of deciding whether
+to grow the stack.
+
+The decision between fixed stacks or growable stacks is fairly "global."
+When you call into a function, you need to know what kind of stack it
+will expect, and give it that kind of stack. Code that all shares a
+convention can call each other tax free. But when you link libraries
+with different stack conventions, you need to pay a stack fixup tax when
+calling across the ABI.
+
+Second, task switching. The OS must account for thread priority,
+scheduling policy, et cetera, to choose which thread to preempt. A
+runtime like Go's can be a lot simpler. It is almost as simple as:
+choose any unblocked thread at random.

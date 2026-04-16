@@ -1,5 +1,7 @@
 **I believe this stuff may be better covered in my concurrency document...**
 
+**This feels like it just documents resources I looked at it but didn't fully process**
+
 Everyone says that native threads don't scale because memory. Stack
 size is typically 2MB. So thousands of threads means GBs of memory for
 the stacks.
