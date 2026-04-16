@@ -7,20 +7,22 @@
     methods on an object.
   - `for` uses an `Iterator`, which implements `__next__` until
     `StopIteration` raised.
-- Generator functions: these return an iterator when called. Just like
-  in JS.
-  - A function is a generator if it has the `yield` keyword in it.
-  - If it does, calling the function doesn't start it right away.
-  - Instead, calling the function returns a generator _object_. You call
-    `next` on this to produce a value.
-  - The generator object can be passed to `next`. It will keep running
-    the generator until the end of the generator function, at which
-    point `next` raises `StopIteration`.
-  - Generator functions are very useful for creating iterators. `for`
-    will iterator over a generator object.
-  - `yield from abc()` is mostly equivalent to `for x in abc(): yield x`.
-    - In JS we call this `yield*`.
-  - But remember that we can _pass back in_ values to a generator.
+
+# Generator Functions
+
+- These return an iterator when called. Just like in JS.
+- A function is a generator if it has the `yield` keyword in it.
+- If it does, calling the function doesn't start it right away.
+- Instead, calling the function returns a generator _object_. You call
+  `next` on this to produce a value.
+- The generator object can be passed to `next`. It will keep running the
+  generator until the end of the generator function, at which point
+  `next` raises `StopIteration`.
+- Generator functions are very useful for creating iterators. `for` will
+  iterator over a generator object.
+- `yield from abc()` is mostly equivalent to `for x in abc(): yield x`.
+  - In JS we call this `yield*`.
+- But remember that we can _pass back in_ values to a generator.
 
 ```python
 def my_fun(n):
@@ -58,12 +60,16 @@ except StopIteration as e:
   - Python calls the value of a `async def f(): pass` a "coroutine
     object", but the _concept_ of a coroutine is implementable just from
     these generators.
-- Coroutines: just like in JS. Can use `async def`/`await` to
-  return/wait upon futures.
-  - Basically, `async def` will define a function that, when called,
-    will return a coroutine object. A coroutine can be `await`ed.
-  - To schedule a coroutine object on an event loop, you use
-    `asyncio.run`. You might do something like:
+
+# `asyncio` and coroutines
+
+- The module is called `asyncio`. The Python language construct is
+  called a "coroutine": use `async def` to define a coroutine, and
+  `await` to await its completion
+- Basically, `async def` will define a function that, when called, will
+  return a coroutine object. A coroutine can be `await`ed.
+- To schedule a coroutine object on an event loop, you use
+  `asyncio.run`. You might do something like:
 
 ```python
 import asyncio
@@ -77,7 +83,8 @@ asyncio.run(coro)
 
 - Note that calling `asyncio.run` launches the event loop. You can only
   one run at a time (per thread).
-- To schedule concurrent work on the same event loop, use `asyncio.create_task`:
+- To schedule concurrent work on the same event loop, use
+  `asyncio.create_task`:
 
 ```python
 import asyncio
@@ -106,31 +113,36 @@ asyncio.run(main())
     operation. So don't do that!
 - Can turn a generator into a coroutine using the
   `@asyncio.coroutine` decorator. Just like spawn in JS.
+
+# `threading` and `multiprocessing`
+
 - Python also has the `threading` module, but of course you have the
   GIL.
-  - `threading` is fairly low-level. Threading launches native threads
-    that are scheduled 1:1.
-  - `multiprocessing` is a module which starts other processes for
-    parallelism. You can use it to call other Python
-    functions. Python gives you some kind of IPC like pipes, but
-    it's janky.
-  - In the `concurrent` library I believe there's a threadpool
-    mechanism. It creates futures for you that you can wait for. It's
-    just making it easier to launch a thread to perform a set of tasks?
-    - But be careful not to block a thread pool thread with IO!
-    - If you have many more threads in the pool than cores, and blocking
-      IO happens quite seldom, you may still have high CPU utilization
-      since the other threads can keep working. But since IO is so much
-      slower than CPU, doing proportion of IO work will probably mean
-      _all_ the threads will always be doing IO work almost all of the
-      time, resulting in very low CPU utilization.
-    - You can have starvation/deadlock if threads in the pool block on
-      futures that are also scheduled on the pool, and if there are not
-      enough native threads backing the pool. Best for naively
-      parallelizable tasks.
-  - But I'm not entirely sure why asyncio is preferred to threading.
-  - Well, I think Python does spawn system threads, so you have to
-    pay that cost. Even despite the GIL.
+- `threading` is fairly low-level. Threading launches native threads
+  that are scheduled 1:1.
+- `multiprocessing` is a module which starts other processes for
+  parallelism. You can use it to call other Python functions. Python
+  gives you some kind of IPC like pipes, but it can feel janky.
+- In the `concurrent` library I believe there's a threadpool mechanism.
+  It creates futures for you that you can wait for. It's just making it
+  easier to launch a thread to perform a set of tasks?
+  - But be careful not to block a thread pool thread with IO!
+  - If you have many more threads in the pool than cores, and blocking
+    IO happens quite seldom, you may still have high CPU utilization
+    since the other threads can keep working. But since IO is so much
+    slower than CPU, doing proportion of IO work will probably mean
+    _all_ the threads will always be doing IO work almost all of the
+    time, resulting in very low CPU utilization.
+  - You can have starvation/deadlock if threads in the pool block on
+    futures that are also scheduled on the pool, and if there are not
+    enough native threads backing the pool. Best for naively
+    parallelizable tasks.
+- So Python has all the main concurrency ideas: multiprocessing,
+  threading, and asyncio. Asyncio is the newest, and I think plays the
+  nicest with many long connections that mostly just wait around on IO.
+
+# Other
+
 - Python has `*args` and `**kwargs`.
   - Any argument can be passed by name.
   - You have to pass all positional arguments first, then specify
