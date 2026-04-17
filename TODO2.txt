@@ -135,3 +135,6 @@ implementations? Also, I don't think any of the algorithms will work
 unless you have some operations that force memory ordering. Else threads
 cannot see work from other threads! Add to my mutex writeup. Or maybe
 cache coherency?
+
+Maybe review web/architecture-lecture notes, and also Slides from Google
+drive?

@@ -307,7 +307,72 @@ uint hash(String x, int a, int p)
     costly to put them in the new buckets?
 - In conclusion: I doubt that the linear hash table idea is some
   phenomenal win ever.
+  - Argued with ChatGPT a lot. It seems to insist that linear hash table
+    can have value.
+  - Specifically suggests that if the bucket ID is itself a _logical
+    page ID_, which will be allocated sequentially (and not
+    deallocated?), and managed regardless by a storage management
+    subsystem.
+  - In that case, you can avoid adding a layer of indirection where you
+    must map `key -> hash -> bucket id -> logical page ID -> physical disk location`.
+  - May also be a proto-idea for distributed system consistent hashing.
 
-## TODO
+# Consistent Hashing
 
-- Consistent hashing (minimize rehashing work)
+- Consistent hashing is a goal or property, not one technique.
+- The context is distributed systems. We will have many peers hosting a
+  distributed hash table.
+  - We will assume that the dominant cost is _communication_.
+  - Nodes may be able to hold their entire shard in memory. They are
+    assumed to have fast random reads and even fast scans.
+  - We plan to scale up the number of nodes if shards stop fitting in
+    memory.
+- Here is "ring consistent hashing":
+  - Each node randomly selects a starting hash value.
+  - This divides the hash space into _ranges_; a node manages key hashes
+    between its own start value, and the smallest succeeding start value
+    amongst the peer set.
+  - The ranges wrap back around, to make this a circle of hash values.
+- Presuming a client has an up-to-date routing table of node IPs to
+  start value, it can easily direct a query to exactly the right node.
+- We need to handle nodes entering and exiting the peer group.
+- To enter, a new node randomly samples a starting value. It then
+  looks up the peer with the largest prior start value.
+  - The new peer requests approximately half the data from that shard.
+  - Effectively the shard is split, so the work is `O(SHARD_SIZE) =
+O(NUM_KEYS / NUM_NODES)`.
+  - When a hash function allows resizes to be done with `O(NUM_KEYS /
+NUM_BUCKETS)` work, that is what we call a _consistent hash_.
+- The peers will need to inform each other of routing updates. They can
+  "gossip" about this.
+  - I won't describe how routing information is propagated, because it
+    isn't really central to the idea of consistent hashing.
+- How do we handle a node exiting?
+  - Peers will replicate shards. One idea is that each node will store
+    the keys for the next three ranges. Each range is stored 3x.
+  - Peers track liveness (maybe with pings). When a peer exits, a prior
+    node will have to make a new replication of the shard.
+  - That again takes `O(SHARD_SIZE)`.
+  - Again, these are not supposed to be distributed system notes, so I
+    won't focus on entry/exit details...
+- I _will_ note that, with dynamic entry/exit, it is not always clear
+  who the true "owner" of a shard is. Writes may be accepted by any peer
+  that replicates the shard.
+  - That can allow for temporary inconsistency. But if replicas always
+    eventually share a write, the system should become "eventually
+    consistent."
+  - Again, a distributed systems problem, not a hashing problem.
+- Both the Chord DHT and Amazon Dynamo use this kind of idea.
+- There is a related idea: _rendezvous hashing_, more usefully called
+  _highest random weight_.
+  - Basic idea is, instead of handling ranges, a key will be placed on
+    the node `node` for which `h(key, node)` is greatest.
+  - By taking the top `REPLICATION_FACTOR` values, we can do
+    replication.
+  - When a node leaves, we will have to recalculate the top hashes for
+    every key in the shard. So the shard gets "broken up" across _all_
+    the nodes rather than "merged" into a prior node.
+  - This is the same aggregate communication, but involves more nodes.
+    It also involves more rehashing work.
+  - It is a little better balanced. With ring hashing, you often create
+    many "virtual" nodes to ensure a good distribution of keys.
