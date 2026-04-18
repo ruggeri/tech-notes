@@ -339,9 +339,12 @@ scalability.
 
 - http://www.cs.tau.ac.il/~shanir/concurrent-data-structures.pdf
   - Excellent summary.
+  - Link died. I think it is this chapter from Mark Moir and Nir Shavit.
+  - https://people.csail.mit.edu/shanir/publications/concurrent-data-structures.pdf
   - Chapter is From: http://www.amazon.com/Handbook-Structures-Applications-Computer-Information/dp/1584884355
 - Alex Andrescui (Basic ideas)
   - http://www.drdobbs.com/lock-free-data-structures/184401865
+  - Link died. Here is a snapshot: https://archive.ph/ylq4p
 - Herb Sutter (I actually didn't find these too useful)
   - http://www.drdobbs.com/cpp/the-trouble-with-locks/184401930
   - http://www.drdobbs.com/cpp/lock-free-code-a-false-sense-of-security/210600279
@@ -349,6 +352,7 @@ scalability.
   - http://www.drdobbs.com/parallel/writing-a-generalized-concurrent-queue/211601363
 - Buildling a locked queue
   - http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures1/index.html
+  - Link died: https://archive.ph/http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures1/index.html
   - People note that the two-lock queue is incorrect! It doesn't
     have the Michael/Scott trick.
 - Building a (half-assed) Treiber stack
@@ -356,6 +360,7 @@ scalability.
   - I have a lot more detail than this...
 - Michael and Scott paper
   - https://www.research.ibm.com/people/m/michael/podc-1996.pdf
+  - Link died. I think it is this: https://www.cs.rochester.edu/u/scott/papers/1996_PODC_queues.pdf
 - https://aturon.github.io/blog/2015/08/27/epoch/
   - Had good info about epochs.
 - https://wiki.eecs.yorku.ca/course_archive/2007-08/F/6490A/_media/presentations:a2pres.ppt
