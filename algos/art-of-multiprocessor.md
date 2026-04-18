@@ -1,4 +1,4 @@
-## Test-and-Set vs Test-Test-and-Set vs QueueLocks
+# Test-and-Set vs Test-Test-and-Set vs QueueLocks
 
 Before doing a TAS in a spinloop, try first doing a test that it's
 even the value you're interested in. Otherwise, there's no need to do
@@ -17,7 +17,9 @@ sleep the thread).
 
 Also had a chapter on condition variables.
 
-## Locking for Linked Lists
+**TODO**: I wish I had some better notes from this section?
+
+# Locking for Linked Lists
 
 p200-p213
 
@@ -51,18 +53,16 @@ bit to mark a node deleted. Then you will avoid the need to rescan
 unless `pred` really _was_ deleted. In fact, I think they _do_ do this,
 and call the class `LazyList`.
 
-## Queues and Stacks
+# Queues and Stacks
 
 p223-p241 and p245-p255
 
 They have a few chapters on queues and stacks. Maybe I didn't take notes
 because I cover this in my `lock-free-algos.md` document?
 
-## Hash Maps
+# Hash Maps: With Locks
 
-p299-p327
-
-**Hash Maps With Locks**
+p299-p309
 
 They implement a version with a coarse, whole-map lock. You take a lock
 on the entire hash set in order to add or query it.
@@ -72,11 +72,20 @@ lock only manages a fraction of the table. However, resize still
 requires taking _all_ the locks: it is a stop-the-world operation.
 
 They next show a version where the number of locks are allowed to grow
-on resize. Basically, someone is going to do a CAS to claim the job of
-resizing the hash map. When they do, they are going to stop everyone
-accessing it. They will wait for everyone using locks currently to
-finish. Then they will resize the buckets, rehash everything, and
-allocate new locks.
+on resize. I believe the idea is that, as the map grows, it may have
+more-and-more users, which means you want finer-and-finer lock
+granularity to avoid excessive blocking. That might make sense if users
+are machines on a network, since for local use you will be eventually
+limited by CPU parallelization.
+
+For performance reasons, yhey want to avoid taking locks on the buckets
+array, so they will use lock-free CAS operations. Basically, someone is
+going to do a CAS to claim the job of resizing the hash map. When they
+do, they are going to stop everyone accessing it. They will wait for
+everyone using locks currently to finish. Then they will resize the
+buckets, rehash everything, and allocate new locks. This is still
+stop-the-world, but the introduction of lock-free use/resize of the
+buckets array is for performance.
 
 Users of the hash map will be careful to check if another thread has
 claimed resizing of the lock array. They'll then claim the bucket lock
@@ -103,12 +112,71 @@ claimed the flag, and is probably just safer.
 
 Clearly, even this simple code is still fairly subtle!
 
-**Lock Free Hash Sets**
+# Lock Free Hash Sets
 
-**TODO**: start review from p309
+## Split Ordered List
 
-Talks about coarse and fine-grained locks on buckets. Talks about
-split-ordered list.
+p309-p316
+
+They present a style of "closed hashing"/chaining concurrent hash map.
+
+Basic idea is that you will have a linked list of nodes sorted by hash
+key. There are two kinds of nodes: value nodes and "sentinel nodes"
+which mark the start of a bucket.
+
+Lock-free insert into a linked list is simple, and already covered.
+Misordering cannot be introduced unless there is an attempt to
+concurrently update a node, in which case you should retry.
+
+You never re-order items in the list.
+
+We are going to maintain pointers into the linked list for fast access.
+They will mimic an idea from _extensible_ hashing. Basically, when the
+list grows too big, you will double the buckets array size. But you will
+_not_ initialize all the buckets. You will copy over the old buckets
+array, but set all subsequent else to `NULL`.
+
+To lookup a position in the values list, you first _reverse_ your key.
+Then you mask the bottom `k` bits. That corresponds to a bucket array of
+size `2**k`. That's sort of like looking at the top `k` bits of the hash
+key. But we'll proceed in a specific order:
+
+- Position zero: bucket for everything starting `0...`.
+- Position one: bucket for everything starting `1...`.
+- Position two: bucket for everything starting `01...`.
+- Postion three: bucket for everything starting `11...`.
+
+So when you double the buckets array, the old buckets positions do not
+need to be updated. The new buckets are formed from "splitting" the old
+buckets. This is exactly the extensible hashing idea (see
+`hash-map-tricks.md`).
+
+But you don't do the splitting right away. That would involve scanning
+the entire list. Instead, just do it _lazily_; when you encounter a NULL
+value in the buckets array, just walk backward to a prior bucket, and
+then scan forward to find where to place the bucket sentinel. Splice the
+sentinel in and update the bucket array.
+
+You do have to track the total count, to know when to resize. They
+mention in their paper that they have threads locally track the number
+of inserts, and only rarely update the count. That avoids contention.
+
+They suggest that, instead of a single dynamic array holding the bucket
+starts, you might use a multi-level tree. This adds a logarithmic factor
+in lookup, but if the branch/node size is quite high, you need very
+little depth to map more nodes than there is memory on a 64-bit machine.
+Thus, you can treat this as relatively constant.
+
+Shalev and Shavit published it, so I think it's a unique interest of
+theirs. I'm not sure if this is a widely used idea.
+
+Source: https://ldhulipala.github.io/readings/split_ordered_lists.pdf
+
+## Concurrent Cuckoo Hashing
+
+p316-p327
+
+**TODO**: Review me.
 
 In Cuckoo hashing, we place an item at its position. If someone is
 there, we move it forward to its next position. We continue until we
@@ -130,11 +198,11 @@ version. Bah.
 
 No discussion of a lock-free, open addressed version of a hash map.
 
-## Skip List
+# Skip List
 
 See my notes in `esoteric-data-structures.md`.
 
-## Priority Queue
+# Priority Queue
 
 The book contains some info on priority queues. One easy way to write
 one is to use a skip list! The only trouble is removing the min. That
@@ -142,7 +210,7 @@ takes `O(1)` time to peek at. You can easily mark it as removed in
 `O(1)` time. Then you waste `O(log n)` time updating the heads of the
 lanes.
 
-## Source
+# Sources
 
 - These notes are from The Art of Multiprocessor Programming by Herlihy
   and Shavit.
