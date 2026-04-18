@@ -63,6 +63,9 @@
 - Diesel puts out more CO_2 per liter, but less per mile.
 - Diesel puts out more particulates, but also more NOx, which need to
   be cleaned through catalytic converter.
+  - Higher compression means air is very hot. Slow expansion means
+    plenty of time at conditions which allow nitrogen and oxygen to
+    react.
 - Europe gave diesel preferential tax treatment because in 1990s
   diesel was more efficient. Also, diesel was used more for freight,
   so it was thought of as an input to other costs. Also refineries
@@ -105,6 +108,31 @@
       stall it (engine stops running).
 - **TODO**: I don't think I talk about how diesel doesn't need spark
   plugs, and what that means.
+- Summary:
+  - Diesel always looks better in terms of MPG because petrol because
+    diesel has higher energy content. Diesel might have ~13% more energy
+    per liter.
+  - Diesel used to have higher thermal efficiency, mostly because of
+    compression. Petrol engines closed the gap, through a variety of
+    techniques, but maybe especially greater expansion ratio (and higher
+    compression).
+  - In many countries diesel is cheaper than gasoline per liter. But
+    globally, petrol tends to be cheaper by liter. And in the United
+    States, petrol is significantly cheaper. Possibly biggest driver is
+    tax policy. Depends on what refining is done in the region, the
+    quality of the oil produced in the region.
+  - In terms of cost per mile, in different countries petrol or diesel
+    might be cheaper. It really depends.
+    - It also depends on how much power you want. A diesel car is going
+      to generally be less performant; its fuel economy should be
+      compared to low performance petrol vehicles...
+  - Diesel produces a little bit less CO2 per mile. Comparing by liter
+    is not a complete picture.
+    - Diesel has more energy per liter. But burning a liter also
+      produces more CO2.
+    - And you also must take into account thermal efficiency of the
+      diesel cycle.
+    - In total, diesel runs ~5-15% better CO2 per mile.
 - Sources:
   - https://www.youtube.com/watch?v=tDoPSofACAE D4A TO REVIEW. Studies
     unique advantages of diesel in industrial context, and weaknesses of
