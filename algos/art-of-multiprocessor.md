@@ -170,7 +170,9 @@ Thus, you can treat this as relatively constant.
 Shalev and Shavit published it, so I think it's a unique interest of
 theirs. I'm not sure if this is a widely used idea.
 
-Source: https://ldhulipala.github.io/readings/split_ordered_lists.pdf
+- https://ldhulipala.github.io/readings/split_ordered_lists.pdf
+  - Split-Ordered Lists: Lock-Free Extensible Hash Tables by Shalev and
+    Shavit.
 
 ## Concurrent Cuckoo Hashing
 

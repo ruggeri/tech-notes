@@ -37,6 +37,7 @@ see below about simulation).
 # Sources
 
 - Lance Fortnow: https://blog.computationalcomplexity.org/2002/10/complexity-class-of-week-p.html
+  - "Complexity Class of the Week: P" by Lance Fortnow
   - Lance Fortnow seems to say: the smallest class that contains linear
     time and also is "closed under subroutines" is polynomial time. I'm
     not exactly sure what that means? Presumably, it means that you can

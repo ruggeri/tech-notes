@@ -14,7 +14,9 @@ the traditional Bankers' dequeue has better performance.
 
 You can read more here, but I don't really care:
 
-http://www.staff.city.ac.uk/~ross/papers/FingerTree.pdf
+- http://www.staff.city.ac.uk/~ross/papers/FingerTree.pdf
+  - Finger trees: a simple general-purpose data structure
+  - RALF HINZE, ROSS PATERSON
 
 ## Skip Lists
 

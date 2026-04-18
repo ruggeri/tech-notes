@@ -275,5 +275,8 @@ that suffix tree lets us very rapidly find partial matches.
 
 I don't know if these resources are any good anymore...
 
-https://idea.popcount.org/2012-07-25-introduction-to-hamt/
-https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/suffixtrees.pdf
+- https://idea.popcount.org/2012-07-25-introduction-to-hamt/
+  - Introduction to HAMT
+- https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/suffixtrees.pdf
+  - Suffix Trees lecture slides for CMU CMSC 423 (Bioinformatics?)
+  - Carl Kingsford

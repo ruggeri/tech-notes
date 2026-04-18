@@ -120,6 +120,7 @@ slower than `ArrayList`. So this isn't crazy fast. But neither is it
 insanely slow. (Access at ends is much better, BTW)
 
 - Sources:
+  - This is from a series of blog posts by Jean Niklas L'orange.
   - https://hypirion.com/musings/understanding-persistent-vector-pt-3
   - http://hypirion.com/musings/persistent-vector-performance-summarised
 

@@ -182,9 +182,12 @@ this line. Points nearby in space should tend to land in the same
 bucket. I think the algorithm is due to Datar-Immorlica-Indyk-Mirrokni.
 
 - Source: http://infolab.stanford.edu/~ullman/mining/2009/similarity3.pdf
-  - Some Power Point lecture slides. Seems _okay_.
+  - "Theory of LSH" Power Point lecture slides. Seems _okay_.
+  - By Jeffrey D. Ullman.
 - Source: https://web.lums.edu.pk/~imdad/pdfs/CS5312_Notes/CS5312_Notes-14-LSH.pdf
   - A mini-text of about 25 pages. Set in Latex, looks pretty good.
+  - "Locality Sensitive Hashing" "Lecture Notes for Big Data Analytics"
+    by Nimrah Mustafa March 2019.
 
 # Approximate Nearest Neighbor Lookup
 
