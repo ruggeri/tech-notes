@@ -109,7 +109,7 @@ methods change.
 
 Are hierarchies that deep? If they were flat, the global hash doesn't
 buy us anything. It maybe saves an indirection to the class's specific
-method hash, but that hash is smaller. It's considered a *refinement*
+method hash, but that hash is smaller. It's considered a _refinement_
 to have per-class caches...
 
 Everyone says that the problem is with hierarchy depth. They say that
@@ -128,7 +128,7 @@ is sometimes called a PIC or Polymorphic Inline Cache.
 
 ## Implementing Interface Methods
 
-In addition to a vtable, also link to an array of *itables*, which can
+In addition to a vtable, also link to an array of _itables_, which can
 be iterated. Check for the appropriate interface id, and eventually
 you find the right itable. Now you have an itable with a fixed layout,
 so you lookup at the offset and find the place in the vtable to jump
@@ -161,9 +161,12 @@ Rust works similarly. In generic (template) code, traits are like C++
 concepts: they are compiled away and have zero overhead. Otherwise we
 pass around fat pointers.
 
-Source: http://research.swtch.com/interfaces
-Source: http://blog.rust-lang.org/2015/05/11/traits.html
-Source: https://news.ycombinator.com/item?id=9526440
+- Source: http://research.swtch.com/interfaces
+  - Russ Cox: Go Data Structures: Interfaces
+- Source: http://blog.rust-lang.org/2015/05/11/traits.html
+  - Abstraction without overhead: traits in Rust Aaron Turon
+- Source: https://news.ycombinator.com/item?id=9526440
+  - https://news.ycombinator.com/item?id=9526440 discussion
 
 [Efficient Implementation of Java Interfaces: Invokeinterface Considered Harmless][1]
 [InterfaceCalls][2]
@@ -171,5 +174,5 @@ Source: https://news.ycombinator.com/item?id=9526440
 [2]: https://wiki.openjdk.java.net/display/HotSpot/InterfaceCalls
 [1]: http://yanniss.github.io/521-10/oopsla01.pdf
 
-* Another good source: https://lukasatkinson.de/2018/interface-dispatch/
-    * I found this much later; it confirmed much of wbat I wrote here.
+- Another good source: https://lukasatkinson.de/2018/interface-dispatch/
+  - I found this much later; it confirmed much of wbat I wrote here.

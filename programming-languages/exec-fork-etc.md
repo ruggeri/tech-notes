@@ -11,7 +11,7 @@ memory is treated copy-on-write style.
 
 A very common use of `fork` is to immediately call `exec` so that you
 can run a different command. This is what shells do for sure. Almost
-everything is *replaced* by `exec`: machine code, data section, heap,
+everything is _replaced_ by `exec`: machine code, data section, heap,
 and call stack.
 
 Interesting note on `exec`: it does return a value, but only if it
@@ -52,7 +52,7 @@ processor" I think). `system` waits for the subprocess to finish.
 
 There is another command called `posix_spawn`. It also does a
 fork-exec, but can be a little smarter. For instance: if overcommit of
-virtual memory is turned *off*, then forking really *does* copy all
+virtual memory is turned _off_, then forking really _does_ copy all
 the memory. `posix_spawn` avoids that. Obviously `posix_spawn` is part
 of POSIX and not part of the C standard, which is different from
 `system`. Even if you do want to wait synchronously, `posix_spawn` can
@@ -89,7 +89,8 @@ using threads.
 
 Sources:
 
-* Many Wikipedia entries (fork, exec, fork-exec, zombie process).
-* https://unix.stackexchange.com/questions/91058/file-descriptor-and-fork
-* https://news.ycombinator.com/item?id=8204350
-* https://thorstenball.com/blog/2014/10/13/why-threads-cant-fork/
+- Many Wikipedia entries (fork, exec, fork-exec, zombie process).
+- https://unix.stackexchange.com/questions/91058/file-descriptor-and-fork
+- https://news.ycombinator.com/item?id=8204350
+- https://thorstenball.com/blog/2014/10/13/why-threads-cant-fork/
+  - "Why threads can't fork" by Thorsten Ball

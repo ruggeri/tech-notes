@@ -1,37 +1,37 @@
 It's generally not decidable what objects will be used again in the
 life of a program. Two main heuristics:
 
-* Those things that aren't referenced by any objects.
-* Those things which aren't reachable from a set of objects on the
+- Those things that aren't referenced by any objects.
+- Those things which aren't reachable from a set of objects on the
   stack.
 
 ## Reference Counting
 
 The main problems with reference counting are:
 
-* Can hypothetically overload the reference count. Bloats the object.
-* Every mutation of a pointer needs to decrement one reference count
+- Can hypothetically overload the reference count. Bloats the object.
+- Every mutation of a pointer needs to decrement one reference count
   and increment another, increasing memory bandwidth usage, and
   hurting caching.
-    * You can address caching problems this by doing program analysis
-      to coallesce or defer count adjustments. Requires
-      compiler/interpreter support.
-* Unbounded pauses when you're destroying objects.
-    * This can be addressed by incrementally decrementing reference
-      counts. When an object's refcount falls to zero, put it in a
-      queue, and another thread can then go on decrementing the
-      items referenced by the object.
-* Need locking or memory barriers in multi-threaded programs, hurting
+  - You can address caching problems this by doing program analysis
+    to coallesce or defer count adjustments. Requires
+    compiler/interpreter support.
+- Unbounded pauses when you're destroying objects.
+  - This can be addressed by incrementally decrementing reference
+    counts. When an object's refcount falls to zero, put it in a
+    queue, and another thread can then go on decrementing the
+    items referenced by the object.
+- Need locking or memory barriers in multi-threaded programs, hurting
   performance.
-* Cycles are not collected.
-    * This can be addressed if you very occasionally run a tracing
-      garbage collector.
+- Cycles are not collected.
+  - This can be addressed if you very occasionally run a tracing
+    garbage collector.
 
 The advantages are:
 
-* Simple.
-* Can reclaim items as soon as they lose all references.
-* Tracing GC performs poorly when you have very low free space,
+- Simple.
+- Can reclaim items as soon as they lose all references.
+- Tracing GC performs poorly when you have very low free space,
   because you're triggering lots of collections that trace the entire
   working set. Also a trace kills the cache.
 
@@ -84,7 +84,7 @@ might prefer to keep things that were allocated adjacent still
 adjacent after copying.
 
 The Mark-Compact algorithm first runs a typical trace. It then moves
-to the copying phase. *It does not use a second space*.
+to the copying phase. _It does not use a second space_.
 
 We'll iterate through live stuff in address order. We'll move each
 item to the bottom of the range. To keep track of how we move stuff,
@@ -120,7 +120,7 @@ by the break table; but the break table grows as we make space for it,
 so we don't need to set aside space.
 
 Note that sorting the break table is O(n log n). However, note that
-this is linearithmic *in the number of breaks*. That's better than the
+this is linearithmic _in the number of breaks_. That's better than the
 number of live objects.
 
 ## Tri-Color Marking
@@ -128,9 +128,9 @@ number of live objects.
 Let's get deeper into how you might trace incrementally. We haven't
 gone into detail on tracing. Let's formalize three sets:
 
-* White objects, which will be collected at end.
-* Gray objects, which need to be scanned. This is empty at end.
-* Black objects, which have been scanned and are retained.
+- White objects, which will be collected at end.
+- Gray objects, which need to be scanned. This is empty at end.
+- Black objects, which have been scanned and are retained.
 
 You start out with the root set as gray. You scan gray items, moving
 white items to gray. You blacken the item when you are done scanning
@@ -203,17 +203,17 @@ dies before the phase ends.
 
 ## Todo
 
-* Useful: http://www.memorymanagement.org/glossary
-* Very Comprehensive: "Uniprocessor Garbage Collection Techniques"
+- Useful: http://www.memorymanagement.org/glossary
+- Very Comprehensive: "Uniprocessor Garbage Collection Techniques"
   (Paul Wilson)
-* http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.275
-* http://www.amazon.com/dp/1420082795
-* http://www.amazon.com/dp/0471941484
+- http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.275
+- http://www.amazon.com/dp/1420082795
+- http://www.amazon.com/dp/0471941484
 
-* Generational Garbage Collection
-    * Inter-generational pointers??
-* Parallel Collection (those are two different things!)
-* Replicating collector: copying without destruction. Useful in
+- Generational Garbage Collection
+  - Inter-generational pointers??
+- Parallel Collection (those are two different things!)
+- Replicating collector: copying without destruction. Useful in
   incremental/parallel collection??
-* Free Lists, Buddy System?
-* Baker's Treadmill
+- Free Lists, Buddy System?
+- Baker's Treadmill

@@ -1,4 +1,5 @@
 // http://cglab.ca/~abeinges/blah/too-many-lists/book/
+// "Learn Rust With Entirely Too Many Linked Lists"
 
 // Even though the items are heap allocated now, they are owned by a
 // single List. Prepending still requires copying the entire list, it
