@@ -178,27 +178,68 @@ theirs. I'm not sure if this is a widely used idea.
 
 p316-p327
 
-**TODO**: Review me.
+They will now implement an "open-addressed" hash set. This won't have
+chaining. They will use a two-table cuckoo-hashing approach (see
+`hash-map-tricks.md`), and make it concurrent. But they won't make it
+lock free; they will use locks.
 
-In Cuckoo hashing, we place an item at its position. If someone is
-there, we move it forward to its next position. We continue until we
-find a free cell.
+First, they won't really make this open-addressed. They are going to
+make buckets at each index, which they call "probe set." The idea will
+be that probe set size will be limited to `PROBE_SIZE` elements
+temporarily, but on quiescence will be no more than `THRESHOLD`
+elements. Possibly `THRESHOLD` could be as small as one?
 
-Here's a key. We don't move an item forward in a cycle of
-locations. Instead, we move it from one possible location to a 2nd
-possible location. Next time we try to move it, we'll move it back to
-the first location.
+I believe the need for `PROBE_SIZE > THRESHOLD` is because two
+concurrent insertions might both try to put an item in a slot. If a long
+chain of cuckoo relocation work has been done, we don't want to
+immediately reverse course.
 
-When we detect a loop, it means it's time to resize. This guarantees
-`O(1)` WC lookup, at some additional cost of jumping around when
-inserting (still expected `O(1)`). Prolly has mediocre cache
-performance.
+When `THRESHOLD` is exceeded, you will `get` first item in the probe
+set. You will then lock both tables for this item (first table0, then
+table1; must lock in order to avoid deadlock). Then, double check the
+item was removed from probe set by a concurrent thread; keep retrying.
+If not, you can move it! Then, release locks. If you moved somewhere
+with more than `THRESHOLD` items, keep moving things forward.
 
-It looks they bring up Cuckoo just to show an example where we need to
-coordinate a long sequence of swaps. It isn't amenable to a lock-free
-version. Bah.
+Last, we will trigger a resize when moving an item from the probe set
+would violate the `PROBE_SIZE` of where we would move it to. This is
+going to be a stop-the-world resize, claiming all locks in the table.
+They show striped and "refinable" versions.
 
-No discussion of a lock-free, open addressed version of a hash map.
+I believe I have captured the main ideas, but I didn't _super_ closely
+interrogate what they were doing. Maybe I was unfairly biased against
+the probe set idea. You can probably do this all in contiguous memory,
+since probe sets have fixed maximum size, and you can CAS a length
+variable. Their indirected `ArrayList` probe set does make their
+presented version _closed_ addressed, but they probably only did that
+for simplification. If you inline the probe sets, it is fair to call
+this open addressed.
+
+This code isn't lock free. It seems impossible to remove the locks,
+because when moving an item from one location to another, there must not
+be a moment where it can be "missed" by a concurrent reader. If you need
+lock-free, then the split ordered list is better than this.
+
+Also, you eventually need to reallocate the tables and rehash
+everything. This will stop the world, and I don't see any obvious
+workaround. ChatGPT suggests something about "epochs".
+
+I will study open-addressed concurrent hash maps more in my
+`concurrent-hash-map.md` notes, which have a goal of presenting a
+lock-free, open-addressed, resizable hash map.
+
+## Note On Multi-Update "Transactions"
+
+Just because you allow single concurrent updates to a map doesn't mean
+you can extend the idea to support _multiple update_ transactions
+easily. To do so would require modification to/support from the map
+class itself.
+
+For a map with locking: if you just held the locks from an earlier
+operation and keep them until the end of the transaction, you could
+easily incur deadlock with other concurrent operations. If you had a
+lock-free approach, there would typically be no way to avoid leaking of
+state mid-transaction.
 
 # Skip List
 

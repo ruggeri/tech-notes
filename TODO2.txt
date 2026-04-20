@@ -110,8 +110,7 @@ math
 randos
 
 algos:
-art-of-multiprocessor.md: specifically lock free hash map starting p309
-concurrent-hash-map.md
+concurrent-hash-map.md (maybe look at Preshing as a warmup before Click?)
 esoteric-data-structures.md
 graphs.md
 lock-free-algos.md (maybe make sure covers queue/stack stuff from Herlihy?)
@@ -122,10 +121,7 @@ Closest pair of points randomized algorithm.
 
 sorts-parallel2.md
 
-From my old algorithms curriculum:
-BST traversals.
-AVL and Red-Black implementations
-
+Review Garbage Collection notes... garbage-collection.md
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 
