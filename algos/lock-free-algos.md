@@ -1,44 +1,66 @@
-## Concurrent Data Structures
+# Concurrent Data Structures
 
-Historically, these were datastructures which would allow concurrent
-calling of various methods. However, did not necessarily support
-parallelism. This mattered for pre-emptive multitasking on a single
-CPU for time-slicing.
+Concurrent data structures allow for multiple "concurrent"
+users/mutators. Even before CPUs started to gain parallel execution, you
+might have multiple OS _preemptible_ threads running on a single
+execution unit ("core").
 
-With concurrent data structures, you have to be careful to ensure
-safety. If you start mutating an object in one thread, you can't use
-that in another thread because the invariants may not have been
-restored yet. To ensure a higher level of safety, you run into the
-risk of sacrificing liveness: you don't want your data structure to
-get wedged.
+Operations must be careful about concurrent modification of the data
+structure to ensure _(thread) safety_. A thread could be interrupted in
+the middle of an operation. If you start mutating an object in one
+thread, you might not be able to use the object yet in another thread
+because the invariants may not have been restored yet.
 
-Nowadays, with parallel execution, the term has expanded to include
-what used to be separately denoted _shared data structures_. These are
-ones which are also safe to use in _parallel_ code, where multiple
-threads might be running.
+One way to provide thread safety is through _locking_, also called
+_mutual exclusion_. Coarse-grain locking can ensure safety, but it may
+prohibit parallel use of the datastructure. Finer grained locking might
+improve breadth of parallel use, but introduce the possibility of
+_deadlock_ (a form of "liveness" failure).
 
-To acheive this, you might use locks, which may limit
-throughput. Alternatively, you might use non-locking (AKA lock free)
-algorithms.
+We say that execution is _parallel_ if two threads can be running and
+performing operations simultaneously (at least two separate execution
+units). Here is a key difference between a truly parallel and a
+"single-core" concurrent environment: the single-core threads can be
+imagined to have a "atomic", "global" model, where a write from a thread
+will be immediately visible to a read by any thread that is run
+afterward. True parallel execution means that reads/writes may give
+values that are not consistent with any single order of atomic
+operations on a global memory.
 
-## Disadvantages of Locks
+An alternative to locking/mutual exclusion is _non-locking_ (AKA _lock
+free_) techniques. In lock free code, a thread cannot be blocked from
+progress by a suspended thread that possesses a required lock.
 
-- Contention: when someone has the lock, other people can't do
-  anything when that thread goes to sleep. That's kind of annoying,
-  because the OS isn't necessarily going to know that threads can't
-  make progress before switching.
-  - This is especially problematic if the thread dies without
-    releasing the lock, or if it enters an infinite loop.
-  - OTOH: those are actual bugs. But they could be real if client
-    code is executed while you have a lock.
-- Overhead: tends to be expensive to obtain locks relative to lock
-  free test-and-set stuff. When contention is low, locking can be
+Note that locks/mutual exclusion is typically implemented _in terms of_
+non-locking primitives; locks are not themselves primitive. So we will
+eventually try to be quite precise about what it means to be truly lock
+free. Else we could introduce/implement locking via "lock free"
+primitives without noticing it.
+
+# Disadvantages of Locks/Mutual Exclusion
+
+- Contention: when someone has the lock, other people can't do anything
+  when that thread goes to sleep. That's kind of annoying, because the
+  OS isn't necessarily going to know that threads can't make progress
+  before switching.
+  - This is especially problematic if the thread dies without releasing
+    the lock, or if it enters an infinite loop.
+  - OTOH: those are actual bugs. But they could be real if client code
+    is executed while you have a lock.
+- Overhead: locks tend to be expensive to obtain relative to lock free
+  test-and-set stuff. When contention is low, locking can be
   unnecessarily expensive.
-  - When contention is high, test-and-set can be wasteful.
+  - On the other hand, when contention is high, lock free ideas like
+    optimistic attempt and possible retry (e.g., ideas based on
+    test-and-set) can be wasteful.
 - Bugs: Difficult to prevent deadlock. Difficult to debug. Locks can
-  "compose" poorly; you may inadvertanly cause deadlocks.
+  "compose" poorly; you may inadvertently cause deadlocks.
+  - On the other hand, lock-free code can be difficult to ensure doesn't
+    have subtle safety problems.
+  - Even when lock-free code works as designed, you still may not be
+    able to naively compose operations into "isolated" transactions.
 - Priority inversion: if a low-priority thread has a lock, it may stop
-  high-priority threds from running.
+  high-priority threads from running.
 
 Alternatives include:
 
@@ -46,35 +68,66 @@ Alternatives include:
 - Software transactional memory.
 - Other custom lock-free, wait-free data-structures.
 
-## Lock Free
+# Lock Free
 
-Lock-free is defined to mean that when you suspend threads, then some
-active thread must be able to make progress. Not everyone can be
-stopped just because someone with a lock is paused; thus lock-free
-code can't have locks! Locks cause all the problems above, so
-lock-free may be desirable.
+Lock-free is defined to mean that when you suspend some threads, then at
+least one active thread must be able to make progress. Not everyone can
+be stopped just because someone with a lock is paused. In particular: if
+you suspend _all but one_ thread, then that thread must be able to make
+progress and complete. Technically, this is a weaker property called
+_obstruction free_. It is stronger to say: if any subset of threads are
+allowed to run (and some other subset are slept), always one must
+eventually make progress. That is true lock free, and it implies
+obstruction free.
 
-Intuitively, lock free might works because when a thread is paused in
-the middle of its work, other threads may "rollback" the other
-thread's unfinished work. That gives other threads the opportunity to
-make progress.
+Lock-free code can't have locks; else a suspended holder of a lock would
+block operations that need that lock.
 
-Lock-free code won't suffer deadlock as lock-free code
-might. Composability problems or bugs in client code when a lock is
-held are less severe. Contention imposes less cost.
+Lock free ideas often involve making copies of structures, updating your
+thread-local copies, and then doing a compare-and-set atomic operation
+to "replace" old versions with updated versions. This is called
+_optimistic_. If there were a concurrent change and the compare-and-set
+failed, you _retry_.
 
-Not everything is great. When contention is high, threads might be
-frequently interrupting each other, rolling back each other's work. A
-thread might be repeatedly interrupted, over and over, thus
+Lock-free code cannot suffer deadlock as locking code might. That is a
+form of safety. Lock-free _may_ also have higher _throughput_. Readers
+can often proceed faster because they don't need to claim read locks to
+block writers. Implementation of locks inevitably involves some form of
+atomic operation, which is not cost-free. If lock-free code can avoid
+_any_ atomic operation on the read path, that can help read throughput.
+
+With lock-free code, writers might proceed faster because they are not
+blocked by readers. Even if you were to use a _readers-writer_ (RW)
+lock, you would not get this advantage of unblocked writes.
+
+But lock-free code doesn't guarantee better _throughput_. While that is
+often the case under certain workloads, it is not the _definition_ of
+lock free. Lock free might have more indirection, or be more
+complicated. It can be mentally trickier than code that can rely on
+mutual exclusion. And when write contention is high, threads might be
+frequently interrupting each other, rolling back each other's work. Even
+if no one gets starved, throughput can be trashed.
+
+A thread might even be repeatedly interrupted, over and over, thus
 prohibiting it from making progress for an arbitrarily long time. Even
-though the system as a whole should make progress, an individual
-thread may be very delayed.
+though the system as a whole may be making progress, an individual
+thread might be _arbitrarily_ delayed. If a thread can be arbitrarily
+delayed, this is called _starvation_. Lock free code may still have
+starvation.
 
-Let's think about how lock-free might be implemented. CAS is the
-typical approach (kinda like STM). Say you have a persistent data
-structure under the hood. You make a new copy with your changes
-locally, then you do a CAS to mutate the shared pointer to refer to
-your version. If the CAS fails, you start again.
+A form of "mutual starvation" might occur if two threads keep trying to
+make progress, but keep causing each other to retry, without either ever
+proceeding to completion. In this case, we call it _livelock_. True lock
+freedom forbids live-lock, but obstruction free code does not. Indeed,
+livelock is most commonly associated with locking code where you try to
+take multiple locks, but release them and retry instead of waiting when
+you realize someone has a lock you need.
+
+Let's think about how lock-free might be implemented. CAS is the typical
+approach. Say you have a persistent data structure under the hood. You
+make a new copy with your changes locally, then you do a CAS to mutate
+the shared pointer to refer to your version. If the CAS fails, you start
+again.
 
 It is possible to be arbitrarily delayed. But throughput overall is
 guaranteed, since for your work to be wasted, someone else's had to be
@@ -88,7 +141,35 @@ works best when you have (1) persistent structures and (2) garbage
 collection to prevent races involving deleted data. (I think Treiber
 stack below illustrates this).
 
-## Wait Free
+# Liveness Summary
+
+- Obstruction free: a thread that runs alone "long enough" must
+  eventually complete.
+- Deadlock free: system cannot get in a state where no one can make
+  progress.
+  - Livelock is a form of deadlock.
+  - Deadlock free is stronger than obstruction freedom, since we don't
+    need to schedule a thread without interruption for "long enough".
+- Lock free: even if you sleep some threads, amongst the other
+  scheduleable threads, one will complete an operation.
+  - Basically, no one thread can hold a lock that prohibits all the
+    others from making progress until the "lock holder" finishes.
+  - Sometimes we say "infinitely often a thread will complete an
+    operation." That just means: threads will keep making progress, not
+    just once, but over-and-over forever.
+  - Lock free is stronger than deadlock free, because progress is
+    guaranteed even when some subsets of threads are slept indefinitely.
+- Starvation freedom: even if you sleep some threads, amongst the other
+  scheduleable threads, _each_ will eventually complete an operation.
+  - No one is going to get stuck waiting _forever_.
+- Wait freedom: even if you sleep some threads, amongst the other
+  scheduleable threads, each will eventually complete an operation
+  _within some upper bound number of steps_.
+  - Basically: you cannot be kept _arbitrarily waiting_.
+  - Other threads may make progress before you, but "later" work cannot
+    indefinitely jump over you.
+
+# Wait Free
 
 We've seen lock-free code can suffer from arbitrarily delays to a
 single thread. A stronger guarantee is _wait-free_. This guarantees
