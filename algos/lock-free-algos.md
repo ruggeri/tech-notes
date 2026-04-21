@@ -273,8 +273,8 @@ When enqueueing, take the "enqueue" lock, create a new node, write the
 value in. Update `tail->next` and `tail`. When dequeuing, take the
 "dequeue" lock, remove the head node (update `head`), _but return the
 next value_ (`head->next->val`). If you want, you can erase the value in
-the next, thus restoring the invariant. This trick is from Michael and
-Scott.
+the next, thus restoring the invariant. This trick is from **Maged
+Michael and Michael L Scott.**
 
 By using this trick, you always have at least one node in the linked
 list (the dummy). With this trick, `dequeue` never modifies the `last`
@@ -427,7 +427,15 @@ enqueuers. Likewise, dequeue operation must be able to dequeue, which
 means more than just checking that `queue.head != queue.tail`, because
 they can be equal (lagged tail) but there are items to dequeue.
 
-## Lock Free Singly Linked List
+# Lock Free Singly Linked List
+
+- John D Valois introduced first implementation, but it is not
+  practical.
+- Timothy Harris L Harris made a successful version with a "deleted"
+  bit. It relies on a garbage collected environment
+- Maged Michael improved Harris's version to work with memory
+  reclamation (manual memory management, I think).
+- This _is_ covered in Herlihy and Shavit (p213-p218).
 
 This is due to Harris. Want to have arbitrary insertion/deletion at any
 point. Insertion between `n1` and `n2` is easy. You create `x =
@@ -437,48 +445,145 @@ Supporting deletion is a little tricky. To delete `x`, you could try to
 do a CAS on `prev->next` to `x->next` (thus protecting against
 possibility that that prior node had someone insert afterward). But what
 if, concurrently, someone has modified `x->next` by either inserting
-after you, or deleting the next item? In that case you would lose the
+after `x`, or _deleting_ `x->next`? In that case you might lose the
 insert, or restore the deleted item.
 
-One solution is to do a CAS to _mark_ `x->next`. You do this by popping
-a high-order bit reserved for marking. This steals a bit from the
-pointer, and must be masked out for dereferencing. Insert after logic
-should check the marker bit; if it is marked, you know this node is
-being deleted. You must retry from the beginning.
+One solution is to begin delete by first doing a CAS to _mark_
+`x->next`. You do this by popping a high-order bit reserved for marking.
+This steals a bit from the pointer, and must be masked out for
+dereferencing. Insert after logic should check the marker bit; if it is
+marked, you know this node is being deleted. An `insert_after`-type
+operation must fail; the node has been deleted, you're too late.
+Alternatively, you can try to start again at the head and scroll forward
+to a new location where you want to insert.
 
-After marking `x->next`, you may CAS on `prev->next`. If `x->next` has
-been updated to a new node (because of concurrent insertion after `prev`
-and before `x`), you can scan forward. However, if `x->next` has itself
-been marked, you give up on cleaning out this node. It's okay to leave
-it in the list. Future scans through the list should try to clean out
-nodes they encounter that are marked deleted.
+After marking `x->next`, you may CAS `prev->next` to snip `x`. If
+`prev->next` has been updated to a new node (because of concurrent
+insertion after `prev` and before `x`), the CAS will fail. You _could_
+scan forward to finish snipping out `x`, but it is not necessary. The
+Herlihy and Shavit implementation does not check this.
+
+While scanning forward through the list, you will try to CAS to remove
+any nodes you encountered which were not deleted. This is similar to in
+the lock free queue, where you will advance lagged tails. Here, threads
+can continue/complete work which other threads have begun but not
+completed.
 
 Harris uses this to implement a set; he keeps the keys in sorted order
 and just scrolls through again to the right position on every fail.
 
-## Hash Map
+- Source: https://www.cl.cam.ac.uk/research/srg/netos/papers/2001-caslists.pdf
+  - "A Pragmatic Implementation of Non-Blocking Linked-Lists" by Timothy
+    L Harris
+
+# Lock Free Hash Maps
+
+## Non-Extensible Hash Maps
 
 In order to do a "non-extensible" hash map, you just need a set of
-buckets, each of which implement a set.
+buckets, each of which implement a set. By non-extensible, I mean: the
+number of buckets never grows.
 
 Harris showed how to do a set as a sorted linked list. It's kind of
 annoying that `insert-after` can require a re-scan of the array on a
 failed CAS, but that's not a huge problem. These lists are supposed to
 be very short anyway.
 
-I spent a lot of time working on a simpler list where you can only
-insert at the head. In that case, you don't have to worry about lost
-inserts as in Harris. But I don't see the practical benefit.
+- Source: https://docs.rs/crate/crossbeam/0.2.4/source/hash-and-skip.pdf
+  - Maged M. Michael
+  - High Performance Dynamic Lock-Free Hash Tables and List-Based Sets
+  - Maged uses lock free linked lists to make a non-extensible hash
+    table with a fixed number of buckets.
+  - Most of the paper is really about fixing a problem in Harris.
+  - Specifically, Harris assumes a garbage collector. In particular,
+    there's a danger of pointer reuse, leading to an ABA problem.
+  - Maged notes that maybe this problem can be fixed by use of DCAS
+    (double CAS; on two distinct memory locations), but that is not
+    widely deployed.
+  - Maged fixes this by introducing a "tag" in addition to the deletion
+    marker.
+  - Basically, the whole point of Maged's paper is to talk about how to
+    use either an incrementing tag (or possibly "hazard pointers") to
+    avoid an ABA problem.
+  - I honestly didn't study this terribly closely, because my point was
+    more to understand lock free hash maps.
+- I claimed to have implemented a version of Harris's/Maged's idea with
+  a simpler list where you only insert at the head?
+  - I even claimed this is "Maged basically did what I did". What??
+  - I'm not sure what allowing insert only at head would solve? I
+    suppose it avoids insertion after a concurrently deleted node?
+  - But you must still be careful of deletion after a deleted node. So
+    you must still use deleted marker.
+  - Also, I'm not sure it really solves the ABA problem (Maged's primary
+    goal), since even a Treiber stack needs tags...
+  - But you must still be careful of ABA?
 
-Maged basically did what I did, resulting in a "non-extensible"
-concurrent hash map.
+## Extensible Hash Maps
 
-Lea wrote the ConcurrentHashMap for Java, but this is not entirely
-lock free. Basically, writers typically don't block readers, there are
-32-write locks (for 1/32nd of the buckets, I think), and only need to
-lock the whole thing on resize. Java's HashTable, by contrast, has one
-lock, and it blocks readers, too. (You can increase number of locks to
-support more concurrency; why isn't that sufficient?).
+**ConcurrentHashMap before Java8**
+
+I believe the Java `java.util.HashTable` is thread-safe (the
+`java.util.HashMap` is not). It uses a single global lock.
+
+Douglas S. Lea wrote the `java.util.concurrent.ConcurrentHashMap` for
+Java, to give finer grained locking and better concurrency. It is not
+lock free though. It is a "closed addressed", also called "open hashed",
+which means "separate chaining" (buckets).
+
+Basic idea is: there will be many "segments", each hash its own lock. To
+lookup/insert/delete, you look at high order bits to determine the
+segment.
+
+Then, within the segment, you use the rest of the hash to pick a bucket.
+Buckets will be stored as linked lists of items. Read will iterate the
+bucket. Reads do _not_ take locks, so they are not blocked by writers.
+
+To write, you will take a lock on the segment. Writes are serialized.
+
+When a segment load factor is exceeded, it is time to resize. Segment
+size is doubled, buckets are re-allocated. Moir and Shavit claim this is
+a version of Litwin linear hashing (described in `hash-map-tricks.md`);
+they must mean this in a very loose sense (perhaps just that number of
+buckets is always a power of two?). There is no "incremental" resize
+where only one bucket is split as in Litwin linear hash table... Really,
+Shalev and Shavit's split-ordered list is much more conceptually like
+extensible hashing...
+
+If you didn't resize segment, you wouldn't even need write locks; that's
+the non-extensible map. Even if you used real Litwin linear hashing, you
+still do need locks, even if you split just one bucket, because of
+possibility of concurrent insert at that bucket.
+
+**Split-Ordered List**
+
+Please see `art-of-multiprocessor.md` for a thorough review. I believe
+Shalev and Shavit developed this specifically as a competitor to Lea's
+ConcurrentHashMap; their paper compares performance/qualities to
+ConcurrentHashMap a lot.
+
+I will summarize big idea though. All items will be stored in a single
+lock-free sorted list. The "buckets" are basically "hints" that jump you
+into the sorted list. There is a clever way to incrementally add buckets
+by splitting existing buckets when you need. This can be done lazily.
+
+It combines the extensible idea with the lock-free sorted list bucket
+idea.
+
+Resizing the buckets array (the hints array) would be a stop-the-world,
+`O(n)` operation. Instead, they suggest using a tree, which can be
+updated lock-free.
+
+I had an old note that the hash table `count` variable becomes a hot
+variable. But time to CAS that variable might be dominated by time to
+hash. Also, perhaps hotness might be reduced by making multiple `count`s
+to reduce contention on a single variable or cache line? Reader can
+occasionally read all counts and aggregate?
+
+**Java8 ConcurrentHashMap**
+
+In 2014, Java completely overhauled the `java.util.ConcurrentHashMap`.
+
+**Cliff Click NonBlockingHashMap**
 
 Cliff Click has basically a closed-addressed array. He talks about how
 to do a concurrent resize. Basically, when you start the resize, you
@@ -486,32 +591,6 @@ start telling people to look first in the old version, and maybe also
 in the 2nd version. As your threads do some copying to the new
 version, they mark the old version as "moved". Basically, you're going
 to every address in the table and marking it as "moved".
-
-Shalev-Shavit have an idea of a "split-ordered list". Basically, you
-assume that hashes are taken modulo `2**i`. Then you realize, on each
-resize-doubling, each element in a bucket will stay in bucket `k` or
-move to `2**i+k`. So each element is each time sent left or right. The
-ordering is to keep left stuff before right stuff. Then it's just a
-matter of maintaining an array of "hints" into the concurrent
-list.
-
-The problem is that the number of hints needs to grow as you add
-buckets. And it needs to be in an array so you can get O(1)
-access. But how do you grow that array?
-
-You can use a high branching tree. The first node represents buckets
-`0...2**i`, to create a next node, create a second array for buckets
-`2**i...2**(i+1)`. You also need to create a parent node, where the
-first two references are to these tables.
-
-Basically, this is sort of like a persistent vector. Notice that there
-is a little overhead in jumping through tables, but this can be very
-low.
-
-NB: you have to update a count on every insert. That is a point of
-possible contention. But note that the greatest majority of insert
-time is spent hashing; so contention on a simple increment shouldn't
-be very high, unless we have _many_ processors.
 
 Another alternative is a ctrie; which is basically a HAMT updated in a
 CAS manner. The one trick is to handle concurrent modifications to the
@@ -521,8 +600,9 @@ intermediary nodes between every pair of nodes.
 - Ctrie: http://infoscience.epfl.ch/record/166908/files/ctries-techreport.pdf
   - From 2011; maybe more
 - Ctrie: http://lampwww.epfl.ch/~prokopec/ctries-snapshot.pdf
-- Split-ordered list: http://cs.ucf.edu/~dcm/Teaching/COT4810-Spring2011/Literature/SplitOrderedLists.pdf
-  - From 2006
+- Split-ordered list: https://ldhulipala.github.io/readings/split_ordered_lists.pdf
+  - Split-Ordered Lists: Lock-Free Extensible Hash Tables
+  - Shalev Shavit 2006.
 
 I think that these hash maps should have good opportunity for
 scalability.
@@ -531,7 +611,6 @@ scalability.
 
 - On modern machines, when writing a single word, another thread can't
   see a partial update. Read/Writes of a single word are atomic.
-- TODO: Memory ordering can be a problem.
 - Futex is "fast userspace mutex". It uses some shared memory and
   atomic operations so that taking the uncontended lock happens in
   userspace. If that doesn't work, then the thread needs to call into
@@ -564,6 +643,8 @@ scalability.
   - http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures2/index.html
   - I have a lot more detail than this...
 - Michael and Scott paper
+  - Simple, Fast, and Practical Non-Blocking and Blocking Concurrent
+    Queue Algorithms
   - Covers two-lock and CAS based queues.
   - https://www.research.ibm.com/people/m/michael/podc-1996.pdf
   - Link died. I think it is this: https://www.cs.rochester.edu/u/scott/papers/1996_PODC_queues.pdf
@@ -581,6 +662,7 @@ scalability.
 
 ## More Books
 
-- bought these.
-- http://www.amazon.com/Art-Multiprocessor-Programming-Revised-Reprint/dp/0123973376/ref=sr_1_1?ie=UTF8&qid=1454457397&sr=8-1&keywords=The+Art+of+Multiprocessor+Programming
-- http://www.amazon.com/C-Concurrency-Action-Practical-Multithreading/dp/1933988770/ref=pd_sim_14_2?ie=UTF8&dpID=51nuLYxU2iL&dpSrc=sims&preST=_AC_UL160_SR128%2C160_&refRID=0YEA0ZVEF4BAN3S843WM
+- In response to originally exploring this subject, in 2016 I
+  purchased:
+  - Art of Multiprocessor Programming
+  - C++ Concurrency in Action

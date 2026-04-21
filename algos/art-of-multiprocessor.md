@@ -48,12 +48,16 @@ then does he lock `pred` then `curr`. Because `pred` could have been
 removed concurrently, or an item placed between, he rescans from `head`,
 looking for `pred`. If it is never found, it must be deleted, and the
 insert is retried. If `pred->next` has changed, we should also retry
-(anyway, that's the simplest logic)e.
+(anyway, that's the simplest logic).
 
 One bother with the optimistic version: I feel like you should keep a
 bit to mark a node deleted. Then you will avoid the need to rescan
 unless `pred` really _was_ deleted. In fact, I think they _do_ do this,
 and call the class `LazyList`.
+
+Note: Michael-Harris lock free linked lists are covered in
+`lock-free-algos.md`. They _are_ covered at p213-p218 in Herlihy and
+Shavit. Not sure why I didn't put notes here.
 
 # Queues and Stacks
 
@@ -80,7 +84,7 @@ granularity to avoid excessive blocking. That might make sense if users
 are machines on a network, since for local use you will be eventually
 limited by CPU parallelization.
 
-For performance reasons, yhey want to avoid taking locks on the buckets
+For performance reasons, they want to avoid taking locks on the buckets
 array, so they will use lock-free CAS operations. Basically, someone is
 going to do a CAS to claim the job of resizing the hash map. When they
 do, they are going to stop everyone accessing it. They will wait for
