@@ -187,34 +187,55 @@ Apparently it is fairly difficulty to make practical wait-free
 structures; a recent paper presented (what they claim is) the first
 practical wait-free queue.
 
-## Treiber Stack
+# Treiber Stack
 
-A lock free stack uses compare-and-set. Basically you create a new
-node and do a compare-and-set to the front ptr. Likewise for pop.
+A lock free stack uses compare-and-set. Basically you create a new node
+and do a compare-and-set to the front ptr. Likewise for pop.
 
-One thought: you have to be a little careful of the "ABA"
-problem. Here's an example: thread1 wants to pop the top of the stack
-(node A), it wants to set the top to node B. Before it does a CAS to
-make sure A is still the top, a 2nd thread interrupts. It pops A, pops
-B, and then pushes A back on. The 1st thread resumes, obviously
-confused.
+This is lock-free, of course. Note that it is neither starvation nor
+wait-free, as the threads could keep successfully CASing the head, while
+the starved thread keeps failing over and over.
 
-Basically, the equality check of the top can't ensure the stack wasn't
-modified. The problem here arrises because you can push and pop
-_nodes_. If you created a new node for every push, you'd be
-okay. Except when your memory allocator re-uses that memory... Thus
-you might keep an incrementing "version" number in the node, thus
-you're safe for re-use of a node. Note that the version number can
-wrap entirely around, causing problems, but that is extremely
-unlikely.
+Note that the Treiber stack, while lock free, does not at all allow for
+parallel modification. So multiple writers will necessarily serialize.
+In fact, with heavy write contention, it might be better for throughput
+just to lock.
 
-This is called Treiber's stack. It's lock-free, of course. Note that
-it is not wait-free, as the threads could keep successfully CASing the
-head, while the starved thread keeps failing over and over.
+**ABA Problem**
 
-Another problem: what about deletion of popped nodes? Specifically,
-let's focus on the _node_, not the value. I want to focus on the node
-so that we don't confuse ourselves with ownership semantics of values.
+One thought: you have to be a little careful of the "ABA" problem.
+Here's an example: thread1 wants to pop the top of the stack (node A),
+it wants to set the top to node B. Before it does a CAS to make sure A
+is still the top, a 2nd thread interrupts. It pops A, pops B, resets
+`A->next` to `B->next`, and then pushes A back on. The 1st thread now
+resumes. The `CAS` will still see that `stack->head` is `A`. But if it
+isn't very careful, it will set `stack->head` to `B` rather than
+`B->next`.
+
+In part, the problem is due to concurrent modification of an object
+still accessible from another thread. Maybe we could mitigate the
+problem if the API only allowed push/pop of _values_.
+
+But ultimately, memory can _always_ be reused by the runtime. An address
+isn't tied to a specific object created at a specific time; it's just a
+place in memory, which can be reused when other objects are placed there.
+
+Herlihy and Shavit suggest that you might keep an incrementing "version"
+number in the node, to try to be safe for re-use of a node. Java does
+give a CAS primitive which lets you keep a "marker" for the version of
+the object. They note that the version number can wrap entirely around,
+causing problems, but Wikipedia suggests that if enough bits of tag are
+used, wrap-around cannot happen for many years at current CPU speeds.
+
+**Deletion/Garbage Collection**
+
+I believe this comes from Aaron Turon's notes ("Lock-freedom without
+garbage collection")...
+
+Another problem: what about deletion (that is, garbage collection) of
+popped nodes? Specifically, let's focus on the _node_, not the value. I
+want to focus on the node so that we don't confuse ourselves with
+ownership semantics of values.
 
 We could try to delete the node after the CAS in the pop. But then
 other threads trying to do a pop might try to access `node->next` when
@@ -231,47 +252,139 @@ epoch). If that is successful, it can delete data from 2 epochs prior,
 since it knows everyone is past that old epoch. It can't delete data
 from the previous epoch, since not everyone is out of it yet...
 
-TODO: Treiber stack offers no opportunity for parallel
-modification. It's good for concurrency, but it's not like two threads
-can simultaneously be modifying.
+As of 2026-04-20, I am not sure if I remember what these old notes about
+epochs are supposed to mean. They seem to be a reference to "Practical
+lock-freedom", a thesis by Keir Fraser.
 
-## Queue with 2 Locks
+Source: https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-579.pdf
+
+# Queue with Two Locks
 
 It's simple to make a queue concurrent by adding a lock for any
-queue/dequeue operation. Say we want to be able to dequeue while we
-are enqueing items. Then we want a lock for both the head and the
+enqueue/dequeue operation. Say we want to be able to dequeue while we
+are enqueueing items. Then we want a lock for both the head and the
 tail.
 
-The idea is this. Start with an empty node. When pushing, always add
-items after the node. This operation just modifies the tail. When
-shifting, remove the head node, _but return the next value_. If you
-want, you can delete the value in the next, thus restoring the
-invariant. This trick is from Michael and Scott.
+The idea is this. We'll store items in a linked list. Start with an
+_empty_ node in the queue; we'll always have at least one node in the
+queue, an "empty" node at the head of the list.
 
-The reason the trick is needed is because otherwise, when shifting off
-the last item, you'd have to modify _both_ the head and
-tail. Likewise, when adding to an empty queue, you'd have to modify
-both the head and the tail. This way, you only need one lock for
-each. TODO3: Would it be okay if you _did_ need to acquire both locks?
+When enqueueing, take the "enqueue" lock, create a new node, write the
+value in. Update `tail->next` and `tail`. When dequeuing, take the
+"dequeue" lock, remove the head node (update `head`), _but return the
+next value_ (`head->next->val`). If you want, you can erase the value in
+the next, thus restoring the invariant. This trick is from Michael and
+Scott.
 
-When someone tries to shift from an empty queue, you could raise an
-error, or (more likely) otherwise indicate failure. To have a blocking
-queue, you could have the shifter spin. But best is probably to use a
-condition variable to wake the consumer when the producer puts
-something on.
+By using this trick, you always have at least one node in the linked
+list (the dummy). With this trick, `dequeue` never modifies the `last`
+field (in particular, doesn't modify `last` to `NULL` when last item
+taken) and `enqueue` never modifies the `head` field (in particular,
+doesn't modify `head` to a newly created node when a value is enqueued
+in an otherwise empty list).
 
-**Why do you need dummy?** Without the dummy, some operations require
-you modify both head and tail, meaning you need to take lock on both
-sides. I don't think deadlock can arise, since it shouldn't ever be
-the case that _both_ sides want to take both locks. But you are
-basically serializing access to the queue when the queue has ~1 item
-in it?
+When dequeueing, a thread can see that the queue is empty if
+`head->next` is `NULL`. Dequeue can indicate failure to dequeue through
+exception or boolean or whatever.
 
-One possibility: if a thread is paused while adding an element to an
-empty list, then we switch to another thread trying to do a
-non-blocking shift, it will get blocked unnecessarily.
+**Can You Avoid Dummy Node?**
 
-## Lock Free Queue: Single thread on each side
+I believe that you can avoid the empty node trick possibly:
+
+- When there is just a single item, `dequeue` can add tail lock and set
+  `head = tail = NULL`.
+- When there are no items, `enqueue` can drop tail lock, and try to grab
+  head then tail locks to set `head = tail = new Node(val)`.
+  - Important to abort and retry, rather than just add `head` lock, else
+    deadlock might occur. Locks must always be acquired in the same
+    order!
+- This doesn't introduce deadlock, but...
+  - It definitely adds some complexity. Possibly more branching and thus
+    slower CPU performance.
+  - When queue has approximately one item, effectively serializes the
+    queue. Taking an item will block adding an item...
+  - If a thread blocks on `dequeue` of an empty queue, `enqueue` cannot
+    complete...
+- In sum: there probably is no advantage to eliminating the dummy node.
+
+**Cache Coherency**
+
+- If you write in one thread, it may not be seen in another, because of
+  cache incoherency.
+  - It really depends on the cache consistency model of the
+    architecture.
+- Producers will see each others' work enqueueing because they
+  synchronize via mutex.
+  - Lock/unlock of the _same_ mutex will create a happens-before
+    relationship between threads.
+  - All writes from a previous mutex holder should be visible to reads
+    of a later mutex holder.
+- Likewise, consumers will see each others' work dequeueing.
+- But how do we know that a consumer can see the items that a producer
+  has pushed on?
+  - There _does_ need to be some coordination between
+    producers/consumers. And this isn't happening via a mutex, since
+    producers and consumers have separate mutexes.
+  - I believe the idea is that producers will do `atomic::store` on
+    `tail->next`.
+  - When consumer looks for next node, it will do an `atomic::load` on
+    `head->next`.
+- The cost of the atomic operations really depends on the
+  cache-coherency model of the architecture.
+  - On x86, a write from one unit will always (eventually) invalidate
+    cache lines held by other units.
+  - So the atomic store/load operations are just regular ops.
+  - So the only thing these atomic ops might do is ensure that C++ does
+    not _reorder_ operations.
+    - For instance, if a producer creates a node, sets `value`, and then
+      modifies `tail->next`, we must make sure that `tail->next` is not
+      set until after `node->value` is set. C++ _might_ reorder this
+      unless we tell it something about memory ordering.
+    - x86 is nice enough that if we can see a later store, we are
+      guaranteed to see earlier stores. So it is compiler reordering we
+      particularly need to protect against.
+- In sum: when implementing concurrent algorithms/datastructures, the
+  papers may assume a stronger cache coherency model and memory ordering
+  model than the hardware supports.
+  - But it seems that x86 is actually quite strong.
+
+**Condition Variables**
+
+To have a blocking queue, you could have the `dequeue` thread spin until
+a value is available. But can you sleep the thread until an item is put
+on the queue?
+
+You can try to use a `condition_variable`, and have the producer wake
+the consumer when something is put on. However,
+`condition_variable#wait` requires you pass a mutex (the `head` mutex is
+a natural choice). But it's also _required_ that a change to the
+underlying condition happen _while holding_ the same mutex (before you
+call `notify_one`). That seems to imply that the producer should _also_
+hold the `head` mutex, which mostly defeats the point of our queue.
+
+This is to prevent a "lost" wakeup. To wait: you must lock, check
+condition, register thread, unlock, sleep. To notify: you must lock,
+change condition, unlock, wake.
+
+Maybe a better choice would be `counting_semaphore`; it has a `release`
+method that increments a count, and an `acquire` method that decrements
+it. You could imagine this be implemented from a condition variable and
+a `item_count` variable.
+
+Using a `counting_semaphore` will definitely make this a hot variable.
+That will hurt performance because of cache invalidation/misses. The
+amount of hurt in part depends on how much time is spent doing the
+enqueue/dequeue work. If enqueue/dequeue is about as fast/slow as
+acquire/release, then managing this hot variable may be really tanking
+throughput. You might start to consider using just one lock.
+
+But, if you stop using two locks, then a suspended producer will block
+consumers. So there is still value in adding concurrency, even if
+throughput might be reduced.
+
+- Source: ChatGPT 2026-04-20.
+
+# Lock Free Queue: Single thread on each side
 
 Consider a linked list, with a dummy value as before. As we saw, the
 consumer never interferes with a producer. The locks actually just
@@ -279,12 +392,12 @@ coordinate people on the same side. So the locks aren't needed if you
 have a single producer/consumer on each side.
 
 You can do this in an array if your queue is of bounded size and the
-producer should just block when full. In that case, the `next` is
-always the next idx in the array (with wraparound). You can instead
-set a bit per idx for whether there _is_ a successor item. In fact,
-you only need a single int to specify the idx of the last item.
+producer should just block when full. In that case, the `next` is always
+the next idx in the array (with wraparound). You can instead set a bit
+per idx for whether there _is_ a successor item. In fact, you only need
+a single int to specify the idx of the last item.
 
-## Lock Free Queue: Multiple threads on each side
+# Lock Free Queue: Multiple threads on each side
 
 Same idea of keeping a dummy node. To enqueue, you do a CAS to add a
 link. If that fails, start again. If it succeeds, you need to update
