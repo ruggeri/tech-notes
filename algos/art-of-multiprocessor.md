@@ -17,7 +17,9 @@ sleep the thread).
 
 Also had a chapter on condition variables.
 
-**TODO**: I wish I had some better notes from this section?
+**TODO**: I wish I had some better notes from this section? I believe in
+my `cache-coherency.md` document, I do have quite a few notes from Art
+of Multiprocessor Programming there.
 
 # Locking for Linked Lists
 

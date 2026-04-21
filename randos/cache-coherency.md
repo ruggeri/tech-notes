@@ -6,18 +6,21 @@ shared bus to RAM. A major problem is that the shared bus limits
 memory bandwidth.
 
 Since memory latency is poor, it's typically for CPUs to have big
-caches, that's another part of the question. How do we keep those
-caches coherent? That is, if CPU1 writes a memory address, CPU2 should
-see this write (eventually).
+caches, that's another part of the question. How do we keep those caches
+"coherent"? That is, if CPU1 writes a memory address, CPU2 should see
+this write (eventually). More: writes from a core to a (single) memory
+address should be seen by other cores in the same order they were
+issued. If one core issues `x = 3; x = 5`, then another core must not
+see `x == 5; x == 3`.
 
 ## Snooping
 
 All CPUs listen to the bus for requests to memory. Every cacheline is
 in one of the three states:
 
-* Invalid
-* Shared
-* Exclusive/Dirty
+- Invalid
+- Shared
+- Exclusive/Dirty
 
 On a CPU1 read miss, any CPU2 with an exclusive version needs to write
 it out. CPU1 can see this version. Now they both have a "shared"
@@ -43,7 +46,7 @@ irrelevant.
 
 ## NUMA
 
-This is *non uniform memory access*. The basic idea is that some
+This is _non uniform memory access_. The basic idea is that some
 memory is closer to some processors. This means not everyone is using
 a single shared bus, reducing contention. Of course, this only
 improves things if different tasks are working mostly with a subset of
@@ -97,7 +100,14 @@ and it won't re-order. Example of what can happen: you have a `while
 (!x);` in one thread and an `x=true` in another, but the first thread
 never sees this.
 
-So that's *volatile* which happens at the compiler level. Then there's
+To be clear: the C compiler by default assumes a variable is only
+accessed in one thread. In that case, it may not even use any memory to
+store the variable, nor issue write instructions to the memory. If the C
+compiler makes this assumption, other cores may never see updates to the
+variable because C doesn't compile the variable update as a write to a
+memory address.
+
+So that's _volatile_ which happens at the compiler level. Then there's
 actual re-ordering. An example:
 
 ```
@@ -110,8 +120,19 @@ x = true;
 ```
 
 Obviously you expect to see `42` printed, but this won't necessarily
-happen. The hardware can execute the loads and stores out of
-order. For this you need a memory barrier. To force this to be the
+happen. The hardware can execute the loads and stores out of order.
+Note: I am not talking about reordering done by the _compiler_. I'm
+talking about the CPU memory ordering model: a failure of strong
+consistency where writes to different locations are not always seen in
+order. Here the CPU may evict the cache line for `x` (and pass the while
+loop test) _before_ it evicts the cache line for `y` (and thus does not
+print 42).
+
+Note: x86 is a pretty strong model. This failure to see writes at
+different locations in the order they were issued is possibly the
+_minimal_ violating of strong consistency.
+
+For this you need a memory barrier. To force this to be the
 case, you want to issue a memory barrier, which will tell the
 processor that it cannot reorder instructions across the barrier.
 
@@ -129,7 +150,7 @@ be reordered. Presumably it does this by doing a bunch of fencing.
 
 ## Associativity
 
-Caches often have *associativity*. A *fully associative* means that
+Caches often have _associativity_. A _fully associative_ means that
 any cacheline can be replaced on a miss. Direct-mapped means exactly
 one line could be replaced. `k`-way associativity means that any of
 `k` lines might be replaced. Basically, you have a limited number of
@@ -147,7 +168,7 @@ retrieval time.
 
 ## Cache Coherency and TAS vs TTAS
 
-Say you want to spin, waiting for a value to be set. *Local spinning*
+Say you want to spin, waiting for a value to be set. _Local spinning_
 occurs when you have the value in cache, and you just keep checking
 until it is ivalidated. In that case, you do not need to talk to the
 bus, and you should not interfere with the other processors. This is
@@ -155,11 +176,11 @@ the ideal version of spinning.
 
 When you do a TAS, it needs to talk to the bus. These failed requests
 can saturate the bus, destroying performance. With TTAS, you do not
-make bus requests that you *know* can't succeed.
+make bus requests that you _know_ can't succeed.
 
 **How is TAS implemented?**
 
-So X86 has a LOCK instruction *prefix*, and you can use it on an
+So X86 has a LOCK instruction _prefix_, and you can use it on an
 instruction like INC (increments one value), or XCHG (swaps two
 values), or CMPXCHG (basically compare and set). These instructions
 are probably almost meaningless without the LOCK prefix.
@@ -171,21 +192,21 @@ involved.
 In Intel 486 days, apparently they did an entire lock on the memory
 bus. Starting with Pentium Pro they do a cache lock on just that line.
 
-* Resources
-* SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
-* Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
-    * Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
-* **Wait this is the real deal:**
-    * http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
-    * It sounds like basically doing a LOCK operation necessarily
-      means bus traffic to tell everyone to give us exclusive access
-      (and further to lock them out from future access).
-    * We can avoid this if we have *shared* access already, and then
-      we can just test locally and see the lock cannot be acquired.
-    * When a lock is freed, our local copy will be invalidated, and
-      *then* we can acquire the lock.
-* These slides explain the same thing:
-    * http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
+- Resources
+- SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
+- Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
+  - Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
+- **Wait this is the real deal:**
+  - http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
+  - It sounds like basically doing a LOCK operation necessarily
+    means bus traffic to tell everyone to give us exclusive access
+    (and further to lock them out from future access).
+  - We can avoid this if we have _shared_ access already, and then
+    we can just test locally and see the lock cannot be acquired.
+  - When a lock is freed, our local copy will be invalidated, and
+    _then_ we can acquire the lock.
+- These slides explain the same thing:
+  - http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
 
 **More About Cache Lines**
 
@@ -212,16 +233,16 @@ out-of-order execution and work in parallel.
 
 Write requests to RAM are typically buffered. This hides latency,
 utilizes bandwidth better through batching, and eliminates some
-requests due to *absorbtion* (when several writes can be
+requests due to _absorbtion_ (when several writes can be
 consolidated).
 
-Consider a mutex algorithm *without* hardware support. It's very
+Consider a mutex algorithm _without_ hardware support. It's very
 important that everyone have a consistency view of memory. We know
 that without cache coherency, we could write a variable on one thread,
 and then do a read in a second thread, not seeing the write.
 
-Cache coherency solves the problem introduced by caches. But *there is
-still a problem*, introduced by the write buffer (and presumably from
+Cache coherency solves the problem introduced by caches. But _there is
+still a problem_, introduced by the write buffer (and presumably from
 OOE). This is why we have memory fences; someone who issues a fence is
 guaranteed to see all other writes from the other processors before
 that fence was issued. Fences can take 100s of cycles.
