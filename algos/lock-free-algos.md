@@ -399,25 +399,33 @@ a single int to specify the idx of the last item.
 
 # Lock Free Queue: Multiple threads on each side
 
-Same idea of keeping a dummy node. To enqueue, you do a CAS to add a
-link. If that fails, start again. If it succeeds, you need to update
-the tail; it is currently "lagging". Do a CAS to update it, if that
-fails, whatever.
+This is also in the Michael Scott PODC paper.
 
-This suggests a wrinkle. Before trying to do a CAS to add the a link
-to the end, check to see if the tail actually points to a node with
-NULL after it. If not, then do a CAS to move it forward. This helps
-correct the lag.
+Same idea of keeping a dummy node. To enqueue, first check that
+`queue.tail` really has `queue.tail->next == NULL`. If not, the tail is
+"lagging. Keep using CAS to advance the `queue.tail` forward.
 
-It's not entirely necessary for correctness that you should try to
-help by moving the tail forward. But it does prevent blocking: other
-threads should not rely on the pusher to complete its work of updating
-the tail. Otherwise, they couldn't make progress if that thread died.
+When `queue.tail` really is advanced to the end, do a CAS to
+`queue.tail->next` add a link. That can only fail if someone made a
+concurrent append. In that case, just try again.
 
-Likewise, on the head side, you check to see if the list is empty. If
-so, then you do a CAS to set the head to the next. If successful, free
-the head node. I do think you have to be careful about GC as with
-Treiber stack.
+When the append finally succeeds, you try to update `queue.tail` with
+CAS. This is just to be nice; if the CAS fails, you still just exit.
+Frankly, I don't think it is necessary for correctness (since later
+enqueue operations will advance a lagged tail).
+
+Likewise, on the head side, you check to see if the list is empty. This
+might occur if `queue.head == queue.tail`. But that can also happen if
+tail is lagged, so `dequeue` operation must also try to CAS to advance
+lagged tail. But if queue is not empty, you do a CAS to set the head to
+the next. If successful, free the head node. Else someone did a
+concurrent dequeue and you must try again.
+
+Enqueue operations must advance a lagging tail for lock-freedom else a
+suspended enqueuer that hasn't yet advanced the tail will block other
+enqueuers. Likewise, dequeue operation must be able to dequeue, which
+means more than just checking that `queue.head != queue.tail`, because
+they can be equal (lagged tail) but there are items to dequeue.
 
 ## Lock Free Singly Linked List
 
@@ -532,7 +540,10 @@ scalability.
 ## References
 
 - http://www.cs.tau.ac.il/~shanir/concurrent-data-structures.pdf
-  - Excellent summary.
+  - Excellent summary. Covers stacks, queues, linked lists, hash
+    tables, search trees, priority queues.
+  - But it is kind of a literature "review". It points you to the
+    original papers, not describing the datastructures themselves.
   - Link died. I think it is this chapter from Mark Moir and Nir Shavit.
   - https://people.csail.mit.edu/shanir/publications/concurrent-data-structures.pdf
   - Chapter is From: http://www.amazon.com/Handbook-Structures-Applications-Computer-Information/dp/1584884355
@@ -553,6 +564,7 @@ scalability.
   - http://www.ibm.com/developerworks/aix/library/au-multithreaded_structures2/index.html
   - I have a lot more detail than this...
 - Michael and Scott paper
+  - Covers two-lock and CAS based queues.
   - https://www.research.ibm.com/people/m/michael/podc-1996.pdf
   - Link died. I think it is this: https://www.cs.rochester.edu/u/scott/papers/1996_PODC_queues.pdf
 - https://aturon.github.io/blog/2015/08/27/epoch/
