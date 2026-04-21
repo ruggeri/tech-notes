@@ -5,9 +5,10 @@
 #include <unistd.h>
 #include <vector>
 
-template<typename T>
-struct MyBuffer {
-  T* buffer;
+template <typename T>
+struct MyBuffer
+{
+  T *buffer;
   int capacity;
 
   int head_idx;
@@ -17,18 +18,22 @@ struct MyBuffer {
   std::condition_variable not_full;
   std::condition_variable not_empty;
 
-  MyBuffer(int capacity) : capacity(capacity), head_idx(0), length(0) {
+  MyBuffer(int capacity) : capacity(capacity), head_idx(0), length(0)
+  {
     buffer = new T[capacity];
   }
 
-  ~MyBuffer() {
+  ~MyBuffer()
+  {
     delete[] buffer;
   }
 
-  void push(T item) {
+  void push(T item)
+  {
     std::unique_lock<std::mutex> l(mutex);
 
-    not_full.wait(l, [this]() { return length != capacity; });
+    not_full.wait(l, [this]()
+                  { return length != capacity; });
 
     buffer[(head_idx + length) % capacity] = item;
     length++;
@@ -36,7 +41,8 @@ struct MyBuffer {
     not_empty.notify_one();
   }
 
-  T shift() {
+  T shift()
+  {
     // unique_lock is just a beefed up lock_guard. It can be locked
     // and unlocked. It still default unlocks when destructed. I think
     // the intent is that you use lock_guard to communicate intent
@@ -47,7 +53,19 @@ struct MyBuffer {
     // waiting on the mutex. When notified (even spuriously) it
     // reacquires the lock and tests the condition. If the condition
     // does hold, we proceed.
-    not_empty.wait(l, [this]() { return length != 0; });
+    //
+    // Spurious wakeup can happen because OS implementation of POSIX may
+    // wake multiple threads even for `notify_one`. But it doesn't
+    // *have* to be possible. Wikipedia says pthreads guarantees it will
+    // not do spurious wakeup.
+    //
+    // Regardless, there is the possibility of "false" spurious wakeup,
+    // really just a race condition. Imagine two items are pushed,
+    // triggering two `notify_one` calls. One thread wakes up; imagine
+    // it takes *both* items. When a second thread wakes, it still must
+    // check that there are items to take.
+    not_empty.wait(l, [this]()
+                   { return length != 0; });
 
     T t = buffer[head_idx];
     head_idx = (head_idx + 1) % capacity;
@@ -62,33 +80,33 @@ struct MyBuffer {
 
 const int MICROSECONDS_IN_SECOND = 1000000;
 
-int main() {
+int main()
+{
   MyBuffer<int> buf(10);
 
   std::vector<std::thread> threads;
 
-  threads.push_back(std::thread([&buf] {
+  threads.push_back(std::thread([&buf]
+                                {
         int i = 0;
         while (true) {
           buf.push(i);
           i++;
 
           usleep(MICROSECONDS_IN_SECOND * (float) rand() / RAND_MAX);
-        }
-      })
-    );
+        } }));
 
-  threads.push_back(std::thread([&buf] {
+  threads.push_back(std::thread([&buf]
+                                {
         while (true) {
           int i = buf.shift();
           std::cout << i << "\n";
 
           usleep(MICROSECONDS_IN_SECOND * (float) rand() / RAND_MAX);
-        }
-      })
-    );
+        } }));
 
-  for (auto& thread : threads) {
+  for (auto &thread : threads)
+  {
     thread.join();
   }
 
