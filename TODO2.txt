@@ -110,7 +110,6 @@ math
 randos
 
 algos:
-concurrent-hash-map.md (maybe look at Preshing as a warmup before Click?)
 esoteric-data-structures.md
 graphs.md
 randomized-algos.md
@@ -133,7 +132,7 @@ unless you have some operations that force memory ordering. Else threads
 cannot see work from other threads! Add to my `mutex.md` writeup.
 
 Maybe discuss DCAS vs other primitives with regard to cache coherency?
-Maybe review `randos/cache-coherency.md`
+Maybe review `randos/cache-coherency.md` NUMA and ccNUMA?
 
 Add notes on futex?
 
