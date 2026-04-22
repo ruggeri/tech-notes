@@ -520,15 +520,15 @@ be very short anyway.
 
 ## Extensible Hash Maps
 
-**ConcurrentHashMap before Java8**
+**ConcurrentHashMap between Java5 Java8**
 
 I believe the Java `java.util.HashTable` is thread-safe (the
 `java.util.HashMap` is not). It uses a single global lock.
 
 Douglas S. Lea wrote the `java.util.concurrent.ConcurrentHashMap` for
-Java, to give finer grained locking and better concurrency. It is not
-lock free though. It is a "closed addressed", also called "open hashed",
-which means "separate chaining" (buckets).
+Java 5, published 2004, to give finer grained locking and better
+concurrency. It is not lock free though. It is a "closed addressed",
+also called "open hashed", which means "separate chaining" (buckets).
 
 Basic idea is: there will be many "segments", each hash its own lock. To
 lookup/insert/delete, you look at high order bits to determine the
@@ -581,21 +581,34 @@ occasionally read all counts and aggregate?
 
 **Java8 ConcurrentHashMap**
 
-In 2014, Java completely overhauled the `java.util.ConcurrentHashMap`.
+In 2014, Java completely overhauled the `java.util.ConcurrentHashMap`
+and published as part of Java 8. I believe Doug Lea was still involved.
+The new version is still closed-addressed (it uses chaining). Reads
+still don't block and can proceed with concurrent writers and resizing.
+Writes can now proceed during resizing. CAS is much more widely used.
+However, sometimes locks _are_ used at the bin level, in particular for
+insert into an existing map. Resizing does not need to globally
+stop-the-world, and threads cooperate on resizing..
 
 **Cliff Click NonBlockingHashMap**
 
-Cliff Click has basically a closed-addressed array. He talks about how
-to do a concurrent resize. Basically, when you start the resize, you
-start telling people to look first in the old version, and maybe also
-in the 2nd version. As your threads do some copying to the new
-version, they mark the old version as "moved". Basically, you're going
-to every address in the table and marking it as "moved".
+In 2007, Cliff Click publishes a open-addressed hash map called
+`NonBlockingHashMap`. This was first released personally, and then as
+part of the H2O package. Its main feature is to be truly lock free; is
+uses CAS to allow concurrent writes. Resizing will not block writes nor
+stop the world; threads will cooperate to move values from an old table
+to a new one.
+
+Please see `concurrent-hash-map.md` for the details.
+
+**Ctrie**
 
 Another alternative is a ctrie; which is basically a HAMT updated in a
 CAS manner. The one trick is to handle concurrent modifications to the
 same node without losing other updates. To do this, they add
 intermediary nodes between every pair of nodes.
+
+TODO: I'm not going to explain/review CTrie right now.
 
 - Ctrie: http://infoscience.epfl.ch/record/166908/files/ctries-techreport.pdf
   - From 2011; maybe more
@@ -611,10 +624,13 @@ scalability.
 
 - On modern machines, when writing a single word, another thread can't
   see a partial update. Read/Writes of a single word are atomic.
+  - For more about this kind of thing, see `randos/cache-coherency.md`
 - Futex is "fast userspace mutex". It uses some shared memory and
   atomic operations so that taking the uncontended lock happens in
   userspace. If that doesn't work, then the thread needs to call into
   the kernel to puts itself on a kernel waitqueue.
+  - TODO: discuss/explore this further? I'm not sure if this should be
+    discussed here or in `mutex.md` or something...
 
 ## References
 

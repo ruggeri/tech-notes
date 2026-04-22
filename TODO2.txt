@@ -113,15 +113,16 @@ algos:
 concurrent-hash-map.md (maybe look at Preshing as a warmup before Click?)
 esoteric-data-structures.md
 graphs.md
-lock-free-algos.md (maybe make sure covers queue/stack stuff from Herlihy?)
 randomized-algos.md
 string-matching.md
+
+CTrie vs HAMT?
 
 Closest pair of points randomized algorithm.
 
 sorts-parallel2.md
 
-Review Garbage Collection notes... garbage-collection.md
+Review Garbage Collection notes: garbage-collection.md
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 
@@ -129,9 +130,12 @@ Are mutexes built on atomic operations? What is the cost of atomic ops
 vs mutexes? Maybe I should compare Lamport bakery and other mutex
 implementations? Also, I don't think any of the algorithms will work
 unless you have some operations that force memory ordering. Else threads
-cannot see work from other threads! Add to my mutex writeup. Or maybe
-cache coherency? DCAS vs other primitives?
-Futex?
+cannot see work from other threads! Add to my `mutex.md` writeup.
+
+Maybe discuss DCAS vs other primitives with regard to cache coherency?
+Maybe review `randos/cache-coherency.md`
+
+Add notes on futex?
 
 Maybe review web/architecture-lecture notes, and also Slides from Google
 drive?

@@ -11,7 +11,12 @@ caches, that's another part of the question. How do we keep those caches
 this write (eventually). More: writes from a core to a (single) memory
 address should be seen by other cores in the same order they were
 issued. If one core issues `x = 3; x = 5`, then another core must not
-see `x == 5; x == 3`.
+see `x == 5; x == 3`. This is _cache coherency_.
+
+More: when a one unit writes a single word value to memory, another
+execution unit cannot observe a "partial" update of the word. It either
+sees all bytes of the word updated, or none. Thus single word
+read/writes are "atomic."
 
 ## Snooping
 

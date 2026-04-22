@@ -133,6 +133,8 @@ of course you can have some value associated. This is typically
 implemented using a AMT, which is a micro-optimized specification of
 the idea of a trie. I believe this is what PersistentHashMap uses.
 
+I believe please see `tries2.md` for discussion.
+
 ## Sources
 
 - I believe maybe Buck Shlegeris introduced me to Chris Okasaki's book
