@@ -86,173 +86,10 @@ Slower than snooping when there's enough bandwidth, but scales better.
 I should find a better resource, I don't actually know 100% how this
 works.
 
-## Volatile, Memory Ordering
+## Memory Ordering
 
-So you're always going to have a cache consistent view of the
-data. Programming without cache coherency just doesn't happen; no one
-tries to do this (though I guess theoretically you could).
-
-But any multithreaded program (even one running on a single core) can
-have unexpected problems due to instruction re-ordering.
-
-For instance, a value may be loaded into a register, and future reads
-of the value just use the register, without checking the
-cache/memory. To make sure it hits the cache/memory, you have to use
-the `volatile` keyword. Basically, the language is made aware that the
-variable could be shared across threads. It won't make assumptions
-that it has sole ownership of this variable. It won't use registers,
-and it won't re-order. Example of what can happen: you have a `while
-(!x);` in one thread and an `x=true` in another, but the first thread
-never sees this.
-
-To be clear: the C compiler by default assumes a variable is only
-accessed in one thread. In that case, it may not even use any memory to
-store the variable, nor issue write instructions to the memory. If the C
-compiler makes this assumption, other cores may never see updates to the
-variable because C doesn't compile the variable update as a write to a
-memory address.
-
-So that's _volatile_ which happens at the compiler level. Then there's
-actual re-ordering. An example:
-
-```
-while (!x);
-println("%d", y);
-
----
-y = 42;
-x = true;
-```
-
-Obviously you expect to see `42` printed, but this won't necessarily
-happen. The hardware can execute the loads and stores out of order.
-Note: I am not talking about reordering done by the _compiler_. I'm
-talking about the CPU memory ordering model: a failure of strong
-consistency where writes to different locations are not always seen in
-order. Here the CPU may evict the cache line for `x` (and pass the while
-loop test) _before_ it evicts the cache line for `y` (and thus does not
-print 42).
-
-Note: x86 is a pretty strong model. This failure to see writes at
-different locations in the order they were issued is possibly the
-_minimal_ violating of strong consistency.
-
-For this you need a memory barrier. To force this to be the
-case, you want to issue a memory barrier, which will tell the
-processor that it cannot reorder instructions across the barrier.
-
-This can waste ~100 cycles on the processor, probably because it fucks
-up the pipelining it had been performing. I don't think it should have
-to do anything on the bus, though.
-
-The compiler also needs to be aware of memory fencing, so it doesn't
-reorder instructions in a way you don't want.
-
-Java sort of wraps these up together: if you declare a variable
-`volatile`, then it also ensures that there is a "happens before"
-relationship between your operations to this variable: they will not
-be reordered. Presumably it does this by doing a bunch of fencing.
-
-## Atomic
-
-We know that cache coherency of x86 means that all cores observe the
-same order on writes to a single address. Writes from a single core are
-observed in the order they are issued. Also, unsynchronized concurrent
-writes from different cores, while interleaving is arbitrary, will be
-observed in a common order by all other cores.
-
-So how do we impose order on updates to different addresses? Here is an
-essential one:
-
-```C++
-volatile global Object *ptr;
-
-function f() {
-  Object *val = new Object()
-  val->x = 3
-
-  ptr = val;
-}
-
-function g() {
-  while (ptr == NULL) {
-    // spin
-  }
-
-  // It prints 3, hopefully? Not for sure unless we use atomics!
-  printf("%d\n", ptr->x)
-}
-```
-
-How do we make sure that when a thread running `g` sees the new pointer
-written into `ptr` by a thread running `f`, that it _also_ sees the
-memory for `val->x` properly set to `3`?
-
-As we mentioned, x86 has a pretty strong model: if you see the result of
-a later store, you can also see the result of all the prior stores
-issued by that core. This is just the default load and store behavior.
-
-So if a thread really does write `3` into `val->x` _before_ it writes
-`val` into `ptr`, then this really does work on x86.
-
-However, C/C++ is allowed to reorder memory writes. It often does this
-as part of other optimizations. Now, writes to `volatile` variables are
-_not_ allowed to reorder with respect to each other. _BUT_
-non-`volatile` writes may be moved across a write to a `volatile`
-variable. Of course, if that happens, a thread `g` can see the pointer
-published to `ptr` but not see the value `3` that should have been
-written into `ptr->x`.
-
-To avoid this, we use atomics:
-
-```C++
-#include <atomic>
-
-global atomic<Object *> ptr{NULL};
-
-function f() {
-  Object *val = new Object()
-  val->x = 3
-
-  ptr.store(std::memory_order_release)
-}
-
-function g() {
-  Object *val = NULL;
-  while (true) {
-    val = ptr.load(std::memory_order_acquire)
-  }
-
-  // It prints 3!
-  printf("%d\n", val->x)
-}
-```
-
-The use of `std::memory_order_release` says that earlier writes may
-_not_ be moved across the call to `ptr.store`. The use of
-`std::memory_order_acquire` says that `ptr.load` must be able to read
-everything that was required to be written before the corresponding
-`ptr.store`. You can say that "release" is releasing all the prior
-writes to the next "acquirer" of this location.
-
-On x86, this is mostly about restricting the compiler from reordering
-instructions. The use of atomic in this way does not need to issue
-special synchronization instructions on x86.
-
-Some architectures like POWER and ARM have weaker ordering rules (can
-see later store without seeing earlier store). Then you need `atomic`
-even more so because special instructions must be issued.
-
-Note: `mutex` has `lock` do an "acquire" and `unlock` do a "release".
-Thus, by the time you unlock, a later locker will see everything that
-"happened before" a prior unlock. So `mutex` is not just doing mutual
-exclusion for you. It is also making sure that memory access across
-cores are synchronized.
-
-**TODO**: Need to discuss when an actual memory fence really is
-necessary on x86.
-
-- Source: mostly ChatGPT in 2026-04-XX.
+I have notes in `memory-ordering.md` which go beyond cache coherency and
+describe memory re-ordering.
 
 ## Associativity
 
@@ -333,6 +170,8 @@ Source: Art of Multiprocessor Programming
 Source: http://stackoverflow.com/questions/2538070/atomic-operation-cost
 
 ## Memory Consistency
+
+**TODO**: Maybe integrate to `memory-ordering.md`.
 
 Processors try to keep all their hardware units busy, by doing
 out-of-order execution and work in parallel.
