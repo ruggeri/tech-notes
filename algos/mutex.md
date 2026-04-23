@@ -1,3 +1,32 @@
+# Spinlocks vs Blocking Locks
+
+This document is mostly about _spinlocks_.
+
+Spinlocks do not ask the scheduler to block/park the thread until it is
+runnable. Instead, the thread keeps running, trying to obtain the lock.
+
+You can write spinlocks in pure user-space software: either by using
+atomic instructions like CAS, or by clever algorithms (and a lot of
+memory fencing).
+
+Locks that actually ask the kernel to make the thread unrunnable are
+called blocking locks. They require kernel scheduler support, because
+runnability is a matter of scheduling, which is handled by the OS. The
+benefit is that, if the thread is waiting on a lock that isn't going to
+get released, it can just yield back to the kernel.
+
+The downside is that, if the lock will be quickly released, you'd rather
+stay in userspace and not waste the timeslice and incur the thread
+switch cost for nothing.
+
+In practice, lock libraries (including `mutex` in C++) will basically
+call into code provided by the operating system (for Linux, this basic
+functionality is provided by `glibc`). The locking functionality will
+typically do some user-space spinning (using atomic operations), hoping
+to acquire the lock quickly. But if the lock is not promptly released,
+the thread eventually ask the OS to park the thread and wake it when it
+can run again.
+
 ## With Test-And-Set
 
 With shared memory and test-and-set, it's easy to implement a
@@ -5,10 +34,30 @@ mutex. You can busy wait, checking a flag to see if the process is
 free. Then you do a CAS to try to set the flag to true; if you
 succeed, you get the mutex.
 
-To ensure fairness, you can keep a queue of requests on the lock.
+??To ensure fairness, you can keep a queue of requests on the lock.??
+
+**TODO**: MCS and CLH Queue locks are explained on p151-p157 of Art of
+Multiprocessor Programming. These are still spin locks using atomic
+exchange, but they reduce cache line contention. These are very
+practical; the Java `ReentrantLock` uses CLH-style queue, Linux
+`qspinlock` uses MCS-style queue. These deserve exploration.
 
 Presumably there would be a way to tell the kernel you didn't get the
 lock, so that you don't have to busy wait.
+
+## Goal
+
+The following algorithms will try to implement mutual exclusion in the
+_absence_ of an instruction like Test-And-Set. They implement mutual
+exclusion in software. The algorithms assume that loads/stores will not
+be "re-ordered"; that an operation issued earlier will "take effect"
+_before_ an operation issued later. x86 violates this by allowing
+store-load reordering (loads to take effect before stores).
+
+If you wanted to make these actually work, you would need more than even
+just `volatile`. I believe you would need to use memory fencing
+instructions (most portably invoked via C/C++ `<atomic>` stdlib header),
+to prevent store-load reordering.
 
 ## Dekker's Algorithm
 
@@ -48,7 +97,7 @@ turn, they will enter.
 If someone is waiting for the other to finish, eventually, that person
 will give up their turn to you (when they're done with the CS).
 
-There is a constant bound on the time for *someone* to acquire the
+There is a constant bound on the time for _someone_ to acquire the
 mutex; it doesn't impose arbitrary delay. There is fairness; a process
 can't get starved. No special hardware ops are necessary, though
 memory barriers are required (of course). This technique only really
@@ -56,6 +105,8 @@ works for two processes, though (since we need to "hand-off" the turn
 to the "other" process).
 
 ## Peterson's Algorithm
+
+Described in p142-p143 of Art of Multiprocessor Programming.
 
 ```
 wants_to_enter = { false, false }
@@ -124,6 +175,8 @@ however.
 
 ## Lamport's Bakery Algorithm
 
+Described on p31-p33 of Art of Multiprocessor Programming.
+
 ```
 entering = { false...false }
 ticket = { 0...0 }
@@ -142,12 +195,3 @@ def acquire():
 ```
 
 Again, you can't have starvation like this.
-
-## TODO
-
-* Not clear how the busy-waiting of these algorithms is avoided. It
-  definitely seems they don't always have to constantly busy wait and
-  can be woken up only when appropriate.
-* But I think that the CAS wait queue seems the most important; the
-  kernel could clearly take the head off the queue when the mutext is
-  released.

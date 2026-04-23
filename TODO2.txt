@@ -125,16 +125,12 @@ Review Garbage Collection notes: garbage-collection.md
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 
-Are mutexes built on atomic operations? What is the cost of atomic ops
-vs mutexes? Maybe I should compare Lamport bakery and other mutex
-implementations? Also, I don't think any of the algorithms will work
-unless you have some operations that force memory ordering. Else threads
-cannot see work from other threads! Add to my `mutex.md` writeup.
-
 Maybe discuss DCAS vs other primitives with regard to cache coherency?
 Maybe review `randos/cache-coherency.md` NUMA and ccNUMA?
 
-Add notes on futex?
-
 Maybe review web/architecture-lecture notes, and also Slides from Google
 drive?
+
+mutex.md: MCS and CLH spinlocks.
+cache-coherence.md: Cost of CAS and TAS/how it is implemented. Explore cost of TTAS vs TAS spinlock.
+cache-coherence.md: Last unported "Memory Consistency" section.

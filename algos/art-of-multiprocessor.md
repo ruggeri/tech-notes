@@ -9,6 +9,9 @@ You can also do an exponential backoff to reduce contention.
 Or instead you can do a queue lock. That way you don't even need to do
 pointless spinning. This is basically a wait queue.
 
+**TODO**: review MCS and CLH queue locks on p151-157. Write notes in
+`mutex.md`.
+
 Also showed condition variables (basically just used a `Condition`
 class that must just sleep the thread until signalled), re-entrant
 locks (just a lock with a count, you just check your thread ID as you
