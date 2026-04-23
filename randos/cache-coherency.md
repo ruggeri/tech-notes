@@ -153,6 +153,107 @@ Java sort of wraps these up together: if you declare a variable
 relationship between your operations to this variable: they will not
 be reordered. Presumably it does this by doing a bunch of fencing.
 
+## Atomic
+
+We know that cache coherency of x86 means that all cores observe the
+same order on writes to a single address. Writes from a single core are
+observed in the order they are issued. Also, unsynchronized concurrent
+writes from different cores, while interleaving is arbitrary, will be
+observed in a common order by all other cores.
+
+So how do we impose order on updates to different addresses? Here is an
+essential one:
+
+```C++
+volatile global Object *ptr;
+
+function f() {
+  Object *val = new Object()
+  val->x = 3
+
+  ptr = val;
+}
+
+function g() {
+  while (ptr == NULL) {
+    // spin
+  }
+
+  // It prints 3, hopefully? Not for sure unless we use atomics!
+  printf("%d\n", ptr->x)
+}
+```
+
+How do we make sure that when a thread running `g` sees the new pointer
+written into `ptr` by a thread running `f`, that it _also_ sees the
+memory for `val->x` properly set to `3`?
+
+As we mentioned, x86 has a pretty strong model: if you see the result of
+a later store, you can also see the result of all the prior stores
+issued by that core. This is just the default load and store behavior.
+
+So if a thread really does write `3` into `val->x` _before_ it writes
+`val` into `ptr`, then this really does work on x86.
+
+However, C/C++ is allowed to reorder memory writes. It often does this
+as part of other optimizations. Now, writes to `volatile` variables are
+_not_ allowed to reorder with respect to each other. _BUT_
+non-`volatile` writes may be moved across a write to a `volatile`
+variable. Of course, if that happens, a thread `g` can see the pointer
+published to `ptr` but not see the value `3` that should have been
+written into `ptr->x`.
+
+To avoid this, we use atomics:
+
+```C++
+#include <atomic>
+
+global atomic<Object *> ptr{NULL};
+
+function f() {
+  Object *val = new Object()
+  val->x = 3
+
+  ptr.store(std::memory_order_release)
+}
+
+function g() {
+  Object *val = NULL;
+  while (true) {
+    val = ptr.load(std::memory_order_acquire)
+  }
+
+  // It prints 3!
+  printf("%d\n", val->x)
+}
+```
+
+The use of `std::memory_order_release` says that earlier writes may
+_not_ be moved across the call to `ptr.store`. The use of
+`std::memory_order_acquire` says that `ptr.load` must be able to read
+everything that was required to be written before the corresponding
+`ptr.store`. You can say that "release" is releasing all the prior
+writes to the next "acquirer" of this location.
+
+On x86, this is mostly about restricting the compiler from reordering
+instructions. The use of atomic in this way does not need to issue
+special synchronization instructions on x86.
+
+Some architectures like POWER and ARM have weaker ordering rules (can
+see later store without seeing earlier store). Then you need `atomic`
+even more so because special instructions must be issued.
+
+Note: `mutex` has `lock` do an "acquire" and `unlock` do a "release".
+Thus, by the time you unlock, a later locker will see everything that
+"happened before" a prior unlock. So `mutex` is not just doing mutual
+exclusion for you. It is also making sure that memory access across
+cores are synchronized.
+
+**TODO**: Need to discuss when an actual memory fence really is
+necessary on x86.
+
+- Source: mostly ChatGPT in 2026-04-XX.
+
 ## Associativity
 
 Caches often have _associativity_. A _fully associative_ means that

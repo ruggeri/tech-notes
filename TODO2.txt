@@ -134,6 +134,8 @@ cannot see work from other threads! Add to my `mutex.md` writeup.
 Maybe discuss DCAS vs other primitives with regard to cache coherency?
 Maybe review `randos/cache-coherency.md` NUMA and ccNUMA?
 
+Need to discuss mfence on x86 and when you need it in cache-coherency.
+
 Add notes on futex?
 
 Maybe review web/architecture-lecture notes, and also Slides from Google
