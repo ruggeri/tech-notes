@@ -4,6 +4,7 @@
 \geometry{letterpaper}
 \usepackage{ned-common}
 \usepackage{ned-calculus}
+\usepackage{ned-linear-algebra}
 
 \begin{document}
 \title{Root Mean Square}
@@ -93,13 +94,18 @@
   sinusoids/circles.
 \end{enumerate}
 
-\section{Impedance}
+\section{Resistance}
 
 \begin{enumerate}
   \item We already know about resistance, denoted $R$ and measured in
   Ohms ($\Omega$). Through a pure resistor, $V = IR$. The voltage drop
   across a pure resistor is proportional to the magnitude of the
   current.
+\end{enumerate}
+
+\section{Inductors}
+
+\begin{enumerate}
 
   \item An \define{inductor} ``opposes'' change in current.
 
@@ -107,9 +113,13 @@
   magnetic field. Electromagnetic induction is the property that an
   increasing current magnitude will store energy in the magnetic field
   (and a decreasing current magnitude will consume stored energy).
-  Because the energy stored must be paid for, that gives a voltage drop
-  across the inductor when the inductor is charging. It gives a voltage
-  rise across the inductor when the inductor is discharging.
+
+  \item Because the energy stored in the magnetic field must be paid
+  for, it is natural that there is a voltage drop across the inductor
+  when the inductor is charging. It gives a voltage rise across the
+  inductor when the inductor is discharging. This voltage exists because
+  the change to the magnetic field always happens hand-in-hand with a
+  corresponding change in the \emph{electric field}.
 
   \item When current is zero, the inductor has stored no energy in the
   magnetic field. We don't say that the magnetic flux through the
@@ -122,9 +132,11 @@
   \item You \emph{might} be tempted to think of the inductor charging as
   posing a \emph{resistance} to current flow through the inductor. But
   don't do that! Resistance taxes more energy per charge the faster you
-  push charges through (proportionate to current). For an inductor, the
+  push charges through (proportional to current). For an inductor, the
   energy taxed for pushing charge through is constant for any level of
-  current, for a given rate of current change.
+  current, for a given rate of current change. Literally, you are
+  pushing charge through a voltage (electric field) that opposes its
+  motion.
 
   \item When current stops rising, energy stops being stored in magnetic
   field, and voltage drop across inductor is zero. As long as the
@@ -137,7 +149,7 @@
   \emph{increase} (rather than drop) across the inductor. Again, do not
   think of this as a ``negative resistance,'' since the energy ``push''
   given each unit charge is constant, and not proportional to current
-  magnitude.
+  magnitude. It really is a voltage that is induced.
 
   \item Note that energy is stored no matter whether you rise from zero
   current or fall to ``negative'' current. This is just a matter of
@@ -181,6 +193,46 @@
   \noindent
   Maybe be careful to note that change-of-variables only works if
   current started at zero at time zero.
+\end{enumerate}
+
+\section{Electromagnetic Induction}
+
+\begin{enumerate}
+  \item I don't want to get \emph{too} deep into induction. You don't
+  need to understand how resistors resist in order to use a resistor.
+  You don't need to know how to make an inductor to use one.
+
+  \item Still, this is an important concept. The fundamental idea is
+  the Maxwell-Faraday equation:
+
+  \begin{nedqn}
+    \grad \times \mtxE
+  \eqcol
+    - \fpartial[\mtxB]{t}
+  \end{nedqn}
+
+  \item $\grad \times \mtxE$ is the ``curl'' of $\mtxE$, sometimes
+  written $\operatorname{rot} \mtxE$ or $\operatorname{curl} \mtxE$. It
+  maps each point in the electric field $\mtxE$ to a vector about which
+  the field rotates at that point. The length of this vector is
+  proportional to the rate of the rotation.
+
+  \item $-\fpartial[\mtxB]{t}$ is the rate at which the magnetic field
+  is changing. This is a map from vectors to vectors, since the magnetic
+  field at each point has both a strength and an orientation.
+
+  \item Basically, the Maxwell-Faraday equation is saying that in order
+  for the electric field to change, the magnetic field must change. And
+  vice versa.
+
+  \item Even in vacuum, changes to magnetic and electric fields must
+  correspond. Magnetic and electric fields, even in vacuum, store energy
+  simply in the field itself; increasing the strength of a magnetic
+  (equivalently, an electric) field ``takes'' energy, which is stored in
+  the fields. Weakening the field will ``take'' energy out of the
+  fields, which must flow elsewhere.
+
+  \item Changing
 \end{enumerate}
 
 \end{document}

@@ -88,6 +88,19 @@
   - GeekBench 6 Single/Multi core scores: 3870/22448.
     - +180%/+246% over current machine.
   - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m4-pro-14-core-cpu-20-core-gpu-16-2024-specs.html
+- Upgrade as of 2026-03-23
+  - MacBook Pro 16in. Space Black.
+  - Nano-texture display probably not needed, because I don't use in
+    bright light. Also, I tend to use a desktop display. And
+    nano-texture has compromises to darkest blacks if you don't need to
+    worry about reflections.
+  - M5 Pro. 64GB I think; it's +$200 over 48GB, but could make a big
+    difference in how much I enjoy a computer in the final years.
+  - I could do 1TB SSD again, because I still only use 500GB of my 1TB
+    drive as of 2026-03-23. It is +$400 to upgrade to 2TB. I still have
+    50% headroom on my 1TB drive. It would be cheaper to use an external
+    SSD if I started doing a lot of local photo and video storage (in
+    which case maybe 2TB isn't even enough).
 
 ## iPhones
 

@@ -3,7 +3,7 @@
 - The water is exiting the hose at a faster rate than before. Thus it
   covers more distance before it hits the ground. Why?
 - The first thing to note is that water is _incompressible_. That means
-  the mass of water travelling per second through any two parallel
+  the mass of water traveling per second through any two parallel
   cross-sections of a pipe are always the same. There cannot anywhere be
   a buildup of water.
 - If the water through the unconstricted part of the pipe travels at a

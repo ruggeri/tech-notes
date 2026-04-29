@@ -48,7 +48,7 @@ The passcode is required after iPhone device restart, 48hrs of activity,
 or 5 unsuccessful scans. You can also disable FaceID by holding power
 and a side button; that forces you to open with the passcode.
 
-Consistent with this, MacOS requires the passphrase on device brestart,
+Consistent with this, MacOS requires the passphrase on device restart,
 every 48hrs, or after five unsuccessful scans. The best way to disable
 TouchID quickly is probably to press and hold the power button/TouchID
 sensor for five seconds. Passphrase will be required on restart.

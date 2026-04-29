@@ -7,7 +7,7 @@ from make_latex import run
 from pathlib import Path
 
 SOURCE_PATHS = [Path(f) for f in [
-  "./feynman.tex",
+  "./39-the-kinetic-theory-of-gases.tex",
 ]]
 
 run(SOURCE_PATHS)
