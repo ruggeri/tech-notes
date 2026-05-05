@@ -115,20 +115,23 @@
 
 **Modules**
 
-* You can use `export` to export either multiple names, or a single
-  default object (or both!).
-* Typical way to import is `import ModuleName from
-  "path/to/moduleName.js"`.
-    * Kind of like `import math` in Python.
-* Could also do `import * as ModuleName from "moduleName.js"`
-    * That imports all exports and collects them under a module name.
-    * Kind of like `from math import *` in Python.
-* If you just want some members, you can do `import { sin } from
-  "math.js"`.
-    * Can even give these aliases if you want.
-    * Can import as much as you want.
-* You can also just `import "math.js"`, which won't import any
-  bindings, but just do this for side-effect. Basically useless.
+- You can use `export` repeatedly to export multiple names.
+  - You can `export function f() { ... }`.
+  - Or at end you can; `export { a, b, c };`.
+  - You can import some members with `import { x, y, z } from "library"`.
+  - You can rename `import { x as newName } from "library"`.
+- You also get one *default* export:
+  - `export default { ... }`.
+  - You import this with `import NewName from "library"`. You get to
+    pick whatever name you want.
+  - Maybe like `import math` in Python?
+- You may `import * as YourNameSpace from "library"`.
+  - This collects all named exports and puts them in an object stored in
+    `YourNameSpace`. You get to pick the name.
+  - If there is a default export, it's saved as `YourNameSpace.default`.
+  - Maybe like `from math import *` in Python?
+- Last, you can `import "library"`, if you want. This doesn't import any
+  bindings, but just loads for side-effect.
 
 **Map, Set, WeakMap/WeakSet, Symbol**
 
