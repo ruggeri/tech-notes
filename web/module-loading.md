@@ -72,6 +72,12 @@ on the environment.
 }
 ```
 
+- Your JS source files must either be saved as `.mjs` (which tells Node
+  that you'll use ESM `import`/`export`). Or you can set
+  `"type": "module"` in your `package.json`, in which case all `.js`
+  source in your package will be treated as ESM.
+- To load an ES Module in Node REPL:
+  - `const { readFile } = await import("fs/promises");`
 - Browser loads exact URL. Can't import a whole library by name like
   `import "react"` unless a bundler or source map is used
   - Bundlers like `vite`, `webpack`, or `rollup` will take over
