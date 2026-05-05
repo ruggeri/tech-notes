@@ -64,6 +64,11 @@ struct MyBuffer
     // triggering two `notify_one` calls. One thread wakes up; imagine
     // it takes *both* items. When a second thread wakes, it still must
     // check that there are items to take.
+    //
+    // Also: the `condition_var` will start the sleep before releasing
+    // the mutex. Else you could (1) test first and decide to sleep, (2)
+    // other thread updates, (3) go to sleep, missing the update. I
+    // think this is the most important factor.
     not_empty.wait(l, [this]()
                    { return length != 0; });
 

@@ -125,12 +125,12 @@ Review Garbage Collection notes: garbage-collection.md
 truffle ruby? graalpy. invokedynamic?
 I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 
-Maybe discuss DCAS vs other primitives with regard to cache coherency?
-Maybe review `randos/cache-coherency.md` NUMA and ccNUMA?
-
 Maybe review web/architecture-lecture notes, and also Slides from Google
 drive?
 
+Concurrency stuff:
 mutex.md: MCS and CLH spinlocks.
 cache-coherence.md: Cost of CAS and TAS/how it is implemented. Explore cost of TTAS vs TAS spinlock.
 cache-coherence.md: Last unported "Memory Consistency" section.
+Maybe discuss DCAS vs other primitives with regard to cache coherency?
+Maybe review `randos/cache-coherency.md` NUMA and ccNUMA?

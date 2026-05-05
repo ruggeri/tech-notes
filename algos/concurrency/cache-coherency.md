@@ -113,7 +113,7 @@ retrieval time.
 
 Say you want to spin, waiting for a value to be set. _Local spinning_
 occurs when you have the value in cache, and you just keep checking
-until it is ivalidated. In that case, you do not need to talk to the
+until it is invalidated. In that case, you do not need to talk to the
 bus, and you should not interfere with the other processors. This is
 the ideal version of spinning.
 

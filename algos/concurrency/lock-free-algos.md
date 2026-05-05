@@ -371,6 +371,11 @@ method that increments a count, and an `acquire` method that decrements
 it. You could imagine this be implemented from a condition variable and
 a `item_count` variable.
 
+I believe the important point is: `counting_semaphore` doesn't use a
+lock or a mutex. When you `release`, you are doing a CAS increment. When
+you do an `acquire`, you will do a CAS decrement. If the thread is
+suspended, you won't block other threads.
+
 Using a `counting_semaphore` will definitely make this a hot variable.
 That will hurt performance because of cache invalidation/misses. The
 amount of hurt in part depends on how much time is spent doing the
