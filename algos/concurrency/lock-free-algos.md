@@ -368,13 +368,34 @@ change condition, unlock, wake.
 
 Maybe a better choice would be `counting_semaphore`; it has a `release`
 method that increments a count, and an `acquire` method that decrements
-it. You could imagine this be implemented from a condition variable and
-a `item_count` variable.
+it. You could almost imagine this be implemented from a condition
+variable and a `item_count` variable.
 
-I believe the important point is: `counting_semaphore` doesn't use a
-lock or a mutex. When you `release`, you are doing a CAS increment. When
-you do an `acquire`, you will do a CAS decrement. If the thread is
-suspended, you won't block other threads.
+However, you want `acquire`/`release` to be nonblocking. You can
+definitely atomically increment/decrement an int with CAS operations.
+But if you truly want to sleep the thread, you need to be able to block
+people from notifying the thread in between the test and the
+registration as sleeping.
+
+Thus, in `futex_wait(addr, expected_value)`, you spin testing. The
+`expected_value` is usually *zero*, because you're trying to take the
+semaphore, and you're expecting that it isn't available yet. If in fact
+the value is greater than zero, you should try to acquire with a CAS
+again.
+
+Eventually, you decide you won't acquire the semaphore too soon. You
+want to sleep. Now it is time to add yourself to the wait list. This is
+when you leave user code and enter kernel. The kernel now (1) disables
+preemption, (2) takes kernel-level lock, (3) tests that value is still
+zero (semaphore not available to acquire), (4) adds you to wait queue.
+
+A caller to `release` will increment the value, then call
+`futex_wake(addr)` and check the wait queue.
+
+So there *is* a lock taken by the `futex` code. That's what lets a
+thread park itself without missing a wakeup. But it can't result in a
+hanged thread blocking other thread's progress, because preemption is
+*disabled* before the lock is acquired.
 
 Using a `counting_semaphore` will definitely make this a hot variable.
 That will hurt performance because of cache invalidation/misses. The
