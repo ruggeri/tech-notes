@@ -14,6 +14,19 @@ To collect up a bunch of smaller files in a directory, you can use a
 `lib/index.js` file. This can require and re-export a bunch of files
 that make up that library under a shared namespace.
 
+In fact, `require("./utils")` will look for:
+
+```
+./utils.js
+./utils.json
+./utils.node
+./utils/package.json main
+./utils/index.js
+```
+
+Node will assume that `require("utils")` means a *package*. It will look
+for a builtin or in `node_modules`.
+
 The idea of `module.exports` comes from **CommonJS**, which was an early
 effort to standardize a server-side JS environment. CommonJS has been
 obsolesced by Node, which took some of its ideas and came to dominate.
