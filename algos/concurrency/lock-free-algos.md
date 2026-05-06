@@ -360,53 +360,112 @@ the consumer when something is put on. However,
 a natural choice). But it's also _required_ that a change to the
 underlying condition happen _while holding_ the same mutex (before you
 call `notify_one`). That seems to imply that the producer should _also_
-hold the `head` mutex, which mostly defeats the point of our queue.
+hold the `head` mutex, which mostly defeats the point of our two-lock
+queue.
 
 This is to prevent a "lost" wakeup. To wait: you must lock, check
 condition, register thread, unlock, sleep. To notify: you must lock,
 change condition, unlock, wake.
 
+**counting_semaphore and futex**
+
 Maybe a better choice would be `counting_semaphore`; it has a `release`
 method that increments a count, and an `acquire` method that decrements
 it. You could almost imagine this be implemented from a condition
-variable and a `item_count` variable.
+variable and a `item_count` variable, but note that it does not
+explicitly take a lock.
 
 However, you want `acquire`/`release` to be nonblocking. You can
 definitely atomically increment/decrement an int with CAS operations.
 But if you truly want to sleep the thread, you need to be able to block
-people from notifying the thread in between the test and the
-registration as sleeping.
+people from changing the count in between the test and the registration
+as sleeping.
 
-Thus, in `futex_wait(addr, expected_value)`, you spin testing. The
-`expected_value` is usually *zero*, because you're trying to take the
-semaphore, and you're expecting that it isn't available yet. If in fact
-the value is greater than zero, you should try to acquire with a CAS
-again.
+When you `acquire`, you first spin trying to read a non-zero value in
+the `counting_semaphore`. If you read a non-zero value, you try to use
+CAS to decrement it (and thus succeed in `acquire`). After a while doing
+this test-and-test-and-set looping, you give up; you want to ask the
+kernel to sleep the thread until the value changes. This involves the
+`futex_wait(addr, expected_value)` kernel call. The expected value is
+*zero*, because that's the count you expect in the semaphore (else you'd
+keep trying to take it!).
 
-Eventually, you decide you won't acquire the semaphore too soon. You
-want to sleep. Now it is time to add yourself to the wait list. This is
-when you leave user code and enter kernel. The kernel now (1) disables
-preemption, (2) takes kernel-level lock, (3) tests that value is still
-zero (semaphore not available to acquire), (4) adds you to wait queue.
+`futex_wait` enters the kernel, and now: (1) the kernel disables
+preemption, (2) you spin to take a kernel-level lock (could be a binary
+semaphore you CAS, but queued spinlock is more likely), (3) you test
+that value is still zero (no one changed semaphore count in meantime),
+(4) the kernel adds you to wait queue.
 
-A caller to `release` will increment the value, then call
-`futex_wake(addr)` and check the wait queue.
+A caller to `release` will increment the value with CAS. If it
+increments from zero to one, it calls `futex_wake(addr)`, which takes
+the lock and checks the wait queue.
 
 So there *is* a lock taken by the `futex` code. That's what lets a
 thread park itself without missing a wakeup. But it can't result in a
 hanged thread blocking other thread's progress, because preemption is
 *disabled* before the lock is acquired.
 
-Using a `counting_semaphore` will definitely make this a hot variable.
-That will hurt performance because of cache invalidation/misses. The
-amount of hurt in part depends on how much time is spent doing the
-enqueue/dequeue work. If enqueue/dequeue is about as fast/slow as
-acquire/release, then managing this hot variable may be really tanking
-throughput. You might start to consider using just one lock.
+Note: if a call to `futex_wait`/`futex_wake` is required, this is the
+"slow" path. It involves crossing the user/kernel boundary, which
+involves argument validation, manipulates wait structures, may
+context-switch thread... If the lock is generally uncontested, it's
+cheaper to just CAS one word (the semaphore count).
 
-But, if you stop using two locks, then a suspended producer will block
-consumers. So there is still value in adding concurrency, even if
-throughput might be reduced.
+If you wait to `acquire` a semaphore, you cannot call this lock-free,
+since a thread explicitly blocks until another thread lets it proceed.
+But it is nuanced: a thread cannot be suspended while holding the
+wait-queue lock.
+
+**Throughput Analysis**
+
+In the ideal, when enqueue and dequeue work are balanced, the two-lock
+queue (without the feature of consumers parking while waiting for
+producers) gives an ideal speedup of 2x.
+
+Michael-Scott two lock queue allows consumers to wait for producers:
+*if* they are willing to busy-wait.
+
+If you want consumers to park while waiting, then you need either (1) to
+go back to one lock, (2) to introduce a lock that serializes updates to
+a count variable, or (3) use a `counting_semaphore`.
+
+The `counting_semaphore` is usually the cleanest and most performant. If
+the count in the queue is usually greater than one, then
+`counting_semaphore` may never call into `futex_wait`/`futex_wake`. But
+in that case, simply *spinning* (and forgoing the parking functionality)
+would have never caused any delay either...
+
+Whether you go back to a single lock, use a lock to coordinate updates
+to the count, or use a `counting_semaphore`, you're introducing a single
+cacheline that both consumers and producers will potentially hammer. It
+is possible that the work contending for the cacheline will dominant the
+work of updating the queue structure, which will bring your throughput
+down to single-threaded rates. This will happen, for instance, if the
+count is frequently approximately zero (in which case most `futex`
+operations will need to call into the kernel).
+
+The highest throughput solution really is to busy wait (no call into the
+kernel). The downside is that you burn CPU that could be used for some
+other thread doing something else. But if there is *nothing else* to do,
+then busywaiting is ideal.
+
+It's typical to do an adaptive wait: try to test-and-test-and-set for a
+while, and then give up and do `futex_wait`. That can be the
+best-of-both-worlds. Usually you stay on the highest throughput path,
+but when it really looks like you're just burning CPU to no benefit, you
+do park the thread.
+
+Maybe a takeaway is: reducing lock-taking doesn't always give you better
+throughput. Doing CAS can hit similar throughput limits from cacheline
+bouncing. Lock taking is fundamentally implemented with atomics, so it's
+not necessarily "slower". But lock-free approaches (or even `futex`
+which isn't truly lock-free) do solve the problem of arbitrary delay
+from thread suspension.
+
+In the end, increasing lock granularity is a more practical way to
+increase throughput than switching to a lock free approach but with
+similar cacheline contention. Even better is if a lock free approach
+*also* increases granularity of coordination target.
 
 - Source: ChatGPT 2026-04-20.
 
