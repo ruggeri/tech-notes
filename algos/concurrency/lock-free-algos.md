@@ -11,9 +11,13 @@ the middle of an operation. If you start mutating an object in one
 thread, you might not be able to use the object yet in another thread
 because the invariants may not have been restored yet.
 
+Thread safety is necessary whenever there are multiple threads, even if
+there is only one "execution unit", because the OS can preempt a
+thread and switch to another
+
 One way to provide thread safety is through _locking_, also called
 _mutual exclusion_. Coarse-grain locking can ensure safety, but it may
-prohibit parallel use of the datastructure. Finer grained locking might
+prohibit parallel use of the data structure. Finer grained locking might
 improve breadth of parallel use, but introduce the possibility of
 _deadlock_ (a form of "liveness" failure).
 
@@ -25,7 +29,7 @@ imagined to have a "atomic", "global" model, where a write from a thread
 will be immediately visible to a read by any thread that is run
 afterward. True parallel execution means that reads/writes may give
 values that are not consistent with any single order of atomic
-operations on a global memory.
+operations on a global memory. This depends on the CPU memory model.
 
 An alternative to locking/mutual exclusion is _non-locking_ (AKA _lock
 free_) techniques. In lock free code, a thread cannot be blocked from
@@ -37,7 +41,7 @@ eventually try to be quite precise about what it means to be truly lock
 free. Else we could introduce/implement locking via "lock free"
 primitives without noticing it.
 
-# Disadvantages of Locks/Mutual Exclusion
+# Pros/Cons of Locks/Mutual Exclusion
 
 - Contention: when someone has the lock, other people can't do anything
   when that thread goes to sleep. That's kind of annoying, because the
@@ -47,20 +51,46 @@ primitives without noticing it.
     the lock, or if it enters an infinite loop.
   - OTOH: those are actual bugs. But they could be real if client code
     is executed while you have a lock.
-- Overhead: locks tend to be expensive to obtain relative to lock free
-  test-and-set stuff. When contention is low, locking can be
-  unnecessarily expensive.
-  - On the other hand, when contention is high, lock free ideas like
-    optimistic attempt and possible retry (e.g., ideas based on
-    test-and-set) can be wasteful.
 - Bugs: Difficult to prevent deadlock. Difficult to debug. Locks can
   "compose" poorly; you may inadvertently cause deadlocks.
   - On the other hand, lock-free code can be difficult to ensure doesn't
-    have subtle safety problems.
-  - Even when lock-free code works as designed, you still may not be
+    have subtle safety problems. It's often *even harder* to debug
+    lock-free code than locking code.
+  - Whether using lock-free or locking techniques, you still may not be
     able to naively compose operations into "isolated" transactions.
 - Priority inversion: if a low-priority thread has a lock, it may stop
   high-priority threads from running.
+  - The OS cannot ensure high priority threads make progress simply by
+    scheduling them. That makes it hard to truly prioritize high
+    priority threads.
+- **Throughput/overhead**:
+  - Lock-free techniques tend to be "optimistic". They tend to involve
+    atomic operations that don't involve switching into the kernel, and
+    which are likely to succeed when there is little contention.
+    - When contention is low, this is about as fast as can be.
+  - Lock-free doesn't necessarily mean that contention is more
+    distributed. For instance, a stack with a lock and a Treiber stack
+    both have a single point of contention.
+    - Under heavy contention, many threads will hammer this one location
+      with writes, but only one write at a time can succeed.
+  - Locking code can itself be fairly "optimistic". It can spin to try
+    to gain a lock without switching into the kernel. This may involve
+    just a TAS operation, which is not more expensive than the CAS
+    operations that most lock-free techniques use.
+    - In the uncontended case, a lock can be as fast as lock-free. Maybe
+      faster if locking code is simpler, involves less branching...
+    - If a thread can't gain the lock, it can switch into the kernel and
+      park the thread.
+    - The kernel switch is expensive. But the thread is not making
+      progress and just burning CPU, so maybe it's better to schedule
+      some other thread that might be able to make progress on something
+      else.
+  - So lock-free code doesn't necessarily give higher aggregate
+    throughput simply because it avoids locks.
+- In sum: the advantage of lock-free code is more about avoiding bad
+  interaction with the scheduler. A thread can't be preempted holding an
+  important lock if there aren't any locks! A low-priority thread can't
+  block high-priority threads if there are no locks.
 
 Alternatives include:
 
@@ -101,19 +131,25 @@ blocked by readers. Even if you were to use a _readers-writer_ (RW)
 lock, you would not get this advantage of unblocked writes.
 
 But lock-free code doesn't guarantee better _throughput_. While that is
-often the case under certain workloads, it is not the _definition_ of
-lock free. Lock free might have more indirection, or be more
+*could* be the case under certain workloads, it is not the _definition_
+of lock free. Lock free might have more indirection, or be more
 complicated. It can be mentally trickier than code that can rely on
 mutual exclusion. And when write contention is high, threads might be
 frequently interrupting each other, rolling back each other's work. Even
 if no one gets starved, throughput can be trashed.
 
-A thread might even be repeatedly interrupted, over and over, thus
-prohibiting it from making progress for an arbitrarily long time. Even
-though the system as a whole may be making progress, an individual
-thread might be _arbitrarily_ delayed. If a thread can be arbitrarily
-delayed, this is called _starvation_. Lock free code may still have
-starvation.
+And locking isn't necessarily "expensive" when it is uncontended or just
+lightly contended. Last: the expense of parking a thread via call to the
+kernel can be truly justified if (1) the thread isn't going to make
+quick progress and (2) there is other useful work that can be done by
+another thread.
+
+With lock-free code, a thread might even be repeatedly interrupted, over
+and over, thus prohibiting it from making progress for an arbitrarily
+long time. Even though the system as a whole may be making progress, an
+individual thread might be _arbitrarily_ delayed. If a thread can be
+arbitrarily delayed, this is called _starvation_. Lock free code may
+still have starvation.
 
 A form of "mutual starvation" might occur if two threads keep trying to
 make progress, but keep causing each other to retry, without either ever

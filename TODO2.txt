@@ -1,5 +1,6 @@
 2024-04-08: Looking for future research interests...
 2026-03-31: updated, especially with thought that I can use LLMs to extend my notes.
+2026-05-06: still reviewing old notes for interesting subjects. Project is taking a while because baby!
 
 - Math
   - Make sure eigenvector, SVD notes are complete/accurate.
