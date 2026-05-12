@@ -214,6 +214,37 @@ optimizing for fewer writebacks might not actually help performance.
 AMD x86 design has traditionally leaned MOESI and Intel x86 design has
 traditionally leaned MESIF.
 
+# Cache Associativity
+
+Caches often have _associativity_. A **fully associative** cache means
+that any cacheline can be replaced on a miss. **Direct-mapped** means
+exactly one line could be replaced. `k`-way associativity means that any
+of `k` lines might be replaced. This tends to be the default in CPU
+caches.
+
+Basically, you have a limited number of cache line slots; if you can
+only place a cacheline in one slot, then this is direct-mapped. You must
+eject whatever was in that line.
+
+If you have associativity, you need to (1) decide which line to evict,
+and (2) you have more places to look when you must read a line.
+
+The advantage is that you don't have to evict the hottest line just
+because it is located in the spot you need to place this cache line.
+
+If you have a choice, use a policy such as ejecting the least recently
+used cacheline in the set of `k` choices. In practice, a variety of
+simpler policies get used, because LRU tracking is kind of
+complicated/expensive.
+
+Basically, associativity will increase the hit rate, at the expense of
+storage/retrieval time. How much will it increase hit rate? Depends on
+how well you can select the line to evict. Also, it depends on the
+distribution of "hotness" to the lines in the cache. If all the cache
+lines are about equally hot, maybe choosing randomly is a fine, cheap
+policy. But since every read/write requires loading a line into cache,
+the hotness might really vary.
+
 # TODO
 
 **TODO**: I think write buffers should mention that a lot of the time
@@ -230,24 +261,6 @@ Slower than snooping when there's enough bandwidth, but scales better.
 
 I should find a better resource, I don't actually know 100% how this
 works.
-
-## Associativity
-
-Caches often have _associativity_. A _fully associative_ means that
-any cacheline can be replaced on a miss. Direct-mapped means exactly
-one line could be replaced. `k`-way associativity means that any of
-`k` lines might be replaced. Basically, you have a limited number of
-cache line slots; if you can only place a cacheline in one slot, then
-this is direct-mapped.
-
-If you have associativity, you need to check more places for a
-cacheline. But this way you don't necessarily have to replace a hot
-cacheline just because of a collision. Remember that collisions can be
-quite common, when the cache is small, and the hot set is of the same
-order of magnitude as the cache size.
-
-Basically, associativity will increase the hit rate, at the expense of
-retrieval time.
 
 ## Cache Coherency and TAS vs TTAS
 

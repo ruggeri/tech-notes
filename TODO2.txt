@@ -131,10 +131,15 @@ drive?
 
 Concurrency stuff:
 mutex.md: MCS and CLH spinlocks.
-cache-coherence.md: Directory based CC. Associativity.
+cache-coherence.md: Directory based CC.
 cache-coherence.md: Cost of CAS and TAS/how it is implemented. Explore cost of TTAS vs TAS spinlock.
 cache-coherence.md: Last unported "Memory Consistency" section.
 Maybe discuss DCAS vs other primitives with regard to cache coherency?
-What are chiplets?
+
+TODO: What are chiplets? They're small chips you glue together,
+increasing yield. Makes most sense with newest process nodes with
+highest cost and lowest yield. Also, you can glue them to parts made on
+old processes if those are not performance critical.
+
 Need to understand CUDA's dominance.
 CPU Architecture notes from Notion.
