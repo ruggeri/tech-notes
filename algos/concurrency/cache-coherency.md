@@ -214,43 +214,11 @@ optimizing for fewer writebacks might not actually help performance.
 AMD x86 design has traditionally leaned MOESI and Intel x86 design has
 traditionally leaned MESIF.
 
-# OLD UNREVIEWED NOTES
+# TODO
 
 **TODO**: I think write buffers should mention that a lot of the time
-you need a special instruction to force update to be pushed to RAM.
-
-## SMP / Uniform Memory Access
-
-SMP and Uniform Memory Access are basically synonyms. They mean
-multiple compute units (either cores or processors), attached via a
-shared bus to RAM. A major problem is that the shared bus limits
-memory bandwidth.
-
-## NUMA
-
-This is _non uniform memory access_. The basic idea is that some
-memory is closer to some processors. This means not everyone is using
-a single shared bus, reducing contention. Of course, this only
-improves things if different tasks are working mostly with a subset of
-the data.
-
-Another approach to this problem was adding multi-channel memory,
-which gave some ability to load more than one thing from memory at a
-time. But that doesn't really scale.
-
-The idea is that, if you're sharing a single memory bus, you prolly
-don't need more than one processor. That's how extreme the starvation
-for data is.
-
-Cache coherence becomes harder to maintain, now that not everyone
-shares a bus. Effectively: you can't just do snooping
-now. Theoretically you don't need to maintain cache consistency, but
-programming without it is very complicated, so this is a required
-feature. We call NUMA systems with cache consistency ccNUMA; all NUMA
-systems you'll ever see are ccNUMA.
-
-Basically, you can see NUMA as a tightly-coupled form of cluster
-computing.
+you need a special instruction to force update to be pushed to RAM. To
+flush from cache.
 
 ## Directory-Based Cache Coherence
 
