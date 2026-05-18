@@ -29,9 +29,9 @@ See `memory-ordering.md` for more discussion.
 
 # MSI, MESI, MOESI Protocols
 
-Each core will have its own cache. The cache stores "lines", which are
-blocks of words. They will share a bus/connection with a cache
-controller.
+Each core will have its own cache. The cache stores "lines" (typically
+64bytes in length), which are blocks of words. They will share a
+bus/connection with a cache controller.
 
 ## MSI
 
@@ -245,22 +245,49 @@ lines are about equally hot, maybe choosing randomly is a fine, cheap
 policy. But since every read/write requires loading a line into cache,
 the hotness might really vary.
 
+# Cache Coherence Strategies: Snooping and Directory-Based
+
+## Snooping
+
+Snooping is the alternative strategy. You broadcast coherence messages
+on a shared bus, and every core looks at every message to see which are
+relevant.
+
+Snooping doesn't scale well, because every core needs to review every
+coherence request to see if it is relevant. Also, the interconnect can
+become saturated (run out of bandwidth), and even the unsaturated
+latency may increase, especially if users are "distant" from each other
+(for instance, in different NUMA domains).
+
+Snooping is typically more performant (until scalability limit), and is
+the default for SMP systems.
+
+## Directory-Based
+
+The alternative idea is called "directory-based". Here, there is a
+central "directory" that knows who has a cache line and in what state
+(who are the owners and sharers, for instance). A core that wants to do
+something with the line will contact these parties directly.
+
+There can be more than one directory. This is typical in NUMA systems;
+you'll have a directory per NUMA domain (normally this is per-socket).
+That way the memory controller/directory sits near the memory that it
+manages.
+
+Communication between actors in this system is more like point-to-point
+rather than broadcast on a bus.
+
+You normally go directory-based when you start to scale past SMP limits
+and need to do NUMA.
+
+Note: a lot of systems are hybrids. Within a NUMA domain, you might do
+snooping, but across domains you might use directories.
+
 # TODO
 
 **TODO**: I think write buffers should mention that a lot of the time
 you need a special instruction to force update to be pushed to RAM. To
 flush from cache.
-
-## Directory-Based Cache Coherence
-
-In NUMA systems you typically use this cache coherency strategy. Each
-CPU has its own directory. It keeps track of who has each
-cacheline. All communication is done point-to-point.
-
-Slower than snooping when there's enough bandwidth, but scales better.
-
-I should find a better resource, I don't actually know 100% how this
-works.
 
 ## Cache Coherency and TAS vs TTAS
 
