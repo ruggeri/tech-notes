@@ -1,0 +1,234 @@
+# Atomic Operations
+
+- Sometimes atomic operations are called "read-modify-write" or RMW.
+- That's because they normally claim a cacheline, and read the value,
+  modify it, and write it back out, all before yielding the cacheline,
+  even if someone else wants it.
+
+## Aligned Load/Store
+
+- Aligned load/store of 1/2/4/8byte values are atomic.
+- Unaligned can span a word, so that usually requires multiple
+  instructions, and is not atomic.
+- Basically it relies on cache line ownership. You need to own the
+  cache line exclusive before you can write it. No one else can modify
+  the cache line until you yield it.
+
+## Atomic Exchange AKA Test-and-Set
+
+- Test-and-set/"atomic exchange": `XCHG`.
+  - You don't have to write `LOCK XCHG`. `XCHG` is implicitly atomic.
+- Atomic exchange is the better name. Test-and-set makes it sound like
+  there is some conditional logic being performed by the instruction...
+- Instruction is `XCHG addr, new_value`. It sets `*addr` to `new_value`,
+  and it returns `old_value`.
+- To claim a binary semaphore, you exchange `new_value = 1` into the
+  `addr`, and you check if the `old_value == 0`, to see if no one had
+  claimed it.
+- The `XCHG` instruction cannot "fail" as an instruction, though you can
+  "fail" to acquire the binary semaphore if `old_value == 1`.
+  - So you might have to re-enter a busy loop after an attempt to claim.
+- Works basically the same way as load/store; you need to lock this
+  cache line just long enough to remove the old value and set it. You
+  won't yield the cacheline until both operations are done, which is how
+  you make this atomic.
+- TTAS: test-and-test-and-set
+  - In "test-and-test-and-set" concept, you first test `*addr == 0` with
+    a normal load/comparison. Then, only if flag is available, you do
+    `XCHG addr, 1`.
+  - If result is `1`, it means that someone acquired the cache line
+    exclusive (and invalidated your copy) after you acquired it for
+    read.
+  - Spin-testing first by reading your cached value makes sense so that
+    you don't create extra cache coherence traffic while you wait for
+    mutex to be freed.
+    - You will only try to `XCHG` and generate cache traffic when your
+      copy has been invalidated: when someone released the mutex.
+  - Still, when someone finally does release the lock, (invalidating
+    your copy), all waiters will generate a burst of traffic.
+  - Of course, in most cases it is better to use an OS provided
+    lock/synchronization object (like `futex`) so that the OS can
+    deschedule the thread and run other things until the thread can make
+    progress again.
+- There is a `PAUSE` instruction for use inside spin loops.
+  - Basic idea is to reduce power/heat while doing something useless,
+    lets an SMT/Hyper-Threading thread use more of the pipeline
+    resources.
+  - This is much lighter-weight than parking the thread by entering the
+    kernel. It's an optimization at CPU level to do a very "light" kind
+    of sleep.
+
+## Atomic Increment
+
+- `LOCK ADD`, `LOCK INC`, `LOCK DEC`
+  - `LOCK` prefix is used because `ADD`/`INC`/`DEC` are all non-atomic
+    instructions.
+  - `LOCK ADD` takes an address and a value. It reads the address,
+    modifies the value, and writes it back out before yielding cache
+    line.
+  - `LOCK INC` and `LOCK DEC` are specializations that
+    increment/decrement by one. There is also `LOCK SUB`.
+  - These all work *unconditionally*. That makes them useful for
+    counters.
+- `LOCK XADD` is similar to `LOCK ADD`, but returns the old value.
+  - You might use `LOCK XADD` for a semaphore `release`, because if the
+    old value were `0`, that might mean that there are people waiting to
+    acquire the lock and you should maybe do some kind of wakeup logic.
+  - You can't use `LOCK XADD` for `acquire` because acquisition of a
+    semaphore is conditional on the count being `> 0`. You need a CAS
+    loop.
+- Uses typical RMW trick to hold onto this cache line until operation is
+  complete.
+- Can't fail. Typically no need for retrying/looping.
+  - But because the atomic instruction basically enforces a
+    serialization of updates, it is common to shard hot counters, so
+    that there isn't constant coherence traffic to claim a single line.
+
+## Compare-And-Swap AKA Compare-Exchange
+
+- `LOCK CMPXCHG` takes a target `target`, and two operands `expected`
+  and `new_value`.
+  - If `target == expected`, then it sets `target = new_value`.
+  - If `target != expected`, then it sets `expected = target`.
+- You need to use `LOCK` or else this is not atomic.
+  - That's a weird ISA wrinkle relative to `XCHG` which does not need
+    `LOCK`.
+  - I think `XCHG` predates introduction of `LOCK` prefix? Still, `XCHG`
+    was always atomic because that's the point of the instruction.
+- This works on 1/2/4byte operands. On 64-bit, also works on 8byte
+  operands.
+  - There are wide versions: `CMPXCHG8B` for comparing 8byte operands on
+    32-bit x86. And `CMPXCHG16B` for comparing 16byte operands on 64-bit
+    x86.
+  - To avoid spanning two cache lines, these must be aligned.
+- This works the usual way. Get the cache line exclusive, do the test,
+  do the set.
+  - This finally is conditional, so it can "fail".
+  - But it is in the same broad cost class as all the others.
+  - Like `XCHG` (test-and-set/atomic exchange), you may have to
+    loop/retry.
+- The use case is typically optimistic update attempts to lock-free data
+  structures.
+- The "ABA problem" can occur with naive compare-and-swap.
+  - Basically, it's when memory is "reused". So if you're CAS-ing a
+    pointer, you don't know if the underlying object is the same, or if
+    it just happens to live at same memory address.
+  - One trick is to keep an update counter side-by-side. Increment this
+    on every update. Then rely on double-width CAS.
+  - In theory, if update counter overflows, then ABA *might* still slip
+    by (if memory also reused). But for a 64bit counter, even at 1bil
+    updates/sec, it would take 500+ yrs to wrap...
+
+## Atomic Bitwise Operations
+
+- These are RMW instructions that work bitwise.
+- Take `LOCK BTS`: bit-test-and-set. It sets a single bit `i` to `1`, and
+  returns the old value of that bit.
+- There's `LOCK BTR` for bit-test-and-reset. It sets bit `i` to `0`, and
+  returns the old value of the bit.
+- Last, there's `LOCK BTC`, which is bit-test-and-complement. It flips
+  bit `i` and returns the old value.
+- These work in the usual simple RMW way. Claim the line exclusive, do
+  the operation, and don't give the line back until you're done.
+- Useful for flags/bitmasks that need synchronization.
+
+## Linked-Load/Stored-Conditional
+
+- Abbreviated `LL`/`SC`. Also called load-reserved/store-conditional
+- Naming comes from MIPS. Exits on ARM (`LDXR`, `STXR`), RISC-V (`LR`,
+  `SC`), and Power (`ldarx`, `stdcx`). Not on x86 or x86-64.
+- **TODO**.
+  - You mark on load, and when you store conditional, you only write if
+    it's still marked for you. Is that more flexible?
+  - Something about ABA prevention.
+
+## DCAS: Double Compare-And-Swap, AKA CAS2
+
+- This is an extension of the CAS idea.
+- You have *two* targets: `target1, target2`. You have *two*
+  `expected1, expected2`. And you have *two* `new_value1, new_value2`.
+- If `target1 == expected1` and `target2 == expected2`, then update:
+  `target1 = new_value1`, `target2 = new_value2`.
+- Else, set `expected1 = target1` and `expected2 = target2`.
+- The main extension is that this instruction *spans cachelines*.
+- The fundamental difficulty with DCAS: claiming two lines exclusive.
+  - If you must lock-and-hold two cachelines, how do you acquire them?
+    You could deadlock if you `DCAS(A, B)` while someone else
+    `DCAS(B, A)`. How do you detect potential deadlock and back-off?
+  - You might avoid deadlock if always claim lines in increasing memory
+    order.
+  - ChatGPT agrees with me that there's no "partial visibility" of the
+    transaction before all updates complete, so long as you hold
+    exclusive on the lines until transaction completes.
+- The main people who wanted DCAS were lock-free datastructure
+  researchers.
+  - You can make more powerful, but still simple, lock-free
+    datastructures with DCAS.
+  - DCAS is basically a two-operation atomic transaction. Lock-free
+    structures are all about optimistically attempting atomic
+    transactions.
+  - But this is still fairly niche. Most of what you want to do can be
+    accomplished via standard RMW atomic instructions.
+- History
+  - Motorola gave us true CAS2 in their 68k architecture (in 1984).
+  - But others did not adopt it, and Motorola abandoned it. Because of
+    the complexity, and niche use case.
+  - You get a lot of what you want simply from double-wide CAS
+    operations, where targets are aligned and adjacent. The double-width
+    CAS especially helps prevent ABA problems.
+  - Eventually Intel introduces hardware transactional memory (in
+    2012/2013). But there are early bugs found in 2014. And by 2019 some
+    security vulnerabilities are explored. It is largely
+    disabled/removed around that time.
+
+# Sources
+
+- A lot of ChatGPT discussion.
+
+# TO REVIEW: Notion random leftovers...
+
+- Basically: what are the non-serialization costs to RMW?
+  - Like, what does it do to write buffers, caches, prefetching,
+    pipeline...
+  - Note: if you already own line exclusive (because it's uncontended),
+    there's little cost to atomic instructions! The cost rises with
+    contention though (fighting for cache line over the cc fabric).
+  - It cannot fire and forget, so that slows things. It needs to know
+    whether it succeeded so write won’t wait in buffer but will actually
+    wait to get cache line
+  - On x86, will also not allow subsequent reads to be reordered before.
+    So there is a memory barrier here.
+  - And again I believe x86 will stop reordering which means it needs to
+    wait to write
+  - Cost of thread eviction to cache?
+
+## TO REVIEW: Resources
+
+In Intel 486 days, apparently they did an entire lock on the memory
+bus. Starting with Pentium Pro they do a cache lock on just that line.
+
+- Resources
+- SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
+- Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
+  - Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
+- **Wait this is the real deal:**
+  - http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
+  - It sounds like basically doing a LOCK operation necessarily
+    means bus traffic to tell everyone to give us exclusive access
+    (and further to lock them out from future access).
+  - We can avoid this if we have _shared_ access already, and then
+    we can just test locally and see the lock cannot be acquired.
+  - When a lock is freed, our local copy will be invalidated, and
+    _then_ we can acquire the lock.
+- These slides explain the same thing:
+  - http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
+
+**More About Cache Lines**
+
+They make a related suggestion: try to keep a contested lock and its
+data on different cachelines, so that attempts to get the lock won't
+invalidate the data (and changes to the data don't signal that the
+lock might be free).
+
+Source: Art of Multiprocessor Programming
+Source: http://stackoverflow.com/questions/2538070/atomic-operation-cost

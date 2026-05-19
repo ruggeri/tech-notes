@@ -287,67 +287,7 @@ snooping, but across domains you might use directories.
 
 **TODO**: I think write buffers should mention that a lot of the time
 you need a special instruction to force update to be pushed to RAM. To
-flush from cache.
-
-## Cache Coherency and TAS vs TTAS
-
-Say you want to spin, waiting for a value to be set. _Local spinning_
-occurs when you have the value in cache, and you just keep checking
-until it is invalidated. In that case, you do not need to talk to the
-bus, and you should not interfere with the other processors. This is
-the ideal version of spinning.
-
-When you do a TAS, it needs to talk to the bus. These failed requests
-can saturate the bus, destroying performance. With TTAS, you do not
-make bus requests that you _know_ can't succeed.
-
-**How is TAS implemented?**
-
-So X86 has a LOCK instruction _prefix_, and you can use it on an
-instruction like INC (increments one value), or XCHG (swaps two
-values), or CMPXCHG (basically compare and set). These instructions
-are probably almost meaningless without the LOCK prefix.
-
-It appears that to accomplish this, the machine must take exclusive
-access of the the cacheline (for CMPXCHG, maybe two cachelines?)
-involved.
-
-In Intel 486 days, apparently they did an entire lock on the memory
-bus. Starting with Pentium Pro they do a cache lock on just that line.
-
-- Resources
-- SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
-- Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
-  - Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
-- **Wait this is the real deal:**
-  - http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
-  - It sounds like basically doing a LOCK operation necessarily
-    means bus traffic to tell everyone to give us exclusive access
-    (and further to lock them out from future access).
-  - We can avoid this if we have _shared_ access already, and then
-    we can just test locally and see the lock cannot be acquired.
-  - When a lock is freed, our local copy will be invalidated, and
-    _then_ we can acquire the lock.
-- These slides explain the same thing:
-  - http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
-
-**More About Cache Lines**
-
-They make a related suggestion: try to keep a contested lock and its
-data on different cachelines, so that attempts to get the lock won't
-invalidate the data (and changes to the data don't signal that the
-lock might be free).
-
-Actually, it looks like maybe CAS isn't ridiculously expensive; just a
-couple cache misses. First you normally have to read the original
-value; that could be a cache miss. Then you have to "lock" the
-value. To do this, in MESI cache coherency, you tell people that
-you're taking this, and they have to invalidate. That is a 2nd cache
-miss (unless you already had exclusive access!). Now you have
-exclusive access and can modify this in your cache.
-
-Source: Art of Multiprocessor Programming
-Source: http://stackoverflow.com/questions/2538070/atomic-operation-cost
+flush from cache. CLFLUSH and CLWB.
 
 ## Memory Consistency
 
