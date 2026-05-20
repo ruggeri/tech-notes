@@ -5,7 +5,7 @@
   modify it, and write it back out, all before yielding the cacheline,
   even if someone else wants it.
 
-## Aligned Load/Store
+# Aligned Load/Store
 
 - Aligned load/store of 1/2/4/8byte values are atomic.
 - Unaligned can span a word, so that usually requires multiple
@@ -14,7 +14,7 @@
   cache line exclusive before you can write it. No one else can modify
   the cache line until you yield it.
 
-## Atomic Exchange AKA Test-and-Set
+# Atomic Exchange AKA Test-and-Set
 
 - Test-and-set/"atomic exchange": `XCHG`.
   - You don't have to write `LOCK XCHG`. `XCHG` is implicitly atomic.
@@ -32,24 +32,33 @@
   cache line just long enough to remove the old value and set it. You
   won't yield the cacheline until both operations are done, which is how
   you make this atomic.
-- TTAS: test-and-test-and-set
-  - In "test-and-test-and-set" concept, you first test `*addr == 0` with
-    a normal load/comparison. Then, only if flag is available, you do
-    `XCHG addr, 1`.
-  - If result is `1`, it means that someone acquired the cache line
-    exclusive (and invalidated your copy) after you acquired it for
-    read.
-  - Spin-testing first by reading your cached value makes sense so that
-    you don't create extra cache coherence traffic while you wait for
-    mutex to be freed.
-    - You will only try to `XCHG` and generate cache traffic when your
-      copy has been invalidated: when someone released the mutex.
-  - Still, when someone finally does release the lock, (invalidating
-    your copy), all waiters will generate a burst of traffic.
-  - Of course, in most cases it is better to use an OS provided
-    lock/synchronization object (like `futex`) so that the OS can
-    deschedule the thread and run other things until the thread can make
-    progress again.
+
+## TTAS: Test-and-Test-and-Set
+
+- Discussed in Art of Multiprocessor Programming.
+- In "test-and-test-and-set" concept, you first test `*addr == 0` with a
+  normal load/comparison. Then, only if flag is available, you do `XCHG
+  addr, 1`.
+- If result is `1`, it means that someone acquired the cache line
+  exclusive (and invalidated your copy) after you acquired it for read.
+- In that case, you spin, reading the cached value (marked `SHARED`). So
+  long as your cached value is not invalidated, it means no one has
+  updated this value.
+  - `XCHG` cannot return anything except `1` until your cached value is
+    marked `INVALID` (by someone else writing it).
+  - If you tried to `XCHG`, that would claim the address `EXCLUSIVE`,
+    which would generate coherency traffic.
+  - That consumes coherency bandwidth, and makes other cores inspect
+    their copy, despite no possibility of this core making progress.
+  - You will only try to `XCHG` and generate cache traffic when your
+    copy has been invalidated: when someone released the mutex.
+- Still, when someone finally does release the lock, (invalidating your
+  copy), all waiters will generate a burst of traffic.
+- Of course, in most cases it is better to use an OS provided
+  lock/synchronization object (like `futex`) so that the OS can
+  deschedule the thread and run other things until the thread can make
+  progress again.
+  - But it depends on how long you expect to wait.
 - There is a `PAUSE` instruction for use inside spin loops.
   - Basic idea is to reduce power/heat while doing something useless,
     lets an SMT/Hyper-Threading thread use more of the pipeline
@@ -58,7 +67,26 @@
     kernel. It's an optimization at CPU level to do a very "light" kind
     of sleep.
 
-## Atomic Increment
+## Cache Line Placement
+
+- It might be ideal if the synchronization target (for instance, the
+  address that stores a mutex), be placed on a different cache line than
+  the data.
+- Of course, other users may use TTAS on the mutex.
+- But if the owner is modifying data on the same cache line, this will
+  invalidate other cores' cached `SHARED` line.
+- That breaks the other cores out of TTAS, generating cache traffic. And
+  their attempts to grab the mutex will invalidate the *holder's* line,
+  so that they have to fight to get the line back to keep modifying the
+  locked data.
+- Source: Art of Multiprocessor Programming
+- On the other hand, you might try to put variables that will be
+  modified together in the same cache line. This is a performance
+  enhancement orthogonal to multiprocessor programming.
+  - If you can fit the variables in 16bytes, then you can even CAS
+    16bytes (if aligned).
+
+# Atomic Increment
 
 - `LOCK ADD`, `LOCK INC`, `LOCK DEC`
   - `LOCK` prefix is used because `ADD`/`INC`/`DEC` are all non-atomic
@@ -84,7 +112,7 @@
     serialization of updates, it is common to shard hot counters, so
     that there isn't constant coherence traffic to claim a single line.
 
-## Compare-And-Swap AKA Compare-Exchange
+# Compare-And-Swap AKA Compare-Exchange
 
 - `LOCK CMPXCHG` takes a target `target`, and two operands `expected`
   and `new_value`.
@@ -119,7 +147,7 @@
     by (if memory also reused). But for a 64bit counter, even at 1bil
     updates/sec, it would take 500+ yrs to wrap...
 
-## Atomic Bitwise Operations
+# Atomic Bitwise Operations
 
 - These are RMW instructions that work bitwise.
 - Take `LOCK BTS`: bit-test-and-set. It sets a single bit `i` to `1`, and
@@ -132,17 +160,32 @@
   the operation, and don't give the line back until you're done.
 - Useful for flags/bitmasks that need synchronization.
 
-## Linked-Load/Stored-Conditional
+# Linked-Load/Stored-Conditional
 
 - Abbreviated `LL`/`SC`. Also called load-reserved/store-conditional
-- Naming comes from MIPS. Exits on ARM (`LDXR`, `STXR`), RISC-V (`LR`,
+- Naming comes from MIPS. Exists on ARM (`LDXR`, `STXR`), RISC-V (`LR`,
   `SC`), and Power (`ldarx`, `stdcx`). Not on x86 or x86-64.
-- **TODO**.
-  - You mark on load, and when you store conditional, you only write if
-    it's still marked for you. Is that more flexible?
-  - Something about ABA prevention.
+- When you load the cache line with `LL` and read the value, the line
+  gets "marked". When you do `SC` later, this only succeeds if the line
+  is still reserved by you (and thus not modified elsewhere).
+  - This detects *any* modification. Whereas CAS cannot detect an ABA
+    style modification.
+  - I believe that when you do `LL` you will just get the line shared.
+    Only when you do `SC` will you upgrade to exclusive.
+- `LL`/`SC` can have spurious failure for a variety of reason. A simple
+  reason is: some other part of the cache line may be written by another
+  core, in which case the "mark" is lost even if the value of the
+  address didn't change.
+- You can put arbitrary, standard instructions between the `LL` and `SC`
+  calls.
+  - In particular, you can implement CAS out of comparison,
+    test/if/branch, and move instructions.
+  - There are restrictions, so you can't do *just anything*, but we
+    won't dive into that.
+- You can't nest `LL`/`SC` pairs. Probably the "marking" is done in a
+  special register which gets reset by a second `LL`, I would guess.
 
-## DCAS: Double Compare-And-Swap, AKA CAS2
+# DCAS: Double Compare-And-Swap, AKA CAS2
 
 - This is an extension of the CAS idea.
 - You have *two* targets: `target1, target2`. You have *two*
@@ -183,7 +226,22 @@
 
 # Sources
 
-- A lot of ChatGPT discussion.
+- A lot of ChatGPT discussion in 2026-05-XX.
+- Older sources follow. I haven't super-reviewed them in 2026. They are
+  good, but probably less valuable than ChatGPT communication.
+- http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
+  - It sounds like basically doing a LOCK operation necessarily
+    means bus traffic to tell everyone to give us exclusive access
+    (and further to lock them out from future access).
+  - We can avoid this if we have _shared_ access already, and then
+    we can just test locally and see the lock cannot be acquired.
+  - When a lock is freed, our local copy will be invalidated, and
+    _then_ we can acquire the lock.
+- http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
+- http://stackoverflow.com/questions/2538070/atomic-operation-cost
+  - In Intel 486 days, apparently they did an entire lock on the memory
+    bus. Starting with Pentium Pro they do a cache lock on just that
+    line.
 
 # TO REVIEW: Notion random leftovers...
 
@@ -201,34 +259,3 @@
   - And again I believe x86 will stop reordering which means it needs to
     wait to write
   - Cost of thread eviction to cache?
-
-## TO REVIEW: Resources
-
-In Intel 486 days, apparently they did an entire lock on the memory
-bus. Starting with Pentium Pro they do a cache lock on just that line.
-
-- Resources
-- SO on Lock Prefix: https://stackoverflow.com/questions/8891067/what-does-the-lock-instruction-mean-in-x86-assembly
-- Helpful Quora Post: https://www.quora.com/How-is-the-LOCK-instruction-implemented-in-the-Intel-processors
-  - Actually just excerpts https://software.intel.com/en-us/articles/implementing-scalable-atomic-locks-for-multi-core-intel-em64t-and-ia32-architectures
-- **Wait this is the real deal:**
-  - http://davidad.github.io/blog/2014/03/23/concurrency-primitives-in-intel-64-assembly/
-  - It sounds like basically doing a LOCK operation necessarily
-    means bus traffic to tell everyone to give us exclusive access
-    (and further to lock them out from future access).
-  - We can avoid this if we have _shared_ access already, and then
-    we can just test locally and see the lock cannot be acquired.
-  - When a lock is freed, our local copy will be invalidated, and
-    _then_ we can acquire the lock.
-- These slides explain the same thing:
-  - http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/9_Synchronization.pdf
-
-**More About Cache Lines**
-
-They make a related suggestion: try to keep a contested lock and its
-data on different cachelines, so that attempts to get the lock won't
-invalidate the data (and changes to the data don't signal that the
-lock might be free).
-
-Source: Art of Multiprocessor Programming
-Source: http://stackoverflow.com/questions/2538070/atomic-operation-cost
