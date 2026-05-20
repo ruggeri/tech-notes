@@ -132,7 +132,6 @@ drive?
 Concurrency stuff:
 mutex.md: MCS and CLH spinlocks.
 cache-coherence.md: Last unported "Memory Consistency" section.
-atomic-operation-cost.md: Finish review of RMW costs beyond cache line serialization.
 
 Q: What is a **hazard pointer**.
 hardware transactional memory:

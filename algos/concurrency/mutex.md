@@ -27,6 +27,10 @@ to acquire the lock quickly. But if the lock is not promptly released,
 the thread eventually ask the OS to park the thread and wake it when it
 can run again.
 
+In Linux, `mutex` is often implemented in terms of `futex`, which does
+some user-space TTAS-style spinning before entering kernel to register
+for sleep/wake.
+
 ## With Test-And-Set
 
 With shared memory and test-and-set, it's easy to implement a

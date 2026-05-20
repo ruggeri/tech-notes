@@ -224,6 +224,34 @@
     security vulnerabilities are explored. It is largely
     disabled/removed around that time.
 
+# Atomic Costs beyond Cache Coherence Traffic/Contention
+
+- I have focused on coherence traffic as the major cost of atomic
+  instructions. Indeed, this is the dominant cost when there is
+  heavy contention.
+  - "Successful" operations don't cost any more CC traffic than a write
+    would.
+  - If you *already* own the line exclusive, then atomic operation costs
+    *nothing* in coherence traffic.
+  - But instructions that can "fail" under contention may need to loop,
+    and that *does* imply (1a) spinning OR (1b) calling into OS to park
+    thread, and (2) additional coherence traffic.
+  - Any hot line shared between cores will bounce (regardless whether it
+    is the target of atomic/RMW ops), and that costs a lot of coherence
+    traffic.
+- The second big cost pertains to *write buffers*.
+  - Atomic ops that involve writes (most of them) will not allow
+    subsequent reads to be reordered before the write is propagated.
+  - Thus the write buffer must drain before the thread can make
+    progress.
+  - That exposes write latency.
+- Atomic/RMW also hurts pipelining/speculative execution.
+  - A common technique in CPU architecture is to assume a conditional
+    result, and begin executing instructions along that path, so long as
+    the "effect" of these instructions is all "local" to the core.
+  - But atomic operations cause fencing to be performed, which syncs
+    state to outside world. So they cannot be speculatively executed.
+
 # Sources
 
 - A lot of ChatGPT discussion in 2026-05-XX.
@@ -242,20 +270,3 @@
   - In Intel 486 days, apparently they did an entire lock on the memory
     bus. Starting with Pentium Pro they do a cache lock on just that
     line.
-
-# TO REVIEW: Notion random leftovers...
-
-- Basically: what are the non-serialization costs to RMW?
-  - Like, what does it do to write buffers, caches, prefetching,
-    pipeline...
-  - Note: if you already own line exclusive (because it's uncontended),
-    there's little cost to atomic instructions! The cost rises with
-    contention though (fighting for cache line over the cc fabric).
-  - It cannot fire and forget, so that slows things. It needs to know
-    whether it succeeded so write won’t wait in buffer but will actually
-    wait to get cache line
-  - On x86, will also not allow subsequent reads to be reordered before.
-    So there is a memory barrier here.
-  - And again I believe x86 will stop reordering which means it needs to
-    wait to write
-  - Cost of thread eviction to cache?
