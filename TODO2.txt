@@ -145,5 +145,4 @@ increasing yield. Makes most sense with newest process nodes with
 highest cost and lowest yield. Also, you can glue them to parts made on
 old processes if those are not performance critical.
 
-Review of ISA history.
-CPU Architecture notes from Notion.
+cpu-architecture.md: keep reviewing ISA history.
