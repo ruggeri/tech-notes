@@ -80,6 +80,8 @@ However, instructions to read/write different memory locations can be
   - That is despite issuing the instruction to write `X` _before_
     issuing the instruction to write `Y`.
   - This is called store-store reordering. x86 promises not to do it.
+  - I think store-store reordering would allow more freedom to re-order
+    stores to improve absorption of writes in the write buffer.
 - `read X at addr1; read Y at addr2`
   - A value of `Y` may be read from `addr2` may be read before the value
     of `X` is read from `addr1`.
@@ -89,6 +91,14 @@ However, instructions to read/write different memory locations can be
     cache-hit, it would be a performance optimization if we could start
     working with `Y` and wait for `X` to come in later. But that's what
     load-load ordering prohibits.
+  - If first load is conditional can be mispredicted, must a
+    misprediction require a re-load of the second read? Load-load
+    reordering would let us keep our second read value even if we have
+    to re-load the first.
+  - But also, even non-conditional reads don't have known fixed latency.
+    For instance, first read may need to hit RAM, whereas second read
+    may just hit L2. Core can't know how long reads will take to
+    satisfy, so fire off many in parallel.
 - If you have read-read and store-store order respected, then you cannot
   read the result of a later write but then subsequently fail to read
   the result of an earlier write.
@@ -120,6 +130,20 @@ However, instructions to read/write different memory locations can be
   - This is the one that x86 _does_ allow. Basically, it treats store as
     an async write to RAM. But the load can easily finish first
     especially if the cache line is already pulled in.
+  - Makes sense because further execution is dependent on loads.
+- Each weakening of the memory ordering model allows for reordering that
+  can increase performance.
+  - But Store-load reordering is the biggest win by far.
+  - The others tend to increase programming complexity. And maybe the
+    software fundamentally can't take advantage of the reordering
+    possibilities. In which case, you make every assembly writer
+    re-introduce the ordering via fencing.
+  - And reordering helps a lot less in single-threaded code, so long as
+    the assembly author makes good use of the registers and cache. In
+    that case, there is less latency to hide.
+  - I think that suggests why x86 might have chosen to take only the
+    very biggest win (the store-load reordering) but eschewed the
+    others.
 
 C/C++ `volatile` will only insure that reads and writes to the variables
 are _issued_ in the program order. But the actual order in which the
@@ -303,3 +327,44 @@ of this cost if you use `VarHandle`, which allows you to update a
 variable without issuing a memory fence.
 
 - Source: mostly ChatGPT in 2026-04-XX.
+
+# Write Buffers, Out-of-Order Execution
+
+It is faster to do something locally at the CPU than actually write to a
+slower level of memory. Since operating on data is faster than waiting
+for a write to sync, it's best not to block the processor from making
+progress while it waits for a write to sync.
+
+For that reason, we have *write buffers*. When an instruction asks to
+perform a write to a memory location, we usually just put this write in
+the buffer. It will eventually be performed, asynchronously, but we
+continue executing in the meantime. This hides latency. The downside is
+that reads can be re-ordered before writes; the read can occur before
+the write actually hits memory.
+
+Even if reading from memory is as slow as writing, you might prefer to
+do a read before a pending write because when the read completes, at
+least you can perform more instructions. Reads are dependencies for
+further execution, while writes are not.
+
+Also, the processor can do **Out-of-Order Execution** (OOE). Here, the
+processor begins a read *early*. Maybe it *knows* it will have to do
+this read soon ("prefetching"), so it starts doing the read earlier, or
+it simply *thinks* it will have to do the read eventually (branch
+prediction). This is another crucial reason why reads can get re-ordered
+before writes.
+
+Also, note that writes are typically by *cache line*. If many
+consecutive writes all update the same cache line, then each one can be
+*absorbed* in the buffer into a single cacheline update. This
+effectively batches updates to memory. You *could* increase absorption
+by allowing write-write re-ordering, but of course x86 doesn't do that.
+
+# Consistency and Synchronization Algorithms
+
+In order to write correct code that synchronizes across multiple CPUs
+(e.g., code that implements mutal exclusion algorithms), we typically
+rely on (1) cache coherency, and (2) memory ordering guarantees.
+
+Where the memory ordering model alone is insufficient, we must also use
+memory fencing instructions to constrain further the memory re-ordering.

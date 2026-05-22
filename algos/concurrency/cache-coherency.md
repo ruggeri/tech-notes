@@ -283,55 +283,19 @@ and need to do NUMA.
 Note: a lot of systems are hybrids. Within a NUMA domain, you might do
 snooping, but across domains you might use directories.
 
-# TODO
+# Cache Writeback
 
-**TODO**: I think write buffers should mention that a lot of the time
-you need a special instruction to force update to be pushed to RAM. To
-flush from cache. CLFLUSH and CLWB.
+Cache coherency takes care of visibility of writes across CPUs. You
+don't need to explicitly force a cacheline to be written back to memory.
 
-## Memory Consistency
+But sometimes you really do need some memory to get written *now*, and
+not just cached. The main example is for an update that needs to be
+persisted. For instance, if we want to write to a disk, we need to put
+the cacheline into memory where the disk controller can see it.
 
-**TODO**: Maybe integrate to `memory-ordering.md`.
+It's a bit like making a call to sync buffered IO.
 
-Processors try to keep all their hardware units busy, by doing
-out-of-order execution and work in parallel.
-
-Write requests to RAM are typically buffered. This hides latency,
-utilizes bandwidth better through batching, and eliminates some
-requests due to _absorbtion_ (when several writes can be
-consolidated).
-
-Consider a mutex algorithm _without_ hardware support. It's very
-important that everyone have a consistency view of memory. We know
-that without cache coherency, we could write a variable on one thread,
-and then do a read in a second thread, not seeing the write.
-
-Cache coherency solves the problem introduced by caches. But _there is
-still a problem_, introduced by the write buffer (and presumably from
-OOE). This is why we have memory fences; someone who issues a fence is
-guaranteed to see all other writes from the other processors before
-that fence was issued. Fences can take 100s of cycles.
-
-They contrast CAS (which has the ABA problem: update from A to B, then
-from B to A, and now they can't see the change). Another possibility
-is `load-linked` and `store-conditional` (from PowerPC), where the
-`SC` works only if the variable hasn't changed since the `LL`. The
-only problem here is you have to be careful what you do between the
-`LL` and the `SC`...
-
-Random note: parallelism on a single CPU with multiple cores can be
-advantageous because of the shared L2 cache (L1 typically not shared).
-
-Source: Art of Multiprocessor Programming
-
-## WTF Write (AKA store) Buffers?
-
-I think the idea is this: for OOE to reorder memory accesses, it uses
-a store buffer. A store is not actually performed until the processor
-knows that it doesn't violate a dependency. But the processor cannot
-know about dependencies across cores or processors.
-
-When I say "memory access" or "memory write", we really mean L1
-cache. That's why this is a problem even when we have cache coherence.
-
-Source: https://en.wikipedia.org/wiki/Memory_disambiguation
+We typically use `CLWB`, which syncs the cache line to the memory (but
+keeps holding the line exclusive). We can also use `CLFLUSH` which syncs
+and evicts the line, which might be helpful if we know we're done with
+the line. `CLFLUSH` is also used in some technical situations.

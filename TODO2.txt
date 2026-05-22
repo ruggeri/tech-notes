@@ -22,6 +22,14 @@
   - Review crypto stuff? Maybe review cryptocurrency weaknesses?
   - Elliptical Curves? Lattice based crypto?
   - Zero knowledge proofs, interactive proofs, zcash.
+  - Mutual exclusion: MCS and CLH spinlocks. I think people put
+    themselves in some kind of queue as they wait?
+  - Hazard pointers: they have something to do with ABA problem and also
+    garbage collection?
+  - Hardware transactional memory:
+    - Intel had TSX but it is often disabled now?
+    - https://en.wikipedia.org/wiki/Transactional_memory
+    - https://en.wikipedia.org/wiki/Transactional_Synchronization_Extensions
 - Thermodynamics, Refrigeration
   - Carnot efficiency
   - Refrigeration cycle
@@ -40,7 +48,10 @@
   - What is cause of transparency of materials.
 - Bernoulli's principle (important for carborateurs)
 - OTHER
+- Pipelining, superscalar processing
 - Maybe explore lower-level CUDA programming or GPU architecture.
+  - Especially: what does CUDA have that ROCm doesn't? Is CUDA the
+    secret sauce that makes nVIDIA more valuable than ATI?
 - Gyroscopes?
 - Finish notes on curl operator.
 - Microwave oven; MRI.
@@ -129,22 +140,10 @@ I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
 Maybe review web/architecture-lecture notes, and also Slides from Google
 drive?
 
-Concurrency stuff:
-mutex.md: MCS and CLH spinlocks.
-cache-coherence.md: Last unported "Memory Consistency" section.
-
-Q: What is a **hazard pointer**.
-hardware transactional memory:
-transactional memory - Intel had TSX but it is often disabled now?
-https://en.wikipedia.org/wiki/Transactional_memory
-https://en.wikipedia.org/wiki/Transactional_Synchronization_Extensions
-
 TODO: What are chiplets? They're small chips you glue together,
 increasing yield. Makes most sense with newest process nodes with
 highest cost and lowest yield. Also, you can glue them to parts made on
 old processes if those are not performance critical.
 
 Review of ISA history.
-
-Need to understand CUDA's dominance.
 CPU Architecture notes from Notion.
