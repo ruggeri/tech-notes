@@ -146,3 +146,5 @@ highest cost and lowest yield. Also, you can glue them to parts made on
 old processes if those are not performance critical.
 
 cpu-architecture.md: keep reviewing ISA history.
+
+TLB: remember what it is for! Maybe some general virtual memory notes.
