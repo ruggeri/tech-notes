@@ -127,7 +127,7 @@ references, and marking all the objects that you visit. At the end of
 the trace, any objects that were not marked are available for
 collection, and their memory can be reused.
 
-**Pointer Arithmetic: Precise/Conservative**
+## Pointer Arithmetic: Precise/Conservative
 
 Tracing really only works if pointer arithmetic is not allowed, or is
 very limited. When there is no pointer arithmetic, a GC knows exactly
@@ -142,22 +142,36 @@ objects. A simple (but not entirely free) way to do this is to store
 some class metadata at every object. This does involve some object
 bloat.
 
-## Later Directions
+## Attributes: STW/Incremental/Concurrent/Parallel
 
 We will start with a survey of basic approaches. Later we will consider:
 
-- Whether GC must **stop the world**, prohibiting the program from running
-  while the GC runs.
+- Whether GC must **stop the world**, prohibiting the program from
+  running while the GC runs.
 - Whether the GC can at least run **incrementally**. An incremental GC
   might stop the program, but yield back to it after doing some
   tracing/sweeping. The program eventually might yield back to the GC
   and progress continues.
+  - In general, incremental collection requires more synchronization
+    between mutator and collector than collection that stops-the-world
+    for the entire collection. We expect to trade reduced aggregate
+    throughput for shorter GC pauses.
+  - There is a spectrum between STW collection and incremental
+    collection. For instance, we might trace incrementally, but still
+    STW for the entire reclamation/disposal/live object copying.
 - Truly **concurrent** GC can run garbage collection thread(s) in
   parallel with the program.
+  - Concurrent GC allows for preemption of GC thread to run the program.
+    It also allows *parallel* execution of the program and collector.
+  - Again, a collector concurrency is a spectrum: maybe the trace can be
+    done concurrently but space reclamation must STW.
 - **Parallel** GC runs *multiple* garbage collection threads
   simultaneously.
-  - Parallel GC might still stop the world and not be incremental. Kinda
-    weird naming!
+  - Parallel GC might still stop the world and not be "incremental".
+    Kinda weird naming!
+  - We expect that on a single core machine, or when there is little
+    garbage collection work per thread, that parallel collection might
+    not be faster than serial collection.
 
 As discussed, tracing GC needs to walk the object graph, which pages in
 all the memory. We will later see a few ways to reduce graph walking to
@@ -187,13 +201,14 @@ in `fromspace` until full. To allocate, you just bump a pointer to the
 end of the used portion of `fromspace`.
 
 When `fromspace` is full, you must now "evacuate" `fromspace` and copy
-it to `tospace`. The entire `tospace` is reclaimed. The role of
+it to `tospace`. The entire `fromspace` is reclaimed. The role of
 `fromspace`/`tospace` reverses.
 
 Cheney's algorithm is to:
 
-1. Copy the initial objects referenced by the stack into the `tospace`.
-   Do not yet modify any pointers contained within these objects.
+1. Copy the initial objects referenced by the stack (also registers,
+   globals, et cetera...) into the `tospace`. Do not yet modify any
+   pointers contained within these objects.
 2. At the old `fromspace` location of the object, leave a *forwarding
    pointer*, which is the location in `tospace` where the object now
    lives.
@@ -227,23 +242,38 @@ because that is where forwarding pointers live.
 
 Mark-Compact first runs a tracing phase. But, instead of putting free
 chunks on a free list, Mark-Compact "compacts" objects by "sliding" them
-together, eliminating the free space in between them. This may improve
-locality of reference even better than Cheney collection. And it will
-allow for fast allocation. And it will not use two spaces.
+together, eliminating the free space in between them. This might improve
+locality of reference even better than Cheney collection, but results
+are variable and depend on access pattern. And it will allow for fast
+allocation. And it will not use two spaces.
 
 We'll iterate through live objects in address order. We'll slice each
-object to the end of the live space. Whenever we encounter free space,
-we will make a note in a "break table". The break table basically maps
-an address to a "delta". Objects that live after the address have been
-shifted "down" by the specified delta.
+object to the end of the live space. After sliding everyone together, we
+will have to iterate references to the space to update with the new
+location. A classic "textbook" way to do that is a "break table",
+discussed next. But there are many ways to do it, and break tables
+aren't necessarily the default in modern mark-compact implementations.
 
-I believe we first compact fully, and then iterate through the compacted
-objects. We must update every reference address. We do a binary-search
-in the break table to find the delta, and decrement the address.
+### Break tables
 
-Question: where does the break table live? You want to avoid
-pre-allocation of a potentially large table. Ideally the table will live
-in the free space reclaimed by the collector.
+As we slide objects together, whenever we encounter free space, we will
+make a note in a "break table". The break table basically maps an
+address to a "delta". Objects that live after the address have been
+shifted "down" by the specified delta. After everything has been slid
+down, we re-iterate the live objects, and update all the reference
+addresses. This is quick to do by reference to a sorted break table: we
+do a binary search for the relevant delta and adjust accordingly.
+
+An alternative would be to place "forwarding pointers" at the old
+locations. But this isn't trivial if we are not "evacuating" the
+collected space to a free space. If we are sliding objects within the
+same "region", then eventually some of the slid live objects will
+overrun the old locations where forwarding pointers need to be
+preserved.
+
+But that begs the question: where does the break table live? You want to
+avoid pre-allocation of a potentially large table. Ideally the table
+will live in the free space reclaimed by the collector.
 
 Basically: you iterate until you find the first "free" space. You start
 the table here; you put in your first entry (entries must be small
@@ -264,7 +294,7 @@ benefit is that we do not need to allocate any space to hold the table;
 it lives within the memory we have reclaimed! So, after compaction, we
 sort the break table. That is `O(n log n)`.
 
-# Tri-Color Marking
+# Tri-Color Marking: Toward Incremental Tracing
 
 We will begin exploring how to trace *incrementally*. This will involve
 alternating the program (the "mutator") with the collector. The mutator
@@ -278,7 +308,7 @@ To help guide us, we will define three sets:
 - Gray objects. We must examine the gray objects. Tracing is complete
   when the set of gray objects is empty.
 - Black objects. At the end of tracing, any objects colored black will
-  not retained. During tracing, black objects do not need to be
+  be retained. During tracing, black objects do not need to be
   re-examined.
 
 You start out with the root set as gray. You iterate gray objects,
@@ -306,9 +336,12 @@ even more careful about synchronization.)
 Consider a mutation to a reference stored in `objA`. This (1) removes a
 reference to `objB` and (2) adds a reference to `objC`.
 
-If `objA` is white or gray, then we don't have to do anything. `objA`
+If `objA` is white or gray, then we don't have to do anything.  `objA`
 has not yet been traced, but when it is, we will see the reference to
-`objC`. In that case, `objC` will be grayed, and retained.
+`objC`. In that case, `objC` will be grayed, and retained. (Be careful:
+if a gray object can be "partially" scanned when the mutator resumes,
+it's not safe to assume that we can assign `objC` into a gray `objA`
+obliviously.)
 
 The trouble is if `objA` is black. Then we have two problems. The first
 is minor: we've removed a reference to `objB`, which has already been
@@ -317,7 +350,7 @@ for collection, yet we've already grayed it. We will fail to collect it
 in this GC round. However, it will certainly be identified as garbage in
 the next GC round. It is not an error to fail to collect `objB` in this
 GC cycle, but it is not desirable to miss it. The possibility that
-`objB` doesn't get collected when it could have is basically
+`objB` doesn't get collected when it could have is practically
 unavoidable: it comes from interleaving mutations with tracing.
 
 But what about `objC`? We are creating a reference to it, which means we
@@ -326,83 +359,90 @@ be sure of this if `objC` is already black or gray. The trouble is if
 `objC` is white.
 
 What we see is that the runtime must run some code for every reference
-assignment. This is called a *write barrier*. This has little/nothing to
-do with memory barriers/fencing from multiprocessor computing. It's just
-a name for the function we run on reference assignment. We cannot allow
-"raw" reference assignment. This kind of write barrier is also called a
-*Dijkstra barrier* after Dijkstra:
+assignment. This is called a *write barrier*. This has little-to-nothing
+to do with memory barriers/fencing from multiprocessor computing. It's
+just a name for the function we run on reference assignment. We cannot
+allow "raw" reference assignment. This kind of write barrier is also
+called a *Dijkstra barrier* after Dijkstra:
 
 ```
-# Dijkstra Barrier
-write_barrier(objA, objC):
+# "Precise" Dijkstra Barrier
+write_barrier(objA, field_name, objC):
     if marking_is_active
        and is_black(objA)
        and is_white(objC):
            shade_gray(objC)
+
+    objA.set_field(field_name, objC)
 ```
 
 This ensures that `objC` will be retained.
 
-It is usually cheap to test `is_white`, since this is normally reflected
-as a marker bit in the object header being zero. But distinguishing
-black and gray can be more expensive. In typical implementations, black
-and gray objects both have the marker bit popped. What makes an object
-gray is its presence in a workqueue of objects for the tracer to
-examine. It typically isn't easy to test for inclusion in the queue.
+### Optimization: Conservative Dijkstra Barrier
 
-Thus, a "conservative" optimization is:
+It is usually cheap to test `is_white`, since this is normally reflected
+as a marker bit in the object header (or a side bitmap) being zero. But
+distinguishing black and gray can be more expensive. In typical
+implementations, black and gray objects both have the marker bit set.
+Often what makes an object gray (rather than black) is its presence in a
+workqueue of objects for the tracer to examine. It typically isn't
+cheap/easy to test for inclusion in the queue.
+
+Thus, a "conservative" optimization that shades more objects (and
+potentially "floats" more garbage), is:
 
 ```
-# Dijkstra Barrier
-write_barrier(objA, field, objC):
+# "Conservative" Dijkstra Barrier
+write_barrier(objA, field_name, objC):
     if marking_is_active
        and !is_white(objA)
        and is_white(objC):
            shade_gray(objC)
 
-    objA.set_field(field, objC)
+    objA.set_field(field_name, objC)
 ```
 
 This shades `objC` even if `objA` is merely gray. This means that `objC`
 will not be collected even if all references to `objC` are removed
 before `objA` is examined. This optimization introduces another pathway
-by which garbage can fail to be collected this cycle.
+by which garbage can fail to be collected this cycle ("float").
 
-It is also valid to regray the *parent* `objA` instead of the child
-`objC`. This involves re-examining all the fields of `objA`, which tends
-to be more expensive. I suppose if (1) we expect many modifications to
-the references of `objA`, (2) AND most of the objects assigned become
-garbage, (3) AND we can de-duplicate gray assignments (don't need to
-rescan `objA` one more time for each modification), (4) THEN maybe
-regraying `objA` could be worth it... But this is not the canonical
-approach.
+It would also be valid to regray the *parent* `objA` instead of the
+child `objC`. This involves re-examining all the fields of `objA`, which
+tends to be more expensive. There's also a danger that GC cannot ever
+complete if we keep transitioning objects from black to gray. But this
+strategy could float less garbage.
 
-**Modification to Stack Root Set**
+### Final Root Set Re-Scan
 
-At the start of tracing, we gray everything on the stack. That is our
-initial root set.
+At the start of tracing, we gray everything on the stack (and in
+registers and globals et cetera). That is our initial root set.
 
 We talked about how we gray objects as references are stored at black
 objects.
 
-But what about changes to the *stack set*? At the end of tracing, we
-cannot collect an object if it is still referred to from the stack.
+But what about changes to the *root set*? At the end of tracing, we
+cannot collect an object if it is still referred to from the stack or
+other root set location.
 
-Unlike objects stored in the heap, we don't really want to gray every
-object that gets stored onto the stack. Stack frames are constantly
-popping so most of these references will be lost soon. Objects can only
-survive long-term if they are stored in the heap.
+It's one thing to gray references stored in the heap. But we may
+especially not want to gray every object that gets stored onto the stack
+as soon as it is stored. For instance: stack frames are constantly
+popping so most of these references will be lost soon. Most objects can
+usually only survive long-term if they are stored in the heap.
 
-The typical solution is this: gray the stack at tracing start. This is
-our "root set" to trace from. Now, trace fully, incrementally. Last,
-*stop the world*. Examine the stack and gray everything. Drain the gray
-queues. Hopefully this stop is brief if there isn't a lot of
-as-yet-untraced data that can be reached from the stack.
+The typical solution is this: "gray the stack/root set" at tracing
+start. This is our "root set" to trace from. Now, trace fully,
+incrementally. Last, *stop the world*. Examine the stack/root set and
+gray any referenced white objects. Trace, and drain the gray queues.
+Hopefully this stop is brief if there isn't a lot of as-yet-untraced
+data that can be reached from the stack.
 
 This last stack re-scan is sort of like if we re-marked the "black"
-stack as "gray", instead of marking every object assigned into a black
-stack as gray. But we "batch" and "coalesce" the constant marking of the
-stack, and only examine it one more time: at the end of tracing.
+stack as "gray" on modification, instead of marking every object
+assigned into a black stack as gray. But we "batch" and "coalesce" the
+constant marking of the stack, and only examine it one more time: at the
+end of tracing.
 
 ## Snapshot-At-The-Beginning (SATB)
 
@@ -696,6 +736,7 @@ surpassed before you initiate tracing again.
     can also sweep faster with more cores, because G1 is parallel. On
     net, the question isn't about throughput. OTOH, the global pause
     will create many parallel latency spikes.
+
 - Project Valhalla from Java. It wants to have value types.
   - .NET has them. They don't need to be traced.
 - Other languages:
@@ -706,3 +747,4 @@ surpassed before you initiate tracing again.
   - BEAM/Erlang/Elixir: per-processor generational semi-space copying GC.
   - Swift: Automatic reference counting.
   - C++ shared_ptr in C++ is itself expensive because of atomics.
+- Talk about p99 when it comes to low latency goals.
