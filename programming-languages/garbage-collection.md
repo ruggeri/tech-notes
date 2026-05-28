@@ -457,80 +457,99 @@ as a temporary, with no other references stored anywhere ever. We can
 protect against losing the white child by marking *all* new objects
 black on creation.
 
-(New objects don't need to start gray because fields are either (1)
-other new objects or (2) objects already stored as references, and an
-object referred to at any point in the GC cycle will never be
-collected).
+(New objects can be marked black instead of gray if field initialization
+happens after black marking, and we use the same technique to protect
+against losing white objects assigned into this black parent's fields.)
 
 This has an obvious downside: objects created during the trace are
 *always* retained, even if they become garbage by the end of the trace.
 With incremental update, this "floating garbage" *can* happen. But with
-SATB, we know it *always* happens.
+SATB, we know it *always* happens. Then again, the floating garbage is
+surely recovered in the next collection cycle, so floating garbage
+should not grow without bound. However, floating garbage does still
+bloat total memory use, so it's not a good thing.
 
 The second way to fail to mark a white child assigned into a black
 parent is if there *was* a second reference to the white child at the
-start of tracing, but that this reference is later removed. Our solution
-will be to gray a white object whenever a reference is removed:
+start of tracing, but that this reference is later removed before it is
+traced. The SATB/Yuasa approach is to gray a white object *whenever* a
+reference to it is removed:
 
 ```
-# Sometimes called Yuasa barrier
-write_barrier(parent_obj, field, new_child):
-    old_child = parent_obj.get_field(field)
+# Precise Yuasa barrier
+write_barrier(parent_obj, field_name, new_child):
+    old_child = parent_obj.get_field(field_name)
 
     if marking_is_active and old_child != null and is_white(old_child):
         shade_gray(old_child)
 
-    parent_obj.set_field(new_child)
+    parent_obj.set_field(field_name, new_child)
 ```
 
 Notice that Yuasa barrier means that we will not collect anything that
 was live on the heap at the beginning of tracing (even it is not live by
-trace end). This gives rise to the name "snapshot at the beginning".
+trace end). This gives rise to the name **snapshot at the beginning** or
+**SATB**.
 
 Because no new objects are ever grayed, we know that SATB will
 eventually complete tracing, no matter the rate of creation of new
 objects. Contrast with incremental-update, where, if allocation occurs
-faster than tracing, the gray set could increaser without bound.
+faster than tracing, the gray set could increase without bound. You have
+to be careful of that possibility with incremental update...
 
 Note: you don't have to rescan the stack at trace end because all new
 objects are created black anyway.
 
-## Cache Behavior
+### SATB Performance: Cache Optimization
 
-But why bother with SATB? We float more garbage with Yuasa than
-Dijkstra. Isn't that a strict loss?
+Why bother with SATB? We float more garbage with Yuasa than Dijkstra.
+Isn't SATB strictly inferior?
 
-One reason is this: the typical Dijkstra barrier checks both the parent
-and child marker bits. Yuasa barrier checks only the child marker bit.
-Checking the marker bit may involve a cache miss. Reference assignment
-is so common, and it is otherwise so cheap. Incurring an extra cache
-miss can therefore be a significant penalty.
+A major reason for preferring SATB: the conservative Dijkstra barrier
+checks both the parent and child marker bits. The precise Yuasa barrier
+checks only the child marker bit. Checking the marker bit may involve a
+cache miss. Reference assignment is so common, and it is otherwise so
+cheap. Incurring an extra cache miss can therefore be a significant
+penalty.
+
+So SATB checks fewer bits (and incur fewer cache misses). Moreover, it
+avoids cache misses specifically in the write barrier code, which is
+executed in the user program threads. If garbage-collection costs *must*
+be incurred, it is best if they are incurred in the GC thread instead of
+the program. That's because the GC thread can be scheduled intelligently
+(for instance, when program is idle). It also can reduces cache-thrash,
+since GC code can make heavier use of the marker bitmap lines and get
+more for the cost of loading them.
 
 You might argue: isn't the parent marker bit stored in the object
 header, near the parent fields that you intend to modify anyway? Often
 no: marker bits are often stored in a side bitmap. This can be more
-space efficient. It also means that while tracing, you can mark the bit
-without claiming the data exclusive and invalidating program users's
-cachelines of program data.
+space efficient (reduces object header bloat). It also means that while
+tracing, you can mark the bit without claiming the object data exclusive
+and invalidating a mutator's cache lines of program data. And it
+increases locality for GC code that must look at marker bits but doesn't
+need to examine object fields.
 
-The downside is that if the program must read a marker bit in a write
-barrier, then this incurs a cache miss. With side bitmaps, this happens
-even when you have the data cache line exclusive for a field
-modification.
+So there is significant benefit to the use of a side bitmap. But the
+downside is that if the mutator must read marker bits, it often incurs a
+cache miss. With side bitmaps, you can expect a cache miss in the side
+bitmap even when the program already has the data cache line exclusive
+for a field modification.
 
-## Work Queues
+### Further Optimization: SATB Queues
 
 For SATB, we often elide the check of `is_white`:
 
 ```
-# Sometimes called Yuasa barrier
-write_barrier(parent_obj, field, new_child):
-    old_child = parent_obj.get_field(field)
+# Conservative Yuasa write
+barrier
+write_barrier(parent_obj, field_name, new_child):
+    old_child = parent_obj.get_field(field_name)
 
     if marking_is_active and old_child != null:
         current_thread.satb_buffer.append(old_child)
 
-    parent_obj.set_field(new_child)
+    parent_obj.set_field(field_name, new_child)
 
 # Run in GC thread
 drain_buffer():
@@ -542,19 +561,22 @@ drain_buffer():
 ```
 
 Here, the mutator `write_barrier` doesn't even check if `old_child` is
-white, it just enqueues `old_child`. This incurs *no* cache miss. The
-mutator pays the least latency penalty.
+white, it just enqueues `old_child`. The mutator pays the least possible
+latency penalty. There is *no* cache miss on marker bits, because you
+don't read any!
 
 The GC thread must still check the bits. However, this thread may have
-better locality, increasing throughput. And there is more flexibility
-about *when* the cost of GC is incurred. The runtime can try to schedule
-the queue drain when the mutator is otherwise idle.
+better locality (greater use of marker bitmap lines), increasing
+throughput and reducing GC cost. And there is more flexibility about
+*when* the cost of GC is incurred. The runtime can try to schedule the
+queue drain when the mutator is otherwise idle.
 
-Can you make the same optimization to the Dijkstra barrier? Can you do:
+Is this a fundamental advantage of the SATB approach? Couldn't you try
+to make the same optimization to the Dijkstra barrier? For instance:
 
 ```
 write_barrier(objA, field, objC):
-    if marking_is_active:
+    if marking_is_active and objC != null:
            current_thread.buffer.append(objC)
 
     objA.set_field(field, objC)
@@ -562,12 +584,12 @@ write_barrier(objA, field, objC):
 
 Yes. This will typically float less garbage than SATB, because you don't
 retain old fields that lose all reference. But it might increase logging
-if many writes are to null fields (typical of initialization). Almost
-all items created during a trace will be retained (so long as the new
-object is stored in a reference on the heap). Last, you must rescan the
-stack.
+if many reference writes are to null fields (typical of initialization).
+Almost all items created during a trace will be retained (so long as the
+new object is stored in a reference on the heap). Dijkstra also still
+has more need of a stack/root set rescan.
 
-## SATB vs Dijkstra summary
+### SATB vs Dijkstra summary
 
 The choice of Dijkstra or SATB is practically a technicality. You can
 use either system. You can use tricks to improve cache friendliness of
