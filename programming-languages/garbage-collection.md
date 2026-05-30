@@ -785,80 +785,86 @@ summarize, the point of the regions is to make compaction incremental.
 It is not really about unlocking increased throughput over
 non-incremental fully-STW compaction.
 
-# Garbage Collection In Various Languages
+# Java Garbage Collectors
 
-## Java
-
-- Serial: stops the world. Generational. Runs copy collector on young
-  generation, runs mark-compact on old generation.
-- Parallel: mostly the same as serial, but runs many parallel GC
-  threads.
-  - Parallel is typically superior to serial, unless the heap is quite
-    small or the number of cores quite low.
+- Serial GC
+  - Stops the world for tracing and collection. Uses generations.
+    Compacts live object graph on major collection.
+  - Present from the beginning of Java.
+- Parallel GC
+  - Like Serial, stops the world for tracing and copying/compaction.
+    Generational.
+  - Uses many GC threads to parallelize tracing and copying. Goal is
+    higher throughput when there are more cores and large heaps.
+  - Added JDK 1.4.1 in 2002.
 - CMS: Concurrent Mark-Sweep
+  - The original lower latency collector.
   - Generational.
-  - Does an initial STW to mark stack gray.
-  - Then does concurrent tracing, using incremental-update style
-    barriers.
-  - Does a final STW to trace from new stack.
-  - Last, it does a sweep. It only sweeps and does not compact, so this
-    is easier to do concurrently. Dead objects are swept onto free
-    lists.
-  - CMS is a low-pause collector. But for long-lived apps, it's bad that
-    memory can fragment more-and-more. Eventually, a large allocation
-    may not have a free space large enough. Then Java must STW and do a
-    compact of the old generation.
+  - It stops-the-world briefly for initial and final root set handling.
+  - It does *concurrent* marking using incremental-update style barriers.
+  - Finally, it does a *concurrent* sweep (no compaction). It sweeps
+    free space onto free lists.
+  - That makes CMS almost entirely concurrent.
+  - However, because it does not compact, if the app runs long enough,
+    we expect that the heap will eventually become highly fragmented.
+  - Eventually we may need to trigger a compacting collection, which
+    stops-the-world to compact the entire live object graph.
+  - Added JDK 1.4.1 in 2002.
 - G1 ("Garbage First")
+  - Generational, as usual.
   - Traces concurrently. Uses SATB write-barriers.
-  - It is generational.
   - Splits the heap space up into regions.
   - Because it compacts when it evacuates regions, it creates larger
-    contiguous blocks of free space. But it doesn't have to compact the
-    *entire* live object tree.
-  - Like CMS, this is low-pause. But G1 is better at producing large
-    blocks of free space.
+    contiguous blocks of free space. That fights fragmentation and
+    allows for easier reuse of freed space. Relocation into old regions
+    is easier to do when there are large blocks of contiguous space.
+  - G1 doesn't have to compact the *entire* live object tree. That
+    allows it to (often) meet a threshold duration for a STW pause.
+  - We have less fear (compared to CMS) that we'll have to STW and
+    compact the whole heap, because we reduce fragmentation when we
+    evacuate regions.
+  - G1 was fully supported starting JDK 7u4 in 2012.
+- ZGC and Shenandoah:
+  - **TODO**: they make compaction concurrent!
 
 # TODO
 
-- Useful: http://www.memorymanagement.org/glossary
-- Very Comprehensive: "Uniprocessor Garbage Collection Techniques"
-  (Paul Wilson)
-  - https://www.cs.cmu.edu/~fp/courses/15411-f08/misc/wilson94-gc.pdf
-  - https://users.cs.northwestern.edu/~pdinda/ics-s05/doc/dsa.pdf
-- Replicating collector: copying without destruction. Useful in
-  incremental/parallel collection??
-- Buddy System?
-- Baker's Treadmill
-
-- Java Lowest latency collectors
-  - ZGC (inspired by Cliff Click, Azul) and Shennandoah
-  - Both do moving/compacting concurrently. They work differently, but
-    have same goals.
-  - Try to eliminate STW during evacuation. That further reduces
-    tail latency.
-  - But typically these pay for less latency imposed by GC by reducing
-    throughput. Because it will have to use more atomics probably.
-  - ZGC is only going to be attractive when latency target is less than
-    20ms or so (the target GC pause time).
-  - If you have extra CPU performance to spend, then you might prefer to
-    spend more CPU no ZGC to reduce latency spikes from GC.
-  - With 64 cores, a 20ms global G1 pause costs more throughput. But you
-    can also sweep faster with more cores, because G1 is parallel. On
-    net, the question isn't about throughput. OTOH, the global pause
-    will create many parallel latency spikes.
-
-- Project Valhalla from Java. It wants to have value types.
-  - .NET has them. They don't need to be traced.
-- Other languages:
+1. Review ZGC and Shenandoah.
+  - They offer concurrent compaction to further reduce tail latency.
+  - Explain pointer coloring/read barrier/forwarding pointer ideas.
+  - Again, the read pointers impose aggregate throughput cost. Typical
+    latency-throughput tradeoff.
+  - Note prior art of Cliff Click, and Azul/C4.
+2. Discuss (briefly) other GC/MM strategies in other languages:
   - Node/V8: Generational tracing GC, mark-compact
   - Ruby: mark-sweep
   - Haskell: generational copying GC.
-  - Go: concurrent non-moving mark-sweep
-  - BEAM/Erlang/Elixir: per-processor generational semi-space copying GC.
+  - Go: concurrent non-moving mark-sweep.
+  - BEAM/Erlang/Elixir: per-process generational semi-space copying GC.
   - Swift: Automatic reference counting.
   - C++ shared_ptr in C++ is itself expensive because of atomics.
-- Talk about p99 when it comes to low latency goals.
-  - Also: how does G1 decide what's "fair" for mutator vs collector.
-  - As in: it sets a ceiling for duration to stop world. But how long
-    will it resume program before doing more STW evacuation?
-- Discuss why need read barriers for concurrent relocation.
+  - .NET: discuss idea of value types, how they reduce work for GC
+    tracing, and that Java is considering adding them (Project
+    Valhalla).
+3. Talk about importance of tail latency.
+  - Of course, robotics, vehicles, financial trading, maybe even UI.
+  - Explore how, if an user request triggers many internal requests to
+    services, each of which has significant tail latency, the "tail"
+    latency may become promoted to the "expected" case.
+  - Explore a queueing model for latency hit to requests from a GC
+    pause.
+  - Why do latency spikes sometimes get amplified and cause services to
+    fall over? Is it only because of retries?
+4. Other
+  - How does G1 decide how long the program runs in between incremental
+    evacuations?
+
+## Old Resources
+
+- Useful: http://www.memorymanagement.org/glossary
+- Very Comprehensive: "Uniprocessor Garbage Collection Techniques"
+  (Paul Wilson, 1992)
+  - https://www.cs.cmu.edu/~fp/courses/15411-f08/misc/wilson94-gc.pdf
+- Dynamic Storage Allocation A Survey and Critical Review (Paul R
+  Wilson, Mark S Johnstone, Michael Neely, and David Boles, 1995)
+  - https://users.cs.northwestern.edu/~pdinda/ics-s05/doc/dsa.pdf
