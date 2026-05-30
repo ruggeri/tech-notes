@@ -541,8 +541,7 @@ for a field modification.
 For SATB, we often elide the check of `is_white`:
 
 ```
-# Conservative Yuasa write
-barrier
+# Conservative Yuasa write barrier
 write_barrier(parent_obj, field_name, new_child):
     old_child = parent_obj.get_field(field_name)
 
@@ -596,11 +595,44 @@ use either system. You can use tricks to improve cache friendliness of
 both approaches. As you make the approaches cache friendlier/more
 practical, their pros/cons converge almost to a vanishing point.
 
+# Concurrent Tracing vs Concurrent Reclamation
+
+We should be able to pretty easily extend the ideas of incremental
+tracing to *concurrent* tracing. Some care may be needed, but the basic
+incremental approach should be able to be done concurrently with the
+program/mutator. One example: concurrent collectors often need to STW
+briefly for root set examination.
+
+It is harder to do concurrent relocation/copying/compaction of marked
+objects to reclaim space. Further down, we will explore concurrent
+reclamation ideas.
+
+Java introduced the CMS collector in JDK 1.4.1 in 2002. It is a
+low-pause collector and does concurrent marking. It also does
+*concurrent sweeping*. But note that this collector does not attempt to
+relocate object. It sweeps free space onto free lists, which can be done
+concurrently easily.
+
+If fragmentation eventually becomes too bad, then it will become harder
+to find space to place larger objects. Space will be wasted between live
+objects, requiring more frequent collection phases. Eventually, the CMS
+collector triggers a compacting collection, which stops the world.
+
+In 2012 the G1 garbage collector became a supported feature of JDK7. But
+it *still* does not do concurrent evacuation/relocation of regions of
+objects. It stops the world, but for shorter periods.
+
+Only in 2020 did ZGC get supported as a production feature. CMS was
+removed at the same time. It offers concurrent relocation of objects. We
+will discuss it later. But the 18yr gap between CMS and ZGC demonstrates
+how it was much easier to concurrently trace than to relocate objects.
+
 # Generational Garbage Collection
 
 Garbage collection can be expensive. You have to trace the object graph.
-That loads basically the entire heap. You also have to update marker
-bits. That creates the likelihood of contention between marking threads.
+That walks all the live objects, which can touch a substantial
+proportion of the memory. You also have to update marker bits; if you
+use multiple marking threads, they can contend for the marker bits.
 
 The worst case is when you have a very large object graph, with lots of
 live data, and just a sliver of garbage. Now you must trace the entire
@@ -608,8 +640,8 @@ graph, but you get very little benefit.
 
 There is a "generational hypothesis": objects allocated since the last
 collection are more likely to become garbage than objects that have
-survived a collection. That means that tracing the new objects will give
-you better bang-for-your-buck in identifying garbage.
+survived a collection. That means that tracing the recently allocated
+objects will give you better bang-for-your-buck for identifying garbage.
 
 To implement generational GC, you must have a young generation space
 separate from the old generation space. You allocate in the young
@@ -618,21 +650,26 @@ generation. When the young generation space is full, you trigger a
 as it traces. It uses forwarding pointers. It only traces *young*
 objects, it does not follow references into the old space.
 
-But the root set must contain all references from the old space to the
-young space. How do you track these references? You need more write
+But the root set may contain references from the old space to the young
+space. These will need to be updated by the minor collection copying
+collector. How do you track these references? You need more write
 barrier logic. When you store a reference in an old generation object,
-you check if the reference is into the new generation. If so, you must
+you check if the reference is into the new generation. This is usually
+as simple as a pointer comparison, since the new generation is a
+contiguous block. If the reference points into the new generation, you
 store this location in a *remembered set* of locations to check for
 `old->new` references.
 
+## Cards
+
 You can optimize this. The write barrier, instead of appending to a
 remembered set, can "mark" a card dirty. A card in HotSpot is 512bytes.
-The dirtied card tells the GC to re-examine the block at trace time for
-`old->new` references to add to the remembered set. After scanning and
-adding reference locations to the remember set, the GC thread can mark
-the card clean again. Marking a card is faster for a write barrier than
-appending to a remembered set. More GC work is moved out of the mutator
-to the GC thread. And there is the potential for some
+A dirtied card indicates that the GC must re-examine the block at trace
+time for `old->new` references to add to the remembered set. After
+scanning and adding reference locations to the remembered set, the GC
+thread can mark the card clean again. Marking a card is faster for a
+write barrier than appending to a remembered set. More GC work is moved
+out of the mutator to the GC thread. And there is the potential for some
 coalescing/absorption of writes to the same location.
 
 To be clear: the generational hypothesis must also include that
@@ -648,54 +685,105 @@ More commonly, we keep the objects in the young generation a while. The
 new generation space is divided into:
 
 1. Eden: a free space for fast allocation,
-2. FromSpace: a space in which objects that have survived at least one
-   minor collection still live,
-3. ToSpace: a space into which we can copy objects.
+2. FromSpace: a space in which young objects that have survived at least
+   one minor collection still live,
+3. ToSpace: a space into which we can copy objects that are selected to
+   remain in the young generation.
 
 When we do a minor collection, we track how many minor collections an
-object has survived in the object header. If this is below a threshold,
-we copy the new generation object into ToSpace. If it exceeds the
-threshold (or we run out of ToSpace), we allocate space in the old
-generation and copy there.
+object has survived in the object header. HotSpot tracks this in the
+object header. If this count is below a threshold, we copy the new
+generation object into ToSpace. If it exceeds the threshold (or we run
+out of ToSpace), we allocate space in the old generation and copy there.
 
-# Regions
+# Regions and G1 collector
 
-The idea is similar to generational GC. You split the heap space into
-regions. HotSpot aims to have ~2,048 regions, of size between 1MB and
-32MB.
+The region idea is somewhat like an extension of generational GC. In
+generational GC, you have a new generation "region" in which objects
+that have only survived a few collections live. You collect this region
+more often than the old generation region, because you expect collection
+of the new generation to be more profitable: more space reclaimed per
+live object copied.
+
+The region idea is a kind of extension to this. You split the heap space
+into regions. HotSpot aims to have ~2,048 regions, of size between 1MB
+and 32MB.
 
 Some of the regions will be used for the Eden, FromSpace, and ToSpace.
-The typical generational idea will be used.
 
-The space of old objects is split into regions. You'll keep remembered
-sets of references pointing into each region. You can use the dirty card
-idea as an optimization.
+The other regions hold old generation objects. For every region, you'll
+keep remembered sets of references pointing into the region. You can use
+the dirty card idea as an optimization.
 
-When memory use surpasses a threshold, this is a trigger of a "mixed
-collection" (collection of some old and some new objects). You'll start
-a concurrent trace of all live objects (new and old). It uses a SATB
-approach. This will allow you to estimate the number of live objects in
-each region.
+There are two kinds of collections. A "minor" new generation collection
+works as usual. The other kind of collection is called a "mixed
+collection". This begins with a concurrent trace of all live objects
+(new and old). You can use either the incremental-update or SATB
+approaches (Java's G1 collector uses SATB). By the end of the trace, you
+have an *estimate* on the number of live objects in each region, and the
+amount of free space.
 
-When you're done tracing, you can choose to *evacuate* some regions for
-re-use. Basically, you start a copy-collection from the region into
-other regions. This compacts live data. You must update references
-within the moved objects, and you must update references from the
-remembered set for the region.
+## Region Evacuation
 
-The easiest way to do this is to stop the world during the evacuation.
-Java G1 does multiple evacuation pauses, each intended to have a finite
-bounded duration. Individual region evacuation is quite short because
-the regions are small.
+When you're done tracing, the collector chooses to *evacuate* some
+regions for re-use. It stops the world, and begins a copy-collection
+from a chosen region into other regions. This compacts the live objects
+from the region. You must update references to objects that lived in the
+evacuated region. You use forwarding pointers as usual. You must iterate
+the dirty cards/the remembered set to find pointers into the region from
+outside it.
 
-You choose regions to evacuate based on their %age of garbage. You might
-also want to consider how many entries are in the remembered set (or
-cards dirtied), since you'll have to update those locations. Regions
-with fewer remembered set entries take less work to evacuate.
+G1 estimates the amount of space that can be reclaimed (the "benefit").
+It estimates the "cost" in terms of number of live objects to be copied,
+and number of references to be updated. G1 uses these (and other
+factors) to pick what it thinks are the most valuable regions to target
+for evacuation.
 
-Once you've collected all the regions that surpass some profitability
-threshold, you stop. You'll wait until the mixed collection threshold is
-surpassed before you initiate tracing again.
+The easiest way to evacuate some selected region is to *stop the world*
+during the evacuation. That is what G1 does. The downside is that the
+evacuation is not concurrent with the program. But G1 *does* make
+collection *incremental*. Moreover, G1 has a knob which sets an intended
+limit on how long it will stop the world to evacuate regions.
+
+G1 can hope to meet its target duration because it can estimate how long
+it may take to evacuate a region (as discussed above). And regions are
+supposed to be small enough that if we choose just one region to
+evacuate, hopefully we can evacuate it within the intended time limit.
+
+G1 may do multiple evacuation pauses, each intended to stop the world
+for no more than the finite target duration.
+
+Eventually, there is logic to decide when it is no longer worthwhile to
+keep collecting more regions, at which point region evacuation stops. At
+that point, G1 uses some adaptive heuristics to estimate when it must
+next trigger a concurrent trace in order to be able to be able to
+complete the next GC cycle before memory runs out.
+
+## Throughput Analysis
+
+The primary goal of the regions is to make the live-object
+compaction/contiguous free space reclamation incremental. That is
+achieved, and lowers latency to the program/mutator.
+
+You might also improve throughput (in terms of bytes recovered per CPU
+cycle) if you can target regions where there is a lot of garbage
+relative to the number of live objects. But unless something is odd, you
+probably cannot consistently select a region with a higher proportion of
+garbage than the long term garbage/live object ratio across all regions.
+Even if in the beginning there is variance in the percentage of garbage
+in each region, over time this distribution presumably becomes uniform.
+
+Note that because you must either keep remembered sets or dirty cards,
+there is additional overhead relative to a STW copy compaction of the
+entire live object graph. That is what the Java "Serial" and "Parallel"
+collectors do at the end of a major collection.
+
+In summary, we expect G1 to reduce variable latency imposed on the
+program by compaction. But we expect that G1 may have inferior
+throughput relative to the "Serial" and "Parallel" collectors. To
+summarize, the point of the regions is to make compaction incremental.
+It is not really about unlocking increased throughput over
+non-incremental fully-STW compaction.
 
 # Garbage Collection In Various Languages
 
@@ -770,3 +858,7 @@ surpassed before you initiate tracing again.
   - Swift: Automatic reference counting.
   - C++ shared_ptr in C++ is itself expensive because of atomics.
 - Talk about p99 when it comes to low latency goals.
+  - Also: how does G1 decide what's "fair" for mutator vs collector.
+  - As in: it sets a ceiling for duration to stop world. But how long
+    will it resume program before doing more STW evacuation?
+- Discuss why need read barriers for concurrent relocation.
