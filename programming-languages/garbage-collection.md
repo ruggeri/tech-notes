@@ -785,6 +785,76 @@ summarize, the point of the regions is to make compaction incremental.
 It is not really about unlocking increased throughput over
 non-incremental fully-STW compaction.
 
+# Concurrent Compaction
+
+The ZGC and Shenandoah JVM collectors both allow for *concurrent*
+relocation of live objects to allow for heap compaction and creation of
+contiguous free space without stopping the world. We study Shenandoah.
+
+The basic idea is that you do a concurrent marking/tracing. Then, you
+choose regions to evacuate. GC threads begin concurrently evacuating the
+live objects by relocating them into other regions. You will CAS in a
+forwarding pointer into the object header. It is safe to move an object
+without updating all references to the object.
+
+We will add read barriers to the program that follow the forwarding
+pointer (and possibly update the old reference) if the object has been
+relocated. And we will add write barriers that will relocate an object
+in an evacuated region if the object has not already been moved. This
+will allow us to concurrently use objects before and after relocation.
+We do not need to have finished evacuating all live objects, nor updated
+all references, in order to continue using the objects.
+
+We will maintain an invariant: after a region is selected for
+evacuation, program threads will stop mutating object data inside the
+old region. The program threads must relocate an object to a new region
+before modifying the new copy there.
+
+After the GC threads have completed evacuation, they can begin to ensure
+that all old references into the evacuated region are updated. They can
+begin a heap scan for references to the old region and update them as
+encountered. The GC threads may fold this work into a subsequent heap
+trace. But when they are done, we will know that all references into the
+region have been updated, that the forward pointers no longer need to be
+stored there, and that we can now reclaim the entire region for reuse.
+
+To ensure that *old* references are not written into the object heap by
+the program mutator, our write barrier looks like this:
+
+```
+write_barrier(obj, field_name, value):
+    obj   = resolve_forwarding(obj)     # where am I writing?
+    value = resolve_forwarding(value)   # what reference am I storing?
+
+    obj.set_field(field_name, value)
+```
+
+Because old references are not stored anymore in the heap after the
+region is selected for evacuation, we know that a scan of objects will
+ensure no old references remain. This prevents a previously-scanned
+object from having an old pointer written into it.
+
+## Read Barriers Don't Relocate Objects
+
+Note that the read barrier *does not* relocate objects. The program is
+free to read the fields in the old object if it hasn't been relocated
+yet. This prevents allocation and relocation work from being done when
+the program only wants to read an object. While the read barrier won't
+relocate objects, it *may* update the reference if it encounters a
+forwarded object.
+
+We try to have the GC threads do as much relocation and reference update
+work as possible, and program read code do as little possible. Why is
+that important? Because we don't want to interfere with the latency and
+the cache behavior of code that only needs to read fields. Otherwise,
+read-only code might encounter a "read storm" of relocation work that
+tanks latency.
+
+In order to avoid doing relocation work in a read barrier, we cannot
+place the forwarding pointer over object data. Else, concurrent to our
+attempt to read data in the object fields, another thread could stomp
+pointer data over our read target. We would read "garbage."
+
 # Java Garbage Collectors
 
 - Serial GC
@@ -825,17 +895,19 @@ non-incremental fully-STW compaction.
     evacuate regions.
   - G1 was fully supported starting JDK 7u4 in 2012.
 - ZGC and Shenandoah:
-  - **TODO**: they make compaction concurrent!
+  - ZGC (Oracle) added experimental in 2018/JDK 11, made production
+    2020/JDK 15.
+  - Shenandoah (RedHat) added experimental in 2019/JDK 12, made
+    production 2020/JDK 15.
+  - Prior art: Cliff Click publishes "Pausless GC" paper in 2005 (it
+    requires hardware support). Azul hardware ships it. Software-only
+    version is named C4 and shipped by Azul ~2010, published in ACM
+    ~2011.
+  - **TODO**: explain what they do! They make compaction concurrent!
 
 # TODO
 
-1. Review ZGC and Shenandoah.
-  - They offer concurrent compaction to further reduce tail latency.
-  - Explain pointer coloring/read barrier/forwarding pointer ideas.
-  - Again, the read pointers impose aggregate throughput cost. Typical
-    latency-throughput tradeoff.
-  - Note prior art of Cliff Click, and Azul/C4.
-2. Discuss (briefly) other GC/MM strategies in other languages:
+1. Discuss (briefly) other GC/MM strategies in other languages:
   - Node/V8: Generational tracing GC, mark-compact
   - Ruby: mark-sweep
   - Haskell: generational copying GC.
@@ -846,7 +918,7 @@ non-incremental fully-STW compaction.
   - .NET: discuss idea of value types, how they reduce work for GC
     tracing, and that Java is considering adding them (Project
     Valhalla).
-3. Talk about importance of tail latency.
+2. Talk about importance of tail latency.
   - Of course, robotics, vehicles, financial trading, maybe even UI.
   - Explore how, if an user request triggers many internal requests to
     services, each of which has significant tail latency, the "tail"
@@ -855,7 +927,7 @@ non-incremental fully-STW compaction.
     pause.
   - Why do latency spikes sometimes get amplified and cause services to
     fall over? Is it only because of retries?
-4. Other
+3. Other
   - How does G1 decide how long the program runs in between incremental
     evacuations?
 
