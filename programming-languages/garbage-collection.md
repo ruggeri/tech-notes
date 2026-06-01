@@ -855,6 +855,21 @@ place the forwarding pointer over object data. Else, concurrent to our
 attempt to read data in the object fields, another thread could stomp
 pointer data over our read target. We would read "garbage."
 
+## Brief "Sync" points
+
+There is still a need for some thread synchronization. Very briefly, all
+threads must pause so that all of them activate the read/write barriers
+before *any* thread begins object relocation. It's necessary that *all*
+threads know to stop mutating objects inside the evacuated region before
+we begin evacuation. And we must again sync to ensure *all* threads know
+to stop storing old references before the GC threads pass over the live
+objects to search for and update any old references.
+
+These do *very briefly* stop the world. So, to be clear, the algorithm
+is not *fully concurrent*. This is typical. It is necessary even during
+concurrent tracing to briefly stop threads so that stacks/registers can
+be examined.
+
 # Java Garbage Collectors
 
 - Serial GC
