@@ -696,6 +696,14 @@ object header. If this count is below a threshold, we copy the new
 generation object into ToSpace. If it exceeds the threshold (or we run
 out of ToSpace), we allocate space in the old generation and copy there.
 
+## Sizing
+
+By default, JVM's Serial and Parallel collectors choose a ratio of `1:2`
+for new to old generation sizing. That is: new generation takes up `1/3`
+the total heap space. Moreover, default `Eden` to `FromSpace` ratio is
+`8:1`. For a 300MB new generation, `Eden` might be 240MB and `FromSpace`
+and `ToSpace` each 30MB.
+
 # Regions and G1 collector
 
 The region idea is somewhat like an extension of generational GC. In
@@ -716,12 +724,18 @@ keep remembered sets of references pointing into the region. You can use
 the dirty card idea as an optimization.
 
 There are two kinds of collections. A "minor" new generation collection
-works as usual. The other kind of collection is called a "mixed
-collection". This begins with a concurrent trace of all live objects
-(new and old). You can use either the incremental-update or SATB
-approaches (Java's G1 collector uses SATB). By the end of the trace, you
-have an *estimate* on the number of live objects in each region, and the
-amount of free space.
+works as usual. It does a STW copy-collection. It copy-collects the
+entire new generation in a single STW pause. This is basically just like
+serial/parallel. In order to attempt to meet maximum pause target, G1
+will adaptively size the new generation (and thus how often it is
+collected, and how many objects live in it on collection). But G1 is no
+more incremental for young generation collection than serial/parallel.
+
+The other kind of collection is called a "mixed collection". This begins
+with a concurrent trace of all live objects (new and old). You can use
+either the incremental-update or SATB approaches (Java's G1 collector
+uses SATB). By the end of the trace, you have an *estimate* on the
+number of live objects in each region, and the amount of free space.
 
 ## Region Evacuation
 
@@ -920,16 +934,89 @@ be examined.
     ~2011.
   - **TODO**: explain what they do! They make compaction concurrent!
 
+# Other Programming Languages
+
+## Manual(-ish) Memory Management.
+
+- C/C++/Rust: mostly manual memory management.
+- Some help from RAII. C++ has `shared_ptr`. Rust has a deterministic
+  `Drop` interface.
+- `shared_ptr` requires atomics to be thread safe. Even when uncontended
+  (`shared_ptr` is entirely thread local), this imposes a certain level
+  of extra cost.
+
+## Interpreted Languages
+
+- CPython: reference counting with cycle detection.
+  - You can often expect prompt destruction of objects when refcount
+    reaches zero.
+  - But PyPy uses tracing GC. So you cannot portably rely on finalizers
+    being run promptly. For this reason, you ought to use `with`.
+  - PyPy default collector is `incminimark`. I believe it does STW for
+    new generation copy-collection. It does incremental trace of old
+    generation. For old generation collection, it sweeps free space onto
+    free lists, it does not routinely compact. I can't verify if PyPy
+    ever defrags old generation through compaction; if so, I believe it
+    does STW to compact entire live object graph. Or maybe it just lets
+    heap grow without bound and lets fragmentation get really bad.
+  - GraalPy relies on typical JVM collectors.
+- Ruby
+  - MRI is fundamentally mark-and-sweep. It does incremental marking,
+    and it does incremental sweeping of free space onto free lists.
+  - It is generational. But it doesn't use semi-space copying
+    collection. It does an incremental mark-sweep of just new objects,
+    using root set and remembered-sets of references to new objects.
+    Then it just iterates object set, freeing objects in slots labeled
+    (1) young and (2) not marked.
+  - It exposes a `GC.compact` method for explicit compaction of the
+    heap. But this does a STW for the duration of compaction.
+  - JRuby: relies on typical JVM collectors.
+- JavaScript/TypeScript
+  - V8 is JS engine for Node and Deno.
+  - Orinoco garbage collector for V8 does a stop-the-world for
+    copy-collection of a new generation. Parallelized.
+  - Typical old-generation collection is *concurrent* trace and sweep.
+    But it can also selectively compact/evacuate "pages" (similar to
+    regions) if they become very fragmented.
+  - JavaScriptCore from Apple/Safari is similar to Orinoco. It does STW
+    copy-collection of young generation. Old generation uses concurrent
+    mark-sweep. JSC is generally non-compacting.
+- Summary:
+  - CPython is the exception because it is reference counted.
+  - Most of these collectors are generational. Most of these collectors
+    use semi-space copy-collection for the new generation (MRI is an
+    exception and does mark-sweep for new generation).
+  - Most old collection is incremental (MRI and PyPy) or concurrent (V8
+    Orinoco and JSC) mark-sweep. Orinoco is an exception in offering
+    some page compaction (MRI will do STW whole-heap compaction on
+    request).
+    - MRI and PyPy maybe don't bother with concurrent because users are
+      used to and expect the GIL. So they don't expect very much
+      concurrency.
+    - Maybe Node and JSC get the engineering effort needed for
+      concurrent marking/sweeping because this reduces GC latency, and
+      thus improves UI responsiveness in browser where it matters.
+    - Also V8 does have background threads.
+  - Broadly, the typical collection strategy appears more like Java's
+    CMS than any other JVM collector.
+  - None of them seem to offer incremental old generation compaction
+    like Java's G1 (Orinoco is a bit of an exception).
+  - And none seem to offer anything like either ZGC or Shenandoah.
+
+## Compiled, Garbage-Collected Languages
+
+- Java: see above!
+
 # TODO
 
 1. Discuss (briefly) other GC/MM strategies in other languages:
-  - Node/V8: Generational tracing GC, mark-compact
-  - Ruby: mark-sweep
-  - Haskell: generational copying GC.
+  - Haskell: generational copying GC. Is there something special about
+    immutability that affects GC?
   - Go: concurrent non-moving mark-sweep.
   - BEAM/Erlang/Elixir: per-process generational semi-space copying GC.
-  - Swift: Automatic reference counting.
-  - C++ shared_ptr in C++ is itself expensive because of atomics.
+  - Swift: Automatic reference counting. Objective-C: manual MM?
+  - .NET: ???
+  - OCaml? Common Lisp?
   - .NET: discuss idea of value types, how they reduce work for GC
     tracing, and that Java is considering adding them (Project
     Valhalla).
