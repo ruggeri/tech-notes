@@ -61,3 +61,11 @@ continues to have new releases as late as 2026...
 
 **TODO**: **TruffleRuby** and **GraalPy** (runs Python 3.12 on JVM as of
 2026)
+
+## JavaScript
+
+Both Node.JS and Deno both use V8. Bun uses JavaScriptCore, which is
+from Apple/Safari.
+
+Node.JS does allow you to launch true concurrent threads ("worker
+threads"), even if that is not the default.

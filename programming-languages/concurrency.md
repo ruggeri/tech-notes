@@ -222,6 +222,8 @@ that problem if the C API writer is stupid.
     Finally, `async`/`await` support was added.
 - Ruby, Python, and Java (by default) all use 1:1 threading. That is:
   they create one kernel thread per language thread.
+  - But Ruby (MRI) and Python (CPython and PyPy) both have GIL. So only
+    one thread can be executing Ruby or Python code at any one time.
   - Python offers asyncio. It also supports multiple processes/IPC, and
     multiple 1:1 threads. Asyncio is supported mostly via
     `async`/`await`.
@@ -248,6 +250,12 @@ that problem if the C API writer is stupid.
   - Python added `async`/`await` in 2015.
   - What we see is that the big idea of Node.js pushed a lot of other
     language development forward.
+  - Node does have "worker threads", which are OS threads.
+    - But communication is by (1) message passing (basically clones
+      POJOs and built-in classes like `Date`, `Map`, `Set`), (2)
+      "transferrable objects" (basically buffers that you lose ownership
+      of on send), or (3) `SharedArrayBuffer`, which you manipulate
+      using `Atomics`.
 
 # M:N Threading
 
