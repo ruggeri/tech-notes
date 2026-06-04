@@ -1,3 +1,5 @@
+# C++ Multiple Inheritance
+
 ## Multiple Inheritance of Fields
 
 A single inheritance of a struct just extends it with more
@@ -50,43 +52,87 @@ qualification to name which one you want to use: `child->Base1::f()`
 vs `child->Base2::f()`. Otherwise it is of course ambiguous. You can
 resolve this by overriding `f` in `Child`. Same thing with casting.
 
-Multiple inheritance is kind of uninteresting if two modules can't
-"talk" to each other. The way to do this is to add a shared,
-**virtually inherited** base class. This "delegation" class is pure
-abstract, containing only virtual methods. Module1 can implement `f1`,
-while Module2 can implement `f2`, and each can call the other's
-methods, because they are all overriding methods in the virtual base
-class.
+## Virtual Methods and Virtual Inheritance
 
-My `CollatzBase` code in `diamond-inheritance.cc` demonstrates this
-technique. Presumably what is done is than there is only one copy of
-the virtual vtable, and anyone mixed in can modify it.
+It is common for a class to satisfy an *interface*. A pure interface
+class may have just virtual methods. The implementation class derives
+the interface class and implements the methods. Now it can be passed to
+functions that expect the interface to be satisfied.
 
-This is effectively mixins, which is called "sister-class delegation"
-in this context. Parashift recommends this as the "standard" approach
-to MI.
+Another idea is a *mixin* class. Here you have some virtual methods, but
+then you have other methods implements (and possibly even fields). A
+class can extend the mixin; the intention is that the subclass will
+implement the virtual methods.
+
+You might separate an `Iterable` pure interface class from an
+`IterableMixin` mixin class. In that case, a base class might extend
+both `Iterable` and `IterableMixin`. Since there really should only be
+one copy of the `Iterable` methods, you should extend both `virtual`-ly.
+This will allow you to pass the object anywhere an `Iterable` is
+required.
+
+It also helps if you wanted to add a second mixin which extends
+`Iterable`. If you had `Derived : IterableMixin, IterableMixinTwo`, then
+`Iterable& i = d` is ambiguous (and gives an error) unless you derive
+virtual.
+
+With that said, I think you only truly *need* to do virtual inheritance
+when sister classes want to call each-other's implementations. I show an
+example where I do this in `Collatz` in `diamond-inheritance.cc`.
+Frankly, that's an odd pattern. I believe that this is called
+"sister-class delegation".
 
 ## Interfaces in C++
 
-Note that, as in the preceeding example, you can inherit from a pure
+Note that, as in the preceding example, you can inherit from a pure
 virtual class. This causes a VTable to be added. Now you can pass the
 object to anyone who takes a pointer to the base class type. If you
 implement multiple interfaces, you just have multiple VTables.
 
-## Interface Dispatch Can't Use Just VTables
+# Interface Dispatch And Java
 
-In Java, there's no multiple inheritance, so you don't have to worry
-about the diamond inheritance problem. Java introduces interfaces so
-that objects from different hierarchies can be treated alike.
+In C++, you can implement multiple interfaces by deriving multiple pure
+abstract base classes. These classes could even define some concrete
+methods for some default behavior.
 
-**TODO3**: Why can't you just do what C++ might do by adding multiple
-VTables at the start of an object?? It sounds like Java basically does
-this, but keeps the itables in a list.
+Java does something slightly differently. Firstly, it separates the
+concept of `interface` and `class`. An interface cannot have fields.
+They used to allow *no* concrete methods, but Java 8 (2014) added
+default method implementations.
 
-This makes dispatch more complicated. You can't just look at a VTable,
-because the VTables of two different classes implementing the same
-interface can be entirely different. You could see interfaces as
-basically dynamic dispatch with some type checking help.
+You might imagine that Java does the same thing as C++: have subsequent
+vtables cooked into the object. Instead, the object header points to a
+list of itables. When you pass the object somewhere which expects the
+interface, you still just pass the object pointer. There is no fixup
+like C++ does. Now, when an interface method is invoked, Java cannot
+call it like a regular virtual method. Instead, it must use the
+`invokeinterface` JVM bytecode.
+
+This iterates a list of *itables*, stored in the class object referenced
+in the object header. It finds the appropriate itable, and jumps to the
+appropriate slot. It executes the method.
+
+Why does Java do it this way? I think the answer is that (1) it doesn't
+want the full power of multiple inheritance, and (2) it sees the object
+pointer fixup as a bit of a mess. Possibly also it makes GC tracing a
+bit more annoying if you have fixed up pointers.
+
+Another contrast: C++ objects with a lot of pure abstract base classes
+are a bit bloated from vtable pointers, whereas Java objects
+implementing lots of interfaces have just a single pointer to a list of
+itables which is shared for all instances of the class. OTOH, Java needs
+to iterate the itable list to find the appropriate itable, so interface
+method invocation might be a bit slower than C++ virtual method
+invocation, which just jumps to the appropriate vtable. Though Java JIT
+probably quickly learns to optimize away the itable scan.
+
+Let's return to Java interface default method definitions. Obviously, a
+pointer to the function is stored in the itable. But it is also stored
+in the object vtable. This allows the method to be called normally with
+`invokevirtual`.
+
+Indeed, any time you call a method on a pointer to a class (not an
+interface), you use `invokevirtual` and consult the vtable.
 
 ## Dynamic Dispatch: An Aside
 
