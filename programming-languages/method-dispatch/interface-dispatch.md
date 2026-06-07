@@ -34,7 +34,7 @@ Note that a VTable is just a pointer; otherwise you'd bloat every
 object by an amount equal to the number of virtual methods! But that
 costs another indirection...
 
-## Casting
+## Casting and Pointer Fixup
 
 Because of the fixup, if you cast from `ChildClass` to `B2` (via a
 `static-cast`), and then do a `reinterpret_cast` to `B1`, this will be
@@ -141,17 +141,19 @@ objects. Before run-time, there is no information about what kind of
 thing this is. The same message can be sent to two unrelated objects,
 which can respond entirely differently.
 
-How an object responds to a message can be very slow. You might
-iterate through a list of the class's instance methods, doing string
+How an object responds to a message can be very slow. You might iterate
+through a list of the class's instance methods, doing string
 comparisons. BTW, you probably want to intern strings to speed that
-comparison up to just a pointer check. And don't use a list, a hash
-would be better for O(1) lookup.
+comparison up to just a pointer check. At a certain point, a hash could
+be worth it for O(1) lookup. Probably if you use a hash table you'll
+want open-addressing to avoid extra levels of indirection and cache
+miss.
 
-The problem comes from hierarchies. If you traverse a deep hierarchy,
-this is slow. So you can cache, either at the per-class level, or more
-simply globally (the key is `(typeid, message_name)`). The global hash
-is simpler because it's easier to bust, which is necessary whenever
-methods change.
+But you have a further problem with hierarchies. If you traverse a deep
+hierarchy, this is slow. So you can cache, either at the per-class
+level, or more simply globally (the key is `(typeid, message_name)`).
+The global hash is simpler because it's easier to bust, which is
+necessary whenever methods change.
 
 Are hierarchies that deep? If they were flat, the global hash doesn't
 buy us anything. It maybe saves an indirection to the class's specific
@@ -163,22 +165,20 @@ this can be particularly bad with Ruby modules.
 
 ## Inline Method Caching
 
-One solution is to use inline method caching. At a callsite, the type
-of the last object, and the address of the called method, is
-stored. If the site is monomorphic, this can grealy speed up method
-invokation.
+One solution is to use inline method caching. At a callsite, the type of
+the last object, and the address of the called method, is stored. If the
+site is monomorphic, this can greatly speed up method invocation.
 
-In case you have a polymorphic call site, you can replace with a
-switch of a few type options, jumping to the appropriate method. This
-is sometimes called a PIC or Polymorphic Inline Cache.
+In case you have a polymorphic call site, you can replace with a switch
+of a few type options, jumping to the appropriate method. This is
+sometimes called a PIC or Polymorphic Inline Cache.
 
 ## Implementing Interface Methods
 
 In addition to a vtable, also link to an array of _itables_, which can
-be iterated. Check for the appropriate interface id, and eventually
-you find the right itable. Now you have an itable with a fixed layout,
-so you lookup at the offset and find the place in the vtable to jump
-to.
+be iterated. Check for the appropriate interface id, and eventually you
+find the right itable. Now you have an itable with a fixed layout, so
+you lookup at the offset and find the place in the vtable to jump to.
 
 This is O(n) in the number of interfaces, and involves one more
 indirection than the vtable.
@@ -186,26 +186,177 @@ indirection than the vtable.
 There are some improvements that people have explored, but since
 inline method caching still works, these don't seem vitally important.
 
-I think it's common to move the itable to the front, as an
-optimization to help with future calls to the same interface.
+I think it's common to move the itable to the front, as an optimization
+to help with future calls to the same interface.
 
-## Interfaces In Golang
+As usual, you can use inline method caching to devirtualize the method
+call.
 
-Interface values always have a pointer to the data, and a pointer to
-the itable. This prolly helps with object bloat that would otherwise
-happen if you always needlessly had a bunch of itables generated
-because your class happened to implement a bunch of interfaces.
+# Interfaces In Golang and Rust: Fat Pointers
 
-I think the Golang way also makes it easy to cast, since you just
-reset the itable pointer.
+Interface values always have a pointer to the data, and a pointer to the
+itable. These are called "fat pointers" sometimes.
 
-BTW: doing interfaces like this, rather than by series of bloated
-vtables, allows you to post hoc implement interfaces for other
-people's types. Your code will be binary compatible with the old code.
+This avoids object bloat that would come from many vtables. It makes
+interfaces cheaper than in C++. It also means that casting to an
+interface doesn't require pointer fixup.
 
-Rust works similarly. In generic (template) code, traits are like C++
-concepts: they are compiled away and have zero overhead. Otherwise we
-pass around fat pointers.
+But the major benefit is ergonomic: post-hoc implementation of
+interfaces. This is a major feature of Golang. You can define a new
+interface, implement the methods of the object (which are just
+functions, since there is no inheritance and no virtual methods and no
+vtables). Now, when you pass the object to a method (or store it in a
+variable) which expects the interface, that's when the wrapping happens.
+
+Neither C++ nor Java allow this. All interfaces must be implemented at
+class definition time. The best you can do is extend the class to
+implement new interfaces.
+
+## Rust Traits
+
+Rust is similar. Like Golang, it has no inheritance. Unlike Go, it has
+nominative (not structural) typing. That is: you don't implement the
+interface just because you have the methods; you must tell the compiler
+you want to implement the trait. Still, when you pass the object
+somewhere that expects the trait, you convert to a fat pointer.
+
+```rust
+trait Draw {
+    fn draw(&self);
+}
+
+struct Button;
+struct Slider;
+
+impl Draw for Button {
+    fn draw(&self) {
+        println!("button");
+    }
+}
+
+impl Draw for Slider {
+    fn draw(&self) {
+        println!("slider");
+    }
+}
+
+// Here `Draw` is used as a trait bound. This function will be
+// monomorphized, there is no dynamic dispatch that will happen here. A
+// "fat" pointer is not passed.
+//
+// We could even have passed `x: T` if we wanted, because the type will
+// be known.
+fn render<T: Draw>(x: &T) {
+    x.draw();
+}
+
+// A shorthand for the template code with the trait bound.
+fn render(x: &impl Draw) {
+    x.draw();
+}
+
+// This is *not* a templated function. Instead, it needs a fat pointer
+// and will do dynamic dispatch.
+fn render(x: &dyn Draw) {
+    x.draw(); // vtable call
+}
+```
+
+An oddity: you can implement two traits for the same type, each of which
+names the same method. It is not an error if they have different
+signatures. Even if they have the same signature, they can have
+*different implementations*.
+
+One downside is that you will have to resolve the ambiguity in order to
+call the method.
+
+```rust
+trait A {
+    fn f(&self) -> String;
+}
+
+trait B {
+    fn f(&self) -> String;
+}
+
+struct User;
+
+impl User {
+    fn f_impl(&self) -> String {
+        "shared implementation".to_string()
+    }
+}
+
+impl A for User {
+    fn f(&self) -> String {
+        self.f_impl()
+    }
+}
+
+impl B for User {
+    fn f(&self) -> String {
+        self.f_impl()
+    }
+}
+
+User u{};
+
+// Can't just write `u.f`, since it's ambiguous what method to call.
+A::f(&u);
+B::f(&u);
+```
+
+## Rust: Aside about `impl Trait` return type
+
+Basically, you can use `impl Trait` as a return type:
+
+```rust
+fn make_widget() -> impl Draw {
+    // all return paths must return same concrete type.
+    Button
+}
+```
+
+You would do this if you are writing a library and you don't want to
+leak details about the implementation of the widget returned by
+`make_widget`. Your only promise to the user is that the returned object
+implements `Draw`.
+
+Basically, the *compiler* is going to know the type returned in
+`Button`, but it won't let anyone else *use* that fact.
+
+```rust
+// The type of `x` is left "anonymous" and inferred as `impl Draw`. You
+// only know it is a type that implements `Draw`.
+let x = make_widget();
+
+// Compiler can statically dispatch to Button::draw
+x.draw();
+
+fn runDraw<T: Draw>(obj: &T) {
+  obj.draw()
+}
+
+// Compiler can still monomorphize.
+runDraw(x);
+```
+
+The alternative would have been:
+
+```rust
+fn make_widget() -> Box<dyn Draw> {
+    Box::new(Button{})
+}
+```
+
+This is more like what C++ would do. But the cost is that you must
+invoke methods virtually, and you lose monomorphization sites which can
+be specialized and optimized.
+
+**TODO**: I got carried away with notes on Rust. I should move these
+Rust-specific notes out somewhere else...
+
+# Sources
 
 - Source: http://research.swtch.com/interfaces
   - Russ Cox: Go Data Structures: Interfaces
@@ -221,4 +372,4 @@ pass around fat pointers.
 [1]: http://yanniss.github.io/521-10/oopsla01.pdf
 
 - Another good source: https://lukasatkinson.de/2018/interface-dispatch/
-  - I found this much later; it confirmed much of wbat I wrote here.
+  - I found this much later; it confirmed much of what I wrote here.
