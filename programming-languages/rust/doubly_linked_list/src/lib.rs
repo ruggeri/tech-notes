@@ -29,12 +29,23 @@ mod tests {
         let id = list.push_back(111);
         let id2 = list.push_back(222);
 
-        assert_eq!(*list.get(id), 111);
-        assert_eq!(*list.get_front(), 111);
+        assert_eq!(*list.get_val(id), 111);
+        assert_eq!(*list.get_front_val(), 111);
 
-        *list.get_mut(id2) = 999;
-        assert_eq!(*list.get(id2), 999);
-        assert_eq!(*list.get_back(), 999);
+        *list.get_mut_val(id2) = 999;
+        assert_eq!(*list.get_val(id2), 999);
+        assert_eq!(*list.get_back_val(), 999);
+    }
+
+    #[test]
+    fn get_next_and_prev() {
+        let mut list: DoublyLinkedList<i64> = DoublyLinkedList::<i64>::new();
+
+        let id1 = list.push_back(111);
+        let id2 = list.push_back(222);
+
+        assert_eq!(list.next_id(id1), Some(id2));
+        assert_eq!(list.prev_id(id2), Some(id1));
     }
 
     #[test]
@@ -61,8 +72,8 @@ mod tests {
 
         assert_eq!(list.remove_node(id), 555);
 
-        assert_eq!(*list.get_front(), 111);
-        assert_eq!(*list.get_back(), 999);
+        assert_eq!(*list.get_front_val(), 111);
+        assert_eq!(*list.get_back_val(), 999);
     }
 
     #[test]
@@ -71,7 +82,7 @@ mod tests {
 
         let id = list.push_back(111);
         list.set_node_value(id, 999);
-        assert_eq!(*list.get(id), 999);
+        assert_eq!(*list.get_val(id), 999);
     }
 
     #[test]
@@ -87,23 +98,23 @@ mod tests {
         assert_eq!(list.len(), 3);
 
         // values at nodes should not be modified
-        assert_eq!(*list.get(id1), 111);
-        assert_eq!(*list.get(id2), 222);
-        assert_eq!(*list.get(id3), 333);
+        assert_eq!(*list.get_val(id1), 111);
+        assert_eq!(*list.get_val(id2), 222);
+        assert_eq!(*list.get_val(id3), 333);
 
         // but 111 should be moved to the middle...
-        assert_eq!(*list.get_front(), 222);
-        assert_eq!(*list.get_back(), 333);
+        assert_eq!(*list.get_front_val(), 222);
+        assert_eq!(*list.get_back_val(), 333);
 
         // now try moving 111 back to front
         list.move_node_before(id1, id2);
-        assert_eq!(*list.get_front(), 111);
-        assert_eq!(*list.get_back(), 333);
+        assert_eq!(*list.get_front_val(), 111);
+        assert_eq!(*list.get_back_val(), 333);
 
         // last, try moving 333 to front
         list.move_node_before(id3, id1);
-        assert_eq!(*list.get_front(), 333);
-        assert_eq!(*list.get_back(), 222);
+        assert_eq!(*list.get_front_val(), 333);
+        assert_eq!(*list.get_back_val(), 222);
     }
 
     #[test]
@@ -119,22 +130,50 @@ mod tests {
         assert_eq!(list.len(), 3);
 
         // values at nodes should not be modified
-        assert_eq!(*list.get(id1), 111);
-        assert_eq!(*list.get(id2), 222);
-        assert_eq!(*list.get(id3), 333);
+        assert_eq!(*list.get_val(id1), 111);
+        assert_eq!(*list.get_val(id2), 222);
+        assert_eq!(*list.get_val(id3), 333);
 
         // but 111 should be moved to the middle...
-        assert_eq!(*list.get_front(), 222);
-        assert_eq!(*list.get_back(), 333);
+        assert_eq!(*list.get_front_val(), 222);
+        assert_eq!(*list.get_back_val(), 333);
 
         // now try moving 111 back to front
         list.move_node_after(id2, id1);
-        assert_eq!(*list.get_front(), 111);
-        assert_eq!(*list.get_back(), 333);
+        assert_eq!(*list.get_front_val(), 111);
+        assert_eq!(*list.get_back_val(), 333);
 
         // last, try moving 333 to middle
         list.move_node_after(id3, id1);
-        assert_eq!(*list.get_front(), 111);
-        assert_eq!(*list.get_back(), 222);
+        assert_eq!(*list.get_front_val(), 111);
+        assert_eq!(*list.get_back_val(), 222);
+    }
+
+    #[test]
+    fn val_iterator() {
+        let mut list: DoublyLinkedList<i64> = DoublyLinkedList::<i64>::new();
+        list.push_back(111);
+        list.push_back(222);
+        list.push_back(333);
+
+        let mut iter = list.val_iter_at_front();
+
+        assert_eq!(*iter.next().unwrap(), 111);
+        assert_eq!(*iter.next().unwrap(), 222);
+        assert_eq!(*iter.next().unwrap(), 333);
+    }
+
+    #[test]
+    fn id_iterator() {
+        let mut list: DoublyLinkedList<i64> = DoublyLinkedList::<i64>::new();
+        let id1 = list.push_back(111);
+        let id2 = list.push_back(222);
+        let id3 = list.push_back(333);
+
+        let mut iter = list.id_iter_at_front();
+
+        assert_eq!(iter.next().unwrap(), id1);
+        assert_eq!(iter.next().unwrap(), id2);
+        assert_eq!(iter.next().unwrap(), id3);
     }
 }
