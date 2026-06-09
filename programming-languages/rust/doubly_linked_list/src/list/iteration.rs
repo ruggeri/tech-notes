@@ -51,10 +51,86 @@ impl<'a, T> DoublyLinkedList<T> {
     }
 }
 
+#[derive(Clone, Copy)]
 enum CursorPos {
     BeforeFront,
     At(NodeId),
     AfterBack,
+}
+
+impl CursorPos {
+    pub(crate) fn current_id(self) -> Option<NodeId> {
+        match self {
+            CursorPos::BeforeFront => None,
+            CursorPos::At(id) => Some(id),
+            CursorPos::AfterBack => None,
+        }
+    }
+
+    pub(crate) fn current_node<'a, T>(self, list: &'a DoublyLinkedList<T>) -> Option<&'a Node<T>> {
+        Some(list.get_node(self.current_id()?))
+    }
+
+    pub(crate) fn current_val<'a, T>(self, list: &'a DoublyLinkedList<T>) -> Option<&'a T> {
+        self.current_node(list)?.value.as_ref()
+    }
+
+    pub fn next<'a, T>(
+        self,
+        list: &'a DoublyLinkedList<T>,
+    ) -> (CursorPos, Option<(NodeId, &'a T)>) {
+        let next_id: Option<NodeId> = match self {
+            CursorPos::BeforeFront => list.front_id,
+            CursorPos::At(curr_id) => list.next_id(curr_id),
+            CursorPos::AfterBack => return (self, None),
+        };
+
+        let Some(next_id) = next_id else {
+            return (CursorPos::AfterBack, None);
+        };
+
+        (
+            CursorPos::At(next_id),
+            Some((next_id, list.get_val(next_id))),
+        )
+    }
+
+    pub fn prev<'a, T>(
+        self,
+        list: &'a DoublyLinkedList<T>,
+    ) -> (CursorPos, Option<(NodeId, &'a T)>) {
+        let prev_id: Option<NodeId> = match self {
+            CursorPos::BeforeFront => return (self, None),
+            CursorPos::At(curr_id) => list.prev_id(curr_id),
+            CursorPos::AfterBack => list.back_id,
+        };
+
+        let Some(prev_id) = prev_id else {
+            return (CursorPos::BeforeFront, None);
+        };
+
+        (
+            CursorPos::At(prev_id),
+            Some((prev_id, list.get_val(prev_id))),
+        )
+    }
+
+    pub fn remove<'a, T>(self, list: &'a mut DoublyLinkedList<T>) -> (CursorPos, (NodeId, T)) {
+        let curr_id = match self {
+            CursorPos::BeforeFront => panic!("Cannot make cut at BeforeFront"),
+            CursorPos::At(curr_id) => curr_id,
+            CursorPos::AfterBack => panic!("Cannot make cut at AfterBack"),
+        };
+
+        let result = list.remove(curr_id);
+
+        let next_pos = match result.next_id {
+            None => CursorPos::AfterBack,
+            Some(next_id) => CursorPos::At(next_id),
+        };
+
+        (next_pos, (curr_id, result.val))
+    }
 }
 
 pub struct Cursor<'a, T> {
@@ -68,59 +144,29 @@ impl<'a, T> Cursor<'a, T> {
     }
 
     pub(crate) fn current_node(&self) -> Option<&'a Node<T>> {
-        match self.pos {
-            CursorPos::BeforeFront => None,
-            CursorPos::At(id) => Some(self.list.get_node(id)),
-            CursorPos::AfterBack => None,
-        }
+        self.pos.current_node(self.list)
     }
 
     pub fn current_id(&self) -> Option<NodeId> {
-        let node = self.current_node()?;
-        Some(node.id)
+        self.pos.current_id()
     }
 
     pub fn current_val(&self) -> Option<&'a T> {
-        let node = self.current_node()?;
-        let val = node.value.as_ref().unwrap();
-        Some(val)
+        self.pos.current_val(self.list)
     }
 
     pub fn move_next(&mut self) -> Option<(NodeId, &'a T)> {
-        let next_id = match self.pos {
-            CursorPos::BeforeFront => self.list.front_id,
-            CursorPos::At(curr_id) => self.list.next_id(curr_id),
-            CursorPos::AfterBack => return None,
-        };
+        let (next_pos, next_val) = self.pos.next(self.list);
 
-        let Some(next_id) = next_id else {
-            self.pos = CursorPos::AfterBack;
-            return None;
-        };
-
-        self.pos = CursorPos::At(next_id);
-
-        Some((next_id, self.list.get_val(next_id)))
+        self.pos = next_pos;
+        next_val
     }
 
-    pub fn move_prev(&mut self) -> Option<(NodeId, &T)> {
-        let prev_id = match self.pos {
-            CursorPos::BeforeFront => return None,
-            CursorPos::At(curr_id) => self.list.prev_id(curr_id),
-            CursorPos::AfterBack => self.list.back_id,
-        };
-
-        let Some(prev_id) = prev_id else {
-            self.pos = CursorPos::BeforeFront;
-            return None;
-        };
-
-        self.pos = CursorPos::At(prev_id);
-
-        Some((prev_id, self.list.get_val(prev_id)))
+    pub fn move_prev(&mut self) -> Option<(NodeId, &'a T)> {
+        let (prev_pos, prev_val) = self.pos.prev(self.list);
+        self.pos = prev_pos;
+        prev_val
     }
-
-    // pub fn is_null(&self) -> bool;
 }
 
 pub struct IdIter<'a, T>(Cursor<'a, T>);

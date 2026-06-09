@@ -1,6 +1,12 @@
 use super::DoublyLinkedList;
 use crate::node::NodeId;
 
+pub struct RemoveResult<T> {
+    pub val: T,
+    pub prev_id: Option<NodeId>,
+    pub next_id: Option<NodeId>,
+}
+
 impl<T> DoublyLinkedList<T> {
     // front/back operations
     pub fn push_front(&mut self, value: T) -> NodeId {
@@ -17,7 +23,7 @@ impl<T> DoublyLinkedList<T> {
 
     pub fn pop_front(&mut self) -> Option<T> {
         let front_id = self.front_id?;
-        Some(self.remove_node(front_id))
+        Some(self.remove(front_id).val)
     }
 
     pub fn push_back(&mut self, value: T) -> NodeId {
@@ -34,7 +40,7 @@ impl<T> DoublyLinkedList<T> {
 
     pub fn pop_back(&mut self) -> Option<T> {
         let back_id = self.back_id?;
-        Some(self.remove_node(back_id))
+        Some(self.remove(back_id).val)
     }
 
     // insertion operations
@@ -77,19 +83,25 @@ impl<T> DoublyLinkedList<T> {
     }
 
     // node removal operations
-    pub fn try_remove_node(&mut self, target_id: NodeId) -> Option<T> {
+    pub fn try_remove(&mut self, target_id: NodeId) -> Option<RemoveResult<T>> {
         if !self.arena.has_live_node_for_id(target_id) {
             return None;
         }
 
-        self.detach(target_id);
-        Some(self.arena.deallocate_node(target_id))
+        let (prev_id, next_id) = self.detach(target_id);
+        let val = self.arena.deallocate_node(target_id);
+
+        Some(RemoveResult {
+            val,
+            prev_id,
+            next_id,
+        })
     }
 
-    pub fn remove_node(&mut self, target_id: NodeId) -> T {
-        match self.try_remove_node(target_id) {
+    pub fn remove(&mut self, target_id: NodeId) -> RemoveResult<T> {
+        match self.try_remove(target_id) {
             None => panic!("could not remove id:\n{:#?}", target_id),
-            Some(val) => val,
+            Some(result) => result,
         }
     }
 
@@ -182,7 +194,7 @@ impl<T> DoublyLinkedList<T> {
 
     /// Removes a node from the linked list, but does *not* ask the
     /// arena to deallocate it. Node ought not already be detached.
-    pub(crate) fn detach(&mut self, id: NodeId) {
+    pub(crate) fn detach(&mut self, id: NodeId) -> (Option<NodeId>, Option<NodeId>) {
         debug_assert!(self.arena.has_live_node_for_id(id));
         debug_assert!(!self.is_detached(id));
 
@@ -207,7 +219,9 @@ impl<T> DoublyLinkedList<T> {
         } else {
             debug_assert!(self.back_id == Some(id));
             self.back_id = prev_id;
-        }
+        };
+
+        (prev_id, next_id)
     }
 
     /// `id` must be live but detached. `target_id` must be live and

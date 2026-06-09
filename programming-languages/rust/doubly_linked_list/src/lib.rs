@@ -70,7 +70,7 @@ mod tests {
         let id = list.push_back(555);
         list.push_back(999);
 
-        assert_eq!(list.remove_node(id), 555);
+        assert_eq!(list.remove(id).val, 555);
 
         assert_eq!(*list.get_front_val(), 111);
         assert_eq!(*list.get_back_val(), 999);
