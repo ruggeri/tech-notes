@@ -38,8 +38,16 @@ impl<'a, T> DoublyLinkedList<T> {
         Cursor::new(self, CursorPos::BeforeFront)
     }
 
+    pub fn mut_cursor_at_front(&'a mut self) -> MutCursor<'a, T> {
+        MutCursor::new(self, CursorPos::BeforeFront)
+    }
+
     pub fn cursor_at_back(&'a self) -> Cursor<'a, T> {
         Cursor::new(self, CursorPos::AfterBack)
+    }
+
+    pub fn mut_cursor_at_back(&'a mut self) -> MutCursor<'a, T> {
+        MutCursor::new(self, CursorPos::AfterBack)
     }
 
     pub fn id_iter_at_front(&'a self) -> IdIter<'a, T> {
@@ -124,12 +132,12 @@ impl CursorPos {
 
         let result = list.remove(curr_id);
 
-        let next_pos = match result.next_id {
-            None => CursorPos::AfterBack,
-            Some(next_id) => CursorPos::At(next_id),
+        let prev_pos = match result.prev_id {
+            None => CursorPos::BeforeFront,
+            Some(prev_id) => CursorPos::At(prev_id),
         };
 
-        (next_pos, (curr_id, result.val))
+        (prev_pos, (curr_id, result.val))
     }
 }
 
@@ -166,6 +174,48 @@ impl<'a, T> Cursor<'a, T> {
         let (prev_pos, prev_val) = self.pos.prev(self.list);
         self.pos = prev_pos;
         prev_val
+    }
+}
+
+pub struct MutCursor<'a, T> {
+    list: &'a mut DoublyLinkedList<T>,
+    pos: CursorPos,
+}
+
+impl<'a, T> MutCursor<'a, T> {
+    fn new(list: &'a mut DoublyLinkedList<T>, pos: CursorPos) -> MutCursor<'a, T> {
+        MutCursor { list, pos }
+    }
+
+    pub(crate) fn current_node(&'a self) -> Option<&'a Node<T>> {
+        self.pos.current_node(self.list)
+    }
+
+    pub fn current_id(&self) -> Option<NodeId> {
+        self.pos.current_id()
+    }
+
+    pub fn current_val(&self) -> Option<&T> {
+        self.pos.current_val(self.list)
+    }
+
+    pub fn move_next(&mut self) -> Option<(NodeId, &T)> {
+        let (next_pos, next_val) = self.pos.next(self.list);
+
+        self.pos = next_pos;
+        next_val
+    }
+
+    pub fn move_prev(&mut self) -> Option<(NodeId, &T)> {
+        let (prev_pos, prev_val) = self.pos.prev(self.list);
+        self.pos = prev_pos;
+        prev_val
+    }
+
+    pub fn remove(&mut self) -> (NodeId, T) {
+        let (pos, result) = self.pos.remove(self.list);
+        self.pos = pos;
+        result
     }
 }
 

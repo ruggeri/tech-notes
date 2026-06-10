@@ -176,4 +176,22 @@ mod tests {
         assert_eq!(iter.next().unwrap(), id2);
         assert_eq!(iter.next().unwrap(), id3);
     }
+
+    #[test]
+    fn mut_cursor_remove() {
+        let mut list: DoublyLinkedList<i64> = DoublyLinkedList::<i64>::new();
+        let id1 = list.push_back(111);
+        let id2 = list.push_back(222);
+        let id3 = list.push_back(333);
+
+        let mut cursor = list.mut_cursor_at_front();
+        assert_eq!(cursor.move_next().unwrap().0, id1);
+        cursor.move_next();
+        assert_eq!(cursor.remove().0, id2);
+        assert_eq!(cursor.move_next().unwrap().0, id3);
+        assert_eq!(cursor.move_next(), None);
+        assert_eq!(cursor.move_prev().unwrap().0, id3);
+        assert_eq!(cursor.move_prev().unwrap().0, id1);
+        assert_eq!(cursor.move_prev(), None);
+    }
 }
