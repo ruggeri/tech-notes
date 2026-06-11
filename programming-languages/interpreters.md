@@ -1,3 +1,5 @@
+# Ruby and Python Interpreters
+
 Ruby and Python both have reference implementations written in C. These
 are **MRI** and **CPython**. MRI and CPython are both extremely popular.
 
@@ -7,8 +9,8 @@ JRuby is fairly popular: in 2026 it aims to support Ruby 4.0 (MRI is on
 2026; it's basically dead. The biggest downsides to JRuby are (1)
 startup speed (doesn't matter for servers) and (2) compatibility with
 existing native C extension modules. A major advantage to these
-implementations is they remove  the Global Interpreter Lock. You also
-get to use Java code from Ruby, if you want that.
+implementations is they remove the Global Interpreter Lock (GIL). You
+also get to use Java code from Ruby, if you want that.
 
 Both CPython and MRI use a GIL so that no two threads can be
 interpreting Ruby code simultaneously. This is (1) for simplicity and
@@ -58,9 +60,6 @@ Python.
 scripts for a CLI framework. It supports Python 3.4 as of 2026, which
 was released in 2014. That suggests IronPython is far behind, though it
 continues to have new releases as late as 2026...
-
-**TODO**: **TruffleRuby** and **GraalPy** (runs Python 3.12 on JVM as of
-2026)
 
 ## JavaScript
 
