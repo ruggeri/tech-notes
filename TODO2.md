@@ -67,11 +67,17 @@
 - Make sure Arrow impossibility theorem result is tightly explained? Gibbard–Satterthwaite theorem.
 - What was that Freeman Dyson paper on Prisoner's dilemma?
 - Distributed reputation systems?
+- Project Ideas:
+  - Write an interpreter.
+  - Write a garbage collector
+  - Write a database.
+  - Write a raft implementation (again?)
 
 ## TO REVIEW
 
 This is from a earlier, weaker review, that didn't look at each file's
-contents carefully.
+contents carefully. My intention is to keep this list in my as I
+continue reviewing.
 
 ./math/quadratic-optimization.md
 ./math/quaternions.pdf
@@ -106,39 +112,48 @@ contents carefully.
 ./randos/zero-knowledge-proof.md
 ./randos/zk-snarks.md
 
--- RE-RE-REVIEW
+# RE-RE-REVIEW
 
 Closely this time, looking at each file's contents. This is quite
 comprehensive. I am going folder-by-folder.
 
-Also review old Github repositories!
-Review my personal notes? There is tech stuff there?
+## done reviewing
 
-not yet reviewed:
-ai
-databases
-distributed-systems
-math
-randos
+- `web/*`
+- `programming-languages/*`
 
-algos:
-esoteric-data-structures.md
-graphs.md
-randomized-algos.md
-string-matching.md
+## not yet reviewed
 
-CTrie vs HAMT?
+- ai
+- databases
+- distributed-systems
+- math
+- randos
+- Also review old Github repositories!
+- Review my personal notes? There is tech stuff there?
 
-Closest pair of points randomized algorithm.
+# algos/*: in progress
 
-sorts-parallel2.md
+- esoteric-data-structures.md
+- graphs.md
+- randomized-algos.md
+- string-matching.md
+- CTrie vs HAMT?
+- Closest pair of points randomized algorithm.
+- sorts-parallel2.md
 
-Review Garbage Collection notes: garbage-collection.md
-truffle ruby? graalpy. invokedynamic?
-I have no notes on web assembly/wasm? Maybe add to my emscripten notes?
+# programming-languages/\*, web/\* in progress
 
-Maybe review web/architecture-lecture notes, and also Slides from Google
-drive?
+- Almost entirely done.
+- review haskell features? rank n types, MultiParamTypeClasses, GADT,
+  lenses
+- garbage-collection.md: talk about why tail latency can really matter.
+- I have no notes on web assembly/wasm? Maybe add to my emscripten
+  notes?
+- Maybe review web/architecture-lecture notes, and also Slides from
+  Google drive?
+
+# CPU Architecture
 
 TODO: What are chiplets? They're small chips you glue together,
 increasing yield. Makes most sense with newest process nodes with
@@ -148,3 +163,6 @@ old processes if those are not performance critical.
 cpu-architecture.md: keep reviewing ISA history.
 
 TLB: remember what it is for! Maybe some general virtual memory notes.
+
+why are interrupts used instead of just checking a variable explicitly
+every time?
