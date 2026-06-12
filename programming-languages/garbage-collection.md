@@ -1006,14 +1006,37 @@ be examined.
 ## Compiled, Garbage-Collected Languages
 
 - Java: see above!
+- Haskell: default is generational. Does STW copy collection in both new
+  and old gens. Lots of short-lived objects because of immutability.
+  - There is an option to make GC of old gen concurrent mark sweep. I
+    believe you can even pick mark-compact!
+  - You might think there'd be no old-to-new refs because of
+    immutability, but partial/lazy evaluation of thunks means that there
+    might be updates.
+  - Note that Haskell values are stored in structures generally as
+    references. That allows for lazy evaluation, for instance. Even ints
+    are typically boxed.
+  - Also, you kind of *need* to use references to have self-recursive
+    data types (like a list of `Cons` cells). Else value has no known
+    size...
+  - You can "unpack" values in a structure in Haskell, but that needs
+    special syntax and is not typical.
+- Erlang
+  - BEAM has a separate heap per process. That is unique, because of the
+    message passing architecture.
+  - The new generation uses typical semispace copying. The old
+    generation collection also does copy-compaction. But I think it
+    isn't "semispace" collection, it just allocates fresh pages as
+    needed?
+  - Large binary objects are ref counted and exist outside the process
+    heaps.
+  - Both Erlang and Elixir run on BEAM.
+- Golang: **TODO**.
 
 # TODO
 
 1. Discuss (briefly) other GC/MM strategies in other languages:
-  - Haskell: generational copying GC. Is there something special about
-    immutability that affects GC?
-  - Go: concurrent non-moving mark-sweep.
-  - BEAM/Erlang/Elixir: per-process generational semi-space copying GC.
+  - Go: **concurrent non-moving mark-sweep.**
   - Swift: Automatic reference counting. Objective-C: manual MM?
   - .NET: ???
   - OCaml? Common Lisp?
