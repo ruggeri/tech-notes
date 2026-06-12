@@ -563,6 +563,26 @@ trait template parameter. Is it ever necessary to worry about that?
 It looks like the syntax is `Box<dyn MyTrait>`. The `dyn` is
 presumably for "dynamic."
 
+You can pass `&dyn Trait`, which is a "fat pointer": a pointer to an
+itable and a pointer to a value. Of course, the reference can't outlive
+the underlying value. You can also use `Box<dyn Trait>`: this is *also*
+a fat pointer (*not* a pointer to a pair of pointers). It felt odd that
+`dyn Trait` is not *itself* a fat pointer, but that would suggest that
+`&dyn Trait` would be a pointer to a fat pointer... `Box<dyn Trait>` is
+a special version of `Box`, and it stores the fat pointer (both
+pointers) on the stack.
+
+Note: sometimes we want to `Box` values that contain references. This
+can be valid if we ensure `Box` lives no longer than the references. We
+can ensure this like so: `Box<&'a Type>` or `Box<Type<'a>>`. But with
+traits, we don't know whether the trait implementor contains refs! So
+it's not a natural template parameter to the trait. Thus we write
+`Box<dyn Trait + 'a>` to say that the underlying value contains
+references that might not live longer than `'a`.
+
+If the value has references that are `'static`, we might right `Box<dyn
+Trait + 'static>` in that case.
+
 ## Patterns and Matching
 
 Places pattern matching happens:
