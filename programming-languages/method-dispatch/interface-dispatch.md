@@ -165,13 +165,13 @@ this can be particularly bad with Ruby modules.
 
 ## Inline Method Caching
 
-One solution is to use inline method caching. At a callsite, the type of
+One solution is to use *inline method caching*. At a callsite, the type of
 the last object, and the address of the called method, is stored. If the
 site is monomorphic, this can greatly speed up method invocation.
 
 In case you have a polymorphic call site, you can replace with a switch
 of a few type options, jumping to the appropriate method. This is
-sometimes called a PIC or Polymorphic Inline Cache.
+sometimes called a *PIC* or *Polymorphic Inline Cache*.
 
 ## Implementing Interface Methods
 
