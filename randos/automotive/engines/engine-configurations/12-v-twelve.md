@@ -39,6 +39,10 @@
   different thirds of the power stroke.
 - You can also do a 180deg flat-twelve offset. Again, you'll have 3x
   cylinders on different thirds of the power stroke.
+  - Why would you do that? For lower weight distribution than a 60deg v
+    engine. The problem is that the engine is now very wide. But if you
+    can do midengine (between wheels), you gain space for the engine
+    width. So that's what Ferrari did.
 
 ## 120deg V12
 
@@ -56,12 +60,16 @@
   - Certainly not if using a typical inline 6 crank.
 - The 60deg V-12 gives very even power delivery. Three cylinders are on
   different parts of the power stroke at any given time.
-- You can make an engine of equivalent displacement, but with more
-  cylinders. And if you do that, you can probably rev the engine much
-  higher, creating more power.
+- As ever, a major reason to pursue as many as 12 cylinders to is make
+  each cylinder smaller (with total displacement the same), allowing the
+  engine to rev out higher and make more power.
 - Supercars often have this engine. Very smooth and very powerful.
 - Obviously, complicated, expensive, big.
 - Can't do I12, because too long (and torsion along crankshaft). Also,
   the car can't fit it.
+- As of 2026, v12s are very rare, but not totally dead.
+  Mercedes-Maybach, Rolls, Ferrari, Lamborghini, and Aston all make
+  them. These are all $250k+ cars, but they are not in super limited
+  production.
 - Source: https://www.youtube.com/watch?v=nBO7qdrWKSQ
   - Engineering Explained walks through the V12.

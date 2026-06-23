@@ -1,6 +1,16 @@
 # V8 Engine
 
-- Is common in American high performance cars.
+- Is common in American high performance cars. An American default.
+  - But also used on Mercedes AMG vehicles, BMW M, Audi RS... In Europe,
+    more of a luxury power option, whereas in US V8s were pretty common.
+  - In supercars, Ferrari has used the v8 a lot in mid engine vehicles.
+    And Lamborghini has moved away from V10s to twin-turbo V8.
+  - Not common on Japanese vehicles, which typically go I4 turbo.
+- The V8 is basically the biggest engine you build for road cars
+  nowadays. Yes, there is V12, but those are heritage/exotic. Only a few
+  builders. The V8 is still the big engine for high performance cars.
+  - V8s are also still common on big trucks, which Americans still buy a
+    lot of.
 - Also in Ferraris.
 - A common way to scale engine size past an I4, which has some secondary
   balance problems.
