@@ -105,11 +105,35 @@
 
 # iPhones
 
-- 2022-02-XX to 2025-03-XX (current): iPhone 13 Pro.
-- 2017-07-XX to 2025-02-XX: iPhone 7
-- 2016-02-XX to 2017-07-XX: iPhone 6s
+- 2022-02-XX to 2025-03-XX (current): iPhone 13 Pro 256GB. $1,099.
+- 2017-07-XX to 2025-02-XX: iPhone 7 128GB. $749.
+- 2016-02-XX to 2017-07-XX: iPhone 6s 16GB. $636.
 - 2013-10-XX to 2016-02-XX: iPhone 5
 - Probably an iPhone 4 during first App Academy Course? No record of
   this.
 - 2010-09-XX to 2012-04-XX: HTC ADR6300
   - Those dates are very approximate.
+
+# Apple Care
+
+- I have Apple Care One as of 2026-07-XX. It presently costs $19.99/mo.
+  - Apple Care+ costs $1.25/mo for AirPods Pro 2.
+  - Apple Care+ would cost ~$12.50/mo for my 2026 16in MacBook Pro M5
+    Pro.
+  - Apple Care+ would cost ~$11.66/mo for a new 2026 pro iPhone
+    (includes theft/loss coverage).
+  - So Apple Care One makes sense (barely) if you own an MBP and an
+    iPhone.
+- You can add up to 3x devices.
+  - As of 2026-07-XX, I have my 2026 MacBook Pro and my AirPods Pro 2 on
+    the plan.
+- Products must be under 4yo to add (1yr for headphones). Once added,
+  you can keep them on indefinitely.
+  - I can't add my 2022-02-XX iPhone 13 Pro in 2026-07-XX, for instance.
+- You *cannot* add a family member's devices. The Apple Care One plan is
+  tied to the Apple ID used for the device.
+- AppleCare One covers at least as much as AppleCare+. What is covered:
+  - Accidental damage repair
+  - Battery service
+  - Theft/loss for iPhone (by default on Apple Care One, )
+  - *NO* theft/loss for AirPods! For either AppleCare+ or AppleCare One.
