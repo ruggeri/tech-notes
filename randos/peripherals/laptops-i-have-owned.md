@@ -1,3 +1,5 @@
+# Laptops
+
 - 2012 MacBook Air Core i5 1.7Ghz 11"
   - Purchased Jul 31 2012. Bought by me but delivered to App Academy.
   - $1,233.32.
@@ -56,53 +58,52 @@
     think?). It was at 77% health (6736 of 8790 mAh). I used `ioreg -l -w0 | grep Capacity` to get more info.
   - Cost for battery replacement was $249. Battery is now 8653mAh of
     8790mAh 98.4%. Cycle count is 2.
-- Current upgrade (as of 2025-03-XX):
-  - 2024 Mac Book Pro 16" M4 Pro 14 CPU/20 GPU
-  - $2.9k base price before tax.
-  - 4.5GHz, 14 CPU cores, Apple M4 Pro.
-    - 10x performance cores, 4x efficiency cores. 16x "Neural engine"
-      cores.
-    - 20x GPU cores. I don't think Apple does any 3rd party GPUs
-      anymore.
-    - I think the M4 Max is an upgrade which just bumps up to 32x or
-      even 40x GPU cores. Probably not necessary for me.
-  - 48GB RAM. This is "unified" memory integrated into CPU I think and
-    cannot be upgraded.
-    - The 40x GPU M4 Max can do up to 128GB of memory.
-  - 2TB SSD. +$400.
-    - 1TB is standard, but probably should 2x SSD space if this computer
-      were to be used ~5yrs.
-  - 3456x2234 16.2" display (16:10 aspect ratio)
-    - +$150 for "nano texture display."
-  - 100 Wh battery (15-22hr claimed)
+- 2026 MacBook Pro 16"
+  - Order date: 2026-04-09
+  - $3,699
+    - Base price $2,699.
+    - By 2026-07-XX, price would have increased to $4,499 because of
+      price rises due mostly to RAM shortages.
+  - Space Black
+  - Apple M5 Pro, 18-core CPU, 20-core GPU, 16-core Neural Engine
+    - 4.6GHz (variable clock speed). 6x "super cores" and 12x
+      "performance cores".
+    - Apple does not do 3rd party GPUs anymore. The M5 is an "SoC"
+      including CPU, GPU, neural engine, and unified memory controller.
+    - Decided against M5 Max. That offers 32x or 40x GPU cores. Offers
+      up to 614GBps RAM bandwidth (vs 307GBps). Would have cost maybe
+      +$1,400, which seems excessive.
+  - 64GB unified memory (+$600 upgrade from 24GB, 4x from previous
+    machine)
+  - 2TB storage (+$400 upgrade from 1TB, 2x from previous machine)
+    - Possible overkill since I was using ~500GB on previous machine at
+      upgrade time.
+    - Maybe would have made more sense to buy an external hard drive.
+      But those were expensive from shortages at time of upgrade.
+  - 16.2" Liquid Retina XDR Display
+    - 3456x2234, 16:10 ratio.
+    - Opted no nano texture to avoid difficult smudging. I don't work in
+      harsh light. And nano texture maybe compromises darkest blacks.
+  - 100Wh battery (17-24hr claimed). At least +54% more battery life.
+    - M5 is supposed to be much more energy efficient than high
+      performance Intel machines were.
+  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m5-pro-18-core-cpu-20-core-gpu-16-2026-specs.html
+  - GeekBench 6 Single/Multi core scores: 4288/27990.
+    - 3.1x and 4.32x vs previous machine.
   - Ports
-    - USB-C MagSafe 3. MagSafe 3 cable has USB-C power on one side, and
-      MagSafe 3 connector on other side.
-    - 3x Thunderbolt 5 (USB 4.0 80Gbps).
+    - MagSafe 3.
+      - You need an Apple USB-C to MagSafe 3 cable to connect to the
+        MagSafe 3 charging port.
+      - You can also plug in a USB-C port to power with traditional
+        USB-C.
+    - 802.11be (Wi-Fi 7), Bluetooth 6
+    - 3x Thunderbolt 5 (USB 4). Max rate: 120Gbps.
     - HDMI
-    - 3.5mm headphone jack (really?)
-    - An SDXC card reader (nice!).
-  - Explicitly says can drive 2x 6k@60Hz via USB-C. And can do 1x
-    8k@60Hz over HDMI (but doesn't say about whether it can do this over
-    USB-C).
-  - GeekBench 6 Single/Multi core scores: 3870/22448.
-    - +180%/+246% over current machine.
-  - https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m4-pro-14-core-cpu-20-core-gpu-16-2024-specs.html
-- Upgrade as of 2026-03-23
-  - MacBook Pro 16in. Space Black.
-  - Nano-texture display probably not needed, because I don't use in
-    bright light. Also, I tend to use a desktop display. And
-    nano-texture has compromises to darkest blacks if you don't need to
-    worry about reflections.
-  - M5 Pro. 64GB I think; it's +$200 over 48GB, but could make a big
-    difference in how much I enjoy a computer in the final years.
-  - I could do 1TB SSD again, because I still only use 500GB of my 1TB
-    drive as of 2026-03-23. It is +$400 to upgrade to 2TB. I still have
-    50% headroom on my 1TB drive. It would be cheaper to use an external
-    SSD if I started doing a lot of local photo and video storage (in
-    which case maybe 2TB isn't even enough).
+    - 3.5mm headphone jack (not useful to me)
+    - An SDXC card reader (max 250 MB/s; is that slower than my USB-C
+      dongle?).
 
-## iPhones
+# iPhones
 
 - 2022-02-XX to 2025-03-XX (current): iPhone 13 Pro.
 - 2017-07-XX to 2025-02-XX: iPhone 7
