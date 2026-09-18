@@ -1,6 +1,11 @@
+# Notes re 1Password 7 to 1Password 8 Transition
+
+Took these notes 2023-05-11 about 1Password 7 to 1Password 8. I believe
+1Password 8 was released around 2021-11-XX (Windows), 2022-05-03 (Mac),
+2022-08-09 (iPhone)?
+
 The first thing to note is that 1Password 8 no longers allows you to
-store the passwords in Dropbox. I believe 1Password 8 was released in
-Aug 2021.
+store the passwords in Dropbox.
 
 - Link: https://news.ycombinator.com/item?id=28145247
   - HN article describing how 1Password 8 will not support local vaults.
@@ -9,8 +14,13 @@ You may still be able to use 1Password 7, which I think still receives
 security updates, but not feature updates (as of May 2023). But I
 upgraded to 1Password 8.
 
-So where are they stored? They are stored in the 1Password cloud. How
-does that work?
+Note: as of 2026-09-18, 1Password is still on 8.12.36. There is no
+1Password 9 as of yet.
+
+# 1Password Cloud
+
+So where are passwords stored starting 1Password 8? They are stored in
+the 1Password cloud. How does that work?
 
 You login using three things:
 
@@ -98,11 +108,12 @@ the 1Password app just get crippled?
 
 - 1Password will let you access your account even if you stop paying
   them. Your account is in "freezed" mode.
-- You can still get your data our of 1Password through either the app or
+- You can still get your data out of 1Password through either the app or
   their website. You can export data as usual.
 - You just can't add new data to a vault.
 - They claim that they will _never_ delete a freezed account!
-- Source: I contacted 1Password directly to ask them about this.
+- Source: I contacted 1Password directly by email in 2023-05-XX to ask
+  them about this.
 
 ## Account loss?
 
@@ -118,15 +129,16 @@ the 1Password app just get crippled?
 
 ## Device Stolen?
 
-- They do possess your encrypted secret key, I believe.
+- Devices with 1Password installed do possess your encrypted secret key,
+  I believe.
 - I believe it should still be hard to crack if your master password is
   secure and contains enough entropy.
   - In fact, I believe that the white paper suggests that the secret key
     is stored in the device password manager, so hopefully remains
     secure.
   - But it is considered "lightly obfuscated." "it should be assumed
-    that an attacker who gains read access to the user’s disk will acquire
-    the Secret Key."
+    that an attacker who gains read access to the user’s disk will
+    acquire the Secret Key."
 - They clearly say that the secret key is used to protect the vault
   stored on 1Password's server, if compromised. But if the device is
   compromised, it looks like security absolutely comes down to the
@@ -143,7 +155,8 @@ the 1Password app just get crippled?
   (2) secret key.
 - But ultimately, it comes down to password strength. If you have a
   stolen device, and a weak password, it can be cracked.
-- If they do that, they can steal all the passwords in the vault.
+- If they do that, the attacker can steal all the passwords in the
+  vault.
 - They _can't_ use the cracked account password to access the online
   service, since they won't have the reset secret key.
 - Okay. But if you _don't_ change your account password, doesn't that
@@ -159,7 +172,49 @@ the 1Password app just get crippled?
   it today doesn't really matter. They could wait until they get your
   new device and start cracking it.
 
-## TODO
+# Environment Around 1Password
 
-- Look, there are some holes in my understanding of 1Password's entire
-  security model.
+- Around 2026-08-XX, I began to get paranoid because my father's email
+  was hacked. I believe it was simply because of a weak password with no
+  second factor enabled.
+- Still, I began to consider how 1Password might in theory become
+  compromised, since all my password data lives there.
+- One part I don't trust is 1Password itself. I worry that someone will
+  sneak a backdoor into their software. We trust their application
+  without checking the source code. How do we know it works like they
+  say? Other companies have had developers social engineered to insert
+  compromises.
+- Next, I worry about compromise of the operating system. The OS could
+  have some kind of security vulnerability.
+  - But more likely, people can install dodgy software and give it
+    excessive permissions.
+  - Imagine a compromised application with (1) accessibility (can
+    keylog) and (2) full disk access.
+  - Then it can snoop the master password for 1Password, and also steal
+    the vault.
+  - So be careful giving out Accessibility and Full Disk Access.
+- Last, I am worried about the *browser*.
+  - Basically, there is a 1Password browser plugin that does the
+    autofill of web forms from the 1Password app.
+  - I believe that, so long as the 1Password app is unlocked, 1Password
+    will give up any username/password that the 1Password Chrome plugin
+    asks for.
+  - Now, Chrome will attempt to protect and isolate this plugin. A
+    compromised plugin cannot necessarily reach into the 1Password
+    plugin address space and read the passwords out of there.
+  - But if you gave a plugin the ability to read/modify every webpage...
+    Then basically a compromised plugin could simply attach a listener
+    to `bank.com`'s password field. The DOM does not stop a script from
+    reading an input password field.
+  - So be very careful about browser extensions!
+- When possible, it may be best to install software signed by Apple
+  store, Chrome store, Windows store...
+  - Likely undergoes some auditing.
+  - But anything installed via Homebrew won't go through that.
+  - Homebrew can depublish packages that it identifies as malware. But
+    it won't delete them from your machine or stop you using them.
+  - Homebrew *might* warn you about compromised packages that you have
+    installed. When you run homebrew commands.
+- After considering this analysis, I am slightly interested in using
+  something like a Yubikey to remove some TOTP secrets off my machine,
+  where they cannot be stolen even if 1Password is compromised.
