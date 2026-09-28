@@ -23,6 +23,8 @@
     diameter?
   - I imagine that steering a larger wheel left-or-right would be more
     difficult that steering a smaller wheel?
+- Cars: 17-20in common for a compact crossover. 19-22in for larger SUVs.
+  Sedans might run 16-19in.
 
 ## Tire Names
 
@@ -30,7 +32,7 @@
 - The "225" part is the **width** of the tire in millimeters. Obviously,
   wider means more surface area meeting the ground, which means more
   traction.
-- The "16" part means the **diameter** of the tire in _inches_.
+- The "16" part means the **interior diameter** of the tire in _inches_.
   Hilariously, the units here (inches) don't match the width
   (millimeters).
 - The "70" part is the **aspect ratio**.
