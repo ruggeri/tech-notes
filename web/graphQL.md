@@ -218,3 +218,32 @@ of the request (the data loader instance).
 Not sure how to bust the cache if you mutate an object.
 
 Source: https://github.com/graphql/dataloader
+
+**2026 Note**
+
+- I think the main idea of DataLoader is when you want to get the
+  friends of a set of users.
+- This might normally trigger an N+1 query. First you fetch the users,
+  then you iterate the users, fetching the friends of each.
+- Of course, ActiveRecords has its own `includes` idea.
+- With DataLoader, the idea is that the wrapped inner function will take
+  a set of user ids to look up the friends for.
+- So of course, you could put all the user ids in a set and hand it to
+  the DataLoader.
+- But, DataLoader will also work by you making multiple calls, each with
+  a single id.
+  - If you await each async call, then you get the typical N+1 behavior.
+  - But instead, you can collect up all the promises, not waiting on any
+    of your individual queries, then `await Promise.all` of them. And
+    that will do something different!
+- DataLoader is async, so it won't do anything until control switches to
+  the DataLoader async code.
+- And, in fact, DataLoader will build a buffer of pending user ids.
+- When DataLoader code finally gets to run, it will pass the whole
+  buffer to the user's lookup function.
+- With GraphQL+DataLoader, you specify an async resolver that uses
+  DataLoader. But GraphQL won't just await your resolver. It will
+  possibly buffer more requests with the DataLoader. At the end, it will
+  await, which accomplishes the batching. When the data is loaded,
+  GraphQL will have to thread the batch response to the locations where
+  individual requests were original made.
