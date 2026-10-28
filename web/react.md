@@ -175,3 +175,25 @@ Okay, so how do you use it with React?
 * Pinterest
 * eBay
 * Amazon
+
+# 2026 TODOs
+
+- Could review core libraries:
+  - React
+  - GraphQL, DataLoader
+  - Relay
+- But also:
+  - TanStack query (formerly React Query). A client-side data fetch
+    library/data store, kind of like what Apollo gives you, but not
+    GraphQL specific. Works with REST, JSON-RPC et cetera.
+  - Next.js: Web framework built on React that does server side
+    rendering
+  - React Router: maps URLs to components. But also today does
+    route-based data loading...
+  - Zustand: modern Redux alternative that is maybe nicer with hooks and
+    has less boilerplate. Apparently huge boilerplate is a widely
+    acknowledged issue of classic Redux.
+    - Idea is that there might be client state shared across components
+      that are neither parent nor sibling.
+    - You can try to push up state into a common parent, but eventually
+      it becomes annoying to pass up/down the application state.

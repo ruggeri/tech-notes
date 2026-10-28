@@ -181,9 +181,11 @@ const resolvers = {
   running the resolvers to produce the response.
 - In this example, a query could look like `User(id: 123) { name,
   friends { id, name } }`. The GraphQL server side library uses schema
-  to check request. It knows that `Query::user` returns a `User`, so it
-  knows that the `friends` field in the request will need to be resolved
-  by `User::friends`.
+  to validate request. It then begins executing the resolver ,
+  projecting results onto the requested fields.
+  - For nested relations/resolvers, GraphQL knows that `Query::user`
+    returns a `User`, so it knows that the `friends` field in the
+    request will need to be resolved by `User::friends`.
 - Resolvers are typically (always?) async.
 - GraphQL is designed to work nicely with DataLoader, which is a way in
   which N+1 queries are avoided. For instance:
@@ -201,13 +203,17 @@ query {
 
 - This can avoid an N+1 query on `friends` relation if we use the
   DataLoader library (also from Facebook).
-  - Basically, instead of firing multiple independent async requests to
-    `db.getFriends(user.id)`, `friendsLoader.load(user.id)` will build a
-    buffer of user ids, all of whom to fetch friends for.
+  - Basically, instead of firing multiple independent sync (or even
+    async) requests to `db.getFriends(user.id)`,
+    `friendsLoader.load(user.id)` will build a buffer of user ids, all
+    of whom to fetch friends for.
   - We basically just switch the resolver logic to use the loader, which
     itself will wrap `db.getFriends(user_ids)`.
-  - GraphQL will `Promise.all` await the promises returned by
-    `friendsLoader`. It never waits on individual promises while they
+  - For each call to `friendsLoader.load`, a Promise object is returned.
+    But GraphQL will not wait for the promise before it continues
+    calling more resolver functions.
+  - GraphQL will eventually `Promise.all` to await the promises returned
+    by `friendsLoader`. It never waits on individual promises while they
     are constructed.
   - The result is that `friendsLoader` has "time" to build a buffer of
     `user.id` during GraphQL query processing, which allows the request
@@ -216,14 +222,17 @@ query {
   GraphQL resolver tree is maybe simpler, and clients can easily select
   whether they want to fetch `friends` without the server endpoint
   having to write code to decide whether to `includes` or not.
+  - Basically, if you always use DataLoader, you don't really have to
+    worry about using includes. GraphQL will execute your query in a way
+    that avoids N+1 queries.
 - GraphQL exposes `Query` and `Mutation` top level types. And even
   subscriptions which are intended to be used with WebSockets for the
   server to publish a series of messages.
-- How do clients generate queries?
-  - They can write the query as a template fragment and interpolate.
-    That's kind of the SQL-like approach. The client calls `fetch`
-    themselves and gets back a POJO. That's basically no framework on
-    client.
+- But how do clients make queries?
+  - They can write the query as a template fragment and interpolate
+    variables into the query. That's kind of the SQL-like approach. The
+    client calls `fetch` themselves and gets back a POJO. That's
+    basically no framework on client.
   - There are some compiler/codegen tools that will turn GraphQL
     interface description into functions, and can even annotate those
     with types.
@@ -236,13 +245,71 @@ query {
     queries/follow relations by calling methods on the results.
 - GraphQL doesn't play well with HTTP caching.
 - Also, GraphQL can allow client to make arbitrarily complex queries.
-- Basically, don't expect to be able to build arbitrary queries on the
-  client. The typical approach is a static GraphQL query, with variable
-  interpolation.
-- Apollo is another library that will do the interpolation and fetching
-  for you. But it will also normalize a cache (so queries for same
-  resource use same object: one POJO backing two different requests for
-  a friend). And Apollo manages reactive updates to server side push.
+  That's potentially a performance/security issue!
+- Client is typically not building arbitrary queries client-side.
+  - With a true ORM, you can dynamically build queries.
+  - But with GraphQL, you typically write a single templated GraphQL
+    query, and just interpolate.
+  - However, there is the ability to dynamically decide whether to
+    include nested relations. For instance:
+
+```
+# Rails/ActiveRecord
+users = User.all
+users = users.includes(:friends) if show_friends
+
+# You can use a variable and a directive in GraphQL language.
+query GetUsers($withFriends: Boolean!) {
+  users {
+    id
+    name
+    friends @include(if: $withFriends) {
+      id
+      name
+    }
+  }
+}
+```
+
+- GraphQL has an idea of *fragments*. Basically, the client can define
+  fragments, which can be interpolated into a GraphQL query.
+  - For instance:
+
+```
+fragment UserRowFields on User {
+  id
+  name
+  friends {
+    id
+    name
+  }
+}
+
+query GetUsers($withDetails: Boolean!) {
+  users {
+    id
+    name
+    ...UserRowFields @include(if: $withDetails)
+  }
+}
+```
+
+- **Apollo** has a client library that will do the interpolation and
+  fetching for you. But it will also normalize a cache (so queries for
+  same resource use same object: one POJO per `User` object, so that two
+  components that fetch the same `User` reference the same POJO). And
+  Apollo manages reactive updates to server side push.
+- Facebook's Relay will do similar, but it is more built-into React.
+  - It has a normalized data store like Apollo.
+  - But components can declare data needs (with `useFragment`).
+  - Components can build complex queries by interpolating child
+    component's data fragments.
+  - React/Relay compiler will build the full query at parent, which will
+    execute the query, and then render the entire subtree.
+- I have gotten somewhat in the weeds of GraphQL, but I think to
+  understand the GraphQL value proposition, it makes sense to consider
+  the ecosystem of React, Apollo/Relay...
+
 
 # TODO
 

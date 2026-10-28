@@ -204,10 +204,11 @@ const catsLoader = new DataLoader(keys => {
 
 How could this help? Basically, say you ask to load 100 users. Then you
 ask to load the friends of these users. There may be great overlap with
-the initially loaded users. More: unloaded X may be friends to initially
-loaded A and B - we do not need to load them twice.
+the initially loaded users (2026: I think this is not the point of
+DataLoader, nor how it works...). More: unloaded X may be friends to
+initially loaded A and B - we do not need to load them twice.
 
-Data loader coallesces requests to bulk things up and make batch
+Data loader coalesces requests to bulk things up and make batch
 requests. It does in-memory caching.
 
 For proper serializability, I think that (1) a data loader instance must
@@ -215,7 +216,8 @@ be created each request, (2) everything should be run in a transaction
 (so that cache never goes stale). Remember, cache is thrown away at end
 of the request (the data loader instance).
 
-Not sure how to bust the cache if you mutate an object.
+Not sure how to bust the cache if you mutate an object. (I think
+mutations and queries are not mixed together...)
 
 Source: https://github.com/graphql/dataloader
 
