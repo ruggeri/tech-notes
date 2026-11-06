@@ -1,106 +1,219 @@
-## WhatsApp
+# WhatsApp
 
-- Interesting model. No username. No password. No email (by default).
-- When you log in you give a phone number, they send you a code by text
-  to authenticate that you control the phone number.
-- You typically never log out of the phone app.
-- I believe that on authentication, a public/private key pair is
-  established on device. The public key is uploaded to WhatsApp.
+**Authentication and End-To-End**
+
+- Traditionally, WhatsApp had *no* username and *no* password. Not even
+  any *email* address on file.
+- You log in with your *phone number*. A text code is sent to the
+  number. You confirm control of the number by inputting the code to
+  WhatsApp. That logs you in.
+- After authentication, a public/private key pair is established on
+  device. The public key is uploaded to WhatsApp's servers.
+  - The private key is not intended to be extracted from the WhatsApp
+    app. You can't take it to another device.
 - When a sender wants to send a message, it encrypts the message with
   the public key.
 - WhatsApp stores the encrypted message on the server. It can't view the
   message contents. The message is eventually transmitted to the client
-  (and deleted on send). Here it can be read and stored.
-- If you lose the phone, you cannot restore the conversation history
-  from the WhatsApp servers, because they don't store the messages.
-  Also, you will not be able to regenerate the secret key.
-- When you lose the phone, if the thief can open WhatsApp they can
-  send/receive messages as you.
-- One way to stop them is to use a WhatsApp PIN. This simply exists
-  locally to prevent opening the app on the phone.
-  - You can add an email address to allow PIN recovery. If you forget
-    your PIN, you can request to be sent a new one. Then you can log in
-    using this PIN.
-  - The simplest way to achieve this is for the client to bypass the PIN
-    if the WhatsApp server tells the client to do so.
-  - If someone is able to access both your email and your phone, they
-    can still read your WhatsApp messages.
-  - So on device theft tell your email server to log out all sessions to
-    prevent thief from getting PIN.
-- When you add an email, you can also use this for account recovery.
-  - An email can be sent to you, allowing you to re-register a new
-    device, even if you can't receive SMS.
-  - I guess that might matter if you are roaming and can't receive
-    texts.
-  - Otherwise I feel like it increases attack surface area because if
-    someone compromises your email they can register a new client.
-  - I presume that if you setup a new client a new public/private
-    keypair is generated and uploaded. This should be detectable.
-- How to handle change of phone number
-  - You can tell the WhatsApp client that you are changing your phone
-    number.
-  - This tears down your old account (under the old phone number) and
-    creates a new one.
-  - I believe your contacts will need to update their contact info for
-    you, otherwise they will be talking to no one - or even the new
-    owner of the old phone number.
-  - I believe there is an option to notify contacts. Indeed, it looks
-    like A initially registered WhatsApp using a Russian phone number,
-    but then she changed her WhatsApp phone number to her Miami number,
-    which sent me a message about the change and suggested I start
-    messaging the new number (though did not merge threads). Weirdly, I
-    see a new user's photo next to the old thread.
-- Phone Number Recycling
-  - If people newly re-register to WhatsApp, I believe it tears down the
-    old account and instantiates a new one.
-  - The new user will not see any of the old messages. First, those were
-    never stored. Second, they are encrypted for receipt by your device;
-    they can't even decrypt them.
-  - I do believe your contacts could start talking to this new person
-    unwittingly, if they do not have the security code change
-    notifications turned on.
-  - Actually, it only tears down the old account if the account goes
-    unused for 45 days and then is re-activated on a new device.
-    Otherwise, it will keep the old profile photo and group chat
-    subscriptions.
-  - There must be more to the PIN, because if you have a PIN setup then
-    it takes 7 days (since last communication to WhatsApp from old
-    client) before someone new with your phone number can re-register
-    the phone number with WhatsApp. Presumably that's meant to slow down
-    people from stealing your phone number and receiving messages sent
-    by dumb contacts who don't check the thread security code.
-  - Does that mean the server has the PIN? Maybe it's as simple as
-    having a flag of "PIN set" on the server and not allowing
-    re-registrations quickly.
-  - The PIN is required by the app every 7 days.
-- I believe that WhatsApp doesn't care, after initial registration,
-  whether you can receive SMS messages. Thus you can roam with WhatsApp
-  and retain ability to send/receive messages. You could even give up
-  your phone number and still use WhatsApp until it is recycled and
-  someone new tries to use it.
-- **TODO**: Multiple clients
-  - You link a client (like a desktop or web client) by scanning a QR
-    code.
-  - I believe that the new client generates a new public/private
-    keypair, and uploads an additional public key to the server.
-  - Contacts now send multiple copies of each message, encrypted for
-    each of the public keys to the server. These are fetched and
-    decrypted by the associated respective clients.
-- WhatsApp _does_ appear to have some means to migrate your chat history
-  to a new device, or across devices. It can daily save an unencrypted
-  (by default) backup to your iCloud account. You can even encrypt this
-  backup with a password in case your iCloud gets compromised. You
-  should be able to migrate this to an Android or new phone. I believe
-  it will be auto-migrated for you if you upgrade your iPhone but remain
-  logged into the same iCloud.
-  - By default, it appears to save photos in the backup.
-- You can set WhatsApp to require FaceID to unlock the app ("App Lock").
-  You can use a feature called "Chat Lock" which just locks some
-  individual chats. App Lock will by default use FaceID/iOS passcode. So
-  will Chat Lock, though you can configure it to require a code selected
-  just for this purpose, which feels more secure.
+  (and deleted from the server on confirmation of send). On the client
+  is can be stored and read.
+  - WhatsApp will queue messages for up to 30 days.
+- You typically *never* are logged out of the app. At least, not until
+  your phone number is used to sign into a new client.
+- When your phone number is used to re-register to WhatsApp, a new
+  public/private key will be generated.
+  - New device can't read chat history, since not stored on servers.
+  - The new device doesn't have the old key, so cannot read queued
+    messages on server.
+  - Conversations with your phone number continue with the new
+    individual, but correspondents are notified in the message thread
+    that a new device was registered. They are made aware that they may
+    be talking to someone new.
+  - Actually, you must turn on "security notifications" to be informed
+    when the public key for a correspondent changes. It's not on by
+    default!
+- Mostly, WhatsApp doesn't care, after initial registration, whether you
+  can receive SMS messages. Thus you can roam with WhatsApp and retain
+  ability to send/receive messages. You could even give up your phone
+  number and still use WhatsApp until someone tries to reregister your
+  phone number.
+  - So you can roam indefinitely.
+  - Even if you eventually need to re-register, often you can still do
+    this without being able to receive SMS by using either a registered
+    email address, or receiving a challenge on your old phone via
+    WhatsApp (see more below).
+- When a new device logs in with your phone number, you will be logged
+  out of your WhatsApp on your old device. That stops you from reading
+  your historical messages. Of course, you cannot send/receive any
+  messages either.
+  - Still, you can retain a local backup which can be used to
+    restore/continue conversation history if you re-log-in on the old
+    device.
 
-## iMessage
+**WhatsApp Backup and Migration**
+
+- If the phone is lost/destroyed, you cannot restore prior chat history
+  onto a new device from data on WhatsApp servers, because they don't
+  store any historical messages. Also, you will not be able to
+  regenerate the secret key. Thus you cannot read any recently queued
+  messages either.
+- Cloud backup is supported (Google Drive or iCloud).
+- You can set it to automatically backup. Or just trigger manual
+  backups.
+- Backups are unencrypted by default. You can enable encryption, in
+  which case WhatsApp generates a high entropy password which you must
+  record in a password manager.
+- You can restore from a backup without the old phone.
+  - You must be signed into the cloud service.
+  - You must provide the encryption password (if you used encryption).
+  - This works Android->Android, or iPhone->iPhone.
+  - To switch Android->iPhone or iPhone->Android, you must use a
+    direct-transfer method (WiFi or cable). Cloud backups are not
+    compatible across different phone ecosystems.
+  - So if you lose an iPhone and buy an Android, you have no easy way to
+    use your iCloud backup to setup the Android WhatsApp. You'd have to
+    commission a temporary iPhone WhatsApp!
+- As of 2026-11-XX, I have encrypted backups set up daily on WhatsApp.
+  - You must also make sure you enable *cloud* backup. Else it only
+    makes a *local* backup.
+  - You must select the schedule on which it performs cloud backup.
+  - A local backup has a pretty narrow use case...
+- The backup encryption password *cannot* be recovered! It is not stored
+  on WhatsApp's servers.
+  - However, if you still have the logged in WhatsApp client, you can
+    *reset* the backup encryption password locally.
+  - Effectively, you just start saving backups with a new encryption
+    password.
+
+**App Lock and Chat Lock**
+
+- If the phone is stolen/confiscated, someone who can use the phone can
+  open WhatsApp to send/receive messages as you.
+- There are two features meant to deter this.
+- First is *app lock*. This requires biometric data to open the WhatsApp
+  app. This stops spies from stealing an open phone and then just
+  opening WhatsApp and dumping all the chat history. I guess they'd need
+  your thumb too.
+- *Chat Lock* is another feature for specific chats. It hides them in a
+  hidden menu, and you can require phone PIN, biometric data
+  (fingerprint/face id), or a separate secret code.
+- This is all entirely *local*.
+
+**Two Step PIN/Password**
+
+- Someone who gains control of your phone number logs you out of your
+  WhatsApp account. New messages to your phone number will be sent to
+  them (correspondents will be warned).
+- This is simply how WhatsApp works, so there is nothing wrong with
+  this. If you cancel your cell phone service, and the cell provider
+  allocates your number to someone new, they need to be allowed to
+  register for WhatsApp.
+- However, sometimes people can "steal" your phone number temporarily.
+  Sensitive data sent through WhatsApp could be temporarily redirected
+  to the attacker. Similar to how people steal phone numbers temporarily
+  to obtain SMS two factor codes.
+- To stop this, you can set up a *two-step verification PIN*.
+  - This PIN is registered with WhatsApp's servers.
+  - When a two-step verification PIN is registered, WhatsApp imposes a
+    seven day delay on re-registration of a phone number.
+  - The client is logged out as soon as a new number tries to
+    re-register, but the *new* client cannot publish the public key and
+    start receiving messages until either (1) the two-step verification
+    PIN is provided or (2) the delay expires.
+- In 2026-08-XX, WhatsApp now allows a **password**.
+  - This has same use as PIN, but allows for higher entropy.
+  - As of 2026-11-XX, I have set up a password.
+- In the past, two-step PIN was required by the WhatsApp client about
+  every seven days.
+  - I think the idea was to help you *remember* the PIN by using it
+    frequently.
+  - I don't believe there is documentation about whether you will be
+    prompted for your password.
+
+**Email Recovery**
+
+- You may register an email address with WhatsApp to allow for resetting
+  a forgotten two-step PIN/password.
+  - WhatsApp will send an email sending you through a flow to reset the
+    PIN.
+- Your email may also be used when registering a new device.
+  - Normally, you are sent a challenge via SMS.
+  - However, it is possible that you have access to WiFi but not SMS.
+  - Most usual case: maybe you are roaming in a foreign country and
+    cannot receive texts to your home country phone number.
+  - Or maybe you are in the wilderness and maybe have Starlink, but not
+    cellular service.
+  - Or maybe SMS is being suppressed in your country.
+  - WhatsApp will allow a new device to register with your phone number
+    by sending an email to the address on file. You may authorize the
+    new device.
+  - As usual, registration of a new device generates a new
+    public/private keypair. Correspondents with "security notifications"
+    turned will see your public key has been updated. As usual,
+    registration does not allow the new device to read chat history
+    (unless you connect cloud service), nor receive previously queued
+    messages.
+
+**Phone Number Change**
+
+- You might eventually want to change your phone number associated with
+  your WhatsApp account.
+  - Maybe you want to change phone number to have an area code where you
+    have moved to. Especially if you have moved to a new country.
+  - Largely, within the United States, people port their number if they
+    change cell phone providers. So change of phone number is fairly
+    uncommon short of moving abroad.
+- You tell the WhatsApp client that you want to change your phone
+  number. It verifies that you control the new one.
+- Account settings (profile picture, security settings) will be
+  retained. Chat history will be retained.
+- However, if your correspondents continue to message the old number,
+  the messages will not be delivered to you.
+  - The correspondent will see that the message isn't being delivered.
+  - I'm not sure how explicit WhatsApp is that there is no user anymore
+    associated with this number.
+  - Of course, if someone else registers your number (after number
+    recycling), your correspondent's messages will go to the new user.
+- There is an option to notify your contacts of a number change.
+  - Anastassia initially registered WhatsApp using a Russian phone
+    number, but then she changed her WhatsApp number to her Miami
+    number.
+  - This sent me a message about the change and suggested that I start
+    messaging the new number.
+  - I believe it *did not* merge threads. Conversation with the old
+    number stayed in the old thread. Eventually, I started to see the
+    new Russian user's profile next to the old thread.
+  - Asymmetrically, the person changing their number does *not* see a
+    break in the thread with the correspondent. Because the
+    counterparty's number did not change for them.
+
+**Multiple Clients**
+
+- You link a client (for instance, a MacOS desktop client) by scanning a
+  QR code from your phone.
+- I believe that the new client generates a new public/private keypair,
+  and uploads an additional public key to the server.
+- Contacts now send *multiple* copies of each message, encrypted for
+  each of the public keys to the server. These are fetched and decrypted
+  by the associated respective clients.
+- The linked devices can be used even without the phone being switched
+  on or in your possession.
+  - After 14 days of no primary-device activity, linked devices will be
+    logged out.
+  - After 30 days of no linked-device activity, linked device is logged
+    out.
+- How is chat history synced?
+  - Your device will transfer recent message history to the linked
+    device.
+  - It doesn't transfer a full message history.
+  - Messages sent to you are encrypted once-per-device and queued on
+    WhatsApp servers.
+  - Messages *you* send will *also* be encrypted and sent for your
+    linked devices.
+- In 2026-11-XX, I *have not* set up WhatsApp on my MBP 2026. It has
+  been years I think since I did that.
+
+# iMessage
 
 - I believe there are a lot of similarities to WhatsApp.
 - One difference is that you can message phone numbers or emails.
@@ -118,6 +231,10 @@
   SIM card removed.
   - However, with eSIMs, it appears to immediately de-register your
     phone number if you turn off the eSIM.
+  - The behavior changed *again* with **iOS 26 2025-09-15**. It appears
+    that you won't get immediately logged out of iMessage anymore when
+    turning off an eSIM. Notably, this change came after our trip to
+    Japan.
 - Thus, if you travel internationally and turn off your home eSIM to
   avoid roaming charges, you will stop receiving iMessages sent to the
   home country phone number.
@@ -133,3 +250,8 @@
   messages.
 - A and I communicated via iMessage while traveling by using our emails
   as the contact recipient.
+
+# Cloud Backup, Migration
+
+- TODO: Google Messages, iMessage, Signal.
+- TODO: Any cross-client import?
