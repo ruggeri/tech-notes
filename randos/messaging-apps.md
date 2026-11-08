@@ -1,6 +1,6 @@
 # WhatsApp
 
-**Authentication and End-To-End**
+## Authentication and End-To-End
 
 - Traditionally, WhatsApp had *no* username and *no* password. Not even
   any *email* address on file.
@@ -50,7 +50,7 @@
     restore/continue conversation history if you re-log-in on the old
     device.
 
-**WhatsApp Backup and Migration**
+## WhatsApp Backup and Migration
 
 - If the phone is lost/destroyed, you cannot restore prior chat history
   onto a new device from data on WhatsApp servers, because they don't
@@ -72,12 +72,18 @@
     compatible across different phone ecosystems.
   - So if you lose an iPhone and buy an Android, you have no easy way to
     use your iCloud backup to setup the Android WhatsApp. You'd have to
-    commission a temporary iPhone WhatsApp!
+    commission a temporary iPhone WhatsApp! It can be done but very
+    clunky.
+- You can port over conversation history from one phone to the next
+  either via cloud backup (as discussed, for iPhone->iPhone or
+  Android->Android), or via data transfer (WiFi or cable).
+  - I did this with no loss of history in 2026 iPhone->Android.
 - As of 2026-11-XX, I have encrypted backups set up daily on WhatsApp.
   - You must also make sure you enable *cloud* backup. Else it only
     makes a *local* backup.
   - You must select the schedule on which it performs cloud backup.
-  - A local backup has a pretty narrow use case...
+  - A local backup has a pretty narrow use case... I'm not sure I
+    understand the use.
 - The backup encryption password *cannot* be recovered! It is not stored
   on WhatsApp's servers.
   - However, if you still have the logged in WhatsApp client, you can
@@ -85,7 +91,39 @@
   - Effectively, you just start saving backups with a new encryption
     password.
 
-**App Lock and Chat Lock**
+## Data Export/Archive
+
+- My WhatsApp history as of 2026 and extends back to 2019. But would I
+  count on another 7yrs uninterrupted?
+- Google Drive backups expire after 5mo. iCloud backup doesn't have a
+  specified expiration period.
+  - Neither allows you to directly download the file to store on your
+    own machine.
+  - The intent is that WhatsApp continues to make backups, and the
+    backup is only supposed to exist in between the time you lose a
+    phone and replace it.
+  - But this isn't suitable for long-term archival purposes.
+- On Android, you may be able to copy the encrypted local backup from
+  the filesystem. But that isn't exactly supported.
+  - On iPhone, you can create a local iPhone backup (of the whole
+    device), which should capture the local db. A tool called iMazing
+    can help do this.
+  - It sounds like you absolutely can get the
+    `ChatStorage.sqlite`/`msgstore.db` file, which you can then of
+    course use to get all the chats.
+  - These can then beg provided to a tool like `whatsapp-backup-tools`
+    to view/export/etc the conversations.
+- The point is: the cloud backup is really meant as disaster recovery to
+  restore the WhatsApp client chat history. It isn't meant as an
+  archive.
+- WhatsApp has very limited export functionality built-in. You can
+  export only individual conversations via the app. There is a limit to
+  the number of messages exported (at one point specified as 40k w/o
+  media, 10k with media).
+- You can't expect that archival exports like this could be re-imported
+  back into the WhatsApp client. But that's not the point.
+
+## App Lock and Chat Lock
 
 - If the phone is stolen/confiscated, someone who can use the phone can
   open WhatsApp to send/receive messages as you.
@@ -99,7 +137,7 @@
   (fingerprint/face id), or a separate secret code.
 - This is all entirely *local*.
 
-**Two Step PIN/Password**
+## Two Step PIN/Password
 
 - Someone who gains control of your phone number logs you out of your
   WhatsApp account. New messages to your phone number will be sent to
@@ -130,7 +168,7 @@
   - I don't believe there is documentation about whether you will be
     prompted for your password.
 
-**Email Recovery**
+## Email Recovery
 
 - You may register an email address with WhatsApp to allow for resetting
   a forgotten two-step PIN/password.
@@ -154,7 +192,7 @@
     (unless you connect cloud service), nor receive previously queued
     messages.
 
-**Phone Number Change**
+## Phone Number Change
 
 - You might eventually want to change your phone number associated with
   your WhatsApp account.
@@ -187,7 +225,7 @@
     break in the thread with the correspondent. Because the
     counterparty's number did not change for them.
 
-**Multiple Clients**
+## Multiple Clients
 
 - You link a client (for instance, a MacOS desktop client) by scanning a
   QR code from your phone.
@@ -215,6 +253,7 @@
 
 # iMessage
 
+- **TODO**: I must review this in 2026!!
 - I believe there are a lot of similarities to WhatsApp.
 - One difference is that you can message phone numbers or emails.
   Presumably only phone numbers will fall back to SMS.
@@ -251,7 +290,12 @@
 - A and I communicated via iMessage while traveling by using our emails
   as the contact recipient.
 
-# Cloud Backup, Migration
 
-- TODO: Google Messages, iMessage, Signal.
-- TODO: Any cross-client import?
+
+# TODOs
+
+- Review Google Messages (using on Android in 2026)
+- Review iMessage (have used for ~15yrs as of 2026).
+- Are there any cross-client import capabilities? For instance from
+  iMessage to Google Messages? Would I want that?
+- Consider Signal.
