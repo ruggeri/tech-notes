@@ -251,6 +251,150 @@
 - In 2026-11-XX, I *have not* set up WhatsApp on my MBP 2026. It has
   been years I think since I did that.
 
+# Google Messages
+
+I began using Google Messages in 2026 when I purchased a Google Pixel. I
+did not attempt to port over any conversation history from iPhone.
+
+## SMS, MMS, RCS, E2E
+
+Google Messages is *not* a messaging *network* like WhatsApp or Signal
+or iMessages (blue bubbles). It is a messaging app for SMS, MMS, and
+RCS. As a reminder, SMS is for traditional texts, MMS for media and
+group conversation, and RCS the latest protocol (high-resolution, typing
+indicators, read receipts, and supported end-to-end encryption).
+
+Basically, Google Messages is *similar* to iMessage, except it doesn't
+offer the "blue bubbles" feature (iMessage network) and instead relies
+on RCS. Perhaps blue bubbles would never have been invented by Apple if
+RCS existed and was rolled out at the time. Note that Google Messages
+only uses phone numbers as an identifier (iMessage allows phone number
+or email).
+
+## International Travel
+
+Google Messages is explicit that RCS chat may continue to work for about
+eight days after phsyical removal of a SIM card. If you merely *disable*
+the SIM card in Android settings, RCS delivery is still not guaranteed
+indefinitely.
+
+The recommendation while traveling internationally is to disable *data
+roaming*, but leave the domestic SIM activated. That will maintain RCS
+(and SMS/MMS) delivery. However, that gives the possibility of incurring
+voice or SMS roaming charges. As discussed elsewhere, you can avoid
+voice roaming charges by not answering calls to your domestic number
+(and not making any). Incoming SMS (which you cannot decline) are billed
+at $0.05/SMS and $0.25/MMS. It appears receiving an SMS or unanswered
+phone call *does not* incur TravelPass roaming.
+
+An advantage of receiving SMS while traveling is that you can still get
+two-factor codes.
+
+iMessage not only allows using your email as an address (always works
+even when domestic SIM is deactivated), but (as of iOS 26) also
+maintains your phone number registration when the SIM is deactivated in
+the settings. So that might be more convenient for international travel
+(if you are okay not receiving SMS challenges)...
+
+## End-to-End Encryption
+
+Of course, regular SMS and MMS are never encrypted end-to-end. The
+carrier can read current traffic, law enforcement can wiretap it and
+collect it. Even RCS does not *mandate* end-to-end encryption, only
+*support* it. It requires both endpoints be able to negotiate
+encryption. Only as of 2026-05-XX (with release of iOS 26) are
+Android<->iPhone RCS connections end-to-end encrypted.
+
+Google Messages will show the transport that will be used to send the
+message (SMS, MMS, unencrypted RCS, E2E RCS). You may have to request
+iPhone user turn on RCS (`Settings > Apps > Messages > RCS Messaging`).
+
+Google Messages I believe will automatically upgrade/downgrade a
+one-to-one thread between SMS and RCS. However, I believe that MMS
+groups may require you to start a new conversation with RCS used from
+the start.
+
+**SIM Stealing**
+
+Someone can steal your phone number and start receiving texts sent to
+them. WhatsApp warns you when a contact's e2e key changes. But Google
+Messages does *not* by default. So Google Messages could say you're
+using E2E encrypted RCS, but *you're messaging the wrong person*.
+
+You can do `Details > Verify keys` to "verify" a contact's e2e
+credentials. It will mark the contact as "verified." If the key changes,
+it will mark them as "unverified". That's good. But this is *only*
+available for other Android users (as of 2026)! So you can't do it with
+an iPhone user.
+
+## Web Client Use
+
+You can set up a Google messages web client, but it requires phone to be
+on and connected to either the internet or cell network. Even SMS and
+MMS messages can often be sent through IP (so cell connection is not
+totally necessary), but Google Messages web client always routes through
+the cellphone. The cellphone does not need to be on the same *local*
+network as the laptop, though.
+
+Likewise, the web client can only receive messages through a cellphone
+connected to either internet or cell network.
+
+In theory, web client should be able to send messages even when phone is
+offline. But it would be tricky to ensure that client remains authorized
+to send messages (what if phone number is concurrently deregistered from
+cellphone?). And harder still to make sure that messages are delivered
+to both the phone and the web client (*and* e2e encrypted for both).
+It's technically feasible (WhatsApp does it), and Google has said it
+*wants* to provide phone-offline functionality, but hasn't yet. I
+suspect Google is slowed because it doesn't control the message
+network/protocol like WhatsApp does.
+
+## No App Lock/Chat Lock
+
+Unlike WhatsApp, as of 2026-11-XX, there is no way to require biometric
+authentication to open the app, nor hide/lock individual conversations.
+
+## Cloud Backup
+
+Android automates backups for Google messages. It generates a high
+entropy password and then encrypts it with your device pin. It encrypts
+the backups with the high entropy password and it uploads them to Google
+backup. It also uploads the high entropy password encrypted with your
+pin to Google's own special hardware. This hardware is designed to not
+allow many guesses to the encrypted password. If it allowed many guesses
+then it could be brute forced, but the hardware doesn't allow that.
+
+After retry limit is exceeded, the encrypted password is effectively
+*destroyed*. There is a sort-of danger that your backup could be
+destroyed by an attacker trying many random PINs.
+
+To restore from an old backup, you must provide the old device pin. If
+you've lost the old device pin, I believe there's no recovery mechanism
+and you cannot restore from the backup.
+
+## Data Export/Archive
+
+Android backup (including messages) is deleted after 57 days of device
+inactivity. Surprising! It isn't really a long term solution for
+archival purposes. Restoration is primarily through Android device setup
+process.
+
+There are some tools (SMS Backup & Restore, SMS Import/Export) for
+export of SMS/MMS, but Android puts the RCS messages in a *special*
+database which I believe is more encrypted. I believe these tools *may*
+be able to retrieve these messages but it's not entirely clear.
+
+There *is* a means to get the db (`bugle_db`) which includes evens the
+RCS conversation history. However, you need *root* to do this, and that
+requires unlocking the bootloader which typically wipes the phone.
+
+BTW, transfer of message data to iPhone (if you buy a new one, switch
+back) appears possible. But there is confusion about whether only
+SMS/MMS gets transferred, or also RCS conversation history. Worse, it's
+particularly unclear whether you can import Google Messages history to
+iPhone Messages *if you already have Apple Messages history*! What a
+mess!
+
 # iMessage
 
 - **TODO**: I must review this in 2026!!
@@ -290,12 +434,9 @@
 - A and I communicated via iMessage while traveling by using our emails
   as the contact recipient.
 
-
-
 # TODOs
 
-- Review Google Messages (using on Android in 2026)
 - Review iMessage (have used for ~15yrs as of 2026).
 - Are there any cross-client import capabilities? For instance from
   iMessage to Google Messages? Would I want that?
-- Consider Signal.
+- Consider Signal? Maybe not at present?
